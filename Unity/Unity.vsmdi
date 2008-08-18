@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Tests>
+  <edtdocversion branch="retail" build="50727" revision="1433" />
+  <TestCategory type="Microsoft.VisualStudio.TestTools.Common.TestCategory">
+    <id type="Microsoft.VisualStudio.TestTools.Common.TestCategoryId">
+      <id type="System.Guid">8c43106b-9dc1-4907-a29f-aa66a61bf5b6</id>
+    </id>
+    <name type="System.String">Lists of Tests</name>
+    <description type="System.String" />
+    <enabled type="System.Boolean">True</enabled>
+    <parentCategoryId type="Microsoft.VisualStudio.TestTools.Common.TestCategoryId">
+      <id type="System.Guid">00000000-0000-0000-0000-000000000000</id>
+    </parentCategoryId>
+    <runConfiguration type="Microsoft.VisualStudio.TestTools.Common.Link">
+      <id type="System.Guid">f72a57e6-cd33-40eb-983b-c09f478204e9</id>
+      <name type="System.String">Local Test Run</name>
+      <storage type="System.String">localtestrun.testrunconfig</storage>
+      <type type="System.Type, mscorlib">Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration</type>
+      <enabled type="System.Boolean">True</enabled>
+    </runConfiguration>
+  </TestCategory>
+</Tests>

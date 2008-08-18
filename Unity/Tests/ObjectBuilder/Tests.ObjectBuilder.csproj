@@ -1,0 +1,92 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{02BDF798-A924-4F07-A607-75B3C20EDA6E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Practices.ObjectBuilder2.Tests</RootNamespace>
+    <AssemblyName>Tests.ObjectBuilder</AssemblyName>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids></PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BuilderAwareStrategyTest.cs" />
+    <Compile Include="BuilderTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BuildFailedExceptionTest.cs" />
+    <Compile Include="BuildKeyMappingPolicyTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BuildKeyMappingStrategyTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LifetimeContainerTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LifetimeStrategyTest.cs" />
+    <Compile Include="LocatorTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PolicyListTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReadOnlyLocatorTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RecoveryFixture.cs" />
+    <Compile Include="SingletonThreadingFixture.cs" />
+    <Compile Include="StagedStrategyChainTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utility\ActivatorCreationStrategy.cs" />
+    <Compile Include="Utility\AssertActualExpectedException.cs" />
+    <Compile Include="Utility\AssertHelper.cs" />
+    <Compile Include="Utility\MockBuilderContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WeakRefDictionaryTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Src\ObjectBuilder\ObjectBuilder.csproj">
+      <Project>{E1E3B550-5E55-451C-9C5B-AB05DD61EF49}</Project>
+      <Name>ObjectBuilder</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

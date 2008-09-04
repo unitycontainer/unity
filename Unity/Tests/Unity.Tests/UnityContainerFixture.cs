@@ -577,6 +577,33 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.IsInstanceOfType(specializedResult, typeof (FooRepository));
         }
 
+        [TestMethod]
+        public void ContainerResolvesItself()
+        {
+            IUnityContainer container = new UnityContainer();
+
+            Assert.AreSame(container, container.Resolve<IUnityContainer>());
+        }
+
+        [TestMethod]
+        public void ChildContainerResolvesChildNotParent()
+        {
+            IUnityContainer parent = new UnityContainer();
+            IUnityContainer child = parent.CreateChildContainer();
+
+            Assert.AreSame(child, child.Resolve<IUnityContainer>());
+        }
+
+        [TestMethod]
+        public void ParentContainerResolvesParentNotChild()
+        {
+            IUnityContainer parent = new UnityContainer();
+            IUnityContainer child = parent.CreateChildContainer();
+
+            Assert.AreSame(parent, parent.Resolve<IUnityContainer>());
+            
+        }
+
         internal class Foo
         {
             

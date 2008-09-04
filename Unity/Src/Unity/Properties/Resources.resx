@@ -153,6 +153,9 @@
   <data name="NotAGenericType" xml:space="preserve">
     <value>The type {0} is not a generic type, and you are attempting to inject a generic parameter named "{1}".</value>
   </data>
+  <data name="NotAnArrayTypeWithRankOne" xml:space="preserve">
+    <value>The type {0} is not an array type with rank 1, and you are attempting to use a [DependencyArray] attribute on a parameter or property with this type.</value>
+  </data>
   <data name="PropertyNotSettable" xml:space="preserve">
     <value>The property {0} on type {1} is not settable.</value>
   </data>

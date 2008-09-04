@@ -21,21 +21,16 @@ namespace Microsoft.Practices.Unity
     /// When the <see cref="ContainerControlledLifetimeManager"/> is disposed,
     /// the instance is disposed with it.
     /// </summary>
-    public class ContainerControlledLifetimeManager : LifetimeManager, IDisposable, IRequiresRecovery
+    public class ContainerControlledLifetimeManager : SynchronizedLifetimeManager, IDisposable
     {
         private object value;
-        private object lockObject = new object();
+
         /// <summary>
         /// Retrieve a value from the backing store associated with this Lifetime policy.
         /// </summary>
         /// <returns>the object desired, or null if no such object is currently stored.</returns>
-        public override object GetValue()
+        protected override object SynchronizedGetValue()
         {
-            Monitor.Enter(lockObject);
-            if(value != null)
-            {
-                Monitor.Exit(lockObject);
-            }
             return value;
         }
 
@@ -43,10 +38,9 @@ namespace Microsoft.Practices.Unity
         /// Stores the given value into backing store for retrieval later.
         /// </summary>
         /// <param name="newValue">The object being stored.</param>
-        public override void SetValue(object newValue)
+        protected override void SynchronizedSetValue(object newValue)
         {
             value = newValue;
-            TryExit(lockObject);
         }
 
         /// <summary>
@@ -56,7 +50,6 @@ namespace Microsoft.Practices.Unity
         {
             Dispose();
         }
-
 
         ///<summary>
         ///Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -82,33 +75,6 @@ namespace Microsoft.Practices.Unity
                     ((IDisposable) value).Dispose();
                 }
                 value = null;
-            }
-        }
-
-
-        /// <summary>
-        /// A method that does whatever is needed to clean up
-        /// as part of cleaning up after an exception.
-        /// </summary>
-        /// <remarks>
-        /// Don't do anything that could throw in this method,
-        /// it will cause later recover operations to get skipped
-        /// and play real havok with the stack trace.
-        /// </remarks>
-        public void Recover()
-        {
-            TryExit(lockObject);
-        }
-
-        private static void TryExit(object lockObj)
-        {
-            try
-            {
-                Monitor.Exit(lockObj);
-            }
-            catch(SynchronizationLockException)
-            {
-                // This is ok, we don't own the lock.
             }
         }
     }

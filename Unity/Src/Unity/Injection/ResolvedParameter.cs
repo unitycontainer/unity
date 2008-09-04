@@ -13,7 +13,7 @@ using System;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Utility;
-using Guard=Microsoft.Practices.Unity.Utility.Guard;
+using Guard = Microsoft.Practices.Unity.Utility.Guard;
 
 namespace Microsoft.Practices.Unity
 {
@@ -56,13 +56,13 @@ namespace Microsoft.Practices.Unity
         /// to resolve open generic parameters.</param>
         /// <returns>The <see cref="IDependencyResolverPolicy"/>.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification="Validation done via Guard class")]
+            Justification = "Validation done via Guard class")]
         public override IDependencyResolverPolicy GetResolverPolicy(Type typeToBuild)
         {
             Guard.ArgumentNotNull(typeToBuild, "typeToBuild");
             ReflectionHelper parameterReflector = new ReflectionHelper(ParameterType);
             Type typeToResolve = parameterReflector.Type;
-            if(parameterReflector.IsOpenGeneric)
+            if (parameterReflector.IsOpenGeneric)
             {
                 typeToResolve = parameterReflector.GetClosedParameterType(typeToBuild.GetGenericArguments());
             }
@@ -78,24 +78,24 @@ namespace Microsoft.Practices.Unity
     public class ResolvedParameter<TParameter> : ResolvedParameter
     {
         /// <summary>
-        /// Create a new <see cref="ResolvedParameter"/> for the given
+        /// Create a new <see cref="ResolvedParameter{TParameter}"/> for the given
         /// generic type and the default name.
         /// </summary>
         public ResolvedParameter()
             : base(typeof(TParameter))
         {
-            
+
         }
 
         /// <summary>
-        /// Create a new <see cref="ResolvedParameter"/> for the given
-        /// type and name.
+        /// Create a new <see cref="ResolvedParameter{TParameter}"/> for the given
+        /// generic type and name.
         /// </summary>
         /// <param name="name">Name to use to resolve this parameter.</param>
         public ResolvedParameter(string name)
             : base(typeof(TParameter), name)
         {
-            
+
         }
     }
 }

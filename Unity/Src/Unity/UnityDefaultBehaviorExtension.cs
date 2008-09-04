@@ -28,6 +28,8 @@ namespace Microsoft.Practices.Unity
         {
             Context.Registering += OnRegister;
             Context.RegisteringInstance += OnRegisterInstance;
+
+            Container.RegisterInstance<IUnityContainer>(Container, new ExternallyControlledLifetimeManager());
         }
 
         /// <summary>

@@ -38,6 +38,7 @@
     <Compile Include="CodeGenBugFixture.cs" />
     <Compile Include="CodeplexIssuesFixture.cs" />
     <Compile Include="ContainerControlledLifetimeThreadingFixture.cs" />
+    <Compile Include="DependencyArrayAttributeFixture.cs" />
     <Compile Include="GenericChainingFixture.cs" />
     <Compile Include="GenericParameterFixture.cs" />
     <Compile Include="InjectedMembersFixture.cs" />
@@ -45,11 +46,14 @@
     <Compile Include="InjectionMethodFixture.cs" />
     <Compile Include="InjectionParameterValueFixture.cs" />
     <Compile Include="DisposableExtensionFixture.cs" />
+    <Compile Include="InjectingArraysFixture.cs" />
     <Compile Include="MediumTrustFixture.cs" />
     <Compile Include="MethodInjectionFixture.cs" />
     <Compile Include="ParameterMatcherFixture.cs" />
+    <Compile Include="PerThreadLifetimeManagerFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionHelperFixture.cs" />
+    <Compile Include="ResolvingArraysFixture.cs" />
     <Compile Include="SpecifiedConstructorSelectorPolicyFixture.cs" />
     <Compile Include="StaticFactoryFixture.cs" />
     <Compile Include="TestDoubles\SpyExtension.cs" />

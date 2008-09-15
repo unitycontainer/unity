@@ -41,6 +41,7 @@
     <Compile Include="DependencyArrayAttributeFixture.cs" />
     <Compile Include="GenericChainingFixture.cs" />
     <Compile Include="GenericParameterFixture.cs" />
+    <Compile Include="GenericResolvedArrayParameterFixture.cs" />
     <Compile Include="InjectedMembersFixture.cs" />
     <Compile Include="InjectionConstructorFixture.cs" />
     <Compile Include="InjectionMethodFixture.cs" />

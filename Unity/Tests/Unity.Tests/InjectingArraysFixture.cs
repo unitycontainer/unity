@@ -29,7 +29,7 @@ namespace Microsoft.Practices.Unity.Tests
                 = new UnityContainer()
                 .Configure<InjectedMembers>()
                     .ConfigureInjectionFor<TypeWithArrayConstructorParameter>(
-                            new InjectionConstructor(new ResolvedArrayParameter<ILogger>())).Container
+                            new InjectionConstructor(typeof(ILogger[]))).Container
                 .RegisterInstance<ILogger>("o1", o1)
                 .RegisterInstance<ILogger>("o2", o2);
 
@@ -51,7 +51,7 @@ namespace Microsoft.Practices.Unity.Tests
                 = new UnityContainer()
                 .Configure<InjectedMembers>()
                     .ConfigureInjectionFor<TypeWithArrayConstructorParameter>(
-                            new InjectionConstructor(new ResolvedArrayParameter(typeof(ILogger)))).Container
+                            new InjectionConstructor(typeof(ILogger[]))).Container
                 .RegisterInstance<ILogger>("o1", o1)
                 .RegisterInstance<ILogger>("o2", o2);
 
@@ -61,29 +61,6 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.AreEqual(2, resolved.loggers.Length);
             Assert.AreSame(o1, resolved.loggers[0]);
             Assert.AreSame(o2, resolved.loggers[1]);
-        }
-
-        [TestMethod]
-        public void CanConfigureContainerToCallConstructorWithIEnumerableParameter()
-        {
-            ILogger o1 = new MockLogger();
-            ILogger o2 = new SpecialLogger();
-
-            IUnityContainer container
-                = new UnityContainer()
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<TypeWithIEnumerableConstructorParameter>(
-                            new InjectionConstructor(new ResolvedArrayParameter<ILogger>())).Container
-                .RegisterInstance<ILogger>("o1", o1)
-                .RegisterInstance<ILogger>("o2", o2);
-
-            TypeWithIEnumerableConstructorParameter resolved = container.Resolve<TypeWithIEnumerableConstructorParameter>();
-
-            Assert.IsNotNull(resolved.loggers);
-            List<ILogger> loggers = new List<ILogger>(resolved.loggers);
-            Assert.AreEqual(2, loggers.Count);
-            Assert.AreSame(o1, loggers[0]);
-            Assert.AreSame(o2, loggers[1]);
         }
 
         [TestMethod]
@@ -155,22 +132,24 @@ namespace Microsoft.Practices.Unity.Tests
             }
         }
 
+        [TestMethod]
+        public void ContainerAutomaticallyResolvesAllWhenInjectingArrays()
+        {
+            ILogger[] expected = new ILogger[] {new MockLogger(), new SpecialLogger()};
+            IUnityContainer container = new UnityContainer()
+                .RegisterInstance("one", expected[0])
+                .RegisterInstance("two", expected[1]);
+
+            TypeWithArrayConstructorParameter result = container.Resolve<TypeWithArrayConstructorParameter>();
+
+            CollectionAssert.AreEqual(expected, result.loggers);
+        }
 
         public class TypeWithArrayConstructorParameter
         {
             public readonly ILogger[] loggers;
 
             public TypeWithArrayConstructorParameter(ILogger[] loggers)
-            {
-                this.loggers = loggers;
-            }
-        }
-
-        public class TypeWithIEnumerableConstructorParameter
-        {
-            public readonly IEnumerable<ILogger> loggers;
-
-            public TypeWithIEnumerableConstructorParameter(IEnumerable<ILogger> loggers)
             {
                 this.loggers = loggers;
             }

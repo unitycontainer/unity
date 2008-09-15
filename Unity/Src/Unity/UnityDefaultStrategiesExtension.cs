@@ -30,7 +30,8 @@ namespace Microsoft.Practices.Unity
             //
             Context.Strategies.AddNew<BuildKeyMappingStrategy>(UnityBuildStage.TypeMapping);
             Context.Strategies.AddNew<LifetimeStrategy>(UnityBuildStage.Lifetime);
-            
+
+            Context.Strategies.AddNew<ArrayResolutionStrategy>(UnityBuildStage.Creation);
             Context.Strategies.AddNew<BuildPlanStrategy>(UnityBuildStage.Creation);
 
             //

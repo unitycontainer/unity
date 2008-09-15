@@ -120,6 +120,15 @@
   <data name="ConversionNotSupported" xml:space="preserve">
     <value>Can only convert to and from strings, not type {0}</value>
   </data>
+  <data name="GenericParameterArrayNotSupported" xml:space="preserve">
+    <value>The value element named &lt;{1}&gt; is not available with generic arrays in the property or method parameter named "{0}".</value>
+  </data>
+  <data name="GenericParameterNotSupported" xml:space="preserve">
+    <value>The value element named &lt;{1}&gt; is not available with generic parameters in the property or method parameter named "{0}".</value>
+  </data>
+  <data name="InvalidConfiguration" xml:space="preserve">
+    <value>The configuration that leads to the current state is invalid and should have been checked during deserialization.</value>
+  </data>
   <data name="MustGiveValueOrDependency" xml:space="preserve">
     <value>The configuration file does not specify a &lt;value&gt; or &lt;dependency&gt; element for the parameter {0}. You must specify one of them but not both.</value>
   </data>
@@ -130,15 +139,15 @@
     <value>The configuration file includes a &lt;dependency&gt; element that specifies a type for the generic parameter "{0}".</value>
   </data>
   <data name="NeitherParameterTypeNorGenericParameterNameSpecified" xml:space="preserve">
-    <value>The configuration file must include a value for either "parameterType" or "genericParameterName" for the parameter "{0}".</value>
-  </data>
-  <data name="OnlyDependencySupportedForGenericParameter" xml:space="preserve">
-    <value>The configuration file includes a value element with name &lt;{1}&gt; for the generic parameter "{0}". Only the &lt;dependency&gt; element is supported for generic parameters.</value>
+    <value>The configuration file must include a value for one of "parameterType" and "genericParameterName" for the parameter "{0}".</value>
   </data>
   <data name="OnlyOneOfParameterTypeAndGenericParameterNameAllowed" xml:space="preserve">
-    <value>The configuration file includes values for both "parameterType" and "genericParameterName" for the parameter "{0}". You must specify only one of these.</value>
+    <value>The configuration file includes values for more than one of "parameterType" and "genericParameterName" for the parameter "{0}". You must specify only one of these.</value>
   </data>
   <data name="OnlyOneValueElementAllowed" xml:space="preserve">
     <value>The configuration file includes more than one value element for the parameter "{0}".</value>
+  </data>
+  <data name="ParameterTypeIsNotArray" xml:space="preserve">
+    <value>The configuration file includes a parameter or property which is configured with an array value but has type {0} which is not an array type. ({1} line {2})</value>
   </data>
 </root>

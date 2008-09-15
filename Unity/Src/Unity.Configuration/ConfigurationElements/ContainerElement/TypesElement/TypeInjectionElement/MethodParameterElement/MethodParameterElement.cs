@@ -64,9 +64,9 @@ namespace Microsoft.Practices.Unity.Configuration
         public InjectionParameterValue CreateInjectionParameterValue()
         {
             return InjectionParameterValueHelper.CreateParameterValue(
-                ParameterTypeName, 
-                GenericParameterName, 
-                valueElement, 
+                ParameterTypeName,
+                GenericParameterName,
+                valueElement,
                 TypeResolver);
         }
 
@@ -84,7 +84,7 @@ namespace Microsoft.Practices.Unity.Configuration
         protected override bool OnDeserializeUnrecognizedElement(
             string elementName, XmlReader reader)
         {
-            return InjectionParameterValueHelper.DeserializeUnrecognizedElement(
+            return InjectionParameterValueHelper.DeserializeSingleUnrecognizedElement(
                 elementName,
                 reader,
                 Name,

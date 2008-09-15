@@ -37,7 +37,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <summary>
         /// Concrete type name for this configuration element.
         /// </summary>
-        [ConfigurationProperty("extensionType", IsRequired = true)]
+        [ConfigurationProperty("extensionType", IsRequired = false)]
         public string ExtensionType
         {
             get { return (string)this["extensionType"]; }

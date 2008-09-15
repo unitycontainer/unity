@@ -22,42 +22,42 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void ShouldDetermineStringIsNotGeneric()
         {
-            ReflectionHelper helper = new ReflectionHelper(typeof (string));
+            ReflectionHelper helper = new ReflectionHelper(typeof(string));
             Assert.IsFalse(helper.IsGenericType);
         }
 
         [TestMethod]
         public void ShouldDetermineICommandIsGeneric()
         {
-            ReflectionHelper helper = new ReflectionHelper(typeof (ICommand<User>));
+            ReflectionHelper helper = new ReflectionHelper(typeof(ICommand<User>));
             Assert.IsTrue(helper.IsGenericType);
         }
 
         [TestMethod]
         public void ShouldIdentifyOpenGeneric()
         {
-            ReflectionHelper helper = new ReflectionHelper(typeof (ICommand<>));
+            ReflectionHelper helper = new ReflectionHelper(typeof(ICommand<>));
             Assert.IsTrue(helper.IsOpenGeneric);
         }
 
         [TestMethod]
         public void IntIsNotAnOpenGeneric()
         {
-            ReflectionHelper helper = new ReflectionHelper(typeof (int));
+            ReflectionHelper helper = new ReflectionHelper(typeof(int));
             Assert.IsFalse(helper.IsOpenGeneric);
         }
 
         [TestMethod]
         public void RegularMethodHasNoOpenParameters()
         {
-            MethodInfo executeMethod = typeof (LoggingCommand<User>).GetMethod("Execute");
+            MethodInfo executeMethod = typeof(LoggingCommand<User>).GetMethod("Execute");
             Assert.IsFalse(ReflectionHelper.MethodHasOpenGenericParameters(executeMethod));
         }
 
         [TestMethod]
         public void ParameterReflectionHelperDetectsOpenGenericParameters()
         {
-            MethodBase executeMethod = typeof (LoggingCommand<>).GetConstructors()[0];
+            MethodBase executeMethod = typeof(LoggingCommand<>).GetConstructors()[0];
             ParameterInfo[] methodParams = executeMethod.GetParameters();
 
             ParameterReflectionHelper helper = new ParameterReflectionHelper(methodParams[0]);
@@ -68,7 +68,7 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void ClosingParameterTypesReturnsOriginalTypeWhenItIsClosed()
         {
-            MethodBase m = typeof (User).GetMethod("DoSomething");
+            MethodBase m = typeof(User).GetMethod("DoSomething");
             ParameterInfo[] methodParams = m.GetParameters();
 
             Assert.AreEqual(1, methodParams.Length);
@@ -80,17 +80,17 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void CanCreateClosedParameterTypeFromOpenOne()
         {
-            MethodBase m = typeof (LoggingCommand<>).GetConstructors()[0];
+            MethodBase m = typeof(LoggingCommand<>).GetConstructors()[0];
             ParameterReflectionHelper helper = new ParameterReflectionHelper(
                 m.GetParameters()[0]);
-            Type closedType = helper.GetClosedParameterType(typeof (LoggingCommand<User>).GetGenericArguments());
+            Type closedType = helper.GetClosedParameterType(typeof(LoggingCommand<User>).GetGenericArguments());
             Assert.AreSame(typeof(ICommand<User>), closedType);
         }
 
         [TestMethod]
         public void CanGetIfAnyParametersAreOpenGeneric()
         {
-            Type openType = typeof (Pathological<,>);
+            Type openType = typeof(Pathological<,>);
             ConstructorInfo ctor = openType.GetConstructors()[0];
 
             MethodReflectionHelper helper = new MethodReflectionHelper(ctor);
@@ -101,7 +101,7 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanGetClosedParameterTypesFromOpenOnes()
         {
             Type openType = typeof(Pathological<,>);
-            Type closedType = typeof (Pathological<Account, User>);
+            Type closedType = typeof(Pathological<Account, User>);
             ConstructorInfo ctor = openType.GetConstructors()[0];
             MethodReflectionHelper helper = new MethodReflectionHelper(ctor);
 
@@ -110,6 +110,28 @@ namespace Microsoft.Practices.Unity.Tests
             CollectionAssert.AreEqual(
                 Sequence.Collect(typeof(ICommand<User>), typeof(ICommand<Account>)),
                 closedTypes);
+        }
+
+        [TestMethod]
+        public void CanGetClosedParameterArrayTypesFromOpenOnes()
+        {
+            Type openType = typeof(TypeWithArrayConstructorParameters<,>);
+            Type closedType = typeof(TypeWithArrayConstructorParameters<Account, User>);
+            ConstructorInfo ctor = openType.GetConstructors()[0];
+            MethodReflectionHelper helper = new MethodReflectionHelper(ctor);
+
+            Type[] closedTypes = helper.GetClosedParameterTypes(closedType.GetGenericArguments());
+
+            CollectionAssert.AreEqual(
+                Sequence.Collect(typeof(User[]), typeof(Account[,])),
+                closedTypes);
+        }
+
+        public class TypeWithArrayConstructorParameters<T1, T2>
+        {
+            public TypeWithArrayConstructorParameters(T2[] param1, T1[,] param2)
+            {
+            }
         }
     }
 }

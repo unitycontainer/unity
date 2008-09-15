@@ -51,19 +51,24 @@ namespace Microsoft.Practices.Unity.Configuration
         protected override bool OnDeserializeUnrecognizedElement(
             string elementName, XmlReader reader)
         {
-            if(elementName == base.AddElementName)
+            if (elementName == base.AddElementName)
             {
                 string typeName = reader.GetAttribute("extensionType");
-                if(!string.IsNullOrEmpty(typeName))
+                UnityContainerTypeConfigurationElement element;
+                if (!string.IsNullOrEmpty(typeName))
                 {
                     Type elementType = Type.GetType(typeName);
-                    UnityContainerTypeConfigurationElement element =
-                        (UnityContainerTypeConfigurationElement)
-                            Activator.CreateInstance(elementType);
-                    element.DeserializeElement(reader);
-                    BaseAdd(element);
-                    return true;
+                    element = (UnityContainerTypeConfigurationElement)Activator.CreateInstance(elementType);
                 }
+                else
+                {
+                    // Treat as standard typeConfig element
+                    element = new TypeInjectionElement();
+                }
+
+                element.DeserializeElement(reader);
+                BaseAdd(element);
+                return true;
             }
             return base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
@@ -92,7 +97,7 @@ namespace Microsoft.Practices.Unity.Configuration
         ///<param name="element">The <see cref="T:System.Configuration.ConfigurationElement"></see> to return the key for. </param>
         protected override object GetElementKey(ConfigurationElement element)
         {
-            UnityContainerTypeConfigurationElement configElement = (UnityContainerTypeConfigurationElement)( element );
+            UnityContainerTypeConfigurationElement configElement = (UnityContainerTypeConfigurationElement)(element);
             return configElement.ExtensionType;
         }
     }

@@ -198,7 +198,6 @@ namespace Microsoft.Practices.ObjectBuilder2
             set { buildComplete = value; }
         }
 
-
         /// <summary>
         /// Create a new IBuilderContext which has the same strategies, locator, policies, and lifetime
         /// but a new build key and existing object. Used to execute recursive calls when
@@ -210,6 +209,19 @@ namespace Microsoft.Practices.ObjectBuilder2
         public IBuilderContext CloneForNewBuild(object newBuildKey, object newExistingObject)
         {
             return new BuilderContext(chain, locator, lifetime, persistentPolicies, policies, newBuildKey, newExistingObject);
+        }
+
+        /// <summary>
+        /// A convenience method to do a new buildup operation on an existing context.
+        /// </summary>
+        /// <remarks>This helper is specific to NamedTypeBuildKey.</remarks>
+        /// <typeparam name="T">Type to return from the buildup.</typeparam>
+        /// <param name="context">Existing context.</param>
+        /// <returns>The built up object.</returns>
+        public static T NewBuildUp<T>(IBuilderContext context)
+        {
+            IBuilderContext clone = context.CloneForNewBuild(NamedTypeBuildKey.Make<T>(), null);
+            return (T) (clone.Strategies.ExecuteBuildUp(clone));
         }
     }
 }

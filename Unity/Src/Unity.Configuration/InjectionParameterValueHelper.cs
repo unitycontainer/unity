@@ -25,16 +25,58 @@ namespace Microsoft.Practices.Unity.Configuration
             InjectionParameterValueElement valueElement,
             UnityTypeResolver typeResolver)
         {
-            if (!string.IsNullOrEmpty(genericParameterName))
+            string genericParameter;
+            bool isGenericParameterArray;
+            ExtractGenericParameter(genericParameterName, out genericParameter, out isGenericParameterArray);
+
+            if (!string.IsNullOrEmpty(genericParameter))
             {
-                DependencyValueElement dependencyElement = valueElement as DependencyValueElement;
-                if (dependencyElement != null && !string.IsNullOrEmpty(dependencyElement.Name))
+                if (!isGenericParameterArray)
                 {
-                    return new GenericParameter(genericParameterName, dependencyElement.Name);
+                    if (valueElement == null)
+                    {
+                        return new GenericParameter(genericParameter);
+                    }
+                    else
+                    {
+                        DependencyValueElement dependencyElement = valueElement as DependencyValueElement;
+                        if (dependencyElement != null)
+                        {
+                            if (!string.IsNullOrEmpty(dependencyElement.Name))
+                            {
+                                return new GenericParameter(genericParameter, dependencyElement.Name);
+                            }
+                            else
+                            {
+                                return new GenericParameter(genericParameter);
+                            }
+                        }
+                        else
+                        {
+                            // should not happen - checked during config deserialization
+                            throw new InvalidOperationException(Resources.InvalidConfiguration);
+                        }
+                    }
                 }
                 else
                 {
-                    return new GenericParameter(genericParameterName);
+                    if (valueElement == null)
+                    {
+                        return new GenericResolvedArrayParameter(genericParameter);
+                    }
+                    else
+                    {
+                        ArrayValueElement arrayElement = valueElement as ArrayValueElement;
+                        if (arrayElement != null)
+                        {
+                            return arrayElement.CreateParameterValue(genericParameter);
+                        }
+                        else
+                        {
+                            // should not happen - checked during config deserialization
+                            throw new InvalidOperationException(Resources.InvalidConfiguration);
+                        }
+                    }
                 }
             }
             else
@@ -48,7 +90,7 @@ namespace Microsoft.Practices.Unity.Configuration
             }
         }
 
-        public static bool DeserializeUnrecognizedElement(
+        public static bool DeserializeSingleUnrecognizedElement(
             string elementName,
             XmlReader reader,
             string name,
@@ -56,32 +98,80 @@ namespace Microsoft.Practices.Unity.Configuration
             ref InjectionParameterValueElement valueElement)
         {
             GuardOnlyOneValue(valueElement, name);
+            return DeserializeUnrecognizedElement(
+                elementName,
+                reader,
+                name,
+                genericParameterName,
+                out valueElement);
+        }
+
+        public static bool DeserializeUnrecognizedElement(
+            string elementName,
+            XmlReader reader,
+            string name,
+            string genericParameterName,
+            out InjectionParameterValueElement valueElement)
+        {
+
+            string genericParameter;
+            bool isGenericParameterArray;
+            ExtractGenericParameter(genericParameterName, out genericParameter, out isGenericParameterArray);
 
             switch (elementName)
             {
                 case "value":
                     GuardNotGeneric(reader, genericParameterName, name);
                     return DeserializeValueElement(
-                        reader, 
-                        ref valueElement);
+                        reader,
+                        out valueElement);
 
                 case "dependency":
+                    GuardNotGenericArray(reader, isGenericParameterArray, name);
                     return DeserializeDependencyValueElement(
-                        reader, 
-                        genericParameterName, 
-                        name, 
-                        ref valueElement);
+                        reader,
+                        genericParameterName,
+                        name,
+                        out valueElement);
+
+                case "array":
+                    if (!isGenericParameterArray)
+                    {
+                        GuardNotGeneric(reader, genericParameterName, name);
+                    }
+                    return DeserializeArrayValueElement(
+                        reader,
+                        out valueElement);
 
                 default:
                     GuardNotGeneric(reader, genericParameterName, name);
                     return DeserializePolymorphicElement(
-                        reader, 
-                        ref valueElement);
+                        reader,
+                        out valueElement);
             }
         }
 
+        private static void ExtractGenericParameter(
+            string genericParameterName,
+            out string genericParameter,
+            out bool isGenericParameterArray)
+        {
+            genericParameter = genericParameterName;
+            isGenericParameterArray = false;
 
-        private static bool DeserializeValueElement(XmlReader reader, ref InjectionParameterValueElement valueElement)
+            if (genericParameter != null)
+            {
+                if (genericParameter.EndsWith("[]"))
+                {
+                    genericParameter = genericParameter.Substring(0, genericParameter.Length - 2);
+                    isGenericParameterArray = true;
+                }
+            }
+        }
+
+        private static bool DeserializeValueElement(
+            XmlReader reader,
+            out InjectionParameterValueElement valueElement)
         {
             InstanceValueElement element = new InstanceValueElement();
             element.DeserializeElement(reader);
@@ -90,15 +180,15 @@ namespace Microsoft.Practices.Unity.Configuration
         }
 
         private static bool DeserializeDependencyValueElement(
-            XmlReader reader, 
-            string genericParameterName, 
-            string name, 
-            ref InjectionParameterValueElement valueElement)
+            XmlReader reader,
+            string genericParameterName,
+            string name,
+            out InjectionParameterValueElement valueElement)
         {
             DependencyValueElement element = new DependencyValueElement();
             element.DeserializeElement(reader);
 
-            if (!string.IsNullOrEmpty(genericParameterName) 
+            if (!string.IsNullOrEmpty(genericParameterName)
                 && !string.IsNullOrEmpty(element.TypeName))
             {
                 throw new ConfigurationErrorsException(
@@ -114,7 +204,20 @@ namespace Microsoft.Practices.Unity.Configuration
             return true;
         }
 
-        private static bool DeserializePolymorphicElement(XmlReader reader, ref InjectionParameterValueElement valueElement)
+        private static bool DeserializeArrayValueElement(
+            XmlReader reader,
+            out InjectionParameterValueElement valueElement)
+        {
+            ArrayValueElement element = new ArrayValueElement();
+            element.DeserializeElement(reader);
+
+            valueElement = element;
+            return true;
+        }
+
+        private static bool DeserializePolymorphicElement(
+            XmlReader reader, 
+            out InjectionParameterValueElement valueElement)
         {
             string elementTypeName = reader.GetAttribute("elementType");
             if (!string.IsNullOrEmpty(elementTypeName))
@@ -127,6 +230,7 @@ namespace Microsoft.Practices.Unity.Configuration
                 return true;
             }
 
+            valueElement = null;
             return false;
         }
 
@@ -149,7 +253,21 @@ namespace Microsoft.Practices.Unity.Configuration
                 throw new ConfigurationErrorsException(
                     string.Format(
                         CultureInfo.CurrentCulture,
-                        Resources.OnlyDependencySupportedForGenericParameter,
+                        Resources.GenericParameterNotSupported,
+                        name,           /* the invalid parameter's name */
+                        reader.Name),   /* the invalid value element's name */
+                    reader);
+            }
+        }
+
+        public static void GuardNotGenericArray(XmlReader reader, bool isGenericParameterArray, string name)
+        {
+            if (isGenericParameterArray)
+            {
+                throw new ConfigurationErrorsException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        Resources.GenericParameterArrayNotSupported,
                         name,           /* the invalid parameter's name */
                         reader.Name),   /* the invalid value element's name */
                     reader);
@@ -158,9 +276,12 @@ namespace Microsoft.Practices.Unity.Configuration
 
         public static void GuardAttributeOccurrences(XmlReader reader, string typeAttributeName)
         {
-            bool hasParameterType = !string.IsNullOrEmpty(reader.GetAttribute(typeAttributeName));
-            bool hasGenericParameterName = !string.IsNullOrEmpty(reader.GetAttribute("genericParameterName"));
-            if (hasParameterType && hasGenericParameterName)
+            int attributeCount
+                = GetAttributeCount(reader, typeAttributeName)
+                    + GetAttributeCount(reader, "genericParameterName")
+                    + GetAttributeCount(reader, "genericParameterArray");
+
+            if (attributeCount > 1)
             {
                 throw new ConfigurationErrorsException(
                     string.Format(
@@ -169,7 +290,7 @@ namespace Microsoft.Practices.Unity.Configuration
                         reader.GetAttribute("name")),
                     reader);
             }
-            else if (!hasParameterType && !hasGenericParameterName)
+            else if (attributeCount == 0)
             {
                 throw new ConfigurationErrorsException(
                     string.Format(
@@ -178,6 +299,11 @@ namespace Microsoft.Practices.Unity.Configuration
                         reader.GetAttribute("name")),
                     reader);
             }
+        }
+
+        private static int GetAttributeCount(XmlReader reader, string attributeName)
+        {
+            return string.IsNullOrEmpty(reader.GetAttribute(attributeName)) ? 0 : 1;
         }
     }
 }

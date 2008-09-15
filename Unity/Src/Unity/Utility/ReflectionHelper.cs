@@ -74,10 +74,10 @@ namespace Microsoft.Practices.Unity.Utility
         public static bool MethodHasOpenGenericParameters(MethodBase method)
         {
             Guard.ArgumentNotNull(method, "method");
-            foreach(ParameterInfo param in method.GetParameters())
+            foreach (ParameterInfo param in method.GetParameters())
             {
                 ReflectionHelper r = new ReflectionHelper(param.ParameterType);
-                if(r.IsOpenGeneric)
+                if (r.IsOpenGeneric)
                 {
                     return true;
                 }
@@ -97,18 +97,33 @@ namespace Microsoft.Practices.Unity.Utility
         /// <returns>Corresponding closed type of this parameter.</returns>
         public Type GetClosedParameterType(Type[] genericArguments)
         {
-            if(IsOpenGeneric)
+            if (IsOpenGeneric)
             {
                 Type[] typeArgs = Type.GetGenericArguments();
-                for(int i = 0; i < typeArgs.Length; ++i)
+                for (int i = 0; i < typeArgs.Length; ++i)
                 {
                     typeArgs[i] = genericArguments[typeArgs[i].GenericParameterPosition];
                 }
                 return Type.GetGenericTypeDefinition().MakeGenericType(typeArgs);
             }
-            else if(Type.IsGenericParameter)
+            else if (Type.IsGenericParameter)
             {
                 return genericArguments[Type.GenericParameterPosition];
+            }
+            else if (Type.IsArray && Type.GetElementType().IsGenericParameter)
+            {
+                int rank;
+                if ((rank = Type.GetArrayRank()) == 1)
+                {
+                    // work around to the fact that Type.MakeArrayType() != Type.MakeArrayType(1)
+                    return genericArguments[Type.GetElementType().GenericParameterPosition]
+                                .MakeArrayType();
+                }
+                else
+                {
+                    return genericArguments[Type.GetElementType().GenericParameterPosition]
+                                .MakeArrayType(rank);
+                }
             }
             else
             {
@@ -131,17 +146,17 @@ namespace Microsoft.Practices.Unity.Utility
             Type result = null;
             int index = -1;
 
-            foreach(Type genericArgumentType in openType.GetGenericArguments())
+            foreach (Type genericArgumentType in openType.GetGenericArguments())
             {
-                if(genericArgumentType.Name == parameterName)
+                if (genericArgumentType.Name == parameterName)
                 {
                     index = genericArgumentType.GenericParameterPosition;
                     break;
                 }
             }
-            if(index != -1)
+            if (index != -1)
             {
-                result = Type.GetGenericArguments()[index];    
+                result = Type.GetGenericArguments()[index];
             }
             return result;
         }

@@ -1,0 +1,119 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F8186B23-B0E1-4646-B5F3-14357841E2BA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Practices.Unity.InterceptionExtension</RootNamespace>
+    <AssemblyName>Microsoft.Practices.Unity.Interception</AssemblyName></PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Microsoft.Practices.Unity.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.Design#CA1004;-Microsoft.Design#CA1014;-Microsoft.Usage#CA2209</CodeAnalysisRules>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Microsoft.Practices.Unity.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRules>-Microsoft.Design#CA1004;-Microsoft.Design#CA1063</CodeAnalysisRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Common\GlobalAssemblyInfo.cs">
+      <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="ApplyNoPoliciesAttribute.cs" />
+    <Compile Include="AttributeDrivenPolicy.cs" />
+    <Compile Include="HandlerAttribute.cs" />
+    <Compile Include="HandlerPipeline.cs" />
+    <Compile Include="ICallHandler.cs" />
+    <Compile Include="IInterceptionPolicy.cs" />
+    <Compile Include="IMatchingRule.cs" />
+    <Compile Include="IMethodInvocation.cs" />
+    <Compile Include="IMethodReturn.cs" />
+    <Compile Include="Interception.cs" />
+    <Compile Include="InterceptionStrategy.cs" />
+    <Compile Include="InterceptionPolicy.cs" />
+    <Compile Include="IParameterCollection.cs" />
+    <Compile Include="MatchingRuleSet.cs" />
+    <Compile Include="MatchingRules\ApplyNoPoliciesMatchingRule.cs" />
+    <Compile Include="MatchingRules\AssemblyMatchingRule.cs" />
+    <Compile Include="MatchingRules\AttributeDrivenPolicyMatchingRule.cs" />
+    <Compile Include="MatchingRules\CustomAttributeMatchingRule.cs" />
+    <Compile Include="MatchingRules\MatchingInfo.cs" />
+    <Compile Include="MatchingRules\MemberNameMatchingRule.cs" />
+    <Compile Include="MatchingRules\MethodSignatureMatchingRule.cs" />
+    <Compile Include="MatchingRules\NamespaceMatchingRule.cs" />
+    <Compile Include="MatchingRules\ParameterTypeMatchingRule.cs" />
+    <Compile Include="MatchingRules\PropertyMatchingRule.cs" />
+    <Compile Include="MatchingRules\ReturnTypeMatchingRule.cs" />
+    <Compile Include="MatchingRules\TagAttributeMatchingRule.cs" />
+    <Compile Include="MatchingRules\TypeMatchingRule.cs" />
+    <Compile Include="ParameterCollection.cs" />
+    <Compile Include="InjectionPolicy.cs" />
+    <Compile Include="PolicyInjector.cs" />
+    <Compile Include="PolicySet.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RemotingInterception\InterceptingRealProxy.cs" />
+    <Compile Include="RemotingInterception\RemotingInputParameterCollection.cs" />
+    <Compile Include="RemotingInterception\RemotingMethodInvocation.cs" />
+    <Compile Include="RemotingInterception\RemotingMethodReturn.cs" />
+    <Compile Include="RemotingInterception\RemotingOutputParameterCollection.cs" />
+    <Compile Include="RemotingInterception\RemotingPolicyInjector.cs" />
+    <Compile Include="RuleDrivenPolicy.cs" />
+    <Compile Include="TagAttribute.cs" />
+    <Compile Include="Utilities\Glob.cs" />
+    <Compile Include="Utilities\ReflectionHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ObjectBuilder\ObjectBuilder.csproj">
+      <Project>{E1E3B550-5E55-451C-9C5B-AB05DD61EF49}</Project>
+      <Name>ObjectBuilder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unity\Unity.csproj">
+      <Project>{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}</Project>
+      <Name>Unity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

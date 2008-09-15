@@ -59,18 +59,23 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
-        public void BindingDependencyArrayToNonArrayParameterThrows()
+        public void CanResolveArrayForConstructorParameterOnClosedGenericType()
         {
-            IUnityContainer container = new UnityContainer();
+            ILogger o1 = new MockLogger();
+            ILogger o2 = new SpecialLogger();
 
-            try
-            {
-                container.Resolve<TypeWithDependencyArrayOnNonArrayConstructorParameter>();
-                Assert.Fail("Call to Resolve<>() should have failed");
-            }
-            catch (ResolutionFailedException)
-            {
-            }
+            IUnityContainer container
+                = new UnityContainer()
+                .RegisterInstance<ILogger>("o1", o1)
+                .RegisterInstance<ILogger>("o2", o2);
+
+            GenericTypeWithArrayConstructorParameter<ILogger> resolved
+                = container.Resolve<GenericTypeWithArrayConstructorParameter<ILogger>>();
+
+            Assert.IsNotNull(resolved.values);
+            Assert.AreEqual(2, resolved.values.Length);
+            Assert.AreSame(o1, resolved.values[0]);
+            Assert.AreSame(o2, resolved.values[1]);
         }
 
         [TestMethod]
@@ -92,9 +97,19 @@ namespace Microsoft.Practices.Unity.Tests
         {
             public readonly ILogger[] loggers;
 
-            public TypeWithArrayConstructorParameter([DependencyArray] ILogger[] loggers)
+            public TypeWithArrayConstructorParameter(ILogger[] loggers)
             {
                 this.loggers = loggers;
+            }
+        }
+
+        public class GenericTypeWithArrayConstructorParameter<T>
+        {
+            public readonly T[] values;
+
+            public GenericTypeWithArrayConstructorParameter(T[] values)
+            {
+                this.values = values;
             }
         }
 
@@ -102,7 +117,7 @@ namespace Microsoft.Practices.Unity.Tests
         {
             private ILogger[] loggers;
 
-            [DependencyArray]
+            [Dependency]
             public ILogger[] Loggers
             {
                 get { return loggers; }
@@ -110,16 +125,9 @@ namespace Microsoft.Practices.Unity.Tests
             }
         }
 
-        public class TypeWithDependencyArrayOnNonArrayConstructorParameter
-        {
-            public TypeWithDependencyArrayOnNonArrayConstructorParameter([DependencyArray] object invalid)
-            {
-            }
-        }
-
         public class TypeWithArrayConstructorParameterOfRankTwo
         {
-            public TypeWithArrayConstructorParameterOfRankTwo([DependencyArray] ILogger[,] loggers)
+            public TypeWithArrayConstructorParameterOfRankTwo(ILogger[,] loggers)
             {
             }
         }

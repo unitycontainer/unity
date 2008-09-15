@@ -9,6 +9,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System.Collections.Generic;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.ObjectBuilder;
@@ -22,21 +23,17 @@ namespace Microsoft.Practices.Unity.Tests
     public class ResolvingArraysFixture
     {
         [TestMethod]
-        public void ResolverReturnsEmptyArrayIfNoObjectsRegistered()
+        public void ContainerReturnsEmptyArrayIfNoObjectsRegistered()
         {
             IUnityContainer container = new UnityContainer();
-            BuilderContext context = GetContext(container, typeof(object));
-
-            ResolvedArrayResolverPolicy resolver = new ResolvedArrayResolverPolicy(typeof(object));
-
-            object[] results = (object[])resolver.Resolve(context);
+            List<object> results = new List<object>(container.ResolveAll<object>());
 
             Assert.IsNotNull(results);
-            Assert.AreEqual(0, results.Length);
+            CollectionAssert.AreEqual(new object[0], results);
         }
 
         [TestMethod]
-        public void ResolverReturnsRegisteredObjects()
+        public void ResolveAllReturnsRegisteredObjects()
         {
             IUnityContainer container = new UnityContainer();
             object o1 = new object();
@@ -46,20 +43,13 @@ namespace Microsoft.Practices.Unity.Tests
                 .RegisterInstance<object>("o1", o1)
                 .RegisterInstance<object>("o2", o2);
 
-            BuilderContext context = GetContext(container, typeof(object));
+            List<object> results = new List<object>(container.ResolveAll<object>());
 
-            ResolvedArrayResolverPolicy resolver = new ResolvedArrayResolverPolicy(typeof(object));
-
-            object[] results = (object[])resolver.Resolve(context);
-
-            Assert.IsNotNull(results);
-            Assert.AreEqual(2, results.Length);
-            Assert.AreSame(o1, results[0]);
-            Assert.AreSame(o2, results[1]);
+            CollectionAssert.AreEqual(new object[] { o1, o2 }, results);
         }
 
         [TestMethod]
-        public void ResolverReturnsRegisteredObjectsForBaseClass()
+        public void ResolveAllReturnsRegisteredObjectsForBaseClass()
         {
             IUnityContainer container = new UnityContainer();
             ILogger o1 = new MockLogger();
@@ -69,16 +59,8 @@ namespace Microsoft.Practices.Unity.Tests
                 .RegisterInstance<ILogger>("o1", o1)
                 .RegisterInstance<ILogger>("o2", o2);
 
-            BuilderContext context = GetContext(container, typeof(object));
-
-            ResolvedArrayResolverPolicy resolver = new ResolvedArrayResolverPolicy(typeof(ILogger));
-
-            ILogger[] results = (ILogger[])resolver.Resolve(context);
-
-            Assert.IsNotNull(results);
-            Assert.AreEqual(2, results.Length);
-            Assert.AreSame(o1, results[0]);
-            Assert.AreSame(o2, results[1]);
+            List<ILogger> results = new List<ILogger>(container.ResolveAll<ILogger>());
+            CollectionAssert.AreEqual(new ILogger[] {o1, o2}, results);
         }
 
         [TestMethod]

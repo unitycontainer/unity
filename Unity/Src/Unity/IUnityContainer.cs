@@ -20,7 +20,7 @@ namespace Microsoft.Practices.Unity
     public interface IUnityContainer : IDisposable
     {
         /// <summary>
-        /// RegisterType a type mapping with the container.
+        /// Register a type mapping with the container.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -38,7 +38,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterType<TFrom, TTo>() where TTo : TFrom;
 
         /// <summary>
-        /// RegisterType a type mapping with the container, where the created instances will use
+        /// Register a type mapping with the container, where the created instances will use
         /// the given <see cref="LifetimeManager"/>.
         /// </summary>
         /// <typeparam name="TFrom"><see cref="Type"/> that will be requested.</typeparam>
@@ -49,7 +49,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterType<TFrom, TTo>(LifetimeManager lifetimeManager) where TTo : TFrom;
 
         /// <summary>
-        /// RegisterType a type mapping with the container.
+        /// Register a type mapping with the container.
         /// </summary>
         /// <remarks>
         /// This method is used to tell the container that when asked for type <typeparamref name="TFrom"/>,
@@ -63,7 +63,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterType<TFrom, TTo>(string name) where TTo : TFrom;
 
         /// <summary>
-        /// RegisterType a type mapping with the container, where the created instances will use
+        /// Register a type mapping with the container, where the created instances will use
         /// the given <see cref="LifetimeManager"/>.
         /// </summary>
         /// <typeparam name="TFrom"><see cref="Type"/> that will be requested.</typeparam>
@@ -75,7 +75,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterType<TFrom, TTo>(string name, LifetimeManager lifetimeManager) where TTo : TFrom;
 
         /// <summary>
-        /// RegisterType a <see cref="LifetimeManager"/> for the given type with the container.
+        /// Register a <see cref="LifetimeManager"/> for the given type with the container.
         /// No type mapping is performed for this type.
         /// </summary>
         /// <typeparam name="T">The type to apply the <paramref name="lifetimeManager"/> to.</typeparam>
@@ -85,7 +85,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterType<T>(LifetimeManager lifetimeManager);
 
         /// <summary>
-        /// RegisterType a <see cref="LifetimeManager"/> for the given type and name with the container.
+        /// Register a <see cref="LifetimeManager"/> for the given type and name with the container.
         /// No type mapping is performed for this type.
         /// </summary>
         /// <typeparam name="T">The type to apply the <paramref name="lifetimeManager"/> to.</typeparam>
@@ -96,7 +96,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterType<T>(string name, LifetimeManager lifetimeManager);
 
         /// <summary>
-        /// RegisterType a type mapping with the container.
+        /// Register a type mapping with the container.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -114,7 +114,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterType(Type from, Type to);
 
         /// <summary>
-        /// RegisterType a type mapping with the container.
+        /// Register a type mapping with the container.
         /// </summary>
         /// <remarks>
         /// This method is used to tell the container that when asked for type <paramref name="from"/>,
@@ -128,7 +128,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterType(Type from, Type to, string name);
 
         /// <summary>
-        /// RegisterType a type mapping with the container, where the created instances will use
+        /// Register a type mapping with the container, where the created instances will use
         /// the given <see cref="LifetimeManager"/>.
         /// </summary>
         /// <param name="from"><see cref="Type"/> that will be requested.</param>
@@ -139,7 +139,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterType(Type from, Type to, LifetimeManager lifetimeManager);
 
         /// <summary>
-        /// RegisterType a <see cref="LifetimeManager"/> for the given type and name with the container.
+        /// Register a <see cref="LifetimeManager"/> for the given type and name with the container.
         /// No type mapping is performed for this type.
         /// </summary>
         /// <param name="t">The <see cref="Type"/> to apply the <paramref name="lifetimeManager"/> to.</param>
@@ -149,7 +149,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterType(Type t, LifetimeManager lifetimeManager);
 
         /// <summary>
-        /// RegisterType a <see cref="LifetimeManager"/> for the given type and name with the container.
+        /// Register a <see cref="LifetimeManager"/> for the given type and name with the container.
         /// No type mapping is performed for this type.
         /// </summary>
         /// <param name="t">The <see cref="Type"/> to apply the <paramref name="lifetimeManager"/> to.</param>
@@ -160,7 +160,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterType(Type t, string name, LifetimeManager lifetimeManager);
 
         /// <summary>
-        /// RegisterType a type mapping with the container, where the created instances will use
+        /// Register a type mapping with the container, where the created instances will use
         /// the given <see cref="LifetimeManager"/>.
         /// </summary>
         /// <param name="from"><see cref="Type"/> that will be requested.</param>
@@ -172,7 +172,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager);
 
         /// <summary>
-        /// RegisterType an instance with the container.
+        /// Register an instance with the container.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -189,7 +189,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterInstance<TInterface>(TInterface instance);
 
         /// <summary>
-        /// RegisterType an instance with the container.
+        /// Register an instance with the container.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -209,7 +209,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterInstance<TInterface>(TInterface instance, LifetimeManager lifetimeManager);
 
         /// <summary>
-        /// RegisterType an instance with the container.
+        /// Register an instance with the container.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -227,7 +227,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterInstance<TInterface>(string name, TInterface instance);
 
         /// <summary>
-        /// RegisterType an instance with the container.
+        /// Register an instance with the container.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -245,7 +245,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterInstance<TInterface>(string name, TInterface instance, LifetimeManager lifetimeManager);
 
         /// <summary>
-        /// RegisterType an instance with the container.
+        /// Register an instance with the container.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -262,7 +262,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterInstance(Type t, object instance);
 
         /// <summary>
-        /// RegisterType an instance with the container.
+        /// Register an instance with the container.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -282,7 +282,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterInstance(Type t, object instance, LifetimeManager lifetimeManager);
 
         /// <summary>
-        /// RegisterType an instance with the container.
+        /// Register an instance with the container.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -300,7 +300,7 @@ namespace Microsoft.Practices.Unity
         IUnityContainer RegisterInstance(Type t, string name, object instance);
 
         /// <summary>
-        /// RegisterType an instance with the container.
+        /// Register an instance with the container.
         /// </summary>
         /// <remarks>
         /// <para>

@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Properties;
 
 namespace Microsoft.Practices.Unity
@@ -104,19 +105,12 @@ namespace Microsoft.Practices.Unity
         {
             Guard.ArgumentNotNull(typeToBuild, "typeToBuild");
 
-            if (elementValues.Count == 0)
+            List<IDependencyResolverPolicy> resolverPolicies = new List<IDependencyResolverPolicy>();
+            foreach (InjectionParameterValue pv in elementValues)
             {
-                return new ResolvedArrayResolverPolicy(elementType);
+                resolverPolicies.Add(pv.GetResolverPolicy(elementType));
             }
-            else
-            {
-                List<IDependencyResolverPolicy> resolverPolicies = new List<IDependencyResolverPolicy>();
-                foreach (InjectionParameterValue pv in elementValues)
-                {
-                    resolverPolicies.Add(pv.GetResolverPolicy(elementType));
-                }
-                return new ResolvedArrayWithElementsResolverPolicy(elementType, resolverPolicies.ToArray());
-            }
+            return new ResolvedArrayWithElementsResolverPolicy(elementType, resolverPolicies.ToArray());
         }
 
         private static Type GetArrayType(Type elementType)

@@ -45,6 +45,7 @@
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionMemberElement\InjectionMemberElement.cs" />
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionMemberElement\InjectionMemberElementCollection.cs" />
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionMethodElement\InjectionMethodElement.cs" />
+    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionParameterValueElement\ArrayValueElement.cs" />
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionParameterValueElement\DependencyValueElement.cs" />
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionParameterValueElement\InjectionParameterValueElement.cs" />
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionPropertyElement\InjectionPropertyElement.cs" />

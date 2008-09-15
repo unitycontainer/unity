@@ -43,7 +43,6 @@
     <Compile Include="..\Common\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Attributes\DependencyArrayAttribute.cs" />
     <Compile Include="Attributes\DependencyResolutionAttribute.cs" />
     <Compile Include="Attributes\InjectionConstructorAttribute.cs" />
     <Compile Include="Attributes\InjectionMethodAttribute.cs" />
@@ -56,6 +55,7 @@
     <Compile Include="Extension\UnityContainerExtension.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Injection\GenericParameter.cs" />
+    <Compile Include="Injection\GenericResolvedArrayParameter.cs" />
     <Compile Include="Injection\InjectedMembers.cs" />
     <Compile Include="Injection\InjectionConstructor.cs" />
     <Compile Include="Injection\InjectionMember.cs" />
@@ -73,12 +73,12 @@
     <Compile Include="Lifetime\PerThreadLifetimeManager.cs" />
     <Compile Include="Lifetime\SynchronizedLifetimeManager.cs" />
     <Compile Include="Lifetime\TransientLifetimeManager.cs" />
+    <Compile Include="ObjectBuilder\ArrayResolutionStrategy.cs" />
     <Compile Include="ObjectBuilder\DefaultUnityConstructorSelectorPolicy.cs" />
     <Compile Include="ObjectBuilder\DefaultUnityMethodSelectorPolicy.cs" />
     <Compile Include="ObjectBuilder\DefaultUnityPropertySelectorPolicy.cs" />
     <Compile Include="ObjectBuilder\LiteralValueDependencyResolverPolicy.cs" />
     <Compile Include="ObjectBuilder\NamedTypeDependencyResolverPolicy.cs" />
-    <Compile Include="ObjectBuilder\ResolvedArrayResolverPolicy.cs" />
     <Compile Include="ObjectBuilder\ResolvedArrayWithElementsResolverPolicy.cs" />
     <Compile Include="ObjectBuilder\SpecifiedConstructorSelectorPolicy.cs" />
     <Compile Include="ObjectBuilder\SpecifiedMemberSelectorHelper.cs" />

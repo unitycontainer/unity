@@ -18,10 +18,10 @@ using Microsoft.Practices.Unity.TestSupport;
 
 using SysConfiguration = System.Configuration.Configuration;
 
-namespace Tests.Unity.Configuration
+namespace Microsoft.Practices.Unity.Configuration.Tests
 {
     [TestClass]
-    public class InjectionConfigurationWithGenericsFixture
+    public class InjectionConfigurationWithGenericsFixture : ConfigurationFixtureBase
     {
         private const string configFileName = "ConfiguringInjectionConstructorWithGenerics";
 
@@ -197,37 +197,9 @@ namespace Tests.Unity.Configuration
             }
         }
 
-        private TObj ResolveConfiguredObject<TObj>(string containerName)
+        protected override string ConfigFileName
         {
-            IUnityContainer container = GetConfiguredContainer(containerName);
-            return container.Resolve<TObj>();
-        }
-
-        private TObj ResolveConfiguredObject<TObj>(string containerName, string name)
-        {
-            IUnityContainer container = GetConfiguredContainer(containerName);
-            return container.Resolve<TObj>(name);
-        }
-
-        private IUnityContainer GetConfiguredContainer(string containerName)
-        {
-            UnityConfigurationSection section = GetUnitySection(configFileName);
-            IUnityContainer container = new UnityContainer();
-            section.Containers[containerName].Configure(container);
-            return container;
-        }
-
-        private UnityConfigurationSection GetUnitySection(string baseName)
-        {
-            SysConfiguration config = OpenConfigFile(baseName);
-            return (UnityConfigurationSection)config.GetSection("unity");
-        }
-
-        private SysConfiguration OpenConfigFile(string baseName)
-        {
-            ExeConfigurationFileMap map = new ExeConfigurationFileMap();
-            map.ExeConfigFilename = baseName + ".config";
-            return ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
+            get { return configFileName; }
         }
     }
 

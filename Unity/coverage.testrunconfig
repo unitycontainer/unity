@@ -17,9 +17,16 @@
           <instrumentInPlace type="System.Boolean">True</instrumentInPlace>
           <outputDirectory type="System.String" />
         </element>
+        <element type="Microsoft.VisualStudio.TestTools.Common.CodeCoverageItem">
+          <binaryFile type="System.String">Src\Unity.Interception\bin\Debug\Microsoft.Practices.Unity.Interception.dll</binaryFile>
+          <keyFile type="System.String" />
+          <pdbFile type="System.String">Src\Unity.Interception\bin\Debug\Microsoft.Practices.Unity.Interception.pdb</pdbFile>
+          <instrumentInPlace type="System.Boolean">True</instrumentInPlace>
+          <outputDirectory type="System.String" />
+        </element>
       </_items>
-      <_size type="System.Int32">1</_size>
-      <_version type="System.Int32">1</_version>
+      <_size type="System.Int32">2</_size>
+      <_version type="System.Int32">2</_version>
     </codeCoverageItems>
     <codeCoverageKeyFile type="System.String" />
     <aspNetProjectCoverageItems type="System.Collections.Generic.List`1[[Microsoft.VisualStudio.TestTools.Common.AspNetProjectItem, Microsoft.VisualStudio.QualityTools.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]]">

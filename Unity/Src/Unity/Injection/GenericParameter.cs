@@ -16,7 +16,7 @@ using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Properties;
 using Microsoft.Practices.Unity.Utility;
-using Guard=Microsoft.Practices.Unity.Utility.Guard;
+using Guard = Microsoft.Practices.Unity.Utility.Guard;
 
 namespace Microsoft.Practices.Unity
 {
@@ -28,6 +28,7 @@ namespace Microsoft.Practices.Unity
     {
         private readonly string genericParameterName;
         private readonly string resolutionKey;
+
         /// <summary>
         /// Create a new <see cref="GenericParameter"/> instance that specifies
         /// that the given named generic parameter should be resolved.
@@ -66,7 +67,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>True if this parameter value is compatible with type <paramref name="t"/>,
         /// false if not.</returns>
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification="Validation done by Guard class")]
+            Justification = "Validation done by Guard class")]
         public override bool MatchesType(Type t)
         {
             Guard.ArgumentNotNull(t, "t");
@@ -92,11 +93,11 @@ namespace Microsoft.Practices.Unity
 
         private void GuardTypeToBuildIsGeneric(Type typeToBuild)
         {
-            if(!typeToBuild.IsGenericType)
+            if (!typeToBuild.IsGenericType)
             {
                 throw new InvalidOperationException(
                     string.Format(
-                        CultureInfo.CurrentUICulture,
+                        CultureInfo.CurrentCulture,
                         Resources.NotAGenericType,
                         typeToBuild.Name,
                         genericParameterName));
@@ -105,9 +106,9 @@ namespace Microsoft.Practices.Unity
 
         private void GuardTypeToBuildHasMatchingGenericParameter(Type typeToBuild)
         {
-            foreach(Type genericParam in typeToBuild.GetGenericTypeDefinition().GetGenericArguments())
+            foreach (Type genericParam in typeToBuild.GetGenericTypeDefinition().GetGenericArguments())
             {
-                if(genericParam.Name == genericParameterName)
+                if (genericParam.Name == genericParameterName)
                 {
                     return;
                 }
@@ -115,7 +116,7 @@ namespace Microsoft.Practices.Unity
 
             throw new InvalidOperationException(
                 string.Format(
-                    CultureInfo.CurrentUICulture,
+                    CultureInfo.CurrentCulture,
                     Resources.NoMatchingGenericArgument,
                     typeToBuild.Name,
                     genericParameterName));

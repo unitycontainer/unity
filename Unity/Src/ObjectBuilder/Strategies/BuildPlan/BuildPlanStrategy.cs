@@ -25,17 +25,17 @@ namespace Microsoft.Practices.ObjectBuilder2
         public override void PreBuildUp(IBuilderContext context)
         {
             IBuildPlanPolicy plan = context.Policies.Get<IBuildPlanPolicy>(context.BuildKey);
-            if(plan == null)
+            if (plan == null)
             {
                 IBuildPlanCreatorPolicy planCreator =
                     context.Policies.Get<IBuildPlanCreatorPolicy>(context.BuildKey);
-                if(planCreator != null)
+                if (planCreator != null)
                 {
                     plan = planCreator.CreatePlan(context, context.BuildKey);
                     context.PersistentPolicies.Set(plan, context.BuildKey);
                 }
             }
-            if(plan != null)
+            if (plan != null)
             {
                 plan.BuildUp(context);
             }

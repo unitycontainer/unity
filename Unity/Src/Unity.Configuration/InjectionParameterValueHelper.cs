@@ -113,7 +113,6 @@ namespace Microsoft.Practices.Unity.Configuration
             string genericParameterName,
             out InjectionParameterValueElement valueElement)
         {
-
             string genericParameter;
             bool isGenericParameterArray;
             ExtractGenericParameter(genericParameterName, out genericParameter, out isGenericParameterArray);

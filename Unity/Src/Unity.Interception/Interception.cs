@@ -10,34 +10,39 @@
 //===============================================================================
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
-using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.InterceptionExtension.Properties;
 using Microsoft.Practices.Unity.ObjectBuilder;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
     /// <summary>
     /// A Unity container extension that allows you to configure
-    /// whether an object should be intercepted, and which mechanism should
-    /// be used to do it.
+    /// whether an object should be intercepted and which mechanism should
+    /// be used to do it, and also provides a convenient set of methods for
+    /// configuring injection for <see cref="RuleDrivenPolicy"/> instances.
     /// </summary>
+    /// <seealso cref="O:Interception.SetDefaultInjectorFor"/>
+    /// <seealso cref="O:Interception.SetInjectorFor"/>
+    /// <seealso cref="Interception.AddPolicy"/>
     public class Interception : UnityContainerExtension
     {
         /// <summary>
         /// Initial the container with this extension's functionality.
         /// </summary>
         /// <remarks>
-        /// This extension adds the <see cref="InterceptionStrategy"/> to the
+        /// This extension adds the <see cref="TransparentProxyInterceptionStrategy"/> to the
         /// <see cref="UnityBuildStage.Setup"/> stage.
         /// </remarks>
         protected override void Initialize()
         {
-            // The InterceptionStrategy is added to the Setup (first) stage.
+            // The TransparentProxyInterceptionStrategy is added to the Setup (first) stage.
             // This means that instances will be intercepted after type mapping and lifetime management
             // have taken place.
             Context.Strategies
-                .AddNew<InterceptionStrategy>(UnityBuildStage.Setup);
+                .AddNew<TransparentProxyInterceptionStrategy>(UnityBuildStage.Setup);
             Context.Container
                 .RegisterInstance<InjectionPolicy>(
                     typeof(AttributeDrivenPolicy).AssemblyQualifiedName,
@@ -123,7 +128,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             this.Context.Policies
                 .Set<IInterceptionPolicy>(
                     new InterceptionPolicy(policyInjector),
-                    new NamedTypeBuildKey(typeToIntercept, name));
+                    new Microsoft.Practices.ObjectBuilder2.NamedTypeBuildKey(typeToIntercept, name));
 
             return this;
         }
@@ -139,6 +144,22 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                         typeToIntercept.FullName),
                     "typeToIntercept");
             }
+        }
+
+        /// <summary>
+        /// Starts the definition of a new <see cref="RuleDrivenPolicy"/>.
+        /// </summary>
+        /// <param name="policyName"></param>
+        /// <returns></returns>
+        /// <remarks>This is a convenient way for defining a new policy and the <see cref="IMatchingRule"/>
+        /// instances and <see cref="ICallHandler"/> instances that are required by a policy.
+        /// <para/>
+        /// This mechanism is just a shortcut for what can be natively expressed by wiring up together objects
+        /// with repeated calls to the <see cref="O:InjectedMembers.ConfigureInjectionFor"/> method.</remarks>
+        public PolicyDefinition AddPolicy(string policyName)
+        {
+            Guard.ArgumentNotNullOrEmpty(policyName, "policyName");
+            return new PolicyDefinition(policyName, this);
         }
     }
 }

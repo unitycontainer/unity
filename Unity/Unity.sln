@@ -98,6 +98,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Unity.Interception", 
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Unity.Interception.Configuration", "Tests\Tests.Unity.Interception.Configuration\Tests.Unity.Interception.Configuration.csproj", "{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Interception.Configuration", "Src\Unity.Interception.Configuration\Unity.Interception.Configuration.csproj", "{80F7399F-B221-465F-97C9-4B9FC0E2F67F}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Unity.vsmdi
@@ -151,6 +163,14 @@ Global
 		{3FC0084C-6077-4F87-8A51-2F755C83D7C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FC0084C-6077-4F87-8A51-2F755C83D7C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FC0084C-6077-4F87-8A51-2F755C83D7C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -161,12 +181,14 @@ Global
 		{4C89931B-67A9-4BDC-A565-E1E0207E1BD9} = {25EB396B-2527-4B42-8037-C364A038856B}
 		{582E89F0-5284-49CB-9CD1-429FE9FEED6F} = {25EB396B-2527-4B42-8037-C364A038856B}
 		{F8186B23-B0E1-4646-B5F3-14357841E2BA} = {25EB396B-2527-4B42-8037-C364A038856B}
+		{80F7399F-B221-465F-97C9-4B9FC0E2F67F} = {25EB396B-2527-4B42-8037-C364A038856B}
 		{02BDF798-A924-4F07-A607-75B3C20EDA6E} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 		{32CD02CF-FE79-45D4-A81E-28509FF41A7A} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 		{25E09D23-F407-4A61-8446-E5FBD6F689B8} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 		{E18860B3-4E66-4FF2-9FC2-59F0BE261341} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 		{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 		{3FC0084C-6077-4F87-8A51-2F755C83D7C8} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
+		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 	EndGlobalSection
 	GlobalSection(TextTemplating) = postSolution
 		TextTemplating = 1

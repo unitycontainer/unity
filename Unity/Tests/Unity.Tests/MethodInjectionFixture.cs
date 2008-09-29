@@ -46,6 +46,20 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
+        public void CanConfigureMultipleMethods()
+        {
+            IUnityContainer container = new UnityContainer()
+                .RegisterType<GuineaPig>(
+                    new InjectionMethod("Inject3", 37),
+                    new InjectionMethod("Inject2", "Hi there"));
+
+            GuineaPig pig = container.Resolve<GuineaPig>();
+
+            Assert.AreEqual(37, pig.IntValue);
+            Assert.AreEqual("Hi there", pig.StringValue);
+        }
+
+        [TestMethod]
         public void StaticMethodsShouldNotBeInjected()
         {
             IUnityContainer container = new UnityContainer();

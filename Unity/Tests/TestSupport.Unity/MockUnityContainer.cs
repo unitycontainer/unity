@@ -38,7 +38,7 @@ namespace Microsoft.Practices.Unity.TestSupport
             return this;
         }
 
-        public override IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager)
+        public override IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
         {
             ConfigActions.Add(
                 ConfigurationActionRecord.RegisterAction(from, to, name, lifetimeManager));

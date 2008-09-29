@@ -12,6 +12,7 @@
 using System.Reflection;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TestSupport.Unity;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 {
@@ -96,7 +97,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         IMethodInvocation MakeCallMessage()
         {
             FakeMethodCallMessage msg = new FakeMethodCallMessage(GetTargetMemberInfo(), 15);
-            IMethodInvocation invocation = new RemotingMethodInvocation(msg, null);
+            IMethodInvocation invocation = new TransparentProxyMethodInvocation(msg, null);
             return invocation;
         }
 

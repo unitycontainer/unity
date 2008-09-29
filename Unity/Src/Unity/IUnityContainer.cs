@@ -19,6 +19,18 @@ namespace Microsoft.Practices.Unity
     /// </summary>
     public interface IUnityContainer : IDisposable
     {
+        #region RegisterType overloads
+
+        #region Generics overloads
+
+        /// <summary>
+        /// Register a type with specific members to be injected.
+        /// </summary>
+        /// <typeparam name="T">Type this registration is for.</typeparam>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
+        /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
+        IUnityContainer RegisterType<T>(params InjectionMember[] injectionMembers);
+        
         /// <summary>
         /// Register a type mapping with the container.
         /// </summary>
@@ -34,8 +46,9 @@ namespace Microsoft.Practices.Unity
         /// </remarks>
         /// <typeparam name="TFrom"><see cref="Type"/> that will be requested.</typeparam>
         /// <typeparam name="TTo"><see cref="Type"/> that will actually be returned.</typeparam>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        IUnityContainer RegisterType<TFrom, TTo>() where TTo : TFrom;
+        IUnityContainer RegisterType<TFrom, TTo>(params InjectionMember[] injectionMembers) where TTo : TFrom;
 
         /// <summary>
         /// Register a type mapping with the container, where the created instances will use
@@ -45,8 +58,9 @@ namespace Microsoft.Practices.Unity
         /// <typeparam name="TTo"><see cref="Type"/> that will actually be returned.</typeparam>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        IUnityContainer RegisterType<TFrom, TTo>(LifetimeManager lifetimeManager) where TTo : TFrom;
+        IUnityContainer RegisterType<TFrom, TTo>(LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers) where TTo : TFrom;
 
         /// <summary>
         /// Register a type mapping with the container.
@@ -59,8 +73,9 @@ namespace Microsoft.Practices.Unity
         /// <typeparam name="TFrom"><see cref="Type"/> that will be requested.</typeparam>
         /// <typeparam name="TTo"><see cref="Type"/> that will actually be returned.</typeparam>
         /// <param name="name">Name of this mapping.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        IUnityContainer RegisterType<TFrom, TTo>(string name) where TTo : TFrom;
+        IUnityContainer RegisterType<TFrom, TTo>(string name, params InjectionMember[] injectionMembers) where TTo : TFrom;
 
         /// <summary>
         /// Register a type mapping with the container, where the created instances will use
@@ -71,8 +86,9 @@ namespace Microsoft.Practices.Unity
         /// <param name="name">Name to use for registration, null if a default registration.</param>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        IUnityContainer RegisterType<TFrom, TTo>(string name, LifetimeManager lifetimeManager) where TTo : TFrom;
+        IUnityContainer RegisterType<TFrom, TTo>(string name, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers) where TTo : TFrom;
 
         /// <summary>
         /// Register a <see cref="LifetimeManager"/> for the given type with the container.
@@ -81,8 +97,19 @@ namespace Microsoft.Practices.Unity
         /// <typeparam name="T">The type to apply the <paramref name="lifetimeManager"/> to.</typeparam>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        IUnityContainer RegisterType<T>(LifetimeManager lifetimeManager);
+        IUnityContainer RegisterType<T>(LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers);
+
+        /// <summary>
+        /// Register a <see cref="LifetimeManager"/> for the given type with the container.
+        /// No type mapping is performed for this type.
+        /// </summary>
+        /// <typeparam name="T">The type to configure injection on.</typeparam>
+        /// <param name="name">Name that will be used to request the type.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
+        /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
+        IUnityContainer RegisterType<T>(string name, params InjectionMember[] injectionMembers);
 
         /// <summary>
         /// Register a <see cref="LifetimeManager"/> for the given type and name with the container.
@@ -92,8 +119,21 @@ namespace Microsoft.Practices.Unity
         /// <param name="name">Name that will be used to request the type.</param>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        IUnityContainer RegisterType<T>(string name, LifetimeManager lifetimeManager);
+        IUnityContainer RegisterType<T>(string name, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers);
+
+        #endregion
+
+        #region Non-generics overloads
+
+        /// <summary>
+        /// Register a type with specific members to be injected.
+        /// </summary>
+        /// <param name="t">Type this registration is for.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
+        /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
+        IUnityContainer RegisterType(Type t, params InjectionMember[] injectionMembers);
 
         /// <summary>
         /// Register a type mapping with the container.
@@ -110,8 +150,9 @@ namespace Microsoft.Practices.Unity
         /// </remarks>
         /// <param name="from"><see cref="Type"/> that will be requested.</param>
         /// <param name="to"><see cref="Type"/> that will actually be returned.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        IUnityContainer RegisterType(Type from, Type to);
+        IUnityContainer RegisterType(Type from, Type to, params InjectionMember[] injectionMembers);
 
         /// <summary>
         /// Register a type mapping with the container.
@@ -124,8 +165,9 @@ namespace Microsoft.Practices.Unity
         /// <param name="from"><see cref="Type"/> that will be requested.</param>
         /// <param name="to"><see cref="Type"/> that will actually be returned.</param>
         /// <param name="name">Name to use for registration, null if a default registration.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        IUnityContainer RegisterType(Type from, Type to, string name);
+        IUnityContainer RegisterType(Type from, Type to, string name, params InjectionMember[] injectionMembers);
 
         /// <summary>
         /// Register a type mapping with the container, where the created instances will use
@@ -135,8 +177,9 @@ namespace Microsoft.Practices.Unity
         /// <param name="to"><see cref="Type"/> that will actually be returned.</param>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        IUnityContainer RegisterType(Type from, Type to, LifetimeManager lifetimeManager);
+        IUnityContainer RegisterType(Type from, Type to, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers);
 
         /// <summary>
         /// Register a <see cref="LifetimeManager"/> for the given type and name with the container.
@@ -145,8 +188,19 @@ namespace Microsoft.Practices.Unity
         /// <param name="t">The <see cref="Type"/> to apply the <paramref name="lifetimeManager"/> to.</param>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        IUnityContainer RegisterType(Type t, LifetimeManager lifetimeManager);
+        IUnityContainer RegisterType(Type t, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers);
+
+        /// <summary>
+        /// Register a <see cref="LifetimeManager"/> for the given type and name with the container.
+        /// No type mapping is performed for this type.
+        /// </summary>
+        /// <param name="t">The <see cref="Type"/> to configure in the container.</param>
+        /// <param name="name">Name to use for registration, null if a default registration.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
+        /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
+        IUnityContainer RegisterType(Type t, string name, params InjectionMember[] injectionMembers);
 
         /// <summary>
         /// Register a <see cref="LifetimeManager"/> for the given type and name with the container.
@@ -156,8 +210,9 @@ namespace Microsoft.Practices.Unity
         /// <param name="name">Name to use for registration, null if a default registration.</param>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        IUnityContainer RegisterType(Type t, string name, LifetimeManager lifetimeManager);
+        IUnityContainer RegisterType(Type t, string name, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers);
 
         /// <summary>
         /// Register a type mapping with the container, where the created instances will use
@@ -168,8 +223,17 @@ namespace Microsoft.Practices.Unity
         /// <param name="name">Name to use for registration, null if a default registration.</param>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager);
+        IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers);
+
+        #endregion
+
+        #endregion
+
+        #region RegisterInstance overloads
+
+        #region Generics overloads
 
         /// <summary>
         /// Register an instance with the container.
@@ -244,6 +308,10 @@ namespace Microsoft.Practices.Unity
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
         IUnityContainer RegisterInstance<TInterface>(string name, TInterface instance, LifetimeManager lifetimeManager);
 
+        #endregion
+
+        #region Non-generic overloads
+
         /// <summary>
         /// Register an instance with the container.
         /// </summary>
@@ -317,6 +385,12 @@ namespace Microsoft.Practices.Unity
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
         IUnityContainer RegisterInstance(Type t, string name, object instance, LifetimeManager lifetime);
 
+        #endregion
+
+        #endregion
+
+        #region Resolve overloads
+
         /// <summary>
         /// Resolve an instance of the default requested type from the container.
         /// </summary>
@@ -346,6 +420,10 @@ namespace Microsoft.Practices.Unity
         /// <param name="name">Name of the object to retrieve.</param>
         /// <returns>The retrieved object.</returns>
         object Resolve(Type t, string name);
+
+        #endregion
+
+        #region ResolveAll overloads
 
         /// <summary>
         /// Return instances of all registered types requested.
@@ -378,6 +456,10 @@ namespace Microsoft.Practices.Unity
         /// <param name="t">The type requested.</param>
         /// <returns>Set of objects of type <paramref name="t"/>.</returns>
         IEnumerable<object> ResolveAll(Type t);
+
+        #endregion
+
+        #region BuildUp overloads
 
         /// <summary>
         /// Run an existing object through the container and perform injection on it.
@@ -453,11 +535,19 @@ namespace Microsoft.Practices.Unity
         /// cause this to return a different object (but still type compatible with <paramref name="t"/>).</returns>
         object BuildUp(Type t, object existing, string name);
 
+        #endregion
+
+        #region Teardown
+
         /// <summary>
         /// Run an existing object through the container, and clean it up.
         /// </summary>
         /// <param name="o">The object to tear down.</param>
         void Teardown(object o);
+
+        #endregion
+        
+        #region Extension management and configuration
 
         /// <summary>
         /// Add an extension object to the container.
@@ -514,6 +604,10 @@ namespace Microsoft.Practices.Unity
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
         IUnityContainer RemoveAllExtensions();
 
+        #endregion
+
+        #region Child container management
+
         /// <summary>
         /// Create a child container.
         /// </summary>
@@ -528,5 +622,7 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         /// <value>The parent container, or null if this container doesn't have one.</value>
         IUnityContainer Parent { get; }
+
+        #endregion
     }
 }

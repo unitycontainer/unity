@@ -70,7 +70,7 @@ namespace Microsoft.Practices.Unity.Configuration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The value element named &lt;{1}&gt; is not available with generic arrays in the property or method parameter named &quot;{0}&quot;..
+        ///   Looks up a localized string similar to The value element named &lt;{1}&gt; is not available with generic arrays in the property or parameter named &quot;{0}&quot;..
         /// </summary>
         internal static string GenericParameterArrayNotSupported {
             get {
@@ -79,7 +79,7 @@ namespace Microsoft.Practices.Unity.Configuration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The value element named &lt;{1}&gt; is not available with generic parameters in the property or method parameter named &quot;{0}&quot;..
+        ///   Looks up a localized string similar to The value element named &lt;{1}&gt; is not available with generic parameters in the property or parameter named &quot;{0}&quot;..
         /// </summary>
         internal static string GenericParameterNotSupported {
             get {
@@ -97,7 +97,7 @@ namespace Microsoft.Practices.Unity.Configuration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The configuration file does not specify a &lt;value&gt; or &lt;dependency&gt; element for the parameter {0}. You must specify one of them but not both..
+        ///   Looks up a localized string similar to The configuration file does not specify a &lt;value&gt; or &lt;dependency&gt; element for the property or parameter named &quot;{0}&quot;. You must specify one of them but not both..
         /// </summary>
         internal static string MustGiveValueOrDependency {
             get {
@@ -106,7 +106,7 @@ namespace Microsoft.Practices.Unity.Configuration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The configuration file specifies both a &lt;value&gt; and a &lt;dependency&gt;element for the parameter {0}. You must specify only one of these..
+        ///   Looks up a localized string similar to The configuration file specifies both a &lt;value&gt; and a &lt;dependency&gt;element for the property or parameter named &quot;{0}&quot;. You must specify only one of these..
         /// </summary>
         internal static string MustHaveOnlyOneOfValueOrDependency {
             get {
@@ -124,7 +124,7 @@ namespace Microsoft.Practices.Unity.Configuration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The configuration file must include a value for one of &quot;parameterType&quot; and &quot;genericParameterName&quot; for the parameter &quot;{0}&quot;..
+        ///   Looks up a localized string similar to The configuration file must include a value for one of &quot;parameterType&quot; and &quot;genericParameterName&quot; for the property or parameter named &quot;{0}&quot;..
         /// </summary>
         internal static string NeitherParameterTypeNorGenericParameterNameSpecified {
             get {
@@ -133,7 +133,7 @@ namespace Microsoft.Practices.Unity.Configuration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The configuration file includes values for more than one of &quot;parameterType&quot; and &quot;genericParameterName&quot; for the parameter &quot;{0}&quot;. You must specify only one of these..
+        ///   Looks up a localized string similar to The configuration file includes values for more than one of &quot;parameterType&quot; and &quot;genericParameterName&quot; for the property or parameter named &quot;{0}&quot;. You must specify only one of these..
         /// </summary>
         internal static string OnlyOneOfParameterTypeAndGenericParameterNameAllowed {
             get {
@@ -142,7 +142,7 @@ namespace Microsoft.Practices.Unity.Configuration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The configuration file includes more than one value element for the parameter &quot;{0}&quot;..
+        ///   Looks up a localized string similar to The configuration file includes more than one value element for the property or parameter named &quot;{0}&quot;..
         /// </summary>
         internal static string OnlyOneValueElementAllowed {
             get {
@@ -151,7 +151,7 @@ namespace Microsoft.Practices.Unity.Configuration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The configuration file includes a parameter or property which is configured with an array value but has type {0} which is not an array type. ({1} line {2}).
+        ///   Looks up a localized string similar to The configuration file includes a property or parameter which is configured with an array value but has type {0} which is not an array type. ({1} line {2}).
         /// </summary>
         internal static string ParameterTypeIsNotArray {
             get {

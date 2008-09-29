@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     public abstract class PolicyInjector
     {
         /// <summary>
-        /// Creates a new <see cref="RemotingPolicyInjector" /> with an 
+        /// Creates a new <see cref="TransparentProxyPolicyInjector" /> with an 
         /// empty <see cref="PolicySet" />.
         /// </summary>
         protected PolicyInjector()

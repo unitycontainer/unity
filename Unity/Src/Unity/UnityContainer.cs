@@ -15,7 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Utility;
-using Guard=Microsoft.Practices.Unity.Utility.Guard;
+using Guard = Microsoft.Practices.Unity.Utility.Guard;
 
 namespace Microsoft.Practices.Unity
 {
@@ -86,14 +86,21 @@ namespace Microsoft.Practices.Unity
         /// <param name="name">Name to use for registration, null if a default registration.</param>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance.</param>
+        /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        public override IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager)
+        public override IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
         {
             if (to != null && !from.IsGenericType && !to.IsGenericType)
             {
                 Guard.TypeIsAssignable(from, to, "from");
             }
             registering(this, new RegisterEventArgs(from, to, name, lifetimeManager));
+
+            if (injectionMembers.Length > 0)
+            {
+                Configure<InjectedMembers>()
+                    .ConfigureInjectionFor(to ?? from, name, injectionMembers);
+            }
             return this;
         }
 
@@ -208,13 +215,13 @@ namespace Microsoft.Practices.Unity
             try
             {
                 new Builder().TearDown(
-                    locator, 
+                    locator,
                     lifetimeContainer,
-                    policies, 
+                    policies,
                     strategies.MakeStrategyChain(),
                     o);
             }
-            catch(BuildFailedException ex)
+            catch (BuildFailedException ex)
             {
                 throw new ResolutionFailedException(o.GetType(), null, ex);
             }
@@ -303,7 +310,7 @@ namespace Microsoft.Practices.Unity
 
             extensions.Add(extension);
             extension.InitializeExtension(new ExtensionContextImpl(this));
-            lock(cachedStrategiesLock)
+            lock (cachedStrategiesLock)
             {
                 cachedStrategies = null;
             }
@@ -353,7 +360,7 @@ namespace Microsoft.Practices.Unity
             {
                 extension.Remove();
                 IDisposable disposable = extension as IDisposable;
-                if(disposable != null)
+                if (disposable != null)
                 {
                     disposable.Dispose();
                 }
@@ -433,7 +440,7 @@ namespace Microsoft.Practices.Unity
                         parent.lifetimeContainer.Remove(this);
                     }
                 }
-                foreach(IDisposable disposableExtension in Sequence.OfType<IDisposable>(extensions))
+                foreach (IDisposable disposableExtension in Sequence.OfType<IDisposable>(extensions))
                 {
                     disposableExtension.Dispose();
                 }
@@ -462,7 +469,7 @@ namespace Microsoft.Practices.Unity
                     new NamedTypeBuildKey(t, name),
                     existing);
             }
-            catch(BuildFailedException ex)
+            catch (BuildFailedException ex)
             {
                 throw new ResolutionFailedException(t, name, ex);
             }
@@ -471,11 +478,11 @@ namespace Microsoft.Practices.Unity
         private IStrategyChain GetStrategies()
         {
             IStrategyChain buildStrategies = cachedStrategies;
-            if(buildStrategies == null)
+            if (buildStrategies == null)
             {
-                lock(cachedStrategiesLock)
+                lock (cachedStrategiesLock)
                 {
-                    if(cachedStrategies == null)
+                    if (cachedStrategies == null)
                     {
                         buildStrategies = strategies.MakeStrategyChain();
                         cachedStrategies = buildStrategies;

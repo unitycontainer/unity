@@ -53,23 +53,24 @@
     </Compile>
     <Compile Include="MatchingRules\TypeMatchingRuleFixture.cs" />
     <Compile Include="MethodSignatureFixture.cs" />
-    <Compile Include="ObjectsUnderTest\AlwaysMatchingRule.cs" />
-    <Compile Include="ObjectsUnderTest\CallCountHandler.cs" />
     <Compile Include="ObjectsUnderTest\CriticalFakeDal.cs" />
+    <Compile Include="ObjectsUnderTest\ExceptionEatingHandler.cs" />
     <Compile Include="ObjectsUnderTest\ExceptionSwizzlerHandler.cs" />
-    <Compile Include="ObjectsUnderTest\GlobalCountCallHandler.cs" />
     <Compile Include="ObjectsUnderTest\InterfacesOnlyDal.cs" />
     <Compile Include="ObjectsUnderTest\MakeReturnNullHandler.cs" />
     <Compile Include="ObjectsUnderTest\MockDal.cs" />
     <Compile Include="ObjectsUnderTest\MockDalWithOverloads.cs" />
+    <Compile Include="ObjectsUnderTest\PostCallCountHandler.cs" />
     <Compile Include="ObjectsUnderTest\ShortcuttingHandler.cs" />
     <Compile Include="ObjectsUnderTest\TypeMatchingAssignmentRule.cs" />
     <Compile Include="PipelineFixture.cs" />
     <Compile Include="PolicyFixture.cs" />
     <Compile Include="PolicySetFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RemotingInterception\RemotingPolicyInjectorFixture.cs" />
-    <Compile Include="RemotingInterception\RemotingMethodInvocationFixture.cs" />
+    <Compile Include="TransparentProxyInterception\TransparentProxyPolicyInjectorFixture.cs" />
+    <Compile Include="TransparentProxyInterception\TransparentProxyMethodInvocationFixture.cs" />
+    <Compile Include="ConvenienceConfigurationFixture.cs" />
+    <Compile Include="VirtualMethodInterception\InterceptingClassGenerationFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Src\ObjectBuilder\ObjectBuilder.csproj">
@@ -83,6 +84,10 @@
     <ProjectReference Include="..\..\Src\Unity\Unity.csproj">
       <Project>{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}</Project>
       <Name>Unity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestSupport.Unity\TestSupport.Unity.csproj">
+      <Project>{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89}</Project>
+      <Name>TestSupport.Unity</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

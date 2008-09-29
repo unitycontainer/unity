@@ -48,7 +48,7 @@ namespace Microsoft.Practices.Unity.Tests
                 .AddNewExtension<StaticFactoryExtension>()
                 .Configure<IStaticFactoryConfiguration>()
                     .RegisterFactory<MockLogger>(
-                        delegate
+                        delegate(IUnityContainer c)
                         {
                             factoryWasCalled = true;
                             return new MockLogger();

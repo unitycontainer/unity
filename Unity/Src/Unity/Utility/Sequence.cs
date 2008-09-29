@@ -245,4 +245,143 @@ namespace Microsoft.Practices.Unity.Utility
             }
         }
     }
+
+    /// <summary>
+    /// Static class containing constructor methods for
+    /// instances of <see cref="Seq{T}"/>, so that we
+    /// get type inference.
+    /// </summary>
+    public static class Seq
+    {
+        /// <summary>
+        /// Make a new instance of <see cref="Seq{T}"/> that wraps
+        /// the given items.
+        /// </summary>
+        /// <typeparam name="T">Type of items in the sequence.</typeparam>
+        /// <param name="items">Items in the sequence.</param>
+        /// <returns>The sequence.</returns>
+        public static Seq<T> Make<T>(IEnumerable<T> items)
+        {
+            return new Seq<T>(items);
+        }
+
+        /// <summary>
+        /// Make a new instance of <see cref="Seq{T}"/> that wraps
+        /// the given items.
+        /// </summary>
+        /// <typeparam name="T">Type of items in the sequence.</typeparam>
+        /// <param name="items">Items in the sequence.</param>
+        /// <returns>The sequence.</returns>
+        public static Seq<T> Collect<T>(params T[] items)
+        {
+            return new Seq<T>(items);
+        }
+    }
+
+    /// <summary>
+    /// And another helper class that makes it possible to chain sequence operations together.
+    /// </summary>
+    /// <typeparam name="T">Type of item contained in the sequence.</typeparam>
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Adding Collection suffix destroys value of class")]
+    public class Seq<T> : IEnumerable<T>
+    {
+        private readonly IEnumerable<T> items;
+
+        /// <summary>
+        /// Create a new <see cref="Seq{T}"/> instance wrapping the given IEnumerable.
+        /// </summary>
+        /// <param name="items">The sequence to wrap.</param>
+        public Seq(IEnumerable<T> items)
+        {
+            this.items = items;
+        }
+
+        #region Implementation of IEnumerable
+
+        /// <summary>
+        ///                     Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        ///                     An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        #endregion
+
+        #region Implementation of IEnumerable<T>
+
+        /// <summary>
+        ///                     Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        ///                     A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>1</filterpriority>
+        public IEnumerator<T> GetEnumerator()
+        {
+            return items.GetEnumerator();
+        }
+
+        #endregion
+
+        #region Sequence operations
+
+        /// <summary>
+        /// Given a sequence object, return a list containing those items.
+        /// </summary>
+        /// <returns>The materialized list.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "We explicitly want a List here")]
+        public List<T> ToList()
+        {
+            return new List<T>(items);
+        }
+
+        /// <summary>
+        /// Return an array with the same contents as this sequence.
+        /// </summary>
+        /// <returns>The materialized array.</returns>
+        public T[] ToArray()
+        {
+            return ToList().ToArray();
+        }
+
+        /// <summary>
+        /// Returns new sequence containing only the items for which the predicate is true.
+        /// </summary>
+        /// <param name="predicate">Test to indicate sequence inclusion</param>
+        /// <returns>New sequence.</returns>
+        public Seq<T> Where(Predicate<T> predicate)
+        {
+            return new Seq<T>(Sequence.Where(items, predicate));
+        }
+
+        /// <summary>
+        /// Tests the sequence, returning true if any
+        /// element satisfies the given predicate.
+        /// </summary>
+        /// <param name="predicate">Predicate to use to test for existence.</param>
+        /// <returns>true if any elements satify pred, false if not.</returns>
+        public bool Exists(Predicate<T> predicate)
+        {
+            return Sequence.Exists(items, predicate);
+        }
+
+        /// <summary>
+        /// Return a new sequence consisting of the result of running each element through
+        /// the given <paramref name="converter"/>.
+        /// </summary>
+        /// <typeparam name="TOut">Desired output type.</typeparam>
+        /// <param name="converter">Converter delegate.</param>
+        /// <returns>New Sequence</returns>
+        public Seq<TOut> Map<TOut>(Converter<T, TOut> converter)
+        {
+            return new Seq<TOut>(Sequence.Map<T, TOut>(items, converter));
+        }
+
+        #endregion
+    }
 }

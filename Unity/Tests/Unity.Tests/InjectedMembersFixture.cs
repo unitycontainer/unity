@@ -31,6 +31,16 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
+        public void CanConfigureInjectionThroughRegisterTypeMethod()
+        {
+            IUnityContainer container = new UnityContainer()
+                .RegisterType<GuineaPig>(
+                new InjectionConstructor());
+            GuineaPig pig = container.Resolve<GuineaPig>();
+            Assert.IsTrue(pig.DefaultConstructorCalled);
+        }
+
+        [TestMethod]
         public void CanConfigureContainerToCallConstructorWithValues()
         {
             int expectedInt = 37;
@@ -48,6 +58,25 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.AreEqual(expectedInt, pig.I);
             Assert.AreEqual(expectedDouble, pig.D);
             Assert.AreEqual(expectedString, pig.S);
+        }
+
+        [TestMethod]
+        public void CanConfigureContainerToCallConstructorWithValuesThroughRegisterTypeCall()
+        {
+            int expectedInt = 37;
+            string expectedString = "Hey there";
+            double expectedDouble = Math.PI;
+
+            IUnityContainer container = new UnityContainer()
+                .RegisterType<GuineaPig>(
+                            new InjectionConstructor(expectedInt, expectedString, expectedDouble));
+
+            GuineaPig pig = container.Resolve<GuineaPig>();
+            Assert.IsTrue(pig.ThreeArgumentConstructorCalled);
+            Assert.AreEqual(expectedInt, pig.I);
+            Assert.AreEqual(expectedDouble, pig.D);
+            Assert.AreEqual(expectedString, pig.S);
+            
         }
 
         [TestMethod]
@@ -166,6 +195,15 @@ namespace Microsoft.Practices.Unity.Tests
                 return; // If we get here, test passes
             }
             Assert.Fail("Expected exception did not occur");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ConfigureInjectionForThrowsIfTypeIsNull()
+        {
+            IUnityContainer container = new UnityContainer();
+            container.Configure<InjectedMembers>()
+                .ConfigureInjectionFor(null);
         }
 
         internal class GuineaPig

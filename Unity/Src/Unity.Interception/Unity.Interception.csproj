@@ -17,7 +17,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Microsoft.Practices.Unity.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Microsoft.Practices.Unity.Interception.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.Design#CA1004;-Microsoft.Design#CA1014;-Microsoft.Usage#CA2209</CodeAnalysisRules>
@@ -29,7 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Microsoft.Practices.Unity.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Microsoft.Practices.Unity.Interception.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRules>-Microsoft.Design#CA1004;-Microsoft.Design#CA1063</CodeAnalysisRules>
@@ -43,20 +43,22 @@
     <Compile Include="..\Common\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="ApplyNoPoliciesAttribute.cs" />
-    <Compile Include="AttributeDrivenPolicy.cs" />
-    <Compile Include="HandlerAttribute.cs" />
-    <Compile Include="HandlerPipeline.cs" />
-    <Compile Include="ICallHandler.cs" />
-    <Compile Include="IInterceptionPolicy.cs" />
-    <Compile Include="IMatchingRule.cs" />
-    <Compile Include="IMethodInvocation.cs" />
-    <Compile Include="IMethodReturn.cs" />
+    <Compile Include="Pipeline\IHandlerPipelineManager.cs" />
+    <Compile Include="Pipeline\PipelineManager.cs" />
+    <Compile Include="Policies\ApplyNoPoliciesAttribute.cs" />
+    <Compile Include="Policies\AttributeDrivenPolicy.cs" />
+    <Compile Include="Policies\HandlerAttribute.cs" />
+    <Compile Include="Pipeline\HandlerPipeline.cs" />
+    <Compile Include="Pipeline\ICallHandler.cs" />
+    <Compile Include="Policies\IInterceptionPolicy.cs" />
+    <Compile Include="MatchingRules\IMatchingRule.cs" />
+    <Compile Include="Pipeline\IMethodInvocation.cs" />
+    <Compile Include="Pipeline\IMethodReturn.cs" />
     <Compile Include="Interception.cs" />
-    <Compile Include="InterceptionStrategy.cs" />
+    <Compile Include="TransparentProxyInterception\TransparentProxyInterceptionStrategy.cs" />
     <Compile Include="InterceptionPolicy.cs" />
-    <Compile Include="IParameterCollection.cs" />
-    <Compile Include="MatchingRuleSet.cs" />
+    <Compile Include="Pipeline\IParameterCollection.cs" />
+    <Compile Include="MatchingRules\MatchingRuleSet.cs" />
     <Compile Include="MatchingRules\ApplyNoPoliciesMatchingRule.cs" />
     <Compile Include="MatchingRules\AssemblyMatchingRule.cs" />
     <Compile Include="MatchingRules\AttributeDrivenPolicyMatchingRule.cs" />
@@ -70,26 +72,31 @@
     <Compile Include="MatchingRules\ReturnTypeMatchingRule.cs" />
     <Compile Include="MatchingRules\TagAttributeMatchingRule.cs" />
     <Compile Include="MatchingRules\TypeMatchingRule.cs" />
-    <Compile Include="ParameterCollection.cs" />
-    <Compile Include="InjectionPolicy.cs" />
+    <Compile Include="Pipeline\ParameterCollection.cs" />
+    <Compile Include="Policies\InjectionPolicy.cs" />
+    <Compile Include="PolicyDefinition.cs" />
     <Compile Include="PolicyInjector.cs" />
-    <Compile Include="PolicySet.cs" />
+    <Compile Include="Policies\PolicySet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RemotingInterception\InterceptingRealProxy.cs" />
-    <Compile Include="RemotingInterception\RemotingInputParameterCollection.cs" />
-    <Compile Include="RemotingInterception\RemotingMethodInvocation.cs" />
-    <Compile Include="RemotingInterception\RemotingMethodReturn.cs" />
-    <Compile Include="RemotingInterception\RemotingOutputParameterCollection.cs" />
-    <Compile Include="RemotingInterception\RemotingPolicyInjector.cs" />
-    <Compile Include="RuleDrivenPolicy.cs" />
-    <Compile Include="TagAttribute.cs" />
+    <Compile Include="TransparentProxyInterception\InterceptingRealProxy.cs" />
+    <Compile Include="TransparentProxyInterception\TransparentProxyInputParameterCollection.cs" />
+    <Compile Include="TransparentProxyInterception\TransparentProxyMethodInvocation.cs" />
+    <Compile Include="TransparentProxyInterception\TransparentProxyMethodReturn.cs" />
+    <Compile Include="TransparentProxyInterception\TransparentProxyOutputParameterCollection.cs" />
+    <Compile Include="TransparentProxyInterception\TransparentProxyPolicyInjector.cs" />
+    <Compile Include="Policies\RuleDrivenPolicy.cs" />
+    <Compile Include="MatchingRules\TagAttribute.cs" />
     <Compile Include="Utilities\Glob.cs" />
     <Compile Include="Utilities\ReflectionHelper.cs" />
+    <Compile Include="VirtualMethodInterception\InterceptingClassGenerator.cs" />
+    <Compile Include="VirtualMethodInterception\MethodOverride.cs" />
+    <Compile Include="VirtualMethodInterception\VirtualMethodInvocation.cs" />
+    <Compile Include="VirtualMethodInterception\VirtualMethodReturn.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ObjectBuilder\ObjectBuilder.csproj">

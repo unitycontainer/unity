@@ -93,6 +93,15 @@ namespace Microsoft.Practices.Unity.Tests
             IDictionary<string, string> result = container.Resolve<IDictionary<string, string>>();
         }
 
+        [TestMethod]
+        public void CanFigureGenericDictionaryForInjectionUsingRegisterType()
+        {
+            IUnityContainer container = new UnityContainer()
+                .RegisterType(typeof(IDictionary<,>), typeof(Dictionary<,>),
+                    new InjectionConstructor());
+
+            IDictionary<string, string> result = container.Resolve<IDictionary<string, string>>();
+        }
         internal interface IBasicInterface
         { 
         }

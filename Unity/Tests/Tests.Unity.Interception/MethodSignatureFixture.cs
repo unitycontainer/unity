@@ -72,7 +72,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
         SignatureTestTarget GetTarget()
         {
-            RemotingPolicyInjector factory = new RemotingPolicyInjector();
+            TransparentProxyPolicyInjector factory = new TransparentProxyPolicyInjector();
             PolicySet policySet = GetPolicies();
             return factory.Wrap<SignatureTestTarget>(new SignatureTestTarget(), policySet, container);
         }

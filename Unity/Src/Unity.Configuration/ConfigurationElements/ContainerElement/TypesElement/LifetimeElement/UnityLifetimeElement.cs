@@ -61,12 +61,12 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             get
             {
-                if(string.IsNullOrEmpty(Value) && string.IsNullOrEmpty(TypeConverterName))
+                if (string.IsNullOrEmpty(Value) && string.IsNullOrEmpty(TypeConverterName))
                 {
                     return null;
                 }
 
-                if(!string.IsNullOrEmpty(TypeConverterName))
+                if (!string.IsNullOrEmpty(TypeConverterName))
                 {
                     Type converterType = TypeResolver.ResolveType(TypeConverterName);
                     return (TypeConverter)Activator.CreateInstance(converterType);
@@ -94,11 +94,27 @@ namespace Microsoft.Practices.Unity.Configuration
             {
                 if (!string.IsNullOrEmpty(TypeName))
                 {
-                    return (LifetimeManager) Activator.CreateInstance(Type);
+                    return (LifetimeManager)Activator.CreateInstance(Type);
                 }
                 return null;
             }
             return (LifetimeManager)converter.ConvertFrom(Value);
+        }
+
+
+        /// <summary>
+        /// Indicates whether the configuration element has information.
+        /// </summary>
+        /// <value>
+        /// <see langword="true"/> if the configuration element has information, 
+        /// otherwise <see langword="false"/>.
+        /// </value>
+        public bool HasData
+        {
+            get
+            {
+                return !(string.IsNullOrEmpty(this.TypeName) && string.IsNullOrEmpty(this.TypeConverterName));
+            }
         }
     }
 }

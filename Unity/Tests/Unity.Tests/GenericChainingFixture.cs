@@ -58,31 +58,40 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
+        public void CanChainGenericTypesViaRegisterTypeMethod()
+        {
+            IUnityContainer container = new UnityContainer()
+                .RegisterType(typeof(ICommand<>), typeof(LoggingCommand<>),
+                    new InjectionConstructor(new ResolvedParameter(typeof(ICommand<>), "concrete")))
+                .RegisterType(typeof(ICommand<>), typeof(ConcreteCommand<>), "concrete");
+
+            ICommand<User> cmd = container.Resolve<ICommand<User>>();
+            LoggingCommand<User> logCmd = (LoggingCommand<User>)cmd;
+
+            Assert.IsNotNull(logCmd.Inner);
+            Assert.IsInstanceOfType(logCmd.Inner, typeof(ConcreteCommand<User>));
+        }
+
+        [TestMethod]
         public void CanConfigureGenericMethodInjectionInContainer()
         {
             IUnityContainer container = new UnityContainer()
-                .RegisterType(typeof(ICommand<>), typeof(LoggingCommand<>))
+                .RegisterType(typeof(ICommand<>), typeof(LoggingCommand<>),
+                    new InjectionConstructor(new ResolvedParameter(typeof(ICommand<>), "concrete")),
+                    new InjectionMethod("ChainedExecute", new ResolvedParameter(typeof(ICommand<>), "inner")))
                 .RegisterType(typeof(ICommand<>), typeof(ConcreteCommand<>), "concrete")
                 .RegisterType(typeof(ICommand<>), typeof(ConcreteCommand<>), "inner");
-
-            container.Configure<InjectedMembers>()
-                .ConfigureInjectionFor(typeof(LoggingCommand<>),
-                    new InjectionConstructor(new ResolvedParameter(typeof(ICommand<>), "concrete")),
-                    new InjectionMethod("ChainedExecute", new ResolvedParameter(typeof(ICommand<>), "inner")));
         }
 
         [TestMethod]
         public void ConfiguredGenericMethodInjectionIsCalled()
         {
             IUnityContainer container = new UnityContainer()
-                .RegisterType(typeof(ICommand<>), typeof(LoggingCommand<>))
+                .RegisterType(typeof(ICommand<>), typeof(LoggingCommand<>),
+                    new InjectionConstructor(new ResolvedParameter(typeof(ICommand<>), "concrete")),
+                    new InjectionMethod("ChainedExecute", new ResolvedParameter(typeof(ICommand<>), "inner")))
                 .RegisterType(typeof(ICommand<>), typeof(ConcreteCommand<>), "concrete")
                 .RegisterType(typeof(ICommand<>), typeof(ConcreteCommand<>), "inner");
-
-            container.Configure<InjectedMembers>()
-                .ConfigureInjectionFor(typeof(LoggingCommand<>),
-                    new InjectionConstructor(new ResolvedParameter(typeof(ICommand<>), "concrete")),
-                    new InjectionMethod("ChainedExecute", new ResolvedParameter(typeof(ICommand<>), "inner")));
 
             ICommand<Account> result = container.Resolve<ICommand<Account>>();
             LoggingCommand<Account> lc = (LoggingCommand<Account>)result;

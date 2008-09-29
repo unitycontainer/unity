@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TestSupport.Unity;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 {

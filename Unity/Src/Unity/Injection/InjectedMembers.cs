@@ -75,6 +75,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>This extension object.</returns>
         public InjectedMembers ConfigureInjectionFor(Type typeToInject, string name, params InjectionMember[] injectionMembers)
         {
+            Guard.ArgumentNotNull(typeToInject, "typeToInject");
             ClearExistingBuildPlan(typeToInject, name);
 
             foreach(InjectionMember member in injectionMembers)

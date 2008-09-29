@@ -32,7 +32,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [TestMethod]
         public void HandlersCanChangeInputsBeforeTargetIsCalled()
         {
-            RemotingPolicyInjector factory = new RemotingPolicyInjector();
+            TransparentProxyPolicyInjector factory = new TransparentProxyPolicyInjector();
             PolicySet policies = GetPolicies();
 
             CanChangeParametersTarget target
@@ -46,7 +46,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [TestMethod]
         public void HandlersCanChangeOutputsAfterTargetReturns()
         {
-            RemotingPolicyInjector factory = new RemotingPolicyInjector();
+            TransparentProxyPolicyInjector factory = new TransparentProxyPolicyInjector();
             PolicySet policies = GetPolicies();
 
             CanChangeParametersTarget target 

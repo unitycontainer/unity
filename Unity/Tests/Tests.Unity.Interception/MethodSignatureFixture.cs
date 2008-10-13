@@ -72,9 +72,18 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
         SignatureTestTarget GetTarget()
         {
-            TransparentProxyPolicyInjector factory = new TransparentProxyPolicyInjector();
+            TransparentProxyInterceptor interceptor = new TransparentProxyInterceptor();
             PolicySet policySet = GetPolicies();
-            return factory.Wrap<SignatureTestTarget>(new SignatureTestTarget(), policySet, container);
+            SignatureTestTarget target = new SignatureTestTarget();
+            IInterceptingProxy proxy = interceptor.CreateProxy(typeof (SignatureTestTarget), target);
+
+            foreach(MethodImplementationInfo method in interceptor.GetInterceptableMethods(typeof(SignatureTestTarget), typeof(SignatureTestTarget)))
+            {
+                HandlerPipeline pipeline = new HandlerPipeline(
+                    policySet.GetHandlersFor(method, container));
+                proxy.SetPipeline(method.ImplementationMethodInfo, pipeline);
+            }
+            return (SignatureTestTarget) proxy;
         }
 
         PolicySet GetPolicies()

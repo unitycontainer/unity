@@ -66,7 +66,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
 
             Assert.AreEqual(3, section.Containers.Count);
             string[] expectedNames = { "one", "two", "three" };
-            foreach(string name in expectedNames)
+            foreach (string name in expectedNames)
             {
                 Assert.IsNotNull(section.Containers[name]);
             }
@@ -148,7 +148,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         public void ContainerGeneratesExpectedConfiguration()
         {
             TestForExpectedActions("UnnamedContainers", Sequence.Collect(
-                                                            ConfigurationActionRecord.RegisterAction(typeof (ILogger), typeof (SpecialLogger), null, new ContainerControlledLifetimeManager())
+                                                            ConfigurationActionRecord.RegisterAction(typeof(ILogger), typeof(SpecialLogger), null, new ContainerControlledLifetimeManager())
                                                             ));
         }
 
@@ -158,7 +158,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         {
             TestForExpectedActions("ContainerExtensions", Sequence.Collect(
                                                               ConfigurationActionRecord.AddExtensionAction(typeof(MockContainerExtension)),
-                                                              ConfigurationActionRecord.RegisterAction(typeof(ILogger),typeof(SpecialLogger), null, new ContainerControlledLifetimeManager())
+                                                              ConfigurationActionRecord.RegisterAction(typeof(ILogger), typeof(SpecialLogger), null, new ContainerControlledLifetimeManager())
                                                               ));
         }
 
@@ -166,8 +166,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [DeploymentItem("RegisteringOneInstance.config")]
         public void CanAddDefaultStringInstanceViaConfiguration()
         {
-            TestForExpectedActions("RegisteringOneInstance", 
-                                   Sequence.Collect( 
+            TestForExpectedActions("RegisteringOneInstance",
+                                   Sequence.Collect(
                                        ConfigurationActionRecord.RegisterInstanceAction(typeof(string), "database", "Northwind", new ContainerControlledLifetimeManager())
                                        ));
         }
@@ -189,6 +189,10 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
                                        ConfigurationActionRecord.RegisterInstanceAction(typeof(int),
                                                                                         "backwards",
                                                                                         -23,
+                                                                                        new ContainerControlledLifetimeManager()),
+                                       ConfigurationActionRecord.RegisterInstanceAction(typeof(int),
+                                                                                        "forward",
+                                                                                        23,
                                                                                         new ContainerControlledLifetimeManager())));
         }
 

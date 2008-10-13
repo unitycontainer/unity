@@ -12,9 +12,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.InterceptionExtension.Properties;
 using Microsoft.Practices.Unity.ObjectBuilder;
-using Microsoft.Practices.Unity.Utility;
+using Guard=Microsoft.Practices.Unity.Utility.Guard;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -24,25 +25,21 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// be used to do it, and also provides a convenient set of methods for
     /// configuring injection for <see cref="RuleDrivenPolicy"/> instances.
     /// </summary>
-    /// <seealso cref="O:Interception.SetDefaultInjectorFor"/>
-    /// <seealso cref="O:Interception.SetInjectorFor"/>
+    /// <seealso cref="O:Interception.SetDefaultInterceptorFor"/>
+    /// <seealso cref="O:Interception.SetInterceptorFor"/>
     /// <seealso cref="Interception.AddPolicy"/>
     public class Interception : UnityContainerExtension
     {
         /// <summary>
         /// Initial the container with this extension's functionality.
         /// </summary>
-        /// <remarks>
-        /// This extension adds the <see cref="TransparentProxyInterceptionStrategy"/> to the
-        /// <see cref="UnityBuildStage.Setup"/> stage.
-        /// </remarks>
         protected override void Initialize()
         {
             // The TransparentProxyInterceptionStrategy is added to the Setup (first) stage.
             // This means that instances will be intercepted after type mapping and lifetime management
             // have taken place.
-            Context.Strategies
-                .AddNew<TransparentProxyInterceptionStrategy>(UnityBuildStage.Setup);
+            Context.Strategies.AddNew<InstanceInterceptionStrategy>(UnityBuildStage.Setup);
+            Context.Strategies.AddNew<TypeInterceptionStrategy>(UnityBuildStage.PreCreation);
             Context.Container
                 .RegisterInstance<InjectionPolicy>(
                     typeof(AttributeDrivenPolicy).AssemblyQualifiedName,
@@ -50,92 +47,169 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         }
 
         /// <summary>
-        /// API to configure the default interception settings for a type.
+        /// API to configure interception for a type.
         /// </summary>
-        /// <typeparam name="TTypeToIntercept">Type the interception is being configured for.</typeparam>
-        /// <param name="policyInjector">The injector to use by default.</param>
+        /// <param name="typeToIntercept">Type to intercept.</param>
+        /// <param name="name">Name type is registered under.</param>
+        /// <param name="interceptor">Interceptor to use.</param>
         /// <returns>This extension object.</returns>
-        public Interception SetDefaultInjectorFor<TTypeToIntercept>(PolicyInjector policyInjector)
+        public Interception SetInterceptorFor(Type typeToIntercept, string name, ITypeInterceptor interceptor)
         {
-            return SetDefaultInjectorFor(typeof(TTypeToIntercept), policyInjector);
-        }
+            NamedTypeBuildKey key = new NamedTypeBuildKey(typeToIntercept, name);
+            TypeInterceptionPolicy policy = new TypeInterceptionPolicy(interceptor);
 
-        /// <summary>
-        /// API to configure the default interception settings for a type.
-        /// </summary>
-        /// <param name="typeToIntercept">Type the interception is being configured for.</param>
-        /// <param name="policyInjector">The injector to use by default.</param>
-        /// <returns>This extension object.</returns>
-        public Interception SetDefaultInjectorFor(Type typeToIntercept, PolicyInjector policyInjector)
-        {
-            Guard.ArgumentNotNull(typeToIntercept, "typeToIntercept");
-            Guard.ArgumentNotNull(policyInjector, "policyInjector");
-            GuardTypeInterceptable(typeToIntercept, policyInjector);
-
-            this.Context.Policies
-                .Set<IInterceptionPolicy>(new InterceptionPolicy(policyInjector), typeToIntercept);
-
+            Context.Policies.Set<ITypeInterceptionPolicy>(policy, key);
             return this;
         }
 
         /// <summary>
-        /// API to configure interception settings for an unnamed instance of a particular type.
+        /// API to configure interception for a type.
         /// </summary>
-        /// <typeparam name="TTypeToIntercept">Type the interception is being configured for.</typeparam>
-        /// <param name="policyInjector">The injector to use when intercepting the instance.</param>
+        /// <param name="typeToIntercept">Type to intercept.</param>
+        /// <param name="interceptor">Interceptor to use.</param>
         /// <returns>This extension object.</returns>
-        public Interception SetInjectorFor<TTypeToIntercept>(PolicyInjector policyInjector)
+        public Interception SetInterceptorFor(Type typeToIntercept, ITypeInterceptor interceptor)
         {
-            return SetInjectorFor<TTypeToIntercept>(null, policyInjector);
+            return SetInterceptorFor(typeToIntercept, null, interceptor);
         }
 
         /// <summary>
-        /// API to configure interception settings for a named instance of a particular type.
+        /// API to configure interception for a type.
         /// </summary>
-        /// <typeparam name="TTypeToIntercept">Type the interception is being configured for.</typeparam>
-        /// <param name="name">Name of the instance to configure interception for.</param>
-        /// <param name="policyInjector">The injector to use when intercepting the instance.</param>
+        /// <typeparam name="T">Type to intercept</typeparam>
+        /// <param name="name">Name type is registered under.</param>
+        /// <param name="interceptor">Interceptor object to use.</param>
         /// <returns>This extension object.</returns>
-        public Interception SetInjectorFor<TTypeToIntercept>(string name, PolicyInjector policyInjector)
+        public Interception SetInterceptorFor<T>(string name, ITypeInterceptor interceptor)
         {
-            return SetInjectorFor(typeof(TTypeToIntercept), name, policyInjector);
+            return SetInterceptorFor(typeof (T), name, interceptor);
         }
 
         /// <summary>
-        /// API to configure interception settings for an unnamed instance of a particular type.
+        /// API to configure interception for a type.
         /// </summary>
-        /// <param name="typeToIntercept">Type the interception is being configured for.</param>
-        /// <param name="policyInjector">The injector to use when intercepting the instance.</param>
+        /// <typeparam name="T">Type to intercept</typeparam>
+        /// <param name="interceptor">Interceptor object to use.</param>
         /// <returns>This extension object.</returns>
-        public Interception SetInjectorFor(Type typeToIntercept, PolicyInjector policyInjector)
+        public Interception SetInterceptorFor<T>(ITypeInterceptor interceptor)
         {
-            return SetInjectorFor(typeToIntercept, null, policyInjector);
+            return SetInterceptorFor(typeof(T), null, interceptor);
         }
-
+        
         /// <summary>
-        /// API to configure interception settings for a named instance of a particular type.
+        /// API to configure interception for a type.
         /// </summary>
-        /// <param name="typeToIntercept">Type the interception is being configured for.</param>
-        /// <param name="name">Name of the instance to configure interception for.</param>
-        /// <param name="policyInjector">The injector to use when intercepting the instance.</param>
+        /// <param name="typeToIntercept">Type to intercept.</param>
+        /// <param name="name">Name type is registered under.</param>
+        /// <param name="interceptor">Instance interceptor to use.</param>
         /// <returns>This extension object.</returns>
-        public Interception SetInjectorFor(Type typeToIntercept, string name, PolicyInjector policyInjector)
+        public Interception SetInterceptorFor(Type typeToIntercept, string name, IInstanceInterceptor interceptor)
         {
             Guard.ArgumentNotNull(typeToIntercept, "typeToIntercept");
-            Guard.ArgumentNotNull(policyInjector, "policyInjector");
-            GuardTypeInterceptable(typeToIntercept, policyInjector);
+            Guard.ArgumentNotNull(interceptor, "interceptor");
+            GuardTypeInterceptable(typeToIntercept, interceptor);
 
-            this.Context.Policies
-                .Set<IInterceptionPolicy>(
-                    new InterceptionPolicy(policyInjector),
-                    new Microsoft.Practices.ObjectBuilder2.NamedTypeBuildKey(typeToIntercept, name));
 
+            NamedTypeBuildKey key = new NamedTypeBuildKey(typeToIntercept, name);
+            InstanceInterceptionPolicy policy = new InstanceInterceptionPolicy(interceptor);
+
+            Context.Policies.Set<IInstanceInterceptionPolicy>(policy, key);
             return this;
         }
 
-        private static void GuardTypeInterceptable(Type typeToIntercept, PolicyInjector policyInjector)
+        /// <summary>
+        /// Set the interceptor for a type, regardless of what name is used to resolve the instances.
+        /// </summary>
+        /// <param name="typeToIntercept">Type to intercept</param>
+        /// <param name="interceptor">Interceptor instance.</param>
+        /// <returns>This extension object.</returns>
+        public Interception SetDefaultInterceptorFor(Type typeToIntercept, ITypeInterceptor interceptor)
         {
-            if (!policyInjector.TypeSupportsInterception(typeToIntercept))
+            Guard.ArgumentNotNull(typeToIntercept, "typeToIntercept");
+            Guard.ArgumentNotNull(interceptor, "interceptor");
+            GuardTypeInterceptable(typeToIntercept, interceptor);
+
+            Context.Policies.Set<ITypeInterceptionPolicy>(new TypeInterceptionPolicy(interceptor), typeToIntercept);
+            return this;
+        }
+
+        /// <summary>
+        /// Set the interceptor for a type, regardless of what name is used to resolve the instances.
+        /// </summary>
+        /// <typeparam name="TTypeToIntercept">Type to intercept</typeparam>
+        /// <param name="interceptor">Interceptor instance.</param>
+        /// <returns>This extension object.</returns>
+        public Interception SetDefaultInterceptorFor<TTypeToIntercept>(ITypeInterceptor interceptor)
+        {
+            return SetDefaultInterceptorFor(typeof (TTypeToIntercept), interceptor);
+        }
+
+        /// <summary>
+        /// API to configure interception for a type.
+        /// </summary>
+        /// <param name="typeToIntercept">Type to intercept.</param>
+        /// <param name="interceptor">Instance interceptor to use.</param>
+        /// <returns>This extension object.</returns>
+        public Interception SetInterceptorFor(Type typeToIntercept, IInstanceInterceptor interceptor)
+        {
+            return SetInterceptorFor(typeToIntercept, null, interceptor);
+        }
+
+        
+        /// <summary>
+        /// API to configure interception for a type.
+        /// </summary>
+        /// <typeparam name="T">Type to intercept.</typeparam>
+        /// <param name="name">Name type is registered under.</param>
+        /// <param name="interceptor">Instance interceptor to use.</param>
+        /// <returns>This extension object.</returns>
+        public Interception SetInterceptorFor<T>(string name, IInstanceInterceptor interceptor)
+        {
+            return SetInterceptorFor(typeof (T), name, interceptor);
+        }
+
+        /// <summary>
+        /// API to configure interception for a type.
+        /// </summary>
+        /// <typeparam name="T">Type to intercept.</typeparam>
+        /// <param name="interceptor">Instance interceptor to use.</param>
+        /// <returns>This extension object.</returns>
+        public Interception SetInterceptorFor<T>(IInstanceInterceptor interceptor)
+        {
+            return SetInterceptorFor(typeof(T), null, interceptor);
+        }
+
+
+        /// <summary>
+        /// API to configure the default interception settings for a type.
+        /// </summary>
+        /// <param name="typeToIntercept">Type the interception is being configured for.</param>
+        /// <param name="interceptor">The interceptor to use by default.</param>
+        /// <returns>This extension object.</returns>
+        public Interception SetDefaultInterceptorFor(Type typeToIntercept, IInstanceInterceptor interceptor)
+        {
+            Guard.ArgumentNotNull(typeToIntercept, "typeToIntercept");
+            Guard.ArgumentNotNull(interceptor, "interceptor");
+            GuardTypeInterceptable(typeToIntercept, interceptor);
+
+            Context.Policies.Set<IInstanceInterceptionPolicy>(new InstanceInterceptionPolicy(interceptor), typeToIntercept);
+            return this;
+        }
+
+        /// <summary>
+        /// API to configure the default interception settings for a type.
+        /// </summary>
+        /// <typeparam name="TTypeToIntercept">Type the interception is being configured for.</typeparam>
+        /// <param name="interceptor">The interceptor to use by default.</param>
+        /// <returns>This extension object.</returns>
+        public Interception SetDefaultInterceptorFor<TTypeToIntercept>(IInstanceInterceptor interceptor)
+        {
+            return SetDefaultInterceptorFor(typeof (TTypeToIntercept), interceptor);
+        }
+
+        private static void GuardTypeInterceptable(Type typeToIntercept, IInterceptor interceptor)
+        {
+            if (!interceptor.CanIntercept(typeToIntercept))
             {
                 throw new ArgumentException(
                     string.Format(

@@ -34,7 +34,7 @@
   <ItemGroup>
     <Compile Include="ConfigurationFixtureBase.cs" />
     <Compile Include="ConfiguringInterceptionFixture.cs" />
-    <Compile Include="ConfiguringInjectorsFixture.cs" />
+    <Compile Include="ConfiguringInterceptorsFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,7 +64,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Injectors.config">
+    <None Include="Interceptors.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Interception.config">

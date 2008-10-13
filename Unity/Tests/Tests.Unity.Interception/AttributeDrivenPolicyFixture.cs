@@ -21,37 +21,41 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
     [TestClass]
     public class AttributeDrivenPolicyFixture
     {
-        MethodInfo nothingSpecialMethod;
-        MethodInfo doSomethingMethod;
-        MethodInfo getCriticalInfoMethod;
-        MethodInfo mustBeFastMethod;
-        MethodInfo getNameMethod;
-        MethodInfo hasAttributeMethod;
-        MethodInfo doesntHaveAttributeMethod;
-        MethodInfo aNewMethod;
+        MethodImplementationInfo nothingSpecialMethod;
+        MethodImplementationInfo doSomethingMethod;
+        MethodImplementationInfo getCriticalInfoMethod;
+        MethodImplementationInfo mustBeFastMethod;
+        MethodImplementationInfo getNameMethod;
+        MethodImplementationInfo hasAttributeMethod;
+        MethodImplementationInfo doesntHaveAttributeMethod;
+        MethodImplementationInfo aNewMethod;
 
         [TestInitialize]
         public void Setup()
         {
-            Type targetType = typeof(AttributeTestTarget);
-            nothingSpecialMethod = targetType.GetMethod("NothingSpecial");
-            doSomethingMethod = targetType.GetMethod("DoSomething");
-            getCriticalInfoMethod = targetType.GetMethod("GetCriticalInformation");
-            mustBeFastMethod = targetType.GetMethod("MustBeFast");
-            getNameMethod = targetType.GetProperty("Name").GetGetMethod();
-            hasAttributeMethod = typeof(SecondAttributeTestTarget).GetMethod("HasAttribute");
-            doesntHaveAttributeMethod = typeof(SecondAttributeTestTarget).GetMethod("DoesntHaveAttribute");
-            aNewMethod = typeof(DerivedAttributeTestTarget).GetMethod("ANewMethod");
+            nothingSpecialMethod = MakeMethodImpl<AttributeTestTarget>("NothingSpecial");
+            doSomethingMethod = MakeMethodImpl<AttributeTestTarget>("DoSomething");
+            getCriticalInfoMethod = MakeMethodImpl<AttributeTestTarget>("GetCriticalInformation");
+            mustBeFastMethod = MakeMethodImpl<AttributeTestTarget>("MustBeFast");
+            getNameMethod = new MethodImplementationInfo(null, typeof(AttributeTestTarget).GetProperty("Name").GetGetMethod());
+            hasAttributeMethod = MakeMethodImpl<SecondAttributeTestTarget>("HasAttribute");
+            doesntHaveAttributeMethod = MakeMethodImpl<SecondAttributeTestTarget>("DoesntHaveAttribute");
+            aNewMethod = MakeMethodImpl<DerivedAttributeTestTarget>("ANewMethod");
+        }
+
+        private static MethodImplementationInfo MakeMethodImpl<T>(string name)
+        {
+            return new MethodImplementationInfo(null, typeof (T).GetMethod(name));
         }
 
         [TestMethod]
         public void MatchingRuleMatchesForAllMethodsInAttributeTestTarget()
         {
             IMatchingRule rule = new AttributeDrivenPolicyMatchingRule();
-            Assert.IsTrue(rule.Matches(nothingSpecialMethod));
-            Assert.IsTrue(rule.Matches(doSomethingMethod));
-            Assert.IsTrue(rule.Matches(getCriticalInfoMethod));
-            Assert.IsTrue(rule.Matches(mustBeFastMethod));
+            Assert.IsTrue(rule.Matches(nothingSpecialMethod.ImplementationMethodInfo));
+            Assert.IsTrue(rule.Matches(doSomethingMethod.ImplementationMethodInfo));
+            Assert.IsTrue(rule.Matches(getCriticalInfoMethod.ImplementationMethodInfo));
+            Assert.IsTrue(rule.Matches(mustBeFastMethod.ImplementationMethodInfo));
         }
 
         [TestMethod]
@@ -59,26 +63,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         {
             IMatchingRule rule = new AttributeDrivenPolicyMatchingRule();
 
-            Assert.IsTrue(rule.Matches(hasAttributeMethod));
-            Assert.IsFalse(rule.Matches(doesntHaveAttributeMethod));
+            Assert.IsTrue(rule.Matches(hasAttributeMethod.ImplementationMethodInfo));
+            Assert.IsFalse(rule.Matches(doesntHaveAttributeMethod.ImplementationMethodInfo));
         }
 
         [TestMethod]
         public void ShouldMatchInheritedHandlerAttributes()
         {
             IMatchingRule rule = new AttributeDrivenPolicyMatchingRule();
-            Assert.IsTrue(rule.Matches(aNewMethod));
-        }
-
-        [TestMethod]
-        public void ShouldHaveAttributePolicyApplyToTypesWithAttributes()
-        {
-            AttributeDrivenPolicy policy = new AttributeDrivenPolicy();
-
-            Assert.IsTrue(policy.AppliesTo(typeof(AttributeTestTarget)));
-            Assert.IsTrue(policy.AppliesTo(typeof(SecondAttributeTestTarget)));
-            Assert.IsTrue(policy.AppliesTo(typeof(DerivedAttributeTestTarget)));
-            Assert.IsFalse(policy.AppliesTo(typeof(MockDal)));
+            Assert.IsTrue(rule.Matches(aNewMethod.ImplementationMethodInfo));
         }
 
         [TestMethod]
@@ -167,7 +160,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [TestMethod]
         public void ShouldInheritHandlersFromInterface()
         {
-            MethodInfo getNewsMethod = typeof(NewsService).GetMethod("GetNews");
+            MethodImplementationInfo getNewsMethod = new MethodImplementationInfo(
+                typeof (INewsService).GetMethod("GetNews"),
+                typeof (NewsService).GetMethod("GetNews"));
             AttributeDrivenPolicy policy = new AttributeDrivenPolicy();
             List<ICallHandler> handlers
                 = new List<ICallHandler>(policy.GetHandlersFor(getNewsMethod, new UnityContainer()));

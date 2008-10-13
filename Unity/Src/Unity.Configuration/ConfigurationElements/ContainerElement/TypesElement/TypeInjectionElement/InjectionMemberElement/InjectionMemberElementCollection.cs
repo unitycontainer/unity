@@ -117,7 +117,7 @@ namespace Microsoft.Practices.Unity.Configuration
         protected override object GetElementKey(ConfigurationElement element)
         {
             InjectionMemberElement e = (InjectionMemberElement)element;
-            return e.ElementName + ":" + e.Name;
+            return e.GetElementKey();
         }
     }
 }

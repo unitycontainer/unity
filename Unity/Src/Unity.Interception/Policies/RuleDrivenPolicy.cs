@@ -48,41 +48,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         }
 
         /// <summary>
-        /// Checks to see if this policy contains rules that match members
-        /// of the given type.
-        /// </summary>
-        /// <param name="t">Type to check.</param>
-        /// <returns>true if any of the members of type match the ruleset for this policy, false if not.</returns>
-        protected override bool DoesApplyTo(Type t)
-        {
-            if (AppliesToType(t))
-            {
-                return true;
-            }
-            foreach (Type implementedInterface in t.GetInterfaces())
-            {
-                if (AppliesToType(implementedInterface))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private bool AppliesToType(Type t)
-        {
-            return Array.Exists<MethodBase>(t.GetMethods(),
-                delegate(MethodBase member) { return Matches(member); });
-        }
-
-        /// <summary>
         /// Checks if the rules in this policy match the given member info.
         /// </summary>
         /// <param name="member">MemberInfo to check against.</param>
         /// <returns>true if ruleset matches, false if it does not.</returns>
-        protected override bool DoesMatch(MethodBase member)
+        protected override bool DoesMatch(MethodImplementationInfo member)
         {
-            return ruleSet.Matches(member);
+            bool matchesInterface = member.InterfaceMethodInfo != null ? ruleSet.Matches(member.InterfaceMethodInfo) : false;
+            bool matchesImplementation = ruleSet.Matches(member.ImplementationMethodInfo);
+            return matchesInterface | matchesImplementation;
         }
 
         /// <summary>
@@ -92,9 +66,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="container">The <see cref="IUnityContainer"/> to use when creating handlers,
         /// if necessary.</param>
         /// <returns>Collection of handlers (possibly empty) that apply to this member.</returns>
-        protected override IEnumerable<ICallHandler> DoGetHandlersFor(
-            MethodBase member,
-            IUnityContainer container)
+        protected override IEnumerable<ICallHandler> DoGetHandlersFor(MethodImplementationInfo member, IUnityContainer container)
         {
             if (Matches(member))
             {

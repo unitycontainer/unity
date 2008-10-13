@@ -83,7 +83,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
 
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<Wrappable>("wrappable", new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Wrappable>("wrappable", new TransparentProxyInterceptor());
 
             Wrappable wrappable1 = container.Resolve<Wrappable>("wrappable");
             wrappable1.Method2();
@@ -102,7 +102,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
 
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<Wrappable>("wrappable", new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Wrappable>("wrappable", new TransparentProxyInterceptor());
 
             Wrappable wrappable1 = container.Resolve<Wrappable>("wrappable");
             wrappable1.Method2();
@@ -122,7 +122,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
 
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<Wrappable>("wrappable", new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Wrappable>("wrappable", new TransparentProxyInterceptor());
 
             Wrappable wrappable1 = container.Resolve<Wrappable>("wrappable");
             wrappable1.Method2();
@@ -142,7 +142,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
 
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<Wrappable>("wrappable", new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Wrappable>("wrappable", new TransparentProxyInterceptor());
 
             Wrappable wrappable1 = container.Resolve<Wrappable>("wrappable");
             wrappable1.Method2();

@@ -98,13 +98,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Unity.Interception", 
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Unity.Interception.Configuration", "Tests\Tests.Unity.Interception.Configuration\Tests.Unity.Interception.Configuration.csproj", "{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Interception.Configuration", "Src\Unity.Interception.Configuration\Unity.Interception.Configuration.csproj", "{80F7399F-B221-465F-97C9-4B9FC0E2F67F}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Interception.Configuration", "Src\Unity.Interception.Configuration\Unity.Interception.Configuration.csproj", "{80F7399F-B221-465F-97C9-4B9FC0E2F67F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Unity.Interception.Configuration", "Tests\Tests.Unity.Interception.Configuration\Tests.Unity.Interception.Configuration.csproj", "{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -163,14 +163,14 @@ Global
 		{3FC0084C-6077-4F87-8A51-2F755C83D7C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FC0084C-6077-4F87-8A51-2F755C83D7C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FC0084C-6077-4F87-8A51-2F755C83D7C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

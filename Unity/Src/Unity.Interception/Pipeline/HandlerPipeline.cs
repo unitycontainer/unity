@@ -41,6 +41,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         }
 
         /// <summary>
+        /// Get the number of handlers in this pipeline.
+        /// </summary>
+        public int Count
+        {
+            get { return handlers.Count; }
+        }
+
+        /// <summary>
         /// Execute the pipeline with the given input.
         /// </summary>
         /// <param name="input">Input to the method call.</param>

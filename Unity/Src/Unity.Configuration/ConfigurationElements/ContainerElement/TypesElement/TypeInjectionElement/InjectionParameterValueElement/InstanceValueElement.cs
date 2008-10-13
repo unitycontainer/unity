@@ -59,14 +59,30 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>The created instance</returns>
         public object CreateInstance()
         {
-            if(TypeToCreate == typeof(string))
+            if (TypeToCreate == typeof(string))
             {
                 return Value;
             }
-            using(new TypeConverterManager(TypeToCreate, TypeConverterName, TypeResolver))
+
+            TypeConverter converter = GetTypeConverter(TypeToCreate, TypeConverterName, TypeResolver);
+            return converter.ConvertFromString(Value);
+        }
+
+        private static TypeConverter GetTypeConverter(
+            Type typeToCreate,
+            string typeConverterName,
+            UnityTypeResolver typeResolver)
+        {
+            if (!string.IsNullOrEmpty(typeConverterName))
             {
-                TypeConverter converter = TypeDescriptor.GetConverter(TypeToCreate);
-                return converter.ConvertFromString(Value);
+                // return the type converter override
+                Type converterType = typeResolver.ResolveType(typeConverterName);
+                return (TypeConverter)Activator.CreateInstance(converterType);
+            }
+            else
+            {
+                // return the default type converter
+                return TypeDescriptor.GetConverter(typeToCreate);
             }
         }
 
@@ -79,7 +95,7 @@ namespace Microsoft.Practices.Unity.Configuration
         public override InjectionParameterValue CreateParameterValue(Type targetType)
         {
             Type typeToCreate;
-            if(string.IsNullOrEmpty(TypeName))
+            if (string.IsNullOrEmpty(TypeName))
             {
                 typeToCreate = targetType;
             }
@@ -97,32 +113,6 @@ namespace Microsoft.Practices.Unity.Configuration
         public Type TypeToCreate
         {
             get { return TypeResolver.ResolveWithDefault(TypeName, typeof(string)); }
-        }
-
-        private class TypeConverterManager : IDisposable
-        {
-            private Type targetType;
-            private TypeDescriptionProvider descriptionProvider;
-
-            public TypeConverterManager(Type targetType, string converterTypeName, UnityTypeResolver typeResolver)
-            {
-                this.targetType = targetType;
-                if (!string.IsNullOrEmpty(converterTypeName))
-                {
-                    Type converterType = typeResolver.ResolveType(converterTypeName);
-                    descriptionProvider = TypeDescriptor.AddAttributes(targetType,
-                        new Attribute[] { new TypeConverterAttribute(converterType) });
-                }
-            }
-
-            public void Dispose()
-            {
-                if (descriptionProvider != null)
-                {
-                    TypeDescriptor.RemoveProvider(descriptionProvider, targetType);
-                    descriptionProvider = null;
-                }
-            }
         }
     }
 }

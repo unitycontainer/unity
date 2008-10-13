@@ -89,14 +89,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             return container;
         }
 
-        MethodInfo GetTargetMemberInfo()
+        MethodImplementationInfo GetTargetMemberInfo()
         {
-            return (MethodInfo)(GetType().GetMember("MyTargetMethod")[0]);
+            return 
+                new MethodImplementationInfo( null, (MethodInfo)(GetType().GetMember("MyTargetMethod")[0]));
         }
 
         IMethodInvocation MakeCallMessage()
         {
-            FakeMethodCallMessage msg = new FakeMethodCallMessage(GetTargetMemberInfo(), 15);
+            FakeMethodCallMessage msg = new FakeMethodCallMessage(GetTargetMemberInfo().ImplementationMethodInfo, 15);
             IMethodInvocation invocation = new TransparentProxyMethodInvocation(msg, null);
             return invocation;
         }

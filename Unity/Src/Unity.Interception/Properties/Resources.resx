@@ -124,4 +124,8 @@
     <value>The type {0} is not interceptable.</value>
     <comment>{0} = Name of the type that caused the exception</comment>
   </data>
+  <data name="InterfaceMethodNotImplemented" xml:space="preserve">
+    <value>Could not find the implementation of interface method {0}.{1} in type {2}</value>
+    <comment>{0} = interface name, {1} = method name, {2} = implementing type name.</comment>
+  </data>
 </root>

@@ -8,7 +8,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// by <see cref="MethodBase"/>. Returns an empty pipeline if a
     /// MethodBase is requested that isn't in the dictionary.
     /// </summary>
-    public class PipelineManager : IHandlerPipelineManager
+    public class PipelineManager
     {
         private readonly Dictionary<int, HandlerPipeline> pipelines =
             new Dictionary<int, HandlerPipeline>();

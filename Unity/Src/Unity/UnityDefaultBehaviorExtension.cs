@@ -29,7 +29,7 @@ namespace Microsoft.Practices.Unity
             Context.Registering += OnRegister;
             Context.RegisteringInstance += OnRegisterInstance;
 
-            Container.RegisterInstance<IUnityContainer>(Container, new ExternallyControlledLifetimeManager());
+            Container.RegisterInstance<IUnityContainer>(Container, new ContainerLifetimeManager());
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Microsoft.Practices.Unity
             Context.RegisterNamedType(e.TypeFrom, e.Name);
             if (e.TypeTo != null)
             {
-                if(e.TypeFrom.IsGenericTypeDefinition && e.TypeTo.IsGenericTypeDefinition)
+                if (e.TypeFrom.IsGenericTypeDefinition && e.TypeTo.IsGenericTypeDefinition)
                 {
                     Context.Policies.Set<IBuildKeyMappingPolicy>(
                         new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(e.TypeTo, e.Name)),
@@ -59,7 +59,7 @@ namespace Microsoft.Practices.Unity
                         new NamedTypeBuildKey(e.TypeFrom, e.Name));
                 }
             }
-            if(e.LifetimeManager != null)
+            if (e.LifetimeManager != null)
             {
                 SetLifetimeManager(e.TypeTo ?? e.TypeFrom, e.Name, e.LifetimeManager);
             }
@@ -76,7 +76,7 @@ namespace Microsoft.Practices.Unity
 
         private void SetLifetimeManager(Type lifetimeType, string name, LifetimeManager lifetimeManager)
         {
-            if(lifetimeManager.InUse)
+            if (lifetimeManager.InUse)
             {
                 throw new InvalidOperationException(Resources.LifetimeManagerInUse);
             }
@@ -92,10 +92,30 @@ namespace Microsoft.Practices.Unity
                 lifetimeManager.InUse = true;
                 Context.Policies.Set<ILifetimePolicy>(lifetimeManager,
                     new NamedTypeBuildKey(lifetimeType, name));
-                if(lifetimeManager is IDisposable)
+                if (lifetimeManager is IDisposable)
                 {
                     Context.Lifetime.Add(lifetimeManager);
                 }
+            }
+        }
+
+        // Works like the ExternallyControlledLifetimeManager, but uses regular instead of weak references
+        private class ContainerLifetimeManager : LifetimeManager
+        {
+            private object value;
+
+            public override object GetValue()
+            {
+                return value;
+            }
+
+            public override void SetValue(object newValue)
+            {
+                value = newValue;
+            }
+
+            public override void RemoveValue()
+            {
             }
         }
     }

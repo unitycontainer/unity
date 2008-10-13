@@ -9,6 +9,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System.Collections.Generic;
 using System.Configuration;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.Practices.Unity.TestSupport;
@@ -66,7 +67,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
 
             Assert.AreEqual("AdventureWorks", obj.ConnectionString);
             Assert.IsInstanceOfType(obj.Logger, typeof(MockLogger));
-            
+
         }
 
         [TestMethod]
@@ -103,6 +104,33 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
 
         [TestMethod]
         [DeploymentItem("ConfiguringInjectionConstructor.config")]
+        public void CanInjectSameMethodSeveralTimes()
+        {
+            ObjectWithOverloadedInjectionMethod obj =
+                ResolveConfiguredObject<ObjectWithOverloadedInjectionMethod>("method-multi");
+
+            Assert.AreEqual(3, obj.initializationParameters.Count);
+            Assert.AreEqual("contoso", obj.initializationParameters[0]);
+            Assert.AreEqual("northwind", obj.initializationParameters[1]);
+            Assert.AreEqual("AdventureWorks", obj.initializationParameters[2]);
+        }
+
+        [TestMethod]
+        [DeploymentItem("ConfiguringInjectionConstructor.config")]
+        public void CanInjectOverloads()
+        {
+            ObjectWithOverloadedInjectionMethod obj =
+                ResolveConfiguredObject<ObjectWithOverloadedInjectionMethod>("method-overload");
+
+            Assert.AreEqual(4, obj.initializationParameters.Count);
+            Assert.AreEqual("contoso", (string)obj.initializationParameters[0]);
+            Assert.AreEqual(14, (int)obj.initializationParameters[1]);
+            Assert.AreEqual("AdventureWorks", (string)obj.initializationParameters[2]);
+            Assert.AreEqual(42, (int)obj.initializationParameters[3]);
+        }
+
+        [TestMethod]
+        [DeploymentItem("ConfiguringInjectionConstructor.config")]
         public void CanConfigureInjectionForNamedInstances()
         {
             MockDatabase db =
@@ -126,6 +154,21 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         protected override string ConfigFileName
         {
             get { return configFileName; }
+        }
+    }
+
+    public class ObjectWithOverloadedInjectionMethod
+    {
+        public List<object> initializationParameters = new List<object>();
+
+        public void Initialize(string connectionString)
+        {
+            initializationParameters.Add(connectionString);
+        }
+
+        public void Initialize(int value)
+        {
+            initializationParameters.Add(value);
         }
     }
 }

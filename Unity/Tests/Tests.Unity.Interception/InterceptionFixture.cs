@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             IUnityContainer container = new UnityContainer();
             container.AddNewExtension<Interception>();
 
-            container.Configure<Interception>().SetInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+            container.Configure<Interception>().SetInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
         }
 
         [TestMethod]
@@ -36,7 +36,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             IUnityContainer container = new UnityContainer();
             container.AddNewExtension<Interception>();
 
-            container.Configure<Interception>().SetInjectorFor<Interface>(new TransparentProxyPolicyInjector());
+            container.Configure<Interception>().SetInterceptorFor<Interface>(new TransparentProxyInterceptor());
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             try
             {
                 container.Configure<Interception>()
-                    .SetInjectorFor<WrappableThroughInterface>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<WrappableThroughInterface>(new TransparentProxyInterceptor());
                 Assert.Fail("Call to SetInjectorFor<T>() should have thrown");
             }
             catch (ArgumentException)
@@ -64,7 +64,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container.AddNewExtension<Interception>();
 
             container.Configure<Interception>()
-                .SetDefaultInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+                .SetDefaultInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
         }
 
         [TestMethod]
@@ -74,7 +74,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container.AddNewExtension<Interception>();
 
             container.Configure<Interception>()
-                .SetDefaultInjectorFor<Interface>(new TransparentProxyPolicyInjector());
+                .SetDefaultInterceptorFor<Interface>(new TransparentProxyInterceptor());
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             try
             {
                 container.Configure<Interception>()
-                    .SetDefaultInjectorFor<WrappableThroughInterface>(new TransparentProxyPolicyInjector());
+                    .SetDefaultInterceptorFor<WrappableThroughInterface>(new TransparentProxyInterceptor());
                 Assert.Fail("Call to SetInjectorFor<T>() should have thrown");
             }
             catch (ArgumentException)
@@ -101,7 +101,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             IUnityContainer container = CreateContainer("CanCreateWrappedObject");
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Wrappable wrappable = container.Resolve<Wrappable>();
             Assert.IsNotNull(wrappable);
@@ -112,7 +112,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public void CanCreateWrappedObjectIfDefaultInterceptionPolicy()
         {
             IUnityContainer container = CreateContainer("CanCreateWrappedObject");
-            container.Configure<Interception>().SetDefaultInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+            container.Configure<Interception>().SetDefaultInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Wrappable wrappable = container.Resolve<Wrappable>();
             Assert.IsNotNull(wrappable);
@@ -123,7 +123,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public void CanCreateNamedWrappedObjectIfDefaultInterceptionPolicy()
         {
             IUnityContainer container = CreateContainer("CanCreateWrappedObject");
-            container.Configure<Interception>().SetDefaultInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+            container.Configure<Interception>().SetDefaultInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Wrappable wrappable = container.Resolve<Wrappable>("foo");
             Assert.IsNotNull(wrappable);
@@ -150,7 +150,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container.RegisterType<Interface, WrappableThroughInterfaceWithAttributes>();
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<Interface>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Interface>(new TransparentProxyInterceptor());
 
             Interface wrappedOverInterface = container.Resolve<Interface>();
             wrappedOverInterface.Method();
@@ -164,7 +164,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             GlobalCountCallHandler.Calls.Clear();
 
             IUnityContainer container = CreateContainer("CanCreateWrappedObject");
-            container.Configure<Interception>().SetInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+            container.Configure<Interception>().SetInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Wrappable wrappable = container.Resolve<Wrappable>();
             wrappable.Method2();
@@ -181,7 +181,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container
                 .RegisterType<Wrappable>(new ContainerControlledLifetimeManager())
                 .Configure<Interception>()
-                    .SetInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Wrappable wrappable = container.Resolve<Wrappable>();
             wrappable.Method2();
@@ -197,7 +197,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             IUnityContainer container = CreateContainer("CanCreateWrappedObject");
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Wrappable wrappable = container.BuildUp<Wrappable>(new Wrappable());
             wrappable.Method2();
@@ -213,7 +213,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             IUnityContainer container = CreateContainer("CanCreateWrappedObject");
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<Wrappable>("wrappable", new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Wrappable>("wrappable", new TransparentProxyInterceptor());
 
             Wrappable wrappable1 = container.Resolve<Wrappable>("wrappable");
             Wrappable wrappable2 = container.Resolve<Wrappable>();
@@ -231,7 +231,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             IUnityContainer container = CreateContainer("CanInterceptCallsToDerivedOfMBRO");
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<DerivedWrappable>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<DerivedWrappable>(new TransparentProxyInterceptor());
 
             DerivedWrappable wrappable = container.Resolve<DerivedWrappable>();
             wrappable.Method2();
@@ -247,7 +247,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             IUnityContainer container = CreateContainer("InterfaceImplementationsOnDerivedClassesAreWrappedMultipleTimes");
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<DerivedWrappable>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<DerivedWrappable>(new TransparentProxyInterceptor());
 
             DerivedWrappable wrappable = container.Resolve<DerivedWrappable>();
             wrappable.Method();
@@ -263,7 +263,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             IUnityContainer container = CreateContainer("CanInterceptCallsToMBROOverInterface");
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Wrappable wrappable = container.Resolve<Wrappable>();
             ((Interface)wrappable).Method();
@@ -280,7 +280,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container
                 .RegisterType<Interface, Wrappable>()
                 .Configure<Interception>()
-                    .SetInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Interface wrappable = container.Resolve<Interface>();
             wrappable.Method();
@@ -297,7 +297,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container
                 .RegisterType<Interface, Wrappable>()
                 .Configure<Interception>()
-                    .SetInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Interface wrappable = container.Resolve<Interface>();
             ((Wrappable)wrappable).Method();
@@ -314,7 +314,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container
                 .RegisterType<Interface, Wrappable>(new ContainerControlledLifetimeManager())
                 .Configure<Interception>()
-                    .SetInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Interface wrappable = container.Resolve<Interface>();
             wrappable.Method();
@@ -334,7 +334,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container
                 .RegisterType<Interface, Wrappable>()
                 .Configure<Interception>()
-                    .SetDefaultInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+                    .SetDefaultInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Interface wrappable = container.Resolve<Interface>();
             wrappable.Method();
@@ -354,7 +354,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container
                 .RegisterType<Interface, Wrappable>()
                 .Configure<Interception>()
-                    .SetDefaultInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+                    .SetDefaultInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Interface wrappable = container.Resolve<Interface>();
             wrappable.Method();
@@ -373,7 +373,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container
                 .RegisterType<Interface, Wrappable>()
                 .Configure<Interception>()
-                    .SetInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Interface wrappable = container.Resolve<Interface>();
             ((InterfaceA)wrappable).MethodA();
@@ -390,7 +390,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container
                 .RegisterType<Interface, WrappableThroughInterface>()
                 .Configure<Interception>()
-                    .SetInjectorFor<Interface>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Interface>(new TransparentProxyInterceptor());
 
             Interface wrappedOverInterface = container.Resolve<Interface>();
             wrappedOverInterface.Method();
@@ -407,7 +407,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container
                 .RegisterType<Interface, WrappableThroughInterface>(new ContainerControlledLifetimeManager())
                 .Configure<Interception>()
-                    .SetInjectorFor<Interface>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Interface>(new TransparentProxyInterceptor());
 
             Interface wrappedOverInterface = container.Resolve<Interface>();
             wrappedOverInterface.Method();
@@ -425,7 +425,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             IUnityContainer container = CreateContainer("CanCreateWrappedObjectOverInterface");
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<Interface>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Interface>(new TransparentProxyInterceptor());
 
             Interface wrappedOverInterface = container.BuildUp<Interface>(new WrappableThroughInterface());
             wrappedOverInterface.Method();
@@ -442,7 +442,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container.RegisterType<Interface, WrappableThroughInterface>();
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<Interface>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Interface>(new TransparentProxyInterceptor());
 
             Interface wrappedOverInterface = container.Resolve<Interface>();
             wrappedOverInterface.Method3();
@@ -459,7 +459,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container.RegisterType<Interface, Wrappable>();
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<Interface>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Interface>(new TransparentProxyInterceptor());
 
             Interface wrapped = container.Resolve<Interface>();
             wrapped.Method3();
@@ -476,7 +476,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container.RegisterType<Interface, WrappableThroughInterface>();
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<Interface>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Interface>(new TransparentProxyInterceptor());
 
             Interface wrapped = container.Resolve<Interface>();
             wrapped.Method3();
@@ -493,7 +493,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container.RegisterType<Interface, WrappableThroughInterface>();
             container
                 .Configure<Interception>()
-                    .SetInjectorFor<Interface>(new TransparentProxyPolicyInjector());
+                    .SetInterceptorFor<Interface>(new TransparentProxyInterceptor());
 
             Interface wrapped = container.Resolve<Interface>();
             ((InterfaceA)wrapped).MethodA();
@@ -542,8 +542,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                         new InjectionProperty("Wrappable"))
                     .Container
                 .Configure<Interception>()
-                    .SetDefaultInjectorFor<WrappableWithProperty>(new TransparentProxyPolicyInjector())
-                    .SetDefaultInjectorFor<Wrappable>(new TransparentProxyPolicyInjector());
+                    .SetDefaultInterceptorFor<WrappableWithProperty>(new TransparentProxyInterceptor())
+                    .SetDefaultInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             WrappableWithProperty instance = container.Resolve<WrappableWithProperty>();
 
@@ -553,6 +553,21 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             instance.Wrappable.Method();
             Assert.AreEqual(2, GlobalCountCallHandler.Calls["parent"]); // method and getter
             Assert.AreEqual(1, GlobalCountCallHandler.Calls["child"]);
+        }
+
+        [TestMethod]
+        public void InstanceInterceptionDoesNotReturnProxyWhenNoHandlerAreConfigured()
+        {
+            IUnityContainer container = new UnityContainer()
+                .RegisterType<IDal, MockDal>()
+                .AddNewExtension<Interception>()
+                .Configure<Interception>()
+                .SetDefaultInterceptorFor<MockDal>(new TransparentProxyInterceptor())
+                .Container;
+
+            IDal dal = container.Resolve<IDal>();
+
+            Assert.IsFalse(dal is IInterceptingProxy);
         }
 
         private IUnityContainer CreateContainer(string globalCallHandlerName)

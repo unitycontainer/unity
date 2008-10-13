@@ -33,33 +33,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         }
 
         /// <summary>
-        /// Checks to see if any policies in this policy set apply to any members of the
-        /// given type.
-        /// </summary>
-        /// <param name="t"><see cref="System.Type"/> to check.</param>
-        /// <returns>true if policies will be applied, false if not.</returns>
-        public bool AppliesTo(Type t)
-        {
-            return GetPoliciesFor(t).Count != 0;
-        }
-
-        /// <summary>
-        /// Returns a new <see cref="PolicySet"/> that contains only the policies
-        /// that apply to the given type.
-        /// </summary>
-        /// <param name="t"><see cref="System.Type"/> to get policies for.</param>
-        /// <returns>New policy set. May be empty.</returns>
-        public PolicySet GetPoliciesFor(Type t)
-        {
-            return CalculatePoliciesForType(t);
-        }
-
-        /// <summary>
         /// Gets the policies that apply to the given member.
         /// </summary>
         /// <param name="member">Member to get policies for.</param>
         /// <returns>Collection of policies that apply to this member.</returns>
-        public IEnumerable<InjectionPolicy> GetPoliciesFor(MethodBase member)
+        public IEnumerable<InjectionPolicy> GetPoliciesFor(MethodImplementationInfo member)
         {
             foreach (InjectionPolicy policy in this)
             {
@@ -76,7 +54,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="member">Member to check.</param>
         /// <returns>Collection of policies that do not apply to <paramref name="member"/>.</returns>
-        public IEnumerable<InjectionPolicy> GetPoliciesNotFor(MethodBase member)
+        public IEnumerable<InjectionPolicy> GetPoliciesNotFor(MethodImplementationInfo member)
         {
             foreach (InjectionPolicy policy in this)
             {
@@ -94,27 +72,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="container">The <see cref="IUnityContainer"/> to use when creating handlers,
         /// if necessary.</param>
         /// <returns>Collection of call handlers for <paramref name="member"/>.</returns>
-        public IEnumerable<ICallHandler> GetHandlersFor(MethodBase member, IUnityContainer container)
+        public IEnumerable<ICallHandler> GetHandlersFor(MethodImplementationInfo member, IUnityContainer container)
         {
             return new List<ICallHandler>(CalculateHandlersFor(this, member, container));
         }
 
-        private PolicySet CalculatePoliciesForType(Type t)
-        {
-            PolicySet result = new PolicySet();
-            foreach (InjectionPolicy policy in this)
-            {
-                if (policy.AppliesTo(t))
-                {
-                    result.Add(policy);
-                }
-            }
-            return result;
-        }
-
         internal static IEnumerable<ICallHandler> CalculateHandlersFor(
-            IEnumerable<InjectionPolicy> policies,
-            MethodBase member,
+            IEnumerable<InjectionPolicy> policies, 
+            MethodImplementationInfo member, 
             IUnityContainer container)
         {
             List<ICallHandler> ordered = new List<ICallHandler>();

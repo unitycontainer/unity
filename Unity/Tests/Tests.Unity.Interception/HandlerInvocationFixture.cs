@@ -32,29 +32,34 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [TestMethod]
         public void HandlersCanChangeInputsBeforeTargetIsCalled()
         {
-            TransparentProxyPolicyInjector factory = new TransparentProxyPolicyInjector();
+            TransparentProxyInterceptor factory = new TransparentProxyInterceptor();
             PolicySet policies = GetPolicies();
 
-            CanChangeParametersTarget target
-                = factory.Wrap<CanChangeParametersTarget>(new CanChangeParametersTarget(), policies, container);
+            CanChangeParametersTarget target = new CanChangeParametersTarget();
+            IInterceptingProxy proxy = factory.CreateProxy(typeof (CanChangeParametersTarget), target);
 
-            Assert.AreEqual(0, target.MostRecentInput);
-            target.DoSomething(2);
-            Assert.AreEqual(4, target.MostRecentInput);
+            ApplyPolicies(factory, proxy, target, policies);
+
+            CanChangeParametersTarget intercepted = (CanChangeParametersTarget) proxy;
+            Assert.AreEqual(0, intercepted.MostRecentInput);
+            intercepted.DoSomething(2);
+            Assert.AreEqual(4, intercepted.MostRecentInput);
         }
 
         [TestMethod]
         public void HandlersCanChangeOutputsAfterTargetReturns()
         {
-            TransparentProxyPolicyInjector factory = new TransparentProxyPolicyInjector();
+            TransparentProxyInterceptor factory = new TransparentProxyInterceptor();
             PolicySet policies = GetPolicies();
 
-            CanChangeParametersTarget target 
-                = factory.Wrap<CanChangeParametersTarget>(new CanChangeParametersTarget(), policies, container);
 
+            CanChangeParametersTarget target = new CanChangeParametersTarget();
+            IInterceptingProxy proxy = factory.CreateProxy(typeof (CanChangeParametersTarget), target);
+            ApplyPolicies(factory, proxy, target, policies);
+            CanChangeParametersTarget intercepted = (CanChangeParametersTarget) proxy;
             int output;
 
-            target.DoSomethingElse(2, out output);
+            intercepted.DoSomethingElse(2, out output);
 
             Assert.AreEqual((2 + 5) * 3, output);
         }
@@ -76,6 +81,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container.RegisterInstance<ICallHandler>("Handler2", new TripleOutputHandler());
 
             return new PolicySet(doubleInputPolicy, tripleOutputPolicy);
+        }
+
+        private void ApplyPolicies(IInterceptor interceptor, IInterceptingProxy proxy, object target, PolicySet policies)
+        {
+            foreach(MethodImplementationInfo method in interceptor.GetInterceptableMethods(target.GetType(), target.GetType()))
+            {
+                HandlerPipeline pipeline = new HandlerPipeline(policies.GetHandlersFor(method, container));
+                proxy.SetPipeline(method.ImplementationMethodInfo, pipeline);
+            }
         }
     }
 

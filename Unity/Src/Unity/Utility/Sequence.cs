@@ -244,6 +244,23 @@ namespace Microsoft.Practices.Unity.Utility
                 action(item);
             }
         }
+
+        /// <summary>
+        /// Concatenate multiple sequences into a single one.
+        /// </summary>
+        /// <typeparam name="TItem">Type of sequences in the sequence.</typeparam>
+        /// <param name="sequences">The sequences to combine.</param>
+        /// <returns>The combined sequence.</returns>
+        public static IEnumerable<TItem> Concat<TItem>(params IEnumerable<TItem>[] sequences)
+        {
+            foreach(IEnumerable<TItem> sequence in sequences)
+            {
+                foreach(TItem item in sequence)
+                {
+                    yield return item;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -379,9 +396,84 @@ namespace Microsoft.Practices.Unity.Utility
         /// <returns>New Sequence</returns>
         public Seq<TOut> Map<TOut>(Converter<T, TOut> converter)
         {
-            return new Seq<TOut>(Sequence.Map<T, TOut>(items, converter));
+            return new Seq<TOut>(Sequence.Map(items, converter));
         }
 
+        /// <summary>
+        /// Run a functional Reduce operation. See other methods for examples.
+        /// </summary>
+        /// <typeparam name="TDest">Type of final output.</typeparam>
+        /// <param name="initialValue">Initial value for accumulator.</param>
+        /// <param name="reducer">Reduce function.</param>
+        /// <returns></returns>
+        public TDest Reduce<TDest>(TDest initialValue,
+            Sequence.Reducer<T, TDest> reducer)
+        {
+            return Sequence.Reduce(items, initialValue, reducer);
+        }
+
+        /// <summary>
+        /// Convert the given sequence to a single string. The items in the string are
+        /// separated by the given separator, and each object is converted to a string
+        /// using the <paramref name="converter"/> method given.
+        /// </summary>
+        /// <param name="separator">Separator string.</param>
+        /// <param name="converter">Function to convert <typeparamref name="T"/> instances to
+        /// strings.</param>
+        /// <returns>The collected string.</returns>
+        public string ToString(string separator, Converter<T, string> converter)
+        {
+            return Sequence.ToString(items, separator, converter);
+        }
+
+        /// <summary>
+        /// Convert the given sequence to a single string. The items in the string are separated
+        /// by the given separator, and each object is converted to a string by calling its
+        /// <see cref="Object.ToString"/>  method.
+        /// </summary>
+        /// <param name="separator">Separator string.</param>
+        /// <returns>The collected string.</returns>
+        public string ToString(string separator)
+        {
+            return Sequence.ToString(items, separator, delegate(T item) { return item.ToString(); });
+        }
+
+        /// <summary>
+        /// Return the first item in the given sequence.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown if the sequence is empty.</exception>
+        /// <returns>First item in the sequence.</returns>
+        public T First()
+        {
+            return Sequence.First(items);
+        }
+
+        /// <summary>
+        /// Execute the given action delegate for each item in the sequence.
+        /// </summary>
+        /// <param name="action">Action to perform on each item.</param>
+        public void ForEach(Action<T> action)
+        {
+            Sequence.ForEach(items, action);
+        }
+
+        /// <summary>
+        /// Concatenate multiple sequences with this one to return a single
+        /// sequence containing all items.
+        /// </summary>
+        /// <param name="sequences">Sequences to combine.</param>
+        /// <returns>The combined sequence.</returns>
+        public Seq<T> Concat(params IEnumerable<T>[] sequences)
+        {
+            IEnumerable<T>[] newSequences = new IEnumerable<T>[sequences.Length + 1];
+            newSequences[0] = items;
+            for (int i = 0; i < sequences.Length; ++i)
+            {
+                newSequences[i + 1] = sequences[i];
+            }
+
+            return new Seq<T>(Sequence.Concat(newSequences));
+        }
         #endregion
     }
 }

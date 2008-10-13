@@ -11,6 +11,8 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Tests.TestObjects;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -573,8 +575,8 @@ namespace Microsoft.Practices.Unity.Tests
             IRepository<string> generalResult = container.Resolve<IRepository<string>>();
             IRepository<Foo> specializedResult = container.Resolve<IRepository<Foo>>();
 
-            Assert.IsInstanceOfType(generalResult, typeof (MockRespository<string>));
-            Assert.IsInstanceOfType(specializedResult, typeof (FooRepository));
+            Assert.IsInstanceOfType(generalResult, typeof(MockRespository<string>));
+            Assert.IsInstanceOfType(specializedResult, typeof(FooRepository));
         }
 
         [TestMethod]
@@ -583,6 +585,31 @@ namespace Microsoft.Practices.Unity.Tests
             IUnityContainer container = new UnityContainer();
 
             Assert.AreSame(container, container.Resolve<IUnityContainer>());
+        }
+
+        [TestMethod]
+        public void ContainerResolvesItselfEvenAfterGarbageCollect()
+        {
+            IUnityContainer container = new UnityContainer();
+            container.AddNewExtension<GarbageCollectingExtension>();
+
+            Assert.IsNotNull(container.Resolve<IUnityContainer>());
+        }
+
+        public class GarbageCollectingExtension : UnityContainerExtension
+        {
+            protected override void Initialize()
+            {
+                this.Context.Strategies.AddNew<GarbageCollectingStrategy>(UnityBuildStage.Setup);
+            }
+
+            public class GarbageCollectingStrategy : BuilderStrategy
+            {
+                public override void PreBuildUp(IBuilderContext context)
+                {
+                    GC.Collect();
+                }
+            }
         }
 
         [TestMethod]
@@ -601,27 +628,27 @@ namespace Microsoft.Practices.Unity.Tests
             IUnityContainer child = parent.CreateChildContainer();
 
             Assert.AreSame(parent, parent.Resolve<IUnityContainer>());
-            
+
         }
 
         internal class Foo
         {
-            
+
         }
 
         internal interface IRepository<TEntity>
         {
-            
+
         }
 
         internal class MockRespository<TEntity> : IRepository<TEntity>
         {
-            
+
         }
 
         internal class FooRepository : IRepository<Foo>
         {
-            
+
         }
     }
 }

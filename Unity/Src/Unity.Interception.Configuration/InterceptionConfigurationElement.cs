@@ -32,8 +32,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
                 element.Configure(container);
             }
 
-            foreach (TransparentProxyInjectorConfigurationElementBase element
-                in TransparentProxyPolicyInjectors)
+            foreach (InterceptorConfigurationElement element in Interceptors)
             {
                 element.Configure(container);
             }
@@ -47,7 +46,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// injection configuration, only more convenient.
         /// </remarks>
         [ConfigurationProperty("policies")]
-        [ConfigurationCollection(typeof(UnityContainerExtensionElementCollection), AddItemName = "policy")]
+        [ConfigurationCollection(
+            typeof(InterceptionPolicyConfigurationElementCollection), 
+            AddItemName = "policy")]
         public InterceptionPolicyConfigurationElementCollection Policies
         {
             get
@@ -63,16 +64,18 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// Collection of configuration elements indicating types and keys for which transparent-proxy-based
         /// interception should be performed.
         /// </summary>
-        [ConfigurationProperty("transparentProxyInjection")]
-        [ConfigurationCollection(typeof(TransparentProxyInjectorConfigurationElementCollection))]
-        public TransparentProxyInjectorConfigurationElementCollection TransparentProxyPolicyInjectors
+        [ConfigurationProperty("interceptors")]
+        [ConfigurationCollection(
+            typeof(InterceptorConfigurationElementCollection), 
+            AddItemName = "interceptor")]
+        public InterceptorConfigurationElementCollection Interceptors
         {
             get
             {
-                TransparentProxyInjectorConfigurationElementCollection injectors =
-                    (TransparentProxyInjectorConfigurationElementCollection)this["transparentProxyInjection"];
-                injectors.TypeResolver = TypeResolver;
-                return injectors;
+                InterceptorConfigurationElementCollection interceptors =
+                    (InterceptorConfigurationElementCollection)this["interceptors"];
+                interceptors.TypeResolver = TypeResolver;
+                return interceptors;
             }
         }
     }

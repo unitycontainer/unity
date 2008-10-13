@@ -77,5 +77,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Properties {
                 return ResourceManager.GetString("InterceptionNotSupported", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find the implementation of interface method {0}.{1} in type {2}.
+        /// </summary>
+        internal static string InterfaceMethodNotImplemented {
+            get {
+                return ResourceManager.GetString("InterfaceMethodNotImplemented", resourceCulture);
+            }
+        }
     }
 }

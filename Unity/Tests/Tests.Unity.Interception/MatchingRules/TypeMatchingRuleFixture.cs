@@ -114,7 +114,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
         public void TargetMethod() { }
     }
 
-    interface IInterfaceOne
+    public interface IInterfaceOne
     {
         void TargetMethod();
     }

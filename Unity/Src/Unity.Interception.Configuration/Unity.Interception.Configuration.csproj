@@ -42,8 +42,9 @@
     <Compile Include="..\Common\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="TransparentProxyInjectorConfigurationElementBase.cs" />
-    <Compile Include="DefaultTransparentProxyInjectorConfigurationElement.cs" />
+    <Compile Include="InterceptorConfigurationElementCollection.cs" />
+    <Compile Include="InterceptorTargetConfigurationElementBase.cs" />
+    <Compile Include="DefaultInterceptorTargetConfigurationElement.cs" />
     <Compile Include="RuleDrivenPolicyElementConfigurationElement.cs" />
     <Compile Include="PolicyElementConfigurationElement.cs" />
     <Compile Include="MatchingRuleConfigurationElement.cs" />
@@ -59,9 +60,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TransparentProxyInjectorConfigurationElement.cs" />
-    <Compile Include="TransparentProxyInjectorConfigurationElementCollection.cs" />
-    <Compile Include="TransparentProxyInjectorKey.cs" />
+    <Compile Include="KeyInterceptorTargetConfigurationElement.cs" />
+    <Compile Include="InterceptorTargetConfigurationElementCollection.cs" />
+    <Compile Include="InterceptorTargetKey.cs" />
+    <Compile Include="InterceptorConfigurationElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ObjectBuilder\ObjectBuilder.csproj">

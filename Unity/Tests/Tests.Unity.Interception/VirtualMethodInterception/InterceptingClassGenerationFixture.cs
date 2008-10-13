@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
 using Microsoft.Practices.Unity.Utility;
@@ -14,35 +13,35 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         [TestMethod]
         public void CanCreateInterceptingClassOverClassWithDefaultConstructor()
         {
-            ClassWithDefaultCtor instance = GetInterceptingInstance<ClassWithDefaultCtor>();
+            ClassWithDefaultCtor instance = WireupHelper.GetInterceptingInstance<ClassWithDefaultCtor>();
             Assert.AreNotSame(typeof(ClassWithDefaultCtor), instance.GetType());
         }
 
         [TestMethod]
         public void InterceptingClassCallsBaseClassConstructor()
         {
-            ClassWithDefaultCtor instance = GetInterceptingInstance<ClassWithDefaultCtor>();
+            ClassWithDefaultCtor instance = WireupHelper.GetInterceptingInstance<ClassWithDefaultCtor>();
             Assert.IsTrue(instance.CtorWasCalled);
         }
 
         [TestMethod]
         public void CanCreateInterceptingClassOverClassWithoutDefaultConstructor()
         {
-            ClassWithOneParamCtor instance = GetInterceptingInstance<ClassWithOneParamCtor>(37);
+            ClassWithOneParamCtor instance = WireupHelper.GetInterceptingInstance<ClassWithOneParamCtor>(37);
             Assert.AreEqual(37, instance.CtorValue);
         }
 
         [TestMethod]
         public void CanInterceptClassThatHasMultipleConstructors()
         {
-            ClassWithMultipleCtors defaultInstance = GetInterceptingInstance<ClassWithMultipleCtors>();
+            ClassWithMultipleCtors defaultInstance = WireupHelper.GetInterceptingInstance<ClassWithMultipleCtors>();
             Assert.IsTrue(defaultInstance.DefaultCalled);
 
-            ClassWithMultipleCtors intInstance = GetInterceptingInstance<ClassWithMultipleCtors>(42);
+            ClassWithMultipleCtors intInstance = WireupHelper.GetInterceptingInstance<ClassWithMultipleCtors>(42);
             Assert.AreEqual(42, intInstance.IntValue);
             Assert.IsFalse(intInstance.DefaultCalled);
 
-            ClassWithMultipleCtors bothInstance = GetInterceptingInstance<ClassWithMultipleCtors>(51, "Hello");
+            ClassWithMultipleCtors bothInstance = WireupHelper.GetInterceptingInstance<ClassWithMultipleCtors>(51, "Hello");
             Assert.AreEqual(51, bothInstance.IntValue);
             Assert.AreEqual("Hello", bothInstance.StringValue);
             Assert.IsFalse(bothInstance.DefaultCalled);
@@ -51,7 +50,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         [TestMethod]
         public void CanInterceptVoidNoArgMethods()
         {
-            ClassWithDefaultCtor instance = GetInterceptingInstance<ClassWithDefaultCtor>();
+            ClassWithDefaultCtor instance = WireupHelper.GetInterceptingInstance<ClassWithDefaultCtor>();
             instance.MethodOne();
             Assert.IsTrue(instance.OneWasCalled);
         }
@@ -60,7 +59,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         public void InterceptingClassOverridesBaseClassVirtualMethods()
         {
             Type baseType = typeof(ClassWithDefaultCtor);
-            InterceptingClassGenerator generator = new InterceptingClassGenerator(baseType);
+            VirtualMethodInterceptor interceptor = new VirtualMethodInterceptor();
+            InterceptingClassGenerator generator = new InterceptingClassGenerator(baseType,
+                interceptor.GetInterceptableMethods(baseType, baseType));
             Type generatedType = generator.GenerateType();
 
             MethodInfo methodOne = generatedType.GetMethod("MethodOne");
@@ -71,36 +72,36 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         }
 
         [TestMethod]
-        public void InterceptingClassImplementsIHandlerPipelineManager()
+        public void InterceptingClassImplementsIInterceptingProxy()
         {
-            ClassWithDefaultCtor instance = GetInterceptingInstance<ClassWithDefaultCtor>();
-            Assert.IsTrue(instance is IHandlerPipelineManager);
+            ClassWithDefaultCtor instance = WireupHelper.GetInterceptingInstance<ClassWithDefaultCtor>();
+            Assert.IsTrue(instance is IInterceptingProxy);
         }
 
         [TestMethod]
         public void CanAddHandlersToPipeline()
         {
             MethodInfo methodOne = typeof (ClassWithDefaultCtor).GetMethod("MethodOne");
-            ClassWithDefaultCtor instance = GetInterceptingInstance<ClassWithDefaultCtor>();
-            IHandlerPipelineManager pm = (IHandlerPipelineManager) instance;
+            ClassWithDefaultCtor instance = WireupHelper.GetInterceptingInstance<ClassWithDefaultCtor>();
+            IInterceptingProxy pm = (IInterceptingProxy) instance;
 
             CallCountHandler handler = new CallCountHandler();
 
             HandlerPipeline pipeline = new HandlerPipeline(new CallCountHandler[] { handler });
-            pm.SetPipeline(methodOne.MetadataToken, pipeline);
+            pm.SetPipeline(methodOne, pipeline);
         }
 
         [TestMethod]
         public void CallingMethodInvokesHandlers()
         {
             MethodInfo methodOne = typeof (ClassWithDefaultCtor).GetMethod("MethodOne");
-            ClassWithDefaultCtor instance = GetInterceptingInstance<ClassWithDefaultCtor>();
-            IHandlerPipelineManager pm = (IHandlerPipelineManager) instance;
+            ClassWithDefaultCtor instance = WireupHelper.GetInterceptingInstance<ClassWithDefaultCtor>();
+            IInterceptingProxy pm = (IInterceptingProxy) instance;
 
             CallCountHandler handler = new CallCountHandler();
             PostCallCountHandler postHandler = new PostCallCountHandler();
             HandlerPipeline pipeline = new HandlerPipeline(new ICallHandler[] { postHandler, handler });
-            pm.SetPipeline(methodOne.MetadataToken, pipeline);
+            pm.SetPipeline(methodOne, pipeline);
 
             instance.MethodOne();
 
@@ -112,13 +113,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         public void ThrowingFromInterceptedMethodStillRunsAllHandlers()
         {
             MethodInfo thrower = typeof (ClassWithDefaultCtor).GetMethod("NotImplemented");
-            ClassWithDefaultCtor instance = GetInterceptingInstance<ClassWithDefaultCtor>();
-            IHandlerPipelineManager pm = (IHandlerPipelineManager) instance;
+            ClassWithDefaultCtor instance = WireupHelper.GetInterceptingInstance<ClassWithDefaultCtor>();
+            IInterceptingProxy pm = (IInterceptingProxy) instance;
 
             CallCountHandler handler = new CallCountHandler();
             PostCallCountHandler postHandler = new PostCallCountHandler();
             HandlerPipeline pipeline = new HandlerPipeline(new ICallHandler[] { postHandler, handler });
-            pm.SetPipeline(thrower.MetadataToken, pipeline);
+            pm.SetPipeline(thrower, pipeline);
 
             try
             {
@@ -137,13 +138,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         [TestMethod]
         public void CanInterceptMethodsThatHaveReturnValues()
         {
-            MethodInfo getAnswer = typeof (ClassWithDefaultCtor).GetMethod("CalculateAnswer");
-            ClassWithDefaultCtor instance = GetInterceptingInstance<ClassWithDefaultCtor>();
-            IHandlerPipelineManager pm = (IHandlerPipelineManager) instance;
-
             PostCallCountHandler handler = new PostCallCountHandler();
-            pm.SetPipeline(getAnswer.MetadataToken,
-                new HandlerPipeline(Seq.Collect<ICallHandler>(handler)));
+            ClassWithDefaultCtor instance = WireupHelper.GetInterceptedInstance<ClassWithDefaultCtor>("CalculateAnswer", handler);
             
             int result = instance.CalculateAnswer();
 
@@ -155,13 +151,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         [TestMethod]
         public void CanInterceptMethodsThatReturnReferenceTypes()
         {
-            MethodInfo getAnswer = typeof (ClassWithDefaultCtor).GetMethod("GimmeName");
-            ClassWithDefaultCtor instance = GetInterceptingInstance<ClassWithDefaultCtor>();
-            IHandlerPipelineManager pm = (IHandlerPipelineManager) instance;
-
             PostCallCountHandler handler = new PostCallCountHandler();
-            pm.SetPipeline(getAnswer.MetadataToken,
-                new HandlerPipeline(Seq.Collect<ICallHandler>(handler)));
+            ClassWithDefaultCtor instance = WireupHelper.GetInterceptedInstance<ClassWithDefaultCtor>("GimmeName", handler);
 
             string result = instance.GimmeName();
 
@@ -172,13 +163,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         [TestMethod]
         public void CanInterceptMethodsWithParameters()
         {
-            MethodInfo addUp = typeof (ClassWithDefaultCtor).GetMethod("AddUp");
-            ClassWithDefaultCtor instance = GetInterceptingInstance<ClassWithDefaultCtor>();
-            IHandlerPipelineManager pm = (IHandlerPipelineManager) instance;
-
             PostCallCountHandler handler = new PostCallCountHandler();
-            pm.SetPipeline(addUp.MetadataToken,
-                new HandlerPipeline(Seq.Collect<ICallHandler>(handler)));
+            ClassWithDefaultCtor instance = WireupHelper.GetInterceptedInstance<ClassWithDefaultCtor>("AddUp", handler);
 
             string result = instance.AddUp(5, 12);
 
@@ -186,19 +172,143 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             Assert.AreEqual(1, handler.CallsCompleted);
         }
 
-        private static T GetInterceptingInstance<T>(params object[] ctorValues)
+        [TestMethod]
+        public void CanInterceptMethodsWithRefParameters()
         {
-            InterceptingClassGenerator generator = new InterceptingClassGenerator(typeof(T));
-            Type generatedType = generator.GenerateType();
+            PostCallCountHandler handler = new PostCallCountHandler();
+            ClassWithDefaultCtor instance = WireupHelper.GetInterceptedInstance<ClassWithDefaultCtor>("MethodWithRefParameters", handler);
 
-            return (T)Activator.CreateInstance(generatedType, ctorValues);
+            string s = "abc";
+            int result = instance.MethodWithRefParameters(5, ref s, 10);
+
+            Assert.AreEqual(15, result);
+            Assert.AreEqual("abc hooray!", s);
+            Assert.AreEqual(1, handler.CallsCompleted);
+        }
+
+        [TestMethod]
+        public void CanInterceptMethodsWithOutParameters()
+        {
+            PostCallCountHandler handler = new PostCallCountHandler();
+            ClassWithDefaultCtor instance = WireupHelper.GetInterceptedInstance<ClassWithDefaultCtor>("OutParams", handler);
+
+            int plusOne;
+            int timesTwo;
+
+            instance.OutParams(5, out plusOne, out timesTwo);
+
+            Assert.AreEqual(5 + 1, plusOne);
+            Assert.AreEqual(5*2, timesTwo);
+            Assert.AreEqual(1, handler.CallsCompleted);
+            
+        }
+
+        [TestMethod]
+        public void CanInterceptNestedClass()
+        {
+            PostCallCountHandler handler = new PostCallCountHandler();
+            NestedClass instance = WireupHelper.GetInterceptedInstance<NestedClass>("MakeAValue", handler);
+
+            int result = instance.MakeAValue(12);
+
+            Assert.AreEqual(12 * 37 + 12 /2, result);
+            Assert.AreEqual(1, handler.CallsCompleted);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AttemptingToInterceptInvalidClassThrows()
+        {
+            PostCallCountHandler handler = new PostCallCountHandler();
+            VirtualMethodInterceptor interceptor = new VirtualMethodInterceptor();
+
+            interceptor.CreateProxyType(typeof(CantTouchThis));
+        }
+
+        [TestMethod]
+        public void CanInterceptClosedGenericType()
+        {
+            PostCallCountHandler handler = new PostCallCountHandler();
+            InterceptingGenericClass<DateTime> instance = 
+                WireupHelper.GetInterceptedInstance<InterceptingGenericClass<DateTime>>("Decorate", handler);
+
+            DateTime now = DateTime.Now;
+
+            string result = instance.Decorate(now);
+
+            Assert.AreEqual("**" + now + "**", result);
+            Assert.AreEqual(1, handler.CallsCompleted);
+        }
+
+        [TestMethod]
+        public void CanInterceptGenericMethodOnClosedGenericType()
+        {
+            PostCallCountHandler handler = new PostCallCountHandler();
+            InterceptingGenericClass<DateTime> instance = 
+                WireupHelper.GetInterceptedInstance<InterceptingGenericClass<DateTime>>("Reverse", handler);
+            
+            DateTime now = DateTime.Now;
+
+            string result = instance.Reverse(137);
+
+            Assert.AreEqual("731", result);
+            Assert.AreEqual(1, handler.CallsCompleted);
+
+        }
+
+        [TestMethod]
+        public void GenericWrapperWorks()
+        {
+            PostCallCountHandler handler = new PostCallCountHandler();
+            InterceptingGenericClass<DateTime> instance =
+                new WrapperGeneric<DateTime>();
+
+            IInterceptingProxy pm = (IInterceptingProxy) instance;
+            MethodBase reverse = typeof (InterceptingGenericClass<DateTime>).GetMethod("Reverse");
+            pm.SetPipeline(reverse, new HandlerPipeline(Seq.Collect<ICallHandler>(handler)));
+
+            DateTime now = DateTime.Now;
+
+            string result = instance.Reverse(137);
+
+            Assert.AreEqual("731", result);
+            Assert.AreEqual(1, handler.CallsCompleted);
+        }
+
+        [TestMethod]
+        public void CanInterceptMethodWithGenericReturnTypeForValueTypeGenericParameter()
+        {
+            PostCallCountHandler handler = new PostCallCountHandler();
+            ClassWithDefaultCtor instance
+                = WireupHelper.GetInterceptedInstance<ClassWithDefaultCtor>("MethodWithGenericReturnType", handler);
+            int value = instance.MethodWithGenericReturnType(5);
+            Assert.AreEqual(5, value);
+            Assert.AreEqual(1, handler.CallsCompleted);
+        }
+ 
+
+
+        public class NestedClass
+        {
+            public virtual int MakeAValue(int source)
+            {
+                return source*37 + source/2;
+            }
+        }
+
+        internal class CantTouchThis
+        {
+            public virtual void Something()
+            {
+                
+            }
         }
     }
 
     public class ClassWithDefaultCtor
     {
-        public bool CtorWasCalled = false;
-        public bool OneWasCalled = false;
+        public bool CtorWasCalled;
+        public bool OneWasCalled;
 
         public ClassWithDefaultCtor()
         {
@@ -229,23 +339,46 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         {
             return (x + y).ToString();
         }
+
+        public virtual int MethodWithRefParameters(int x, ref string y, float f)
+        {
+            y = y + " hooray!";
+            return x + (int) f;
+        }
+
+        public virtual void OutParams(int x, out int plusOne, out int timesTwo)
+        {
+            plusOne = x + 1;
+            timesTwo = x * 2;
+        }
+
+        public virtual T MethodWithGenericReturnType<T>(T item)
+        {
+            return item;
+        }
     }
 
-    public class Wrapper : ClassWithDefaultCtor, IHandlerPipelineManager
+    //
+    // This class isn't actually used, it was a template we used to decompile the
+    // IL and figure out what code to generate.
+    //
+    public class Wrapper : ClassWithDefaultCtor, IInterceptingProxy
     {
         private readonly PipelineManager pipelines = new PipelineManager();
         private static readonly MethodBase methodOne = typeof (ClassWithDefaultCtor).GetMethod("MethodOne");
         private static readonly MethodBase calculateAnswer = typeof (ClassWithDefaultCtor).GetMethod("CalculateAnswer");
         private static readonly MethodBase addUp = typeof (ClassWithDefaultCtor).GetMethod("AddUp");
+        private static readonly MethodBase methodWithRefParameters = typeof (ClassWithDefaultCtor).GetMethod("MethodWithRefParameters");
+
         /// <summary>
         /// Retrieve the pipeline assocated with the requested <paramref name="method"/>.
         /// </summary>
         /// <param name="method">Method for which the pipeline is being requested.</param>
         /// <returns>The handler pipeline for the given method. If no pipeline has
         /// been set, returns a new empty pipeline.</returns>
-        HandlerPipeline IHandlerPipelineManager.GetPipeline(int method)
+        HandlerPipeline IInterceptingProxy.GetPipeline(MethodBase method)
         {
-            return pipelines.GetPipeline(method);
+            return pipelines.GetPipeline(method.MetadataToken);
         }
 
         /// <summary>
@@ -253,15 +386,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         /// </summary>
         /// <param name="method">Method to apply the pipeline to.</param>
         /// <param name="pipeline">The new pipeline.</param>
-        void IHandlerPipelineManager.SetPipeline(int method, HandlerPipeline pipeline)
+        void IInterceptingProxy.SetPipeline(MethodBase method, HandlerPipeline pipeline)
         {
-            pipelines.SetPipeline(method, pipeline);
+            pipelines.SetPipeline(method.MetadataToken, pipeline);
         }
-
 
         public override void MethodOne()
         {
-            HandlerPipeline pipeline = ((IHandlerPipelineManager)this).GetPipeline(methodOne.MetadataToken);
+            HandlerPipeline pipeline = ((IInterceptingProxy)this).GetPipeline(methodOne);
 
             VirtualMethodInvocation inputs = new VirtualMethodInvocation(this, methodOne);
             IMethodReturn result = pipeline.Invoke(inputs, delegate(IMethodInvocation input, GetNextHandlerDelegate getNext)
@@ -290,7 +422,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
         public override int CalculateAnswer()
         {
-            HandlerPipeline pipeline = ((IHandlerPipelineManager) this).GetPipeline(calculateAnswer.MetadataToken);
+            HandlerPipeline pipeline = ((IInterceptingProxy) this).GetPipeline(calculateAnswer);
             VirtualMethodInvocation inputs = new VirtualMethodInvocation(this, calculateAnswer);
             IMethodReturn result = pipeline.Invoke(inputs, delegate(IMethodInvocation input, GetNextHandlerDelegate getNext)
             {
@@ -320,7 +452,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
         public override string AddUp(int x, int y)
         {
-            HandlerPipeline pipeline = ((IHandlerPipelineManager) this).GetPipeline(addUp.MetadataToken);
+            HandlerPipeline pipeline = ((IInterceptingProxy) this).GetPipeline(addUp);
             VirtualMethodInvocation inputs = new VirtualMethodInvocation(this, addUp, x, y);
             IMethodReturn result = pipeline.Invoke(inputs, delegate(IMethodInvocation input, GetNextHandlerDelegate getNext)
             {
@@ -346,11 +478,41 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         {
             return base.AddUp(x, y);
         }
+
+        public override int MethodWithRefParameters(int x, ref string y, float f)
+        {
+            HandlerPipeline pipeline = ((IInterceptingProxy) this).GetPipeline(methodWithRefParameters);
+            VirtualMethodInvocation inputs = new VirtualMethodInvocation(this, methodWithRefParameters, x, y, f);
+            IMethodReturn result = pipeline.Invoke(inputs, delegate(IMethodInvocation input, GetNextHandlerDelegate getNext)
+            {
+                try
+                {
+                    string refParam = (string)input.Arguments[1];
+                    int returnValue = BaseMethodWithRefParameters((int) inputs.Arguments[0], ref refParam, (float) inputs.Arguments[2]);
+                    return input.CreateMethodReturn(returnValue, input.Inputs[0], refParam, input.Inputs[2]);
+                }
+                catch (Exception ex)
+                {
+                    return input.CreateExceptionMethodReturn(ex);
+                }
+            });
+
+            if(result.Exception != null)
+            {
+                throw result.Exception;
+            }
+            return (int) result.ReturnValue;
+        }
+
+        private int BaseMethodWithRefParameters(int x, ref string y, float f)
+        {
+            return base.MethodWithRefParameters(x, ref y, f);
+        }
     }
 
     public class ClassWithOneParamCtor
     {
-        public int CtorValue = 0;
+        public int CtorValue;
 
         public ClassWithOneParamCtor(int i)
         {
@@ -386,7 +548,65 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         }
     }
 
+    public class InterceptingGenericClass<T>
+    {
+        public virtual string Decorate(T obj)
+        {
+            return "**" + obj + "**";
+        }
 
+        public virtual string Reverse<TItem>(TItem obj)
+        {
+            char[] chars = obj.ToString().ToCharArray();
+            Array.Reverse(chars);
+            return Sequence.ToString(chars, "");
+        }
+    }
 
+    public class WrapperGeneric<T> : InterceptingGenericClass<T>, IInterceptingProxy
+    {
+        private PipelineManager pipelines = new PipelineManager();
+        private MethodBase reverse = typeof (InterceptingGenericClass<T>).GetMethod("Reverse");
 
+        HandlerPipeline IInterceptingProxy.GetPipeline(MethodBase method)
+        {
+            return pipelines.GetPipeline(method.MetadataToken);
+        }
+
+        void IInterceptingProxy.SetPipeline(MethodBase method, HandlerPipeline pipeline)
+        {
+            pipelines.SetPipeline(method.MetadataToken, pipeline);
+        }
+
+        private string BaseReverse<TITem>(TITem obj)
+        {
+            return base.Reverse(obj);
+        }
+
+        private IMethodReturn Reverse_DelegateImpl<TItem>(IMethodInvocation input, GetNextHandlerDelegate getNext)
+        {
+            try
+            {
+                string baseResult = BaseReverse((TItem) input.Arguments[0]);
+                return input.CreateMethodReturn(baseResult);
+
+            }
+            catch (Exception ex)
+            {
+                return input.CreateExceptionMethodReturn(ex);
+            }
+        }
+
+        public override string Reverse<TItem>(TItem obj)
+        {
+            HandlerPipeline pipeline = ((IInterceptingProxy) this).GetPipeline(reverse);
+            VirtualMethodInvocation inputs = new VirtualMethodInvocation(this, reverse, obj);
+            IMethodReturn result = pipeline.Invoke(inputs, Reverse_DelegateImpl<TItem>);
+            if (result.Exception != null)
+            {
+                throw result.Exception;
+            }
+            return (string)result.ReturnValue;
+        }
+    }
 }

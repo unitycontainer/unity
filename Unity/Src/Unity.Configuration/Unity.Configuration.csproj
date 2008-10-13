@@ -52,6 +52,7 @@
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\MethodParameterElement\MethodParameterElement.cs" />
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\MethodParameterElement\MethodParameterElementCollection.cs" />
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionParameterValueElement\InstanceValueElement.cs" />
+    <Compile Include="InstanceDescriptionConfigurationElement.cs" />
     <Compile Include="IResolvesTypeAliases.cs" />
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\TypeInjectionElement.cs" />
     <Compile Include="InjectionParameterValueHelper.cs" />

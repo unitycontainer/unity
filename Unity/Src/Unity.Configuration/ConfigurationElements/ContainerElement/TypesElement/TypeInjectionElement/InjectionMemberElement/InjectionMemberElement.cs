@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 
 namespace Microsoft.Practices.Unity.Configuration
@@ -55,6 +56,16 @@ namespace Microsoft.Practices.Unity.Configuration
         public virtual InjectionMember CreateInjectionMember()
         {
             return null;
+        }
+
+        /// <summary>
+        /// Return the key that represents this configuration element in a collection.
+        /// </summary>
+        /// <returns>The key.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1024", Justification = "Calculated value")]
+        protected internal virtual object GetElementKey()
+        {
+            return this.ElementName + ":" + this.Name;
         }
     }
 }

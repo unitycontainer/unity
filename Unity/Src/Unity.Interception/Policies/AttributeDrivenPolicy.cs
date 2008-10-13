@@ -9,9 +9,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -29,44 +27,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public AttributeDrivenPolicy()
             : base("Attribute Driven Policy")
         {
-            this.attributeMatchRule = new AttributeDrivenPolicyMatchingRule();
-        }
-
-        /// <summary>
-        /// Returns ordered collection of handlers in order that apply to the given member.
-        /// </summary>
-        /// <param name="member">Member that may or may not be assigned handlers by this policy.</param>
-        /// <param name="container">The <see cref="IUnityContainer"/> to use when creating handlers,
-        /// if necessary.</param>
-        /// <returns>Collection of handlers (possibly empty) that apply to this member.</returns>
-        public override IEnumerable<ICallHandler> GetHandlersFor(MethodBase member, IUnityContainer container)
-        {
-            if (Matches(member))
-            {
-                foreach (MethodBase method in GetMethodSet(member))
-                {
-                    List<ICallHandler> handlers = new List<ICallHandler>(DoGetHandlersFor(method, container));
-                    if (handlers.Count > 0)
-                    {
-                        foreach (ICallHandler handler in handlers)
-                        {
-                            yield return handler;
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Derived classes implement this method to calculate if the policy
-        /// provides any handlers for any methods on the given type.
-        /// </summary>
-        /// <param name="t">Type to check.</param>
-        /// <returns>true if the policy applies to this type, false if it does not.</returns>
-        protected override bool DoesApplyTo(Type t)
-        {
-            return Array.Exists(t.GetMethods(),
-                delegate(MethodInfo method) { return Matches(method); });
+            attributeMatchRule = new AttributeDrivenPolicyMatchingRule();
         }
 
         /// <summary>
@@ -75,16 +36,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="member">Member to check.</param>
         /// <returns>true if policy applies to this member, false if not.</returns>
-        protected override bool DoesMatch(MethodBase member)
+        protected override bool DoesMatch(MethodImplementationInfo member)
         {
-            foreach (MethodBase method in GetMethodSet(member))
-            {
-                if (attributeMatchRule.Matches(method))
-                {
-                    return true;
-                }
-            }
-            return false;
+            bool matchesInterface = member.InterfaceMethodInfo != null ? attributeMatchRule.Matches(member.InterfaceMethodInfo) : false;
+            bool matchesImplementation = attributeMatchRule.Matches(member.ImplementationMethodInfo);
+
+            return matchesInterface | matchesImplementation;
         }
 
         /// <summary>
@@ -95,11 +52,16 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="container">The <see cref="IUnityContainer"/> to use when creating handlers,
         /// if necessary.</param>
         /// <returns>Enumerable collection of handlers for this method.</returns>
-        protected override IEnumerable<ICallHandler> DoGetHandlersFor(
-            MethodBase member,
-            IUnityContainer container)
+        protected override IEnumerable<ICallHandler> DoGetHandlersFor(MethodImplementationInfo member, IUnityContainer container)
         {
-            foreach (HandlerAttribute attr in ReflectionHelper.GetAllAttributes<HandlerAttribute>(member, true))
+            if (member.InterfaceMethodInfo != null)
+            {
+                foreach (HandlerAttribute attr in ReflectionHelper.GetAllAttributes<HandlerAttribute>(member.InterfaceMethodInfo, true))
+                {
+                    yield return attr.CreateHandler(container);
+                }
+            }
+            foreach (HandlerAttribute attr in ReflectionHelper.GetAllAttributes<HandlerAttribute>(member.ImplementationMethodInfo, true))
             {
                 yield return attr.CreateHandler(container);
             }

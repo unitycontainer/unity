@@ -27,10 +27,23 @@ namespace Microsoft.Practices.Unity.Configuration
         }
 
         /// <summary>
+        /// Key of the element.
+        /// </summary>
+        /// <remarks>
+        /// This property is used to allow configuration for multiple calls on the same method.
+        /// </remarks>
+        [ConfigurationProperty("key", IsRequired = false, DefaultValue = "")]
+        public virtual string Key
+        {
+            get { return (string)this["key"]; }
+            set { this["key"] = value; }
+        }
+
+        /// <summary>
         /// The collection of <see cref="InjectionParameterValueElement"/> elements
         /// that are children of this node.
         /// </summary>
-        [ConfigurationProperty("", IsDefaultCollection=true)]
+        [ConfigurationProperty("", IsDefaultCollection = true)]
         [ConfigurationCollection(typeof(MethodParameterElementCollection), AddItemName = "param")]
         public MethodParameterElementCollection Parameters
         {
@@ -51,11 +64,20 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             InjectionParameterValue[] values = new InjectionParameterValue[Parameters.Count];
             int i = 0;
-            foreach(MethodParameterElement element in Parameters)
+            foreach (MethodParameterElement element in Parameters)
             {
                 values[i++] = element.CreateInjectionParameterValue();
             }
             return new InjectionMethod(Name, values);
+        }
+
+        /// <summary>
+        /// Return the key that represents this configuration element in a collection.
+        /// </summary>
+        /// <returns>The key.</returns>
+        protected internal override object GetElementKey()
+        {
+            return base.GetElementKey() + ":" + Key;
         }
     }
 }

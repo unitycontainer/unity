@@ -60,7 +60,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             InjectionPolicy p = CreatePolicy(container, rules);
 
-            MethodBase thisMember = GetType().GetMethod("ShouldHaveNoHandlersWhenPolicyDoesntMatch");
+            MethodImplementationInfo thisMember = GetMethodImplInfo<PolicyFixture>("ShouldHaveNoHandlersWhenPolicyDoesntMatch");
             List<ICallHandler> memberHandlers
                 = new List<ICallHandler>(p.GetHandlersFor(thisMember, container));
             Assert.AreEqual(0, memberHandlers.Count);
@@ -74,7 +74,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             InjectionPolicy p = CreatePolicy(container, rules);
 
-            MethodBase member = GetType().GetMethod("ShouldGetHandlersInOrderWithGetHandlersFor");
+            MethodImplementationInfo member = GetMethodImplInfo<PolicyFixture>("ShouldGetHandlersInOrderWithGetHandlersFor");
 
             List<ICallHandler> expectedHandlers = new List<ICallHandler>(container.ResolveAll<ICallHandler>());
             List<ICallHandler> actualHandlers = new List<ICallHandler>(p.GetHandlersFor(member, container));
@@ -94,7 +94,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             InjectionPolicy p = CreatePolicy(container, rules);
 
             PropertyInfo balanceProperty = typeof(MockDal).GetProperty("Balance");
-            MethodBase getMethod = balanceProperty.GetGetMethod();
+            MethodImplementationInfo getMethod = new MethodImplementationInfo(null, balanceProperty.GetGetMethod());
 
             List<ICallHandler> expectedHandlers = new List<ICallHandler>(container.ResolveAll<ICallHandler>());
             List<ICallHandler> actualHandlers = new List<ICallHandler>(p.GetHandlersFor(getMethod, container));
@@ -120,6 +120,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 .RegisterType<ICallHandler, Handler2>("handler2")
                 .RegisterType<ICallHandler, Handler3>("handler3");
             return container;
+        }
+
+        private static MethodImplementationInfo GetMethodImplInfo<T>(string methodName)
+        {
+            return new MethodImplementationInfo(null,
+                typeof (T).GetMethod(methodName));
         }
 
         //[TestMethod]

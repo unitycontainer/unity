@@ -121,7 +121,7 @@ namespace Microsoft.Practices.Unity
 
         private void GuardMethodHasNoOutParams(MethodInfo info, Type typeToCreate)
         {
-            if(Array.Find(info.GetParameters(), delegate(ParameterInfo param) { return param.IsOut; }) != null)
+            if(Sequence.Exists(info.GetParameters(), delegate(ParameterInfo param) { return param.IsOut; }))
             {
                 ThrowIllegalInjectionMethod(Resources.CannotInjectMethodWithOutParams, typeToCreate);
             }
@@ -129,8 +129,8 @@ namespace Microsoft.Practices.Unity
 
         private void GuardMethodHasNoRefParams(MethodInfo info, Type typeToCreate)
         {
-            if(Array.Find(info.GetParameters(), delegate(ParameterInfo param) 
-                { return param.ParameterType.IsByRef; }) != null)
+            if(Sequence.Exists(info.GetParameters(), delegate(ParameterInfo param) 
+                { return param.ParameterType.IsByRef; }))
             {
                 ThrowIllegalInjectionMethod(Resources.CannotInjectMethodWithRefParams, typeToCreate);
             }

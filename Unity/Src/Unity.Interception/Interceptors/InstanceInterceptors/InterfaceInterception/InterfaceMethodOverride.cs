@@ -1,10 +1,21 @@
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
-using Microsoft.Practices.Unity.Utility;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -27,10 +38,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             this.overrideCount = overrideCount;
         }
 
-        public void AddMethod()
+        public MethodBuilder AddMethod()
         {
             MethodBuilder delegateMethod = CreateDelegateImplementation();
-            CreateMethodOverride(delegateMethod);
+            return CreateMethodOverride(delegateMethod);
         }
 
         private string CreateMethodName(string purpose)
@@ -102,12 +113,33 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             }
         }
 
+        private static void EmitBox(ILGenerator il, Type typeOnStack)
+        {
+            if( typeOnStack.IsValueType || typeOnStack.IsGenericParameter)
+            {
+                il.Emit(OpCodes.Box, typeOnStack);
+            }
+        }
+
+        private static void EmitUnboxOrCast(ILGenerator il, Type targetType)
+        {
+            if(targetType.IsValueType || targetType.IsGenericParameter)
+            {
+                il.Emit(OpCodes.Unbox_Any, targetType);
+            }
+            else
+            {
+                il.Emit(OpCodes.Castclass, targetType);
+            }
+        }
+
         private MethodBuilder CreateDelegateImplementation()
         {
             string methodName = CreateMethodName("DelegateImplementation");
 
             MethodBuilder methodBuilder = typeBuilder.DefineMethod(methodName,
                 MethodAttributes.Private | MethodAttributes.HideBySig);
+            List<LocalBuilder> outOrRefLocals = new List<LocalBuilder>();
 
             SetupGenericParameters(methodBuilder);
 
@@ -126,6 +158,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             LocalBuilder ex = il.DeclareLocal(typeof(Exception));
 
             LocalBuilder baseReturn = null;
+            LocalBuilder parameters = null;
 
             if (MethodHasReturnValue)
             {
@@ -140,9 +173,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             if(methodParameters.Length > 0)
             {
-                LocalBuilder parameters = il.DeclareLocal(typeof (IParameterCollection));
+                parameters = il.DeclareLocal(typeof (IParameterCollection));
                 il.Emit(OpCodes.Ldarg_1);
-                il.EmitCall(OpCodes.Call, IMethodInvocationMethods.GetArguments, null);
+                il.EmitCall(OpCodes.Callvirt, IMethodInvocationMethods.GetArguments, null);
                 il.Emit(OpCodes.Stloc, parameters);
 
                 for(int i = 0; i < methodParameters.Length; ++i)
@@ -150,9 +183,20 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     il.Emit(OpCodes.Ldloc, parameters);
                     EmitLoadConstant(il, i);
                     il.EmitCall(OpCodes.Callvirt, IListMethods.GetItem, null);
-                    if(methodParameters[i].ParameterType.IsValueType || methodParameters[i].ParameterType.IsGenericParameter)
+                    Type parameterType = methodParameters[i].ParameterType;
+
+                    if(parameterType.IsByRef)
                     {
-                        il.Emit(OpCodes.Unbox_Any, methodParameters[i].ParameterType);
+                        Type elementType = parameterType.GetElementType();
+                        LocalBuilder refShadowLocal = il.DeclareLocal(elementType);
+                        outOrRefLocals.Add(refShadowLocal);
+                        EmitUnboxOrCast(il, elementType);
+                        il.Emit(OpCodes.Stloc, refShadowLocal);
+                        il.Emit(OpCodes.Ldloca, refShadowLocal);
+                    }
+                    else
+                    {
+                        EmitUnboxOrCast(il, parameterType);
                     }
                 }
             }
@@ -168,17 +212,44 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             if (MethodHasReturnValue)
             {
                 il.Emit(OpCodes.Ldloc, baseReturn);
-                if (ReturnType.IsValueType || ReturnType.IsGenericParameter)
-                {
-                    il.Emit(OpCodes.Box, ReturnType);
-                }
+                EmitBox(il, ReturnType);
             }
             else
             {
                 il.Emit(OpCodes.Ldnull);
             }
-            il.Emit(OpCodes.Ldc_I4_0);
+            EmitLoadConstant(il, methodParameters.Length);
             il.Emit(OpCodes.Newarr, typeof(object));
+
+            if(methodParameters.Length > 0)
+            {
+                LocalBuilder outputArguments = il.DeclareLocal(typeof (object[]));
+                il.Emit(OpCodes.Stloc, outputArguments);
+
+                int outputArgNum = 0;
+                for(int i = 0; i < methodParameters.Length; ++i)
+                {
+                    il.Emit(OpCodes.Ldloc, outputArguments);
+                    EmitLoadConstant(il, i);
+
+                    Type parameterType = methodParameters[i].ParameterType;
+                    if(parameterType.IsByRef)
+                    {
+                        parameterType = parameterType.GetElementType();
+                        il.Emit(OpCodes.Ldloc, outOrRefLocals[outputArgNum++]);
+                        EmitBox(il, parameterType);
+                    }
+                    else
+                    {
+                        il.Emit(OpCodes.Ldloc, parameters);
+                        EmitLoadConstant(il, i);
+                        il.Emit(OpCodes.Callvirt, IListMethods.GetItem);
+                    }
+                    il.Emit(OpCodes.Stelem_Ref);
+                }
+                il.Emit(OpCodes.Ldloc, outputArguments);
+            }
+
             il.Emit(OpCodes.Callvirt, IMethodInvocationMethods.CreateReturn);
             il.Emit(OpCodes.Stloc, retval);
             il.BeginCatchBlock(typeof(Exception));
@@ -186,7 +257,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             // Create an exception return
             il.Emit(OpCodes.Ldarg_1);
             il.Emit(OpCodes.Ldloc, ex);
-            il.EmitCall(OpCodes.Call, IMethodInvocationMethods.CreateExceptionMethodReturn, null);
+            il.EmitCall(OpCodes.Callvirt, IMethodInvocationMethods.CreateExceptionMethodReturn, null);
             il.Emit(OpCodes.Stloc, retval);
             il.EndExceptionBlock();
             il.MarkLabel(done);
@@ -195,7 +266,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             return methodBuilder;
         }
 
-        private void CreateMethodOverride(MethodBuilder delegateMethod)
+        private MethodBuilder CreateMethodOverride(MethodBuilder delegateMethod)
         {
             MethodAttributes attrs = MethodAttributes.Public | 
                 MethodAttributes.Virtual | MethodAttributes.Final |
@@ -229,7 +300,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             il.Emit(OpCodes.Ldarg_0);
             il.Emit(OpCodes.Ldfld, pipelineField);
             il.Emit(OpCodes.Ldc_I4, methodToOverride.MetadataToken);
-            il.EmitCall(OpCodes.Callvirt, PipelineManagerMethods.GetPipeline, null);
+            il.EmitCall(OpCodes.Call, PipelineManagerMethods.GetPipeline, null);
             il.Emit(OpCodes.Stloc, pipeline);
 
             // Create instance of VirtualMethodInvocation
@@ -257,10 +328,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     il.Emit(OpCodes.Ldloc, parameterArray);
                     EmitLoadConstant(il, i);
                     EmitLoadArgument(il, i);
-                    if (methodParameters[i].ParameterType.IsValueType || methodParameters[i].ParameterType.IsGenericParameter)
+                    Type elementType = methodParameters[i].ParameterType;
+                    if(elementType.IsByRef)
                     {
-                        il.Emit(OpCodes.Box, methodParameters[i].ParameterType);
+                        elementType = methodParameters[i].ParameterType.GetElementType();
+                        il.Emit(OpCodes.Ldobj, elementType);
                     }
+                    EmitBox(il, elementType);
                     il.Emit(OpCodes.Stelem_Ref);
                 }
 
@@ -285,7 +359,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             // Was there an exception?
             Label noException = il.DefineLabel();
             il.Emit(OpCodes.Ldloc, methodReturn);
-            il.EmitCall(OpCodes.Call, IMethodReturnMethods.GetException, null);
+            il.EmitCall(OpCodes.Callvirt, IMethodReturnMethods.GetException, null);
             il.Emit(OpCodes.Stloc, ex);
             il.Emit(OpCodes.Ldloc, ex);
             il.Emit(OpCodes.Ldnull);
@@ -296,20 +370,40 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             il.MarkLabel(noException);
 
+            // Unpack any ref/out parameters
+            if(methodParameters.Length > 0)
+            {
+                int outputArgNum = 0;
+                for (paramNum = 0; paramNum < methodParameters.Length; ++paramNum)
+                {
+                    ParameterInfo pi = methodParameters[paramNum];
+                    if (pi.ParameterType.IsByRef)
+                    {
+                        // Get the original parameter value - address of the ref or out
+                        EmitLoadArgument(il, paramNum);
+
+                        // Get the value of this output parameter out of the Outputs collection
+                        il.Emit(OpCodes.Ldloc, methodReturn);
+                        il.Emit(OpCodes.Callvirt, IMethodReturnMethods.GetOutputs);
+                        EmitLoadConstant(il, outputArgNum++);
+                        il.Emit(OpCodes.Callvirt, IListMethods.GetItem);
+                        EmitUnboxOrCast(il, pi.ParameterType.GetElementType());
+
+                        // And store in the caller
+                        il.Emit(OpCodes.Stobj, pi.ParameterType.GetElementType());
+                    }
+                }
+            }
+
             if (MethodHasReturnValue)
             {
                 il.Emit(OpCodes.Ldloc, methodReturn);
-                il.EmitCall(OpCodes.Call, IMethodReturnMethods.GetReturnValue, null);
-                if (ReturnType.IsValueType || ReturnType.IsGenericParameter)
-                {
-                    il.Emit(OpCodes.Unbox_Any, ReturnType);
-                }
-                else
-                {
-                    il.Emit(OpCodes.Castclass, ReturnType);
-                }
+                il.EmitCall(OpCodes.Callvirt, IMethodReturnMethods.GetReturnValue, null);
+                EmitUnboxOrCast(il, ReturnType);
             }
             il.Emit(OpCodes.Ret);
+
+            return methodBuilder;
         }
 
         private bool MethodHasReturnValue

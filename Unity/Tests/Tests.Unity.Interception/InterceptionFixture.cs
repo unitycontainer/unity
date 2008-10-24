@@ -1,8 +1,8 @@
-//===============================================================================
+﻿//===============================================================================
 // Microsoft patterns & practices
 // Unity Application Block
 //===============================================================================
-// Copyright � Microsoft Corporation.  All rights reserved.
+// Copyright © Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -170,6 +170,38 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             wrappable.Method2();
 
             Assert.AreEqual(1, GlobalCountCallHandler.Calls["CanCreateWrappedObject"]);
+        }
+
+        [TestMethod]
+        public void CanInterceptWrappedObjectWithRef()
+        {
+            GlobalCountCallHandler.Calls.Clear();
+
+            IUnityContainer container = CreateContainer("CanInterceptWrappedObjectWithRef");
+            container.Configure<Interception>().SetInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
+
+            Wrappable wrappable = container.Resolve<Wrappable>();
+            object foo = null;
+            wrappable.MethodRef(ref foo);
+
+            Assert.AreEqual("foo", foo);
+            Assert.AreEqual(1, GlobalCountCallHandler.Calls["CanInterceptWrappedObjectWithRef"]);
+        }
+
+        [TestMethod]
+        public void CanInterceptWrappedObjectWithValueTypeRef()
+        {
+            GlobalCountCallHandler.Calls.Clear();
+
+            IUnityContainer container = CreateContainer("CanInterceptWrappedObjectWithValueTypeRef");
+            container.Configure<Interception>().SetInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
+
+            Wrappable wrappable = container.Resolve<Wrappable>();
+            int foo = 0;
+            wrappable.MethodRefValue(ref foo);
+
+            Assert.AreEqual(42, foo);
+            Assert.AreEqual(1, GlobalCountCallHandler.Calls["CanInterceptWrappedObjectWithValueTypeRef"]);
         }
 
         [TestMethod]

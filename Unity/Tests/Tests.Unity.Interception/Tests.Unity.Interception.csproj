@@ -38,7 +38,7 @@
     <Compile Include="FakeObjects\FakeMethodCallMessage.cs" />
     <Compile Include="HandlerInvocationFixture.cs" />
     <Compile Include="InterceptionFixture.cs" />
-    <Compile Include="InterfaceInterception\ContainerInterfaceInterception.cs" />
+    <Compile Include="InterfaceInterception\ContainerInterfaceInterceptionFixture.cs" />
     <Compile Include="InterfaceInterception\InterfaceInterceptorFixture.cs" />
     <Compile Include="MatchingRuleSetFixture.cs" />
     <Compile Include="MatchingRules\AssemblyMatchingRuleFixture.cs" />

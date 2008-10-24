@@ -68,14 +68,14 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private ConstructorInfo FindInjectionConstructor(Type typeToConstruct)
         {
-            ConstructorInfo[] injectionConstructors = Array.FindAll(
-                typeToConstruct.GetConstructors(),
-                delegate(ConstructorInfo ctor)
-                {
-                    return ctor.IsDefined(
-                        typeof(TInjectionConstructorMarkerAttribute),
-                        true);
-                });
+            ConstructorInfo[] injectionConstructors = Seq.Make(typeToConstruct.GetConstructors())
+                .Where(delegate(ConstructorInfo ctor)
+                    {
+                        return ctor.IsDefined(
+                            typeof(TInjectionConstructorMarkerAttribute),
+                            true);
+                    })
+                .ToArray();
 
             switch(injectionConstructors.Length)
             {

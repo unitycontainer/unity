@@ -1,3 +1,14 @@
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -48,7 +59,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             il.Emit(OpCodes.Ldfld, pipelineManagerField);
             il.Emit(OpCodes.Ldarg_1);
             il.EmitCall(OpCodes.Callvirt, MethodBaseMethods.GetMetadataToken, null);
-            il.Emit(OpCodes.Callvirt, PipelineManagerMethods.GetPipeline);
+            il.Emit(OpCodes.Call, PipelineManagerMethods.GetPipeline);
             il.Emit(OpCodes.Ret);
             // finished
             typeBuilder.DefineMethodOverride(methodBuilder,IInterceptingProxyMethods.GetPipeline);
@@ -83,7 +94,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             il.Emit(OpCodes.Ldarg_1);
             il.EmitCall(OpCodes.Callvirt, MethodBaseMethods.GetMetadataToken, null);
             il.Emit(OpCodes.Ldarg_2);
-            il.Emit(OpCodes.Callvirt, PipelineManagerMethods.SetPipeline);
+            il.Emit(OpCodes.Call, PipelineManagerMethods.SetPipeline);
             il.Emit(OpCodes.Ret);
             typeBuilder.DefineMethodOverride(methodBuilder, IInterceptingProxyMethods.SetPipeline);
         }

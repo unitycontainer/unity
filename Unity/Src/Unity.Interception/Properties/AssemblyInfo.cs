@@ -9,15 +9,33 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security;
+
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Microsoft.Practices.Unity.InterceptionExtension")]
 [assembly: AssemblyDescription("Interception support for the Unity Application Block")]
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
+[assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
+[assembly: AssemblyProduct("Microsoft Unity Application Block")]
+[assembly: AssemblyCompany("Microsoft Corporation")]
+
+[assembly: SecurityCritical]
+[assembly: AllowPartiallyTrustedCallers]
+
+#if DEBUG
+[assembly: AssemblyConfiguration("Debug")]
+#else
+[assembly: AssemblyConfiguration("Release")]
+#endif
+[assembly: AssemblyCopyright("Copyright � 2008 Microsoft Corporation.")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+
+[assembly: AssemblyVersion("1.2.0.0")]
+[assembly: AssemblyFileVersion("1.2.0.0")]

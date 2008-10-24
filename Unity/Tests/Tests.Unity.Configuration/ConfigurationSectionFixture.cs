@@ -11,9 +11,9 @@
 
 using System;
 using System.Configuration;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.Practices.Unity.TestSupport;
-using Microsoft.Practices.Unity.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SysConfiguration = System.Configuration.Configuration;
 

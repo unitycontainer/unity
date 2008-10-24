@@ -29,6 +29,10 @@ namespace Microsoft.Practices.Unity.Tests
                 UnityProxy proxy = (UnityProxy)spawnedDomain.CreateInstanceAndUnwrap(typeof(UnityProxy).Assembly.FullName, typeof(UnityProxy).FullName);
                 Assert.IsTrue(proxy.CreateSomething());
             }
+            catch(Exception ex)
+            {
+                Assert.Fail(string.Format("Exception of type {0} was caught, message {1}", ex.GetType(), ex.Message));
+            }
             finally
             {
                 AppDomain.Unload(spawnedDomain);

@@ -1,7 +1,22 @@
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
-using Microsoft.Practices.Unity.Utility;
+using System.Security;
+using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.InterceptionExtension.Interceptors.TypeInterceptors.VirtualMethodInterception.InterceptingClassGeneration;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -12,12 +27,21 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     public class InterfaceInterceptorClassGenerator
     {
         private readonly Type typeToIntercept;
-        private static readonly AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
-                new AssemblyName("Unity_ILEmit_InterfaceProxies"), AssemblyBuilderAccess.RunAndSave);
+        private static readonly AssemblyBuilder assemblyBuilder;
 
         private FieldBuilder pipelineManagerField;
         private FieldBuilder targetField;
         private TypeBuilder typeBuilder;
+
+        [SecurityCritical]
+        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline",
+            Justification = "Need to use constructor so we can place attribute on it.")]
+        static InterfaceInterceptorClassGenerator()
+        {
+            assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
+                new AssemblyName("Unity_ILEmit_InterfaceProxies"), AssemblyBuilderAccess.RunAndSave);
+
+        }
 
         /// <summary>
         /// Create an instance of <see cref="InterfaceInterceptorClassGenerator"/> that
@@ -36,10 +60,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns></returns>
         public Type CreateProxyType()
         {
-            int methodNum = 0;
-            foreach(MethodInfo method in typeToIntercept.GetMethods())
+            int memberCount = 0;
+            foreach(MethodInfo method in MethodsToIntercept())
             {
-                new InterfaceMethodOverride(typeBuilder, pipelineManagerField, targetField, method, methodNum++).AddMethod();
+                OverrideMethod(method, memberCount++);
+            }
+
+            foreach(PropertyInfo property in PropertiesToIntercept())
+            {
+                OverrideProperty(property, memberCount++);
             }
 
             AddConstructor();
@@ -49,6 +78,55 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             assemblyBuilder.Save("Unity_ILEmit_InterfaceProxies.dll");
 #endif
             return result;
+        }
+
+        private IEnumerable<MethodInfo> MethodsToIntercept()
+        {
+            foreach(MethodInfo method in typeToIntercept.GetMethods())
+            {
+                if(!method.IsSpecialName)
+                {
+                    yield return method;
+                }
+            }
+        }
+
+        private void OverrideMethod(MethodInfo method, int methodNum)
+        {
+            new InterfaceMethodOverride(typeBuilder, pipelineManagerField, targetField, method, methodNum).AddMethod();
+        }
+
+        private IEnumerable<PropertyInfo> PropertiesToIntercept()
+        {
+            return typeToIntercept.GetProperties();
+        }
+
+        private void OverrideProperty(PropertyInfo property, int count)
+        {
+            MethodBuilder getMethod = OverridePropertyMethod(property.GetGetMethod(), count);
+            MethodBuilder setMethod = OverridePropertyMethod(property.GetSetMethod(), count);
+            AddPropertyDefinition(property, getMethod, setMethod);
+        }
+
+        private void AddPropertyDefinition(PropertyInfo property, MethodBuilder getMethod, MethodBuilder setMethod)
+        {
+            PropertyBuilder newProperty = typeBuilder.DefineProperty(property.Name, property.Attributes, property.PropertyType,
+                Seq.Make(property.GetIndexParameters()).Map<Type>(delegate(ParameterInfo param) { return param.ParameterType; }).ToArray());
+
+            if(getMethod != null)
+            {
+                newProperty.SetGetMethod(getMethod);
+            }
+
+            if(setMethod != null)
+            {
+                newProperty.SetSetMethod(setMethod);
+            }
+        }
+
+        private MethodBuilder OverridePropertyMethod(MethodInfo method, int count)
+        {
+            return method == null ? null : new InterfaceMethodOverride(typeBuilder, pipelineManagerField, targetField, method, count).AddMethod();
         }
 
         private void AddConstructor()
@@ -62,6 +140,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             ctorBuilder.DefineParameter(1, ParameterAttributes.None, "target");
             ILGenerator il = ctorBuilder.GetILGenerator();
+
+            // Call base class constructor
+
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Call, ObjectMethods.Constructor);
 
             // Initialize pipeline field
             il.Emit(OpCodes.Ldarg_0);
@@ -83,7 +166,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             ModuleBuilder moduleBuilder = GetModuleBuilder();
             typeBuilder = moduleBuilder.DefineType(CreateTypeName(), newAttributes);
 
-            //DefineGenericArguments(typeBuilder, baseClass);
+            DefineGenericArguments();
 
             pipelineManagerField = InterceptingProxyImplementor.ImplementIInterceptingProxy(typeBuilder);
             targetField = typeBuilder.DefineField("target", typeToIntercept, FieldAttributes.Private);
@@ -103,6 +186,25 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private string CreateTypeName()
         {
             return "DynamicModule.ns.Wrapped_" + typeToIntercept.Name + "_" + Guid.NewGuid().ToString("N");
+        }
+
+        private void DefineGenericArguments()
+        {
+            if (!typeToIntercept.IsGenericType) return;
+
+            Type[] genericArguments = typeToIntercept.GetGenericArguments();
+
+            GenericTypeParameterBuilder[] genericTypes = typeBuilder.DefineGenericParameters(
+                Seq.Make(genericArguments).Map<string>(delegate(Type t) { return t.Name; }).ToArray());
+
+            for (int i = 0; i < genericArguments.Length; ++i)
+            {
+                genericTypes[i].SetGenericParameterAttributes(genericArguments[i].GenericParameterAttributes);
+                foreach (Type constraint in genericArguments[i].GetGenericParameterConstraints())
+                {
+                    genericTypes[i].SetBaseTypeConstraint(constraint);
+                }
+            }
         }
 
     }

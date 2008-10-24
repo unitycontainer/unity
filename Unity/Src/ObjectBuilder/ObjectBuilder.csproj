@@ -67,7 +67,7 @@
     <Compile Include="Strategies\BuildPlan\Creation\SelectedConstructor.cs" />
     <Compile Include="Strategies\BuildPlan\Creation\SelectedMemberWithParameters.cs" />
     <Compile Include="Strategies\BuildPlan\DynamicMethod\Creation\DynamicMethodConstructorStrategy.cs" />
-    <Compile Include="Strategies\BuildPlan\DynamicMethod\DefaultDynamicBuilderMethodCreatorPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\DynamicMethod\DefaultDynamicBuilderMethodCreatorPolicy.Desktop.cs" />
     <Compile Include="Strategies\BuildPlan\DynamicMethod\DynamicBuildPlanGenerationContext.cs" />
     <Compile Include="Strategies\BuildPlan\DynamicMethod\DynamicMethodBuildPlan.cs" />
     <Compile Include="Strategies\BuildPlan\DynamicMethod\DynamicMethodBuildPlanCreatorPolicy.cs" />
@@ -115,6 +115,7 @@
     <Compile Include="Location\WeakRefDictionary.cs" />
     <Compile Include="Exceptions\IllegalInjectionMethodException.cs" />
     <Compile Include="Utility\NamedTypeBuildKey.cs" />
+    <Compile Include="Utility\Sequence.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
@@ -125,6 +126,11 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Exceptions\BuildFailedException.Desktop.cs" />
+    <Compile Include="Exceptions\IllegalInjectionMethodException.Desktop.cs" />
+    <Compile Include="Exceptions\DependencyMissingException.Desktop.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

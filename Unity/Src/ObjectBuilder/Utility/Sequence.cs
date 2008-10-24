@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace Microsoft.Practices.Unity.Utility
+namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
     /// A series of helper methods to deal with sequences -
@@ -122,6 +122,26 @@ namespace Microsoft.Practices.Unity.Utility
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// Tests the given <paramref name="sequence"/>, returning true only if all
+        /// elements in <paramref name="sequence"/> satisfies the given predicate.
+        /// </summary>
+        /// <typeparam name="T">Type of elements in sequence.</typeparam>
+        /// <param name="sequence">Sequence to test.</param>
+        /// <param name="pred">Predicate to use to test.</param>
+        /// <returns>true if all elements satify pred, false if not.</returns>
+        public static bool ForAll<T>(IEnumerable<T> sequence, Predicate<T> pred)
+        {
+            foreach(T item in sequence)
+            {
+                if(!pred(item))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -385,6 +405,17 @@ namespace Microsoft.Practices.Unity.Utility
         public bool Exists(Predicate<T> predicate)
         {
             return Sequence.Exists(items, predicate);
+        }
+
+        /// <summary>
+        /// Tests the sequence, returning true only if all
+        /// elements satisfy the given predicate.
+        /// </summary>
+        /// <param name="predicate">Predicate to use to test.</param>
+        /// <returns>true if all elements satify pred, false if not.</returns>
+        public bool ForAll(Predicate<T> predicate)
+        {
+            return Sequence.ForAll(items, predicate);
         }
 
         /// <summary>

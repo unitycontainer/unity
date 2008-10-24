@@ -1,8 +1,8 @@
-//===============================================================================
+﻿//===============================================================================
 // Microsoft patterns & practices
 // Unity Application Block
 //===============================================================================
-// Copyright � Microsoft Corporation.  All rights reserved.
+// Copyright © Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -30,30 +30,6 @@ namespace Microsoft.Practices.Unity
 
         /// <summary>
         /// Construct a new <see cref="ResolvedArrayParameter"/> that
-        /// resolves to the given element type.
-        /// </summary>
-        /// <param name="elementType">The type of elements to resolve.</param>
-        public ResolvedArrayParameter(Type elementType)
-            : this(GetArrayType(elementType), elementType)
-        {
-        }
-
-        /// <summary>
-        /// Construct a new <see cref="ResolvedArrayParameter"/> that
-        /// resolves to the given array and element types.
-        /// </summary>
-        /// <param name="arrayParameterType">The type for the array of elements to resolve.</param>
-        /// <param name="elementType">The type of elements to resolve.</param>
-        protected ResolvedArrayParameter(Type arrayParameterType, Type elementType)
-            : base(arrayParameterType)
-        {
-            Guard.ArgumentNotNull(elementType, "elementType");
-
-            this.elementType = elementType;
-        }
-
-        /// <summary>
-        /// Construct a new <see cref="ResolvedArrayParameter"/> that
         /// resolves to the given element type and collection of element values.
         /// </summary>
         /// <param name="elementType">The type of elements to resolve.</param>
@@ -73,10 +49,12 @@ namespace Microsoft.Practices.Unity
         /// <param name="elementValues">The values for the elements, that will
         /// be converted to <see cref="InjectionParameterValue"/> objects.</param>
         protected ResolvedArrayParameter(Type arrayParameterType, Type elementType, params object[] elementValues)
-            : this(arrayParameterType, elementType)
+            : base(arrayParameterType)
         {
+            Guard.ArgumentNotNull(elementType, "elementType");
             Guard.ArgumentNotNull(elementValues, "elementValues");
 
+            this.elementType = elementType;
             this.elementValues.AddRange(ToParameters(elementValues));
             foreach (InjectionParameterValue pv in this.elementValues)
             {
@@ -128,14 +106,6 @@ namespace Microsoft.Practices.Unity
     /// <typeparam name="TElement">Type of the elements for the array of the parameter.</typeparam>
     public class ResolvedArrayParameter<TElement> : ResolvedArrayParameter
     {
-        /// <summary>
-        /// Construct a new <see cref="ResolvedArrayParameter{TElement}"/> that
-        /// resolves to the given element generic type.
-        /// </summary>
-        public ResolvedArrayParameter()
-            : base(typeof(TElement[]), typeof(TElement))
-        { }
-
         /// <summary>
         /// Construct a new <see cref="ResolvedArrayParameter{TElement}"/> that
         /// resolves to the given element generic type with the given element values.

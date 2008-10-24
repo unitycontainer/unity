@@ -1,3 +1,14 @@
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -20,6 +31,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="context">Context of the build operation.</param>
         public override void PostBuildUp(IBuilderContext context)
         {
+            // If it's already been intercepted, don't do it again.
+            if(context.Existing is IInterceptingProxy) return;
+
             Type originalType;
             if (!BuildKey.TryGetType(context.OriginalBuildKey, out originalType)) return;
 
@@ -63,8 +77,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             // First, try for a match against the current build key
             IInstanceInterceptionPolicy policy;
 
-            policy = context.Policies.GetNoDefault<IInstanceInterceptionPolicy>(context.BuildKey, false) ??
-                context.Policies.GetNoDefault<IInstanceInterceptionPolicy>(currentType, false);
+            policy = context.Policies.Get<IInstanceInterceptionPolicy>(context.BuildKey, false) ??
+                context.Policies.Get<IInstanceInterceptionPolicy>(currentType, false);
             if(policy != null)
             {
                 typeToIntercept = currentType;
@@ -73,8 +87,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             // Next, try the original build key
 
-            policy = context.Policies.GetNoDefault<IInstanceInterceptionPolicy>(context.OriginalBuildKey, false) ??
-                context.Policies.GetNoDefault<IInstanceInterceptionPolicy>(originalType, false);
+            policy = context.Policies.Get<IInstanceInterceptionPolicy>(context.OriginalBuildKey, false) ??
+                context.Policies.Get<IInstanceInterceptionPolicy>(originalType, false);
 
             if(policy != null)
             {

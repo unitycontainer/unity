@@ -1,8 +1,8 @@
-//===============================================================================
+﻿//===============================================================================
 // Microsoft patterns & practices
 // Unity Application Block
 //===============================================================================
-// Copyright � Microsoft Corporation.  All rights reserved.
+// Copyright © Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -25,8 +25,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// be used to do it, and also provides a convenient set of methods for
     /// configuring injection for <see cref="RuleDrivenPolicy"/> instances.
     /// </summary>
-    /// <seealso cref="O:Interception.SetDefaultInterceptorFor"/>
-    /// <seealso cref="O:Interception.SetInterceptorFor"/>
+    /// <seealso cref="Interception.SetDefaultInterceptorFor(Type, IInstanceInterceptor)"/>
+    /// <seealso cref="Interception.SetDefaultInterceptorFor(Type, ITypeInterceptor)"/>
+    /// <seealso cref="Interception.SetInterceptorFor(Type, string, IInstanceInterceptor)"/>
+    /// <seealso cref="Interception.SetInterceptorFor(Type, string, ITypeInterceptor)"/>
     /// <seealso cref="Interception.AddPolicy"/>
     public class Interception : UnityContainerExtension
     {
@@ -229,7 +231,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// instances and <see cref="ICallHandler"/> instances that are required by a policy.
         /// <para/>
         /// This mechanism is just a shortcut for what can be natively expressed by wiring up together objects
-        /// with repeated calls to the <see cref="O:InjectedMembers.ConfigureInjectionFor"/> method.</remarks>
+        /// with repeated calls to the 
+        /// <see cref="InjectedMembers.ConfigureInjectionFor(Type, string, InjectionMember[])"/> method.
+        /// </remarks>
         public PolicyDefinition AddPolicy(string policyName)
         {
             Guard.ArgumentNotNullOrEmpty(policyName, "policyName");

@@ -18,7 +18,7 @@ namespace Microsoft.Practices.Unity
     /// This extension installs the default strategies and policies into the container
     /// to implement the standard behavior of the Unity container.
     /// </summary>
-    public class UnityDefaultStrategiesExtension : UnityContainerExtension
+    public partial class UnityDefaultStrategiesExtension : UnityContainerExtension
     {
         /// <summary>
         /// Add the default ObjectBuilder strategies &amp; policies to the container.
@@ -53,8 +53,7 @@ namespace Microsoft.Practices.Unity
             Context.Policies.SetDefault<IMethodSelectorPolicy>(
                 new DefaultUnityMethodSelectorPolicy());
 
-            Context.Policies.SetDefault<IDynamicBuilderMethodCreatorPolicy>(
-                new DefaultDynamicBuilderMethodCreatorPolicy());
+            SetDynamicBuilderMethodCreatorPolicy();
 
             Context.Policies.SetDefault<IBuildPlanCreatorPolicy>(
                 new DynamicMethodBuildPlanCreatorPolicy(Context.BuildPlanStrategies));

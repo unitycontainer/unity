@@ -1,9 +1,20 @@
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
-using Microsoft.Practices.Unity.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestSupport.Unity;
 
@@ -116,21 +127,71 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             Assert.AreEqual(100.0 + 25.95 + 19.95 - 15.00 - 6.25, target.Balance);
         }
 
-
         [TestMethod]
-        [Ignore] // Skipping open generic case for the moment.
-        public void InterceptorMapsGenericMethodsOnOpenGenericInterfaces()
+        public void CanGenerateProxyForClosedGeneric()
         {
             IInstanceInterceptor interceptor = new InterfaceInterceptor();
+            GenericImplementationOne<DateTime> target = new GenericImplementationOne<DateTime>();
 
-            List<MethodImplementationInfo> methods = Seq.Make(interceptor.GetInterceptableMethods(typeof (IGenericOne<>), typeof (GenericImplementationOne<>))).ToList();
+            IInterceptingProxy proxy = interceptor.CreateProxy(typeof (IGenericOne<DateTime>), target);
+            CallCountHandler handler = new CallCountHandler();
+            proxy.SetPipeline(typeof(IGenericOne<DateTime>).GetMethod("DoSomething"), new HandlerPipeline(new ICallHandler[] {handler} ));
 
-            List<MethodImplementationInfo> expected = Sequence.ToList(
-                GetExpectedMethods(typeof(IGenericOne<>), typeof(GenericImplementationOne<>), "DoSomething"));
+            IGenericOne<DateTime> intercepted = (IGenericOne<DateTime>) proxy;
+            DateTime now = DateTime.Now;
 
-            CollectionAssert.AreEquivalent(expected, methods);
+            DateTime result = intercepted.DoSomething(now);
+
+            Assert.AreEqual(now, result);
+            Assert.IsTrue(target.DidSomething);
         }
 
+        [TestMethod]
+        public void RefsAndOutsAreProperlyHandled()
+        {
+            IInstanceInterceptor interceptor = new InterfaceInterceptor();
+            ImplementsHaveSomeRefsAndOuts target = new ImplementsHaveSomeRefsAndOuts();
+
+            IInterceptingProxy proxy = interceptor.CreateProxy(typeof (IHaveSomeRefsAndOuts), target);
+            CallCountHandler handler = new CallCountHandler();
+            proxy.SetPipeline(typeof(IHaveSomeRefsAndOuts).GetMethod("DoSomething"), new HandlerPipeline(new ICallHandler[] { handler }));
+
+            IHaveSomeRefsAndOuts intercepted = (IHaveSomeRefsAndOuts) proxy;
+
+            int a;
+            string s = "something";
+            intercepted.DoSomething(out a, ref s);
+
+            Assert.AreEqual(37, a);
+            Assert.AreEqual("+++something***", s);
+            Assert.AreEqual(1, handler.CallCount);
+        }
+
+        [TestMethod]
+        public void ReflectingOverProxyTypeReturnsProperties()
+        {
+            IInstanceInterceptor interceptor = new InterfaceInterceptor();
+            HasSomeProperties target = new HasSomeProperties();
+            IInterceptingProxy proxy = interceptor.CreateProxy(typeof (IHaveSomeProperties), target);
+
+            List<PropertyInfo> interfaceProperties = new List<PropertyInfo>(typeof(IHaveSomeProperties).GetProperties());
+            List<PropertyInfo> proxyProperties = new List<PropertyInfo>(proxy.GetType().GetProperties());
+
+            Assert.AreEqual(interfaceProperties.Count, proxyProperties.Count);
+        }
+
+        [TestMethod]
+        [Ignore] // TODO: Known issue - we don't copy attributes yet
+        public void ProxyPropertyReflectionReturnsAttributes()
+        {
+            IInstanceInterceptor interceptor = new InterfaceInterceptor();
+            HasSomeProperties target = new HasSomeProperties();
+            IInterceptingProxy proxy = interceptor.CreateProxy(typeof(IHaveSomeProperties), target);
+
+            PropertyInfo nameProp = proxy.GetType().GetProperty("Name");
+            SampleAttribute attr = (SampleAttribute) Attribute.GetCustomAttribute(nameProp, typeof (SampleAttribute));
+            Assert.AreEqual("A name", attr.Name);
+        }
 
         private static IEnumerable<MethodImplementationInfo> GetExpectedMethods<TInterface, TImplementation>(params string[] methodNames)
         {
@@ -175,26 +236,91 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         }
 
 
-        internal interface IGenericOne<T>
+        public interface IGenericOne<T>
         {
             T DoSomething(T something);
         }
 
-        internal class GenericImplementationOne<T> : IGenericOne<T>
+        public class GenericImplementationOne<T> : IGenericOne<T>
         {
+            public bool DidSomething;
+
             public T DoSomething(T something)
             {
-                throw new System.NotImplementedException();
+                DidSomething = true;
+                return something;
             }
         }
 
         class ImplementsInterfaceOne : IInterfaceOne
         {
-            public bool TargetMethodCalled = false;
+            public bool TargetMethodCalled;
 
             public void TargetMethod()
             {
                 TargetMethodCalled = true;    
+            }
+        }
+
+        public interface IHaveSomeRefsAndOuts
+        {
+            void DoSomething(out int a, ref string s);
+        }
+
+        class ImplementsHaveSomeRefsAndOuts : IHaveSomeRefsAndOuts
+        {
+            public void DoSomething(out int a, ref string s)
+            {
+                a = 37;
+                s = "+++" + s + "***";
+            }
+        }
+
+        [AttributeUsage(AttributeTargets.All)]
+        public class SampleAttribute : Attribute
+        {
+            private readonly string name;
+
+            public SampleAttribute(string name)
+            {
+                this.name = name;
+            }
+
+            public string Name
+            {
+                get { return name; }
+            }
+        }
+        public interface IHaveSomeProperties
+        {
+            string AMethod(int x);
+
+            
+            int IntProperty { get; set; }
+            [Sample("A name")]
+            string Name { get; set; }
+        }
+
+        class HasSomeProperties : IHaveSomeProperties
+        {
+            private int intValue;
+            private string stringValue;
+
+            public string AMethod(int x)
+            {
+                return "**" + x + "++";
+            }
+
+            public int IntProperty
+            {
+                get { return intValue; }
+                set { intValue = value; }
+            }
+
+            public string Name
+            {
+                get { return stringValue; }
+                set { stringValue = value; }
             }
         }
 
@@ -218,12 +344,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         /// <summary>
         /// Test class used to reverse engineer required generated code.
         /// </summary>
-        class IntefaceOneInterceptor : IInterceptingProxy, IInterfaceOne
+        class InterfaceOneInterceptor : IInterceptingProxy, IInterfaceOne
         {
-            PipelineManager pipelines;
-            private IInterfaceOne target;
+            readonly PipelineManager pipelines;
+            private readonly IInterfaceOne target;
 
-            public IntefaceOneInterceptor(IInterfaceOne target)
+            public InterfaceOneInterceptor(IInterfaceOne target)
             {
                 this.target = target;
                 pipelines = new PipelineManager();

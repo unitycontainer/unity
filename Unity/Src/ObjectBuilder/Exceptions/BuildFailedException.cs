@@ -10,10 +10,7 @@
 //===============================================================================
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
 using Microsoft.Practices.ObjectBuilder2.Properties;
 
 namespace Microsoft.Practices.ObjectBuilder2
@@ -21,12 +18,11 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// <summary>
     /// The exception that gets thrown if a build or teardown operation fails.
     /// </summary>
-    [Serializable]
-    public class BuildFailedException : Exception
+    public partial class BuildFailedException : Exception
     {
-        private readonly string executingStrategyTypeName;
-        private readonly int executingStrategyIndex;
         private readonly string buildKey;
+        private readonly int executingStrategyIndex;
+        private readonly string executingStrategyTypeName;
 
         /// <summary>
         /// Create a new <see cref="BuildFailedException"/> instance containing
@@ -40,13 +36,13 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="buildKey">The build key being built up.</param>
         /// <param name="innerException">Underlying exception.</param>
         public BuildFailedException(
-            IBuilderStrategy executingStrategy, 
-            int executingStrategyIndex, 
-            object buildKey, 
+            IBuilderStrategy executingStrategy,
+            int executingStrategyIndex,
+            object buildKey,
             Exception innerException)
             : base(null, innerException)
         {
-            if(executingStrategy != null)
+            if (executingStrategy != null)
             {
                 executingStrategyTypeName = executingStrategy.GetType().Name;
             }
@@ -75,7 +71,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="message">Error message, ignored.</param>
         public BuildFailedException(string message) : base(message)
         {
-            
         }
 
         /// <summary>
@@ -86,22 +81,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="innerException">Inner exception.</param>
         public BuildFailedException(string message, Exception innerException) : base(message, innerException)
         {
-        }
-
-        /// <summary>
-        /// Create a new <see cref="BuildFailedException"/> from the serialized information.
-        /// </summary>
-        /// <param name="info">Serialization info.</param>
-        /// <param name="context">Streaming context.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", 
-            Justification="Validation done by Guard class")]
-        protected BuildFailedException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-            Guard.ArgumentNotNull(info, "info");
-            executingStrategyTypeName = info.GetString("ExecutingStrategy");
-            executingStrategyIndex = info.GetInt32("ExecutingStrategyIndex");
-            buildKey = info.GetString("BuildKey");
         }
 
         #endregion
@@ -140,7 +119,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         ///<filterpriority>1</filterpriority>
         public override string Message
         {
-            get 
+            get
             {
                 return string.Format(
                     CultureInfo.CurrentCulture,
@@ -150,24 +129,6 @@ namespace Microsoft.Practices.ObjectBuilder2
                     BuildKey,
                     InnerException != null ? InnerException.Message : null);
             }
-        }
-
-        ///<summary>
-        ///When overridden in a derived class, sets the <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> with information about the exception.
-        ///</summary>
-        ///
-        ///<param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"></see> that contains contextual information about the source or destination. </param>
-        ///<param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> that holds the serialized object data about the exception being thrown. </param>
-        ///<exception cref="T:System.ArgumentNullException">The info parameter is a null reference (Nothing in Visual Basic). </exception><filterpriority>2</filterpriority><PermissionSet><IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Read="*AllFiles*" PathDiscovery="*AllFiles*" /><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="SerializationFormatter" /></PermissionSet>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Base class does the validation")]
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter=true)]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue("ExecutingStrategy", ExecutingStrategyTypeName, typeof(string));
-            info.AddValue("ExecutingStrategyIndex", ExecutingStrategyIndex, typeof(int));
-            info.AddValue("BuildKey", BuildKey, typeof(string));
         }
     }
 }

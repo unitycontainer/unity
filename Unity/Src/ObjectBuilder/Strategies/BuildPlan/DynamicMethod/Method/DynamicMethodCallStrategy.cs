@@ -103,11 +103,11 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private static void GuardMethodHasNoOutParams(MethodInfo method)
         {
-            if(Array.Find(method.GetParameters(), 
+            if(Sequence.Exists(method.GetParameters(), 
                 delegate(ParameterInfo param)
                 {
                     return param.IsOut;
-                }) != null)
+                }))
             {
                 ThrowIllegalInjectionMethod(Resources.CannotInjectMethodWithOutParam, method);
             }
@@ -115,11 +115,11 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private static void GuardMethodHasNoRefParams(MethodInfo method)
         {
-            if (Array.Find(method.GetParameters(),
+            if (Sequence.Exists(method.GetParameters(),
                 delegate(ParameterInfo param)
                 {
                     return param.ParameterType.IsByRef;
-                }) != null)
+                }))
             {
                 ThrowIllegalInjectionMethod(Resources.CannotInjectMethodWithOutParam, method);
             }
@@ -173,6 +173,3 @@ namespace Microsoft.Practices.ObjectBuilder2
         }
     }
 }
-
-
-

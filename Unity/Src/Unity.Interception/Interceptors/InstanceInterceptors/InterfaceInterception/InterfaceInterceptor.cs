@@ -1,3 +1,14 @@
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -12,7 +23,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     public class InterfaceInterceptor : IInstanceInterceptor
     {
-        private static Dictionary<Type, Type> interceptorClasses = new Dictionary<Type, Type>();
+        private static readonly Dictionary<Type, Type> interceptorClasses = new Dictionary<Type, Type>();
         #region IInstanceInterceptor Members
 
         /// <summary>
@@ -57,14 +68,24 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public IInterceptingProxy CreateProxy(Type t, object target)
         {
             Type interceptorType;
+            Type typeToProxy = t;
+
+            if(t.IsGenericType)
+            {
+                typeToProxy = t.GetGenericTypeDefinition();
+            }
             lock(interceptorClasses)
             {
-                if(!interceptorClasses.ContainsKey(t))
+                if(!interceptorClasses.ContainsKey(typeToProxy))
                 {
-                    InterfaceInterceptorClassGenerator generator = new InterfaceInterceptorClassGenerator(t);
-                    interceptorClasses[t] = generator.CreateProxyType();
+                    InterfaceInterceptorClassGenerator generator = new InterfaceInterceptorClassGenerator(typeToProxy);
+                    interceptorClasses[typeToProxy] = generator.CreateProxyType();
                 }
-                interceptorType = interceptorClasses[t];
+                interceptorType = interceptorClasses[typeToProxy];
+            }
+            if(interceptorType.IsGenericTypeDefinition)
+            {
+                interceptorType = interceptorType.MakeGenericType(t.GetGenericArguments());
             }
             return (IInterceptingProxy)Activator.CreateInstance(interceptorType, target);
         }

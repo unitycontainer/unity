@@ -1,8 +1,8 @@
-//===============================================================================
+﻿//===============================================================================
 // Microsoft patterns & practices
 // Unity Application Block
 //===============================================================================
-// Copyright � Microsoft Corporation.  All rights reserved.
+// Copyright © Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -60,6 +60,26 @@ namespace TestSupport.Unity
         public void Method3() { }
 
         public void MethodA() { }
+
+        public void MethodRef(ref object foo)
+        {
+            foo = "foo";
+        }
+
+        public void MethodRefValue(ref int foo)
+        {
+            foo = 42;
+        }
+
+        public void MethodOut(out object foo)
+        {
+            foo = "foo";
+        }
+
+        public void MethodOutValue(out int foo)
+        {
+            foo = 42;
+        }
     }
 
     public class WrappableWithProperty : MarshalByRefObject

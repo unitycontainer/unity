@@ -1,8 +1,23 @@
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
+//#define DEBUG_SAVE_GENERATED_ASSEMBLY
+
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
-using Microsoft.Practices.Unity.Utility;
+using System.Security;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -11,25 +26,30 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     public class InterceptingClassGenerator
     {
-        private readonly List<MethodInfo> methodsToIntercept;
         private readonly Type typeToIntercept;
-        private static readonly AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
-                new AssemblyName("Unity_ILEmit_DynamicClasses"), AssemblyBuilderAccess.RunAndSave);
+
+        private static readonly AssemblyBuilder assemblyBuilder;
 
         private FieldBuilder pipelineManagerField;
         private TypeBuilder typeBuilder;
+
+        [SecurityCritical]
+        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline", 
+            Justification="Need to use constructor so we can place attribute on it.")]
+        static InterceptingClassGenerator()
+        {
+            assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
+                new AssemblyName("Unity_ILEmit_DynamicClasses"), AssemblyBuilderAccess.RunAndSave);
+        }
 
         /// <summary>
         /// Create a new <see cref="InterceptingClassGenerator"/> that will generate a
         /// wrapper class for the requested <paramref name="typeToIntercept"/>.
         /// </summary>
         /// <param name="typeToIntercept">Type to generate the wrapper for.</param>
-        /// <param name="methodsToIntercept">Sequence of methods on the target type to override.</param>
-        public InterceptingClassGenerator(Type typeToIntercept, IEnumerable<MethodImplementationInfo> methodsToIntercept)
+        public InterceptingClassGenerator(Type typeToIntercept)
         {
             this.typeToIntercept = typeToIntercept;
-            this.methodsToIntercept = Seq.Make(methodsToIntercept).Map<MethodInfo>(
-                delegate(MethodImplementationInfo method) { return method.ImplementationMethodInfo; }).ToList();
             CreateTypeBuilder();
 
         }
@@ -40,150 +60,73 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>Wrapper type.</returns>
         public Type GenerateType()
         {
-            int methodNum = 0;
-            foreach (MethodInfo method in FilteredMethodsToIntercept())
-            {
-                new MethodOverride(typeBuilder, pipelineManagerField, method, methodNum++).AddMethod();
-            }
-
-            foreach (ConstructorInfo ctor in typeToIntercept.GetConstructors(BindingFlags.Public | BindingFlags.Instance))
-            {
-                AddConstructor(ctor);
-            }
+            AddMethods();
+            AddProperties();
+            AddConstructors();
 
             Type result = typeBuilder.CreateType();
 #if DEBUG_SAVE_GENERATED_ASSEMBLY
-            // assemblyBuilder.Save("Unity_ILEmit_DynamicClasses.dll");
+            assemblyBuilder.Save("Unity_ILEmit_DynamicClasses.dll");
 #endif
             return result;
         }
 
-        // Filter out new virtuals that hide other methods
-        private IEnumerable<MethodInfo> FilteredMethodsToIntercept()
+        private void AddMethods()
         {
-            Dictionary<string, List<MethodInfo>> methodsByName = new Dictionary<string, List<MethodInfo>>();
-            foreach (MethodInfo method in methodsToIntercept)
+            int methodNum = 0;
+            foreach(MethodInfo method in GetMethodsToIntercept())
             {
-                if (!methodsByName.ContainsKey(method.Name))
-                {
-                    methodsByName[method.Name] = new List<MethodInfo>();
-                }
-                methodsByName[method.Name].Add(method);
-            }
-
-            foreach (KeyValuePair<string, List<MethodInfo>> methodList in methodsByName)
-            {
-                if (methodList.Value.Count == 1)
-                {
-                    yield return methodList.Value[0];
-                }
-                else
-                {
-                    foreach (MethodInfo method in RemoveHiddenOverloads(methodList.Value))
-                    {
-                        yield return method;
-                    }
-                }
+                new MethodOverride(typeBuilder, pipelineManagerField, method, methodNum++).AddMethod();
             }
         }
 
-        private IEnumerable<MethodInfo> RemoveHiddenOverloads(List<MethodInfo> methods)
+        private IEnumerable<MethodInfo> GetMethodsToIntercept()
         {
-            // Group the methods by signature
-            List<MethodInfo> methodsByParameters = new List<MethodInfo>(methods);
-            methodsByParameters.Sort(CompareMethodInfosByParameterLists);
-            List<List<MethodInfo>> overloadGroups = new List<List<MethodInfo>>(GroupOverloadedMethods(methodsByParameters));
-
-            foreach(List<MethodInfo> overload in overloadGroups)
+            List<MethodInfo> methodsToIntercept = new List<MethodInfo>();
+            foreach (MethodInfo method in typeToIntercept.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
             {
-                yield return SelectMostDerivedOverload(overload);
-            }
-
-        }
-
-        private static IEnumerable<List<MethodInfo>> GroupOverloadedMethods(List<MethodInfo> sortedMethods)
-        {
-            int index = 0;
-            while(index < sortedMethods.Count)
-            {
-                int overloadStart = index;
-                List<MethodInfo> overloads = new List<MethodInfo>();
-                overloads.Add(sortedMethods[overloadStart]);
-                ++index;
-                while(index < sortedMethods.Count && 
-                    CompareMethodInfosByParameterLists(sortedMethods[overloadStart], sortedMethods[index]) == 0)
+                if (!method.IsSpecialName && MethodOverride.MethodCanBeIntercepted(method))
                 {
-                    overloads.Add(sortedMethods[index++]);
-                }
-
-                yield return overloads;
-            }
-        }
-
-        private MethodInfo SelectMostDerivedOverload(List<MethodInfo> overloads)
-        {
-            if(overloads.Count == 1)
-            {
-                return overloads[0];
-            }
-
-            int minDepth = int.MaxValue;
-            MethodInfo selectedMethod = null;
-            foreach(MethodInfo method in overloads)
-            {
-                int thisDepth = DeclarationDepth(method);
-                if(thisDepth < minDepth)
-                {
-                    minDepth = thisDepth;
-                    selectedMethod = method;
+                    methodsToIntercept.Add(method);
                 }
             }
 
-            return selectedMethod;
+            MethodSorter sorter = new MethodSorter(typeToIntercept, methodsToIntercept);
+            foreach(MethodInfo method in sorter)
+            {
+                yield return method;
+            }
         }
 
-        private int DeclarationDepth(MethodInfo method)
+        private void AddProperties()
         {
-            int depth = 0;
-            Type declaringType = typeToIntercept;
-            while(declaringType != null && method.DeclaringType != declaringType)
+            // We don't actually add new properties to this class. We just override
+            // the get / set methods as available. Inheritance makes sure the properties
+            // show up properly on the derived class.
+
+            int propertyCount = 0;
+            foreach(PropertyInfo property in typeToIntercept.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
             {
-                ++depth;
-                declaringType = declaringType.BaseType;
+                OverridePropertyMethod(property.GetGetMethod(), propertyCount);
+                OverridePropertyMethod(property.GetSetMethod(), propertyCount);
+                ++propertyCount;
             }
-            return depth;
         }
 
-        private static int CompareMethodInfosByParameterLists(MethodInfo left, MethodInfo right)
+        private void OverridePropertyMethod(MethodInfo method, int count)
         {
-            return CompareParameterLists(left.GetParameters(), right.GetParameters());    
+            if(method != null && MethodOverride.MethodCanBeIntercepted(method))
+            {
+                new MethodOverride(typeBuilder, pipelineManagerField, method, count).AddMethod();
+            }
         }
 
-        private static int CompareParameterLists(ParameterInfo[] left, ParameterInfo[] right)
+        private void AddConstructors()
         {
-            if(left.Length != right.Length)
+            foreach (ConstructorInfo ctor in typeToIntercept.GetConstructors(BindingFlags.Public | BindingFlags.Instance))
             {
-                return left.Length - right.Length;
+                AddConstructor(ctor);
             }
-
-            for(int i= 0; i < left.Length; ++i)
-            {
-                int comparison = CompareParameterInfo(left[i], right[i]);
-                if(comparison != 0)
-                {
-                    return comparison;
-                }
-            }
-            return 0;
-        }
-
-        private static int CompareParameterInfo(ParameterInfo left, ParameterInfo right)
-        {
-            if (left.ParameterType == right.ParameterType)
-            {
-                return 0;
-            }
-            return left.ParameterType.FullName.CompareTo(right.ParameterType.FullName);
         }
 
         private void AddConstructor(ConstructorInfo ctor)
@@ -275,7 +218,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             string moduleName = Guid.NewGuid().ToString("N");
 #if DEBUG_SAVE_GENERATED_ASSEMBLY
-            return assemblyBuilder.DefineDynamicModule(moduleName /*, moduleName + ".dll", true */);
+            return assemblyBuilder.DefineDynamicModule(moduleName, moduleName + ".dll", true);
 #else
             return assemblyBuilder.DefineDynamicModule(moduleName);
 #endif

@@ -1,7 +1,18 @@
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
 using System;
 using System.Reflection;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
-using Microsoft.Practices.Unity.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestSupport.Unity;
 
@@ -60,8 +71,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         {
             Type baseType = typeof(ClassWithDefaultCtor);
             VirtualMethodInterceptor interceptor = new VirtualMethodInterceptor();
-            InterceptingClassGenerator generator = new InterceptingClassGenerator(baseType,
-                interceptor.GetInterceptableMethods(baseType, baseType));
+            InterceptingClassGenerator generator = new InterceptingClassGenerator(baseType);
             Type generatedType = generator.GenerateType();
 
             MethodInfo methodOne = generatedType.GetMethod("MethodOne");
@@ -369,6 +379,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         private static readonly MethodBase calculateAnswer = typeof (ClassWithDefaultCtor).GetMethod("CalculateAnswer");
         private static readonly MethodBase addUp = typeof (ClassWithDefaultCtor).GetMethod("AddUp");
         private static readonly MethodBase methodWithRefParameters = typeof (ClassWithDefaultCtor).GetMethod("MethodWithRefParameters");
+        private static readonly MethodBase outParams = typeof (ClassWithDefaultCtor).GetMethod("OutParams");
+
 
         /// <summary>
         /// Retrieve the pipeline assocated with the requested <paramref name="method"/>.
@@ -483,30 +495,67 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         {
             HandlerPipeline pipeline = ((IInterceptingProxy) this).GetPipeline(methodWithRefParameters);
             VirtualMethodInvocation inputs = new VirtualMethodInvocation(this, methodWithRefParameters, x, y, f);
-            IMethodReturn result = pipeline.Invoke(inputs, delegate(IMethodInvocation input, GetNextHandlerDelegate getNext)
-            {
-                try
-                {
-                    string refParam = (string)input.Arguments[1];
-                    int returnValue = BaseMethodWithRefParameters((int) inputs.Arguments[0], ref refParam, (float) inputs.Arguments[2]);
-                    return input.CreateMethodReturn(returnValue, input.Inputs[0], refParam, input.Inputs[2]);
-                }
-                catch (Exception ex)
-                {
-                    return input.CreateExceptionMethodReturn(ex);
-                }
-            });
-
+            IMethodReturn result = pipeline.Invoke(inputs, MethodWithRefParameters_Delegate);
             if(result.Exception != null)
             {
                 throw result.Exception;
             }
+            y = (string)result.Outputs[0];
             return (int) result.ReturnValue;
+        }
+
+        private IMethodReturn MethodWithRefParameters_Delegate(IMethodInvocation input, GetNextHandlerDelegate getNext)
+        {
+            try
+            {
+                string refParam = (string)input.Arguments[1];
+                int returnValue = BaseMethodWithRefParameters((int)input.Arguments[0], ref refParam, (float)input.Arguments[2]);
+                return input.CreateMethodReturn(returnValue, input.Inputs[0], refParam, input.Inputs[2]);
+            }
+            catch (Exception ex)
+            {
+                return input.CreateExceptionMethodReturn(ex);
+            }
+            
         }
 
         private int BaseMethodWithRefParameters(int x, ref string y, float f)
         {
             return base.MethodWithRefParameters(x, ref y, f);
+        }
+
+        public override void OutParams(int x, out int plusOne, out int timesTwo)
+        {
+            HandlerPipeline pipeline = ((IInterceptingProxy) this).GetPipeline(outParams);
+            VirtualMethodInvocation inputs = new VirtualMethodInvocation(this, outParams, x, default(int), default(int));
+            IMethodReturn result = pipeline.Invoke(inputs, OutParams_Delegate);
+            if(result.Exception != null)
+            {
+                throw result.Exception;
+            }
+            plusOne = (int) result.Outputs[0];
+            timesTwo = (int) result.Outputs[1];
+        }
+
+        private IMethodReturn OutParams_Delegate(IMethodInvocation input, GetNextHandlerDelegate getNext)
+        {
+            try
+            {
+                int outParam1;
+                int outParam2;
+
+                BaseOutParams((int) input.Arguments[0], out outParam1, out outParam2);
+                return input.CreateMethodReturn(null, input.Arguments[0], outParam1, outParam2);
+            }    
+            catch(Exception ex)
+            {
+                return input.CreateExceptionMethodReturn(ex);
+            }
+        }
+
+        private void BaseOutParams(int x, out int plusOne, out int timesTwo)
+        {
+            base.OutParams(x, out plusOne, out timesTwo);
         }
     }
 

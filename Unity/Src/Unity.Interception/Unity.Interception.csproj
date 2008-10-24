@@ -14,7 +14,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Microsoft.Practices.Unity.Interception.XML</DocumentationFile>
@@ -40,10 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Common\GlobalAssemblyInfo.cs">
-      <Link>GlobalAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="Interceptor.cs" />
     <Compile Include="Interceptors\IInterceptingProxy.cs" />
     <Compile Include="Interceptors\IInterceptor.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\IInstanceInterceptionPolicy.cs" />
@@ -62,6 +58,8 @@
     <Compile Include="Interceptors\TypeInterceptors\TypeInterceptionStrategy.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\IInterceptingProxyMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\InterceptingProxyImplementor.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\MethodSorter.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\ObjectMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\PipelineManagerMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\VirtualMethodInterceptor.cs" />
     <Compile Include="Pipeline\PipelineManager.cs" />

@@ -23,7 +23,7 @@ namespace Microsoft.Practices.Unity
     /// </summary>
     public class UnityContainer : UnityContainerBase
     {
-        private UnityContainer parent;
+        private readonly UnityContainer parent;
 
         private Locator locator;
         private LifetimeContainer lifetimeContainer;
@@ -87,7 +87,7 @@ namespace Microsoft.Practices.Unity
         /// of the returned instance.</param>
         /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        public override IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
+        public override IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager, InjectionMember[] injectionMembers)
         {
             if (to != null && !from.IsGenericType && !to.IsGenericType)
             {
@@ -240,7 +240,7 @@ namespace Microsoft.Practices.Unity
         /// </remarks>
         private class ExtensionContextImpl : ExtensionContext
         {
-            private UnityContainer container;
+            private readonly UnityContainer container;
 
             public ExtensionContextImpl(UnityContainer container)
             {
@@ -327,12 +327,12 @@ namespace Microsoft.Practices.Unity
         /// <returns>The requested extension's configuration interface, or null if not found.</returns>
         public override object Configure(Type configurationInterface)
         {
-            return extensions.Find(
-                delegate(UnityContainerExtension extension)
-                {
-                    return configurationInterface.IsAssignableFrom(
-                        extension.GetType());
-                });
+            foreach(UnityContainerExtension item in Sequence.Where(extensions,
+                delegate(UnityContainerExtension extension) { return configurationInterface.IsAssignableFrom(extension.GetType()); }))
+            {
+                return item;
+            }
+            return null;
         }
 
         /// <summary>

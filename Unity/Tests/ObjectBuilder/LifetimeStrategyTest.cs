@@ -111,12 +111,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
         }
 
-        interface IFoo<T>
+        public interface IFoo<T>
         {
             
         }
 
-        class MyFoo<T> : IFoo<T>
+        public class MyFoo<T> : IFoo<T>
         {
             
         }

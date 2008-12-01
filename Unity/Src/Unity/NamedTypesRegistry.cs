@@ -18,8 +18,8 @@ namespace Microsoft.Practices.Unity
     // registered in the container
     class NamedTypesRegistry
     {
-        private Dictionary<Type, List<string>> registeredKeys;
-        private NamedTypesRegistry parent;
+        private readonly Dictionary<Type, List<string>> registeredKeys;
+        private readonly NamedTypesRegistry parent;
 
         public NamedTypesRegistry()
             : this(null)
@@ -42,8 +42,7 @@ namespace Microsoft.Practices.Unity
                     registeredKeys[t] = new List<string>();
                 }
 
-                registeredKeys[t].RemoveAll(delegate(string s) { return name == s; });
-
+                RemoveMatchingKeys(t, name);
                 registeredKeys[t].Add(name);
             }
         }
@@ -71,6 +70,27 @@ namespace Microsoft.Practices.Unity
         public void Clear()
         {
             registeredKeys.Clear();
+        }
+
+        // We need to do this the long way - Silverlight doesn't support List<T>.RemoveAll(Predicate)
+        private void RemoveMatchingKeys(Type t, string name)
+        {
+            List<int> indexes = new List<int>();
+            int i = 0;
+            foreach(string s in registeredKeys[t])
+            {
+                if(name == s)
+                {
+                    indexes.Add(i);
+                }
+                ++i;
+            }
+
+            indexes.Reverse();
+            foreach(int index in indexes)
+            {
+                registeredKeys[t].RemoveAt(index);
+            }
         }
     }
 }

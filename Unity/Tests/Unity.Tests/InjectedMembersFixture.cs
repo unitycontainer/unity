@@ -206,7 +206,7 @@ namespace Microsoft.Practices.Unity.Tests
                 .ConfigureInjectionFor(null);
         }
 
-        internal class GuineaPig
+        public class GuineaPig
         {
             public bool DefaultConstructorCalled = false;
             public bool OneArgumentConstructorCalled = false;

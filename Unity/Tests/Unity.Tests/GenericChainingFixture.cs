@@ -376,14 +376,14 @@ namespace Microsoft.Practices.Unity.Tests
     }
 
     // Our generic interface 
-    interface ICommand<T>
+    public interface ICommand<T>
     {
         void Execute(T data);
         void ChainedExecute(ICommand<T> inner);
     }
 
     // An implementation of ICommand that executes them.
-    class ConcreteCommand<T> : ICommand<T>
+    public class ConcreteCommand<T> : ICommand<T>
     {
         private object p = null;
 
@@ -404,7 +404,7 @@ namespace Microsoft.Practices.Unity.Tests
     }
 
     // And a decorator implementation that wraps an Inner ICommand<>
-    class LoggingCommand<T> : ICommand<T>
+    public class LoggingCommand<T> : ICommand<T>
     {
         public ICommand<T> inner;
 
@@ -446,7 +446,7 @@ namespace Microsoft.Practices.Unity.Tests
     }
 
     // A type with some nasty generics in the constructor
-    class Pathological<T1, T2>
+    public class Pathological<T1, T2>
     {
         public Pathological(ICommand<T2> cmd1, ICommand<T1> cmd2)
         {
@@ -460,7 +460,7 @@ namespace Microsoft.Practices.Unity.Tests
     }
 
     // A couple of sample objects we're stuffing into our commands
-    class User
+    public class User
     {
         public void DoSomething(string message)
         {
@@ -468,13 +468,13 @@ namespace Microsoft.Practices.Unity.Tests
         }
     }
 
-    class Account
+    public class Account
     {
 
     }
 
     // Value type used for testing nesting
-    struct Customer
+    public struct Customer
     {
         
     }

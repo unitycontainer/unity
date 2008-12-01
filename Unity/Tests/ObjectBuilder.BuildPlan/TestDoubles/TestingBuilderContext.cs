@@ -9,9 +9,11 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
+
 namespace Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles
 {
-    class TestingBuilderContext : IBuilderContext
+    partial class TestingBuilderContext : IBuilderContext
     {
 		ILifetimeContainer lifetime = new LifetimeContainer();
 		IReadWriteLocator locator;
@@ -143,7 +145,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles
                 new DynamicMethodBuildPlanCreatorPolicy(buildPlanChain);
 
             context.PersistentPolicies.SetDefault<IDynamicBuilderMethodCreatorPolicy>(
-                new DefaultDynamicBuilderMethodCreatorPolicy());
+                DynamicBuilderMethodCreatorFactory.CreatePolicy());
+
             context.PersistentPolicies.SetDefault<IBuildPlanCreatorPolicy>(creatorPolicy);
             context.PersistentPolicies.SetDefault<IConstructorSelectorPolicy>(
                 new ConstructorSelectorPolicy<InjectionConstructorAttribute>());

@@ -27,8 +27,7 @@ namespace Microsoft.Practices.Unity
     // as calling them will leave out the information that makes the exception useful
     // in the first place.
     [SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors")]
-    [Serializable]
-    public class ResolutionFailedException : Exception
+    public partial class ResolutionFailedException : Exception
     {
         private readonly string typeRequested;
         private readonly string nameRequested;
@@ -65,37 +64,6 @@ namespace Microsoft.Practices.Unity
         {
             get { return nameRequested; }
         }
-
-        #region Serialization Support
-
-        /// <summary>
-        /// Constructor to create a <see cref="ResolutionFailedException"/> from serialized state.
-        /// </summary>
-        /// <param name="info">Serialization info</param>
-        /// <param name="context">Serialization context</param>
-        protected ResolutionFailedException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            typeRequested = info.GetString("typeRequested");
-            nameRequested = info.GetString("nameRequested");
-        }
-
-        /// <summary>
-        /// Serialize this object into the given context.
-        /// </summary>
-        /// <param name="info">Serialization info</param>
-        /// <param name="context">Streaming context</param>
-        // FxCop suppression: Validation done via guard class
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            Guard.ArgumentNotNull(info, "info");
-            base.GetObjectData(info, context);
-            info.AddValue("typeRequested", typeRequested, typeof(string));
-            info.AddValue("nameRequested", nameRequested, typeof(string));
-        }
-
-        #endregion
 
         private static string CreateMessage(Type typeRequested, string nameRequested, Exception innerException)
         {

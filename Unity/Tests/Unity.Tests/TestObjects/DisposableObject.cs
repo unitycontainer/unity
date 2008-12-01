@@ -13,7 +13,7 @@ using System;
 
 namespace Microsoft.Practices.Unity.Tests.TestObjects
 {
-    class DisposableObject : IDisposable
+    public class DisposableObject : IDisposable
     {
         private bool wasDisposed = false;
 

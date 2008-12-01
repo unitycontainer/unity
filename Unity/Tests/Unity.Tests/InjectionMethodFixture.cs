@@ -60,39 +60,38 @@ namespace Microsoft.Practices.Unity.Tests
                 new InjectionMethod("InjectMe", 15));
         }
 
-    }
-
-    class LegalInjectionMethod
-    {
-        public bool WasInjected = false;
-
-        public void InjectMe()
+        public class LegalInjectionMethod
         {
-            WasInjected = true;
+            public bool WasInjected = false;
+
+            public void InjectMe()
+            {
+                WasInjected = true;
+            }
         }
-    }
 
-    class OpenGenericInjectionMethod
-    {
-        public void InjectMe<T>()
+        public class OpenGenericInjectionMethod
         {
-            
+            public void InjectMe<T>()
+            {
+
+            }
         }
-    }
 
-    class OutParams
-    {
-        public void InjectMe(out int x)
+        public class OutParams
         {
-            x = 2;
+            public void InjectMe(out int x)
+            {
+                x = 2;
+            }
         }
-    }
 
-    class RefParams
-    {
-        public void InjectMe(ref int x)
+        public class RefParams
         {
-            x *= 2;
+            public void InjectMe(ref int x)
+            {
+                x *= 2;
+            }
         }
     }
 }

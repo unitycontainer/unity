@@ -15,7 +15,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Microsoft.Practices.Unity.Tests.TestObjects
 {
     // An object that has constructor, property, and method injection dependencies.
-    class ObjectWithLotsOfDependencies
+    public class ObjectWithLotsOfDependencies
     {
         private ILogger ctorLogger;
         private ObjectWithOneDependency dep1;

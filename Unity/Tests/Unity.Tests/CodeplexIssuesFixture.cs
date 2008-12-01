@@ -102,11 +102,12 @@ namespace Microsoft.Practices.Unity.Tests
 
             IDictionary<string, string> result = container.Resolve<IDictionary<string, string>>();
         }
-        internal interface IBasicInterface
+
+        public interface IBasicInterface
         { 
         }
 
-        internal class ClassWithDoubleConstructor : IBasicInterface
+        public class ClassWithDoubleConstructor : IBasicInterface
         {
             private string myString = "";
 
@@ -122,17 +123,17 @@ namespace Microsoft.Practices.Unity.Tests
             }
         }
 
-        internal interface IFoo<T>
+        public interface IFoo<T>
         {
             
         }
 
-        internal class MyFoo<T> : IFoo<T>
+        public class MyFoo<T> : IFoo<T>
         {
             
         }
 
-        internal class MockBasic : IBasicInterface
+        public class MockBasic : IBasicInterface
         {
             
         }

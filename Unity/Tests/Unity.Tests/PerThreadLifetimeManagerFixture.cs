@@ -9,9 +9,8 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System;
-using System.Collections.Generic;
 using System.Threading;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestSupport.Unity;
 
@@ -23,7 +22,7 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void CanCreateLifetimeManager()
         {
-            LifetimeManager ltm = new PerThreadLifetimeManager();
+            new PerThreadLifetimeManager();
         }
 
         [TestMethod]
@@ -143,7 +142,6 @@ namespace Microsoft.Practices.Unity.Tests
             LifetimeManager manager = new PerThreadLifetimeManager();
 
             object registered = new object();
-            object result = null;
             object result1A = null;
             object result1B = null;
             object result2A = null;
@@ -165,7 +163,7 @@ namespace Microsoft.Practices.Unity.Tests
                     barrier.Await();
                     result2B = container.Resolve<object>();
                 });
-            result = container.Resolve<object>();
+            object result = container.Resolve<object>();
 
             Assert.IsNotNull(result1A);
             Assert.IsNotNull(result2A);
@@ -189,13 +187,13 @@ namespace Microsoft.Practices.Unity.Tests
             // threads for these tests.
 
             Thread[] threads
-                = Array.ConvertAll<ThreadStart, Thread>(actions, delegate(ThreadStart action) { return new Thread(action); });
+                = Seq.Make(actions).Map<Thread>(delegate(ThreadStart action) { return new Thread(action); }).ToArray();
 
             // Start them all...
-            Array.ForEach<Thread>(threads, delegate(Thread thread) { thread.Start(); });
+            Sequence.ForEach(threads, delegate(Thread thread) { thread.Start(); });
 
             // And wait for them all to finish
-            Array.ForEach<Thread>(threads, delegate(Thread thread) { thread.Join(); });
+            Sequence.ForEach(threads, delegate(Thread thread) { thread.Join(); });
         }
     }
 }

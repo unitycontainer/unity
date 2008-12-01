@@ -13,7 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.Tests.TestObjects
 {
-	internal class ObjectWithOneDependency
+    public class ObjectWithOneDependency
 	{
 		private object inner;
 

@@ -16,7 +16,7 @@ namespace Microsoft.Practices.Unity.Tests.TestObjects
 	// A class that contains another one which has another
 	// constructor dependency. Used to validate recursive
 	// buildup of constructor dependencies.
-	class ObjectWithTwoConstructorDependencies
+    public class ObjectWithTwoConstructorDependencies
 	{
 		private ObjectWithOneDependency oneDep;
 

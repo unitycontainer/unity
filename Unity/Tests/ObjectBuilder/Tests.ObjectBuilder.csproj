@@ -45,6 +45,7 @@
     <Compile Include="BuildKeyMappingStrategyTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BuildFailedExceptionTest.Desktop.cs" />
     <Compile Include="LifetimeContainerTest.cs">
       <SubType>Code</SubType>
     </Compile>

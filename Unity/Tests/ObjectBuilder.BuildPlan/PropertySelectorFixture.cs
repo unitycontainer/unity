@@ -50,10 +50,9 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         {
             IPropertySelectorPolicy selector = new PropertySelectorPolicy<DependencyAttribute>();
             List<SelectedProperty> properties =  new List<SelectedProperty>(selector.SelectProperties(GetContext(t)));
-            return properties.ConvertAll<PropertyInfo>(delegate(SelectedProperty sp)
-                                         {
-                                             return sp.Property;
-                                         });
+            return Seq.Make(properties)
+                .Map<PropertyInfo>(delegate(SelectedProperty sp) { return sp.Property; })
+                .ToList();
         }
 
         private TestingBuilderContext GetContext(Type t)

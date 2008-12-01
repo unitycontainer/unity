@@ -10,6 +10,7 @@
 //===============================================================================
 
 using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
+using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
@@ -69,7 +70,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.Strategies.Add(new LifetimeStrategy());
 
             context.PersistentPolicies.SetDefault<IDynamicBuilderMethodCreatorPolicy>(
-                new DefaultDynamicBuilderMethodCreatorPolicy());
+                DynamicBuilderMethodCreatorFactory.CreatePolicy());
+
             context.Policies.SetDefault<IConstructorSelectorPolicy>(
                 new ConstructorSelectorPolicy<InjectionConstructorAttribute>());
             context.Policies.SetDefault<IPropertySelectorPolicy>(
@@ -85,7 +87,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         }
 
 
-        internal class OnePropertyClass
+        public class OnePropertyClass
         {
             private object key;
 
@@ -97,11 +99,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
         }
 
-        internal interface IFoo
+        public interface IFoo
         {
         }
 
-        internal class ClassThatTakesInterface
+        public class ClassThatTakesInterface
         {
             [Dependency]
             public IFoo Foo

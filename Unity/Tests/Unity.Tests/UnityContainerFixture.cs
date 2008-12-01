@@ -636,17 +636,17 @@ namespace Microsoft.Practices.Unity.Tests
 
         }
 
-        internal interface IRepository<TEntity>
+        public interface IRepository<TEntity>
         {
 
         }
 
-        internal class MockRespository<TEntity> : IRepository<TEntity>
+        public class MockRespository<TEntity> : IRepository<TEntity>
         {
 
         }
 
-        internal class FooRepository : IRepository<Foo>
+        public class FooRepository : IRepository<Foo>
         {
 
         }

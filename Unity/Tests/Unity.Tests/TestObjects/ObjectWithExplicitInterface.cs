@@ -14,7 +14,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.Tests.TestObjects
 {
-    interface ISomeCommonProperties
+    public interface ISomeCommonProperties
     {
         [Dependency]
         ILogger Logger { get; set; }
@@ -23,7 +23,7 @@ namespace Microsoft.Practices.Unity.Tests.TestObjects
         object SyncObject { get; set; }
     }
 
-    class ObjectWithExplicitInterface : ISomeCommonProperties
+    public class ObjectWithExplicitInterface : ISomeCommonProperties
     {
         private ILogger logger;
         private object syncObject;

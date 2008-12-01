@@ -211,7 +211,7 @@ namespace Microsoft.Practices.Unity.Tests
             }
         }
 
-        internal class InjectedObject
+        public class InjectedObject
         {
             public readonly object injectedValue;
 

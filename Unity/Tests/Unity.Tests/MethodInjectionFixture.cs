@@ -80,7 +80,7 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.Fail("Should not get here");
         }
 
-        internal class GuineaPig
+        public class GuineaPig
         {
             public int IntValue;
             public string StringValue;

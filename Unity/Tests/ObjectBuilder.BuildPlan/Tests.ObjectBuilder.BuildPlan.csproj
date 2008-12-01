@@ -39,11 +39,13 @@
     <Compile Include="DynamicMethodCallFixture.cs" />
     <Compile Include="DynamicMethodConstructionFixture.cs" />
     <Compile Include="DynamicMethodPropertySetterFixture.cs" />
+    <Compile Include="InternalAndPrivatePlanFixture.Desktop.cs" />
     <Compile Include="PropertySelectorFixture.cs" />
     <Compile Include="TestDoubles\DependencyAttribute.cs" />
     <Compile Include="TestDoubles\InjectionConstructorAttribute.cs" />
     <Compile Include="TestDoubles\InjectionMethodAttribute.cs" />
     <Compile Include="TestDoubles\TestingBuilderContext.cs" />
+    <Compile Include="TestObjects\DynamicBuilderMethodCreatorFactory.Desktop.cs" />
     <Compile Include="TestObjects\FileLogger.cs" />
     <Compile Include="TestObjects\NullLogger.cs" />
     <Compile Include="TestObjects\ObjectWithAmbiguousConstructors.cs" />

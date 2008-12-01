@@ -11,6 +11,7 @@
 
 using System;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
+using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
@@ -125,7 +126,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.Strategies.Add(new LifetimeStrategy());
 
             context.PersistentPolicies.SetDefault<IDynamicBuilderMethodCreatorPolicy>(
-                new DefaultDynamicBuilderMethodCreatorPolicy());
+                DynamicBuilderMethodCreatorFactory.CreatePolicy());
             context.PersistentPolicies.SetDefault<IConstructorSelectorPolicy>(
                 new ConstructorSelectorPolicy<InjectionConstructorAttribute>());
             context.PersistentPolicies.SetDefault<IPropertySelectorPolicy>(
@@ -150,7 +151,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.PersistentPolicies.Set<ILifetimePolicy>(policy, t);
         }
 
-        internal class ObjectWithInjectionMethod
+        public class ObjectWithInjectionMethod
         {
             private int intValue;
             private string stringValue;
@@ -180,7 +181,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
         }
 
-        private class ObjectWithGenericInjectionMethod
+        public class ObjectWithGenericInjectionMethod
         {
             [InjectionMethod]
             public void DoSomethingGeneric<T>(T input)
@@ -189,7 +190,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
         }
 
-        private class ObjectWithOutParamMethod
+        public class ObjectWithOutParamMethod
         {
             [InjectionMethod]
             public void DoSomething(out int result)
@@ -198,7 +199,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
         }
 
-        private class ObjectWithRefParamMethod
+        public class ObjectWithRefParamMethod
         {
             [InjectionMethod]
             public void DoSomething(ref int result)

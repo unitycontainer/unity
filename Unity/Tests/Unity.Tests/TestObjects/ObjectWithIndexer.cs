@@ -11,7 +11,7 @@
 
 namespace Microsoft.Practices.Unity.Tests.TestObjects
 {
-	class ObjectWithIndexer
+    public class ObjectWithIndexer
 	{
 		[Dependency]
 		public object this[int index]

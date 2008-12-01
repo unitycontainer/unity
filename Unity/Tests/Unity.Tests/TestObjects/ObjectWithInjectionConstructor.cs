@@ -11,7 +11,7 @@
 
 namespace Microsoft.Practices.Unity.Tests.TestObjects
 {
-    class ObjectWithInjectionConstructor
+    public class ObjectWithInjectionConstructor
     {
         private object constructorDependency;
 

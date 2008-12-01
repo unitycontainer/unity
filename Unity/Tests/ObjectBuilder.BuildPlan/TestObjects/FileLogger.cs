@@ -11,7 +11,7 @@
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests.TestObjects
 {
-    class FileLogger
+    public class FileLogger
     {
         private string logFile;
 

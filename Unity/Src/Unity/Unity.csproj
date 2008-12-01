@@ -47,6 +47,7 @@
     <Compile Include="Attributes\InjectionConstructorAttribute.cs" />
     <Compile Include="Attributes\InjectionMethodAttribute.cs" />
     <Compile Include="Attributes\DependencyAttribute.cs" />
+    <Compile Include="ResolutionFailedException.Desktop.cs" />
     <Compile Include="UnityDefaultStrategiesExtension.Desktop.cs" />
     <Compile Include="Extension\ExtensionContext.cs" />
     <Compile Include="Extension\IUnityContainerExtensionConfigurator.cs" />

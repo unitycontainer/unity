@@ -1,0 +1,358 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0E3A584F-4459-4EF3-8382-5DD3F4984024}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Unity.Silverlight.Tests</RootNamespace>
+    <AssemblyName>Unity.Silverlight.Tests</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures>
+    </SupportedCultures>
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>Unity.Silverlight.Tests.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>Unity.Silverlight.Tests.App</SilverlightAppEntry>
+    <TestPageFileName>TestPage.html</TestPageFileName>
+    <CreateTestPage>true</CreateTestPage>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>false</ThrowErrorsInValidation></PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Silverlight.Testing, Version=2.0.20930.1042, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\SilverlightUnitTesting\Microsoft.Silverlight.Testing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight, Version=2.0.20930.1042, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\SilverlightUnitTesting\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="App.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\BuildPlanStrategyFixture.cs">
+      <Link>ObjectBuilder.BuildPlan\BuildPlanStrategyFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\ConstructorSelectorFixture.cs">
+      <Link>ObjectBuilder.BuildPlan\ConstructorSelectorFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\DynamicMethodCallFixture.cs">
+      <Link>ObjectBuilder.BuildPlan\DynamicMethodCallFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\DynamicMethodConstructionFixture.cs">
+      <Link>ObjectBuilder.BuildPlan\DynamicMethodConstructionFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\DynamicMethodPropertySetterFixture.cs">
+      <Link>ObjectBuilder.BuildPlan\DynamicMethodPropertySetterFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\PropertySelectorFixture.cs">
+      <Link>ObjectBuilder.BuildPlan\PropertySelectorFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\TestDoubles\DependencyAttribute.cs">
+      <Link>ObjectBuilder.BuildPlan\TestDoubles\DependencyAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\TestDoubles\InjectionConstructorAttribute.cs">
+      <Link>ObjectBuilder.BuildPlan\TestDoubles\InjectionConstructorAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\TestDoubles\InjectionMethodAttribute.cs">
+      <Link>ObjectBuilder.BuildPlan\TestDoubles\InjectionMethodAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\TestDoubles\TestingBuilderContext.cs">
+      <Link>ObjectBuilder.BuildPlan\TestDoubles\TestingBuilderContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\TestObjects\DynamicBuilderMethodCreatorFactory.Silverlight.cs">
+      <Link>ObjectBuilder.BuildPlan\TestObjects\DynamicBuilderMethodCreatorFactory.Silverlight.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\TestObjects\FileLogger.cs">
+      <Link>ObjectBuilder.BuildPlan\TestObjects\FileLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\TestObjects\NullLogger.cs">
+      <Link>ObjectBuilder.BuildPlan\TestObjects\NullLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\TestObjects\ObjectWithAmbiguousConstructors.cs">
+      <Link>ObjectBuilder.BuildPlan\TestObjects\ObjectWithAmbiguousConstructors.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\TestObjects\ObjectWithAmbiguousMarkedConstructor.cs">
+      <Link>ObjectBuilder.BuildPlan\TestObjects\ObjectWithAmbiguousMarkedConstructor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\TestObjects\ObjectWithMarkedConstructor.cs">
+      <Link>ObjectBuilder.BuildPlan\TestObjects\ObjectWithMarkedConstructor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\TestObjects\ObjectWithMultipleConstructors.cs">
+      <Link>ObjectBuilder.BuildPlan\TestObjects\ObjectWithMultipleConstructors.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder.BuildPlan\TestObjects\OptionalLogger.cs">
+      <Link>ObjectBuilder.BuildPlan\TestObjects\OptionalLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\BuilderAwareStrategyTest.cs">
+      <Link>ObjectBuilder\BuilderAwareStrategyTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\BuilderTest.cs">
+      <Link>ObjectBuilder\BuilderTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\BuildFailedExceptionTest.cs">
+      <Link>ObjectBuilder\BuildFailedExceptionTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\BuildKeyMappingPolicyTest.cs">
+      <Link>ObjectBuilder\BuildKeyMappingPolicyTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\BuildKeyMappingStrategyTest.cs">
+      <Link>ObjectBuilder\BuildKeyMappingStrategyTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\GenericTypeMappingTest.cs">
+      <Link>ObjectBuilder\GenericTypeMappingTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\LifetimeContainerTest.cs">
+      <Link>ObjectBuilder\LifetimeContainerTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\LifetimeStrategyTest.cs">
+      <Link>ObjectBuilder\LifetimeStrategyTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\LocatorTest.cs">
+      <Link>ObjectBuilder\LocatorTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\PolicyListTest.cs">
+      <Link>ObjectBuilder\PolicyListTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\ReadOnlyLocatorTest.cs">
+      <Link>ObjectBuilder\ReadOnlyLocatorTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\RecoveryFixture.cs">
+      <Link>ObjectBuilder\RecoveryFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\SingletonThreadingFixture.cs">
+      <Link>ObjectBuilder\SingletonThreadingFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\StagedStrategyChainTest.cs">
+      <Link>ObjectBuilder\StagedStrategyChainTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\Utility\ActivatorCreationStrategy.cs">
+      <Link>ObjectBuilder\Utility\ActivatorCreationStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\Utility\AssertActualExpectedException.cs">
+      <Link>ObjectBuilder\Utility\AssertActualExpectedException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\Utility\AssertHelper.cs">
+      <Link>ObjectBuilder\Utility\AssertHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\Utility\MockBuilderContext.cs">
+      <Link>ObjectBuilder\Utility\MockBuilderContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ObjectBuilder\Tests\ObjectBuilder\WeakRefDictionaryTest.cs">
+      <Link>ObjectBuilder\WeakRefDictionaryTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\Barrier.cs">
+      <Link>Unity.TestSupport\Barrier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\ILogger.cs">
+      <Link>Unity.TestSupport\ILogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\MockContainerExtension.cs">
+      <Link>Unity.TestSupport\MockContainerExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\MockDatabase.cs">
+      <Link>Unity.TestSupport\MockDatabase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\MockLogger.cs">
+      <Link>Unity.TestSupport\MockLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\MockUnityContainer.cs">
+      <Link>Unity.TestSupport\MockUnityContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\ObjectUsingLogger.cs">
+      <Link>Unity.TestSupport\ObjectUsingLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\ObjectWithInjectionMethod.cs">
+      <Link>Unity.TestSupport\ObjectWithInjectionMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\ObjectWithOneConstructorDependency.cs">
+      <Link>Unity.TestSupport\ObjectWithOneConstructorDependency.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\ObjectWithTwoConstructorParameters.cs">
+      <Link>Unity.TestSupport\ObjectWithTwoConstructorParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\ObjectWithTwoProperties.cs">
+      <Link>Unity.TestSupport\ObjectWithTwoProperties.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\SessionLifetimeManager.cs">
+      <Link>Unity.TestSupport\SessionLifetimeManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\SpecialLogger.cs">
+      <Link>Unity.TestSupport\SpecialLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\CodeGenBugFixture.cs">
+      <Link>Unity.Tests\CodeGenBugFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\CodeplexIssuesFixture.cs">
+      <Link>Unity.Tests\CodeplexIssuesFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\ContainerControlledLifetimeThreadingFixture.cs">
+      <Link>Unity.Tests\ContainerControlledLifetimeThreadingFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\DependencyArrayAttributeFixture.cs">
+      <Link>Unity.Tests\DependencyArrayAttributeFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\DisposableExtensionFixture.cs">
+      <Link>Unity.Tests\DisposableExtensionFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\GenericChainingFixture.cs">
+      <Link>Unity.Tests\GenericChainingFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\GenericParameterFixture.cs">
+      <Link>Unity.Tests\GenericParameterFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\GenericResolvedArrayParameterFixture.cs">
+      <Link>Unity.Tests\GenericResolvedArrayParameterFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\InjectedMembersFixture.cs">
+      <Link>Unity.Tests\InjectedMembersFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\InjectingArraysFixture.cs">
+      <Link>Unity.Tests\InjectingArraysFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\InjectionConstructorFixture.cs">
+      <Link>Unity.Tests\InjectionConstructorFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\InjectionMethodFixture.cs">
+      <Link>Unity.Tests\InjectionMethodFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\InjectionParameterValueFixture.cs">
+      <Link>Unity.Tests\InjectionParameterValueFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\MethodInjectionFixture.cs">
+      <Link>Unity.Tests\MethodInjectionFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\ParameterMatcherFixture.cs">
+      <Link>Unity.Tests\ParameterMatcherFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\PerThreadLifetimeManagerFixture.cs">
+      <Link>Unity.Tests\PerThreadLifetimeManagerFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\ReflectionHelperFixture.cs">
+      <Link>Unity.Tests\ReflectionHelperFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\ResolvingArraysFixture.cs">
+      <Link>Unity.Tests\ResolvingArraysFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\SpecifiedConstructorSelectorPolicyFixture.cs">
+      <Link>Unity.Tests\SpecifiedConstructorSelectorPolicyFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\StaticFactoryFixture.cs">
+      <Link>Unity.Tests\StaticFactoryFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\TestDoubles\SpyExtension.cs">
+      <Link>Unity.Tests\TestDoubles\SpyExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\TestDoubles\SpyPolicy.cs">
+      <Link>Unity.Tests\TestDoubles\SpyPolicy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\TestDoubles\SpyStrategy.cs">
+      <Link>Unity.Tests\TestDoubles\SpyStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\TestDoubles\TestingBuilderContext.cs">
+      <Link>Unity.Tests\TestDoubles\TestingBuilderContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\TestObjects\DisposableObject.cs">
+      <Link>Unity.Tests\TestObjects\DisposableObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\TestObjects\ObjectWithExplicitInterface.cs">
+      <Link>Unity.Tests\TestObjects\ObjectWithExplicitInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\TestObjects\ObjectWithIndexer.cs">
+      <Link>Unity.Tests\TestObjects\ObjectWithIndexer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\TestObjects\ObjectWithInjectionConstructor.cs">
+      <Link>Unity.Tests\TestObjects\ObjectWithInjectionConstructor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\TestObjects\ObjectWithLotsOfDependencies.cs">
+      <Link>Unity.Tests\TestObjects\ObjectWithLotsOfDependencies.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\TestObjects\ObjectWithOneDependency.cs">
+      <Link>Unity.Tests\TestObjects\ObjectWithOneDependency.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\TestObjects\ObjectWithTwoConstructorDependencies.cs">
+      <Link>Unity.Tests\TestObjects\ObjectWithTwoConstructorDependencies.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\UnityContainerFixture.cs">
+      <Link>Unity.Tests\UnityContainerFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\UnityExtensionFixture.cs">
+      <Link>Unity.Tests\UnityExtensionFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\UnityHierarchyFixture.cs">
+      <Link>Unity.Tests\UnityHierarchyFixture.cs</Link>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BootstrapFixture.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Src\Unity.Silverlight.csproj">
+      <Project>{16781FEC-9508-4F84-8740-05F2C3C32982}</Project>
+      <Name>Unity.Silverlight</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ObjectBuilder.BuildPlan\Properties\" />
+    <Folder Include="Unity.TestSupport\Properties\" />
+    <Folder Include="Unity.Tests\Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight\v2.0\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

@@ -1,0 +1,148 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E1E3B550-5E55-451C-9C5B-AB05DD61EF49}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Practices.ObjectBuilder2</RootNamespace>
+    <AssemblyName>Microsoft.Practices.ObjectBuilder2</AssemblyName><FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Desktop\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\bin\Desktop\Debug\Microsoft.Practices.ObjectBuilder2.xml</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRules>-Microsoft.Design#CA1006;-Microsoft.Design#CA1004</CodeAnalysisRules>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Desktop\Release</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\bin\Desktop\Release\Microsoft.Practices.ObjectBuilder2.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Builder.cs" />
+    <Compile Include="BuilderContext.cs" />
+    <Compile Include="Exceptions\BuildFailedException.cs" />
+    <Compile Include="Exceptions\DependencyMissingException.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IRecoveryStack.cs" />
+    <Compile Include="IRequiresRecovery.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="RecoveryStack.cs" />
+    <Compile Include="Strategies\BuilderAware\BuilderAwareStrategy.cs" />
+    <Compile Include="Strategies\BuilderAware\IBuilderAware.cs" />
+    <Compile Include="Strategies\BuilderStage.cs" />
+    <Compile Include="Strategies\BuilderStrategy.cs" />
+    <Compile Include="IBuilder.cs" />
+    <Compile Include="IBuilderContext.cs" />
+    <Compile Include="Policies\IBuilderPolicy.cs" />
+    <Compile Include="Strategies\BuildKeyMapping\BuildKeyMappingPolicy.cs" />
+    <Compile Include="Strategies\BuildKeyMapping\BuildKeyMappingStrategy.cs" />
+    <Compile Include="Strategies\BuildKeyMapping\GenericTypeBuildKeyMappingPolicy.cs" />
+    <Compile Include="Strategies\BuildKeyMapping\IBuildKeyMappingPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\BuildPlanStrategy.cs" />
+    <Compile Include="Strategies\BuildPlan\Creation\ConstructorSelectorPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\Creation\ConstructorSelectorPolicyBase.cs" />
+    <Compile Include="Strategies\BuildPlan\Creation\IConstructorSelectorPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\Creation\SelectedConstructor.cs" />
+    <Compile Include="Strategies\BuildPlan\Creation\SelectedMemberWithParameters.cs" />
+    <Compile Include="Strategies\BuildPlan\DynamicMethod\Creation\DynamicMethodConstructorStrategy.cs" />
+    <Compile Include="Strategies\BuildPlan\DynamicMethod\DefaultDynamicBuilderMethodCreatorPolicy.Desktop.cs" />
+    <Compile Include="Strategies\BuildPlan\DynamicMethod\DynamicBuildPlanGenerationContext.cs" />
+    <Compile Include="Strategies\BuildPlan\DynamicMethod\DynamicMethodBuildPlan.cs" />
+    <Compile Include="Strategies\BuildPlan\DynamicMethod\DynamicMethodBuildPlanCreatorPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\DynamicMethod\IDynamicBuilderMethodCreatorPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\DynamicMethod\Method\DynamicMethodCallStrategy.cs" />
+    <Compile Include="Strategies\BuildPlan\DynamicMethod\Property\DynamicMethodPropertySetterStrategy.cs" />
+    <Compile Include="Strategies\BuildPlan\IBuildPlanCreatorPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\IBuildPlanPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\Method\IMethodSelectorPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\Method\MethodSelectorPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\Method\MethodSelectorPolicyBase.cs" />
+    <Compile Include="Strategies\BuildPlan\Method\SelectedMethod.cs" />
+    <Compile Include="Strategies\BuildPlan\Property\IPropertySelectorPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\Property\PropertySelectorBase.cs" />
+    <Compile Include="Strategies\BuildPlan\Property\PropertySelectorPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\Property\SelectedProperty.cs" />
+    <Compile Include="Strategies\BuildPlan\Resolution\DependencyResolverTrackerPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\Resolution\FixedTypeResolverPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\Resolution\IDependencyResolverPolicy.cs" />
+    <Compile Include="Strategies\BuildPlan\Resolution\IDependencyResolverTrackerPolicy.cs" />
+    <Compile Include="Strategies\IBuilderStrategy.cs" />
+    <Compile Include="Policies\IPolicyList.cs" />
+    <Compile Include="Strategies\IStagedStrategyChain.cs" />
+    <Compile Include="Strategies\IStrategyChain.cs" />
+    <Compile Include="IBuildKey.cs" />
+    <Compile Include="Lifetime\ILifetimeContainer.cs" />
+    <Compile Include="Lifetime\LifetimeContainer.cs" />
+    <Compile Include="Location\IReadableLocator.cs" />
+    <Compile Include="Location\IReadWriteLocator.cs" />
+    <Compile Include="Location\Locator.cs" />
+    <Compile Include="Location\ReadableLocator.cs" />
+    <Compile Include="Location\ReadOnlyLocator.cs" />
+    <Compile Include="Location\ReadWriteLocator.cs" />
+    <Compile Include="Policies\PolicyList.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Strategies\Lifetime\ILifetimeFactoryPolicy.cs" />
+    <Compile Include="Strategies\Lifetime\ILifetimePolicy.cs" />
+    <Compile Include="Strategies\Lifetime\LifetimeStrategy.cs" />
+    <Compile Include="Strategies\Lifetime\SingletonLifetimePolicy.cs" />
+    <Compile Include="Strategies\Lifetime\TransientLifetimePolicy.cs" />
+    <Compile Include="Strategies\StagedStrategyChain.cs" />
+    <Compile Include="Strategies\StrategyChain.cs" />
+    <Compile Include="Utility\BuildKey.cs" />
+    <Compile Include="Utility\Guard.cs" />
+    <Compile Include="Location\WeakRefDictionary.cs" />
+    <Compile Include="Exceptions\IllegalInjectionMethodException.cs" />
+    <Compile Include="Utility\NamedTypeBuildKey.cs" />
+    <Compile Include="Utility\Sequence.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Exceptions\BuildFailedException.Desktop.cs" />
+    <Compile Include="Exceptions\IllegalInjectionMethodException.Desktop.cs" />
+    <Compile Include="Exceptions\DependencyMissingException.Desktop.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

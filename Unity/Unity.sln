@@ -1,119 +1,48 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{25EB396B-2527-4B42-8037-C364A038856B}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
 	ProjectSection(FolderStartupServices) = postProject
 		{B4F97281-0DBD-4835-9ED8-7DFB966E87FF} = {B4F97281-0DBD-4835-9ED8-7DFB966E87FF}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{36634874-C16A-4F0C-9717-51C1D3D1FEBE}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
 	ProjectSection(FolderStartupServices) = postProject
 		{B4F97281-0DBD-4835-9ED8-7DFB966E87FF} = {B4F97281-0DBD-4835-9ED8-7DFB966E87FF}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectBuilder", "Src\ObjectBuilder\ObjectBuilder.csproj", "{E1E3B550-5E55-451C-9C5B-AB05DD61EF49}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity", "Src\Unity\Unity.csproj", "{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Configuration", "Src\Unity.Configuration\Unity.Configuration.csproj", "{4C89931B-67A9-4BDC-A565-E1E0207E1BD9}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.StaticFactory", "Src\Unity.StaticFactory\Unity.StaticFactory.csproj", "{582E89F0-5284-49CB-9CD1-429FE9FEED6F}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.ObjectBuilder", "Tests\ObjectBuilder\Tests.ObjectBuilder.csproj", "{02BDF798-A924-4F07-A607-75B3C20EDA6E}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.ObjectBuilder.BuildPlan", "Tests\ObjectBuilder.BuildPlan\Tests.ObjectBuilder.BuildPlan.csproj", "{32CD02CF-FE79-45D4-A81E-28509FF41A7A}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Unity", "Tests\Unity.Tests\Tests.Unity.csproj", "{25E09D23-F407-4A61-8446-E5FBD6F689B8}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E6EC67DC-CF5A-4A46-B600-658CFBC85C76}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(SolutionItems) = preProject
-		coverage.testrunconfig = coverage.testrunconfig
-		localtestrun.testrunconfig = localtestrun.testrunconfig
-	EndProjectSection
 	ProjectSection(FolderStartupServices) = postProject
 		{B4F97281-0DBD-4835-9ED8-7DFB966E87FF} = {B4F97281-0DBD-4835-9ED8-7DFB966E87FF}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Unity.Configuration", "Tests\Tests.Unity.Configuration\Tests.Unity.Configuration.csproj", "{E18860B3-4E66-4FF2-9FC2-59F0BE261341}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectBuilder", "ObjectBuilder\Src\ObjectBuilder.csproj", "{E1E3B550-5E55-451C-9C5B-AB05DD61EF49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSupport.Unity", "Tests\TestSupport.Unity\TestSupport.Unity.csproj", "{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity", "Unity\Src\Unity.csproj", "{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Interception", "Src\Unity.Interception\Unity.Interception.csproj", "{F8186B23-B0E1-4646-B5F3-14357841E2BA}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Configuration", "Unity.Configuration\Src\Unity.Configuration.csproj", "{4C89931B-67A9-4BDC-A565-E1E0207E1BD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Unity.Interception", "Tests\Tests.Unity.Interception\Tests.Unity.Interception.csproj", "{3FC0084C-6077-4F87-8A51-2F755C83D7C8}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.StaticFactory", "Unity.StaticFactory\Src\Unity.StaticFactory.csproj", "{582E89F0-5284-49CB-9CD1-429FE9FEED6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Interception.Configuration", "Src\Unity.Interception.Configuration\Unity.Interception.Configuration.csproj", "{80F7399F-B221-465F-97C9-4B9FC0E2F67F}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Interception", "Unity.Interception\Src\Unity.Interception.csproj", "{F8186B23-B0E1-4646-B5F3-14357841E2BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Unity.Interception.Configuration", "Tests\Tests.Unity.Interception.Configuration\Tests.Unity.Interception.Configuration.csproj", "{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Interception.Configuration", "Unity.Interception.Configuration\Src\Unity.Interception.Configuration.csproj", "{80F7399F-B221-465F-97C9-4B9FC0E2F67F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectBuilder.Tests", "ObjectBuilder\Tests\ObjectBuilder\ObjectBuilder.Tests.csproj", "{02BDF798-A924-4F07-A607-75B3C20EDA6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectBuilder.BuildPlan.Tests", "ObjectBuilder\Tests\ObjectBuilder.BuildPlan\ObjectBuilder.BuildPlan.Tests.csproj", "{32CD02CF-FE79-45D4-A81E-28509FF41A7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.TestSupport", "Unity\Tests\TestSupport.Unity\Unity.TestSupport.csproj", "{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Tests", "Unity\Tests\Unity.Tests\Unity.Tests.csproj", "{25E09D23-F407-4A61-8446-E5FBD6F689B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Configuration.Tests", "Unity.Configuration\Tests\Tests.Unity.Configuration\Unity.Configuration.Tests.csproj", "{E18860B3-4E66-4FF2-9FC2-59F0BE261341}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Interception.Tests", "Unity.Interception\Tests\Tests.Unity.Interception\Unity.Interception.Tests.csproj", "{3FC0084C-6077-4F87-8A51-2F755C83D7C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Interception.Configuration.Tests", "Unity.Interception.Configuration\Tests\Tests.Unity.Interception.Configuration\Unity.Interception.Configuration.Tests.csproj", "{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}"
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Unity.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -135,6 +64,14 @@ Global
 		{582E89F0-5284-49CB-9CD1-429FE9FEED6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{582E89F0-5284-49CB-9CD1-429FE9FEED6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{582E89F0-5284-49CB-9CD1-429FE9FEED6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8186B23-B0E1-4646-B5F3-14357841E2BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8186B23-B0E1-4646-B5F3-14357841E2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8186B23-B0E1-4646-B5F3-14357841E2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8186B23-B0E1-4646-B5F3-14357841E2BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{02BDF798-A924-4F07-A607-75B3C20EDA6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{02BDF798-A924-4F07-A607-75B3C20EDA6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02BDF798-A924-4F07-A607-75B3C20EDA6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -143,6 +80,10 @@ Global
 		{32CD02CF-FE79-45D4-A81E-28509FF41A7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32CD02CF-FE79-45D4-A81E-28509FF41A7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32CD02CF-FE79-45D4-A81E-28509FF41A7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89}.Release|Any CPU.Build.0 = Release|Any CPU
 		{25E09D23-F407-4A61-8446-E5FBD6F689B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{25E09D23-F407-4A61-8446-E5FBD6F689B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25E09D23-F407-4A61-8446-E5FBD6F689B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -151,22 +92,10 @@ Global
 		{E18860B3-4E66-4FF2-9FC2-59F0BE261341}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E18860B3-4E66-4FF2-9FC2-59F0BE261341}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E18860B3-4E66-4FF2-9FC2-59F0BE261341}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8186B23-B0E1-4646-B5F3-14357841E2BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8186B23-B0E1-4646-B5F3-14357841E2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8186B23-B0E1-4646-B5F3-14357841E2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8186B23-B0E1-4646-B5F3-14357841E2BA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3FC0084C-6077-4F87-8A51-2F755C83D7C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3FC0084C-6077-4F87-8A51-2F755C83D7C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FC0084C-6077-4F87-8A51-2F755C83D7C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FC0084C-6077-4F87-8A51-2F755C83D7C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80F7399F-B221-465F-97C9-4B9FC0E2F67F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -184,9 +113,9 @@ Global
 		{80F7399F-B221-465F-97C9-4B9FC0E2F67F} = {25EB396B-2527-4B42-8037-C364A038856B}
 		{02BDF798-A924-4F07-A607-75B3C20EDA6E} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 		{32CD02CF-FE79-45D4-A81E-28509FF41A7A} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
+		{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 		{25E09D23-F407-4A61-8446-E5FBD6F689B8} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 		{E18860B3-4E66-4FF2-9FC2-59F0BE261341} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
-		{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 		{3FC0084C-6077-4F87-8A51-2F755C83D7C8} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 	EndGlobalSection

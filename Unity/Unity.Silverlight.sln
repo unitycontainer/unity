@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Silverlight", "Src\Unity.Silverlight.csproj", "{16781FEC-9508-4F84-8740-05F2C3C32982}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Silverlight", "Unity.Silverlight\Src\Unity.Silverlight.csproj", "{16781FEC-9508-4F84-8740-05F2C3C32982}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Silverlight.Tests", "Tests\Unity.Silverlight.Tests.csproj", "{0E3A584F-4459-4EF3-8382-5DD3F4984024}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Silverlight.Tests", "Unity.Silverlight\Tests\Unity.Silverlight.Tests.csproj", "{0E3A584F-4459-4EF3-8382-5DD3F4984024}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

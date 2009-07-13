@@ -50,6 +50,8 @@ namespace Microsoft.Practices.Unity.Configuration
         /// The actual <see cref="System.Type"/> object for the 
         /// type this element is registering.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods",
+            Justification = "Back compat")]
         public Type Type
         {
             get { return this.TypeResolver.ResolveType(this.TypeName); }

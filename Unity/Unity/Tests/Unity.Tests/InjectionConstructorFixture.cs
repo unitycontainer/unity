@@ -12,7 +12,6 @@
 using System;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
-using Microsoft.Practices.Unity.Tests.TestDoubles;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -25,7 +24,7 @@ namespace Microsoft.Practices.Unity.Tests
         public void InjectionConstructorInsertsChooserForDefaultConstructor()
         {
             InjectionConstructor ctor = new InjectionConstructor();
-            TestingBuilderContext context = new TestingBuilderContext();
+            var context = new MockBuilderContext();
             context.BuildKey = typeof (GuineaPig);
             IPolicyList policies = context.PersistentPolicies;
 
@@ -46,7 +45,7 @@ namespace Microsoft.Practices.Unity.Tests
             int expectedInt = 12;
 
             InjectionConstructor ctor = new InjectionConstructor(expectedString, expectedInt);
-            TestingBuilderContext context = new TestingBuilderContext();
+            var context = new MockBuilderContext();
             context.BuildKey = typeof (GuineaPig);
             IPolicyList policies = context.PersistentPolicies;
 
@@ -69,7 +68,7 @@ namespace Microsoft.Practices.Unity.Tests
         public void InjectionConstructorSetsResolverForInterfaceToLookupInContainer()
         {
             InjectionConstructor ctor = new InjectionConstructor("Logger", typeof(ILogger));
-            TestingBuilderContext context = new TestingBuilderContext();
+            var context = new MockBuilderContext();
             context.BuildKey = typeof (GuineaPig);
             IPolicyList policies = context.PersistentPolicies;
 
@@ -94,7 +93,7 @@ namespace Microsoft.Practices.Unity.Tests
         public void InjectionConstructorThrowsIfNoMatchingConstructor()
         {
             InjectionConstructor ctor = new InjectionConstructor(typeof(double));
-            TestingBuilderContext context = new TestingBuilderContext();
+            var context = new MockBuilderContext();
 
             ctor.AddPolicies(typeof(GuineaPig), context.PersistentPolicies);
         }

@@ -89,10 +89,6 @@
     <Compile Include="UnityTypeResolver.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ObjectBuilder\Src\ObjectBuilder.csproj">
-      <Project>{E1E3B550-5E55-451C-9C5B-AB05DD61EF49}</Project>
-      <Name>ObjectBuilder</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Unity\Src\Unity.csproj">
       <Project>{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}</Project>
       <Name>Unity</Name>

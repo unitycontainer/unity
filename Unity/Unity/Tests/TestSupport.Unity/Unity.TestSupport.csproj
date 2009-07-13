@@ -43,6 +43,7 @@
     <Compile Include="CallCountHandler.cs" />
     <Compile Include="GlobalCountCallHandler.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="MockBuilderContext.cs" />
     <Compile Include="MockContainerExtension.cs" />
     <Compile Include="MockDatabase.cs" />
     <Compile Include="MockLogger.cs" />
@@ -58,10 +59,6 @@
     <Compile Include="WrappableObjects.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ObjectBuilder\Src\ObjectBuilder.csproj">
-      <Project>{E1E3B550-5E55-451C-9C5B-AB05DD61EF49}</Project>
-      <Name>ObjectBuilder</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Unity.Interception\Src\Unity.Interception.csproj">
       <Project>{F8186B23-B0E1-4646-B5F3-14357841E2BA}</Project>
       <Name>Unity.Interception</Name>

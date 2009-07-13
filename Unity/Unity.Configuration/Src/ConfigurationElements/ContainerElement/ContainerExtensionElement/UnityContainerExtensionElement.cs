@@ -37,6 +37,8 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <summary>
         /// The type of extension to add to the container.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods",
+            Justification="Back compat")]
         public Type Type
         {
             get
@@ -57,7 +59,8 @@ namespace Microsoft.Practices.Unity.Configuration
         /// apply configuration changes to the container.</remarks>
         /// <param name="container">The <see cref="IUnityContainer"/> to configure.</param>
         // FxCop suppression: Validation done by Guard class
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification="Validation done by Guard class")]
         public void Configure(IUnityContainer container)
         {
             Guard.ArgumentNotNull(container, "container");

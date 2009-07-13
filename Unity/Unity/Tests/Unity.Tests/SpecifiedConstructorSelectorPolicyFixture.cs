@@ -11,8 +11,6 @@
 
 using System;
 using System.Reflection;
-using System.Text;
-using System.Collections.Generic;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -31,7 +29,7 @@ namespace Microsoft.Practices.Unity.Tests
             ConstructorInfo ctor = typeof(ClassWithSimpleConstructor).GetConstructor(new Type[0]);
 
             SpecifiedConstructorSelectorPolicy policy = new SpecifiedConstructorSelectorPolicy(ctor, new InjectionParameterValue[0]);
-            BuilderContextMock builderContext = new BuilderContextMock(typeof (ClassWithSimpleConstructor));
+            BuilderContextMock builderContext = new BuilderContextMock(typeof(ClassWithSimpleConstructor));
 
             SelectedConstructor selectedCtor = policy.SelectConstructor(builderContext);
 
@@ -45,7 +43,7 @@ namespace Microsoft.Practices.Unity.Tests
         {
             ConstructorInfo ctor = typeof(ClassWithConstructorParameters).GetConstructor(Types(typeof(int), typeof(string)));
 
-            SpecifiedConstructorSelectorPolicy policy = new SpecifiedConstructorSelectorPolicy(ctor, 
+            SpecifiedConstructorSelectorPolicy policy = new SpecifiedConstructorSelectorPolicy(ctor,
                 new InjectionParameterValue[]
                 {
                     new InjectionParameter<int>(37),
@@ -61,7 +59,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             string[] keys = selectedCtor.GetParameterKeys();
             Assert.AreEqual(2, keys.Length);
-            foreach(string key in keys)
+            foreach (string key in keys)
             {
                 AssertPolicyIsCorrect(key, builderContext);
             }
@@ -70,7 +68,7 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void CanSelectConcreteConstructorGivenGenericConstructor()
         {
-            ConstructorInfo ctor = typeof (LoggingCommand<>).GetConstructors()[0];
+            ConstructorInfo ctor = typeof(LoggingCommand<>).GetConstructors()[0];
             SpecifiedConstructorSelectorPolicy policy = new SpecifiedConstructorSelectorPolicy(
                 ctor,
                 new InjectionParameterValue[]
@@ -79,11 +77,11 @@ namespace Microsoft.Practices.Unity.Tests
                 });
 
             BuilderContextMock ctx = new BuilderContextMock();
-            ctx.BuildKey = typeof (LoggingCommand<User>);
+            ctx.BuildKey = typeof(LoggingCommand<User>);
 
             SelectedConstructor result = policy.SelectConstructor(ctx);
 
-            ConstructorInfo expectedCtor = typeof (LoggingCommand<User>).GetConstructor(Types(typeof (ICommand<User>)));
+            ConstructorInfo expectedCtor = typeof(LoggingCommand<User>).GetConstructor(Types(typeof(ICommand<User>)));
             Assert.AreSame(expectedCtor, result.Constructor);
         }
 
@@ -102,7 +100,7 @@ namespace Microsoft.Practices.Unity.Tests
 
         private class ClassWithSimpleConstructor
         {
-            
+
         }
 
         private class ClassWithConstructorParameters
@@ -181,7 +179,19 @@ namespace Microsoft.Practices.Unity.Tests
                 set { throw new NotImplementedException(); }
             }
 
-            public IBuilderContext CloneForNewBuild(object newBuildKey, object newExistingObject)
+            public object CurrentOperation
+            {
+                get { throw new NotImplementedException(); }
+                set { throw new NotImplementedException(); }
+            }
+
+            public IBuilderContext ChildContext
+            {
+                get { throw new NotImplementedException(); }
+                set { throw new NotImplementedException(); }
+            }
+
+            public object NewBuildUp(object newBuildKey)
             {
                 throw new NotImplementedException();
             }

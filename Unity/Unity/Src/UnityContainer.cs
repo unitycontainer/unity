@@ -211,18 +211,19 @@ namespace Microsoft.Practices.Unity
         /// <param name="o">The object to tear down.</param>
         public override void Teardown(object o)
         {
+            IBuilderContext context = null;
+
             try
             {
-                new Builder().TearDown(
-                    locator,
-                    lifetimeContainer,
-                    policies,
-                    strategies.MakeStrategyChain(),
-                    o);
+                Guard.ArgumentNotNull(o, "o");
+
+                context =
+                    new BuilderContext(GetStrategies().Reverse(), locator, lifetimeContainer, policies, null, o);
+                context.Strategies.ExecuteTearDown(context);
             }
-            catch (BuildFailedException ex)
+            catch (Exception ex)
             {
-                throw new ResolutionFailedException(o.GetType(), null, ex);
+                throw new ResolutionFailedException(o.GetType(), null, ex, context);
             }
         }
 
@@ -327,7 +328,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>The requested extension's configuration interface, or null if not found.</returns>
         public override object Configure(Type configurationInterface)
         {
-            foreach(UnityContainerExtension item in Sequence.Where(extensions,
+            foreach (UnityContainerExtension item in Sequence.Where(extensions,
                 delegate(UnityContainerExtension extension) { return configurationInterface.IsAssignableFrom(extension.GetType()); }))
             {
                 return item;
@@ -459,19 +460,23 @@ namespace Microsoft.Practices.Unity
 
         private object DoBuildUp(Type t, object existing, string name)
         {
+            IBuilderContext context = null;
+
             try
             {
-                return new Builder().BuildUp(
-                    locator,
-                    lifetimeContainer,
-                    policies,
-                    GetStrategies(),
-                    new NamedTypeBuildKey(t, name),
-                    existing);
+                context =
+                    new BuilderContext(
+                        GetStrategies(),
+                        locator,
+                        lifetimeContainer,
+                        policies,
+                        new NamedTypeBuildKey(t, name),
+                        existing);
+                return context.Strategies.ExecuteBuildUp(context);
             }
-            catch (BuildFailedException ex)
+            catch (Exception ex)
             {
-                throw new ResolutionFailedException(t, name, ex);
+                throw new ResolutionFailedException(t, name, ex, context);
             }
         }
 

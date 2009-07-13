@@ -58,10 +58,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ObjectBuilder\Src\ObjectBuilder.csproj">
-      <Project>{E1E3B550-5E55-451C-9C5B-AB05DD61EF49}</Project>
-      <Name>ObjectBuilder</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Unity.Configuration\Src\Unity.Configuration.csproj">
       <Project>{4C89931B-67A9-4BDC-A565-E1E0207E1BD9}</Project>
       <Name>Unity.Configuration</Name>

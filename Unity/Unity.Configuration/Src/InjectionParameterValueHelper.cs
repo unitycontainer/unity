@@ -160,7 +160,7 @@ namespace Microsoft.Practices.Unity.Configuration
 
             if (genericParameter != null)
             {
-                if (genericParameter.EndsWith("[]"))
+                if (genericParameter.EndsWith("[]", StringComparison.Ordinal))
                 {
                     genericParameter = genericParameter.Substring(0, genericParameter.Length - 2);
                     isGenericParameterArray = true;

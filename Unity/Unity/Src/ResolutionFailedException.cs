@@ -12,10 +12,9 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
+using System.Text;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Properties;
-using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity
 {
@@ -39,8 +38,9 @@ namespace Microsoft.Practices.Unity
         /// <param name="typeRequested">Type requested from the container.</param>
         /// <param name="nameRequested">Name requested from the container.</param>
         /// <param name="innerException">The actual exception that caused the failure of the build.</param>
-        public ResolutionFailedException(Type typeRequested, string nameRequested, Exception innerException) 
-            : base(CreateMessage(typeRequested, nameRequested, innerException), innerException)
+        /// <param name="context"></param>
+        public ResolutionFailedException(Type typeRequested, string nameRequested, Exception innerException, IBuilderContext context)
+            : base(CreateMessage(typeRequested, nameRequested, innerException, context), innerException)
         {
             if (typeRequested != null)
             {
@@ -65,14 +65,84 @@ namespace Microsoft.Practices.Unity
             get { return nameRequested; }
         }
 
-        private static string CreateMessage(Type typeRequested, string nameRequested, Exception innerException)
+        private static string CreateMessage(Type typeRequested, string nameRequested, Exception innerException, IBuilderContext context)
         {
-            return string.Format(
+            var builder = new StringBuilder();
+
+            builder.AppendFormat(
                 CultureInfo.CurrentCulture,
                 Resources.ResolutionFailed,
                 typeRequested,
-                nameRequested,
+                FormatName(nameRequested),
+                ExceptionReason(context),
+                innerException != null ? innerException.GetType().Name : "ResolutionFailedException",
                 innerException != null ? innerException.Message : null);
+            builder.AppendLine();
+
+            AddContextDetails(builder, context, 1);
+
+            return builder.ToString();
+        }
+
+        private static void AddContextDetails(StringBuilder builder, IBuilderContext context, int depth)
+        {
+            if (context != null)
+            {
+                var indentation = new string(' ', depth * 2);
+                var key = (NamedTypeBuildKey)context.BuildKey;
+                var originalKey = (NamedTypeBuildKey) context.OriginalBuildKey;
+
+                builder.Append(indentation);
+
+                if (key == originalKey)
+                {
+                    builder.AppendFormat(
+                        CultureInfo.CurrentCulture,
+                        Resources.ResolutionTraceDetail,
+                        key.Type, FormatName(key.Name));
+                }
+                else
+                {
+                    builder.AppendFormat(
+                        CultureInfo.CurrentCulture,
+                        Resources.ResolutionWithMappingTraceDetail,
+                        key.Type, FormatName(key.Name),
+                        originalKey.Type, FormatName(originalKey.Name));
+                }
+
+                builder.AppendLine();
+
+                if (context.CurrentOperation != null)
+                {
+                    builder.Append(indentation);
+                    builder.AppendFormat(
+                        CultureInfo.CurrentCulture,
+                        context.CurrentOperation.ToString());
+                    builder.AppendLine();
+                }
+
+                AddContextDetails(builder, context.ChildContext, depth + 1);
+            }
+        }
+
+        private static string FormatName(string name)
+        {
+            return string.IsNullOrEmpty(name) ? "(none)" : '"' + name + '"';
+        }
+
+        private static string ExceptionReason(IBuilderContext context)
+        {
+            var deepestContext = context;
+            while(deepestContext.ChildContext != null)
+            {
+                deepestContext = deepestContext.ChildContext;
+            }
+
+            if(deepestContext.CurrentOperation != null)
+            {
+                return deepestContext.CurrentOperation.ToString();
+            }
+            return Resources.NoOperationExceptionReason;
         }
     }
 }

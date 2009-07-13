@@ -35,6 +35,8 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <summary>
         /// Concrete type name for this configuration element.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods",
+            Justification="Back compat")]
         [ConfigurationProperty("type", IsRequired = true)]
         public string Type
         {

@@ -40,6 +40,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>The <see cref="ConfigurationElement"/> at the specified index.</returns>
         /// <exception cref="ConfigurationErrorsException">index is less than 0.
         /// - or -There is no <see cref="ConfigurationElement"/> at the specified index.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get")]
         protected virtual ConfigurationElement Get(int index)
         {
             IResolvesTypeAliases element = (IResolvesTypeAliases)BaseGet(index);
@@ -55,6 +56,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         /// <param name="key">The key of the element to return.</param>
         /// <returns>The <see cref="ConfigurationElement"/> with the specified key; otherwise, null.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get")]
         protected virtual ConfigurationElement Get(object key)
         {
             IResolvesTypeAliases element = (IResolvesTypeAliases)BaseGet(key);

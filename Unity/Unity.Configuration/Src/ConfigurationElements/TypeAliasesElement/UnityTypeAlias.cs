@@ -34,7 +34,9 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <summary>
         /// Source type.
         /// </summary>
-        [ConfigurationProperty("type", IsRequired=true)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods",
+            Justification = "Back compat")]
+        [ConfigurationProperty("type", IsRequired = true)]
         [TypeConverter(typeof(AssemblyQualifiedTypeNameConverter))]
         public Type Type
         {

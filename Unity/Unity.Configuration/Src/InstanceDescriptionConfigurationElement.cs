@@ -78,6 +78,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <summary>
         /// The underlying type of the represented object.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods")]
         public Type Type
         {
             get { return TypeResolver.ResolveType(TypeName); }

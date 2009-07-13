@@ -12,7 +12,7 @@
 using System;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
-using Guard=Microsoft.Practices.ObjectBuilder2.Guard;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {

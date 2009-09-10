@@ -11,6 +11,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using Microsoft.Practices.Unity.Properties;
@@ -43,8 +44,12 @@ namespace Microsoft.Practices.ObjectBuilder2
             DynamicBuildPlanGenerationContext ilContext = (DynamicBuildPlanGenerationContext)(context.Existing);
             IMethodSelectorPolicy selector = context.Policies.Get<IMethodSelectorPolicy>(context.BuildKey);
 
+            bool shouldClearOperation = false;
+
             foreach (SelectedMethod method in selector.SelectMethods(context))
             {
+                shouldClearOperation = true;
+
                 string signatureString = GetMethodSignature(method.Method);
 
                 GuardMethodIsNotOpenGeneric(method.Method);
@@ -83,7 +88,10 @@ namespace Microsoft.Practices.ObjectBuilder2
             }
 
             // Clear the current operation
-            ilContext.EmitClearCurrentOperation();
+            if (shouldClearOperation)
+            {
+                ilContext.EmitClearCurrentOperation();
+            }
         }
 
         private static void GuardMethodIsNotOpenGeneric(MethodInfo method)
@@ -96,11 +104,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private static void GuardMethodHasNoOutParams(MethodInfo method)
         {
-            if (Sequence.Exists(method.GetParameters(),
-                delegate(ParameterInfo param)
-                {
-                    return param.IsOut;
-                }))
+            if (method.GetParameters().Any(param => param.IsOut))
             {
                 ThrowIllegalInjectionMethod(Resources.CannotInjectMethodWithOutParam, method);
             }
@@ -108,11 +112,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private static void GuardMethodHasNoRefParams(MethodInfo method)
         {
-            if (Sequence.Exists(method.GetParameters(),
-                delegate(ParameterInfo param)
-                {
-                    return param.ParameterType.IsByRef;
-                }))
+            if (method.GetParameters().Any(param => param.ParameterType.IsByRef))
             {
                 ThrowIllegalInjectionMethod(Resources.CannotInjectMethodWithOutParam, method);
             }

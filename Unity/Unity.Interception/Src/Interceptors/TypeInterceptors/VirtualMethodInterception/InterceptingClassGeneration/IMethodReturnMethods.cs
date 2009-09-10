@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System.Reflection;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -17,16 +18,17 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     {
         internal static MethodInfo GetException
         {
-            get { return typeof (IMethodReturn).GetProperty("Exception").GetGetMethod(); } 
+            get { return StaticReflection.GetPropertyGetMethodInfo((IMethodReturn imr) => imr.Exception); }
         }
+
         internal static MethodInfo GetReturnValue
         {
-            get { return typeof(IMethodReturn).GetProperty("ReturnValue").GetGetMethod(); }
+            get { return StaticReflection.GetPropertyGetMethodInfo((IMethodReturn imr) => imr.ReturnValue); }
         }
 
         internal static MethodInfo GetOutputs
         {
-            get { return typeof (IMethodReturn).GetProperty("Outputs").GetGetMethod(); }
+            get { return StaticReflection.GetPropertyGetMethodInfo((IMethodReturn imr) => imr.Outputs); }
         }
     }
 }

@@ -21,10 +21,8 @@ namespace Microsoft.Practices.Unity.Tests
         public void QualifyingInjectionMethodCanBeConfiguredAndIsCalled()
         {
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<LegalInjectionMethod>(
-                        new InjectionMethod("InjectMe"))
-                    .Container;
+                .RegisterType<LegalInjectionMethod>(
+                        new InjectionMethod("InjectMe"));
 
             LegalInjectionMethod result = container.Resolve<LegalInjectionMethod>();
             Assert.IsTrue(result.WasInjected);
@@ -35,8 +33,7 @@ namespace Microsoft.Practices.Unity.Tests
         public void CannotConfigureGenericInjectionMethod()
         {
             new UnityContainer()
-                .Configure<InjectedMembers>()
-                .ConfigureInjectionFor<OpenGenericInjectionMethod>(
+                .RegisterType<OpenGenericInjectionMethod>(
                 new InjectionMethod("InjectMe"));
         }
 
@@ -44,9 +41,7 @@ namespace Microsoft.Practices.Unity.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void CannotConfigureMethodWithOutParams()
         {
-            new UnityContainer()
-                .Configure<InjectedMembers>()
-                .ConfigureInjectionFor<OutParams>(
+            new UnityContainer().RegisterType<OutParams>(
                 new InjectionMethod("InjectMe", 12));
         }
 
@@ -55,8 +50,7 @@ namespace Microsoft.Practices.Unity.Tests
         public void CannotConfigureMethodWithRefParams()
         {
             new UnityContainer()
-                .Configure<InjectedMembers>()
-                .ConfigureInjectionFor<RefParams>(
+                .RegisterType<RefParams>(
                 new InjectionMethod("InjectMe", 15));
         }
 

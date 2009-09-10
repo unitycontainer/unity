@@ -53,10 +53,15 @@ namespace Microsoft.Practices.Unity.Configuration
                 injections.Add(element.CreateInjectionMember());
             }
 
-            Type targetType = ParentElement.MapTo ?? ParentElement.Type;
-
-            container.Configure<InjectedMembers>()
-                .ConfigureInjectionFor(targetType, ParentElement.Name, injections.ToArray());
+            var serviceType = ParentElement.Type;
+            var implementationType = ParentElement.MapTo;
+            if(implementationType == null)
+            {
+                implementationType = serviceType;
+                serviceType = null;
+            }
+            
+            container.RegisterType(serviceType, implementationType, ParentElement.Name, injections.ToArray());
         }
     }
 }

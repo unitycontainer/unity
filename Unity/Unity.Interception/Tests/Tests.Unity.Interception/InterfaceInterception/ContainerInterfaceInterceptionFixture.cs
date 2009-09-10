@@ -42,7 +42,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
 
             CallCountHandler handler = (CallCountHandler)(container.Resolve<ICallHandler>("callCount"));
             Assert.AreEqual(3, handler.CallCount);
-
         }
 
         [TestMethod]
@@ -66,7 +65,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             target.DoSomething(17m);
             target.DoSomething(84.2m);
 
-            CallCountHandler handler = (CallCountHandler) (container.Resolve<ICallHandler>("callCount"));
+            CallCountHandler handler = (CallCountHandler)(container.Resolve<ICallHandler>("callCount"));
             Assert.AreEqual(3, handler.CallCount);
         }
 

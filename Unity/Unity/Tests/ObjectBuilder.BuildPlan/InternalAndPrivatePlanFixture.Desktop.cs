@@ -54,8 +54,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(MethodAccessException))]
-        public void CannotCreatePlanForPrivateClass()
+        public void CanCreatePlanAndExecuteItForPrivateClassWhenInFullTrust()
         {
             MockBuilderContext context = GetContext();
             IBuildPlanPolicy plan =
@@ -64,7 +63,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.BuildKey = typeof(PrivateClassWithoutExplicitConstructor);
             plan.BuildUp(context);
+
+            Assert.IsNotNull(context.Existing);
+            Assert.IsInstanceOfType(context.Existing, typeof (PrivateClassWithoutExplicitConstructor));
         }
+
 
         private MockBuilderContext GetContext()
         {

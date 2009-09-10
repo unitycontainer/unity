@@ -9,7 +9,6 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml;
@@ -42,7 +41,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <summary>
         /// Read the contents of the element from the given XmlReader.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="reader">The reader for the configuration file.</param>
         public virtual void DeserializeElement(XmlReader reader)
         {
             this.DeserializeElement(reader, false);

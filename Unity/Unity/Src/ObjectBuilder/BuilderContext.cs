@@ -9,7 +9,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.Practices.Unity;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
@@ -20,13 +23,13 @@ namespace Microsoft.Practices.ObjectBuilder2
     {
         readonly IStrategyChain chain;
         readonly ILifetimeContainer lifetime;
-        readonly IReadWriteLocator locator;
         private readonly IRecoveryStack recoveryStack = new RecoveryStack();
         readonly object originalBuildKey;
         private readonly IPolicyList persistentPolicies;
         readonly IPolicyList policies;
         private object buildKey;
         private object existing;
+        private readonly CompositeResolverOverride resolverOverrides = new CompositeResolverOverride();
 
         /// <summary>
         /// Initialize a new instance of the <see cref="BuilderContext"/> class.
@@ -35,24 +38,21 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         /// <summary>
         /// Initialize a new instance of the <see cref="BuilderContext"/> class with a <see cref="IStrategyChain"/>, 
-        /// <see cref="IReadWriteLocator"/>, <see cref="ILifetimeContainer"/>, <see cref="IPolicyList"/> and the 
+        /// <see cref="ILifetimeContainer"/>, <see cref="IPolicyList"/> and the 
         /// build key used to start this build operation. 
         /// </summary>
         /// <param name="chain">The <see cref="IStrategyChain"/> to use for this context.</param>
-        /// <param name="locator">The <see cref="IReadWriteLocator"/> to use for this context.</param>
         /// <param name="lifetime">The <see cref="ILifetimeContainer"/> to use for this context.</param>
         /// <param name="policies">The <see cref="IPolicyList"/> to use for this context.</param>
         /// <param name="originalBuildKey">Build key to start building.</param>
         /// <param name="existing">The existing object to build up.</param>
         public BuilderContext(IStrategyChain chain,
-            IReadWriteLocator locator,
             ILifetimeContainer lifetime,
             IPolicyList policies,
             object originalBuildKey,
             object existing)
         {
             this.chain = chain;
-            this.locator = locator;
             this.lifetime = lifetime;
             this.originalBuildKey = originalBuildKey;
             this.buildKey = originalBuildKey;
@@ -66,7 +66,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// values.
         /// </summary>
         /// <param name="chain">The <see cref="IStrategyChain"/> to use for this context.</param>
-        /// <param name="locator">The <see cref="IReadWriteLocator"/> to use for this context.</param>
         /// <param name="lifetime">The <see cref="ILifetimeContainer"/> to use for this context.</param>
         /// <param name="persistentPolicies">The set of persistent policies to use for this context.</param>
         /// <param name="transientPolicies">The set of transient policies to use for this context. It is
@@ -74,11 +73,10 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// combined.</param>
         /// <param name="buildKey">Build key for this context.</param>
         /// <param name="existing">Existing object to build up.</param>
-        public BuilderContext(IStrategyChain chain, IReadWriteLocator locator, ILifetimeContainer lifetime, IPolicyList persistentPolicies, IPolicyList transientPolicies, object buildKey, object existing)
+        public BuilderContext(IStrategyChain chain, ILifetimeContainer lifetime, IPolicyList persistentPolicies, IPolicyList transientPolicies, object buildKey, object existing)
         {
             this.chain = chain;
             this.lifetime = lifetime;
-            this.locator = locator;
             this.persistentPolicies = persistentPolicies;
             this.policies = transientPolicies;
             this.originalBuildKey = buildKey;
@@ -128,17 +126,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         public ILifetimeContainer Lifetime
         {
             get { return lifetime; }
-        }
-
-        /// <summary>
-        /// Gets the locator available to the strategies.
-        /// </summary>
-        /// <value>
-        /// The locator available to the strategies.
-        /// </value>
-        public IReadWriteLocator Locator
-        {
-            get { return locator; }
         }
 
         /// <summary>
@@ -207,6 +194,26 @@ namespace Microsoft.Practices.ObjectBuilder2
         public IBuilderContext ChildContext { get; private set; }
 
         /// <summary>
+        /// Add a new set of resolver override objects to the current build operation.
+        /// </summary>
+        /// <param name="newOverrides"><see cref="ResolverOverride"/> objects to add.</param>
+        public void AddResolverOverrides(IEnumerable<ResolverOverride> newOverrides)
+        {
+            resolverOverrides.AddRange(newOverrides);
+        }
+
+        /// <summary>
+        /// Get a <see cref="IDependencyResolverPolicy"/> object for the given <paramref name="dependencyType"/>
+        /// or null if that dependency hasn't been overridden.
+        /// </summary>
+        /// <param name="dependencyType">Type of the dependency.</param>
+        /// <returns>Resolver to use, or null if no override matches for the current operation.</returns>
+        public IDependencyResolverPolicy GetOverriddenResolver(Type dependencyType)
+        {
+            return resolverOverrides.GetResolver(this, dependencyType);
+        }
+
+        /// <summary>
         /// A convenience method to do a new buildup operation on an existing context.
         /// </summary>
         /// <remarks>This helper is specific to NamedTypeBuildKey.</remarks>
@@ -230,7 +237,9 @@ namespace Microsoft.Practices.ObjectBuilder2
         public object NewBuildUp(object newBuildKey)
         {
             this.ChildContext =
-                new BuilderContext(chain, locator, lifetime, persistentPolicies, policies, newBuildKey, null);
+                new BuilderContext(chain, lifetime, persistentPolicies, policies, newBuildKey, null);
+
+            ChildContext.AddResolverOverrides(Sequence.Collect(resolverOverrides));
 
             object result = this.ChildContext.Strategies.ExecuteBuildUp(this.ChildContext);
 

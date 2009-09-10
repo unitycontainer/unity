@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -29,8 +30,9 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         /// <returns>The resolver object.</returns>
         protected override IDependencyResolverPolicy CreateResolver(ParameterInfo parameter)
         {
-            List<DependencyResolutionAttribute> attributes = new List<DependencyResolutionAttribute>(
-                Sequence.OfType<DependencyResolutionAttribute>(parameter.GetCustomAttributes(false)));
+            var attributes = parameter.GetCustomAttributes(false)
+                .OfType<DependencyResolutionAttribute>()
+                .ToList();
 
             if(attributes.Count > 0)
             {

@@ -12,6 +12,7 @@
 using System;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -21,10 +22,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             get
             {
-                return typeof(MethodBase).GetMethod("GetMethodFromHandle",
-                    BindingFlags.Public | BindingFlags.Static,
-                    null,
-                    Sequence.Collect(typeof(RuntimeMethodHandle)), null);
+                return StaticReflection.GetMethodInfo(
+                    () => MethodBase.GetMethodFromHandle(default(RuntimeMethodHandle)));
             }
         }
 
@@ -32,20 +31,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             get
             {
-                return typeof(MethodBase).GetMethod("GetMethodFromHandle", 
-                    BindingFlags.Public | BindingFlags.Static,
-                    null, 
-                    Sequence.Collect(typeof(RuntimeMethodHandle), typeof(RuntimeTypeHandle)), 
-                    null);
-            }
-        }
-
-
-        internal static MethodInfo GetMetadataToken
-        {
-            get
-            {
-                return typeof(MethodBase).GetProperty("MetadataToken").GetGetMethod();
+                return StaticReflection.GetMethodInfo(
+                    () => MethodBase.GetMethodFromHandle(default(RuntimeMethodHandle), default(RuntimeTypeHandle)));
             }
         }
     }

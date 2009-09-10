@@ -50,6 +50,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core-Silverlight, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\ThirdParty\Moq\Castle.Core-Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.DynamicProxy-Silverlight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\ThirdParty\Moq\Castle.DynamicProxy-Silverlight.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Silverlight.Testing, Version=2.0.20930.1042, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Lib\SilverlightUnitTesting\Microsoft.Silverlight.Testing.dll</HintPath>
@@ -57,6 +65,10 @@
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight, Version=2.0.20930.1042, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Lib\SilverlightUnitTesting\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq.Silverlight, Version=3.1.416.3, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\ThirdParty\Moq\Moq.Silverlight.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="mscorlib" />
@@ -133,9 +145,6 @@
     <Compile Include="..\..\Unity\Tests\ObjectBuilder\BuilderAwareStrategyTest.cs">
       <Link>ObjectBuilder\BuilderAwareStrategyTest.cs</Link>
     </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder\BuilderTest.cs">
-      <Link>ObjectBuilder\BuilderTest.cs</Link>
-    </Compile>
     <Compile Include="..\..\Unity\Tests\ObjectBuilder\BuildKeyMappingPolicyTest.cs">
       <Link>ObjectBuilder\BuildKeyMappingPolicyTest.cs</Link>
     </Compile>
@@ -150,9 +159,6 @@
     </Compile>
     <Compile Include="..\..\Unity\Tests\ObjectBuilder\LifetimeStrategyTest.cs">
       <Link>ObjectBuilder\LifetimeStrategyTest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder\LocatorTest.cs">
-      <Link>ObjectBuilder\LocatorTest.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Tests\ObjectBuilder\Utility\ActivatorCreationStrategy.cs">
       <Link>ObjectBuilder\Utility\ActivatorCreationStrategy.cs</Link>
@@ -229,6 +235,12 @@
     <Compile Include="..\..\Unity\Tests\Unity.Tests\GenericResolvedArrayParameterFixture.cs">
       <Link>Unity.Tests\GenericResolvedArrayParameterFixture.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\GenericsReflectionExperimentsFixture.cs">
+      <Link>Unity.Tests\GenericsReflectionExperimentsFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\HierarchicalLifetimeFixture.cs">
+      <Link>Unity.Tests\HierarchicalLifetimeFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\InjectedMembersFixture.cs">
       <Link>Unity.Tests\InjectedMembersFixture.cs</Link>
     </Compile>
@@ -247,6 +259,15 @@
     <Compile Include="..\..\Unity\Tests\Unity.Tests\MethodInjectionFixture.cs">
       <Link>Unity.Tests\MethodInjectionFixture.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\OptionalDependencyAPIConfigurationFixture.cs">
+      <Link>Unity.Tests\OptionalDependencyAPIConfigurationFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\OptionalDependencyAttributeFixture.cs">
+      <Link>Unity.Tests\OptionalDependencyAttributeFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\OptionalDependencyResolverPolicyFixture.cs">
+      <Link>Unity.Tests\OptionalDependencyResolverPolicyFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\ParameterMatcherFixture.cs">
       <Link>Unity.Tests\ParameterMatcherFixture.cs</Link>
     </Compile>
@@ -258,6 +279,9 @@
     </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\ResolvingArraysFixture.cs">
       <Link>Unity.Tests\ResolvingArraysFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\ServiceOverrideFixture.cs">
+      <Link>Unity.Tests\ServiceOverrideFixture.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\SpecifiedConstructorSelectorPolicyFixture.cs">
       <Link>Unity.Tests\SpecifiedConstructorSelectorPolicyFixture.cs</Link>

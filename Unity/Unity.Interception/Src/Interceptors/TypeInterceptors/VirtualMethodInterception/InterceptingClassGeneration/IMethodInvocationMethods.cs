@@ -9,7 +9,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System;
 using System.Reflection;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -21,17 +23,19 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     {
         internal static MethodInfo CreateExceptionMethodReturn
         {
-            get { return typeof(IMethodInvocation).GetMethod("CreateExceptionMethodReturn"); }
+            get { return StaticReflection.GetMethodInfo((IMethodInvocation mi) => mi.CreateExceptionMethodReturn(default(Exception))); }
         }
 
         internal static MethodInfo CreateReturn
         {
+            // Using static reflection causes an FxCop rule to throw an exception here, using plain old reflection instead
+            // logged as https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=485609
             get { return typeof(IMethodInvocation).GetMethod("CreateMethodReturn"); }
         }
 
         internal static MethodInfo GetArguments
         {
-            get { return typeof(IMethodInvocation).GetProperty("Arguments").GetGetMethod(); } 
+            get { return StaticReflection.GetPropertyGetMethodInfo((IMethodInvocation mi) => mi.Arguments); }
         }
     }
 }

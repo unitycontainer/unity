@@ -12,6 +12,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using Microsoft.Practices.Unity.Properties;
@@ -27,6 +28,9 @@ namespace Microsoft.Practices.ObjectBuilder2
     {
         private static readonly MethodInfo throwForNullExistingObject =
             StaticReflection.GetMethodInfo(() => ThrowForNullExistingObject(null));
+
+        private static readonly MethodInfo throwForNullExistingObjectWithInvalidConstructor =
+            StaticReflection.GetMethodInfo(() => ThrowForNullExistingObjectWithInvalidConstructor(null, null));
 
         private static readonly MethodInfo throwForAttemptingToConstructInterface =
             StaticReflection.GetMethodInfo(() => ThrowForAttemptingToConstructInterface(null));
@@ -58,10 +62,12 @@ namespace Microsoft.Practices.ObjectBuilder2
             // Method preamble - test if we have an existing object
             // First off, set up jump - if there's an existing object, skip us entirely
             Label existingObjectNotNull = buildContext.IL.DefineLabel();
-            buildContext.EmitLoadExisting();
-            buildContext.IL.Emit(OpCodes.Ldnull);
-            buildContext.IL.Emit(OpCodes.Ceq);
-            buildContext.IL.Emit(OpCodes.Brfalse, existingObjectNotNull);
+
+            if (!buildContext.TypeToBuild.IsValueType)
+            {
+                buildContext.EmitLoadExisting();
+                buildContext.IL.Emit(OpCodes.Brtrue, existingObjectNotNull);
+            }
 
             // Verify we're not attempting to create an instance of an interface
             buildContext.EmitLoadContext();
@@ -74,33 +80,43 @@ namespace Microsoft.Practices.ObjectBuilder2
                 // Resolve parameters
                 ParameterInfo[] parameters = selectedCtor.Constructor.GetParameters();
 
-                int i = 0;
-                foreach (string parameterKey in selectedCtor.GetParameterKeys())
+                if (!parameters.Any(pi => pi.ParameterType.IsByRef))
                 {
+                    int i = 0;
+                    foreach (string parameterKey in selectedCtor.GetParameterKeys())
+                    {
+                        // Set the current operation
+                        buildContext.IL.Emit(OpCodes.Ldstr, parameters[i].Name);
+                        buildContext.IL.Emit(OpCodes.Ldstr, signatureString);
+                        buildContext.EmitLoadContext();
+                        buildContext.IL.EmitCall(OpCodes.Call, setCurrentOperationToResolvingParameter, null);
+
+                        // Resolve the parameter
+                        buildContext.EmitResolveDependency(parameters[i].ParameterType, parameterKey);
+                        ++i;
+                    }
+
                     // Set the current operation
-                    buildContext.IL.Emit(OpCodes.Ldstr, parameters[i].Name);
                     buildContext.IL.Emit(OpCodes.Ldstr, signatureString);
                     buildContext.EmitLoadContext();
-                    buildContext.IL.EmitCall(OpCodes.Call, setCurrentOperationToResolvingParameter, null);
+                    buildContext.IL.EmitCall(OpCodes.Call, setCurrentOperationToInvokingConstructor, null);
 
-                    // Resolve the parameter
-                    buildContext.EmitResolveDependency(parameters[i].ParameterType, parameterKey);
-                    ++i;
+                    // Call the constructor
+                    buildContext.IL.Emit(OpCodes.Newobj, selectedCtor.Constructor);
+
+                    // Store the existing object
+                    buildContext.EmitStoreExisting();
+
+                    // Clear the current operation
+                    buildContext.EmitClearCurrentOperation();
                 }
-
-                // Set the current operation
-                buildContext.IL.Emit(OpCodes.Ldstr, signatureString);
-                buildContext.EmitLoadContext();
-                buildContext.IL.EmitCall(OpCodes.Call, setCurrentOperationToInvokingConstructor, null);
-
-                // Call the constructor
-                buildContext.IL.Emit(OpCodes.Newobj, selectedCtor.Constructor);
-
-                // Store the existing object
-                buildContext.EmitStoreExisting();
-
-                // Clear the current operation
-                buildContext.EmitClearCurrentOperation();
+                else
+                {
+                    // if we get here the selected constructor has ref or out parameters.
+                    buildContext.EmitLoadContext();
+                    buildContext.IL.Emit(OpCodes.Ldstr, signatureString);
+                    buildContext.IL.EmitCall(OpCodes.Call, throwForNullExistingObjectWithInvalidConstructor, null);
+                }
             }
             else
             {
@@ -130,6 +146,25 @@ namespace Microsoft.Practices.ObjectBuilder2
                 string.Format(CultureInfo.CurrentCulture,
                               Resources.NoConstructorFound,
                               BuildKey.GetType(context.BuildKey).Name));
+        }
+
+        /// <summary>
+        /// A helper method used by the generated IL to throw an exception if
+        /// a dependency cannot be resolved because of an invalid constructor.
+        /// </summary>
+        /// <param name="context">The <see cref="IBuilderContext"/> currently being
+        /// used for the build of this object.</param>
+        /// <param name="signature">The signature of the invalid constructor.</param>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
+        public static void ThrowForNullExistingObjectWithInvalidConstructor(IBuilderContext context, string signature)
+        {
+            Guard.ArgumentNotNull(context, "context");
+            throw new InvalidOperationException(
+                string.Format(CultureInfo.CurrentCulture,
+                              Resources.SelectedConstructorHasRefParameters,
+                              BuildKey.GetType(context.BuildKey).Name,
+                              signature));
         }
 
         /// <summary>

@@ -117,8 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ExceptionAbstractMethodNotImplemented" xml:space="preserve">
+    <value>Intercepted abstract method was invoked.</value>
+  </data>
+  <data name="ExceptionAdditionalInterfaceNotImplemented" xml:space="preserve">
+    <value>Additional interfaces do not have an implementation.</value>
+  </data>
   <data name="ExceptionAttributeNoSubclassOfAttribute" xml:space="preserve">
     <value>Type must be a subclass of System.Attribute.</value>
+  </data>
+  <data name="ExceptionCannotCreateInstance" xml:space="preserve">
+    <value>Could not create instance of type {0} with no constructor arguments.</value>
+    <comment>{0} = Name of the type that caused the exception</comment>
+  </data>
+  <data name="ExceptionContainsNullElement" xml:space="preserve">
+    <value>Collection contains a null element.</value>
+  </data>
+  <data name="ExceptionTypeIsNotInterface" xml:space="preserve">
+    <value>The type {0} is not an interface.</value>
+    <comment>{0} = Name of the type that caused the exception</comment>
+  </data>
+  <data name="ExceptionTypeIsOpenGeneric" xml:space="preserve">
+    <value>The type {0} is an open generic.</value>
+    <comment>{0} = Name of the type that caused the exception</comment>
   </data>
   <data name="InterceptionNotSupported" xml:space="preserve">
     <value>The type {0} is not interceptable.</value>

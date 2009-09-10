@@ -213,6 +213,9 @@
   <data name="NotAnArrayTypeWithRankOne" xml:space="preserve">
     <value>The type {0} is not an array type with rank 1, and you are attempting to use a [DependencyArray] attribute on a parameter or property with this type.</value>
   </data>
+  <data name="OptionalDependenciesMustBeReferenceTypes" xml:space="preserve">
+    <value>Optional dependencies must be reference types. The type {0} is a value type.</value>
+  </data>
   <data name="PropertyNotSettable" xml:space="preserve">
     <value>The property {0} on type {1} is not settable.</value>
   </data>
@@ -241,6 +244,9 @@ At the time of the exception, the container was:
   </data>
   <data name="ResolvingPropertyValueOperation" xml:space="preserve">
     <value>Resolving value for property {0}.{1}</value>
+  </data>
+  <data name="SelectedConstructorHasRefParameters" xml:space="preserve">
+    <value>The constructor {1} selected for type {0} has ref or out parameters. Such parameters are not supported for constructor injection.</value>
   </data>
   <data name="SettingPropertyOperation" xml:space="preserve">
     <value>Setting value for property {0}.{1}</value>

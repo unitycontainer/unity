@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 using Microsoft.Practices.Unity.TestSupport;
@@ -50,15 +51,13 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         private List<PropertyInfo> SelectProperties(Type t)
         {
             IPropertySelectorPolicy selector = new PropertySelectorPolicy<DependencyAttribute>();
-            List<SelectedProperty> properties =  new List<SelectedProperty>(selector.SelectProperties(GetContext(t)));
-            return Seq.Make(properties)
-                .Map<PropertyInfo>(delegate(SelectedProperty sp) { return sp.Property; })
-                .ToList();
+            var properties =  new List<SelectedProperty>(selector.SelectProperties(GetContext(t)));
+            return properties.Select(sp => sp.Property).ToList();
         }
 
         private MockBuilderContext GetContext(Type t)
         {
-            MockBuilderContext context = new MockBuilderContext();
+            var context = new MockBuilderContext();
             context.BuildKey = t;
             return context;
         }

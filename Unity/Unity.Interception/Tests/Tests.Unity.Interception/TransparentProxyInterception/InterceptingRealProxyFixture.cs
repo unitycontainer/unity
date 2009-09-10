@@ -10,10 +10,7 @@
 //===============================================================================
 
 using System;
-using System.Reflection;
-using System.Runtime.Remoting;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
+using System.ComponentModel;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -26,7 +23,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.TransparaentProxyInter
         public void CanProxyMBROMethods()
         {
             MBROWithOneMethod original = new MBROWithOneMethod();
-            MBROWithOneMethod proxy = new InterceptingRealProxy(original, typeof (MBROWithOneMethod))
+            MBROWithOneMethod proxy = new InterceptingRealProxy(original, typeof(MBROWithOneMethod))
                 .GetTransparentProxy() as MBROWithOneMethod;
 
             Assert.IsNotNull(proxy);
@@ -36,7 +33,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.TransparaentProxyInter
         public void ProxyImplementsIInterceptingProxy()
         {
             MBROWithOneMethod original = new MBROWithOneMethod();
-            MBROWithOneMethod proxy = new InterceptingRealProxy(original, typeof (MBROWithOneMethod))
+            MBROWithOneMethod proxy = new InterceptingRealProxy(original, typeof(MBROWithOneMethod))
                 .GetTransparentProxy() as MBROWithOneMethod;
 
             Assert.IsNotNull(proxy as IInterceptingProxy);
@@ -45,49 +42,223 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.TransparaentProxyInter
         [TestMethod]
         public void CanInterceptMethodsThroughProxy()
         {
-            MethodInfo doSomething = typeof (MBROWithOneMethod).GetMethod("DoSomething");
-            CallCountHandler handler = new CallCountHandler();
+            CallCountInterceptionBehavior interceptor = new CallCountInterceptionBehavior();
 
             MBROWithOneMethod original = new MBROWithOneMethod();
-            MBROWithOneMethod intercepted = new InterceptingRealProxy(original, typeof (MBROWithOneMethod))
+            MBROWithOneMethod intercepted = new InterceptingRealProxy(original, typeof(MBROWithOneMethod))
                 .GetTransparentProxy() as MBROWithOneMethod;
 
-            IInterceptingProxy proxy = (IInterceptingProxy) intercepted;
-            proxy.SetPipeline(doSomething, new HandlerPipeline(Seq.Collect<ICallHandler>(handler)));
+            IInterceptingProxy proxy = (IInterceptingProxy)intercepted;
+            proxy.AddInterceptionBehavior(interceptor);
 
             int result = intercepted.DoSomething(5);
 
-            Assert.AreEqual(5*3, result);
-            Assert.AreEqual(1, handler.CallCount);
+            Assert.AreEqual(5 * 3, result);
+            Assert.AreEqual(1, interceptor.CallCount);
         }
 
         [TestMethod]
+        [Ignore] // this would be taken care of by the policy injection interceptor?
         public void ProxyMapsInterfaceMethodsToTheirImplementations()
         {
-            MethodInfo something = typeof(InterfaceOne).GetMethod("Something");
-            MethodInfo somethingImpl = typeof (MBROWithInterface).GetMethod("Something");
+            //MethodInfo something = typeof(InterfaceOne).GetMethod("Something");
+            //MethodInfo somethingImpl = typeof (MBROWithInterface).GetMethod("Something");
 
-            CallCountHandler handler = new CallCountHandler();
+            //CallCountHandler handler = new CallCountHandler();
 
-            MBROWithInterface original = new MBROWithInterface();
-            MBROWithInterface intercepted = new InterceptingRealProxy(original, typeof(MBROWithOneMethod))
-                .GetTransparentProxy() as MBROWithInterface;
+            //MBROWithInterface original = new MBROWithInterface();
+            //MBROWithInterface intercepted = new InterceptingRealProxy(original, typeof(MBROWithOneMethod))
+            //    .GetTransparentProxy() as MBROWithInterface;
 
-            HandlerPipeline pipeline = new HandlerPipeline(Seq.Collect<ICallHandler>(handler));
-            IInterceptingProxy proxy = (IInterceptingProxy)intercepted;
+            //HandlerPipeline pipeline = new HandlerPipeline(Sequence.Collect<ICallHandler>(handler));
+            //IInterceptingProxy proxy = (IInterceptingProxy)intercepted;
 
-            proxy.SetPipeline(something, pipeline);
-            HandlerPipeline implPipeline = proxy.GetPipeline(somethingImpl);
+            //proxy.SetPipeline(something, pipeline);
+            //HandlerPipeline implPipeline = proxy.GetPipeline(somethingImpl);
 
-            Assert.AreSame(pipeline, implPipeline);
+            //Assert.AreSame(pipeline, implPipeline);
         }
 
-        
+        [TestMethod]
+        public void ProxyInterceptsAddingAHandlerToAnEvent()
+        {
+            // arrange
+            CallCountInterceptionBehavior interceptor = new CallCountInterceptionBehavior();
+
+            MBROWithAnEvent original = new MBROWithAnEvent();
+            MBROWithAnEvent intercepted = new InterceptingRealProxy(original, typeof(MBROWithAnEvent))
+                .GetTransparentProxy() as MBROWithAnEvent;
+
+            ((IInterceptingProxy)intercepted).AddInterceptionBehavior(interceptor);
+
+            // act
+            intercepted.SomeEvent += (s, a) => { };
+
+            // assert
+            Assert.AreEqual(1, interceptor.CallCount);
+        }
+
+        [TestMethod]
+        public void ProxySendsOriginalWhenRaisingEvent()
+        {
+            // arrange
+            CallCountInterceptionBehavior interceptor = new CallCountInterceptionBehavior();
+
+            MBROWithAnEvent original = new MBROWithAnEvent();
+            MBROWithAnEvent intercepted = new InterceptingRealProxy(original, typeof(MBROWithAnEvent))
+                .GetTransparentProxy() as MBROWithAnEvent;
+
+            ((IInterceptingProxy)intercepted).AddInterceptionBehavior(interceptor);
+            object sender = null;
+            intercepted.SomeEvent += (s, a) => { sender = s; };
+
+            // act
+            intercepted.TriggerIt();
+
+            // assert
+            Assert.AreSame(original, sender);
+            Assert.AreEqual(2, interceptor.CallCount);  // adding + calling TriggerIt
+        }
+
+        [TestMethod]
+        public void CanCreateProxyWithAdditionalInterfaces()
+        {
+            MBROWithOneMethod original = new MBROWithOneMethod();
+            MBROWithOneMethod proxy =
+                new InterceptingRealProxy(original, typeof(MBROWithOneMethod), typeof(InterfaceOne))
+                .GetTransparentProxy() as MBROWithOneMethod;
+
+            Assert.IsTrue(proxy is InterfaceOne);
+        }
+
+        [TestMethod]
+        public void InvokingMethodOnAdditionalInterfaceThrowsIfNotHandledByInterceptor()
+        {
+            MBROWithOneMethod original = new MBROWithOneMethod();
+            InterfaceOne proxy =
+                new InterceptingRealProxy(original, typeof(MBROWithOneMethod), typeof(InterfaceOne))
+                .GetTransparentProxy() as InterfaceOne;
+
+            try
+            {
+                proxy.Something();
+                Assert.Fail("should have thrown");
+            }
+            catch (InvalidOperationException)
+            {
+                // expected
+            }
+        }
+
+        [TestMethod]
+        public void CanSuccessfullyInvokeAnAdditionalInterfaceMethodIfAnInterceptorDoesNotForwardTheCall()
+        {
+            MBROWithOneMethod original = new MBROWithOneMethod();
+            InterfaceOne proxy =
+                new InterceptingRealProxy(original, typeof(MBROWithOneMethod), typeof(InterfaceOne))
+                .GetTransparentProxy() as InterfaceOne;
+            bool invoked = false;
+            ((IInterceptingProxy)proxy).AddInterceptionBehavior(
+                new DelegateInterceptionBehavior(
+                    (input, getNext) => { invoked = true; return input.CreateMethodReturn(null); }));
+
+            proxy.Something();
+
+            Assert.IsTrue(invoked);
+        }
+
+        [TestMethod]
+        public void CanImplementINotifyPropertyChanged()
+        {
+            MBROWithOneProperty target = new MBROWithOneProperty();
+            MBROWithOneProperty proxy =
+                new InterceptingRealProxy(target, typeof(MBROWithOneProperty), typeof(INotifyPropertyChanged))
+                .GetTransparentProxy() as MBROWithOneProperty;
+            ((IInterceptingProxy)proxy).AddInterceptionBehavior(new NaiveINotifyPropertyChangedInterceptionBehavior());
+
+            string changeProperty;
+            PropertyChangedEventHandler handler = (sender, args) => changeProperty = args.PropertyName;
+
+            changeProperty = null;
+            ((INotifyPropertyChanged)proxy).PropertyChanged += handler;
+
+            proxy.TheProperty = 100;
+
+            Assert.AreEqual(100, proxy.TheProperty);
+            Assert.AreEqual("TheProperty", changeProperty);
+
+            changeProperty = null;
+            ((INotifyPropertyChanged)proxy).PropertyChanged -= handler;
+
+            proxy.TheProperty = 200;
+
+            Assert.AreEqual(200, proxy.TheProperty);
+            Assert.AreEqual(null, changeProperty);
+        }
+
+        [TestMethod]
+        public void CanImplementINotifyPropertyChangedThroughInterface()
+        {
+            ObjectWithOnePropertyForImplicitlyImplementedInterface target = new ObjectWithOnePropertyForImplicitlyImplementedInterface();
+            IInterfaceWithOneProperty proxy =
+                new InterceptingRealProxy(target, typeof(IInterfaceWithOneProperty), typeof(INotifyPropertyChanged))
+                .GetTransparentProxy() as IInterfaceWithOneProperty;
+            ((IInterceptingProxy)proxy).AddInterceptionBehavior(new NaiveINotifyPropertyChangedInterceptionBehavior());
+
+            string changeProperty;
+            PropertyChangedEventHandler handler = (sender, args) => changeProperty = args.PropertyName;
+
+            changeProperty = null;
+            ((INotifyPropertyChanged)proxy).PropertyChanged += handler;
+
+            proxy.TheProperty = 100;
+
+            Assert.AreEqual(100, proxy.TheProperty);
+            Assert.AreEqual("TheProperty", changeProperty);
+
+            changeProperty = null;
+            ((INotifyPropertyChanged)proxy).PropertyChanged -= handler;
+
+            proxy.TheProperty = 200;
+
+            Assert.AreEqual(200, proxy.TheProperty);
+            Assert.AreEqual(null, changeProperty);
+        }
+
+        [TestMethod]
+        public void CanImplementINotifyPropertyChangedThroughExplicitInterface()
+        {
+            ObjectWithOnePropertyForExplicitlyImplementedInterface target = new ObjectWithOnePropertyForExplicitlyImplementedInterface();
+            IInterfaceWithOneProperty proxy =
+                new InterceptingRealProxy(target, typeof(IInterfaceWithOneProperty), typeof(INotifyPropertyChanged))
+                .GetTransparentProxy() as IInterfaceWithOneProperty;
+            ((IInterceptingProxy)proxy).AddInterceptionBehavior(new NaiveINotifyPropertyChangedInterceptionBehavior());
+
+            string changeProperty;
+            PropertyChangedEventHandler handler = (sender, args) => changeProperty = args.PropertyName;
+
+            changeProperty = null;
+            ((INotifyPropertyChanged)proxy).PropertyChanged += handler;
+
+            proxy.TheProperty = 100;
+
+            Assert.AreEqual(100, proxy.TheProperty);
+            Assert.AreEqual("TheProperty", changeProperty);
+
+            changeProperty = null;
+            ((INotifyPropertyChanged)proxy).PropertyChanged -= handler;
+
+            proxy.TheProperty = 200;
+
+            Assert.AreEqual(200, proxy.TheProperty);
+            Assert.AreEqual(null, changeProperty);
+        }
+
         internal class MBROWithOneMethod : MarshalByRefObject
         {
             public int DoSomething(int i)
             {
-                return i*3;
+                return i * 3;
             }
         }
 
@@ -100,8 +271,38 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.TransparaentProxyInter
         {
             public void Something()
             {
-                
+
             }
+        }
+
+        public class MBROWithAnEvent : MarshalByRefObject
+        {
+            public event EventHandler<EventArgs> SomeEvent;
+
+            public void TriggerIt()
+            {
+                SomeEvent(this, new EventArgs());
+            }
+        }
+
+        internal class MBROWithOneProperty : MarshalByRefObject
+        {
+            public int TheProperty { get; set; }
+        }
+
+        internal class ObjectWithOnePropertyForImplicitlyImplementedInterface : IInterfaceWithOneProperty
+        {
+            public int TheProperty { get; set; }
+        }
+
+        internal class ObjectWithOnePropertyForExplicitlyImplementedInterface : IInterfaceWithOneProperty
+        {
+            int IInterfaceWithOneProperty.TheProperty { get; set; }
+        }
+
+        internal interface IInterfaceWithOneProperty
+        {
+            int TheProperty { get; set; }
         }
     }
 }

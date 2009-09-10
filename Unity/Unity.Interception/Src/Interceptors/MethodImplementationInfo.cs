@@ -9,11 +9,8 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
-using System.Text;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -70,7 +67,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public override bool Equals(object obj)
         {
             MethodImplementationInfo other = obj as MethodImplementationInfo;
-            if(obj ==null || other == null) return false;
+            if (obj == null || other == null) return false;
 
             return this == other;
         }
@@ -92,14 +89,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <summary>
         /// Standard equals operator
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
         public static bool operator ==(MethodImplementationInfo left, MethodImplementationInfo right)
         {
-            if(ReferenceEquals(left, null) && ReferenceEquals(right, null)) return true;
-            if(ReferenceEquals(left, null )) return false;
-            if(ReferenceEquals(right, null)) return false;
+            if (ReferenceEquals(left, null) && ReferenceEquals(right, null)) return true;
+            if (ReferenceEquals(left, null)) return false;
+            if (ReferenceEquals(right, null)) return false;
 
             return left.interfaceMethodInfo == right.interfaceMethodInfo &&
                 left.implementationMethodInfo == right.implementationMethodInfo;
@@ -108,9 +102,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <summary>
         /// standard not equal operator.
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
         public static bool operator !=(MethodImplementationInfo left, MethodImplementationInfo right)
         {
             return !(left == right);
@@ -125,7 +116,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            if(interfaceMethodInfo == null)
+            if (interfaceMethodInfo == null)
             {
                 return string.Format(CultureInfo.CurrentCulture,
                     "No interface, implementation {0}.{1}",
@@ -136,7 +127,5 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 interfaceMethodInfo.DeclaringType.Name, interfaceMethodInfo.Name,
                 implementationMethodInfo.DeclaringType.Name, implementationMethodInfo.Name);
         }
-
-        
     }
 }

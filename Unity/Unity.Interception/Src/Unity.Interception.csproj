@@ -13,6 +13,7 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,17 +42,28 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalInterface.cs" />
+    <Compile Include="AdditionalInterfacesPolicy.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IAdditionalInterfacesPolicy.cs" />
+    <Compile Include="Intercept.cs" />
+    <Compile Include="InterceptionBehaviors\ContainerResolvedInterceptionBehaviorDescriptor.cs" />
+    <Compile Include="InterceptionMember.cs" />
+    <Compile Include="Interceptor.cs" />
     <Compile Include="Interceptors\IInterceptingProxy.cs" />
     <Compile Include="Interceptors\IInterceptor.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\IInstanceInterceptionPolicy.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\IInstanceInterceptor.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\InstanceInterceptionPolicy.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\InstanceInterceptionStrategy.cs" />
+    <Compile Include="Interceptors\InstanceInterceptors\InterfaceInterception\InterfaceImplementation.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\InterfaceInterception\InterfaceInterceptor.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\InterfaceInterception\InterfaceInterceptorClassGenerator.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\InterfaceInterception\InterfaceMethodOverride.cs" />
@@ -62,41 +74,45 @@
     <Compile Include="Interceptors\TypeInterceptors\ITypeInterceptor.cs" />
     <Compile Include="Interceptors\TypeInterceptors\TypeInterceptionPolicy.cs" />
     <Compile Include="Interceptors\TypeInterceptors\TypeInterceptionStrategy.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\GeneratedTypeKey.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\IInterceptingProxyMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\InterceptingProxyImplementor.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\MethodSorter.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\ObjectMethods.cs" />
-    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\PipelineManagerMethods.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\InterceptionBehaviorPipelineMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\VirtualMethodInterceptor.cs" />
-    <Compile Include="Pipeline\PipelineManager.cs" />
-    <Compile Include="Policies\ApplyNoPoliciesAttribute.cs" />
-    <Compile Include="Policies\AttributeDrivenPolicy.cs" />
-    <Compile Include="Policies\HandlerAttribute.cs" />
-    <Compile Include="Pipeline\HandlerPipeline.cs" />
-    <Compile Include="Pipeline\ICallHandler.cs" />
-    <Compile Include="MatchingRules\IMatchingRule.cs" />
-    <Compile Include="Pipeline\IMethodInvocation.cs" />
-    <Compile Include="Pipeline\IMethodReturn.cs" />
+    <Compile Include="IInterceptionBehaviorsPolicy.cs" />
+    <Compile Include="PolicyInjection\Pipeline\PipelineManager.cs" />
+    <Compile Include="PolicyInjection\Policies\ApplyNoPoliciesAttribute.cs" />
+    <Compile Include="PolicyInjection\Policies\AttributeDrivenPolicy.cs" />
+    <Compile Include="PolicyInjection\Policies\HandlerAttribute.cs" />
+    <Compile Include="PolicyInjection\Pipeline\HandlerPipeline.cs" />
+    <Compile Include="PolicyInjection\Pipeline\ICallHandler.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\IMatchingRule.cs" />
+    <Compile Include="PolicyInjection\Pipeline\IMethodInvocation.cs" />
+    <Compile Include="PolicyInjection\Pipeline\IMethodReturn.cs" />
     <Compile Include="Interception.cs" />
-    <Compile Include="Pipeline\IParameterCollection.cs" />
-    <Compile Include="MatchingRules\MatchingRuleSet.cs" />
-    <Compile Include="MatchingRules\ApplyNoPoliciesMatchingRule.cs" />
-    <Compile Include="MatchingRules\AssemblyMatchingRule.cs" />
-    <Compile Include="MatchingRules\AttributeDrivenPolicyMatchingRule.cs" />
-    <Compile Include="MatchingRules\CustomAttributeMatchingRule.cs" />
-    <Compile Include="MatchingRules\MatchingInfo.cs" />
-    <Compile Include="MatchingRules\MemberNameMatchingRule.cs" />
-    <Compile Include="MatchingRules\MethodSignatureMatchingRule.cs" />
-    <Compile Include="MatchingRules\NamespaceMatchingRule.cs" />
-    <Compile Include="MatchingRules\ParameterTypeMatchingRule.cs" />
-    <Compile Include="MatchingRules\PropertyMatchingRule.cs" />
-    <Compile Include="MatchingRules\ReturnTypeMatchingRule.cs" />
-    <Compile Include="MatchingRules\TagAttributeMatchingRule.cs" />
-    <Compile Include="MatchingRules\TypeMatchingRule.cs" />
-    <Compile Include="Pipeline\ParameterCollection.cs" />
-    <Compile Include="Policies\InjectionPolicy.cs" />
+    <Compile Include="PolicyInjection\Pipeline\IParameterCollection.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\MatchingRuleSet.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\ApplyNoPoliciesMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\AssemblyMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\AttributeDrivenPolicyMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\CustomAttributeMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\MatchingInfo.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\MemberNameMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\MethodSignatureMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\NamespaceMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\ParameterTypeMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\PropertyMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\ReturnTypeMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\TagAttributeMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\TypeMatchingRule.cs" />
+    <Compile Include="PolicyInjection\Pipeline\ParameterCollection.cs" />
+    <Compile Include="PolicyInjection\Policies\InjectionPolicy.cs" />
     <Compile Include="PolicyDefinition.cs" />
-    <Compile Include="Policies\PolicySet.cs" />
+    <Compile Include="PolicyInjection\Policies\PolicySet.cs" />
+    <Compile Include="PolicyInjection\PolicyInjectionBehavior.cs" />
+    <Compile Include="PolicyInjection\PolicyInjectionBehaviorDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -107,18 +123,23 @@
     <Compile Include="Interceptors\InstanceInterceptors\TransparentProxyInterception\TransparentProxyMethodInvocation.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\TransparentProxyInterception\TransparentProxyMethodReturn.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\TransparentProxyInterception\TransparentProxyOutputParameterCollection.cs" />
-    <Compile Include="Policies\RuleDrivenPolicy.cs" />
-    <Compile Include="MatchingRules\TagAttribute.cs" />
+    <Compile Include="PolicyInjection\Policies\RuleDrivenPolicy.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\TagAttribute.cs" />
+    <Compile Include="InterceptionBehavior.cs" />
+    <Compile Include="InterceptionBehaviorsPolicy.cs" />
+    <Compile Include="InterceptionBehaviors\ExistingInterceptionBehaviorDescriptor.cs" />
+    <Compile Include="IInterceptionBehaviorDescriptor.cs" />
+    <Compile Include="InterceptionBehaviors\InterceptionBehaviorPipeline.cs" />
+    <Compile Include="InterceptionBehaviors\IInterceptionBehavior.cs" />
     <Compile Include="Utilities\Glob.cs" />
     <Compile Include="Utilities\ReflectionHelper.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\CompilerGeneratedAttributeMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\ConstructorWithResolverKeysSelectorPolicy.cs" />
-    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\HandlerPipelineMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\IListMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\IMethodInvocationMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\IMethodReturnMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\InterceptingClassGenerator.cs" />
-    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\InvokeHandlerDelegateMethods.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\InvokeInterceptionBehaviorDelegateMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\MethodBaseMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\MethodOverride.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\VirtualMethodInvocation.cs" />
@@ -137,9 +158,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ObjectBuilder\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

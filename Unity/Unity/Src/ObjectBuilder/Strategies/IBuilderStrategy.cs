@@ -14,15 +14,15 @@ using System.Diagnostics.CodeAnalysis;
 namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
-    /// Represents a strategy in the <see cref="IBuilder"/>'s chain of responsibility.
+    /// Represents a strategy in the chain of responsibility.
     /// Strategies are required to support both BuildUp and TearDown. Although you
     /// can implement this interface directly, you may also choose to use
     /// <see cref="BuilderStrategy"/> as the base class for your strategies, as
     /// this class provides useful helper methods and makes support BuildUp and TearDown
     /// optional.
     /// </summary>
-	public interface IBuilderStrategy
-	{
+    public interface IBuilderStrategy
+    {
         /// <summary>
         /// Called during the chain of responsibility for a build operation. The
         /// PreBuildUp method is called when the chain is being executed in the
@@ -58,9 +58,9 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// PostTearDown method is called when the chain has finished the PreTearDown
         /// phase and executes in reverse order from the PreTearDown calls.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">Context of the teardown operation.</param>
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "TearDown",
             Justification = "Kept for backward compatibility with ObjectBuilder")]
         void PostTearDown(IBuilderContext context);
-	}
+    }
 }

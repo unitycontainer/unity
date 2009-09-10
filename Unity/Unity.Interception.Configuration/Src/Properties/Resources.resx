@@ -123,4 +123,13 @@
   <data name="CannotHaveLifetimeWithoutTypeName" xml:space="preserve">
     <value>The &lt;lifetime/&gt; element is not allowed on element named '{0}' because it doesn't have a type attribute.</value>
   </data>
+  <data name="ExceptionCannotCreateInstance" xml:space="preserve">
+    <value>Cannot create instance of type {0} with a default constructor.</value>
+  </data>
+  <data name="ExceptionResolvedTypeNotCompatible" xml:space="preserve">
+    <value>The type name {0} resolved to type {1} is not compatible with the requested type {2}.</value>
+  </data>
+  <data name="MustHaveAtLeastOneBehaviorAttribute" xml:space="preserve">
+    <value>The interception behavior element must have one and only one of the 'behavior', 'behaviorType' and 'behaviorDescriptorType' attributes.</value>
+  </data>
 </root>

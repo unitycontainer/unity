@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Guard = Microsoft.Practices.Unity.Utility.Guard;
@@ -21,11 +22,10 @@ namespace Microsoft.Practices.Unity
     /// <summary>
     /// A simple, extensible dependency injection container.
     /// </summary>
-    public class UnityContainer : UnityContainerBase
+    public class UnityContainer : IUnityContainer
     {
         private readonly UnityContainer parent;
 
-        private Locator locator;
         private LifetimeContainer lifetimeContainer;
         private StagedStrategyChain<UnityBuildStage> strategies;
         private StagedStrategyChain<UnityBuildStage> buildPlanStrategies;
@@ -46,7 +46,7 @@ namespace Microsoft.Practices.Unity
             : this(null)
         {
             // Only a root container (one without a parent) gets the default strategies.
-            AddNewExtension<UnityDefaultStrategiesExtension>();
+            this.AddNewExtension<UnityDefaultStrategiesExtension>();
         }
 
         /// <summary>
@@ -70,8 +70,11 @@ namespace Microsoft.Practices.Unity
             registeringInstance += delegate { };
 
             // Every container gets the default behavior
-            AddNewExtension<UnityDefaultBehaviorExtension>();
-            AddNewExtension<InjectedMembers>();
+            this.AddNewExtension<UnityDefaultBehaviorExtension>();
+
+#pragma warning disable 618
+            this.AddNewExtension<InjectedMembers>();
+#pragma warning restore 618
         }
 
         #region Type Mapping
@@ -87,18 +90,24 @@ namespace Microsoft.Practices.Unity
         /// of the returned instance.</param>
         /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        public override IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager, InjectionMember[] injectionMembers)
+        public IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager, InjectionMember[] injectionMembers)
         {
-            if (to != null && !from.IsGenericType && !to.IsGenericType)
+            Guard.ArgumentNotNull(to, "to");
+
+            if (from != null && !from.IsGenericType && !to.IsGenericType)
             {
                 Guard.TypeIsAssignable(from, to, "from");
             }
+
             registering(this, new RegisterEventArgs(from, to, name, lifetimeManager));
 
             if (injectionMembers.Length > 0)
             {
-                Configure<InjectedMembers>()
-                    .ConfigureInjectionFor(to ?? from, name, injectionMembers);
+                ClearExistingBuildPlan(to, name);
+                foreach(var member in injectionMembers)
+                {
+                    member.AddPolicies(from, to, name, policies);
+                }
             }
             return this;
         }
@@ -127,11 +136,11 @@ namespace Microsoft.Practices.Unity
         ///  If false, container will not maintain a strong reference to <paramref name="instance"/>. User is reponsible
         /// for disposing instance, and for keeping the instance from being garbage collected.</para></param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        public override IUnityContainer RegisterInstance(Type t, string name, object instance, LifetimeManager lifetime)
+        public IUnityContainer RegisterInstance(Type t, string name, object instance, LifetimeManager lifetime)
         {
             Guard.ArgumentNotNull(instance, "instance");
             Guard.ArgumentNotNull(lifetime, "lifetime");
-            Guard.TypeIsAssignable(t, instance.GetType(), "instance");
+            Guard.InstanceIsAssignable(t, instance, "instance");
             registeringInstance(this,
                                 new RegisterInstanceEventArgs(t,
                                                               instance,
@@ -149,10 +158,11 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         /// <param name="t"><see cref="Type"/> of object to get from the container.</param>
         /// <param name="name">Name of the object to retrieve.</param>
+        /// <param name="resolverOverrides">Any overrides for the resolve call.</param>
         /// <returns>The retrieved object.</returns>
-        public override object Resolve(Type t, string name)
+        public object Resolve(Type t, string name, params ResolverOverride[] resolverOverrides)
         {
-            return DoBuildUp(t, name);
+            return DoBuildUp(t, name, resolverOverrides);
         }
 
         /// <summary>
@@ -168,13 +178,14 @@ namespace Microsoft.Practices.Unity
         /// </para>
         /// </remarks>
         /// <param name="t">The type requested.</param>
+        /// <param name="resolverOverrides">Any overrides for the resolve calls.</param>
         /// <returns>Set of objects of type <paramref name="t"/>.</returns>
-        public override IEnumerable<object> ResolveAll(Type t)
+        public IEnumerable<object> ResolveAll(Type t, params ResolverOverride[] resolverOverrides)
         {
-            List<string> names = new List<string>(registeredNames.GetKeys(t));
+            var names = new List<string>(registeredNames.GetKeys(t));
             foreach (string name in names)
             {
-                yield return Resolve(t, name);
+                yield return Resolve(t, name, resolverOverrides);
             }
         }
         #endregion
@@ -193,23 +204,24 @@ namespace Microsoft.Practices.Unity
         /// <param name="t"><see cref="Type"/> of object to perform injection on.</param>
         /// <param name="existing">Instance to build up.</param>
         /// <param name="name">name to use when looking up the typemappings and other configurations.</param>
+        /// <param name="resolverOverrides">Any overrides for the buildup.</param>
         /// <returns>The resulting object. By default, this will be <paramref name="existing"/>, but
         /// container extensions may add things like automatic proxy creation which would
         /// cause this to return a different object (but still type compatible with <paramref name="t"/>).</returns>
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
         // FxCop warning suppressed: false positive, Guard class is doing validation
-        public override object BuildUp(Type t, object existing, string name)
+        public object BuildUp(Type t, object existing, string name, params ResolverOverride[] resolverOverrides)
         {
             Guard.ArgumentNotNull(existing, "existing");
-            Guard.TypeIsAssignable(t, existing.GetType(), "existing");
-            return DoBuildUp(t, existing, name);
+            Guard.InstanceIsAssignable(t, existing, "existing");
+            return DoBuildUp(t, existing, name, resolverOverrides);
         }
 
         /// <summary>
         /// Run an existing object through the container, and clean it up.
         /// </summary>
         /// <param name="o">The object to tear down.</param>
-        public override void Teardown(object o)
+        public void Teardown(object o)
         {
             IBuilderContext context = null;
 
@@ -218,7 +230,7 @@ namespace Microsoft.Practices.Unity
                 Guard.ArgumentNotNull(o, "o");
 
                 context =
-                    new BuilderContext(GetStrategies().Reverse(), locator, lifetimeContainer, policies, null, o);
+                    new BuilderContext(GetStrategies().Reverse(), lifetimeContainer, policies, null, o);
                 context.Strategies.ExecuteTearDown(context);
             }
             catch (Exception ex)
@@ -268,11 +280,6 @@ namespace Microsoft.Practices.Unity
                 get { return container.policies; }
             }
 
-            public override IReadWriteLocator Locator
-            {
-                get { return container.locator; }
-            }
-
             public override ILifetimeContainer Lifetime
             {
                 get { return container.lifetimeContainer; }
@@ -305,9 +312,8 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         /// <param name="extension"><see cref="UnityContainerExtension"/> to add.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        public override IUnityContainer AddExtension(UnityContainerExtension extension)
+        public IUnityContainer AddExtension(UnityContainerExtension extension)
         {
-
             extensions.Add(extension);
             extension.InitializeExtension(new ExtensionContextImpl(this));
             lock (cachedStrategiesLock)
@@ -326,14 +332,9 @@ namespace Microsoft.Practices.Unity
         /// </remarks>
         /// <param name="configurationInterface"><see cref="Type"/> of configuration interface required.</param>
         /// <returns>The requested extension's configuration interface, or null if not found.</returns>
-        public override object Configure(Type configurationInterface)
+        public object Configure(Type configurationInterface)
         {
-            foreach (UnityContainerExtension item in Sequence.Where(extensions,
-                delegate(UnityContainerExtension extension) { return configurationInterface.IsAssignableFrom(extension.GetType()); }))
-            {
-                return item;
-            }
-            return null;
+            return extensions.Where(ex => configurationInterface.IsAssignableFrom(ex.GetType())).FirstOrDefault();
         }
 
         /// <summary>
@@ -352,14 +353,14 @@ namespace Microsoft.Practices.Unity
         /// </para>
         /// </remarks>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        public override IUnityContainer RemoveAllExtensions()
+        public IUnityContainer RemoveAllExtensions()
         {
-            List<UnityContainerExtension> toRemove = new List<UnityContainerExtension>(extensions);
+            var toRemove = new List<UnityContainerExtension>(extensions);
             toRemove.Reverse();
             foreach (UnityContainerExtension extension in toRemove)
             {
                 extension.Remove();
-                IDisposable disposable = extension as IDisposable;
+                var disposable = extension as IDisposable;
                 if (disposable != null)
                 {
                     disposable.Dispose();
@@ -387,7 +388,7 @@ namespace Microsoft.Practices.Unity
         /// A child container shares the parent's configuration, but can be configured with different
         /// settings or lifetime.</remarks>
         /// <returns>The new child container.</returns>
-        public override IUnityContainer CreateChildContainer()
+        public IUnityContainer CreateChildContainer()
         {
             return new UnityContainer(this);
         }
@@ -397,7 +398,7 @@ namespace Microsoft.Practices.Unity
         /// The parent of this container.
         /// </summary>
         /// <value>The parent container, or null if this container doesn't have one.</value>
-        public override IUnityContainer Parent
+        public IUnityContainer Parent
         {
             get { return parent; }
         }
@@ -414,7 +415,7 @@ namespace Microsoft.Practices.Unity
         /// and disposes any instances whose lifetimes are managed
         /// by the container.
         /// </remarks>
-        public override void Dispose()
+        public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this); // Shut FxCop up
@@ -441,10 +442,8 @@ namespace Microsoft.Practices.Unity
                         parent.lifetimeContainer.Remove(this);
                     }
                 }
-                foreach (IDisposable disposableExtension in Sequence.OfType<IDisposable>(extensions))
-                {
-                    disposableExtension.Dispose();
-                }
+
+                extensions.OfType<IDisposable>().ForEach(ex => ex.Dispose());
                 extensions.Clear();
             }
         }
@@ -453,12 +452,12 @@ namespace Microsoft.Practices.Unity
 
         #region Running ObjectBuilder
 
-        private object DoBuildUp(Type t, string name)
+        private object DoBuildUp(Type t, string name, IEnumerable<ResolverOverride> resolverOverrides)
         {
-            return DoBuildUp(t, null, name);
+            return DoBuildUp(t, null, name, resolverOverrides);
         }
 
-        private object DoBuildUp(Type t, object existing, string name)
+        private object DoBuildUp(Type t, object existing, string name, IEnumerable<ResolverOverride> resolverOverrides)
         {
             IBuilderContext context = null;
 
@@ -467,11 +466,12 @@ namespace Microsoft.Practices.Unity
                 context =
                     new BuilderContext(
                         GetStrategies(),
-                        locator,
                         lifetimeContainer,
                         policies,
                         new NamedTypeBuildKey(t, name),
                         existing);
+                context.AddResolverOverrides(resolverOverrides);
+
                 return context.Strategies.ExecuteBuildUp(context);
             }
             catch (Exception ex)
@@ -510,7 +510,6 @@ namespace Microsoft.Practices.Unity
             registeredNames = new NamedTypesRegistry(ParentNameRegistry);
             extensions = new List<UnityContainerExtension>();
 
-            locator = new Locator(ParentLocator);
             lifetimeContainer = new LifetimeContainer();
             strategies = new StagedStrategyChain<UnityBuildStage>(ParentStrategies);
             buildPlanStrategies = new StagedStrategyChain<UnityBuildStage>(ParentBuildPlanStrategies);
@@ -535,17 +534,26 @@ namespace Microsoft.Practices.Unity
             get { return parent == null ? null : parent.policies; }
         }
 
-        private Locator ParentLocator
-        {
-            get { return parent == null ? null : parent.locator; }
-        }
-
         private NamedTypesRegistry ParentNameRegistry
         {
             get { return parent == null ? null : parent.registeredNames; }
         }
 
         #endregion
+
+        /// <summary>
+        /// Remove policies associated with building this type. This removes the
+        /// compiled build plan so that it can be rebuilt with the new settings
+        /// the next time this type is resolved.
+        /// </summary>
+        /// <param name="typeToInject">Type of object to clear the plan for.</param>
+        /// <param name="name">Name the object is being registered with.</param>
+        private void ClearExistingBuildPlan(Type typeToInject, string name)
+        {
+            var buildKey = new NamedTypeBuildKey(typeToInject, name);
+            policies.Clear<IBuildPlanPolicy>(buildKey);
+            DependencyResolverTrackerPolicy.RemoveResolvers(policies, buildKey);
+        }
 
     }
 }

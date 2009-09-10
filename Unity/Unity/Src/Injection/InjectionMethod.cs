@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
@@ -38,23 +39,24 @@ namespace Microsoft.Practices.Unity
         public InjectionMethod(string methodName, params object[] methodParameters)
         {
             this.methodName = methodName;
-            this.methodParameters = Sequence.ToList(InjectionParameterValue.ToParameters(methodParameters));
+            this.methodParameters = InjectionParameterValue.ToParameters(methodParameters).ToList();
         }
 
         /// <summary>
         /// Add policies to the <paramref name="policies"/> to configure the
         /// container to call this constructor with the appropriate parameter values.
         /// </summary>
-        /// <param name="typeToCreate">Type to register.</param>
+        /// <param name="serviceType">Type of interface registered, ignored in this implementation.</param>
+        /// <param name="implementationType">Type to register.</param>
         /// <param name="name">Name used to resolve the type object.</param>
         /// <param name="policies">Policy list to add policies to.</param>
-        public override void AddPolicies(Type typeToCreate, string name, IPolicyList policies)
+        public override void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
         {
-            MethodInfo methodInfo = FindMethod(typeToCreate);
-            ValidateMethodCanBeInjected(methodInfo, typeToCreate);
+            MethodInfo methodInfo = FindMethod(implementationType);
+            ValidateMethodCanBeInjected(methodInfo, implementationType);
 
             SpecifiedMethodsSelectorPolicy selector =
-                GetSelectorPolicy(policies, typeToCreate, name);
+                GetSelectorPolicy(policies, implementationType, name);
             selector.AddMethodAndParameters(methodInfo, methodParameters);
         }
 
@@ -121,7 +123,7 @@ namespace Microsoft.Practices.Unity
 
         private void GuardMethodHasNoOutParams(MethodInfo info, Type typeToCreate)
         {
-            if(Sequence.Exists(info.GetParameters(), delegate(ParameterInfo param) { return param.IsOut; }))
+            if(info.GetParameters().Any(param => param.IsOut))
             {
                 ThrowIllegalInjectionMethod(Resources.CannotInjectMethodWithOutParams, typeToCreate);
             }
@@ -129,8 +131,7 @@ namespace Microsoft.Practices.Unity
 
         private void GuardMethodHasNoRefParams(MethodInfo info, Type typeToCreate)
         {
-            if(Sequence.Exists(info.GetParameters(), delegate(ParameterInfo param) 
-                { return param.ParameterType.IsByRef; }))
+            if(info.GetParameters().Any(param => param.ParameterType.IsByRef))
             {
                 ThrowIllegalInjectionMethod(Resources.CannotInjectMethodWithRefParams, typeToCreate);
             }
@@ -143,15 +144,13 @@ namespace Microsoft.Practices.Unity
                     message,
                     typeToCreate.Name,
                     methodName,
-                    Sequence.ToString(methodParameters, ", ", 
-                        delegate(InjectionParameterValue value) { return value.ParameterTypeName; })));
+                    methodParameters.JoinStrings(", ", mp => mp.ParameterTypeName)));
         }
 
         private static SpecifiedMethodsSelectorPolicy GetSelectorPolicy(IPolicyList policies, Type typeToCreate, string name)
         {
-            NamedTypeBuildKey key = new NamedTypeBuildKey(typeToCreate, name);
-            IMethodSelectorPolicy selector =
-                policies.GetNoDefault<IMethodSelectorPolicy>(key, false);
+            var key = new NamedTypeBuildKey(typeToCreate, name);
+            var selector = policies.GetNoDefault<IMethodSelectorPolicy>(key, false);
             if(selector == null || !(selector is SpecifiedMethodsSelectorPolicy))
             {
                 selector = new SpecifiedMethodsSelectorPolicy();

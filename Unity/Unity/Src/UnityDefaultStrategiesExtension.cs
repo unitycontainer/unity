@@ -29,6 +29,7 @@ namespace Microsoft.Practices.Unity
             // Main strategy chain
             //
             Context.Strategies.AddNew<BuildKeyMappingStrategy>(UnityBuildStage.TypeMapping);
+            Context.Strategies.AddNew<HierarchicalLifetimeStrategy>(UnityBuildStage.Lifetime);
             Context.Strategies.AddNew<LifetimeStrategy>(UnityBuildStage.Lifetime);
 
             Context.Strategies.AddNew<ArrayResolutionStrategy>(UnityBuildStage.Creation);

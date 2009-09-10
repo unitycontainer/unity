@@ -29,7 +29,7 @@ namespace Microsoft.Practices.Unity
             Context.Registering += OnRegister;
             Context.RegisteringInstance += OnRegisterInstance;
 
-            Container.RegisterInstance<IUnityContainer>(Container, new ContainerLifetimeManager());
+            Container.RegisterInstance(Container, new ContainerLifetimeManager());
         }
 
         /// <summary>
@@ -43,8 +43,8 @@ namespace Microsoft.Practices.Unity
 
         private void OnRegister(object sender, RegisterEventArgs e)
         {
-            Context.RegisterNamedType(e.TypeFrom, e.Name);
-            if (e.TypeTo != null)
+            Context.RegisterNamedType(e.TypeFrom ?? e.TypeTo, e.Name);
+            if (e.TypeFrom != null)
             {
                 if (e.TypeFrom.IsGenericTypeDefinition && e.TypeTo.IsGenericTypeDefinition)
                 {
@@ -61,7 +61,7 @@ namespace Microsoft.Practices.Unity
             }
             if (e.LifetimeManager != null)
             {
-                SetLifetimeManager(e.TypeTo ?? e.TypeFrom, e.Name, e.LifetimeManager);
+                SetLifetimeManager(e.TypeTo, e.Name, e.LifetimeManager);
             }
         }
 

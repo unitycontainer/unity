@@ -10,15 +10,14 @@
 //===============================================================================
 
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
+using Microsoft.Practices.Unity.Utility;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Interceptors.TypeInterceptors.VirtualMethodInterception.InterceptingClassGeneration
+namespace Microsoft.Practices.Unity.InterceptionExtension
 {
     internal static class ObjectMethods
     {
         // Zero argument constructor
-        internal static ConstructorInfo Constructor { get { return typeof (object).GetConstructor(new Type[0]);  } }
+        internal static ConstructorInfo Constructor { get { return StaticReflection.GetConstructorInfo(() => new object()); } }
     }
 }

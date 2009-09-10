@@ -12,13 +12,14 @@
 using System;
 using System.Globalization;
 using Microsoft.Practices.Unity.Properties;
+using System.Runtime.InteropServices;
 
 namespace Microsoft.Practices.Unity.Utility
 {
     /// <summary>
     /// A static helper class that includes various parameter checking routines.
     /// </summary>
-    public static class Guard
+    public static partial class Guard
     {
         /// <summary>
         /// Throws <see cref="ArgumentNullException"/> if the given argument is null.

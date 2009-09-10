@@ -25,34 +25,31 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class DynamicBuildPlanGenerationContext
     {
-        private Type typeToBuild;
-        private DynamicMethod buildMethod;
-        private ILGenerator il;
+        private readonly Type typeToBuild;
+        private readonly DynamicMethod buildMethod;
+        private readonly ILGenerator il;
         private LocalBuilder existingObjectLocal;
 
         private static readonly MethodInfo GetTypeFromHandle =
-            typeof(Type).GetMethod("GetTypeFromHandle", Types(typeof(RuntimeTypeHandle)));
+            StaticReflection.GetMethodInfo(() => Type.GetTypeFromHandle(typeof (Type).TypeHandle));
 
         private static readonly MethodInfo GetBuildKey =
-            typeof(IBuilderContext).GetProperty("BuildKey").GetGetMethod();
+            StaticReflection.GetPropertyGetMethodInfo((IBuilderContext ctx) => ctx.BuildKey);
 
         private static readonly MethodInfo GetExisting =
-            typeof(IBuilderContext).GetProperty("Existing").GetGetMethod();
+            StaticReflection.GetPropertyGetMethodInfo((IBuilderContext ctx) => ctx.Existing);
 
         private static readonly MethodInfo SetExisting =
-            typeof(IBuilderContext).GetProperty("Existing").GetSetMethod();
-
-        private static readonly MethodInfo GetPoliciesFromContext =
-            typeof(IBuilderContext).GetProperty("Policies").GetGetMethod();
-
-        private static readonly MethodInfo GetPolicy =
-            typeof(IPolicyList).GetMethod("Get", Types(typeof(Type), typeof(object)));
+            StaticReflection.GetPropertySetMethodInfo((IBuilderContext ctx) => ctx.Existing);
 
         private static readonly MethodInfo ResolveDependency =
-            typeof(IDependencyResolverPolicy).GetMethod("Resolve", Types(typeof(IBuilderContext)));
+            StaticReflection.GetMethodInfo((IDependencyResolverPolicy r) => r.Resolve(null));
+
+        private static readonly MethodInfo GetResolverMethod =
+            StaticReflection.GetMethodInfo(() => GetResolver(null, null, null));
 
         private static readonly MethodInfo ClearCurrentOperation =
-            typeof(DynamicBuildPlanGenerationContext).GetMethod("DoClearCurrentOperation");
+            StaticReflection.GetMethodInfo(() => DoClearCurrentOperation(null));
 
         /// <summary>
         /// Create a <see cref="DynamicBuildPlanGenerationContext"/> that is initialized
@@ -161,21 +158,12 @@ namespace Microsoft.Practices.ObjectBuilder2
             Guard.ArgumentNotNull(dependencyType, "dependencyType");
 
             EmitLoadContext();
-            IL.EmitCall(OpCodes.Callvirt, GetPoliciesFromContext, null);
-            EmitLoadTypeOnStack(typeof(IDependencyResolverPolicy));
+            EmitLoadTypeOnStack(dependencyType);
             IL.Emit(OpCodes.Ldstr, key);
-            IL.EmitCall(OpCodes.Callvirt, GetPolicy, null);
-            IL.Emit(OpCodes.Castclass, typeof(IDependencyResolverPolicy));
+            IL.EmitCall(OpCodes.Call, GetResolverMethod, null);
             EmitLoadContext();
             IL.EmitCall(OpCodes.Callvirt, ResolveDependency, null);
-            if (dependencyType.IsValueType)
-            {
-                IL.Emit(OpCodes.Unbox_Any, dependencyType);
-            }
-            else
-            {
-                IL.Emit(OpCodes.Castclass, dependencyType);
-            }
+            EmitCastOrUnbox(dependencyType);
         }
 
         /// <summary>
@@ -183,8 +171,27 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         public void EmitClearCurrentOperation()
         {
-            this.EmitLoadContext();
-            this.IL.EmitCall(OpCodes.Call, ClearCurrentOperation, null);
+            EmitLoadContext();
+            IL.EmitCall(OpCodes.Call, ClearCurrentOperation, null);
+        }
+
+        /// <summary>
+        /// Emit the IL needed to either cast the top of the stack to the target type
+        /// or unbox it, if it's a value type.
+        /// </summary>
+        /// <param name="targetType">Type to convert the top of the stack to.</param>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unbox", Justification="Unbox is spelled correctly.")]
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "CastOr", Justification = "Its two words, not one.")]
+        public void EmitCastOrUnbox(Type targetType)
+        {
+            if(targetType.IsValueType)
+            {
+                IL.Emit(OpCodes.Unbox_Any, targetType);
+            }
+            else
+            {
+                IL.Emit(OpCodes.Castclass, targetType);
+            }
         }
 
         /// <summary>
@@ -197,6 +204,19 @@ namespace Microsoft.Practices.ObjectBuilder2
             Guard.ArgumentNotNull(context, "context");
 
             context.CurrentOperation = null;
+        }
+
+        /// <summary>
+        /// Helper method used by generated IL to look up a dependency resolver based on the given key.
+        /// </summary>
+        /// <param name="context">Current build context.</param>
+        /// <param name="dependencyType">Type of the dependency being resolved.</param>
+        /// <param name="resolverKey">Key the resolver was stored under.</param>
+        /// <returns>The found dependency resolver.</returns>
+        public static IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType, string resolverKey)
+        {
+            var resolver = context.GetOverriddenResolver(dependencyType);
+            return resolver ?? context.Policies.Get<IDependencyResolverPolicy>(resolverKey);
         }
 
         /// <summary>
@@ -236,24 +256,41 @@ namespace Microsoft.Practices.ObjectBuilder2
             return "BuildUp_" + typeToBuild.FullName;
         }
 
-        private static Type[] Types(params Type[] types)
-        {
-            return types;
-        }
-
         private void CreatePreamble()
         {
             existingObjectLocal = il.DeclareLocal(typeToBuild);
             EmitLoadContext();
             il.EmitCall(OpCodes.Callvirt, GetExisting, null);
-            il.Emit(OpCodes.Castclass, typeToBuild);
-            EmitStoreExisting();
+            if(!typeToBuild.IsValueType)
+            {
+                il.Emit(OpCodes.Castclass, typeToBuild);
+                EmitStoreExisting();
+            }
+            else
+            {
+                Label existingIsNullLabel = il.DefineLabel();
+                Label doneLabel = il.DefineLabel();
+
+                il.Emit(OpCodes.Dup);
+                il.Emit(OpCodes.Ldnull);
+                il.Emit(OpCodes.Beq_S, existingIsNullLabel);
+                il.Emit(OpCodes.Unbox_Any, typeToBuild);
+                EmitStoreExisting();
+                il.Emit(OpCodes.Br_S, doneLabel);
+                il.MarkLabel(existingIsNullLabel);
+                il.Emit(OpCodes.Pop);
+                il.MarkLabel(doneLabel);
+            }
         }
 
         private void CreatePostamble()
         {
             EmitLoadContext();
             il.Emit(OpCodes.Ldloc, existingObjectLocal);
+            if(typeToBuild.IsValueType)
+            {
+                il.Emit(OpCodes.Box, typeToBuild);
+            }
             il.EmitCall(OpCodes.Callvirt, SetExisting, null);
             il.Emit(OpCodes.Ret);
         }

@@ -10,7 +10,7 @@
 //===============================================================================
 
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -20,7 +20,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             get
             {
-                return typeof(VirtualMethodInvocation).GetConstructor(Sequence.Collect(typeof(object), typeof(MethodBase), typeof(object[])));
+                return StaticReflection.GetConstructorInfo(
+                    () => new VirtualMethodInvocation(default(object), default(MethodBase)));
             }
         }
     }

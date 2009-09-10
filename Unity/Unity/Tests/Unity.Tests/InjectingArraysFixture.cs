@@ -27,9 +27,8 @@ namespace Microsoft.Practices.Unity.Tests
 
             IUnityContainer container
                 = new UnityContainer()
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<TypeWithArrayConstructorParameter>(
-                            new InjectionConstructor(typeof(ILogger[]))).Container
+                .RegisterType<TypeWithArrayConstructorParameter>(
+                    new InjectionConstructor(typeof(ILogger[])))
                 .RegisterInstance<ILogger>("o1", o1)
                 .RegisterInstance<ILogger>("o2", o2);
 
@@ -47,11 +46,8 @@ namespace Microsoft.Practices.Unity.Tests
             ILogger o1 = new MockLogger();
             ILogger o2 = new SpecialLogger();
 
-            IUnityContainer container
-                = new UnityContainer()
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<TypeWithArrayConstructorParameter>(
-                            new InjectionConstructor(typeof(ILogger[]))).Container
+            IUnityContainer container = new UnityContainer()
+                .RegisterType<TypeWithArrayConstructorParameter>(new InjectionConstructor(typeof(ILogger[])))
                 .RegisterInstance<ILogger>("o1", o1)
                 .RegisterInstance<ILogger>("o2", o2);
 
@@ -69,14 +65,12 @@ namespace Microsoft.Practices.Unity.Tests
             ILogger logger2 = new SpecialLogger();
 
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                .ConfigureInjectionFor<TypeWithArrayConstructorParameter>(
+                .RegisterType<TypeWithArrayConstructorParameter>(
                 new InjectionConstructor(
                     new ResolvedArrayParameter<ILogger>(
                         new ResolvedParameter<ILogger>("log1"),
                         typeof (ILogger),
                         logger2)))
-                .Container
                 .RegisterType<ILogger, MockLogger>()
                 .RegisterType<ILogger, SpecialLogger>("log1");
 
@@ -94,15 +88,13 @@ namespace Microsoft.Practices.Unity.Tests
             ILogger logger2 = new SpecialLogger();
 
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                .ConfigureInjectionFor<TypeWithArrayConstructorParameter>(
+                .RegisterType<TypeWithArrayConstructorParameter>(
                 new InjectionConstructor(
                     new ResolvedArrayParameter(
                         typeof(ILogger),
                         new ResolvedParameter<ILogger>("log1"),
                         typeof(ILogger),
                         logger2)))
-                .Container
                 .RegisterType<ILogger, MockLogger>()
                 .RegisterType<ILogger, SpecialLogger>("log1");
 

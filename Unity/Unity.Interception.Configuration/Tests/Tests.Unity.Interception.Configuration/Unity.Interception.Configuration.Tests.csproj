@@ -30,6 +30,7 @@
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,11 +49,15 @@
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationFixtureBase.cs" />
+    <Compile Include="ConfiguringGeneralizedInterceptionFixture.cs" />
     <Compile Include="ConfiguringInterceptionFixture.cs" />
     <Compile Include="ConfiguringInterceptorsFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,6 +85,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="InterceptionThroughInjectionMembers.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Interceptors.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

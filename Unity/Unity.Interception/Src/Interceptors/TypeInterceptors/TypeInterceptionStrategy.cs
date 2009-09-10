@@ -10,6 +10,8 @@
 //===============================================================================
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Utility;
@@ -24,8 +26,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     ///  </summary>
     public class TypeInterceptionStrategy : BuilderStrategy
     {
-        private readonly object lockObj = new object();
-
         /// <summary>
         /// Called during the chain of responsibility for a build operation. The
         /// PreBuildUp method is called when the chain is being executed in the
@@ -38,40 +38,41 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             Guard.ArgumentNotNull(context, "context");
 
-            if(context.Existing != null) return;
-            
+            if (context.Existing != null) return;
+
             Type typeToBuild;
-            if(!BuildKey.TryGetType(context.BuildKey, out typeToBuild)) return;
+            if (!BuildKey.TryGetType(context.BuildKey, out typeToBuild)) return;
 
-            ITypeInterceptionPolicy interceptionPolicy = GetInterceptionPolicy(context);
-            if(interceptionPolicy == null) return;
+            ITypeInterceptionPolicy interceptionPolicy = FindInterceptionPolicy<ITypeInterceptionPolicy>(context);
+            if (interceptionPolicy == null) return;
 
-            if(!interceptionPolicy.Interceptor.CanIntercept(typeToBuild)) return;
-            
-            lock(lockObj)
-            {
-                if(interceptionPolicy.ProxyType == null)
-                {
-                    Type typeToIntercept = typeToBuild;
-                    if(typeToIntercept.IsGenericType)
-                    {
-                        typeToIntercept = typeToIntercept.GetGenericTypeDefinition();
-                    }
+            if (!interceptionPolicy.Interceptor.CanIntercept(typeToBuild)) return;
 
-                    interceptionPolicy.ProxyType = interceptionPolicy.Interceptor.CreateProxyType(typeToIntercept);
-                }
-            }
+            IInterceptionBehaviorsPolicy interceptionBehaviorsPolicy =
+                FindInterceptionPolicy<IInterceptionBehaviorsPolicy>(context);
+            IEnumerable<IInterceptionBehavior> interceptionBehaviors =
+                GetInterceptionBehaviors(interceptionBehaviorsPolicy, context, interceptionPolicy, typeToBuild);
 
-            Type interceptingType = interceptionPolicy.ProxyType;
-            if(interceptingType.IsGenericTypeDefinition)
-            {
-                interceptingType = interceptingType.MakeGenericType(typeToBuild.GetGenericArguments());
-            }
+            IAdditionalInterfacesPolicy additionalInterfacesPolicy =
+                FindInterceptionPolicy<IAdditionalInterfacesPolicy>(context);
+            IEnumerable<Type> additionalInterfaces =
+                additionalInterfacesPolicy != null ? additionalInterfacesPolicy.AdditionalInterfaces : Type.EmptyTypes;
 
-            SelectedConstructor currentConstructor = GetCurrentConstructor(context);
-            SelectedConstructor newConstructor = FindNewConstructor(currentConstructor, interceptingType);
-            IConstructorSelectorPolicy newSelector = new ConstructorWithResolverKeysSelectorPolicy(newConstructor);
-            context.Policies.Set(newSelector, context.BuildKey);
+            context.Policies.Set<EffectiveInterceptionBehaviorsPolicy>(
+                new EffectiveInterceptionBehaviorsPolicy { Behaviors = interceptionBehaviors },
+                context.BuildKey);
+
+            IEnumerable<Type> allAdditionalInterfaces =
+                interceptionBehaviors.SelectMany(ib => ib.GetRequiredInterfaces()).Concat(additionalInterfaces);
+
+            Type interceptingType =
+                interceptionPolicy.Interceptor.CreateProxyType(typeToBuild, allAdditionalInterfaces.ToArray());
+
+            context.Policies.Set<IConstructorSelectorPolicy>(
+                new DerivedTypeConstructorSelectorPolicy(
+                    interceptingType,
+                    context.Policies.Get<IConstructorSelectorPolicy>(context.BuildKey)),
+                context.BuildKey);
         }
 
         /// <summary>
@@ -87,54 +88,98 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Guard.ArgumentNotNull(context, "context");
 
             IInterceptingProxy proxy = context.Existing as IInterceptingProxy;
-            if(proxy == null) return;
+            if (proxy == null) return;
 
-            ITypeInterceptionPolicy interceptionPolicy = GetInterceptionPolicy(context);
+            EffectiveInterceptionBehaviorsPolicy effectiveInterceptionBehaviorsPolicy =
+                context.Policies.Get<EffectiveInterceptionBehaviorsPolicy>(context.BuildKey, true);
+            if (effectiveInterceptionBehaviorsPolicy == null) return;
 
-            Type typeToIntercept = BuildKey.GetType(context.BuildKey);
-            PolicySet interceptionPolicies = new PolicySet(BuilderContext.NewBuildUp<InjectionPolicy[]>(context));
-            IUnityContainer currentContainer = BuilderContext.NewBuildUp<IUnityContainer>(context);
-
-            foreach (MethodImplementationInfo item in interceptionPolicy.Interceptor.GetInterceptableMethods(typeToIntercept, typeToIntercept))
+            foreach (var interceptionBehavior in effectiveInterceptionBehaviorsPolicy.Behaviors)
             {
-                HandlerPipeline pipeline = new HandlerPipeline(
-                    interceptionPolicies.GetHandlersFor(item, currentContainer));
-                proxy.SetPipeline(interceptionPolicy.Interceptor.MethodInfoForPipeline(item), pipeline);
+                proxy.AddInterceptionBehavior(interceptionBehavior);
             }
         }
 
-        private static ITypeInterceptionPolicy GetInterceptionPolicy(IBuilderContext context)
+        private static TPolicy FindInterceptionPolicy<TPolicy>(IBuilderContext context)
+            where TPolicy : class, IBuilderPolicy
         {
-            ITypeInterceptionPolicy policy;
-            policy = context.Policies.Get<ITypeInterceptionPolicy>(context.BuildKey, false);
-            if(policy == null)
-            {
-                policy = context.Policies.Get<ITypeInterceptionPolicy>(BuildKey.GetType(context.BuildKey), false);
-            }
-            return policy;
+            return context.Policies.Get<TPolicy>(context.BuildKey, false) ??
+                context.Policies.Get<TPolicy>(BuildKey.GetType(context.BuildKey), false);
         }
 
-        private static SelectedConstructor GetCurrentConstructor(IBuilderContext context)
+        private static IEnumerable<IInterceptionBehavior> GetInterceptionBehaviors(
+            IInterceptionBehaviorsPolicy interceptionBehaviorsPolicy,
+            IBuilderContext context,
+            ITypeInterceptionPolicy interceptionPolicy,
+            Type builtType)
         {
-            IConstructorSelectorPolicy originalSelector = context.Policies.Get<IConstructorSelectorPolicy>(context.BuildKey);
-            return originalSelector.SelectConstructor(context);
-        }
-
-        private static SelectedConstructor FindNewConstructor(SelectedConstructor originalConstructor, Type proxyType)
-        {
-            ParameterInfo[] originalParams = originalConstructor.Constructor.GetParameters();
-
-            ConstructorInfo newConstructorInfo = proxyType.GetConstructor(Seq.Make(originalParams)
-                .Map<Type>(delegate(ParameterInfo pi) { return pi.ParameterType; }).ToArray());
-
-            SelectedConstructor newConstructor = new SelectedConstructor(newConstructorInfo);
-
-            foreach(string key in originalConstructor.GetParameterKeys())
+            if (interceptionBehaviorsPolicy == null)
             {
-                newConstructor.AddParameterKey(key);
+                return new IInterceptionBehavior[0];
             }
 
-            return newConstructor;
+            IUnityContainer container = context.NewBuildUp<IUnityContainer>();
+            IEnumerable<IInterceptionBehavior> interceptionBehaviors =
+                interceptionBehaviorsPolicy.InterceptionBehaviorDescriptors
+                    .Select(pid =>
+                        pid.GetInterceptionBehavior(
+                            interceptionPolicy.Interceptor,
+                            builtType,
+                            builtType,
+                            container))
+                    .Where(pi => pi != null)
+                    .ToArray();
+
+            return interceptionBehaviors;
+        }
+
+        private class EffectiveInterceptionBehaviorsPolicy : IBuilderPolicy
+        {
+            public EffectiveInterceptionBehaviorsPolicy()
+            {
+                this.Behaviors = new List<IInterceptionBehavior>();
+            }
+
+            public IEnumerable<IInterceptionBehavior> Behaviors { get; set; }
+        }
+
+        private class DerivedTypeConstructorSelectorPolicy : IConstructorSelectorPolicy
+        {
+            private Type interceptingType;
+            private IConstructorSelectorPolicy originalConstructorSelectorPolicy;
+
+            public DerivedTypeConstructorSelectorPolicy(
+                Type interceptingType,
+                IConstructorSelectorPolicy originalConstructorSelectorPolicy)
+            {
+                this.interceptingType = interceptingType;
+                this.originalConstructorSelectorPolicy = originalConstructorSelectorPolicy;
+            }
+
+            public SelectedConstructor SelectConstructor(IBuilderContext context)
+            {
+                SelectedConstructor originalConstructor =
+                    this.originalConstructorSelectorPolicy.SelectConstructor(context);
+
+                return FindNewConstructor(originalConstructor, interceptingType);
+            }
+
+            private static SelectedConstructor FindNewConstructor(SelectedConstructor originalConstructor, Type interceptingType)
+            {
+                ParameterInfo[] originalParams = originalConstructor.Constructor.GetParameters();
+
+                ConstructorInfo newConstructorInfo =
+                    interceptingType.GetConstructor(originalParams.Select(pi => pi.ParameterType).ToArray());
+
+                SelectedConstructor newConstructor = new SelectedConstructor(newConstructorInfo);
+
+                foreach (string key in originalConstructor.GetParameterKeys())
+                {
+                    newConstructor.AddParameterKey(key);
+                }
+
+                return newConstructor;
+            }
         }
     }
 }

@@ -9,6 +9,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System.Linq;
 using System.Threading;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.TestSupport;
@@ -186,14 +187,13 @@ namespace Microsoft.Practices.Unity.Tests
             // pool threads depending on timing. We want to guarantee different
             // threads for these tests.
 
-            Thread[] threads
-                = Seq.Make(actions).Map<Thread>(delegate(ThreadStart action) { return new Thread(action); }).ToArray();
+            Thread[] threads = actions.Select(a => new Thread(a)).ToArray();
 
             // Start them all...
-            Sequence.ForEach(threads, delegate(Thread thread) { thread.Start(); });
+            threads.ForEach(t => t.Start());
 
             // And wait for them all to finish
-            Sequence.ForEach(threads, delegate(Thread thread) { thread.Join(); });
+            threads.ForEach(t => t.Join());
         }
     }
 }

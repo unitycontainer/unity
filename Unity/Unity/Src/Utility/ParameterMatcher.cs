@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -65,9 +66,7 @@ namespace Microsoft.Practices.Unity.Utility
         /// <returns>True if they match, false if they don't.</returns>
         public virtual bool Matches(IEnumerable<ParameterInfo> candidate)
         {
-            return Matches(Sequence.Map<ParameterInfo, Type>(
-                candidate,
-                delegate(ParameterInfo pi) { return pi.ParameterType; }));
+            return Matches(candidate.Select(pi => pi.ParameterType));
         }
     }
 }

@@ -10,7 +10,6 @@
 //===============================================================================
 
 using System;
-using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
@@ -36,11 +35,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             PolicySet policies = GetPolicies();
 
             CanChangeParametersTarget target = new CanChangeParametersTarget();
-            IInterceptingProxy proxy = factory.CreateProxy(typeof (CanChangeParametersTarget), target);
+            IInterceptingProxy proxy = factory.CreateProxy(typeof(CanChangeParametersTarget), target);
 
             ApplyPolicies(factory, proxy, target, policies);
 
-            CanChangeParametersTarget intercepted = (CanChangeParametersTarget) proxy;
+            CanChangeParametersTarget intercepted = (CanChangeParametersTarget)proxy;
             Assert.AreEqual(0, intercepted.MostRecentInput);
             intercepted.DoSomething(2);
             Assert.AreEqual(4, intercepted.MostRecentInput);
@@ -54,9 +53,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
 
             CanChangeParametersTarget target = new CanChangeParametersTarget();
-            IInterceptingProxy proxy = factory.CreateProxy(typeof (CanChangeParametersTarget), target);
+            IInterceptingProxy proxy = factory.CreateProxy(typeof(CanChangeParametersTarget), target);
             ApplyPolicies(factory, proxy, target, policies);
-            CanChangeParametersTarget intercepted = (CanChangeParametersTarget) proxy;
+            CanChangeParametersTarget intercepted = (CanChangeParametersTarget)proxy;
             int output;
 
             intercepted.DoSomethingElse(2, out output);
@@ -85,11 +84,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
         private void ApplyPolicies(IInterceptor interceptor, IInterceptingProxy proxy, object target, PolicySet policies)
         {
+            PipelineManager manager = new PipelineManager();
+
             foreach(MethodImplementationInfo method in interceptor.GetInterceptableMethods(target.GetType(), target.GetType()))
             {
                 HandlerPipeline pipeline = new HandlerPipeline(policies.GetHandlersFor(method, container));
-                proxy.SetPipeline(method.ImplementationMethodInfo, pipeline);
+                manager.SetPipeline(method.ImplementationMethodInfo.MetadataToken, pipeline);
             }
+
+            proxy.AddInterceptionBehavior(new PolicyInjectionBehavior(manager));
         }
     }
 

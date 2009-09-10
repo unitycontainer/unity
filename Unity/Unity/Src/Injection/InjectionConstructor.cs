@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
@@ -37,27 +38,28 @@ namespace Microsoft.Practices.Unity
         /// be converted to <see cref="InjectionParameterValue"/> objects.</param>
         public InjectionConstructor(params object[] parameterValues)
         {
-            this.parameterValues = Sequence.ToList(InjectionParameterValue.ToParameters(parameterValues));
+            this.parameterValues = InjectionParameterValue.ToParameters(parameterValues).ToList();
         }
 
         /// <summary>
         /// Add policies to the <paramref name="policies"/> to configure the
         /// container to call this constructor with the appropriate parameter values.
         /// </summary>
-        /// <param name="typeToCreate">Type to register.</param>
+        /// <param name="serviceType">Interface registered, ignored in this implementation.</param>
+        /// <param name="implementationType">Type to register.</param>
         /// <param name="name">Name used to resolve the type object.</param>
         /// <param name="policies">Policy list to add policies to.</param>
-        public override void AddPolicies(Type typeToCreate, string name, IPolicyList policies)
+        public override void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
         {
-            ConstructorInfo ctor = FindConstructor(typeToCreate);
+            ConstructorInfo ctor = FindConstructor(implementationType);
             policies.Set<IConstructorSelectorPolicy>(
                 new SpecifiedConstructorSelectorPolicy(ctor, parameterValues.ToArray()),
-                new NamedTypeBuildKey(typeToCreate, name));
+                new NamedTypeBuildKey(implementationType, name));
         }
 
         private ConstructorInfo FindConstructor(Type typeToCreate)
         {
-            ParameterMatcher matcher = new ParameterMatcher(parameterValues);
+            var matcher = new ParameterMatcher(parameterValues);
             foreach(ConstructorInfo ctor in typeToCreate.GetConstructors())
             {
                 if(matcher.Matches(ctor.GetParameters()))
@@ -66,9 +68,7 @@ namespace Microsoft.Practices.Unity
                 }
             }
 
-            string signature = Sequence.ToString(parameterValues,
-                ", ",
-                delegate(InjectionParameterValue parameter) { return parameter.ParameterTypeName; });
+            string signature = string.Join(", ", parameterValues.Select(p => p.ParameterTypeName).ToArray());
 
             throw new InvalidOperationException(
                 string.Format(CultureInfo.CurrentCulture,

@@ -44,7 +44,9 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// Tries to get the <see cref="Type"/> from <paramref name="buildKey"/>.
         /// </summary>
         /// <param name="buildKey">The build key to get the <see cref="Type"/>.</param>
-        /// <param name="type"></param>
+        /// <param name="type">When this method returns, contains the <see cref="Type"/> contained in 
+        /// <paramref name="buildKey"/>, if the extraction succeeded, or <see langword="null"/> if the extration failed.
+        /// </param>
         /// <returns>true if the <see cref="Type"/> was found; otherwise, false.</returns>
         public static bool TryGetType(object buildKey, out Type type)
         {

@@ -9,30 +9,20 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System.Reflection;
+using System.Collections.Generic;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
     /// <summary>
     /// This interface is implemented by all proxy objects, type or instance based.
-    /// It gives access to the handler pipelines for each method so that they can
-    /// be set.
+    /// It allows for adding interception behaviors.
     /// </summary>
     public interface IInterceptingProxy
-    { 
+    {
         /// <summary>
-        /// Retrieve the pipeline assocated with the requested <paramref name="method"/>.
+        /// Adds a <see cref="IInterceptionBehavior"/> to the proxy.
         /// </summary>
-        /// <param name="method">Method for which the pipeline is being requested.</param>
-        /// <returns>The handler pipeline for the given method. If no pipeline has
-        /// been set, returns a new empty pipeline.</returns>
-        HandlerPipeline GetPipeline(MethodBase method);
-
-        /// <summary>
-        /// Set a new pipeline for a method.
-        /// </summary>
-        /// <param name="method">Method to apply the pipeline to.</param>
-        /// <param name="pipeline">The new pipeline.</param>
-        void SetPipeline(MethodBase method, HandlerPipeline pipeline);
+        /// <param name="interceptor">The <see cref="IInterceptionBehavior"/> to add.</param>
+        void AddInterceptionBehavior(IInterceptionBehavior interceptor);
     }
 }

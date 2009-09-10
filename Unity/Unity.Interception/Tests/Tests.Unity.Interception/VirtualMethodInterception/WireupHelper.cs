@@ -17,11 +17,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 {
     internal class WireupHelper
     {
-        internal static T GetInterceptingInstance<T>(params object[] ctorValues )
+        internal static T GetInterceptingInstance<T>(params object[] ctorValues)
         {
-            VirtualMethodInterceptor interceptor = new VirtualMethodInterceptor();
-            Type typeToIntercept = typeof (T);
-            if(typeToIntercept.IsGenericType)
+            Type typeToIntercept = typeof(T);
+            if (typeToIntercept.IsGenericType)
             {
                 typeToIntercept = typeToIntercept.GetGenericTypeDefinition();
             }
@@ -29,22 +28,25 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             InterceptingClassGenerator generator = new InterceptingClassGenerator(typeToIntercept);
             Type generatedType = generator.GenerateType();
 
-            if(generatedType.IsGenericTypeDefinition)
+            if (generatedType.IsGenericTypeDefinition)
             {
-                generatedType = generatedType.MakeGenericType(typeof (T).GetGenericArguments());
+                generatedType = generatedType.MakeGenericType(typeof(T).GetGenericArguments());
             }
 
-            return (T) Activator.CreateInstance(generatedType, ctorValues);
+            return (T)Activator.CreateInstance(generatedType, ctorValues);
         }
 
         internal static T GetInterceptedInstance<T>(string methodName, ICallHandler handler)
         {
-            MethodInfo method = typeof (T).GetMethod(methodName);
+            MethodInfo method = typeof(T).GetMethod(methodName);
 
             T instance = GetInterceptingInstance<T>();
 
-            IInterceptingProxy pm = (IInterceptingProxy) instance;
-            pm.SetPipeline(method, new HandlerPipeline(Seq.Collect(handler)));
+            PipelineManager manager = new PipelineManager();
+            manager.SetPipeline(method.MetadataToken, new HandlerPipeline(Sequence.Collect(handler)));
+
+            IInterceptingProxy pm = (IInterceptingProxy)instance;
+            pm.AddInterceptionBehavior(new PolicyInjectionBehavior(manager));
 
             return instance;
         }

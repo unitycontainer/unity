@@ -16,8 +16,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
     /// Implementation of <see cref="IBuilderStrategy"/> which will notify an object about
-    /// the completion of a <see cref="IBuilder.BuildUp"/> operation, or start of a
-    /// <see cref="IBuilder.TearDown{T}"/> operation.
+    /// the completion of a BuildUp operation, or start of a TearDown operation.
     /// </summary>
     /// <remarks>
     /// This strategy checks the object that is passing through the builder chain to see if it

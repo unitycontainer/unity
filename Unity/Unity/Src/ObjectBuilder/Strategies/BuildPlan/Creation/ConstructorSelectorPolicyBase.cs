@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.Unity.Properties;
 
@@ -68,13 +69,10 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private static ConstructorInfo FindInjectionConstructor(Type typeToConstruct)
         {
-            ConstructorInfo[] injectionConstructors = Seq.Make(typeToConstruct.GetConstructors())
-                .Where(delegate(ConstructorInfo ctor)
-                    {
-                        return ctor.IsDefined(
-                            typeof(TInjectionConstructorMarkerAttribute),
-                            true);
-                    })
+            ConstructorInfo[] injectionConstructors = typeToConstruct.GetConstructors()
+                .Where(ctor => ctor.IsDefined(
+                    typeof (TInjectionConstructorMarkerAttribute),
+                    true))
                 .ToArray();
 
             switch(injectionConstructors.Length)

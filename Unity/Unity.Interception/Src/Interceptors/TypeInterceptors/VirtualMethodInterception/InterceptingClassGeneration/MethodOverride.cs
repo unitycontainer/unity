@@ -13,30 +13,38 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.InterceptionExtension.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
-    class MethodOverride
+    /// <summary>
+    /// Represents the implementation of a method override.
+    /// </summary>
+    public class MethodOverride
     {
+        private static MethodInfo BuildAbstractMethodInvokedExceptionMethod =
+            StaticReflection.GetMethodInfo(() => MethodOverride.BuildAbstractMethodInvokedException());
+
         private readonly TypeBuilder typeBuilder;
         private readonly MethodInfo methodToOverride;
         private readonly ParameterInfo[] methodParameters;
-        private readonly FieldBuilder pipelineField;
+        private readonly FieldBuilder proxyInterceptionPipelineField;
         private readonly int overrideCount;
 
-        public MethodOverride(TypeBuilder typeBuilder, FieldBuilder pipelineField, MethodInfo methodToOverride, int overrideCount)
+        internal MethodOverride(TypeBuilder typeBuilder, FieldBuilder proxyInterceptionPipelineField, MethodInfo methodToOverride, int overrideCount)
         {
             this.typeBuilder = typeBuilder;
-            this.pipelineField = pipelineField;
+            this.proxyInterceptionPipelineField = proxyInterceptionPipelineField;
             this.methodToOverride = methodToOverride;
-            methodParameters = methodToOverride.GetParameters();
+            this.methodParameters = methodToOverride.GetParameters();
             this.overrideCount = overrideCount;
         }
 
-        public static bool MethodCanBeIntercepted(MethodInfo method)
+        internal static bool MethodCanBeIntercepted(MethodInfo method)
         {
             return method != null &&
                 (method.IsPublic || method.IsFamily || method.IsFamilyOrAssembly)
@@ -45,7 +53,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 && method.DeclaringType != typeof(object);
         }
 
-        public MethodBuilder AddMethod()
+        internal MethodBuilder AddMethod()
         {
             MethodBuilder callBaseMethod = CreateBaseCallMethod();
             MethodBuilder delegateMethod = CreateDelegateImplementation(callBaseMethod);
@@ -67,8 +75,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             SetupGenericParameters(methodBuilder);
 
             methodBuilder.SetReturnType(methodToOverride.ReturnType);
-            methodBuilder.SetParameters(Seq.Make(methodParameters)
-                .Map<Type>(delegate(ParameterInfo pi) { return pi.ParameterType; })
+            methodBuilder.SetParameters(methodParameters
+                .Select(pi => pi.ParameterType)
                 .ToArray());
             int paramNum = 1;
 
@@ -94,8 +102,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             if (methodToOverride.IsGenericMethod)
             {
                 Type[] genericArguments = methodToOverride.GetGenericArguments();
-                string[] names = Seq.Make(genericArguments)
-                    .Map<string>(delegate(Type t) { return t.Name; })
+                string[] names = genericArguments
+                    .Select(t => t.Name)
                     .ToArray();
                 GenericTypeParameterBuilder[] builders = methodBuilder.DefineGenericParameters(names);
                 for (int i = 0; i < genericArguments.Length; ++i)
@@ -154,7 +162,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
         private static void EmitBox(ILGenerator il, Type typeOnStack)
         {
-            if(typeOnStack.IsValueType || typeOnStack.IsGenericParameter)
+            if (typeOnStack.IsValueType || typeOnStack.IsGenericParameter)
             {
                 il.Emit(OpCodes.Box, typeOnStack);
             }
@@ -193,121 +201,137 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             methodBuilder.SetCustomAttribute(new CustomAttributeBuilder(CompilerGeneratedAttributeMethods.CompilerGeneratedAttribute, new object[0]));
 
             ILGenerator il = methodBuilder.GetILGenerator();
-            Label done = il.DefineLabel();
-            LocalBuilder ex = il.DeclareLocal(typeof(Exception));
 
-            LocalBuilder baseReturn = null;
-            LocalBuilder parameters = null;
-            if (MethodHasReturnValue)
+            if (!this.methodToOverride.IsAbstract)
             {
-                baseReturn = il.DeclareLocal(methodToOverride.ReturnType);
-            }
-            LocalBuilder retval = il.DeclareLocal(typeof(IMethodReturn));
+                Label done = il.DefineLabel();
+                LocalBuilder ex = il.DeclareLocal(typeof(Exception));
 
-            il.BeginExceptionBlock();
-            // Call the base method
-            il.Emit(OpCodes.Ldarg_0);
+                LocalBuilder baseReturn = null;
+                LocalBuilder parameters = null;
+                if (MethodHasReturnValue)
+                {
+                    baseReturn = il.DeclareLocal(methodToOverride.ReturnType);
+                }
+                LocalBuilder retval = il.DeclareLocal(typeof(IMethodReturn));
 
-            if (methodParameters.Length > 0)
-            {
-                parameters = il.DeclareLocal(typeof(IParameterCollection));
+                il.BeginExceptionBlock();
+                // Call the base method
+                il.Emit(OpCodes.Ldarg_0);
+
+                if (methodParameters.Length > 0)
+                {
+                    parameters = il.DeclareLocal(typeof(IParameterCollection));
+                    il.Emit(OpCodes.Ldarg_1);
+                    il.EmitCall(OpCodes.Callvirt, IMethodInvocationMethods.GetArguments, null);
+                    il.Emit(OpCodes.Stloc, parameters);
+
+                    for (int i = 0; i < methodParameters.Length; ++i)
+                    {
+                        il.Emit(OpCodes.Ldloc, parameters);
+                        EmitLoadConstant(il, i);
+                        il.EmitCall(OpCodes.Callvirt, IListMethods.GetItem, null);
+
+                        if (methodParameters[i].ParameterType.IsByRef)
+                        {
+                            // For out or ref, create a local variable for it, initialize, and
+                            // pass address of the local to the base class call.
+                            Type referredToType = methodParameters[i].ParameterType.GetElementType();
+                            LocalBuilder refShadow = il.DeclareLocal(referredToType);
+                            outOrRefLocals.Add(refShadow);
+                            EmitUnboxOrCast(il, referredToType);
+
+                            il.Emit(OpCodes.Stloc, refShadow);
+                            il.Emit(OpCodes.Ldloca, refShadow);
+                        }
+                        else
+                        {
+                            EmitUnboxOrCast(il, methodParameters[i].ParameterType);
+                        }
+                    }
+                }
+
+                il.Emit(OpCodes.Call, callBaseMethod);
+
+                if (MethodHasReturnValue)
+                {
+                    il.Emit(OpCodes.Stloc, baseReturn);
+                }
+
+                // Generate  the return value
                 il.Emit(OpCodes.Ldarg_1);
-                il.EmitCall(OpCodes.Callvirt, IMethodInvocationMethods.GetArguments, null);
-                il.Emit(OpCodes.Stloc, parameters);
-
-                for (int i = 0; i < methodParameters.Length; ++i)
+                if (MethodHasReturnValue)
                 {
-                    il.Emit(OpCodes.Ldloc, parameters);
-                    EmitLoadConstant(il, i);
-                    il.EmitCall(OpCodes.Callvirt, IListMethods.GetItem, null);
-                    
-                    if (methodParameters[i].ParameterType.IsByRef)
+                    il.Emit(OpCodes.Ldloc, baseReturn);
+                    if (ReturnType.IsValueType || ReturnType.IsGenericParameter)
                     {
-                        // For out or ref, create a local variable for it, initialize, and
-                        // pass address of the local to the base class call.
-                        Type referredToType = methodParameters[i].ParameterType.GetElementType();
-                        LocalBuilder refShadow = il.DeclareLocal(referredToType);
-                        outOrRefLocals.Add(refShadow);
-                        EmitUnboxOrCast(il, referredToType);
-
-                        il.Emit(OpCodes.Stloc, refShadow);
-                        il.Emit(OpCodes.Ldloca, refShadow);
-                    }
-                    else
-                    {
-                        EmitUnboxOrCast(il, methodParameters[i].ParameterType);
+                        il.Emit(OpCodes.Box, ReturnType);
                     }
                 }
-            }
-
-            il.Emit(OpCodes.Call, callBaseMethod);
-
-            if (MethodHasReturnValue)
-            {
-                il.Emit(OpCodes.Stloc, baseReturn);
-            }
-
-            // Generate  the return value
-            il.Emit(OpCodes.Ldarg_1);
-            if (MethodHasReturnValue)
-            {
-                il.Emit(OpCodes.Ldloc, baseReturn);
-                if (ReturnType.IsValueType || ReturnType.IsGenericParameter)
+                else
                 {
-                    il.Emit(OpCodes.Box, ReturnType);
+                    il.Emit(OpCodes.Ldnull);
                 }
+
+                // Set up output parameters - note the collection returned to the
+                // IMethodReturn object contains ALL parameter values, inputs and
+                // outputs.
+                EmitLoadConstant(il, methodParameters.Length);
+                il.Emit(OpCodes.Newarr, typeof(object));
+
+                if (methodParameters.Length > 0)
+                {
+                    LocalBuilder outputParamArray = il.DeclareLocal(typeof(object[]));
+                    il.Emit(OpCodes.Stloc, outputParamArray);
+
+                    int outputParameterNum = 0;
+                    for (int paramNum = 0; paramNum < methodParameters.Length; ++paramNum)
+                    {
+                        il.Emit(OpCodes.Ldloc, outputParamArray);
+                        EmitLoadConstant(il, paramNum);
+                        if (methodParameters[paramNum].ParameterType.IsByRef)
+                        {
+                            il.Emit(OpCodes.Ldloc, outOrRefLocals[outputParameterNum]);
+                            EmitBox(il, outOrRefLocals[outputParameterNum].LocalType);
+                            ++outputParameterNum;
+                        }
+                        else
+                        {
+                            il.Emit(OpCodes.Ldloc, parameters);
+                            EmitLoadConstant(il, paramNum);
+                            il.Emit(OpCodes.Callvirt, IListMethods.GetItem);
+                        }
+                        il.Emit(OpCodes.Stelem_Ref);
+                    }
+                    il.Emit(OpCodes.Ldloc, outputParamArray);
+                }
+
+                il.Emit(OpCodes.Callvirt, IMethodInvocationMethods.CreateReturn);
+                il.Emit(OpCodes.Stloc, retval);
+                il.BeginCatchBlock(typeof(Exception));
+                il.Emit(OpCodes.Stloc, ex);
+                // Create an exception return
+                il.Emit(OpCodes.Ldarg_1);
+                il.Emit(OpCodes.Ldloc, ex);
+                il.EmitCall(OpCodes.Callvirt, IMethodInvocationMethods.CreateExceptionMethodReturn, null);
+                il.Emit(OpCodes.Stloc, retval);
+                il.EndExceptionBlock();
+                il.MarkLabel(done);
+                il.Emit(OpCodes.Ldloc, retval);
+                il.Emit(OpCodes.Ret);
             }
             else
             {
-                il.Emit(OpCodes.Ldnull);
+                #region exception-throwing implementation
+
+                il.Emit(OpCodes.Ldarg_1);
+                il.EmitCall(OpCodes.Call, BuildAbstractMethodInvokedExceptionMethod, null);
+                il.EmitCall(OpCodes.Callvirt, IMethodInvocationMethods.CreateExceptionMethodReturn, null);
+                il.Emit(OpCodes.Ret);
+
+                #endregion
             }
 
-            // Set up output parameters - note the collection returned to the
-            // IMethodReturn object contains ALL parameter values, inputs and
-            // outputs.
-            EmitLoadConstant(il, methodParameters.Length);
-            il.Emit(OpCodes.Newarr, typeof(object));
-
-            if (methodParameters.Length > 0)
-            {
-                LocalBuilder outputParamArray = il.DeclareLocal(typeof (object[]));
-                il.Emit(OpCodes.Stloc, outputParamArray);
-
-                int outputParameterNum = 0;
-                for(int paramNum = 0; paramNum < methodParameters.Length; ++paramNum)
-                {
-                    il.Emit(OpCodes.Ldloc, outputParamArray);
-                    EmitLoadConstant(il, paramNum);
-                    if (methodParameters[paramNum].ParameterType.IsByRef)
-                    {
-                        il.Emit(OpCodes.Ldloc, outOrRefLocals[outputParameterNum]);
-                        EmitBox(il, outOrRefLocals[outputParameterNum].LocalType);
-                        ++outputParameterNum;
-                    }
-                    else
-                    {
-                        il.Emit(OpCodes.Ldloc, parameters);
-                        EmitLoadConstant(il, paramNum);
-                        il.Emit(OpCodes.Callvirt, IListMethods.GetItem);
-                    }
-                    il.Emit(OpCodes.Stelem_Ref);
-                }
-                il.Emit(OpCodes.Ldloc, outputParamArray);
-            }
-
-            il.Emit(OpCodes.Callvirt, IMethodInvocationMethods.CreateReturn);
-            il.Emit(OpCodes.Stloc, retval);
-            il.BeginCatchBlock(typeof(Exception));
-            il.Emit(OpCodes.Stloc, ex);
-            // Create an exception return
-            il.Emit(OpCodes.Ldarg_1);
-            il.Emit(OpCodes.Ldloc, ex);
-            il.EmitCall(OpCodes.Callvirt, IMethodInvocationMethods.CreateExceptionMethodReturn, null);
-            il.Emit(OpCodes.Stloc, retval);
-            il.EndExceptionBlock();
-            il.MarkLabel(done);
-            il.Emit(OpCodes.Ldloc, retval);
-            il.Emit(OpCodes.Ret);
             return methodBuilder;
         }
 
@@ -315,17 +339,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Possibly agree with this, but requires more deliberate refactoring")]
         private MethodBuilder CreateMethodOverride(MethodBuilder delegateMethod)
         {
-            MethodAttributes attrs = methodToOverride.Attributes & ~MethodAttributes.NewSlot;
+            MethodAttributes attrs =
+                methodToOverride.Attributes & ~MethodAttributes.NewSlot & ~MethodAttributes.Abstract;
 
             MethodBuilder methodBuilder = typeBuilder.DefineMethod(methodToOverride.Name, attrs);
 
             SetupGenericParameters(methodBuilder);
 
             methodBuilder.SetReturnType(methodToOverride.ReturnType);
-            methodBuilder.SetParameters(
-                Seq.Make(methodParameters)
-                    .Map<Type>(delegate(ParameterInfo pi) { return pi.ParameterType; })
-                    .ToArray());
+            methodBuilder.SetParameters(methodParameters.Select(pi => pi.ParameterType).ToArray());
 
             int paramNum = 1;
             foreach (ParameterInfo pi in methodParameters)
@@ -337,16 +359,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             LocalBuilder methodReturn = il.DeclareLocal(typeof(IMethodReturn));
             LocalBuilder ex = il.DeclareLocal(typeof(Exception));
-            LocalBuilder pipeline = il.DeclareLocal(typeof(HandlerPipeline));
             LocalBuilder parameterArray = il.DeclareLocal(typeof(object[]));
             LocalBuilder inputs = il.DeclareLocal(typeof(VirtualMethodInvocation));
-
-            // Get pipeline for this method onto the stack
-            il.Emit(OpCodes.Ldarg_0);
-            il.Emit(OpCodes.Ldfld, pipelineField);
-            il.Emit(OpCodes.Ldc_I4, methodToOverride.MetadataToken);
-            il.EmitCall(OpCodes.Call, PipelineManagerMethods.GetPipeline, null);
-            il.Emit(OpCodes.Stloc, pipeline);
 
             // Create instance of VirtualMethodInvocation
             il.Emit(OpCodes.Ldarg_0); // target object
@@ -395,16 +409,17 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             il.Emit(OpCodes.Newobj, VirtualMethodInvocationMethods.VirtualMethodInvocation);
             il.Emit(OpCodes.Stloc, inputs);
 
-            il.Emit(OpCodes.Ldloc, pipeline);
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Ldfld, proxyInterceptionPipelineField);
             il.Emit(OpCodes.Ldloc, inputs);
 
             // Put delegate reference onto the stack
             il.Emit(OpCodes.Ldarg_0);
             il.Emit(OpCodes.Ldftn, delegateMethod);
-            il.Emit(OpCodes.Newobj, InvokeHandlerDelegateMethods.InvokeHandlerDelegate);
+            il.Emit(OpCodes.Newobj, InvokeInterceptionBehaviorDelegateMethods.InvokeInterceptionBehaviorDelegate);
 
             // And call the pipeline
-            il.Emit(OpCodes.Call, HandlerPipelineMethods.Invoke);
+            il.Emit(OpCodes.Call, InterceptionBehaviorPipelineMethods.Invoke);
 
             il.Emit(OpCodes.Stloc, methodReturn);
 
@@ -441,7 +456,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             if (methodParameters.Length > 0)
             {
                 int outArgIndex = 0;
-                foreach(int parameterIndex in OutputParameterIndices)
+                foreach (int parameterIndex in OutputParameterIndices)
                 {
                     // Get parameter value (the address) onto the stack)
                     Type elementType = methodParameters[parameterIndex].ParameterType.GetElementType();
@@ -479,14 +494,22 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             get
             {
-                for(int i = 0; i < methodParameters.Length; ++i)
+                for (int i = 0; i < methodParameters.Length; ++i)
                 {
-                    if(methodParameters[i].ParameterType.IsByRef)
+                    if (methodParameters[i].ParameterType.IsByRef)
                     {
                         yield return i;
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Used to throw an <see cref="NotImplementedException"/> for overrides on abstract methods.
+        /// </summary>
+        public static Exception BuildAbstractMethodInvokedException()
+        {
+            return new NotImplementedException(Resources.ExceptionAbstractMethodNotImplemented);
         }
     }
 }

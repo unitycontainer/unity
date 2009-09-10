@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.TestSupport;
@@ -130,7 +131,7 @@ namespace Microsoft.Practices.Unity.Tests
 
         private List<InjectionParameterValue> GetParameterValues(params object[] values)
         {
-            return Sequence.ToList(InjectionParameterValue.ToParameters(values));
+            return InjectionParameterValue.ToParameters(values).ToList();
         }
     }
 }

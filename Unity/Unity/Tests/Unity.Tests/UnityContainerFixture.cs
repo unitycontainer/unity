@@ -291,6 +291,7 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.AreSame(logger, o);
         }
 
+
         [TestMethod]
         public void CanUseInstanceAsSingletonViaGenericMethod()
         {

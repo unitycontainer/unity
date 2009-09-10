@@ -13,6 +13,7 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,6 +39,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -53,6 +57,7 @@
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionParameterValueElement\ArrayValueElement.cs" />
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionParameterValueElement\DependencyValueElement.cs" />
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionParameterValueElement\InjectionParameterValueElement.cs" />
+    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionParameterValueElement\OptionalValueElement.cs" />
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionPropertyElement\InjectionPropertyElement.cs" />
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\MethodParameterElement\MethodParameterElement.cs" />
     <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\MethodParameterElement\MethodParameterElementCollection.cs" />

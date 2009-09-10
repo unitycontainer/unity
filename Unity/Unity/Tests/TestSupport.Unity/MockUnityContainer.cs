@@ -25,7 +25,7 @@ namespace Microsoft.Practices.Unity.TestSupport
         IConfigTwo SetMessage(string text);
     }
 
-    public class MockUnityContainer : UnityContainerBase, IConfigOne, IConfigTwo
+    public class MockUnityContainer : IUnityContainer, IConfigOne, IConfigTwo
     {
         public List<ConfigurationActionRecord> ConfigActions =
             new List<ConfigurationActionRecord>();
@@ -38,14 +38,14 @@ namespace Microsoft.Practices.Unity.TestSupport
             return this;
         }
 
-        public override IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
+        public IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
         {
             ConfigActions.Add(
                 ConfigurationActionRecord.RegisterAction(from, to, name, lifetimeManager));
             return this;
         }
 
-        public override IUnityContainer RegisterInstance(Type t, string name, object instance, LifetimeManager lifetime)
+        public IUnityContainer RegisterInstance(Type t, string name, object instance, LifetimeManager lifetime)
         {
             ConfigActions.Add(ConfigurationActionRecord.RegisterInstanceAction(
                                   t,
@@ -55,33 +55,33 @@ namespace Microsoft.Practices.Unity.TestSupport
             return this;
         }
 
-        public override object Resolve(Type t, string name)
+        public object Resolve(Type t, string name, params ResolverOverride[] resolverOverrides)
         {
             return objectsToResolve[new Pair<Type, string>(t, name)];
         }
 
-        public override IEnumerable<object> ResolveAll(Type t)
+        public IEnumerable<object> ResolveAll(Type t, params ResolverOverride[] resolverOverrides)
         {
             throw new NotImplementedException();
         }
 
-        public override object BuildUp(Type t, object existing, string name)
+        public object BuildUp(Type t, object existing, string name, params ResolverOverride[] resolverOverrides)
         {
             throw new NotImplementedException();
         }
 
-        public override void Teardown(object o)
+        public void Teardown(object o)
         {
             throw new NotImplementedException();
         }
 
-        public override IUnityContainer AddExtension(UnityContainerExtension extension)
+        public IUnityContainer AddExtension(UnityContainerExtension extension)
         {
             ConfigActions.Add(ConfigurationActionRecord.AddExtensionAction(extension.GetType()));
             return this;
         }
 
-        public override object Configure(Type configurationInterface)
+        public object Configure(Type configurationInterface)
         {
             if(configurationInterface.IsAssignableFrom(GetType()))
             {
@@ -90,24 +90,24 @@ namespace Microsoft.Practices.Unity.TestSupport
             return null;
         }
 
-        public override IUnityContainer RemoveAllExtensions()
+        public IUnityContainer RemoveAllExtensions()
         {
             return this;
         }
 
 
-        public override IUnityContainer CreateChildContainer()
+        public IUnityContainer CreateChildContainer()
         {
             throw new NotImplementedException();
         }
 
 
-        public override IUnityContainer Parent
+        public IUnityContainer Parent
         {
             get { throw new NotImplementedException(); }
         }
 
-        public override void Dispose()
+        public void Dispose()
         {
         }
 

@@ -13,6 +13,7 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +41,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -47,7 +51,13 @@
     <Compile Include="..\..\Common\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AdditionalInterfaceElement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InterceptionBehaviorElement.cs" />
+    <Compile Include="InterceptionMemberElement.cs" />
     <Compile Include="InterceptorConfigurationElementCollection.cs" />
+    <Compile Include="InterceptorElement.cs" />
     <Compile Include="InterceptorTargetConfigurationElementBase.cs" />
     <Compile Include="DefaultInterceptorTargetConfigurationElement.cs" />
     <Compile Include="RuleDrivenPolicyElementConfigurationElement.cs" />

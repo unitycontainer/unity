@@ -26,10 +26,8 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanCallNonGenericConstructorOnOpenGenericType()
         {
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor(typeof (ClassWithOneGenericParameter<>),
-                        new InjectionConstructor("Fiddle", new InjectionParameter<object>("foo")))
-                .Container;
+                .RegisterType(typeof (ClassWithOneGenericParameter<>),
+                        new InjectionConstructor("Fiddle", new InjectionParameter<object>("foo")));
 
             ClassWithOneGenericParameter<User> result = container.Resolve<ClassWithOneGenericParameter<User>>();
 
@@ -40,10 +38,8 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanCallConstructorTakingGenericParameter()
         {
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                .ConfigureInjectionFor(typeof (ClassWithOneGenericParameter<>),
-                                       new InjectionConstructor(new GenericParameter("T")))
-                .Container;
+                .RegisterType(typeof (ClassWithOneGenericParameter<>),
+                    new InjectionConstructor(new GenericParameter("T")));
 
             Account a = new Account();
             container.RegisterInstance<Account>(a);
@@ -56,10 +52,8 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanConfiguredNamedResolutionOfGenericParameter()
         {
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                .ConfigureInjectionFor(typeof(ClassWithOneGenericParameter<>),
-                                       new InjectionConstructor(new GenericParameter("T", "named")))
-                .Container;
+                .RegisterType(typeof(ClassWithOneGenericParameter<>),
+                    new InjectionConstructor(new GenericParameter("T", "named")));
 
             Account a = new Account();
             container.RegisterInstance<Account>(a);

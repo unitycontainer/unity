@@ -11,8 +11,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxyInterception
@@ -25,7 +25,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         {
             List<MethodImplementationInfo> methods = GetMethods<SingleInterceptableMethod>();
 
-            CollectionAssert.AreEquivalent(GetOnlyImplementations(typeof (SingleInterceptableMethod), "MyMethod"),
+            CollectionAssert.AreEquivalent(GetOnlyImplementations(typeof(SingleInterceptableMethod), "MyMethod"),
                 methods);
         }
 
@@ -35,7 +35,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
             List<MethodImplementationInfo> methods = GetMethods<InheritsSingleMethodAndAdds>();
 
             CollectionAssert.AreEquivalent(
-                GetOnlyImplementations(typeof (InheritsSingleMethodAndAdds), "MyMethod", "AnotherMethod", "StillMoreMethod"),
+                GetOnlyImplementations(typeof(InheritsSingleMethodAndAdds), "MyMethod", "AnotherMethod", "StillMoreMethod"),
                 methods);
         }
 
@@ -46,7 +46,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
 
             Assert.AreEqual(2, methods.Count);
 
-            List<MethodImplementationInfo> expected = GetExpectedMethodImplementations(typeof (IMyOperations), typeof (Operations));
+            List<MethodImplementationInfo> expected = GetExpectedMethodImplementations(typeof(IMyOperations), typeof(Operations));
 
             CollectionAssert.AreEquivalent(expected, methods);
         }
@@ -57,8 +57,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
             List<MethodImplementationInfo> methods = GetMethods<Incoherent>();
 
             CollectionAssert.AreEquivalent(
-                Seq.Make(GetExpectedMethodImplementations(typeof (IMyOperations), typeof (Incoherent)))
-                    .Concat(GetExpectedMethodImplementations(typeof (ImTiredOfInterfaces), typeof (Incoherent))).ToList(),
+                GetExpectedMethodImplementations(typeof(IMyOperations), typeof(Incoherent))
+                    .Concat(GetExpectedMethodImplementations(typeof(ImTiredOfInterfaces), typeof(Incoherent))).ToList(),
                 methods);
         }
 
@@ -68,7 +68,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
             List<MethodImplementationInfo> methods = GetMethods<Marked>();
 
             CollectionAssert.AreEquivalent(
-                GetExpectedMethodImplementations(typeof (IMyOperations), typeof (Marked)),
+                GetExpectedMethodImplementations(typeof(IMyOperations), typeof(Marked)),
                 methods);
         }
 
@@ -78,7 +78,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
             List<MethodImplementationInfo> methods = GetMethods<HasProperties>();
 
             CollectionAssert.AreEquivalent(
-                GetOnlyImplementations(typeof (HasProperties), "get_SettableProp", "set_SettableProp", "get_GetOnly"),
+                GetOnlyImplementations(typeof(HasProperties), "get_SettableProp", "set_SettableProp", "get_GetOnly"),
                 methods);
         }
 
@@ -88,7 +88,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
             List<MethodImplementationInfo> methods = GetMethods<PropThroughInterface>();
 
             CollectionAssert.AreEquivalent(
-                GetExpectedMethodImplementations(typeof (IHasProperties), typeof (PropThroughInterface)),
+                GetExpectedMethodImplementations(typeof(IHasProperties), typeof(PropThroughInterface)),
                 methods);
         }
 
@@ -96,10 +96,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         public void MBROReturnBothInterfaceAndClassProperties()
         {
             List<MethodImplementationInfo> methods = GetMethods<MBROWithPropThroughInterface>();
-            
-            Seq<MethodImplementationInfo> expected = Seq.Make(
-                GetExpectedMethodImplementations(typeof (IHasProperties), typeof (MBROWithPropThroughInterface)))
-                .Concat(GetOnlyImplementations(typeof (MBROWithPropThroughInterface), "get_Gettable"));
+
+            var expected = GetExpectedMethodImplementations(typeof(IHasProperties), typeof(MBROWithPropThroughInterface))
+                .Concat(GetOnlyImplementations(typeof(MBROWithPropThroughInterface), "get_Gettable"));
+
             CollectionAssert.AreEquivalent(expected.ToList(), methods);
         }
 
@@ -108,16 +108,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         {
             List<MethodImplementationInfo> methods = GetMethods<ExplicitImplementation>();
 
-            Seq<MethodImplementationInfo> expected = 
-                Seq.Make(GetExpectedMethodImplementations(typeof (IMyOperations), typeof (ExplicitImplementation)))
+            var expected = GetExpectedMethodImplementations(typeof(IMyOperations), typeof(ExplicitImplementation))
                 .Concat(GetOnlyImplementations(typeof(ExplicitImplementation), "AClassMethod"));
             CollectionAssert.AreEquivalent(expected.ToList(), methods);
         }
 
         private static List<MethodImplementationInfo> GetMethods<T>()
         {
-            TransparentProxyInterceptor interceptor = new TransparentProxyInterceptor();
-            return new List<MethodImplementationInfo>(interceptor.GetInterceptableMethods(typeof(T), typeof(T)));
+            return new List<MethodImplementationInfo>(new TransparentProxyInterceptor().GetInterceptableMethods(typeof(T), typeof(T)));
         }
 
         static List<MethodImplementationInfo> GetExpectedMethodImplementations(Type interfaceType, Type implementationType)
@@ -125,7 +123,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
             InterfaceMapping mapping = implementationType.GetInterfaceMap(interfaceType);
             List<MethodImplementationInfo> results = new List<MethodImplementationInfo>(mapping.InterfaceMethods.Length);
 
-            for(int i = 0; i < mapping.InterfaceMethods.Length; ++i)
+            for (int i = 0; i < mapping.InterfaceMethods.Length; ++i)
             {
                 results.Add(new MethodImplementationInfo(mapping.InterfaceMethods[i], mapping.TargetMethods[i]));
             }
@@ -135,10 +133,19 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         static List<MethodImplementationInfo> GetOnlyImplementations(Type implementationType, params string[] methodNames)
         {
             return
-                Seq.Make(methodNames).Map<MethodImplementationInfo>(delegate(string methodName)
-                {
-                    return new MethodImplementationInfo(null, implementationType.GetMethod(methodName));
-                }).ToList();
+                methodNames.Select(
+                    methodName => new MethodImplementationInfo(null, implementationType.GetMethod(methodName))).ToList();
+        }
+
+        [TestMethod]
+        public void CanCreateProxyWithAdditionalInterfaces()
+        {
+            IInstanceInterceptor interceptor = new TransparentProxyInterceptor();
+            SingleInterceptableMethod target = new SingleInterceptableMethod();
+
+            object proxy = interceptor.CreateProxy(typeof(SingleInterceptableMethod), target, typeof(IMyOperations));
+
+            Assert.IsTrue(proxy is IMyOperations);
         }
     }
 
@@ -155,7 +162,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
 
         public void StillMoreMethod()
         {
-            
+
         }
     }
 
@@ -167,12 +174,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
 
     interface ImTiredOfInterfaces
     {
-        void YaddaYadda();    
+        void YaddaYadda();
     }
 
     interface IMarkerInterface
     {
-        
+
     }
 
     class Operations : IMyOperations
@@ -187,7 +194,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
 
         public void NotAnInterfaceMethod()
         {
-            
+
         }
     }
 
@@ -260,7 +267,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
 
         public int Gettable
         {
-            get { return 37;  }
+            get { return 37; }
         }
     }
 
@@ -278,7 +285,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
 
         public void AClassMethod()
         {
-            
+
         }
     }
 }

@@ -9,8 +9,8 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -30,9 +30,10 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         /// <returns>The resolver object.</returns>
         protected override IDependencyResolverPolicy CreateResolver(PropertyInfo property)
         {
-            List<DependencyResolutionAttribute> attributes = new List<DependencyResolutionAttribute>(
-                Sequence.OfType<DependencyResolutionAttribute>(
-                    property.GetCustomAttributes(typeof (DependencyResolutionAttribute), false)));
+            var attributes =
+                property.GetCustomAttributes(typeof (DependencyResolutionAttribute), false)
+                .OfType<DependencyResolutionAttribute>()
+                .ToList();
 
             // We must have one of these, otherwise this method would never have been called.
             Debug.Assert(attributes.Count == 1);

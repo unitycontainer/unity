@@ -11,8 +11,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace Microsoft.Practices.Unity.Utility
 {
@@ -28,7 +28,7 @@ namespace Microsoft.Practices.Unity.Utility
         /// Create a new <see cref="MethodReflectionHelper"/> instance that
         /// lets us do more reflection stuff on that method.
         /// </summary>
-        /// <param name="method"></param>
+        /// <param name="method">The method to reflect on.</param>
         public MethodReflectionHelper(MethodBase method)
         {
             this.method = method;
@@ -42,8 +42,7 @@ namespace Microsoft.Practices.Unity.Utility
         {
             get
             {
-                return Sequence.Exists(GetParameterReflectors(),
-                    delegate(ParameterReflectionHelper r) { return r.IsOpenGeneric; });
+                return GetParameterReflectors().Any(r => r.IsOpenGeneric);
             }
         }
 
@@ -57,27 +56,27 @@ namespace Microsoft.Practices.Unity.Utility
         {
             get
             {
-                foreach(ParameterInfo param in method.GetParameters())
+                foreach (ParameterInfo param in method.GetParameters())
                 {
                     yield return param.ParameterType;
                 }
-                
+
             }
         }
 
         /// <summary>
         /// Given our set of generic type arguments, 
         /// </summary>
-        /// <param name="genericTypeArguments"></param>
-        /// <returns></returns>
+        /// <param name="genericTypeArguments">The generic type arguments.</param>
+        /// <returns>An array with closed parameter types. </returns>
         public Type[] GetClosedParameterTypes(Type[] genericTypeArguments)
         {
-            return Sequence.ToArray(GetClosedParameterTypesSequence(genericTypeArguments));
+            return GetClosedParameterTypesSequence(genericTypeArguments).ToArray();
         }
 
         private IEnumerable<ParameterReflectionHelper> GetParameterReflectors()
         {
-            foreach(ParameterInfo pi in method.GetParameters())
+            foreach (ParameterInfo pi in method.GetParameters())
             {
                 yield return new ParameterReflectionHelper(pi);
             }
@@ -85,7 +84,7 @@ namespace Microsoft.Practices.Unity.Utility
 
         private IEnumerable<Type> GetClosedParameterTypesSequence(Type[] genericTypeArguments)
         {
-            foreach(ParameterReflectionHelper r in GetParameterReflectors())
+            foreach (ParameterReflectionHelper r in GetParameterReflectors())
             {
                 yield return r.GetClosedParameterType(genericTypeArguments);
             }

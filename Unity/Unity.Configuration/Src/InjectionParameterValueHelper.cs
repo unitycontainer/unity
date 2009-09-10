@@ -142,6 +142,14 @@ namespace Microsoft.Practices.Unity.Configuration
                         reader,
                         out valueElement);
 
+                case "optional":
+                    GuardNotGenericArray(reader, isGenericParameterArray, name);
+                    return DeserializeOptionalValueElement(
+                        reader,
+                        genericParameterName,
+                        name,
+                        out valueElement);
+
                 default:
                     GuardNotGeneric(reader, genericParameterName, name);
                     return DeserializePolymorphicElement(
@@ -214,8 +222,33 @@ namespace Microsoft.Practices.Unity.Configuration
             return true;
         }
 
+        private static bool DeserializeOptionalValueElement(
+            XmlReader reader,
+            string genericParameterName,
+            string name,
+            out InjectionParameterValueElement valueElement)
+        {
+            var element = new OptionalValueElement();
+            element.DeserializeElement(reader);
+
+            if (!string.IsNullOrEmpty(genericParameterName)
+                && !string.IsNullOrEmpty(element.TypeName))
+            {
+                throw new ConfigurationErrorsException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        Resources.MustNotProvideATypeForDependencyIfBelongsToGeneric,
+                        name,
+                        element.Name),
+                    reader);
+            }
+
+            valueElement = element;
+            return true;
+        }
+
         private static bool DeserializePolymorphicElement(
-            XmlReader reader, 
+            XmlReader reader,
             out InjectionParameterValueElement valueElement)
         {
             string elementTypeName = reader.GetAttribute("elementType");

@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
@@ -136,11 +137,6 @@ namespace Microsoft.Practices.Unity.Tests
                 get { throw new NotImplementedException(); }
             }
 
-            public IReadWriteLocator Locator
-            {
-                get { throw new NotImplementedException(); }
-            }
-
             public object OriginalBuildKey
             {
                 get { return buildKey; }
@@ -192,6 +188,16 @@ namespace Microsoft.Practices.Unity.Tests
             }
 
             public object NewBuildUp(object newBuildKey)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void AddResolverOverrides(IEnumerable<ResolverOverride> newOverrides)
+            {
+                throw new NotImplementedException();
+            }
+
+            public IDependencyResolverPolicy GetOverriddenResolver(Type dependencyType)
             {
                 throw new NotImplementedException();
             }

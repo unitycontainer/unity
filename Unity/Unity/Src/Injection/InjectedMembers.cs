@@ -10,8 +10,6 @@
 //===============================================================================
 
 using System;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity
 {
@@ -20,6 +18,7 @@ namespace Microsoft.Practices.Unity
     /// which constructors, properties, and methods get injected
     /// via an API rather than through attributes.
     /// </summary>
+    [Obsolete("Use the IUnityContainer.RegisterType method instead of this interface")]
     public class InjectedMembers : UnityContainerExtension
     {
         /// <summary>
@@ -64,7 +63,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>This extension object.</returns>
         public InjectedMembers ConfigureInjectionFor(Type typeToInject, params InjectionMember[] injectionMembers)
         {
-            return ConfigureInjectionFor(typeToInject, null, injectionMembers);
+            return ConfigureInjectionFor(null, typeToInject, null, injectionMembers);
         }
 
         /// <summary>
@@ -76,30 +75,21 @@ namespace Microsoft.Practices.Unity
         /// <returns>This extension object.</returns>
         public InjectedMembers ConfigureInjectionFor(Type typeToInject, string name, params InjectionMember[] injectionMembers)
         {
-            Guard.ArgumentNotNull(typeToInject, "typeToInject");
-            ClearExistingBuildPlan(typeToInject, name);
-
-            foreach(InjectionMember member in injectionMembers)
-            {
-                member.AddPolicies(typeToInject, name, Context.Policies);
-            }
-
-            return this;
-            
+            return ConfigureInjectionFor(null, typeToInject, name, injectionMembers);
         }
 
         /// <summary>
-        /// Remove policies associated with building this type. This removes the
-        /// compiled build plan so that it can be rebuilt with the new settings
-        /// the next time this type is resolved.
+        /// API to configure the injection settings for a particular type/name pair.
         /// </summary>
-        /// <param name="typeToInject">Type of object to clear the plan for.</param>
-        /// <param name="name">Name the object is being registered with.</param>
-        private void ClearExistingBuildPlan(Type typeToInject, string name)
+        /// <param name="serviceType">Type of interface/base class being registered (may be null).</param>
+        /// <param name="implementationType">Type of actual implementation class being registered.</param>
+        /// <param name="name">Name of registration.</param>
+        /// <param name="injectionMembers">Objects containing the details on which members to inject and how.</param>
+        /// <returns>This extension object.</returns>
+        public InjectedMembers ConfigureInjectionFor(Type serviceType, Type implementationType, string name, params InjectionMember[] injectionMembers)
         {
-            NamedTypeBuildKey buildKey = new NamedTypeBuildKey(typeToInject, name);
-            Context.Policies.Clear<IBuildPlanPolicy>(buildKey);
-            DependencyResolverTrackerPolicy.RemoveResolvers(Context.Policies, buildKey);
+            Container.RegisterType(serviceType, implementationType, name, injectionMembers);
+            return this;
         }
     }
 }

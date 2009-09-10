@@ -52,15 +52,6 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Unity.StaticFactory\Src\FactoryDelegateBuildPlanPolicy.cs">
-      <Link>Unity.StaticFactory\FactoryDelegateBuildPlanPolicy.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity.StaticFactory\Src\IStaticFactoryConfiguration.cs">
-      <Link>Unity.StaticFactory\IStaticFactoryConfiguration.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity.StaticFactory\Src\StaticFactoryExtension.cs">
-      <Link>Unity.StaticFactory\StaticFactoryExtension.cs</Link>
-    </Compile>
     <Compile Include="..\..\Unity\Src\Attributes\DependencyAttribute.cs">
       <Link>Unity\Attributes\DependencyAttribute.cs</Link>
     </Compile>
@@ -72,6 +63,18 @@
     </Compile>
     <Compile Include="..\..\Unity\Src\Attributes\InjectionMethodAttribute.cs">
       <Link>Unity\Attributes\InjectionMethodAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\Attributes\OptionalDependencyAttribute.cs">
+      <Link>Unity\Attributes\OptionalDependencyAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\CompositeResolverOverride.cs">
+      <Link>Unity\CompositeResolverOverride.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\DependencyOverride.cs">
+      <Link>Unity\DependencyOverride.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\DependencyOverrides.cs">
+      <Link>Unity\DependencyOverrides.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\Extension\ExtensionContext.cs">
       <Link>Unity\Extension\ExtensionContext.cs</Link>
@@ -106,6 +109,9 @@
     <Compile Include="..\..\Unity\Src\Injection\InjectionConstructor.cs">
       <Link>Unity\Injection\InjectionConstructor.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Src\Injection\InjectionFactory.cs">
+      <Link>Unity\Injection\InjectionFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Src\Injection\InjectionMember.cs">
       <Link>Unity\Injection\InjectionMember.cs</Link>
     </Compile>
@@ -120,6 +126,9 @@
     </Compile>
     <Compile Include="..\..\Unity\Src\Injection\InjectionProperty.cs">
       <Link>Unity\Injection\InjectionProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\Injection\OptionalParameter.cs">
+      <Link>Unity\Injection\OptionalParameter.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\Injection\ResolvedArrayParameter.cs">
       <Link>Unity\Injection\ResolvedArrayParameter.cs</Link>
@@ -138,6 +147,9 @@
     </Compile>
     <Compile Include="..\..\Unity\Src\Lifetime\ExternallyControlledLifetimeManager.cs">
       <Link>Unity\Lifetime\ExternallyControlledLifetimeManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\Lifetime\HierarchicalLifetimeManager.cs">
+      <Link>Unity\Lifetime\HierarchicalLifetimeManager.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\Lifetime\LifetimeManager.cs">
       <Link>Unity\Lifetime\LifetimeManager.cs</Link>
@@ -169,11 +181,17 @@
     <Compile Include="..\..\Unity\Src\ObjectBuilderCustomization\DefaultUnityPropertySelectorPolicy.cs">
       <Link>Unity\ObjectBuilderCustomization\DefaultUnityPropertySelectorPolicy.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Src\ObjectBuilderCustomization\HierarchicalLifetimeStrategy.cs">
+      <Link>Unity\ObjectBuilderCustomization\HierarchicalLifetimeStrategy.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilderCustomization\LiteralValueDependencyResolverPolicy.cs">
       <Link>Unity\ObjectBuilderCustomization\LiteralValueDependencyResolverPolicy.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilderCustomization\NamedTypeDependencyResolverPolicy.cs">
       <Link>Unity\ObjectBuilderCustomization\NamedTypeDependencyResolverPolicy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\ObjectBuilderCustomization\OptionalDependencyResolverPolicy.cs">
+      <Link>Unity\ObjectBuilderCustomization\OptionalDependencyResolverPolicy.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilderCustomization\ResolvedArrayWithElementsResolverPolicy.cs">
       <Link>Unity\ObjectBuilderCustomization\ResolvedArrayWithElementsResolverPolicy.cs</Link>
@@ -193,9 +211,6 @@
     <Compile Include="..\..\Unity\Src\ObjectBuilderCustomization\UnityBuildStage.cs">
       <Link>Unity\ObjectBuilderCustomization\UnityBuildStage.cs</Link>
     </Compile>
-    <Compile Include="..\..\Unity\Src\ObjectBuilder\Builder.cs">
-      <Link>Unity\ObjectBuilder\Builder.cs</Link>
-    </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\BuilderContext.cs">
       <Link>Unity\ObjectBuilder\BuilderContext.cs</Link>
     </Compile>
@@ -204,12 +219,6 @@
     </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Exceptions\IllegalInjectionMethodException.cs">
       <Link>Unity\ObjectBuilder\Exceptions\IllegalInjectionMethodException.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Src\ObjectBuilder\GlobalSuppressions.cs">
-      <Link>Unity\ObjectBuilder\GlobalSuppressions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Src\ObjectBuilder\IBuilder.cs">
-      <Link>Unity\ObjectBuilder\IBuilder.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\IBuilderContext.cs">
       <Link>Unity\ObjectBuilder\IBuilderContext.cs</Link>
@@ -228,27 +237,6 @@
     </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Lifetime\LifetimeContainer.cs">
       <Link>Unity\ObjectBuilder\Lifetime\LifetimeContainer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Src\ObjectBuilder\Location\IReadableLocator.cs">
-      <Link>Unity\ObjectBuilder\Location\IReadableLocator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Src\ObjectBuilder\Location\IReadWriteLocator.cs">
-      <Link>Unity\ObjectBuilder\Location\IReadWriteLocator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Src\ObjectBuilder\Location\Locator.cs">
-      <Link>Unity\ObjectBuilder\Location\Locator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Src\ObjectBuilder\Location\ReadableLocator.cs">
-      <Link>Unity\ObjectBuilder\Location\ReadableLocator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Src\ObjectBuilder\Location\ReadOnlyLocator.cs">
-      <Link>Unity\ObjectBuilder\Location\ReadOnlyLocator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Src\ObjectBuilder\Location\ReadWriteLocator.cs">
-      <Link>Unity\ObjectBuilder\Location\ReadWriteLocator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Src\ObjectBuilder\Location\WeakRefDictionary.cs">
-      <Link>Unity\ObjectBuilder\Location\WeakRefDictionary.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Policies\IBuilderPolicy.cs">
       <Link>Unity\ObjectBuilder\Policies\IBuilderPolicy.cs</Link>
@@ -349,6 +337,9 @@
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Property\SettingPropertyOperation.cs">
       <Link>Unity\ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Property\SettingPropertyOperation.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\BuildPlan\Factory\FactoryDelegateBuildPlanPolicy.cs">
+      <Link>Unity\ObjectBuilder\Strategies\BuildPlan\Factory\FactoryDelegateBuildPlanPolicy.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\BuildPlan\IBuildPlanCreatorPolicy.cs">
       <Link>Unity\ObjectBuilder\Strategies\BuildPlan\IBuildPlanCreatorPolicy.cs</Link>
     </Compile>
@@ -424,11 +415,23 @@
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Utility\BuildKey.cs">
       <Link>Unity\ObjectBuilder\Utility\BuildKey.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Src\ObjectBuilder\Utility\EnumerableExtensions.cs">
+      <Link>Unity\ObjectBuilder\Utility\EnumerableExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Utility\NamedTypeBuildKey.cs">
       <Link>Unity\ObjectBuilder\Utility\NamedTypeBuildKey.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Utility\Sequence.cs">
       <Link>Unity\ObjectBuilder\Utility\Sequence.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\OverrideCollection.cs">
+      <Link>Unity\OverrideCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\ParameterOverride.cs">
+      <Link>Unity\ParameterOverride.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\ParameterOverrides.cs">
+      <Link>Unity\ParameterOverrides.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\Properties\ResourcesSL.Designer.cs">
       <Link>Unity\Properties\ResourcesSL.Designer.cs</Link>
@@ -439,11 +442,20 @@
     <Compile Include="..\..\Unity\Src\ResolutionFailedException.cs">
       <Link>Unity\ResolutionFailedException.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Src\ResolverOverride.cs">
+      <Link>Unity\ResolverOverride.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\StaticFactory\IStaticFactoryConfiguration.cs">
+      <Link>Unity\StaticFactory\IStaticFactoryConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\StaticFactory\StaticFactoryExtension.cs">
+      <Link>Unity\StaticFactory\StaticFactoryExtension.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Src\UnityContainer.cs">
       <Link>Unity\UnityContainer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Unity\Src\UnityContainerBase.cs">
-      <Link>Unity\UnityContainerBase.cs</Link>
+    <Compile Include="..\..\Unity\Src\UnityContainerExtensions.cs">
+      <Link>Unity\UnityContainerExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\UnityDefaultBehaviorExtension.cs">
       <Link>Unity\UnityDefaultBehaviorExtension.cs</Link>
@@ -456,6 +468,9 @@
     </Compile>
     <Compile Include="..\..\Unity\Src\Utility\Guard.cs">
       <Link>Unity\Utility\Guard.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\Utility\Guard.Silverlight.cs">
+      <Link>Unity\Utility\Guard.Silverlight.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\Utility\MethodReflectionHelper.cs">
       <Link>Unity\Utility\MethodReflectionHelper.cs</Link>
@@ -484,6 +499,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourcesSL.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Unity.StaticFactory\" />
+    <Folder Include="Unity\ObjectBuilder\Location\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" Condition="" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

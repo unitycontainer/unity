@@ -41,8 +41,11 @@ namespace Microsoft.Practices.ObjectBuilder2
 
             IPropertySelectorPolicy selector = context.Policies.Get<IPropertySelectorPolicy>(context.BuildKey);
 
+            bool shouldClearOperation = false;
+
             foreach (SelectedProperty property in selector.SelectProperties(context))
             {
+                shouldClearOperation = true;
                 // Set the current operation to resolving
                 ilContext.IL.Emit(OpCodes.Ldstr, property.Property.Name);
                 ilContext.EmitLoadContext();
@@ -62,7 +65,10 @@ namespace Microsoft.Practices.ObjectBuilder2
             }
 
             // Clear the current operation
-            ilContext.EmitClearCurrentOperation();
+            if (shouldClearOperation)
+            {
+                ilContext.EmitClearCurrentOperation();
+            }
         }
 
         /// <summary>

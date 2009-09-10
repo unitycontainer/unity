@@ -43,11 +43,9 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanCallConstructorTakingGenericParameterArray()
         {
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                .ConfigureInjectionFor(
+                .RegisterType(
                     typeof(ClassWithOneArrayGenericParameter<>),
-                    new InjectionConstructor(new GenericResolvedArrayParameter("T")))
-                .Container;
+                    new InjectionConstructor(new GenericResolvedArrayParameter("T")));
 
             Account a0 = new Account();
             container.RegisterInstance<Account>("a0", a0);
@@ -68,15 +66,13 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanCallConstructorTakingGenericParameterArrayWithValues()
         {
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                .ConfigureInjectionFor(
+                .RegisterType(
                     typeof(ClassWithOneArrayGenericParameter<>),
                     new InjectionConstructor(
                         new GenericResolvedArrayParameter(
                             "T",
                             new GenericParameter("T", "a2"),
-                            new GenericParameter("T", "a1"))))
-                .Container;
+                            new GenericParameter("T", "a1"))));
 
             Account a0 = new Account();
             container.RegisterInstance<Account>("a0", a0);
@@ -97,11 +93,9 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanSetPropertyWithGenericParameterArrayType()
         {
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                .ConfigureInjectionFor(typeof(ClassWithOneArrayGenericParameter<>),
+                .RegisterType(typeof(ClassWithOneArrayGenericParameter<>),
                                        new InjectionConstructor(),
-                                       new InjectionProperty("InjectedValue", new GenericResolvedArrayParameter("T")))
-                .Container;
+                                       new InjectionProperty("InjectedValue", new GenericResolvedArrayParameter("T")));
 
             Account a0 = new Account();
             container.RegisterInstance<Account>("a1", a0);
@@ -124,8 +118,7 @@ namespace Microsoft.Practices.Unity.Tests
             try
             {
                 new UnityContainer()
-                    .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor(typeof(ClassWithOneGenericParameter<>),
+                    .RegisterType(typeof(ClassWithOneGenericParameter<>),
                                            new InjectionConstructor(new GenericResolvedArrayParameter("T")));
                 Assert.Fail("Call to ConfigureInjectionFor<>() should have thrown.");
             }

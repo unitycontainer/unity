@@ -9,7 +9,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -34,9 +34,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         protected override IDependencyResolverPolicy CreateResolver(ParameterInfo parameter)
         {
             // Resolve all DependencyAttributes on this parameter, if any
-            List<DependencyResolutionAttribute> attrs = new List<DependencyResolutionAttribute>(
-                Sequence.OfType<DependencyResolutionAttribute>(
-                    parameter.GetCustomAttributes(false)));
+            var attrs = parameter.GetCustomAttributes(false).OfType<DependencyResolutionAttribute>().ToList();
 
             if(attrs.Count > 0)
             {

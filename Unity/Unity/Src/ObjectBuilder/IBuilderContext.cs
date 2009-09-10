@@ -9,7 +9,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.Practices.Unity;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
@@ -34,14 +37,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// The <see cref="ILifetimeContainer"/> associated with the build.
         /// </value>
         ILifetimeContainer Lifetime { get; }
-
-        /// <summary>
-        /// Gets the locator available to the strategies.
-        /// </summary>
-        /// <value>
-        /// The locator available to the strategies.
-        /// </value>
-        IReadWriteLocator Locator { get; }
 
         /// <summary>
         /// Gets the original build key for the build operation.
@@ -107,11 +102,59 @@ namespace Microsoft.Practices.ObjectBuilder2
         IBuilderContext ChildContext { get; }
 
         /// <summary>
+        /// Add a new set of resolver override objects to the current build operation.
+        /// </summary>
+        /// <param name="newOverrides"><see cref="ResolverOverride"/> objects to add.</param>
+        void AddResolverOverrides(IEnumerable<ResolverOverride> newOverrides);
+
+        /// <summary>
+        /// Get a <see cref="IDependencyResolverPolicy"/> object for the given <paramref name="dependencyType"/>
+        /// or null if that dependency hasn't been overridden.
+        /// </summary>
+        /// <param name="dependencyType">Type of the dependency.</param>
+        /// <returns>Resolver to use, or null if no override matches for the current operation.</returns>
+        IDependencyResolverPolicy GetOverriddenResolver(Type dependencyType);
+        
+        /// <summary>
         /// A convenience method to do a new buildup operation on an existing context.
         /// </summary>
         /// <param name="newBuildKey">Key to use to build up.</param>
         /// <returns>Created object.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
         object NewBuildUp(object newBuildKey);
+    }
+
+    /// <summary>
+    /// Extension methods to provide convenience overloads over the
+    /// <see cref="IBuilderContext"/> interface.
+    /// </summary>
+    public static class BuilderContextExtensions
+    {
+        /// <summary>
+        /// Start a recursive build up operation to retrieve the default
+        /// value for the given <typeparamref name="TResult"/> type.
+        /// </summary>
+        /// <typeparam name="TResult">Type of object to build.</typeparam>
+        /// <param name="context">Parent context.</param>
+        /// <returns>Resulting object.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
+        public static TResult NewBuildUp<TResult>(this IBuilderContext context)
+        {
+            return context.NewBuildUp<TResult>(null);
+        }
+
+        /// <summary>
+        /// Start a recursive build up operation to retrieve the named
+        /// implementation for the given <typeparamref name="TResult"/> type.
+        /// </summary>
+        /// <typeparam name="TResult">Type to resolve.</typeparam>
+        /// <param name="context">Parent context.</param>
+        /// <param name="name">Name to resolve with.</param>
+        /// <returns>The resulting object.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
+        public static TResult NewBuildUp<TResult>(this IBuilderContext context, string name)
+        {
+            return (TResult) context.NewBuildUp(NamedTypeBuildKey.Make<TResult>(name));
+        }
     }
 }

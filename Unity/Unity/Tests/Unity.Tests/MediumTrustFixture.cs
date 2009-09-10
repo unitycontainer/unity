@@ -50,7 +50,7 @@ namespace Microsoft.Practices.Unity.Tests
             // Grant all code the named permission set for the test
             PermissionSet partialTrustPermissionSet = new PermissionSet(PermissionState.None);
             partialTrustPermissionSet.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.AllFlags));
-            partialTrustPermissionSet.AddPermission(new SecurityPermission(SecurityPermissionFlag.Execution | SecurityPermissionFlag.ControlEvidence));
+            partialTrustPermissionSet.AddPermission(new SecurityPermission(SecurityPermissionFlag.Execution | SecurityPermissionFlag.ControlEvidence | SecurityPermissionFlag.ControlPolicy));
 
             PolicyStatement permissions = new PolicyStatement(partialTrustPermissionSet);
             policyRoot.AddChild(new UnionCodeGroup(new AllMembershipCondition(), permissions));

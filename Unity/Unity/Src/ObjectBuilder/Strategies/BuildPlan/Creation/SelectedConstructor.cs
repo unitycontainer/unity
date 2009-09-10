@@ -25,7 +25,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// Create a new <see cref="SelectedConstructor"/> instance which
         /// contains the given constructor.
         /// </summary>
-        /// <param name="constructor"></param>
+        /// <param name="constructor">The constructor to wrap.</param>
         public SelectedConstructor(ConstructorInfo constructor)
             : base(constructor)
         {

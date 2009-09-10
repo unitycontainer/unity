@@ -26,8 +26,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             BuilderOnThread threadResults1 = new BuilderOnThread(strategies, policies);
             BuilderOnThread threadResults2 = new BuilderOnThread(strategies, policies);
 
-            Thread thread1 = new Thread(new ThreadStart(threadResults1.Build));
-            Thread thread2 = new Thread(new ThreadStart(threadResults2.Build));
+            Thread thread1 = new Thread(threadResults1.Build);
+            Thread thread2 = new Thread(threadResults2.Build);
 
             thread1.Start();
             thread2.Start();
@@ -70,8 +70,9 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
         public void Build()
         {
-            Result = new Builder().BuildUp(
-                null, null, policies, strategies, typeof (object), null);
+            var transientPolicies = new PolicyList(policies);
+            var context = new BuilderContext(strategies, null, policies, transientPolicies, typeof (object), null);
+            Result = strategies.ExecuteBuildUp(context);
         }
     }
 

@@ -11,8 +11,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+using System.Linq;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
@@ -32,68 +31,69 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public override void PostBuildUp(IBuilderContext context)
         {
             // If it's already been intercepted, don't do it again.
-            if(context.Existing is IInterceptingProxy) return;
+            if (context.Existing is IInterceptingProxy) return;
 
-            Type originalType;
-            if (!BuildKey.TryGetType(context.OriginalBuildKey, out originalType)) return;
+            IInstanceInterceptionPolicy interceptionPolicy =
+                FindInterceptionPolicy<IInstanceInterceptionPolicy>(context, true);
+            if (interceptionPolicy == null) return;
 
-            Type typeToIntercept;
-            IInstanceInterceptionPolicy interceptionPolicy = FindInterceptorPolicy(context, out typeToIntercept);
+            IInterceptionBehaviorsPolicy interceptionBehaviorsPolicy =
+                FindInterceptionPolicy<IInterceptionBehaviorsPolicy>(context, true);
+            if (interceptionBehaviorsPolicy == null) return;
 
-            if (interceptionPolicy != null)
+            IAdditionalInterfacesPolicy additionalInterfacesPolicy =
+                FindInterceptionPolicy<IAdditionalInterfacesPolicy>(context, false);
+            IEnumerable<Type> additionalInterfaces =
+                additionalInterfacesPolicy != null ? additionalInterfacesPolicy.AdditionalInterfaces : Type.EmptyTypes;
+
+            Type typeToIntercept = BuildKey.GetType(context.OriginalBuildKey);
+            Type implementationType = context.Existing.GetType();
+
+            IUnityContainer container = context.NewBuildUp<IUnityContainer>();
+            IInterceptionBehavior[] interceptionBehaviors =
+                interceptionBehaviorsPolicy.InterceptionBehaviorDescriptors
+                    .Select(pid =>
+                        pid.GetInterceptionBehavior(
+                            interceptionPolicy.Interceptor,
+                            typeToIntercept,
+                            implementationType,
+                            container))
+                    .Where(pi => pi != null)
+                    .ToArray();
+
+            if (interceptionBehaviors.Length > 0)
             {
-                IInstanceInterceptor interceptor = interceptionPolicy.Interceptor;
-                if (interceptor.CanIntercept(typeToIntercept))
-                {
-                    IUnityContainer container = BuilderContext.NewBuildUp<IUnityContainer>(context);
-                    InjectionPolicy[] policies = BuilderContext.NewBuildUp<InjectionPolicy[]>(context);
-                    PolicySet allPolicies = new PolicySet(policies);
-                    IInterceptingProxy proxy = interceptor.CreateProxy(typeToIntercept, context.Existing);
-                    bool hasHandlers = false;
-                    foreach (MethodImplementationInfo method in interceptor.GetInterceptableMethods(typeToIntercept, context.Existing.GetType()))
-                    {
-                        HandlerPipeline pipeline = new HandlerPipeline(allPolicies.GetHandlersFor(method, container));
-                        if(pipeline.Count > 0)
-                        {
-                            proxy.SetPipeline(interceptor.MethodInfoForPipeline(method), pipeline);
-                            hasHandlers = true;
-                        }
-                    }
-                    if(hasHandlers)
-                    {
-                        context.Existing = proxy;
-                    }
-                }
+                context.Existing =
+                    Intercept.ThroughProxy(
+                        typeToIntercept,
+                        context.Existing,
+                        interceptionPolicy.Interceptor,
+                        interceptionBehaviors,
+                        additionalInterfaces);
             }
         }
 
-        private static IInstanceInterceptionPolicy FindInterceptorPolicy(IBuilderContext context, out Type typeToIntercept)
+        private static T FindInterceptionPolicy<T>(IBuilderContext context, bool probeOriginalKey)
+            where T : class, IBuilderPolicy
         {
-            typeToIntercept = null;
-
-            Type currentType = BuildKey.GetType(context.BuildKey);
-            Type originalType = BuildKey.GetType(context.OriginalBuildKey);
+            T policy;
 
             // First, try for a match against the current build key
-            IInstanceInterceptionPolicy policy;
-
-            policy = context.Policies.Get<IInstanceInterceptionPolicy>(context.BuildKey, false) ??
-                context.Policies.Get<IInstanceInterceptionPolicy>(currentType, false);
-            if(policy != null)
+            Type currentType = BuildKey.GetType(context.BuildKey);
+            policy = context.Policies.Get<T>(context.BuildKey, false) ??
+                context.Policies.Get<T>(currentType, false);
+            if (policy != null)
             {
-                typeToIntercept = currentType;
                 return policy;
             }
 
+            if (!probeOriginalKey)
+                return null;
+
             // Next, try the original build key
-
-            policy = context.Policies.Get<IInstanceInterceptionPolicy>(context.OriginalBuildKey, false) ??
-                context.Policies.Get<IInstanceInterceptionPolicy>(originalType, false);
-
-            if(policy != null)
-            {
-                typeToIntercept = originalType;
-            }
+            Type originalType = BuildKey.GetType(context.OriginalBuildKey);
+            policy = context.Policies.Get<T>(context.OriginalBuildKey, false) ??
+                context.Policies.Get<T>(originalType, false);
 
             return policy;
         }

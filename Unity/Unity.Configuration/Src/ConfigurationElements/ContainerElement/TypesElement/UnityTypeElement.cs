@@ -140,7 +140,17 @@ namespace Microsoft.Practices.Unity.Configuration
                 lifetimeManager = Lifetime.CreateLifetimeManager();
             }
 
-            container.RegisterType(Type, MapTo, Name, lifetimeManager);
+            var serviceType = this.Type;
+            var implementationType = this.MapTo;
+
+            if(MapTo == null)
+            {
+                implementationType = this.Type;
+                serviceType = null;
+            }
+
+
+            container.RegisterType(serviceType, implementationType, Name, lifetimeManager);
 
             foreach (UnityContainerTypeConfigurationElement typeConfigElement in this.TypeConfig)
             {

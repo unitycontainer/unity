@@ -9,8 +9,6 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System;
-
 namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
@@ -25,7 +23,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// Construct a <see cref="DynamicMethodBuildPlanCreatorPolicy"/> that
         /// uses the given strategy chain to construct the build plan.
         /// </summary>
-        /// <param name="strategies"></param>
+        /// <param name="strategies">The strategy chain.</param>
         public DynamicMethodBuildPlanCreatorPolicy(IStagedStrategyChain strategies)
         {
             this.strategies = strategies;
@@ -56,7 +54,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             return new BuilderContext(
                 strategies.MakeStrategyChain(),
-                originalContext.Locator,
                 originalContext.Lifetime,
                 originalContext.PersistentPolicies,
                 originalContext.Policies,

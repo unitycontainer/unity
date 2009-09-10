@@ -20,7 +20,7 @@ namespace Microsoft.Practices.Unity.TestSupport
     [TypeConverter(typeof(SessionKeyTypeConverter))]
     public class SessionLifetimeManager : LifetimeManager
     {
-        private string sessionKey;
+        private readonly string sessionKey;
 
         public SessionLifetimeManager(string sessionKey)
         {
@@ -100,10 +100,10 @@ namespace Microsoft.Practices.Unity.TestSupport
             return key;
         }
 
-        private string Reverse(string s)
+        private static string Reverse(IEnumerable<char> s)
         {
-            Stack<char> chars = new Stack<char>(s);
-            return Sequence.ToString(chars, "");
+            var chars = new Stack<char>(s);
+            return chars.JoinStrings("");
         }
     }
 }

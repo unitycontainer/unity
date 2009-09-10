@@ -21,10 +21,8 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanInjectMethodReturningVoid()
         {
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor(typeof (GuineaPig),
-                        new InjectionMethod("Inject2", "Hello"))
-                .Container;
+                .RegisterType(typeof (GuineaPig),
+                    new InjectionMethod("Inject2", "Hello"));
 
             GuineaPig pig = container.Resolve<GuineaPig>();
 
@@ -35,10 +33,8 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanInjectMethodReturningInt()
         {
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor(typeof (GuineaPig),
-                        new InjectionMethod("Inject3", 17))
-                .Container;
+                .RegisterType(typeof (GuineaPig),
+                        new InjectionMethod("Inject3", 17));
 
             GuineaPig pig = container.Resolve<GuineaPig>();
 
@@ -73,10 +69,8 @@ namespace Microsoft.Practices.Unity.Tests
         public void ContainerThrowsWhenConfiguringStaticMethodForInjection()
         {
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<GuineaPig>(
-                       new InjectionMethod("ShouldntBeCalled"))
-                .Container;
+                .RegisterType<GuineaPig>(
+                       new InjectionMethod("ShouldntBeCalled"));
             Assert.Fail("Should not get here");
         }
 

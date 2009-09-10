@@ -10,19 +10,15 @@
 //===============================================================================
 
 using System.Reflection;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
     internal static class IInterceptingProxyMethods
     {
-        internal static MethodInfo GetPipeline
+        internal static MethodInfo AddInterceptionBehavior
         {
-            get { return typeof (IInterceptingProxy).GetMethod("GetPipeline"); }
-        }
-
-        internal static MethodInfo SetPipeline
-        {
-            get { return typeof (IInterceptingProxy).GetMethod("SetPipeline"); }
+            get { return StaticReflection.GetMethodInfo<IInterceptingProxy>(ip => ip.AddInterceptionBehavior(null)); }
         }
     }
 }

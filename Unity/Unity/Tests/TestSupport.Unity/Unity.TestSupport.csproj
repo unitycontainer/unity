@@ -13,6 +13,7 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +35,9 @@
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -41,6 +45,10 @@
     <Compile Include="AlwaysMatchingRule.cs" />
     <Compile Include="Barrier.cs" />
     <Compile Include="CallCountHandler.cs" />
+    <Compile Include="CallCountInterceptionBehavior.cs" />
+    <Compile Include="GlobalCountInterceptionBehavior.cs" />
+    <Compile Include="DelegateInterceptionBehavior.cs" />
+    <Compile Include="DelegateInterceptionBehaviorDescriptor.cs" />
     <Compile Include="GlobalCountCallHandler.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="MockBuilderContext.cs" />
@@ -48,6 +56,7 @@
     <Compile Include="MockDatabase.cs" />
     <Compile Include="MockLogger.cs" />
     <Compile Include="MockUnityContainer.cs" />
+    <Compile Include="NaiveINotifyPropertyChangedInterceptionBehavior.cs" />
     <Compile Include="ObjectUsingLogger.cs" />
     <Compile Include="ObjectWithInjectionMethod.cs" />
     <Compile Include="ObjectWithOneConstructorDependency.cs" />

@@ -55,7 +55,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
             Assert.AreEqual("foo", policies[1].Name);
         }
 
-
         [TestMethod]
         [DeploymentItem("Interception.config")]
         public void CanSetUpSeveralEmptyRules()

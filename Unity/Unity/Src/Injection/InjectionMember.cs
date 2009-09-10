@@ -28,16 +28,18 @@ namespace Microsoft.Practices.Unity
         /// <param name="policies">Policy list to add policies to.</param>
         public void AddPolicies(Type typeToCreate, IPolicyList policies)
         {
-            AddPolicies(typeToCreate, null, policies);
+            AddPolicies(null, typeToCreate, null, policies);
         }
 
         /// <summary>
         /// Add policies to the <paramref name="policies"/> to configure the
         /// container to call this constructor with the appropriate parameter values.
         /// </summary>
-        /// <param name="typeToCreate">Type to register.</param>
+        /// <param name="serviceType">Type of interface being registered. If no interface,
+        /// this will be null.</param>
+        /// <param name="implementationType">Type of concrete type being registered.</param>
         /// <param name="name">Name used to resolve the type object.</param>
         /// <param name="policies">Policy list to add policies to.</param>
-        public abstract void AddPolicies(Type typeToCreate, string name, IPolicyList policies);
+        public abstract void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies);
     }
 }

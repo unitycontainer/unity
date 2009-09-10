@@ -48,12 +48,6 @@ namespace Microsoft.Practices.Unity
         public abstract IPolicyList Policies { get; }
 
         /// <summary>
-        /// The <see cref="IReadWriteLocator"/> that this container uses.
-        /// </summary>
-        /// <value>The Locator is an object that is used to store information to be found later during the build process.</value>
-        public abstract IReadWriteLocator Locator { get; }
-
-        /// <summary>
         /// The <see cref="ILifetimeContainer"/> that this container uses.
         /// </summary>
         /// <value>The <see cref="ILifetimeContainer"/> is used to manage <see cref="IDisposable"/> objects that the container is managing.</value>
@@ -65,7 +59,7 @@ namespace Microsoft.Practices.Unity
         /// <remarks>
         /// <para>
         /// When users register type mappings (or other things) with a named key, this method
-        /// allows you to register that name with the container so that when the <see cref="IUnityContainer.ResolveAll{T}"/>
+        /// allows you to register that name with the container so that when the <see cref="IUnityContainer.ResolveAll"/>
         /// method is called, that name is included in the list that is returned.
         /// </para></remarks>
         /// <param name="t"><see cref="Type"/> to register.</param>

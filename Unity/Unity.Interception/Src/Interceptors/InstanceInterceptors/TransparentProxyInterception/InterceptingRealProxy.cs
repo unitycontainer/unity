@@ -10,8 +10,9 @@
 //===============================================================================
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Reflection;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Messaging;
@@ -29,8 +30,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     public class InterceptingRealProxy : RealProxy, IRemotingTypeInfo, IInterceptingProxy
     {
-        private readonly PipelineManager pipelines = new PipelineManager();
+        private readonly InterceptionBehaviorPipeline interceptorsPipeline = new InterceptionBehaviorPipeline();
         private readonly object target;
+        private readonly ReadOnlyCollection<Type> additionalInterfaces;
         private string typeName;
 
         /// <summary>
@@ -39,15 +41,24 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="target">Target object to intercept calls to.</param>
         /// <param name="classToProxy">Type to return as the type being proxied.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
+        /// <param name="additionalInterfaces">Additional interfaces the proxy must implement.</param>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public InterceptingRealProxy(
             object target,
-            Type classToProxy)
+            Type classToProxy,
+            params Type[] additionalInterfaces)
             : base(classToProxy)
         {
             Guard.ArgumentNotNull(target, "target");
             this.target = target;
+            this.additionalInterfaces = CheckAdditionalInterfaces(additionalInterfaces);
             typeName = target.GetType().FullName;
+        }
+
+        private static ReadOnlyCollection<Type> CheckAdditionalInterfaces(Type[] interfaces)
+        {
+            return new ReadOnlyCollection<Type>(interfaces);
         }
 
         /// <summary>
@@ -62,30 +73,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         #region IInterceptingProxy Members
 
         /// <summary>
-        /// Retrieve the pipeline assocated with the requested <paramref name="method"/>.
+        /// Adds a <see cref="IInterceptionBehavior"/> to the proxy.
         /// </summary>
-        /// <param name="method">Method for which the pipeline is being requested.</param>
-        /// <returns>The handler pipeline for the given method. If no pipeline has
-        /// been set, returns a new empty pipeline.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class.")]
-        public HandlerPipeline GetPipeline(MethodBase method)
+        /// <param name="interceptor">The <see cref="IInterceptionBehavior"/> to add.</param>
+        public void AddInterceptionBehavior(IInterceptionBehavior interceptor)
         {
-            Guard.ArgumentNotNull(method, "method");
-            return pipelines.GetPipeline(method.MetadataToken);
-        }
+            Guard.ArgumentNotNull(interceptor, "interceptor");
 
-        /// <summary>
-        /// Set a new pipeline for a method.
-        /// </summary>
-        /// <param name="method">Method to apply the pipeline to.</param>
-        /// <param name="pipeline">The new pipeline.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class.")]
-        public void SetPipeline(MethodBase method, HandlerPipeline pipeline)
-        {
-            Guard.ArgumentNotNull(method, "method");
-            pipelines.SetPipeline(method.MetadataToken, pipeline);
+            this.interceptorsPipeline.Add(interceptor);
         }
 
         #endregion
@@ -111,7 +106,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Guard.ArgumentNotNull(fromType, "fromType");
             Guard.ArgumentNotNull(o, "o");
 
-            if (fromType == typeof (IInterceptingProxy))
+            if (fromType == typeof(IInterceptingProxy))
             {
                 return true;
             }
@@ -120,6 +115,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             {
                 return true;
             }
+
+            foreach (Type @interface in additionalInterfaces)
+            {
+                if (fromType.IsAssignableFrom(@interface))
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
 
@@ -134,9 +138,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         ///<exception cref="T:System.Security.SecurityException">The immediate caller makes the call through a reference to the interface and does not have infrastructure permission. </exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="Infrastructure" /></PermissionSet>
         public string TypeName
         {
-            [method : SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
+            [method: SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
             get { return typeName; }
-            [method : SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
+            [method: SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
             set { typeName = value; }
         }
 
@@ -159,92 +163,58 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             Guard.ArgumentNotNull(msg, "msg");
 
-            IMethodCallMessage callMessage = (IMethodCallMessage) msg;
+            IMethodCallMessage callMessage = (IMethodCallMessage)msg;
 
-            if (callMessage.MethodBase.DeclaringType == typeof (IInterceptingProxy))
+            if (callMessage.MethodBase.DeclaringType == typeof(IInterceptingProxy))
             {
                 return HandleInterceptingProxyMethod(callMessage);
             }
 
-            HandlerPipeline pipeline = GetPipeline(TranslateInterfaceMethod(callMessage.MethodBase));
-
             TransparentProxyMethodInvocation invocation = new TransparentProxyMethodInvocation(callMessage, target);
             IMethodReturn result =
-                pipeline.Invoke(
+                this.interceptorsPipeline.Invoke(
                     invocation,
-                    delegate(IMethodInvocation input, GetNextHandlerDelegate getNext)
+                    delegate(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext)
                     {
-                        try
+                        if (callMessage.MethodBase.DeclaringType.IsAssignableFrom(target.GetType()))
                         {
-                            object returnValue = callMessage.MethodBase.Invoke(target, invocation.Arguments);
-                            return input.CreateMethodReturn(returnValue, invocation.Arguments);
+                            try
+                            {
+                                object returnValue = callMessage.MethodBase.Invoke(target, invocation.Arguments);
+                                return input.CreateMethodReturn(returnValue, invocation.Arguments);
+                            }
+                            catch (TargetInvocationException ex)
+                            {
+                                // The outer exception will always be a reflection exception; we want the inner, which is
+                                // the underlying exception.
+                                return input.CreateExceptionMethodReturn(ex.InnerException);
+                            }
                         }
-                        catch (TargetInvocationException ex)
+                        else
                         {
-                            // The outer exception will always be a reflection exception; we want the inner, which is
-                            // the underlying exception.
-                            return input.CreateExceptionMethodReturn(ex.InnerException);
+                            return input.CreateExceptionMethodReturn(
+                                new InvalidOperationException(Resources.ExceptionAdditionalInterfaceNotImplemented));
                         }
                     });
-            return ((TransparentProxyMethodReturn) result).ToMethodReturnMessage();
+
+            return ((TransparentProxyMethodReturn)result).ToMethodReturnMessage();
         }
 
         private IMessage HandleInterceptingProxyMethod(IMethodCallMessage callMessage)
         {
             switch (callMessage.MethodName)
             {
-            case "GetPipeline":
-                return ExecuteGetPipeline(callMessage);
-            case "SetPipeline":
-                return ExecuteSetPipeline(callMessage);
+                case "AddInterceptionBehavior":
+                    return ExecuteAddInterceptionBehavior(callMessage);
             }
             throw new InvalidOperationException();
         }
 
-        private IMessage ExecuteGetPipeline(IMethodCallMessage callMessage)
+        private IMessage ExecuteAddInterceptionBehavior(IMethodCallMessage callMessage)
         {
-            MethodBase method = (MethodBase) callMessage.InArgs[0];
-            method = TranslateInterfaceMethod(method);
-            HandlerPipeline pipeline = GetPipeline(method);
-            return new ReturnMessage(pipeline, new object[0], 0, callMessage.LogicalCallContext, callMessage);
-        }
-
-        private IMessage ExecuteSetPipeline(IMethodCallMessage callMessage)
-        {
-            MethodBase method = (MethodBase) callMessage.InArgs[0];
-            method = TranslateInterfaceMethod(method);
-            HandlerPipeline pipeline = (HandlerPipeline) callMessage.InArgs[1];
-            SetPipeline(method, pipeline);
+            IInterceptionBehavior interceptor = (IInterceptionBehavior)callMessage.InArgs[0];
+            AddInterceptionBehavior(interceptor);
             return new ReturnMessage(null, new object[0], 0, callMessage.LogicalCallContext, callMessage);
-        }
-
-        /// <summary>
-        /// Given a MethodBase, if it's for an interface method, return the MethodBase
-        /// for the method that implements the interface method. If it's not an
-        /// interface method, do nothing.
-        /// </summary>
-        /// <param name="method">Original Method</param>
-        /// <returns>The implementing method.</returns>
-        private MethodBase TranslateInterfaceMethod(MethodBase method)
-        {
-            // TODO: Figure out what to do with the module!
-            if (!method.DeclaringType.IsInterface)
-            {
-                return method;
-            }
-
-            InterfaceMapping map = target.GetType().GetInterfaceMap(method.DeclaringType);
-            for (int i = 0; i < map.InterfaceMethods.Length; ++i)
-            {
-                if (map.InterfaceMethods[i] == method)
-                {
-                    return map.TargetMethods[i];
-                }
-            }
-
-            throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
-                Resources.InterfaceMethodNotImplemented,
-                method.DeclaringType.Name, method.Name, target.GetType().Name));
         }
     }
 }

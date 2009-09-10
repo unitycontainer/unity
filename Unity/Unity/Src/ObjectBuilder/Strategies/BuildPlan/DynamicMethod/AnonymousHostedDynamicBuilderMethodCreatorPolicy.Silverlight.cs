@@ -11,7 +11,6 @@
 
 using System;
 using System.Reflection.Emit;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {

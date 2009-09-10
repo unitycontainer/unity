@@ -21,47 +21,14 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanConfigureContainerToCallDefaultConstructor()
         {
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<GuineaPig>(
-                        new InjectionConstructor())
-                    .Container;
+                .RegisterType<GuineaPig>(new InjectionConstructor());
 
-            GuineaPig pig = container.Resolve<GuineaPig>();
-            Assert.IsTrue(pig.DefaultConstructorCalled);
-        }
-
-        [TestMethod]
-        public void CanConfigureInjectionThroughRegisterTypeMethod()
-        {
-            IUnityContainer container = new UnityContainer()
-                .RegisterType<GuineaPig>(
-                new InjectionConstructor());
             GuineaPig pig = container.Resolve<GuineaPig>();
             Assert.IsTrue(pig.DefaultConstructorCalled);
         }
 
         [TestMethod]
         public void CanConfigureContainerToCallConstructorWithValues()
-        {
-            int expectedInt = 37;
-            string expectedString = "Hey there";
-            double expectedDouble = Math.PI;
-
-            IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<GuineaPig>(
-                            new InjectionConstructor(expectedInt, expectedString, expectedDouble))
-                    .Container;
-
-            GuineaPig pig = container.Resolve<GuineaPig>();
-            Assert.IsTrue(pig.ThreeArgumentConstructorCalled);
-            Assert.AreEqual(expectedInt, pig.I);
-            Assert.AreEqual(expectedDouble, pig.D);
-            Assert.AreEqual(expectedString, pig.S);
-        }
-
-        [TestMethod]
-        public void CanConfigureContainerToCallConstructorWithValuesThroughRegisterTypeCall()
         {
             int expectedInt = 37;
             string expectedString = "Hey there";
@@ -76,7 +43,6 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.AreEqual(expectedInt, pig.I);
             Assert.AreEqual(expectedDouble, pig.D);
             Assert.AreEqual(expectedString, pig.S);
-            
         }
 
         [TestMethod]
@@ -86,11 +52,9 @@ namespace Microsoft.Practices.Unity.Tests
 
             IUnityContainer container = new UnityContainer()
                 .RegisterInstance<object>(expectedObject)
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<GuineaPig>(
+                .RegisterType<GuineaPig>(
                         new InjectionConstructor(),
-                        new InjectionProperty("ObjectProperty"))
-                    .Container;
+                        new InjectionProperty("ObjectProperty"));
 
             GuineaPig pig = container.Resolve<GuineaPig>();
             Assert.IsTrue(pig.DefaultConstructorCalled);
@@ -103,11 +67,9 @@ namespace Microsoft.Practices.Unity.Tests
             int expectedInt = 82;
 
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<GuineaPig>(
+                .RegisterType<GuineaPig>(
                         new InjectionConstructor(),
-                        new InjectionProperty("IntProperty", expectedInt))
-                    .Container;
+                        new InjectionProperty("IntProperty", expectedInt));
 
             GuineaPig pig = container.Resolve<GuineaPig>();
 
@@ -122,14 +84,12 @@ namespace Microsoft.Practices.Unity.Tests
             object expectedObjectOne = new object();
 
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor(typeof(GuineaPig), "one",
-                        new InjectionConstructor(expectedObjectOne),
-                        new InjectionProperty("IntProperty", 35))
-                    .ConfigureInjectionFor(typeof(GuineaPig),
-                        new InjectionConstructor(),
-                        new InjectionProperty("ObjectProperty", new ResolvedParameter(typeof(object), "zero")))
-                    .Container
+                .RegisterType(typeof(GuineaPig), "one",
+                    new InjectionConstructor(expectedObjectOne),
+                    new InjectionProperty("IntProperty", 35))
+                .RegisterType(typeof(GuineaPig),
+                    new InjectionConstructor(),
+                    new InjectionProperty("ObjectProperty", new ResolvedParameter(typeof(object), "zero")))
                 .RegisterInstance<object>("zero", expectedObjectZero);
 
             GuineaPig pigZero = container.Resolve<GuineaPig>();
@@ -148,11 +108,9 @@ namespace Microsoft.Practices.Unity.Tests
             string expectedString = "expected string";
 
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<GuineaPig>(
+                .RegisterType<GuineaPig>(
                         new InjectionConstructor(),
-                        new InjectionMethod("InjectMeHerePlease", expectedString))
-                    .Container;
+                        new InjectionMethod("InjectMeHerePlease", expectedString));
 
             GuineaPig pig = container.Resolve<GuineaPig>();
 
@@ -164,15 +122,11 @@ namespace Microsoft.Practices.Unity.Tests
         public void ConfiguringInjectionAfterResolvingTakesEffect()
         {
             IUnityContainer container = new UnityContainer()
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<GuineaPig>(
-                        new InjectionConstructor())
-                .Container;
+                .RegisterType<GuineaPig>(new InjectionConstructor());
 
             container.Resolve<GuineaPig>();
 
-            container.Configure<InjectedMembers>()
-                .ConfigureInjectionFor<GuineaPig>(
+            container.RegisterType<GuineaPig>(
                 new InjectionConstructor(new InjectionParameter(typeof(object), "foo")));
 
             GuineaPig pig2 = container.Resolve<GuineaPig>();
@@ -181,29 +135,20 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void ConfiguringInjectionConstructorThatDoesNotExistThrows()
         {
             IUnityContainer container = new UnityContainer();
-            try
-            {
-                container.Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<GuineaPig>(
-                    new InjectionConstructor(typeof (string), typeof (string)));
-            }
-            catch(InvalidOperationException)
-            {
-                return; // If we get here, test passes
-            }
-            Assert.Fail("Expected exception did not occur");
+            container.RegisterType<GuineaPig>(
+                new InjectionConstructor(typeof (string), typeof (string)));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ConfigureInjectionForThrowsIfTypeIsNull()
+        public void RegisterTypeThrowsIfTypeIsNull()
         {
             IUnityContainer container = new UnityContainer();
-            container.Configure<InjectedMembers>()
-                .ConfigureInjectionFor(null);
+            container.RegisterType(null);
         }
 
         public class GuineaPig

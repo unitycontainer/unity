@@ -81,20 +81,7 @@ namespace Microsoft.Practices.Unity.Tests
 
         // http://www.codeplex.com/unity/Thread/View.aspx?ThreadId=30292
         [TestMethod]
-        public void CanFigureGenericDictionaryForInjection()
-        {
-            IUnityContainer container = new UnityContainer()
-                .RegisterType(typeof (IDictionary<,>), typeof (Dictionary<,>))
-                .Configure<InjectedMembers>()
-                .ConfigureInjectionFor(typeof (Dictionary<,>),
-                                       new InjectionConstructor())
-                .Container;
-
-            IDictionary<string, string> result = container.Resolve<IDictionary<string, string>>();
-        }
-
-        [TestMethod]
-        public void CanFigureGenericDictionaryForInjectionUsingRegisterType()
+        public void CanConfigureGenericDictionaryForInjectionUsingRegisterType()
         {
             IUnityContainer container = new UnityContainer()
                 .RegisterType(typeof(IDictionary<,>), typeof(Dictionary<,>),

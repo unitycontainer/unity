@@ -16,7 +16,6 @@ using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Properties;
-using Microsoft.Practices.Unity.Utility;
 using Guard = Microsoft.Practices.Unity.Utility.Guard;
 
 namespace Microsoft.Practices.Unity
@@ -54,27 +53,29 @@ namespace Microsoft.Practices.Unity
             this.propertyName = propertyName;
             this.parameterValue = InjectionParameterValue.ToParameter(propertyValue);
         }
+
         /// <summary>
         /// Add policies to the <paramref name="policies"/> to configure the
         /// container to call this constructor with the appropriate parameter values.
         /// </summary>
-        /// <param name="typeToCreate">Type to register.</param>
+        /// <param name="serviceType">Interface being registered, ignored in this implemenation.</param>
+        /// <param name="implementationType">Type to register.</param>
         /// <param name="name">Name used to resolve the type object.</param>
         /// <param name="policies">Policy list to add policies to.</param>
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation is done via Guard class")]
-        public override void AddPolicies(Type typeToCreate, string name, IPolicyList policies)
+        public override void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
         {
-            Guard.ArgumentNotNull(typeToCreate, "typeToCreate");
-            PropertyInfo propInfo = typeToCreate.GetProperty(propertyName);
-            GuardPropertyExists(propInfo, typeToCreate, propertyName);
+            Guard.ArgumentNotNull(implementationType, "implementationType");
+            PropertyInfo propInfo = implementationType.GetProperty(propertyName);
+            GuardPropertyExists(propInfo, implementationType, propertyName);
             GuardPropertyIsSettable(propInfo);
             GuardPropertyIsNotIndexer(propInfo);
             InitializeParameterValue(propInfo);
             GuardPropertyValueIsCompatible(propInfo, parameterValue);
 
             SpecifiedPropertiesSelectorPolicy selector =
-                GetSelectorPolicy(policies, typeToCreate, name);
+                GetSelectorPolicy(policies, implementationType, name);
 
             selector.AddPropertyAndValue(propInfo, parameterValue);
         }

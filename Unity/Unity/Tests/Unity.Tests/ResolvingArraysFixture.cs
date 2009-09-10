@@ -11,7 +11,6 @@
 
 using System.Collections.Generic;
 using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -22,6 +21,18 @@ namespace Microsoft.Practices.Unity.Tests
     [TestClass]
     public class ResolvingArraysFixture
     {
+        [TestMethod]
+        public void ContainerCanResolveListOfT()
+        {
+            IUnityContainer container = new UnityContainer();
+
+            container.RegisterType(typeof(List<>), new InjectionConstructor());
+
+            var result = container.Resolve<List<EmptyClass>>();
+
+            Assert.IsNotNull(result);
+        }
+
         [TestMethod]
         public void ContainerReturnsEmptyArrayIfNoObjectsRegistered()
         {
@@ -172,7 +183,7 @@ namespace Microsoft.Practices.Unity.Tests
             strategies.Add(new ReturnContainerStrategy(container));
             PolicyList persistentPolicies = new PolicyList();
             PolicyList transientPolicies = new PolicyList(persistentPolicies);
-            return new BuilderContext(strategies, null, null, persistentPolicies, transientPolicies, buildKey, null);
+            return new BuilderContext(strategies, null, persistentPolicies, transientPolicies, buildKey, null);
         }
 
         class InjectedObjectConfigurationExtension : UnityContainerExtension
@@ -219,6 +230,10 @@ namespace Microsoft.Practices.Unity.Tests
             {
                 this.injectedValue = injectedValue;
             }
+        }
+
+        public class EmptyClass
+        {
         }
     }
 

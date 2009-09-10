@@ -56,9 +56,6 @@
   <ItemGroup>
     <Compile Include="BuilderAwareStrategyTest.cs" />
     <Compile Include="BuilderContextTest.cs" />
-    <Compile Include="BuilderTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BuildKeyMappingPolicyTest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -69,13 +66,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LifetimeStrategyTest.cs" />
-    <Compile Include="LocatorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="PolicyListTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ReadOnlyLocatorTest.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="RecoveryFixture.cs" />
@@ -87,9 +78,6 @@
     <Compile Include="Utility\AssertActualExpectedException.cs" />
     <Compile Include="Utility\AssertHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WeakRefDictionaryTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />

@@ -38,7 +38,7 @@ namespace Microsoft.Practices.Unity
         /// <param name="typeRequested">Type requested from the container.</param>
         /// <param name="nameRequested">Name requested from the container.</param>
         /// <param name="innerException">The actual exception that caused the failure of the build.</param>
-        /// <param name="context"></param>
+        /// <param name="context">The build context representing the failed operation.</param>
         public ResolutionFailedException(Type typeRequested, string nameRequested, Exception innerException, IBuilderContext context)
             : base(CreateMessage(typeRequested, nameRequested, innerException, context), innerException)
         {
@@ -90,7 +90,7 @@ namespace Microsoft.Practices.Unity
             {
                 var indentation = new string(' ', depth * 2);
                 var key = (NamedTypeBuildKey)context.BuildKey;
-                var originalKey = (NamedTypeBuildKey) context.OriginalBuildKey;
+                var originalKey = (NamedTypeBuildKey)context.OriginalBuildKey;
 
                 builder.Append(indentation);
 
@@ -133,12 +133,12 @@ namespace Microsoft.Practices.Unity
         private static string ExceptionReason(IBuilderContext context)
         {
             var deepestContext = context;
-            while(deepestContext.ChildContext != null)
+            while (deepestContext.ChildContext != null)
             {
                 deepestContext = deepestContext.ChildContext;
             }
 
-            if(deepestContext.CurrentOperation != null)
+            if (deepestContext.CurrentOperation != null)
             {
                 return deepestContext.CurrentOperation.ToString();
             }

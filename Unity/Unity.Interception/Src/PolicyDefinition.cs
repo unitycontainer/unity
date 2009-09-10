@@ -41,14 +41,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private PolicyDefinition UpdateRuleDrivenPolicyInjection()
         {
             this.extension.Container
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<RuleDrivenPolicy>(
-                        this.policyName,
-                        new InjectionConstructor(
-                            this.policyName,
-                            new ResolvedArrayParameter<IMatchingRule>(this.rulesParameters.ToArray()),
-                            this.handlersNames.ToArray()));
-
+                .RegisterType<RuleDrivenPolicy>(policyName,
+                    new InjectionConstructor(policyName,
+                        new ResolvedArrayParameter<IMatchingRule>(rulesParameters.ToArray()),
+                        handlersNames.ToArray()));
             return this;
         }
 

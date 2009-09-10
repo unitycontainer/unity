@@ -9,6 +9,8 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System;
+using System.Collections.Generic;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace Microsoft.Practices.Unity.TestSupport
@@ -16,22 +18,18 @@ namespace Microsoft.Practices.Unity.TestSupport
     public class MockBuilderContext : IBuilderContext
     {
         ILifetimeContainer lifetime = new LifetimeContainer();
-        IReadWriteLocator locator;
         object originalBuildKey = null;
         private IPolicyList persistentPolicies;
         IPolicyList policies;
         StrategyChain strategies = new StrategyChain();
+        private CompositeResolverOverride resolverOverrides = new CompositeResolverOverride();
 
         private object buildKey = null;
         private object existing = null;
         private IRecoveryStack recoveryStack = new RecoveryStack();
 
         public MockBuilderContext()
-            : this(new Locator()) { }
-
-        public MockBuilderContext(IReadWriteLocator locator)
         {
-            this.locator = locator;
             this.persistentPolicies = new PolicyList();
             this.policies = new PolicyList(persistentPolicies);
         }
@@ -39,11 +37,6 @@ namespace Microsoft.Practices.Unity.TestSupport
         public ILifetimeContainer Lifetime
         {
             get { return lifetime; }
-        }
-
-        public IReadWriteLocator Locator
-        {
-            get { return locator; }
         }
 
         public object OriginalBuildKey
@@ -96,9 +89,19 @@ namespace Microsoft.Practices.Unity.TestSupport
 
         public IBuilderContext ChildContext { get; set; }
 
+        public void AddResolverOverrides(IEnumerable<ResolverOverride> newOverrides)
+        {
+            resolverOverrides.AddRange(newOverrides);
+        }
+
+        public IDependencyResolverPolicy GetOverriddenResolver(Type dependencyType)
+        {
+            return resolverOverrides.GetResolver(this, dependencyType);
+        }
+
         public IBuilderContext CloneForNewBuild(object newBuildKey, object newExistingObject)
         {
-            var newContext = new MockBuilderContext(Locator)
+            var newContext = new MockBuilderContext
                                  {
                                      strategies = strategies,
                                      persistentPolicies = persistentPolicies,
@@ -108,6 +111,8 @@ namespace Microsoft.Practices.Unity.TestSupport
                                      buildKey = newBuildKey,
                                      existing = newExistingObject
                                  };
+            newContext.resolverOverrides.Add(resolverOverrides);
+
             return newContext;
         }
 

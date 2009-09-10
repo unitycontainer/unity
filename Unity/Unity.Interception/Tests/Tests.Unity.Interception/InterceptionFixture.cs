@@ -555,24 +555,17 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 .RegisterInstance<ICallHandler>(
                     "childCallHandler",
                     new GlobalCountCallHandler("child"))
-                .RegisterType<InjectionPolicy, RuleDrivenPolicy>("parentPolicy")
-                .RegisterType<InjectionPolicy, RuleDrivenPolicy>("childPolicy")
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<RuleDrivenPolicy>(
-                        "parentPolicy",
-                        new InjectionConstructor(
-                            new ResolvedArrayParameter<IMatchingRule>(
-                                new ResolvedParameter<IMatchingRule>("parentRule")),
-                            new string[] { "parentCallHandler" }))
-                    .ConfigureInjectionFor<RuleDrivenPolicy>(
-                        "childPolicy",
-                        new InjectionConstructor(
-                            new ResolvedArrayParameter<IMatchingRule>(
-                                new ResolvedParameter<IMatchingRule>("childRule")),
-                            new string[] { "childCallHandler" }))
-                    .ConfigureInjectionFor<WrappableWithProperty>(
-                        new InjectionProperty("Wrappable"))
-                    .Container
+                .RegisterType<InjectionPolicy, RuleDrivenPolicy>("parentPolicy",
+                    new InjectionConstructor(
+                        new ResolvedArrayParameter<IMatchingRule>(
+                            new ResolvedParameter<IMatchingRule>("parentRule")),
+                        new string[] { "parentCallHandler" }))
+                .RegisterType<InjectionPolicy, RuleDrivenPolicy>("childPolicy",
+                    new InjectionConstructor(
+                        new ResolvedArrayParameter<IMatchingRule>(
+                            new ResolvedParameter<IMatchingRule>("childRule")),
+                        new string[] { "childCallHandler" }))
+                .RegisterType<WrappableWithProperty>(new InjectionProperty("Wrappable"))
                 .Configure<Interception>()
                     .SetDefaultInterceptorFor<WrappableWithProperty>(new TransparentProxyInterceptor())
                     .SetDefaultInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
@@ -616,14 +609,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 new GlobalCountCallHandler(globalCallHandlerName));
 
             container
-                .RegisterType<InjectionPolicy, RuleDrivenPolicy>("policy")
-                .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<RuleDrivenPolicy>(
-                        "policy",
-                        new InjectionConstructor(
-                            new ResolvedArrayParameter<IMatchingRule>(
-                                new ResolvedParameter<IMatchingRule>("alwaystrue")),
-                            new string[] { "globalCountHandler" }));
+                .RegisterType<InjectionPolicy, RuleDrivenPolicy>("policy",
+                    new InjectionConstructor(
+                        new ResolvedArrayParameter<IMatchingRule>(
+                            new ResolvedParameter<IMatchingRule>("alwaystrue")),
+                        new string[] { "globalCountHandler" }));
 
             return container;
         }

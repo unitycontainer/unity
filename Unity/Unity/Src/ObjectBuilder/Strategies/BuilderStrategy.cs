@@ -12,7 +12,7 @@
 namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
-    /// Represents a strategy in the <see cref="IBuilder"/>'s chain of responsibility.
+    /// Represents a strategy in the chain of responsibility.
     /// Strategies are required to support both BuildUp and TearDown.
     /// </summary>
 	public abstract class BuilderStrategy : IBuilderStrategy
@@ -52,7 +52,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// PostTearDown method is called when the chain has finished the PreTearDown
         /// phase and executes in reverse order from the PreTearDown calls.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">Context of the teardown operation.</param>
         public virtual void PostTearDown(IBuilderContext context)
         {
         }

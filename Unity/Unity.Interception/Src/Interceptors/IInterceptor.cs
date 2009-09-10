@@ -11,7 +11,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -25,7 +25,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="t">Type to check.</param>
         /// <returns>True if interception is possible, false if not.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
         bool CanIntercept(Type t);
 
         /// <summary>
@@ -35,18 +35,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="interceptedType">Type that was specified when this interceptor
         /// was created (typically an interface).</param>
         /// <param name="implementationType">The concrete type of the implementing object.</param>
-        /// <returns>Sequence of <see cref="MethodInfo"/> objects.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Interceptable")]
+        /// <returns>Sequence of <see cref="MethodImplementationInfo"/> objects.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Interceptable")]
         IEnumerable<MethodImplementationInfo> GetInterceptableMethods(Type interceptedType, Type implementationType);
-
-        /// <summary>
-        /// Given a <see cref="MethodImplementationInfo"/>, return the appropriate
-        /// <see cref="MethodInfo"/> object to use to attach a <see cref="HandlerPipeline"/>
-        /// to so that the handlers will get called when the method gets called.
-        /// </summary>
-        /// <param name="methodInfo">Original <see cref="MethodImplementationInfo"/> object that
-        /// combines the <see cref="MethodInfo"/>s for an interface method and the corresponding implementation.</param>
-        /// <returns>The <see cref="MethodInfo"/> object to pass to the <see cref="IInterceptingProxy.SetPipeline"/> method.</returns>
-        MethodInfo MethodInfoForPipeline(MethodImplementationInfo methodInfo);
     }
 }

@@ -14,18 +14,18 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// <summary>
     /// Represents a builder policy for mapping build keys.
     /// </summary>
-	public class BuildKeyMappingPolicy : IBuildKeyMappingPolicy
-	{
-		readonly object newBuildKey;
+    public class BuildKeyMappingPolicy : IBuildKeyMappingPolicy
+    {
+        readonly object newBuildKey;
 
         /// <summary>
         /// Initialize a new instance of the <see cref="BuildKeyMappingPolicy"/> with the new build key.
         /// </summary>
-        /// <param name="newBuildKey"></param>
-		public BuildKeyMappingPolicy(object newBuildKey)
-		{
-			this.newBuildKey = newBuildKey;
-		}
+        /// <param name="newBuildKey">The new build key.</param>
+        public BuildKeyMappingPolicy(object newBuildKey)
+        {
+            this.newBuildKey = newBuildKey;
+        }
 
         /// <summary>
         /// Map the <paramref name="buildKey"/> to a new build key.
@@ -33,8 +33,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="buildKey">The build key to mapl</param>
         /// <returns>The new build key.</returns>
         public object Map(object buildKey)
-		{
-			return newBuildKey;
-		}
-	}
+        {
+            return newBuildKey;
+        }
+    }
 }

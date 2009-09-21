@@ -20,26 +20,17 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// responsible for generating the error string required when
     /// an error has occurred.
     /// </summary>
-    public class InvokingConstructorOperation
+    public class InvokingConstructorOperation : BuildOperation
     {
-        private readonly Type typeBeingConstructed;
         private readonly string constructorSignature;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InvokingConstructorOperation"/> class.
         /// </summary>
         public InvokingConstructorOperation(Type typeBeingConstructed, string constructorSignature)
+            : base(typeBeingConstructed)
         {
-            this.typeBeingConstructed = typeBeingConstructed;
             this.constructorSignature = constructorSignature;
-        }
-
-        /// <summary>
-        /// The type currently being constructed.
-        /// </summary>
-        public Type TypeBeingConstructed
-        {
-            get { return typeBeingConstructed; }
         }
 
         /// <summary>

@@ -10,30 +10,31 @@
 //===============================================================================
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace Microsoft.Practices.Unity
 {
     /// <summary>
-    /// A <see cref="ResolverOverride"/> class that lets you
-    /// override a named parameter passed to a constructor.
+    /// A <see cref="ResolverOverride"/> that lets you override
+    /// the value for a specified property.
     /// </summary>
-    public class ParameterOverride : ResolverOverride
+    public class PropertyOverride : ResolverOverride
     {
-        private readonly string parameterName;
-        private readonly InjectionParameterValue parameterValue;
+        private readonly string propertyName;
+        private readonly InjectionParameterValue propertyValue;
 
-        /// <summary>
-        /// Construct a new <see cref="ParameterOverride"/> object that will
-        /// override the given named constructor parameter, and pass the given
-        /// value.
-        /// </summary>
-        /// <param name="parameterName">Name of the constructor parameter.</param>
-        /// <param name="parameterValue">Value to pass for the constructor.</param>
-        public ParameterOverride(string parameterName, object parameterValue)
+        ///<summary>
+        /// Create an instance of <see cref="PropertyOverride"/>.
+        ///</summary>
+        ///<param name="propertyName">The property name.</param>
+        ///<param name="propertyValue">Value to use for the property.</param>
+        public PropertyOverride(string propertyName, object propertyValue)
         {
-            this.parameterName = parameterName;
-            this.parameterValue = InjectionParameterValue.ToParameter(parameterValue);
+            this.propertyName = propertyName;
+            this.propertyValue = InjectionParameterValue.ToParameter(propertyValue);
         }
 
         /// <summary>
@@ -45,14 +46,13 @@ namespace Microsoft.Practices.Unity
         /// <returns>a <see cref="IDependencyResolverPolicy"/> object if this override applies, null if not.</returns>
         public override IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType)
         {
-            var currentOperation = context.CurrentOperation as ConstructorArgumentResolveOperation;
+            var currentOperation = context.CurrentOperation as ResolvingPropertyValueOperation;
 
-            if (currentOperation != null &&
-                currentOperation.ParameterName == parameterName)
+            if(currentOperation != null
+                && currentOperation.PropertyName == propertyName)
             {
-                return parameterValue.GetResolverPolicy(dependencyType);
+                return propertyValue.GetResolverPolicy(dependencyType);   
             }
-
             return null;
         }
     }

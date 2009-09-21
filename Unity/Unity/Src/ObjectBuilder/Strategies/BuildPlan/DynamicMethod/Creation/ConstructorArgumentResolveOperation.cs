@@ -22,9 +22,8 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// being resolved, and is responsible for generating the error string required when
     /// an error has occurred.
     /// </summary>
-    public class ConstructorArgumentResolveOperation
+    public class ConstructorArgumentResolveOperation : BuildOperation
     {
-        private readonly Type typeBeingConstructed;
         private readonly string constructorSignature;
         private readonly string parameterName;
 
@@ -35,8 +34,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="constructorSignature">A string representing the constructor being called.</param>
         /// <param name="parameterName">Parameter being resolved.</param>
         public ConstructorArgumentResolveOperation(Type typeBeingConstructed, string constructorSignature, string parameterName)
+            : base(typeBeingConstructed)
         {
-            this.typeBeingConstructed = typeBeingConstructed;
             this.constructorSignature = constructorSignature;
             this.parameterName = parameterName;
         }
@@ -50,14 +49,6 @@ namespace Microsoft.Practices.ObjectBuilder2
             return string.Format(CultureInfo.CurrentUICulture,
                 Resources.ConstructorArgumentResolveOperation,
                 parameterName, constructorSignature);
-        }
-
-        ///<summary>
-        /// The type that's currently being built.
-        ///</summary>
-        public Type TypeBeingConstructed
-        {
-            get { return typeBeingConstructed; }
         }
 
         /// <summary>

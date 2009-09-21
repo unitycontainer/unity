@@ -65,10 +65,13 @@
     <Compile Include="Lifetime\HierarchicalLifetimeManager.cs" />
     <Compile Include="ObjectBuilderCustomization\HierarchicalLifetimeStrategy.cs" />
     <Compile Include="ObjectBuilderCustomization\OptionalDependencyResolverPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\BuildOperation.cs" />
     <Compile Include="ObjectBuilder\Utility\EnumerableExtensions.cs" />
     <Compile Include="ParameterOverride.cs" />
     <Compile Include="ParameterOverrides.cs" />
     <Compile Include="OverrideCollection.cs" />
+    <Compile Include="PropertyOverride.cs" />
+    <Compile Include="PropertyOverrides.cs" />
     <Compile Include="ResolverOverride.cs" />
     <Compile Include="StaticFactory\IStaticFactoryConfiguration.cs" />
     <Compile Include="ObjectBuilder\BuilderContext.cs" />
@@ -145,6 +148,7 @@
     <Compile Include="ObjectBuilder\Utility\Sequence.cs" />
     <Compile Include="ResolutionFailedException.Desktop.cs" />
     <Compile Include="StaticFactory\StaticFactoryExtension.cs" />
+    <Compile Include="TypeBasedOverride.cs" />
     <Compile Include="UnityContainerExtensions.cs" />
     <Compile Include="UnityDefaultStrategiesExtension.Desktop.cs" />
     <Compile Include="Extension\ExtensionContext.cs" />

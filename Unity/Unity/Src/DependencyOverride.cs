@@ -10,11 +10,7 @@
 //===============================================================================
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity
@@ -26,8 +22,8 @@ namespace Microsoft.Practices.Unity
     /// </summary>
     public class DependencyOverride : ResolverOverride
     {
+        private readonly InjectionParameterValue dependencyValue;
         private readonly Type typeToConstruct;
-        private readonly object dependencyValue;
 
         /// <summary>
         /// Create an instance of <see cref="DependencyOverride"/> to override
@@ -39,7 +35,7 @@ namespace Microsoft.Practices.Unity
         {
             Guard.InstanceIsAssignable(typeToConstruct, dependencyValue, "dependencyValue");
             this.typeToConstruct = typeToConstruct;
-            this.dependencyValue = dependencyValue;
+            this.dependencyValue = InjectionParameterValue.ToParameter(dependencyValue);
         }
 
         /// <summary>
@@ -52,9 +48,9 @@ namespace Microsoft.Practices.Unity
         public override IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType)
         {
             IDependencyResolverPolicy result = null;
-            if(dependencyType == typeToConstruct)
+            if (dependencyType == typeToConstruct)
             {
-                result = new LiteralValueDependencyResolverPolicy(dependencyValue);
+                result = dependencyValue.GetResolverPolicy(dependencyType);
             }
             return result;
         }
@@ -72,9 +68,8 @@ namespace Microsoft.Practices.Unity
         /// override the given dependency, and pass the given value.
         /// </summary>
         public DependencyOverride(object dependencyValue)
-            : base(typeof(T), dependencyValue)
+            : base(typeof (T), dependencyValue)
         {
-            
         }
     }
 }

@@ -97,18 +97,15 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void ChildExtensionDoesntAffectParent()
         {
+            bool factoryWasCalled = false;
+
             UnityContainer parent = new UnityContainer();
             IUnityContainer child = parent.CreateChildContainer()
-                .AddNewExtension<StaticFactoryExtension>();
-
-            bool factoryWasCalled = false;
-            child.Configure<IStaticFactoryConfiguration>()
-                .RegisterFactory<object>(
-                delegate
+                .RegisterType<object>(new InjectionFactory(c => 
                 {
                     factoryWasCalled = true;
                     return new object();
-                });
+                }));
 
             parent.Resolve<object>();
             Assert.IsFalse(factoryWasCalled);

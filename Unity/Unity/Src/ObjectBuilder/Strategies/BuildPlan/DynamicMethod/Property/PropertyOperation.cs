@@ -19,26 +19,17 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// A base class that holds the information shared by all operations
     /// performed by the container while setting properties.
     /// </summary>
-    public abstract class PropertyOperation
+    public abstract class PropertyOperation : BuildOperation
     {
-        private readonly Type typeBeingConstructed;
         private readonly string propertyName;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.
         /// </summary>
         protected PropertyOperation(Type typeBeingConstructed, string propertyName)
+            : base(typeBeingConstructed)
         {
-            this.typeBeingConstructed = typeBeingConstructed;
             this.propertyName = propertyName;
-        }
-
-        /// <summary>
-        /// The type currently being build up.
-        /// </summary>
-        public Type TypeBeingConstructed
-        {
-            get { return typeBeingConstructed; }
         }
 
         /// <summary>
@@ -57,7 +48,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             return string.Format(CultureInfo.CurrentCulture,
                 GetDescriptionFormat(),
-                typeBeingConstructed.Name, propertyName);
+                TypeBeingConstructed.Name, propertyName);
         }
 
         /// <summary>

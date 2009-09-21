@@ -127,6 +127,35 @@ namespace Microsoft.Practices.Unity.TestSupport
             return clone.Strategies.ExecuteBuildUp(clone);
         }
 
+        /// <summary>
+        /// A convenience method to do a new buildup operation on an existing context. This
+        /// overload allows you to specify extra policies which will be in effect for the duration
+        /// of the build.
+        /// </summary>
+        /// <param name="newBuildKey">Key defining what to build up.</param>
+        /// <param name="policyAdderBlock">A delegate that takes a <see cref="IPolicyList"/>. This
+        /// is invoked before the build up process starts to give callers the opportunity to add
+        /// custom policies to the build process.</param>
+        /// <returns>Created object.</returns>
+        public object NewBuildUp(object newBuildKey, Action<IPolicyList> policyAdderBlock)
+        {
+            var newContext = new MockBuilderContext
+            {
+                strategies = strategies,
+                persistentPolicies = persistentPolicies,
+                policies = new PolicyList(persistentPolicies),
+                lifetime = lifetime,
+                originalBuildKey = buildKey,
+                buildKey = newBuildKey,
+                existing = null
+            };
+            policyAdderBlock(newContext.Policies);
+
+            newContext.resolverOverrides.Add(resolverOverrides);
+
+            return strategies.ExecuteBuildUp(newContext);
+        }
+
         public object ExecuteBuildUp(object buildKey, object existing)
         {
             this.BuildKey = buildKey;

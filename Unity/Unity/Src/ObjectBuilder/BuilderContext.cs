@@ -216,20 +216,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <summary>
         /// A convenience method to do a new buildup operation on an existing context.
         /// </summary>
-        /// <remarks>This helper is specific to NamedTypeBuildKey.</remarks>
-        /// <typeparam name="T">Type to return from the buildup.</typeparam>
-        /// <param name="context">Existing context.</param>
-        /// <returns>The built up object.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp",
-            Justification = "Kept for backward compatibility with ObjectBuilder")]
-        public static T NewBuildUp<T>(IBuilderContext context)
-        {
-            return (T)context.NewBuildUp(NamedTypeBuildKey.Make<T>());
-        }
-
-        /// <summary>
-        /// A convenience method to do a new buildup operation on an existing context.
-        /// </summary>
         /// <param name="newBuildKey">Key to use to build up.</param>
         /// <returns>Created object.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp",
@@ -238,6 +224,33 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             this.ChildContext =
                 new BuilderContext(chain, lifetime, persistentPolicies, policies, newBuildKey, null);
+
+            ChildContext.AddResolverOverrides(Sequence.Collect(resolverOverrides));
+
+            object result = this.ChildContext.Strategies.ExecuteBuildUp(this.ChildContext);
+
+            this.ChildContext = null;
+
+            return result;
+        }
+
+        /// <summary>
+        /// A convenience method to do a new buildup operation on an existing context. This
+        /// overload allows you to specify extra policies which will be in effect for the duration
+        /// of the build.
+        /// </summary>
+        /// <param name="newBuildKey">Key defining what to build up.</param>
+        /// <param name="policyAdderBlock">A delegate that takes a <see cref="IPolicyList"/>. This
+        /// is invoked before the build up process starts to give callers the opportunity to add
+        /// custom policies to the build process.</param>
+        /// <returns>Created object.</returns>
+        public object NewBuildUp(object newBuildKey, Action<IPolicyList> policyAdderBlock)
+        {
+            PolicyList childPolicies = new PolicyList(persistentPolicies);
+            policyAdderBlock(childPolicies);
+
+            this.ChildContext =
+                new BuilderContext(chain, lifetime, persistentPolicies, childPolicies, newBuildKey, null);
 
             ChildContext.AddResolverOverrides(Sequence.Collect(resolverOverrides));
 

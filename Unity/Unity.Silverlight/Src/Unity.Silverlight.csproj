@@ -274,6 +274,9 @@
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\BuildKeyMapping\IBuildKeyMappingPolicy.cs">
       <Link>Unity\ObjectBuilder\Strategies\BuildKeyMapping\IBuildKeyMappingPolicy.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\BuildPlan\BuildOperation.cs">
+      <Link>Unity\ObjectBuilder\Strategies\BuildPlan\BuildOperation.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\BuildPlan\BuildPlanStrategy.cs">
       <Link>Unity\ObjectBuilder\Strategies\BuildPlan\BuildPlanStrategy.cs</Link>
     </Compile>
@@ -439,6 +442,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="..\..\Unity\Src\PropertyOverride.cs">
+      <Link>Unity\PropertyOverride.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\PropertyOverrides.cs">
+      <Link>Unity\PropertyOverrides.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Src\ResolutionFailedException.cs">
       <Link>Unity\ResolutionFailedException.cs</Link>
     </Compile>
@@ -450,6 +459,9 @@
     </Compile>
     <Compile Include="..\..\Unity\Src\StaticFactory\StaticFactoryExtension.cs">
       <Link>Unity\StaticFactory\StaticFactoryExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\TypeBasedOverride.cs">
+      <Link>Unity\TypeBasedOverride.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\UnityContainer.cs">
       <Link>Unity\UnityContainer.cs</Link>

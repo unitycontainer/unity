@@ -18,6 +18,7 @@ namespace Microsoft.Practices.Unity.StaticFactory
     /// delegate with the container to create an object, rather than calling
     /// the object's constructor.
     /// </summary>
+    [Obsolete("Use RegisterType<TInterface, TImpl>(new InjectionFactory(...)) instead of the extension's methods.")]
     public class StaticFactoryExtension : UnityContainerExtension, IStaticFactoryConfiguration
     {
         /// <summary>

@@ -192,6 +192,11 @@ namespace Microsoft.Practices.Unity.Tests
                 throw new NotImplementedException();
             }
 
+            public object NewBuildUp(object newBuildKey, Action<IPolicyList> policyAdderBlock)
+            {
+                throw new NotImplementedException();
+            }
+
             public void AddResolverOverrides(IEnumerable<ResolverOverride> newOverrides)
             {
                 throw new NotImplementedException();

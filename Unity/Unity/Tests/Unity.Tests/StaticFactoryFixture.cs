@@ -21,6 +21,8 @@ namespace Microsoft.Practices.Unity.Tests
     [TestClass]
     public class StaticFactoryFixture
     {
+        // Turn off the obsolete warning for StaticFactoryExtension
+#pragma warning disable 618
         [TestMethod]
         public void CanAddExtensionToContainer()
         {
@@ -166,5 +168,6 @@ namespace Microsoft.Practices.Unity.Tests
             child.Resolve<MockDatabase>();
         }
 
+#pragma warning restore 618
     }
 }

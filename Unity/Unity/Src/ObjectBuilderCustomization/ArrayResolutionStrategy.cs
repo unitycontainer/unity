@@ -53,7 +53,7 @@ namespace Microsoft.Practices.Unity
 
         private static object ResolveArray<T>(IBuilderContext context)
         {
-            IUnityContainer container = BuilderContext.NewBuildUp<IUnityContainer>(context);
+            IUnityContainer container = context.NewBuildUp<IUnityContainer>();
             List<T> results = new List<T>(container.ResolveAll<T>());
             return results.ToArray();
         }

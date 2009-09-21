@@ -122,6 +122,19 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <returns>Created object.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
         object NewBuildUp(object newBuildKey);
+
+        /// <summary>
+        /// A convenience method to do a new buildup operation on an existing context. This
+        /// overload allows you to specify extra policies which will be in effect for the duration
+        /// of the build.
+        /// </summary>
+        /// <param name="newBuildKey">Key defining what to build up.</param>
+        /// <param name="policyAdderBlock">A delegate that takes a <see cref="IPolicyList"/>. This
+        /// is invoked before the build up process starts to give callers the opportunity to add
+        /// custom policies to the build process.</param>
+        /// <returns>Created object.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
+        object NewBuildUp(object newBuildKey, Action<IPolicyList> policyAdderBlock);
     }
 
     /// <summary>

@@ -20,26 +20,17 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// responsible for generating the error string required when
     /// an error has occurred.
     /// </summary>
-    public class InvokingMethodOperation
+    public class InvokingMethodOperation : BuildOperation
     {
-        private readonly Type typeBeingConstructed;
         private readonly string methodSignature;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InvokingMethodOperation"/> class.
         /// </summary>
         public InvokingMethodOperation(Type typeBeingConstructed, string methodSignature)
+            : base(typeBeingConstructed)
         {
-            this.typeBeingConstructed = typeBeingConstructed;
             this.methodSignature = methodSignature;
-        }
-
-        /// <summary>
-        /// The type currently being constructed.
-        /// </summary>
-        public Type TypeBeingConstructed
-        {
-            get { return typeBeingConstructed; }
         }
 
         /// <summary>
@@ -58,7 +49,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             return string.Format(CultureInfo.CurrentCulture,
                 Resources.InvokingMethodOperation,
-                typeBeingConstructed.Name,
+                TypeBeingConstructed.Name,
                 methodSignature);
         }
     }

@@ -32,7 +32,7 @@ namespace Microsoft.Practices.Unity.Tests
                 .RegisterType<SimpleTestObject>(new InjectionConstructor(ConfiguredValue));
 
             var result =
-                container.Resolve<SimpleTestObject>(new ParameterOverride<SimpleTestObject>("x", ExpectedValue));
+                container.Resolve<SimpleTestObject>(new ParameterOverride("x", ExpectedValue));
 
             Assert.AreEqual(ExpectedValue, result.X);
         }
@@ -45,7 +45,7 @@ namespace Microsoft.Practices.Unity.Tests
             var container = new UnityContainer()
                 .RegisterType<SimpleTestObject>(new InjectionConstructor(ConfiguredValue));
 
-            container.Resolve<SimpleTestObject>(new ParameterOverride<SimpleTestObject>("x", OverrideValue));
+            container.Resolve<SimpleTestObject>(new ParameterOverride("x", OverrideValue).OnType<SimpleTestObject>());
 
             var result = container.Resolve<SimpleTestObject>();
 
@@ -59,7 +59,7 @@ namespace Microsoft.Practices.Unity.Tests
             var container = new UnityContainer();
 
             var result = container.Resolve<ObjectThatDependsOnSimpleObject>(
-                new ParameterOverride<SimpleTestObject>("x", ExpectedValue));
+                new ParameterOverride("x", ExpectedValue));
 
             Assert.AreEqual(ExpectedValue, result.TestObject.X);
         }
@@ -71,13 +71,13 @@ namespace Microsoft.Practices.Unity.Tests
             var container = new UnityContainer();
 
             var result = container.Resolve<SimpleTestObject>(
-                new ParameterOverrides<SimpleTestObject> {
+                new ParameterOverrides {
                     { "y", ExpectedValue * 2 },
-                    { "x", ExpectedValue } }
+                    { "x", ExpectedValue } }.OnType<SimpleTestObject>()
                 );
 
             Assert.AreEqual(ExpectedValue, result.X);
-            
+
         }
 
         [TestMethod]
@@ -95,25 +95,57 @@ namespace Microsoft.Practices.Unity.Tests
 
             Assert.AreSame(overrideValue, result.TestObject);
             Assert.AreSame(overrideValue, result.OtherTestObject);
-            
+
         }
 
         [TestMethod]
         public void ParameterOverrideMatchesWhenCurrentOperationIsResolvingMatchingParameter()
         {
-            var context = new MockBuilderContext {
-                CurrentOperation = new ConstructorArgumentResolveOperation(typeof (SimpleTestObject), "int x", "x")
+            var context = new MockBuilderContext
+            {
+                CurrentOperation = new ConstructorArgumentResolveOperation(typeof(SimpleTestObject), "int x", "x")
             };
 
-            var overrider = new ParameterOverride<SimpleTestObject>("x", 42);
+            var overrider = new ParameterOverride("x", 42);
 
-            var resolver = overrider.GetResolver(context, typeof (int));
+            var resolver = overrider.GetResolver(context, typeof(int));
 
             Assert.IsNotNull(resolver);
-            Assert.IsInstanceOfType(resolver, typeof (LiteralValueDependencyResolverPolicy));
+            Assert.IsInstanceOfType(resolver, typeof(LiteralValueDependencyResolverPolicy));
 
-            var result = (int) resolver.Resolve(context);
+            var result = (int)resolver.Resolve(context);
             Assert.AreEqual(42, result);
+        }
+
+        [TestMethod]
+        public void ParameterOverrideCanResolveOverride()
+        {
+            var container = new UnityContainer()
+                .RegisterType<ISomething, Something1>()
+                .RegisterType<ISomething, Something2>("other");
+
+            var result = container.Resolve<ObjectTakingASomething>(
+                new ParameterOverride("something", new ResolvedParameter<ISomething>("other")));
+
+            Assert.IsInstanceOfType(result.MySomething, typeof (Something2));
+        }
+
+        [TestMethod]
+        public void CanOverridePropertyValue()
+        {
+            var container = new UnityContainer()
+                .RegisterType<ObjectTakingASomething>(
+                    new InjectionConstructor(),
+                    new InjectionProperty("MySomething"))
+                .RegisterType<ISomething, Something1>()
+                .RegisterType<ISomething, Something2>("other");
+
+            var result = container.Resolve<ObjectTakingASomething>(
+                new PropertyOverride("MySomething", new ResolvedParameter<ISomething>("other")).OnType<ObjectTakingASomething>());
+
+            Assert.IsNotNull(result.MySomething);
+            Assert.IsInstanceOfType(result.MySomething, typeof(Something2));
+
         }
 
         public class SimpleTestObject
@@ -140,6 +172,23 @@ namespace Microsoft.Practices.Unity.Tests
             }
 
             public SimpleTestObject OtherTestObject { get; set; }
+        }
+
+        public interface ISomething { }
+        public class Something1 : ISomething { }
+        public class Something2 : ISomething { }
+
+        public class ObjectTakingASomething
+        {
+            public ISomething MySomething { get; set; }
+            public ObjectTakingASomething()
+            {
+            }
+
+            public ObjectTakingASomething(ISomething something)
+            {
+                MySomething = something;
+            }
         }
     }
 }

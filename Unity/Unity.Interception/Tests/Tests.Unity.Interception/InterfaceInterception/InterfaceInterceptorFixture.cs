@@ -112,9 +112,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             CallCountHandler depositHandler = new CallCountHandler();
             CallCountHandler withdrawHandler = new CallCountHandler();
             PipelineManager manager = new PipelineManager();
-            manager.SetPipeline(typeof(IDal).GetMethod("Deposit").MetadataToken,
+            manager.SetPipeline(typeof(IDal).GetMethod("Deposit"),
                 new HandlerPipeline(new ICallHandler[] { depositHandler }));
-            manager.SetPipeline(typeof(IDal).GetMethod("Withdraw").MetadataToken,
+            manager.SetPipeline(typeof(IDal).GetMethod("Withdraw"),
                 new HandlerPipeline(new ICallHandler[] { withdrawHandler }));
             IInterceptingProxy proxy = interceptor.CreateProxy(typeof(IDal), target);
             proxy.AddInterceptionBehavior(new PolicyInjectionBehavior(manager));

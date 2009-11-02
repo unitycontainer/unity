@@ -10,9 +10,6 @@
 //===============================================================================
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace Microsoft.Practices.Unity
@@ -48,10 +45,10 @@ namespace Microsoft.Practices.Unity
         {
             var currentOperation = context.CurrentOperation as ResolvingPropertyValueOperation;
 
-            if(currentOperation != null
+            if (currentOperation != null
                 && currentOperation.PropertyName == propertyName)
             {
-                return propertyValue.GetResolverPolicy(dependencyType);   
+                return propertyValue.GetResolverPolicy(dependencyType);
             }
             return null;
         }

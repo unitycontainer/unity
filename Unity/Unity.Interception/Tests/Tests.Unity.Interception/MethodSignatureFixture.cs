@@ -82,7 +82,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             {
                 HandlerPipeline pipeline = new HandlerPipeline(
                     policySet.GetHandlersFor(method, container));
-                manager.SetPipeline(method.ImplementationMethodInfo.MetadataToken, pipeline);
+                manager.SetPipeline(method.ImplementationMethodInfo, pipeline);
             }
             proxy.AddInterceptionBehavior(new PolicyInjectionBehavior(manager));
 

@@ -9,6 +9,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.TestSupport;
@@ -127,7 +128,7 @@ namespace Microsoft.Practices.Unity.Tests
             var result = container.Resolve<ObjectTakingASomething>(
                 new ParameterOverride("something", new ResolvedParameter<ISomething>("other")));
 
-            Assert.IsInstanceOfType(result.MySomething, typeof (Something2));
+            Assert.IsInstanceOfType(result.MySomething, typeof(Something2));
         }
 
         [TestMethod]
@@ -145,7 +146,46 @@ namespace Microsoft.Practices.Unity.Tests
 
             Assert.IsNotNull(result.MySomething);
             Assert.IsInstanceOfType(result.MySomething, typeof(Something2));
+        }
 
+        [TestMethod]
+        public void PropertyValueOverrideForTypeDifferentThanResolvedTypeIsIgnored()
+        {
+            var container = new UnityContainer()
+                .RegisterType<ObjectTakingASomething>(
+                    new InjectionConstructor(),
+                    new InjectionProperty("MySomething"))
+                .RegisterType<ISomething, Something1>()
+                .RegisterType<ISomething, Something2>("other");
+
+            var result = container.Resolve<ObjectTakingASomething>(
+                new PropertyOverride("MySomething", new ResolvedParameter<ISomething>("other")).OnType<ObjectThatDependsOnSimpleObject>());
+
+            Assert.IsNotNull(result.MySomething);
+            Assert.IsInstanceOfType(result.MySomething, typeof(Something1));
+        }
+
+        [TestMethod]
+        public void CanOverridePropertyValueWithNullWithExplicitInjectionParameter()
+        {
+            var container = new UnityContainer()
+                .RegisterType<ObjectTakingASomething>(
+                    new InjectionConstructor(),
+                    new InjectionProperty("MySomething"))
+                .RegisterType<ISomething, Something1>()
+                .RegisterType<ISomething, Something2>("other");
+
+            var result = container.Resolve<ObjectTakingASomething>(
+                new PropertyOverride("MySomething", new InjectionParameter<ISomething>(null)).OnType<ObjectTakingASomething>());
+
+            Assert.IsNull(result.MySomething);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CreatingAPropertyOverrideForANullValueThrows()
+        {
+            new PropertyOverride("ignored", null);
         }
 
         public class SimpleTestObject

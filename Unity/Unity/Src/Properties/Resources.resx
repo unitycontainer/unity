@@ -159,6 +159,9 @@
   <data name="ConstructorParameterResolutionFailed" xml:space="preserve">
     <value>The parameter {0} could not be resolved when attempting to call constructor {1}.</value>
   </data>
+  <data name="ExceptionNullParameterValue" xml:space="preserve">
+    <value>Parameter type inference does not work for null values. Indicate the parameter type explicitly using a properly configured instance of the InjectionParameter or InjectionParameter&lt;T&gt; classes.</value>
+  </data>
   <data name="InvokingConstructorOperation" xml:space="preserve">
     <value>Calling constructor {0}</value>
   </data>
@@ -253,5 +256,8 @@ At the time of the exception, the container was:
   </data>
   <data name="TypesAreNotAssignable" xml:space="preserve">
     <value>The type {1} cannot be assigned to variables of type {0}.</value>
+  </data>
+  <data name="UnknownType" xml:space="preserve">
+    <value>&lt;unknown&gt;</value>
   </data>
 </root>

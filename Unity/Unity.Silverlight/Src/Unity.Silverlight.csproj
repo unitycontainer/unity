@@ -481,9 +481,6 @@
     <Compile Include="..\..\Unity\Src\Utility\Guard.cs">
       <Link>Unity\Utility\Guard.cs</Link>
     </Compile>
-    <Compile Include="..\..\Unity\Src\Utility\Guard.Silverlight.cs">
-      <Link>Unity\Utility\Guard.Silverlight.cs</Link>
-    </Compile>
     <Compile Include="..\..\Unity\Src\Utility\MethodReflectionHelper.cs">
       <Link>Unity\Utility\MethodReflectionHelper.cs</Link>
     </Compile>

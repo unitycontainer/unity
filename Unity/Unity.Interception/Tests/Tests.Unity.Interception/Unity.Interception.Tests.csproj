@@ -94,6 +94,8 @@
     <Compile Include="ObjectsUnderTest\TypeMatchingAssignmentRule.cs" />
     <Compile Include="PipelineFixture.cs" />
     <Compile Include="PolicyFixture.cs" />
+    <Compile Include="PolicyInjection\HandlerPipelineKeyFixture.cs" />
+    <Compile Include="PolicyInjection\PolicyInjectionBehaviorDescriptorFixture.cs" />
     <Compile Include="PolicySetFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransparentProxyInterception\InterceptingRealProxyFixture.cs" />

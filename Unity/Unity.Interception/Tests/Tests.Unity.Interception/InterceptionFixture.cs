@@ -11,7 +11,6 @@
 
 using System;
 using System.Runtime.Remoting;
-using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -616,6 +615,37 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                         new string[] { "globalCountHandler" }));
 
             return container;
+        }
+
+        [TestMethod]
+        public void CanInterceptMethodOnDerivedType()
+        {
+            GlobalCountCallHandler.Calls.Clear();
+
+            var container = CreateContainer("CanInterceptMethodOnDerivedType");
+            container.RegisterType<BaseInterceptable, DerivedInterceptable>();
+            container.Configure<Interception>()
+                .SetInterceptorFor<DerivedInterceptable>(new TransparentProxyInterceptor());
+
+            var instance = container.Resolve<BaseInterceptable>();
+
+            instance.Method();
+
+            Assert.AreEqual(1, GlobalCountCallHandler.Calls["CanInterceptMethodOnDerivedType"]);
+        }
+
+        public class BaseInterceptable : MarshalByRefObject
+        {
+            public virtual void Method()
+            {
+            }
+        }
+
+        public class DerivedInterceptable : BaseInterceptable
+        {
+            //public override void Method()
+            //{
+            //}
         }
 
     }

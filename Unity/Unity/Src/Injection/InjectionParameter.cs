@@ -12,7 +12,7 @@
 using System;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
-using Guard=Microsoft.Practices.Unity.Utility.Guard;
+using Microsoft.Practices.Unity.Properties;
 
 namespace Microsoft.Practices.Unity
 {
@@ -32,10 +32,17 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         /// <param name="parameterValue">Value to be injected for this parameter.</param>
         public InjectionParameter(object parameterValue)
-            : base(parameterValue.GetType())
+            : this(GetParameterType(parameterValue), parameterValue)
         {
-            Guard.ArgumentNotNull(parameterValue, "parameterValue");
-            this.parameterValue = parameterValue;
+        }
+
+        private static Type GetParameterType(object parameterValue)
+        {
+            if (parameterValue == null)
+            {
+                throw new ArgumentNullException("parameterValue", Resources.ExceptionNullParameterValue);
+            }
+            return parameterValue.GetType();
         }
 
         /// <summary>
@@ -74,10 +81,10 @@ namespace Microsoft.Practices.Unity
         /// Create a new <see cref="InjectionParameter{TParameter}"/>.
         /// </summary>
         /// <param name="parameterValue">Value for the parameter.</param>
-        public InjectionParameter(TParameter parameterValue) 
-            : base( typeof(TParameter), parameterValue)
+        public InjectionParameter(TParameter parameterValue)
+            : base(typeof(TParameter), parameterValue)
         {
-            
+
         }
     }
 }

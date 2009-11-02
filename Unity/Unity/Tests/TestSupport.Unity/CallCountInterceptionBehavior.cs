@@ -42,7 +42,7 @@ namespace Microsoft.Practices.Unity.TestSupport
 
         public IEnumerable<Type> GetRequiredInterfaces()
         {
-            return new Type[0];
+            return Type.EmptyTypes;
         }
     }
 }

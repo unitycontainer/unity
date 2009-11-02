@@ -285,6 +285,107 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InterceptingNewInstanceWithASetOfAdditionalInterfacesWithNullElementsThrows()
+        {
+            Intercept.NewInstance(
+                typeof(BaseClass),
+                new VirtualMethodInterceptor(),
+                new IInterceptionBehavior[0],
+                new Type[] { null });
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InterceptingNewInstanceWithASetOfAdditionalInterfacesWithNonInterfaceElementsThrows()
+        {
+            Intercept.NewInstance(
+                typeof(BaseClass),
+                new VirtualMethodInterceptor(),
+                new IInterceptionBehavior[0],
+                new Type[] { typeof(object) });
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InterceptingNewInstanceWithASetOfAdditionalInterfacesWithGenericInterfaceElementsThrows()
+        {
+            Intercept.NewInstance(
+                typeof(BaseClass),
+                new VirtualMethodInterceptor(),
+                new IInterceptionBehavior[0],
+                new Type[] { typeof(IComparable<>) });
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InterceptingNewInstanceWithASetOfBehaviorsWithNullElementsThrows()
+        {
+            Intercept.NewInstance(
+                typeof(BaseClass),
+                new VirtualMethodInterceptor(),
+                new IInterceptionBehavior[] { null },
+                Type.EmptyTypes);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InterceptingNewInstanceWithASetOfBehaviorsWithElementReturningNullRequiredInterfacesThrows()
+        {
+            Intercept.NewInstance(
+                typeof(BaseClass),
+                new VirtualMethodInterceptor(),
+                new IInterceptionBehavior[] 
+                {
+                    new DelegateInterceptionBehavior(null, () => null)
+                },
+                Type.EmptyTypes);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InterceptingNewInstanceWithASetOfBehaviorsWithElementReturningRequiredInterfacesWithNullElementThrows()
+        {
+            Intercept.NewInstance(
+                typeof(BaseClass),
+                new VirtualMethodInterceptor(),
+                new IInterceptionBehavior[] 
+                {
+                    new DelegateInterceptionBehavior(null, () => new Type[] { null })
+                },
+                Type.EmptyTypes);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InterceptingNewInstanceWithASetOfBehaviorsWithElementReturningRequiredInterfacesWithNonInterfaceElementThrows()
+        {
+            Intercept.NewInstance(
+                typeof(BaseClass),
+                new VirtualMethodInterceptor(),
+                new IInterceptionBehavior[] 
+                {
+                    new DelegateInterceptionBehavior(null, () => new Type[] { typeof(object) })
+                },
+                Type.EmptyTypes);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InterceptingNewInstanceWithASetOfBehaviorsWithElementReturningRequiredInterfacesWithGenericInterfaceElementThrows()
+        {
+            Intercept.NewInstance(
+                typeof(BaseClass),
+                new VirtualMethodInterceptor(),
+                new IInterceptionBehavior[] 
+                {
+                    new DelegateInterceptionBehavior(null, () => new Type[] { typeof(IEnumerable<>) })
+                },
+                Type.EmptyTypes);
+        }
+
+
+        [TestMethod]
         public void CanInterceptAbstractClassWithVirtualMethodInterceptor()
         {
             bool invoked = false;

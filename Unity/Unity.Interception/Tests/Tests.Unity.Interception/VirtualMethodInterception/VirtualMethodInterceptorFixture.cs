@@ -328,7 +328,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             HandlerPipeline pipeline = new HandlerPipeline(handlers);
             MethodInfo targetMethod = instance.GetType().BaseType.GetMethod(methodName);
             IInterceptingProxy proxy = (IInterceptingProxy)instance;
-            manager.SetPipeline(targetMethod.MetadataToken, pipeline);
+            manager.SetPipeline(targetMethod, pipeline);
 
         }
     }

@@ -46,10 +46,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 HandlerPipeline pipeline = new HandlerPipeline(allPolicies.GetHandlersFor(method, container));
                 if (pipeline.Count > 0)
                 {
-                    manager.SetPipeline(method.ImplementationMethodInfo.MetadataToken, pipeline);
+                    manager.SetPipeline(method.ImplementationMethodInfo, pipeline);
                     if (method.InterfaceMethodInfo != null)
                     {
-                        manager.SetPipeline(method.InterfaceMethodInfo.MetadataToken, pipeline);
+                        manager.SetPipeline(method.InterfaceMethodInfo, pipeline);
                     }
                     hasHandlers = true;
                 }

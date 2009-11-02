@@ -56,8 +56,8 @@ namespace Microsoft.Practices.Unity.Tests
             IDependencyResolverPolicy resolver = parameter.GetResolverPolicy(expectedType);
 
             Assert.IsInstanceOfType(resolver, typeof(NamedTypeDependencyResolverPolicy));
-            Assert.AreEqual(expectedType, ( (NamedTypeDependencyResolverPolicy)resolver ).Type);
-            Assert.IsNull(( (NamedTypeDependencyResolverPolicy)resolver ).Name);
+            Assert.AreEqual(expectedType, ((NamedTypeDependencyResolverPolicy)resolver).Type);
+            Assert.IsNull(((NamedTypeDependencyResolverPolicy)resolver).Name);
         }
 
         [TestMethod]
@@ -70,8 +70,8 @@ namespace Microsoft.Practices.Unity.Tests
             IDependencyResolverPolicy resolver = parameter.GetResolverPolicy(expectedType);
 
             Assert.IsInstanceOfType(resolver, typeof(NamedTypeDependencyResolverPolicy));
-            Assert.AreEqual(expectedType, ( (NamedTypeDependencyResolverPolicy)resolver ).Type);
-            Assert.AreEqual(name, ( (NamedTypeDependencyResolverPolicy)resolver ).Name);
+            Assert.AreEqual(expectedType, ((NamedTypeDependencyResolverPolicy)resolver).Type);
+            Assert.AreEqual(name, ((NamedTypeDependencyResolverPolicy)resolver).Name);
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void TypesAndObjectsImplicitlyConvertToInjectionParameters()
         {
-            List <InjectionParameterValue> values = GetParameterValues(
+            List<InjectionParameterValue> values = GetParameterValues(
                 15, typeof(string), 22.5);
 
             Assert.AreEqual(3, values.Count);
@@ -111,12 +111,27 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void ConcreteTypesMatch()
         {
-            List<InjectionParameterValue> values = GetParameterValues(typeof (int), typeof (string), typeof (User));
-            Type[] expectedTypes = Sequence.Collect(typeof (int), typeof (string), typeof (User));
-            for(int i = 0; i < values.Count; ++i)
+            List<InjectionParameterValue> values = GetParameterValues(typeof(int), typeof(string), typeof(User));
+            Type[] expectedTypes = Sequence.Collect(typeof(int), typeof(string), typeof(User));
+            for (int i = 0; i < values.Count; ++i)
             {
                 Assert.IsTrue(values[i].MatchesType(expectedTypes[i]));
             }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CreatingInjectionParameterWithNullValueThrows()
+        {
+            new InjectionParameter(null);
+        }
+
+        [TestMethod]
+        public void InjectionParameterForNullValueReturnsExpectedValueIfTypeIsSuppliedExplicitly()
+        {
+            var parameter = new InjectionParameter(typeof(string), null);
+
+            AssertExpectedValue(parameter, typeof(string), null);
         }
 
         private void AssertExpectedValue(InjectionParameter parameter, Type expectedType, object expectedValue)

@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
     /// <summary>
@@ -60,7 +61,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
         private HandlerPipeline GetPipeline(MethodBase method)
         {
-            return this.pipelineManager.GetPipeline(method.MetadataToken);
+            return this.pipelineManager.GetPipeline(method);
         }
 
         /// <summary>

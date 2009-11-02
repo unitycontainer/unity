@@ -202,7 +202,6 @@
     <Compile Include="UnityContainer.cs" />
     <Compile Include="UnityDefaultBehaviorExtension.cs" />
     <Compile Include="UnityDefaultStrategiesExtension.cs" />
-    <Compile Include="Utility\Guard.Desktop.cs" />
     <Compile Include="Utility\MethodReflectionHelper.cs" />
     <Compile Include="Utility\Pair.cs" />
     <Compile Include="Utility\ParameterMatcher.cs" />

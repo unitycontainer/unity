@@ -62,11 +62,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 new EffectiveInterceptionBehaviorsPolicy { Behaviors = interceptionBehaviors },
                 context.BuildKey);
 
-            IEnumerable<Type> allAdditionalInterfaces =
-                interceptionBehaviors.SelectMany(ib => ib.GetRequiredInterfaces()).Concat(additionalInterfaces);
+            Type[] allAdditionalInterfaces =
+                Intercept.GetAllAdditionalInterfaces(interceptionBehaviors, additionalInterfaces);
 
             Type interceptingType =
-                interceptionPolicy.Interceptor.CreateProxyType(typeToBuild, allAdditionalInterfaces.ToArray());
+                interceptionPolicy.Interceptor.CreateProxyType(typeToBuild, allAdditionalInterfaces);
 
             context.Policies.Set<IConstructorSelectorPolicy>(
                 new DerivedTypeConstructorSelectorPolicy(

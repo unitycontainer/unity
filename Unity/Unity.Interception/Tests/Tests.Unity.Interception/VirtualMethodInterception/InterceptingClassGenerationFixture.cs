@@ -115,7 +115,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             PostCallCountHandler postHandler = new PostCallCountHandler();
             HandlerPipeline pipeline = new HandlerPipeline(new ICallHandler[] { postHandler, handler });
             PipelineManager manager = new PipelineManager();
-            manager.SetPipeline(methodOne.MetadataToken, pipeline);
+            manager.SetPipeline(methodOne, pipeline);
             pm.AddInterceptionBehavior(new PolicyInjectionBehavior(manager));
 
             instance.MethodOne();
@@ -135,7 +135,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             PostCallCountHandler postHandler = new PostCallCountHandler();
             HandlerPipeline pipeline = new HandlerPipeline(new ICallHandler[] { postHandler, handler });
             PipelineManager manager = new PipelineManager();
-            manager.SetPipeline(thrower.MetadataToken, pipeline);
+            manager.SetPipeline(thrower, pipeline);
             pm.AddInterceptionBehavior(new PolicyInjectionBehavior(manager));
 
             try
@@ -307,7 +307,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
             PipelineManager pm = new PipelineManager();
             MethodBase reverse = typeof(InterceptingGenericClass<DateTime>).GetMethod("Reverse");
-            pm.SetPipeline(reverse.MetadataToken, new HandlerPipeline(Sequence.Collect<ICallHandler>(handler)));
+            pm.SetPipeline(reverse, new HandlerPipeline(Sequence.Collect<ICallHandler>(handler)));
             ((IInterceptingProxy)instance).AddInterceptionBehavior(new PolicyInjectionBehavior(pm));
 
             DateTime now = DateTime.Now;

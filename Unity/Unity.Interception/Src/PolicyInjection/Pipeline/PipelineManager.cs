@@ -21,28 +21,55 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     public class PipelineManager
     {
-        private readonly Dictionary<int, HandlerPipeline> pipelines =
-            new Dictionary<int, HandlerPipeline>();
+        private readonly Dictionary<HandlerPipelineKey, HandlerPipeline> pipelines =
+            new Dictionary<HandlerPipelineKey, HandlerPipeline>();
 
         /// <summary>
-        /// Retrieve the pipeline assocated with the requested <paramref name="methodToken"/>.
+        /// Retrieve the pipeline assocated with the requested <paramref name="method"/>.
         /// </summary>
-        /// <param name="methodToken">Metadata token for the method for which the pipeline is being requested.</param>
+        /// <param name="method">The method for which the pipeline is being requested.</param>
         /// <returns>The handler pipeline for the given method. If no pipeline has
         /// been set, returns a new empty pipeline.</returns>
-        public HandlerPipeline GetPipeline(int methodToken)
+        public HandlerPipeline GetPipeline(MethodBase method)
         {
-            return pipelines.ContainsKey(methodToken) ? pipelines[methodToken] : new HandlerPipeline();
+            return GetPipeline(HandlerPipelineKey.ForMethod(method));
+        }
+
+        /// <summary>
+        /// Retrieve the pipeline assocated with the requested <paramref name="key"/>.
+        /// </summary>
+        /// <param name="key">The key for which the pipeline is being requested.</param>
+        /// <returns>The handler pipeline for the given key. If no pipeline has
+        /// been set, returns a new empty pipeline.</returns>
+        public HandlerPipeline GetPipeline(HandlerPipelineKey key)
+        {
+            HandlerPipeline pipeline;
+            if (!pipelines.TryGetValue(key, out pipeline))
+            {
+                pipeline = new HandlerPipeline();
+            }
+
+            return pipeline;
         }
 
         /// <summary>
         /// Set a new pipeline for a method.
         /// </summary>
-        /// <param name="methodToken">Metadata token for the method to apply the pipeline to.</param>
+        /// <param name="method">The method on which the pipeline should be set.</param>
         /// <param name="pipeline">The new pipeline.</param>
-        public void SetPipeline(int methodToken, HandlerPipeline pipeline)
+        public void SetPipeline(MethodBase method, HandlerPipeline pipeline)
         {
-            pipelines[methodToken] = pipeline;
+            SetPipeline(HandlerPipelineKey.ForMethod(method), pipeline);
+        }
+
+        /// <summary>
+        /// Set a new pipeline for a method.
+        /// </summary>
+        /// <param name="key">The key on which the pipeline should be set.</param>
+        /// <param name="pipeline">The new pipeline.</param>
+        public void SetPipeline(HandlerPipelineKey key, HandlerPipeline pipeline)
+        {
+            pipelines[key] = pipeline;
         }
     }
 }

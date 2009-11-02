@@ -89,8 +89,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     "interceptedType");
             }
 
-            IEnumerable<Type> allAdditionalInterfaces =
-                interceptionBehaviors.SelectMany(ib => GetRequiredInterfaces(ib)).Concat(additionalInterfaces);
+            IEnumerable<Type> allAdditionalInterfaces
+                = GetAllAdditionalInterfaces(interceptionBehaviors, additionalInterfaces);
 
             IInterceptingProxy proxy =
                 (IInterceptingProxy)interceptor.CreateProxy(interceptedType, target, allAdditionalInterfaces.ToArray());
@@ -169,10 +169,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             Type implementationType = type;
 
-            IEnumerable<Type> allAdditionalInterfaces =
-                interceptionBehaviors.SelectMany(ib => GetRequiredInterfaces(ib)).Concat(additionalInterfaces);
+            Type[] allAdditionalInterfaces = GetAllAdditionalInterfaces(interceptionBehaviors, additionalInterfaces);
 
-            Type interceptionType = interceptor.CreateProxyType(implementationType, allAdditionalInterfaces.ToArray());
+            Type interceptionType = interceptor.CreateProxyType(implementationType, allAdditionalInterfaces);
 
             IInterceptingProxy proxy =
                 (IInterceptingProxy)Activator.CreateInstance(interceptionType, constructorParameters);
@@ -185,9 +184,94 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             return proxy;
         }
 
-        private static IEnumerable<Type> GetRequiredInterfaces(IInterceptionBehavior interceptionBehavior)
+        /// <summary>
+        /// Computes the array with all the additional interfaces for the interception of an object.
+        /// </summary>
+        /// <param name="interceptionBehaviors">The interception behaviors for the new proxy.</param>
+        /// <param name="additionalInterfaces">Any additional interfaces the instance must implement.</param>
+        /// <returns>An array with the required interfaces for </returns>
+        /// <exception cref="ArgumentException">when the interfaces are not valid.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Microsoft.Usage",
+            "CA2208:InstantiateArgumentExceptionsCorrectly",
+            Justification = "Argument ok, confused by use within a lambda expression")]
+        public static Type[] GetAllAdditionalInterfaces(
+            IEnumerable<IInterceptionBehavior> interceptionBehaviors,
+            IEnumerable<Type> additionalInterfaces)
         {
-            return interceptionBehavior.GetRequiredInterfaces();
+            var validatedRequiredInterfaces =
+                interceptionBehaviors.SelectMany(ib =>
+                    {
+                        if (ib == null)
+                        {
+                            throw new ArgumentException(Resources.ExceptionContainsNullElement, "interceptionBehaviors");
+                        }
+                        return
+                            CheckInterfaces(
+                                ib.GetRequiredInterfaces(),
+                                "interceptionBehaviors",
+                                error =>
+                                    string.Format(
+                                        CultureInfo.CurrentCulture,
+                                        Resources.ExceptionRequiredInterfacesInvalid,
+                                        error,
+                                        ib.GetType().Name));
+                    });
+            var validatedAdditionalInterfaces =
+                CheckInterfaces(
+                    additionalInterfaces,
+                    "additionalInterfaces",
+                    error =>
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            Resources.ExceptionAdditionalInterfacesInvalid,
+                            error));
+
+            return validatedRequiredInterfaces.Concat(validatedAdditionalInterfaces).ToArray();
+        }
+
+        private static IEnumerable<Type> CheckInterfaces(
+            IEnumerable<Type> interfaces,
+            string argumentName,
+            Func<string, string> messageFormatter)
+        {
+            if (interfaces == null)
+            {
+                throw new ArgumentException(messageFormatter(Resources.ExceptionNullInterfacesCollection));
+            }
+
+            return
+                interfaces
+                    .Select(type =>
+                        {
+                            if (type == null)
+                            {
+                                throw new ArgumentException(
+                                    messageFormatter(Resources.ExceptionContainsNullElement),
+                                    argumentName);
+                            }
+                            if (!type.IsInterface)
+                            {
+                                throw new ArgumentException(
+                                    messageFormatter(
+                                        string.Format(
+                                            CultureInfo.CurrentCulture,
+                                            Resources.ExceptionTypeIsNotInterface,
+                                            type.Name)),
+                                    argumentName);
+                            }
+                            if (type.IsGenericTypeDefinition)
+                            {
+                                throw new ArgumentException(
+                                    messageFormatter(
+                                        string.Format(
+                                            CultureInfo.CurrentCulture,
+                                            Resources.ExceptionTypeIsOpenGeneric,
+                                            type.Name)),
+                                    argumentName);
+                            }
+                            return type;
+                        });
         }
     }
 }

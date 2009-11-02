@@ -10,10 +10,10 @@
 //===============================================================================
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using Microsoft.Practices.Unity.InterceptionExtension;
-using System.Collections.Generic;
 
 namespace Microsoft.Practices.Unity.TestSupport
 {

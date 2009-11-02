@@ -21,7 +21,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     public class HandlerPipeline
     {
         private readonly List<ICallHandler> handlers;
-         
+
         /// <summary>
         /// Creates a new <see cref="HandlerPipeline"/> with an empty pipeline.
         /// </summary>
@@ -56,7 +56,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>Return value from the pipeline.</returns>
         public IMethodReturn Invoke(IMethodInvocation input, InvokeHandlerDelegate target)
         {
-            if( handlers.Count == 0 )
+            if (handlers.Count == 0)
             {
                 return target(input, null);
             }
@@ -66,7 +66,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             IMethodReturn result = handlers[0].Invoke(input, delegate
                                       {
                                           ++handlerIndex;
-                                          if(handlerIndex < handlers.Count)
+                                          if (handlerIndex < handlers.Count)
                                           {
                                               return handlers[handlerIndex].Invoke;
                                           }

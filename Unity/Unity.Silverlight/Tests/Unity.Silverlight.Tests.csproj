@@ -70,6 +70,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Lib\ThirdParty\Moq\Moq.Silverlight.dll</HintPath>
     </Reference>
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows" />
     <Reference Include="mscorlib" />
     <Reference Include="system" />
@@ -321,6 +322,9 @@
     </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\UnityContainerFixture.cs">
       <Link>Unity.Tests\UnityContainerFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\UnityContainerFixture.Silverlight.cs">
+      <Link>Unity.Tests\UnityContainerFixture.Silverlight.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\UnityExtensionFixture.cs">
       <Link>Unity.Tests\UnityExtensionFixture.cs</Link>

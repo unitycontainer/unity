@@ -123,6 +123,9 @@
   <data name="ExceptionAdditionalInterfaceNotImplemented" xml:space="preserve">
     <value>Additional interfaces do not have an implementation.</value>
   </data>
+  <data name="ExceptionAdditionalInterfacesInvalid" xml:space="preserve">
+    <value>The additional interfaces supplied are invalid: {0}</value>
+  </data>
   <data name="ExceptionAttributeNoSubclassOfAttribute" xml:space="preserve">
     <value>Type must be a subclass of System.Attribute.</value>
   </data>
@@ -133,9 +136,18 @@
   <data name="ExceptionContainsNullElement" xml:space="preserve">
     <value>Collection contains a null element.</value>
   </data>
+  <data name="ExceptionNullInterfacesCollection" xml:space="preserve">
+    <value>The collection of interfaces is null.</value>
+  </data>
+  <data name="ExceptionRequiredInterfacesInvalid" xml:space="preserve">
+    <value>The required interfaces for behavior {1} are invalid: {0}</value>
+  </data>
   <data name="ExceptionTypeIsNotInterface" xml:space="preserve">
     <value>The type {0} is not an interface.</value>
     <comment>{0} = Name of the type that caused the exception</comment>
+  </data>
+  <data name="ExceptionTypeIsNull" xml:space="preserve">
+    <value>Null type.</value>
   </data>
   <data name="ExceptionTypeIsOpenGeneric" xml:space="preserve">
     <value>The type {0} is an open generic.</value>

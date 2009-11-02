@@ -82,6 +82,7 @@
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\InterceptionBehaviorPipelineMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\VirtualMethodInterceptor.cs" />
     <Compile Include="IInterceptionBehaviorsPolicy.cs" />
+    <Compile Include="PolicyInjection\HandlerPipelineKey.cs" />
     <Compile Include="PolicyInjection\Pipeline\PipelineManager.cs" />
     <Compile Include="PolicyInjection\Policies\ApplyNoPoliciesAttribute.cs" />
     <Compile Include="PolicyInjection\Policies\AttributeDrivenPolicy.cs" />

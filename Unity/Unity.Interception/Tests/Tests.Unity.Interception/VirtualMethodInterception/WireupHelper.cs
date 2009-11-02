@@ -43,7 +43,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             T instance = GetInterceptingInstance<T>();
 
             PipelineManager manager = new PipelineManager();
-            manager.SetPipeline(method.MetadataToken, new HandlerPipeline(Sequence.Collect(handler)));
+            manager.SetPipeline(method, new HandlerPipeline(Sequence.Collect(handler)));
 
             IInterceptingProxy pm = (IInterceptingProxy)instance;
             pm.AddInterceptionBehavior(new PolicyInjectionBehavior(manager));

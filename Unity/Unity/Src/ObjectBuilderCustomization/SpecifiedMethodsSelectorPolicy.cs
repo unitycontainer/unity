@@ -49,7 +49,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         {
             foreach(Pair<MethodInfo, IEnumerable<InjectionParameterValue>> method in methods)
             {
-                Type typeToBuild = BuildKey.GetType(context.BuildKey);
+                Type typeToBuild = context.BuildKey.Type;
                 SelectedMethod selectedMethod;
                 ReflectionHelper typeReflector = new ReflectionHelper(method.First.DeclaringType);
                 MethodReflectionHelper methodReflector = new MethodReflectionHelper(method.First);

@@ -102,7 +102,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         private static MockBuilderContext GetContext<T>()
         {
             MockBuilderContext context = new MockBuilderContext();
-            context.BuildKey = typeof(T);
+            context.BuildKey = new NamedTypeBuildKey<T>();
             return context;
         }
     }

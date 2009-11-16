@@ -31,7 +31,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <returns>Sequence of methods to call.</returns>
         public virtual IEnumerable<SelectedMethod> SelectMethods(IBuilderContext context)
         {
-            Type t = BuildKey.GetType(context.BuildKey);
+            Type t = context.BuildKey.Type;
             foreach(MethodInfo method in t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy))
             {
                 if(method.IsDefined(typeof(TMarkerAttribute), false))

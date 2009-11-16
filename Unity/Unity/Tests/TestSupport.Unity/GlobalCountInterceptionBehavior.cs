@@ -52,5 +52,7 @@ namespace Microsoft.Practices.Unity.TestSupport
         {
             return Type.EmptyTypes;
         }
+
+        public bool WillExecute { get { return true; } }
     }
 }

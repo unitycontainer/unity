@@ -18,13 +18,13 @@ namespace Microsoft.Practices.Unity.TestSupport
     public class MockBuilderContext : IBuilderContext
     {
         ILifetimeContainer lifetime = new LifetimeContainer();
-        object originalBuildKey = null;
+        NamedTypeBuildKey originalBuildKey = null;
         private IPolicyList persistentPolicies;
         IPolicyList policies;
         StrategyChain strategies = new StrategyChain();
         private CompositeResolverOverride resolverOverrides = new CompositeResolverOverride();
 
-        private object buildKey = null;
+        private NamedTypeBuildKey buildKey = null;
         private object existing = null;
         private IRecoveryStack recoveryStack = new RecoveryStack();
 
@@ -39,7 +39,7 @@ namespace Microsoft.Practices.Unity.TestSupport
             get { return lifetime; }
         }
 
-        public object OriginalBuildKey
+        public NamedTypeBuildKey OriginalBuildKey
         {
             get { return originalBuildKey; }
         }
@@ -71,7 +71,7 @@ namespace Microsoft.Practices.Unity.TestSupport
         }
 
 
-        public object BuildKey
+        public NamedTypeBuildKey BuildKey
         {
             get { return buildKey; }
             set { buildKey = value; }
@@ -99,7 +99,7 @@ namespace Microsoft.Practices.Unity.TestSupport
             return resolverOverrides.GetResolver(this, dependencyType);
         }
 
-        public IBuilderContext CloneForNewBuild(object newBuildKey, object newExistingObject)
+        public IBuilderContext CloneForNewBuild(NamedTypeBuildKey newBuildKey, object newExistingObject)
         {
             var newContext = new MockBuilderContext
                                  {
@@ -121,7 +121,7 @@ namespace Microsoft.Practices.Unity.TestSupport
         /// </summary>
         /// <param name="newBuildKey">Key to use to build up.</param>
         /// <returns>Created object.</returns>
-        public object NewBuildUp(object newBuildKey)
+        public object NewBuildUp(NamedTypeBuildKey newBuildKey)
         {
             var clone = CloneForNewBuild(newBuildKey, null);
             return clone.Strategies.ExecuteBuildUp(clone);
@@ -133,11 +133,11 @@ namespace Microsoft.Practices.Unity.TestSupport
         /// of the build.
         /// </summary>
         /// <param name="newBuildKey">Key defining what to build up.</param>
-        /// <param name="policyAdderBlock">A delegate that takes a <see cref="IPolicyList"/>. This
-        /// is invoked before the build up process starts to give callers the opportunity to add
-        /// custom policies to the build process.</param>
+        /// <param name="childCustomizationBlock">A delegate that takes a <see cref="IBuilderContext"/>. This
+        /// is invoked with the new child context before the build up process starts. This gives callers
+        /// the opportunity to customize the context for the build process.</param>
         /// <returns>Created object.</returns>
-        public object NewBuildUp(object newBuildKey, Action<IPolicyList> policyAdderBlock)
+        public object NewBuildUp(NamedTypeBuildKey newBuildKey, Action<IBuilderContext> childCustomizationBlock)
         {
             var newContext = new MockBuilderContext
             {
@@ -149,14 +149,14 @@ namespace Microsoft.Practices.Unity.TestSupport
                 buildKey = newBuildKey,
                 existing = null
             };
-            policyAdderBlock(newContext.Policies);
-
             newContext.resolverOverrides.Add(resolverOverrides);
 
+            childCustomizationBlock(newContext);
+            
             return strategies.ExecuteBuildUp(newContext);
         }
 
-        public object ExecuteBuildUp(object buildKey, object existing)
+        public object ExecuteBuildUp(NamedTypeBuildKey buildKey, object existing)
         {
             this.BuildKey = buildKey;
             this.Existing = existing;

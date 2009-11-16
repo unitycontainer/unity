@@ -35,6 +35,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>The required interfaces.</returns>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         IEnumerable<Type> GetRequiredInterfaces();
+
+        /// <summary>
+        /// Returns a flag indicating if this behavior will actually do anything when invoked.
+        /// </summary>
+        /// <remarks>This is used to optimize interception. If the behaviors won't actually
+        /// do anything (for example, PIAB where no policies match) then the interception
+        /// mechanism can be skipped completely.</remarks>
+        bool WillExecute { get; }
     }
 
     /// <summary>

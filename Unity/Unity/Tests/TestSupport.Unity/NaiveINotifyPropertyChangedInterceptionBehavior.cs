@@ -104,5 +104,7 @@ namespace Microsoft.Practices.Unity.TestSupport
         {
             return new[] { typeof(INotifyPropertyChanged) };
         }
+
+        public bool WillExecute { get { return true; } }
     }
 }

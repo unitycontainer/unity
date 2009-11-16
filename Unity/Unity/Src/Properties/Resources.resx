@@ -153,6 +153,9 @@
   <data name="CannotInjectStaticMethod" xml:space="preserve">
     <value>The method {0}.{1}({2}) is static. Static methods cannot be injected.</value>
   </data>
+  <data name="CannotResolveOpenGenericType" xml:space="preserve">
+    <value>The type {0} is an open generic type. An open generic type cannot be resolved.</value>
+  </data>
   <data name="ConstructorArgumentResolveOperation" xml:space="preserve">
     <value>Resolving parameter "{0}" of constructor {1}</value>
   </data>
@@ -253,6 +256,9 @@ At the time of the exception, the container was:
   </data>
   <data name="SettingPropertyOperation" xml:space="preserve">
     <value>Setting value for property {0}.{1}</value>
+  </data>
+  <data name="TypeIsNotConstructable" xml:space="preserve">
+    <value>The type {0} is cannot be constructed. You must configure the container to supply this value.</value>
   </data>
   <data name="TypesAreNotAssignable" xml:space="preserve">
     <value>The type {1} cannot be assigned to variables of type {0}.</value>

@@ -22,7 +22,7 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class FixedTypeResolverPolicy : IDependencyResolverPolicy
     {
-        private Type typeToBuild;
+        private readonly NamedTypeBuildKey keyToBuild;
 
         /// <summary>
         /// Create a new instance storing the given type.
@@ -30,7 +30,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="typeToBuild">Type to resolve.</param>
         public FixedTypeResolverPolicy(Type typeToBuild)
         {
-            this.typeToBuild = typeToBuild;
+            this.keyToBuild = new NamedTypeBuildKey(typeToBuild);
         }
 
         #region IDependencyResolverPolicy Members
@@ -45,7 +45,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         public object Resolve(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
-            return context.NewBuildUp(typeToBuild);
+            return context.NewBuildUp(keyToBuild);
         }
 
         #endregion

@@ -36,6 +36,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             IInstanceInterceptionPolicy interceptionPolicy =
                 FindInterceptionPolicy<IInstanceInterceptionPolicy>(context, true);
             if (interceptionPolicy == null) return;
+            var interceptor = interceptionPolicy.GetInterceptor(context);
+
 
             IInterceptionBehaviorsPolicy interceptionBehaviorsPolicy =
                 FindInterceptionPolicy<IInterceptionBehaviorsPolicy>(context, true);
@@ -46,20 +48,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             IEnumerable<Type> additionalInterfaces =
                 additionalInterfacesPolicy != null ? additionalInterfacesPolicy.AdditionalInterfaces : Type.EmptyTypes;
 
-            Type typeToIntercept = BuildKey.GetType(context.OriginalBuildKey);
+            Type typeToIntercept = context.OriginalBuildKey.Type;
             Type implementationType = context.Existing.GetType();
 
-            IUnityContainer container = context.NewBuildUp<IUnityContainer>();
             IInterceptionBehavior[] interceptionBehaviors =
-                interceptionBehaviorsPolicy.InterceptionBehaviorDescriptors
-                    .Select(pid =>
-                        pid.GetInterceptionBehavior(
-                            interceptionPolicy.Interceptor,
-                            typeToIntercept,
-                            implementationType,
-                            container))
-                    .Where(pi => pi != null)
-                    .ToArray();
+                interceptionBehaviorsPolicy.GetEffectiveBehaviors(
+                    context, interceptor, typeToIntercept, implementationType)
+                .ToArray();
 
             if (interceptionBehaviors.Length > 0)
             {
@@ -67,7 +62,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     Intercept.ThroughProxy(
                         typeToIntercept,
                         context.Existing,
-                        interceptionPolicy.Interceptor,
+                        interceptor,
                         interceptionBehaviors,
                         additionalInterfaces);
             }
@@ -79,7 +74,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             T policy;
 
             // First, try for a match against the current build key
-            Type currentType = BuildKey.GetType(context.BuildKey);
+            Type currentType = context.BuildKey.Type;
             policy = context.Policies.Get<T>(context.BuildKey, false) ??
                 context.Policies.Get<T>(currentType, false);
             if (policy != null)
@@ -91,7 +86,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 return null;
 
             // Next, try the original build key
-            Type originalType = BuildKey.GetType(context.OriginalBuildKey);
+            Type originalType = context.OriginalBuildKey.Type;
             policy = context.Policies.Get<T>(context.OriginalBuildKey, false) ??
                 context.Policies.Get<T>(originalType, false);
 

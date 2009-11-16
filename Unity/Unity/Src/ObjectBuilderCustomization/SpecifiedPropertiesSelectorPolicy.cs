@@ -48,8 +48,8 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         /// that contain the properties to set.</returns>
         public IEnumerable<SelectedProperty> SelectProperties(IBuilderContext context)
         {
-            Type typeToBuild = BuildKey.GetType(context.BuildKey);
-            ReflectionHelper currentTypeReflector = new ReflectionHelper(BuildKey.GetType(context.BuildKey));
+            Type typeToBuild = context.BuildKey.Type;
+            var currentTypeReflector = new ReflectionHelper(context.BuildKey.Type);
             foreach(Pair<PropertyInfo, InjectionParameterValue> pair in propertiesAndValues)
             {
                 PropertyInfo currentProperty = pair.First;

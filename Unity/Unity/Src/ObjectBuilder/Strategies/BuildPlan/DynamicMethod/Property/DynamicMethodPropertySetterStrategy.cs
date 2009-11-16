@@ -61,7 +61,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                 ilContext.IL.EmitCall(OpCodes.Call, setCurrentOperationToSettingProperty, null);
 
                 // Call the property setter
-                ilContext.IL.EmitCall(OpCodes.Callvirt, property.Property.GetSetMethod(), null);
+                ilContext.IL.EmitCall(OpCodes.Callvirt, GetValidatedPropertySetter(property.Property), null);
             }
 
             // Clear the current operation
@@ -69,6 +69,20 @@ namespace Microsoft.Practices.ObjectBuilder2
             {
                 ilContext.EmitClearCurrentOperation();
             }
+        }
+
+        private static MethodInfo GetValidatedPropertySetter(PropertyInfo property)
+        {
+            var setter = property.GetSetMethod();
+            if(setter == null)
+            {
+                throw new InvalidOperationException(
+                    string.Format(CultureInfo.CurrentUICulture,
+                        Resources.PropertyNotSettable,
+                        property.Name, property.DeclaringType.FullName)
+                    );
+            }
+            return setter;
         }
 
         /// <summary>
@@ -79,7 +93,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             Guard.ArgumentNotNull(context, "context");
             context.CurrentOperation = new ResolvingPropertyValueOperation(
-                BuildKey.GetType(context.BuildKey), propertyName);
+                context.BuildKey.Type, propertyName);
         }
 
         /// <summary>
@@ -91,7 +105,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             Guard.ArgumentNotNull(context, "context");
 
             context.CurrentOperation = new SettingPropertyOperation(
-                BuildKey.GetType(context.BuildKey), propertyName);
+                context.BuildKey.Type, propertyName);
         }
     }
 }

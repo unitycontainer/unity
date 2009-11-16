@@ -36,8 +36,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Interception.Configur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectBuilder.Tests", "Unity\Tests\ObjectBuilder\ObjectBuilder.Tests.csproj", "{02BDF798-A924-4F07-A607-75B3C20EDA6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectBuilder.BuildPlan.Tests", "Unity\Tests\ObjectBuilder.BuildPlan\ObjectBuilder.BuildPlan.Tests.csproj", "{32CD02CF-FE79-45D4-A81E-28509FF41A7A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,10 +82,6 @@ Global
 		{02BDF798-A924-4F07-A607-75B3C20EDA6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02BDF798-A924-4F07-A607-75B3C20EDA6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02BDF798-A924-4F07-A607-75B3C20EDA6E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{32CD02CF-FE79-45D4-A81E-28509FF41A7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32CD02CF-FE79-45D4-A81E-28509FF41A7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32CD02CF-FE79-45D4-A81E-28509FF41A7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32CD02CF-FE79-45D4-A81E-28509FF41A7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,7 +97,6 @@ Global
 		{3FC0084C-6077-4F87-8A51-2F755C83D7C8} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 		{02BDF798-A924-4F07-A607-75B3C20EDA6E} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
-		{32CD02CF-FE79-45D4-A81E-28509FF41A7A} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 	EndGlobalSection
 	GlobalSection(TextTemplating) = postSolution
 		TextTemplating = 1

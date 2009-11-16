@@ -22,6 +22,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <summary>
         /// Interceptor to use.
         /// </summary>
-        IInstanceInterceptor Interceptor { get; }
+        /// <param name="context">Context for current build operation.</param>
+        IInstanceInterceptor GetInterceptor(IBuilderContext context);
     }
 }

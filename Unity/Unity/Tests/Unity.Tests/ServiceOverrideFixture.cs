@@ -188,6 +188,21 @@ namespace Microsoft.Practices.Unity.Tests
             new PropertyOverride("ignored", null);
         }
 
+        [TestMethod]
+        public void CanOverrideDependencyWithExplicitInjectionParameterValue()
+        {
+            var container = new UnityContainer()
+                .RegisterType<Outer>(new InjectionConstructor(typeof(Inner), 10))
+                .RegisterType<Inner>(new InjectionConstructor(20, "ignored"));
+
+            // resolves overriding only the parameter for the Bar instance
+
+            var instance = container.Resolve<Outer>(new DependencyOverride<int>(new InjectionParameter(50)).OnType<Inner>());
+
+            Assert.AreEqual(10, instance.LogLevel);
+            Assert.AreEqual(50, instance.Inner.LogLevel);
+        }
+
         public class SimpleTestObject
         {
             public SimpleTestObject()
@@ -229,6 +244,28 @@ namespace Microsoft.Practices.Unity.Tests
             {
                 MySomething = something;
             }
+        }
+
+        public class Outer
+        {
+            public Outer(Inner inner, int logLevel)
+            {
+                this.Inner = inner;
+                this.LogLevel = logLevel;
+            }
+
+            public int LogLevel { get; private set; }
+            public Inner Inner { get; private set; }
+        }
+
+        public class Inner
+        {
+            public Inner(int logLevel, string label)
+            {
+                this.LogLevel = logLevel;
+            }
+
+            public int LogLevel { get; private set; }
         }
     }
 }

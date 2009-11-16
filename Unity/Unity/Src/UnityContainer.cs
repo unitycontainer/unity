@@ -12,9 +12,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
+using Microsoft.Practices.Unity.Properties;
 using Guard = Microsoft.Practices.Unity.Utility.Guard;
 
 namespace Microsoft.Practices.Unity
@@ -471,6 +473,14 @@ namespace Microsoft.Practices.Unity
                         new NamedTypeBuildKey(t, name),
                         existing);
                 context.AddResolverOverrides(resolverOverrides);
+
+                if(t.IsGenericTypeDefinition)
+                {
+                    throw new ArgumentException(
+                        string.Format(CultureInfo.CurrentCulture,
+                        Resources.CannotResolveOpenGenericType,
+                        t.FullName), "t");
+                }
 
                 return context.Strategies.ExecuteBuildUp(context);
             }

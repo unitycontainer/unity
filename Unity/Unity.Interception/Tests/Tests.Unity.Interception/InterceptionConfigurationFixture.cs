@@ -32,9 +32,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container.RegisterType<IInterface, BaseClass>(
                 "test",
-                new Interceptor(new InterfaceInterceptor()),
-                new InterceptionBehavior(new PolicyInjectionBehaviorDescriptor()),
-                new InterceptionBehavior(new SomeOtherInterceptorDescriptor()));
+                new Interceptor<InterfaceInterceptor>(),
+                new InterceptionBehavior<PolicyInjectionBehavior>());
 
             IInterface instance = container.Resolve<IInterface>("test");
 
@@ -53,7 +52,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container.RegisterType<IInterface, BaseClass>(
                 "test",
-                new Interceptor(new InterfaceInterceptor()),
+                new Interceptor<InterfaceInterceptor>(),
                 new InterceptionBehavior(interceptionBehavior));
 
             IInterface instance = container.Resolve<IInterface>("test");
@@ -73,7 +72,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container.RegisterType<IInterface, BaseClass>(
                 "test",
-                new Interceptor(new InterfaceInterceptor()),
+                new Interceptor<InterfaceInterceptor>(),
                 new AdditionalInterface(typeof(IOtherInterface)),
                 new InterceptionBehavior(
                     new DelegateInterceptionBehavior(
@@ -96,7 +95,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container.RegisterType<IInterface, BaseClass>(
                 "test",
-                new Interceptor(new VirtualMethodInterceptor()),
+                new Interceptor<VirtualMethodInterceptor>(),
                 new AdditionalInterface(typeof(IOtherInterface)),
                 new InterceptionBehavior(
                     new DelegateInterceptionBehavior(
@@ -119,7 +118,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container.RegisterType<IInterface, BaseClass>(
                 "test",
-                new Interceptor(new VirtualMethodInterceptor()),
+                new Interceptor<VirtualMethodInterceptor>(),
                 new AdditionalInterface<IOtherInterface>(),
                 new InterceptionBehavior(
                     new DelegateInterceptionBehavior(
@@ -169,14 +168,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public interface IOtherInterface
         {
             int DoSomethingElse(string param);
-        }
-
-        public class SomeOtherInterceptorDescriptor : IInterceptionBehaviorDescriptor
-        {
-            public IInterceptionBehavior GetInterceptionBehavior(IInterceptor interceptor, Type interceptedType, Type implementationType, IUnityContainer container)
-            {
-                return null;
-            }
         }
     }
 }

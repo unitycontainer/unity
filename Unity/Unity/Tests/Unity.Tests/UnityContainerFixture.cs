@@ -632,6 +632,75 @@ namespace Microsoft.Practices.Unity.Tests
 
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ResolutionFailedException))]
+        public void ResolvingOpenGenericGivesInnerInvalidOperationException()
+        {
+            IUnityContainer container = new UnityContainer()
+                .RegisterType(typeof (List<>), new InjectionConstructor(10));
+            try
+            {
+                container.Resolve(typeof (List<>));
+            }
+            catch (ResolutionFailedException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(ArgumentException));
+                throw;
+            }
+            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ResolutionFailedException))]
+        public void ResovingObjectWithPrivateSetterGivesUsefulException()
+        {
+            IUnityContainer container = new UnityContainer();
+            try
+            {
+                container.Resolve<ObjectWithPrivateSetter>();
+            }
+            catch (ResolutionFailedException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof (InvalidOperationException));
+                throw;
+            }
+        }
+
+        [TestMethod]
+        public void ResolvingUnconfiguredPrimitiveDependencyGivesReasonableException()
+        {
+            ResolvingUnconfiguredPrimitiveGivesResonableException<string>();
+            ResolvingUnconfiguredPrimitiveGivesResonableException<bool>();
+            ResolvingUnconfiguredPrimitiveGivesResonableException<char>();
+            ResolvingUnconfiguredPrimitiveGivesResonableException<float>();
+            ResolvingUnconfiguredPrimitiveGivesResonableException<double>();
+            ResolvingUnconfiguredPrimitiveGivesResonableException<byte>();
+            ResolvingUnconfiguredPrimitiveGivesResonableException<short>();
+            ResolvingUnconfiguredPrimitiveGivesResonableException<int>();
+            ResolvingUnconfiguredPrimitiveGivesResonableException<long>();
+            ResolvingUnconfiguredPrimitiveGivesResonableException<IntPtr>();
+            ResolvingUnconfiguredPrimitiveGivesResonableException<UIntPtr>();
+            ResolvingUnconfiguredPrimitiveGivesResonableException<ushort>();
+            ResolvingUnconfiguredPrimitiveGivesResonableException<uint>();
+            ResolvingUnconfiguredPrimitiveGivesResonableException<ulong>();
+            ResolvingUnconfiguredPrimitiveGivesResonableException<sbyte>();
+        }
+
+        private void ResolvingUnconfiguredPrimitiveGivesResonableException<T>()
+        {
+            IUnityContainer container = new UnityContainer();
+            try
+            {
+                container.Resolve<TypeWithPrimitiveDependency<T>>();
+            }
+            catch (ResolutionFailedException e)
+            {
+                Assert.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException));
+                return;
+            }
+            Assert.Fail("Expected exception did not occur");
+        }
+
         internal class Foo
         {
 
@@ -650,6 +719,20 @@ namespace Microsoft.Practices.Unity.Tests
         public class FooRepository : IRepository<Foo>
         {
 
+        }
+
+        public class ObjectWithPrivateSetter
+        {
+            [Dependency]
+            public object Obj1 { get; private set; }
+        }
+
+        public class TypeWithPrimitiveDependency<T>
+        {
+            public TypeWithPrimitiveDependency(T dependency)
+            {
+                
+            }
         }
     }
 }

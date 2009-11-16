@@ -47,17 +47,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         {
             TInterface instance = null;
 
-            Type instanceType = TypeResolver.ResolveType(typeName);
-            if (!typeof(TInterface).IsAssignableFrom(instanceType))
-            {
-                throw new InvalidOperationException(
-                    string.Format(
-                        CultureInfo.CurrentCulture,
-                        Resources.ExceptionResolvedTypeNotCompatible,
-                        typeName,
-                        instanceType.Name,
-                        typeof(TInterface).Name));
-            }
+            Type instanceType = GetResolvedType<TInterface>(typeName);
             try
             {
                 instance = (TInterface)Activator.CreateInstance(instanceType);
@@ -73,6 +63,31 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             }
 
             return instance;
+        }
+
+        /// <summary>
+        /// A helper method that will resolve the type given by name to an actual type object.
+        /// </summary>
+        /// <typeparam name="TInterface">Target interface for the type name. Resolved type must
+        /// be assignable to this type.</typeparam>
+        /// <param name="typeName">Type string to resolve.</param>
+        /// <returns>The resolved type.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
+            Justification = "Generic needed for type checking/validation")]
+        protected Type GetResolvedType<TInterface>(string typeName)
+        {
+            Type instanceType = TypeResolver.ResolveType(typeName);
+            if(!typeof(TInterface).IsAssignableFrom(instanceType))
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        Resources.ExceptionResolvedTypeNotCompatible,
+                        typeName,
+                        instanceType.Name,
+                        typeof(TInterface).Name));                
+            }
+            return instanceType;
         }
     }
 }

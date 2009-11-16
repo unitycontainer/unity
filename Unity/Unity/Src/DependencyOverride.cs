@@ -33,7 +33,6 @@ namespace Microsoft.Practices.Unity
         /// <param name="dependencyValue">Value to use.</param>
         public DependencyOverride(Type typeToConstruct, object dependencyValue)
         {
-            Guard.InstanceIsAssignable(typeToConstruct, dependencyValue, "dependencyValue");
             this.typeToConstruct = typeToConstruct;
             this.dependencyValue = InjectionParameterValue.ToParameter(dependencyValue);
         }

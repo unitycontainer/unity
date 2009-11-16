@@ -86,7 +86,7 @@ namespace Microsoft.Practices.Unity.Tests
                 .RegisterInstance<object>("o1", o1)
                 .RegisterInstance<object>("o2", o2);
 
-            BuilderContext context = GetContext(container, typeof(object));
+            BuilderContext context = GetContext(container, new NamedTypeBuildKey<object>());
 
             ResolvedArrayWithElementsResolverPolicy resolver
                 = new ResolvedArrayWithElementsResolverPolicy(typeof(object));
@@ -177,7 +177,7 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.AreSame(o2, results[1]);
         }
 
-        private BuilderContext GetContext(IUnityContainer container, object buildKey)
+        private BuilderContext GetContext(IUnityContainer container, NamedTypeBuildKey buildKey)
         {
             StrategyChain strategies = new StrategyChain();
             strategies.Add(new ReturnContainerStrategy(container));

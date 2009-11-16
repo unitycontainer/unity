@@ -10,23 +10,24 @@
 //===============================================================================
 
 using System;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
     /// <summary>
-    /// Implementation of <see cref="ITypeInterceptionPolicy"/>.
+    /// Implementation of <see cref="ITypeInterceptionPolicy"/> that returns a precreated
+    /// interceptor object.
     /// </summary>
-    public class TypeInterceptionPolicy : ITypeInterceptionPolicy
+    public class FixedTypeInterceptionPolicy : ITypeInterceptionPolicy
     {
         private readonly ITypeInterceptor interceptor;
-        private Type proxyType;
 
         /// <summary>
-        /// Create a new instance of <see cref="TypeInterceptionPolicy"/> that
+        /// Create a new instance of <see cref="FixedTypeInterceptionPolicy"/> that
         /// uses the given <see cref="ITypeInterceptor"/>.
         /// </summary>
         /// <param name="interceptor">Interceptor to use.</param>
-        public TypeInterceptionPolicy(ITypeInterceptor interceptor)
+        public FixedTypeInterceptionPolicy(ITypeInterceptor interceptor)
         {
             this.interceptor = interceptor;
         }
@@ -34,18 +35,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <summary>
         /// Interceptor to use to create type proxy
         /// </summary>
-        public ITypeInterceptor Interceptor
+        /// <param name="context">Context for current build operation.</param>
+        public ITypeInterceptor GetInterceptor(IBuilderContext context)
         {
-            get { return interceptor; }
+            return interceptor;
         }
 
         /// <summary>
         /// Cache for proxied type.
         /// </summary>
-        public Type ProxyType
-        {
-            get { return proxyType; }
-            set { proxyType = value; }
-        }
+        public Type ProxyType { get; set; }
     }
 }

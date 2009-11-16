@@ -24,6 +24,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private readonly Dictionary<HandlerPipelineKey, HandlerPipeline> pipelines =
             new Dictionary<HandlerPipelineKey, HandlerPipeline>();
 
+        private static readonly HandlerPipeline emptyPipeline = new HandlerPipeline();
+
         /// <summary>
         /// Retrieve the pipeline assocated with the requested <paramref name="method"/>.
         /// </summary>
@@ -43,12 +45,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// been set, returns a new empty pipeline.</returns>
         public HandlerPipeline GetPipeline(HandlerPipelineKey key)
         {
-            HandlerPipeline pipeline;
-            if (!pipelines.TryGetValue(key, out pipeline))
+            HandlerPipeline pipeline = emptyPipeline;
+            if(pipelines.ContainsKey(key))
             {
-                pipeline = new HandlerPipeline();
+                pipeline = pipelines[key];
             }
-
             return pipeline;
         }
 

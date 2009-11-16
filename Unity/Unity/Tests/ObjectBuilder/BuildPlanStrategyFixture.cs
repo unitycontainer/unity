@@ -25,9 +25,9 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             object instance = new object();
             ReturnInstanceBuildPlan plan = new ReturnInstanceBuildPlan(instance);
 
-            context.Policies.Set<IBuildPlanPolicy>(plan, typeof(object));
+            context.Policies.Set<IBuildPlanPolicy>(plan, new NamedTypeBuildKey<object>());
 
-            object result = context.ExecuteBuildUp(typeof(object), null);
+            object result = context.ExecuteBuildUp(new NamedTypeBuildKey<object>(), null);
 
             Assert.IsTrue(plan.BuildUpCalled);
             Assert.AreSame(instance, result);
@@ -41,12 +41,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             MockBuildPlanCreatorPolicy policy = new MockBuildPlanCreatorPolicy();
             context.Policies.SetDefault<IBuildPlanCreatorPolicy>(policy);
 
-            object result = context.ExecuteBuildUp(typeof(object), null);
+            object result = context.ExecuteBuildUp(new NamedTypeBuildKey<object>(), null);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(policy.PolicyWasCreated);
 
-            IBuildPlanPolicy plan = context.Policies.Get<IBuildPlanPolicy>(typeof(object));
+            IBuildPlanPolicy plan = context.Policies.Get<IBuildPlanPolicy>(new NamedTypeBuildKey(typeof(object)));
             Assert.IsNotNull(plan);
         }
 
@@ -56,7 +56,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
     {
         private bool policyWasCreated = false;
 
-        public IBuildPlanPolicy CreatePlan(IBuilderContext context, object buildKey)
+        public IBuildPlanPolicy CreatePlan(IBuilderContext context, NamedTypeBuildKey buildKey)
         {
             policyWasCreated = true;
             return new ReturnInstanceBuildPlan(new object());

@@ -19,9 +19,9 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 		[TestMethod]
 		public void PolicyReturnsNewBuildKey()
 		{
-			BuildKeyMappingPolicy policy = new BuildKeyMappingPolicy(typeof(string));
+			var policy = new BuildKeyMappingPolicy(new NamedTypeBuildKey<string>());
 
-			Assert.AreEqual<object>(typeof(string), policy.Map(typeof(object)));
+			Assert.AreEqual(new NamedTypeBuildKey<string>(), policy.Map(new NamedTypeBuildKey<object>()));
 		}
 	}
 }

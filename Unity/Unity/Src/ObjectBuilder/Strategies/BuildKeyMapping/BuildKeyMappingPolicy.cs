@@ -16,13 +16,13 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class BuildKeyMappingPolicy : IBuildKeyMappingPolicy
     {
-        readonly object newBuildKey;
+        readonly NamedTypeBuildKey newBuildKey;
 
         /// <summary>
         /// Initialize a new instance of the <see cref="BuildKeyMappingPolicy"/> with the new build key.
         /// </summary>
         /// <param name="newBuildKey">The new build key.</param>
-        public BuildKeyMappingPolicy(object newBuildKey)
+        public BuildKeyMappingPolicy(NamedTypeBuildKey newBuildKey)
         {
             this.newBuildKey = newBuildKey;
         }
@@ -32,7 +32,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="buildKey">The build key to mapl</param>
         /// <returns>The new build key.</returns>
-        public object Map(object buildKey)
+        public NamedTypeBuildKey Map(NamedTypeBuildKey buildKey)
         {
             return newBuildKey;
         }

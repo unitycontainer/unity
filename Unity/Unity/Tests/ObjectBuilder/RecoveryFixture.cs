@@ -23,13 +23,13 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         [TestMethod]
         public void RecoveryIsExecutedOnException()
         {
-            RecoveryObject recovery = new RecoveryObject();
+            var recovery = new RecoveryObject();
             MockBuilderContext context = GetContext();
             context.RecoveryStack.Add(recovery);
 
             try
             {
-                context.ExecuteBuildUp(typeof(object), null);
+                context.ExecuteBuildUp(new NamedTypeBuildKey<object>(), null);
             }
             catch(Exception)
             {
@@ -39,9 +39,9 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             Assert.IsTrue(recovery.wasRecovered);
         }
 
-        private MockBuilderContext GetContext()
+        private static MockBuilderContext GetContext()
         {
-            MockBuilderContext context = new MockBuilderContext();
+            var context = new MockBuilderContext();
             context.Strategies.Add(new ThrowingStrategy());
 
             return context;
@@ -49,7 +49,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
         private class RecoveryObject : IRequiresRecovery
         {
-            public bool wasRecovered = false;
+            public bool wasRecovered;
 
             public void Recover()
             {

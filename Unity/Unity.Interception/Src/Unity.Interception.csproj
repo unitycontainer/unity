@@ -49,20 +49,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdditionalInterface.cs" />
-    <Compile Include="AdditionalInterfacesPolicy.cs" />
+    <Compile Include="ContainerIntegration\AdditionalInterface.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\AdditionalInterfacesPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\ResolvedInstanceInterceptionPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\ResolvedTypeInterceptionPolicy.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="IAdditionalInterfacesPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\IAdditionalInterfacesPolicy.cs" />
     <Compile Include="Intercept.cs" />
-    <Compile Include="InterceptionBehaviors\ContainerResolvedInterceptionBehaviorDescriptor.cs" />
-    <Compile Include="InterceptionMember.cs" />
-    <Compile Include="Interceptor.cs" />
+    <Compile Include="ContainerIntegration\InterceptionMember.cs" />
+    <Compile Include="ContainerIntegration\Interceptor.cs" />
+    <Compile Include="InterceptionBehaviors\CurrentInterceptionRequest.cs" />
     <Compile Include="Interceptors\IInterceptingProxy.cs" />
     <Compile Include="Interceptors\IInterceptor.cs" />
-    <Compile Include="Interceptors\InstanceInterceptors\IInstanceInterceptionPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\IInstanceInterceptionPolicy.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\IInstanceInterceptor.cs" />
-    <Compile Include="Interceptors\InstanceInterceptors\InstanceInterceptionPolicy.cs" />
-    <Compile Include="Interceptors\InstanceInterceptors\InstanceInterceptionStrategy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\FixedInstanceInterceptionPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\InstanceInterceptionStrategy.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\InterfaceInterception\InterfaceImplementation.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\InterfaceInterception\InterfaceInterceptor.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\InterfaceInterception\InterfaceInterceptorClassGenerator.cs" />
@@ -70,10 +72,10 @@
     <Compile Include="Interceptors\InstanceInterceptors\TransparentProxyInterception\InterceptingRealProxy.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\TransparentProxyInterception\TransparentProxyInterceptor.cs" />
     <Compile Include="Interceptors\MethodImplementationInfo.cs" />
-    <Compile Include="Interceptors\TypeInterceptors\ITypeInterceptionPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\ITypeInterceptionPolicy.cs" />
     <Compile Include="Interceptors\TypeInterceptors\ITypeInterceptor.cs" />
-    <Compile Include="Interceptors\TypeInterceptors\TypeInterceptionPolicy.cs" />
-    <Compile Include="Interceptors\TypeInterceptors\TypeInterceptionStrategy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\FixedTypeInterceptionPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\TypeInterceptionStrategy.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\GeneratedTypeKey.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\IInterceptingProxyMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\InterceptingProxyImplementor.cs" />
@@ -81,7 +83,7 @@
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\ObjectMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\InterceptionBehaviorPipelineMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\VirtualMethodInterceptor.cs" />
-    <Compile Include="IInterceptionBehaviorsPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\IInterceptionBehaviorsPolicy.cs" />
     <Compile Include="PolicyInjection\HandlerPipelineKey.cs" />
     <Compile Include="PolicyInjection\Pipeline\PipelineManager.cs" />
     <Compile Include="PolicyInjection\Policies\ApplyNoPoliciesAttribute.cs" />
@@ -92,7 +94,7 @@
     <Compile Include="PolicyInjection\MatchingRules\IMatchingRule.cs" />
     <Compile Include="PolicyInjection\Pipeline\IMethodInvocation.cs" />
     <Compile Include="PolicyInjection\Pipeline\IMethodReturn.cs" />
-    <Compile Include="Interception.cs" />
+    <Compile Include="ContainerIntegration\Interception.cs" />
     <Compile Include="PolicyInjection\Pipeline\IParameterCollection.cs" />
     <Compile Include="PolicyInjection\MatchingRules\MatchingRuleSet.cs" />
     <Compile Include="PolicyInjection\MatchingRules\ApplyNoPoliciesMatchingRule.cs" />
@@ -110,10 +112,9 @@
     <Compile Include="PolicyInjection\MatchingRules\TypeMatchingRule.cs" />
     <Compile Include="PolicyInjection\Pipeline\ParameterCollection.cs" />
     <Compile Include="PolicyInjection\Policies\InjectionPolicy.cs" />
-    <Compile Include="PolicyDefinition.cs" />
+    <Compile Include="ContainerIntegration\PolicyDefinition.cs" />
     <Compile Include="PolicyInjection\Policies\PolicySet.cs" />
     <Compile Include="PolicyInjection\PolicyInjectionBehavior.cs" />
-    <Compile Include="PolicyInjection\PolicyInjectionBehaviorDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -126,10 +127,8 @@
     <Compile Include="Interceptors\InstanceInterceptors\TransparentProxyInterception\TransparentProxyOutputParameterCollection.cs" />
     <Compile Include="PolicyInjection\Policies\RuleDrivenPolicy.cs" />
     <Compile Include="PolicyInjection\MatchingRules\TagAttribute.cs" />
-    <Compile Include="InterceptionBehavior.cs" />
-    <Compile Include="InterceptionBehaviorsPolicy.cs" />
-    <Compile Include="InterceptionBehaviors\ExistingInterceptionBehaviorDescriptor.cs" />
-    <Compile Include="IInterceptionBehaviorDescriptor.cs" />
+    <Compile Include="ContainerIntegration\InterceptionBehavior.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\InterceptionBehaviorsPolicy.cs" />
     <Compile Include="InterceptionBehaviors\InterceptionBehaviorPipeline.cs" />
     <Compile Include="InterceptionBehaviors\IInterceptionBehavior.cs" />
     <Compile Include="Utilities\Glob.cs" />

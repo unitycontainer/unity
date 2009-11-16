@@ -50,7 +50,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         private IPolicyList GetPolicies()
         {
             PolicyList policies = new PolicyList();
-            policies.Set<ILifetimePolicy>(new SingletonLifetimePolicy(), typeof (object));
+            policies.Set<ILifetimePolicy>(new SingletonLifetimePolicy(), new NamedTypeBuildKey(typeof (object)));
             return policies;
         }
     }
@@ -71,7 +71,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void Build()
         {
             var transientPolicies = new PolicyList(policies);
-            var context = new BuilderContext(strategies, null, policies, transientPolicies, typeof (object), null);
+            var context = new BuilderContext(strategies, null, policies, transientPolicies, new NamedTypeBuildKey<object>(), null);
             Result = strategies.ExecuteBuildUp(context);
         }
     }

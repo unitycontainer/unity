@@ -20,7 +20,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     public class PolicyInjectionBehavior : IInterceptionBehavior
     {
-        private PipelineManager pipelineManager;
+        private readonly PipelineManager pipelineManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PolicyInjectionBehavior"/> with a pipeline manager.
@@ -29,6 +29,44 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public PolicyInjectionBehavior(PipelineManager pipelineManager)
         {
             this.pipelineManager = pipelineManager;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PolicyInjectionBehavior"/> with the given information
+        /// about what's being intercepted and the current set of injection policies.
+        /// </summary>
+        /// <param name="interceptionRequest">Information about what will be injected.</param>
+        /// <param name="policies">Current injection policies.</param>
+        /// <param name="container">Unity container that can be used to resolve call handlers.</param>
+        public PolicyInjectionBehavior(CurrentInterceptionRequest interceptionRequest, InjectionPolicy[] policies,
+            IUnityContainer container)
+        {
+            this.pipelineManager = null;
+            var allPolicies = new PolicySet(policies);
+            bool hasHandlers = false;
+
+            var manager = new PipelineManager();
+
+            foreach (MethodImplementationInfo method in
+                interceptionRequest.Interceptor.GetInterceptableMethods(
+                    interceptionRequest.TypeToIntercept, interceptionRequest.ImplementationType))
+            {
+                var pipeline = new HandlerPipeline(allPolicies.GetHandlersFor(method, container));
+                if (pipeline.Count > 0)
+                {
+                    manager.SetPipeline(method.ImplementationMethodInfo, pipeline);
+                    if (method.InterfaceMethodInfo != null)
+                    {
+                        manager.SetPipeline(method.InterfaceMethodInfo, pipeline);
+                    }
+                    hasHandlers = true;
+                }
+            }
+
+            if(hasHandlers)
+            {
+                this.pipelineManager = manager;
+            }
         }
 
         /// <summary>
@@ -71,6 +109,17 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public IEnumerable<Type> GetRequiredInterfaces()
         {
             return Type.EmptyTypes;
+        }
+
+        /// <summary>
+        /// Returns a flag indicating if this behavior will actually do anything when invoked.
+        /// </summary>
+        /// <remarks>This is used to optimize interception. If the behaviors won't actually
+        /// do anything (for example, PIAB where no policies match) then the interception
+        /// mechanism can be skipped completely.</remarks>
+        public bool WillExecute
+        {
+            get { return pipelineManager != null; }
         }
     }
 }

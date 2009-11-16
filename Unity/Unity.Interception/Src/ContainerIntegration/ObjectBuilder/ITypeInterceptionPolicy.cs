@@ -9,20 +9,27 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System;
 using System.Collections.Generic;
+using System.Text;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
     /// <summary>
-    /// An <see cref="IBuilderPolicy"/> that returns a sequence of <see cref="IInterceptionBehaviorDescriptor"/> 
-    /// instances representing the behaviors for an intercepted object.
+    /// Interface that controls when and how types get intercepted.
     /// </summary>
-    public interface IInterceptionBehaviorsPolicy : IBuilderPolicy
+    public interface ITypeInterceptionPolicy : IBuilderPolicy
     {
         /// <summary>
-        /// Gets the <see cref="IInterceptionBehaviorDescriptor"/> instances accumulated by this policy.
+        /// Interceptor to use to create type proxy
         /// </summary>
-        IEnumerable<IInterceptionBehaviorDescriptor> InterceptionBehaviorDescriptors { get; }
+        /// <param name="context">Context for current build operation.</param>
+        ITypeInterceptor GetInterceptor(IBuilderContext context);
+
+        /// <summary>
+        /// Cache for proxied type.
+        /// </summary>
+        Type ProxyType { get; set; }
     }
 }

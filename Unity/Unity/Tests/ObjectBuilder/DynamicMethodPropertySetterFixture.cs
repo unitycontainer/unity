@@ -29,14 +29,14 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             object existingObject = new object();
             SingletonLifetimePolicy lifetimePolicy = new SingletonLifetimePolicy();
             lifetimePolicy.SetValue(existingObject);
-            context.Policies.Set<ILifetimePolicy>(lifetimePolicy, typeof(object));
+            context.Policies.Set<ILifetimePolicy>(lifetimePolicy, new NamedTypeBuildKey<object>());
 
             IBuildPlanPolicy plan =
-                GetPlanCreator(context).CreatePlan(context, typeof(OnePropertyClass));
+                GetPlanCreator(context).CreatePlan(context, new NamedTypeBuildKey(typeof(OnePropertyClass)));
 
             OnePropertyClass existing = new OnePropertyClass();
             context.Existing = existing;
-            context.BuildKey = typeof(OnePropertyClass);
+            context.BuildKey = new NamedTypeBuildKey(typeof(OnePropertyClass));
             plan.BuildUp(context);
 
             Assert.IsNotNull(existing.Key);
@@ -47,10 +47,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void TheCurrentOperationIsNullAfterSuccessfullyExecutingTheBuildPlan()
         {
             MockBuilderContext context = GetContext();
-            context.BuildKey = typeof(OnePropertyClass);
+            var key = new NamedTypeBuildKey<OnePropertyClass>();
+            context.BuildKey = key;
             context.Existing = new OnePropertyClass();
 
-            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, typeof(OnePropertyClass));
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
             plan.BuildUp(context);
 
             Assert.IsNull(context.CurrentOperation);
@@ -62,14 +63,15 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             var resolverPolicy = new CurrentOperationSensingResolverPolicy<object>();
 
             MockBuilderContext context = GetContext();
-            context.BuildKey = typeof(OnePropertyClass);
+            var key = new NamedTypeBuildKey<OnePropertyClass>();
+            context.BuildKey = key;
             context.Existing = new OnePropertyClass();
 
             context.Policies.Set<IPropertySelectorPolicy>(
                 new TestSinglePropertySelectorPolicy<OnePropertyClass>(resolverPolicy),
-                typeof(OnePropertyClass));
+                key);
 
-            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, typeof(OnePropertyClass));
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
             plan.BuildUp(context);
 
             Assert.IsNotNull(resolverPolicy.currentOperation);
@@ -82,14 +84,15 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             var resolverPolicy = new ExceptionThrowingTestResolverPolicy(exception);
 
             MockBuilderContext context = GetContext();
-            context.BuildKey = typeof(OnePropertyClass);
+            var key = new NamedTypeBuildKey<OnePropertyClass>();
+            context.BuildKey = key;
             context.Existing = new OnePropertyClass();
 
             context.Policies.Set<IPropertySelectorPolicy>(
                 new TestSinglePropertySelectorPolicy<OnePropertyClass>(resolverPolicy),
-                typeof(OnePropertyClass));
+                key);
 
-            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, typeof(OnePropertyClass));
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
 
             try
             {
@@ -111,11 +114,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void ExceptionThrownWhileSettingAPropertyIsBubbledUpAndTheCurrentOperationIsNotCleared()
         {
             MockBuilderContext context = GetContext();
-            context.BuildKey = typeof(OneExceptionThrowingPropertyClass);
+            var key = new NamedTypeBuildKey<OneExceptionThrowingPropertyClass>();
+            context.BuildKey = key;
             context.Existing = new OneExceptionThrowingPropertyClass();
 
             IBuildPlanPolicy plan =
-                GetPlanCreator(context).CreatePlan(context, typeof(OneExceptionThrowingPropertyClass));
+                GetPlanCreator(context).CreatePlan(context, key);
 
             try
             {

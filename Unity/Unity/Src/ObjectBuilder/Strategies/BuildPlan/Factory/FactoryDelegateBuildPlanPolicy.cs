@@ -34,6 +34,8 @@ namespace Microsoft.Practices.ObjectBuilder2
             {
                 var currentContainer = context.NewBuildUp<IUnityContainer>();
                 context.Existing = factory(currentContainer);
+
+                DynamicMethodConstructorStrategy.SetPerBuildSingleton(context);
             }
         }
     }

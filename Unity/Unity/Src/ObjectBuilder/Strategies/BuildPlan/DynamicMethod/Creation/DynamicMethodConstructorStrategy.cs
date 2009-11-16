@@ -15,6 +15,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Properties;
 using Microsoft.Practices.Unity.Utility;
 
@@ -41,6 +42,12 @@ namespace Microsoft.Practices.ObjectBuilder2
         private static readonly MethodInfo setCurrentOperationToInvokingConstructor =
             StaticReflection.GetMethodInfo(() => SetCurrentOperationToInvokingConstructor(null, null));
 
+        private static readonly MethodInfo setExistingInContext =
+            StaticReflection.GetPropertySetMethodInfo<IBuilderContext, object>(ctx => ctx.Existing);
+
+        private static readonly MethodInfo setPerBuildSingleton =
+            StaticReflection.GetMethodInfo(() => SetPerBuildSingleton(null));
+
         /// <summary>
         /// Called during the chain of responsibility for a build operation.
         /// </summary>
@@ -59,6 +66,9 @@ namespace Microsoft.Practices.ObjectBuilder2
                 context.Policies.Get<IConstructorSelectorPolicy>(context.BuildKey);
 
             SelectedConstructor selectedCtor = selector.SelectConstructor(context);
+
+            GuardTypeIsNonPrimitive(context, selectedCtor);
+
             // Method preamble - test if we have an existing object
             // First off, set up jump - if there's an existing object, skip us entirely
             Label existingObjectNotNull = buildContext.IL.DefineLabel();
@@ -109,6 +119,21 @@ namespace Microsoft.Practices.ObjectBuilder2
 
                     // Clear the current operation
                     buildContext.EmitClearCurrentOperation();
+
+                    // Store existing object back into context - makes it available for future resolvers
+                    buildContext.EmitLoadContext();
+                    buildContext.EmitLoadExisting();
+                    if (buildContext.TypeToBuild.IsValueType)
+                    {
+                        buildContext.IL.Emit(OpCodes.Box, buildContext.TypeToBuild);
+                    }
+                    buildContext.IL.EmitCall(OpCodes.Callvirt, setExistingInContext, null);
+
+                    // Is this object a per-build singleton? If so, then emit code to stuff in
+                    // the appropriate lifetime manager.
+                    buildContext.EmitLoadContext();
+                    buildContext.IL.EmitCall(OpCodes.Call, setPerBuildSingleton, null);
+                    
                 }
                 else
                 {
@@ -145,7 +170,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             throw new InvalidOperationException(
                 string.Format(CultureInfo.CurrentCulture,
                               Resources.NoConstructorFound,
-                              BuildKey.GetType(context.BuildKey).Name));
+                              context.BuildKey.Type.Name));
         }
 
         /// <summary>
@@ -163,7 +188,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             throw new InvalidOperationException(
                 string.Format(CultureInfo.CurrentCulture,
                               Resources.SelectedConstructorHasRefParameters,
-                              BuildKey.GetType(context.BuildKey).Name,
+                              context.BuildKey.Type.Name,
                               signature));
         }
 
@@ -178,12 +203,12 @@ namespace Microsoft.Practices.ObjectBuilder2
         public static void ThrowForAttemptingToConstructInterface(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
-            if (BuildKey.GetType(context.BuildKey).IsInterface)
+            if (context.BuildKey.Type.IsInterface)
             {
                 throw new InvalidOperationException(
                     string.Format(CultureInfo.CurrentCulture,
                         Resources.CannotConstructInterface,
-                        BuildKey.GetType(context.BuildKey),
+                        context.BuildKey.Type,
                         context.BuildKey));
             }
         }
@@ -197,7 +222,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             Guard.ArgumentNotNull(context, "context");
 
             context.CurrentOperation = new ConstructorArgumentResolveOperation(
-                BuildKey.GetType(context.BuildKey), constructorSignature, parameterName);
+                context.BuildKey.Type, constructorSignature, parameterName);
         }
 
         /// <summary>
@@ -209,7 +234,25 @@ namespace Microsoft.Practices.ObjectBuilder2
             Guard.ArgumentNotNull(context, "context");
 
             context.CurrentOperation = new InvokingConstructorOperation(
-                BuildKey.GetType(context.BuildKey), constructorSignature);
+                context.BuildKey.Type, constructorSignature);
+        }
+
+        /// <summary>
+        /// A helper method used by the generated IL to set up a PerBuildSingleton lifetime manager
+        /// if the current object is such.
+        /// </summary>
+        /// <param name="context">Current build context.</param>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class.")]
+        public static void SetPerBuildSingleton(IBuilderContext context)
+        {
+            Guard.ArgumentNotNull(context, "context");
+
+            var lifetime = context.Policies.Get<ILifetimePolicy>(context.BuildKey);
+            if(lifetime is PerBuildSingleton)
+            {
+                var perBuildLifetime = new PerBuildSingleton(context.Existing);
+                context.Policies.Set<ILifetimePolicy>(perBuildLifetime, context.BuildKey);
+            }
         }
 
         // Build up the string that will represent the constructor signature
@@ -231,6 +274,24 @@ namespace Microsoft.Practices.ObjectBuilder2
                 "{0}({1})",
                 typeName,
                 string.Join(", ", parameterDescriptions));
+        }
+
+        // Verify the type we're trying to build is actually constructable -
+        // CLR primitive types like string and int aren't.
+        private static void GuardTypeIsNonPrimitive(IBuilderContext context, SelectedConstructor selectedConstructor)
+        {
+            var typeToBuild = context.BuildKey.Type;
+            if(!typeToBuild.IsInterface)
+            {
+                if(typeToBuild == typeof(string) || selectedConstructor == null)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            Resources.TypeIsNotConstructable,
+                            typeToBuild.Name));
+                }
+            }
         }
     }
 }

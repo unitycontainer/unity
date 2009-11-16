@@ -81,9 +81,17 @@ namespace Microsoft.Practices.Unity
         /// <returns>a <see cref="IDependencyResolverPolicy"/> object if this override applies, null if not.</returns>
         public override IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType)
         {
-            return overrides.Select(item => item.GetResolver(context, dependencyType))
-                .Where(resolver => resolver != null)
-                .FirstOrDefault();
+            // Walk backwards over the resolvers, this way newer resolvers can replace
+            // older ones.
+            for (int index = overrides.Count() - 1; index >= 0; --index)
+            {
+                var resolver = overrides[index].GetResolver(context, dependencyType);
+                if(resolver != null)
+                {
+                    return resolver;
+                }
+            }
+            return null;
         }
     }
 }

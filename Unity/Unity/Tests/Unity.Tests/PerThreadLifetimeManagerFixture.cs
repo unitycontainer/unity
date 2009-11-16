@@ -12,7 +12,6 @@
 using System.Linq;
 using System.Threading;
 using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.Tests
@@ -70,14 +69,11 @@ namespace Microsoft.Practices.Unity.Tests
             ltm.SetValue(expected);
 
             // Providing dummy initializers so we can prove the values are different coming out of the LTM
-            object thisThreadResult = new object();
-            object otherThreadResult = new object();
+            var otherThreadResult = new object();
 
-            RunInParallel(delegate { otherThreadResult = ltm.GetValue(); });
+            RunInParallel(() => { otherThreadResult = ltm.GetValue(); });
 
-            thisThreadResult = ltm.GetValue();
-
-            Assert.AreSame(expected, thisThreadResult);
+            Assert.AreSame(expected, ltm.GetValue());
             Assert.IsNull(otherThreadResult);
         }
 
@@ -93,7 +89,7 @@ namespace Microsoft.Practices.Unity.Tests
             object valueTwo = null;
             object ValueThree = null;
 
-            Barrier barrier = new Barrier(3);
+            TestSupport.Barrier barrier = new TestSupport.Barrier(3);
             RunInParallel(
                 delegate { ltm.SetValue(one); barrier.Await(); valueOne = ltm.GetValue(); },
                 delegate { ltm.SetValue(three); barrier.Await(); ValueThree = ltm.GetValue(); },
@@ -150,7 +146,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             container.RegisterInstance(registered, manager);
 
-            Barrier barrier = new Barrier(2);
+            TestSupport.Barrier barrier = new TestSupport.Barrier(2);
             RunInParallel(
                 delegate
                 {

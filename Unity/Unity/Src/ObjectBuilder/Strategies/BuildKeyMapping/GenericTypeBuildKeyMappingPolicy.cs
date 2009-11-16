@@ -22,7 +22,7 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class GenericTypeBuildKeyMappingPolicy : IBuildKeyMappingPolicy
     {
-        private object destinationKey;
+        private readonly NamedTypeBuildKey destinationKey;
 
         /// <summary>
         /// Create a new <see cref="GenericTypeBuildKeyMappingPolicy"/> instance
@@ -31,14 +31,14 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="destinationKey">Build key to map to. This must be or contain an open generic type.</param>
         // FxCop suppression: Validation is done by Guard class
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
-        public GenericTypeBuildKeyMappingPolicy(object destinationKey)
+        public GenericTypeBuildKeyMappingPolicy(NamedTypeBuildKey destinationKey)
         {
-            if(!BuildKey.GetType(destinationKey).IsGenericTypeDefinition)
+            if(!destinationKey.Type.IsGenericTypeDefinition)
             {
                 throw new ArgumentException(
                     string.Format(CultureInfo.CurrentCulture,
                                   Resources.MustHaveOpenGenericType,
-                                  BuildKey.GetType(destinationKey).Name));
+                                  destinationKey.Type.Name));
             }
             this.destinationKey = destinationKey;
         }
@@ -48,14 +48,14 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="buildKey">The build key to map.</param>
         /// <returns>The new build key.</returns>
-        public object Map(object buildKey)
+        public NamedTypeBuildKey Map(NamedTypeBuildKey buildKey)
         {
-            Type originalType = BuildKey.GetType(buildKey);
+            Type originalType = buildKey.Type;
             GuardSameNumberOfGenericArguments(originalType);
 
             Type[] genericArguments = originalType.GetGenericArguments();
-            Type resultType = BuildKey.GetType(destinationKey).MakeGenericType(genericArguments);
-            return BuildKey.ReplaceType(destinationKey, resultType);
+            Type resultType = destinationKey.Type.MakeGenericType(genericArguments);
+            return new NamedTypeBuildKey(resultType, destinationKey.Name);
         }
 
         private void GuardSameNumberOfGenericArguments(Type sourceType)
@@ -72,7 +72,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private Type DestinationType
         {
-            get { return BuildKey.GetType(destinationKey); }
+            get { return destinationKey.Type; }
         }
     }
 }

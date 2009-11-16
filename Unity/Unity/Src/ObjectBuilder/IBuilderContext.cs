@@ -44,7 +44,12 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <value>
         /// The original build key for the build operation.
         /// </value>
-        object OriginalBuildKey { get; }
+        NamedTypeBuildKey OriginalBuildKey { get; }
+
+        /// <summary>
+        /// Get the current build key for the current build operation.
+        /// </summary>
+        NamedTypeBuildKey BuildKey { get; set; }
 
         /// <summary>
         /// The set of policies that were passed into this context.
@@ -69,11 +74,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// that need to execute in event of an exception.
         /// </summary>
         IRecoveryStack RecoveryStack { get; }
-
-        /// <summary>
-        /// Get the current build key for the current build operation.
-        /// </summary>
-        object BuildKey { get; set; }
 
         /// <summary>
         /// The current object being built up or torn down.
@@ -121,7 +121,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="newBuildKey">Key to use to build up.</param>
         /// <returns>Created object.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
-        object NewBuildUp(object newBuildKey);
+        object NewBuildUp(NamedTypeBuildKey newBuildKey);
 
         /// <summary>
         /// A convenience method to do a new buildup operation on an existing context. This
@@ -129,12 +129,12 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// of the build.
         /// </summary>
         /// <param name="newBuildKey">Key defining what to build up.</param>
-        /// <param name="policyAdderBlock">A delegate that takes a <see cref="IPolicyList"/>. This
-        /// is invoked before the build up process starts to give callers the opportunity to add
-        /// custom policies to the build process.</param>
+        /// <param name="childCustomizationBlock">A delegate that takes a <see cref="IBuilderContext"/>. This
+        /// is invoked with the new child context before the build up process starts. This gives callers
+        /// the opportunity to customize the context for the build process.</param>
         /// <returns>Created object.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
-        object NewBuildUp(object newBuildKey, Action<IPolicyList> policyAdderBlock);
+        object NewBuildUp(NamedTypeBuildKey newBuildKey, Action<IBuilderContext> childCustomizationBlock);
     }
 
     /// <summary>
@@ -168,6 +168,17 @@ namespace Microsoft.Practices.ObjectBuilder2
         public static TResult NewBuildUp<TResult>(this IBuilderContext context, string name)
         {
             return (TResult) context.NewBuildUp(NamedTypeBuildKey.Make<TResult>(name));
+        }
+
+        /// <summary>
+        /// Add a set of <see cref="ResolverOverride"/>s to the context, specified as a 
+        /// variable argument list.
+        /// </summary>
+        /// <param name="context">Context to add overrides to.</param>
+        /// <param name="overrides">The overrides.</param>
+        public static void AddResolverOverrides(this IBuilderContext context, params ResolverOverride[] overrides)
+        {
+            context.AddResolverOverrides(overrides);
         }
     }
 }

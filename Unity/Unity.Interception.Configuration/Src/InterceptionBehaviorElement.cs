@@ -35,15 +35,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         {
             if (!string.IsNullOrEmpty(this.BehaviorTypeName))
             {
-                return new InterceptionBehavior(this.CreateInstance<IInterceptionBehavior>(BehaviorTypeName));
-            }
-            if (!string.IsNullOrEmpty(this.BehaviorDescriptorTypeName))
-            {
-                return new InterceptionBehavior(
-                    this.CreateInstance<IInterceptionBehaviorDescriptor>(BehaviorDescriptorTypeName));
+                Type fullType = TypeResolver.ResolveType(BehaviorTypeName);
+                return new InterceptionBehavior(fullType, BehaviorName);
             }
 
-            return new InterceptionBehavior(new ContainerResolvedInterceptionBehaviorDescriptor(this.BehaviorName));
+            return new InterceptionBehavior<IInterceptionBehavior>(this.BehaviorName);
         }
 
         /// <summary>
@@ -57,11 +53,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             int dataItems = 0;
 
             if (reader.MoveToAttribute("behaviorType")) dataItems++;
-            if (reader.MoveToAttribute("behaviorDescriptorType")) dataItems++;
-            if (reader.MoveToAttribute("behavior")) dataItems++;
+            if (reader.MoveToAttribute("behaviorName")) dataItems++;
             reader.MoveToElement();
 
-            if (dataItems != 1)
+            if (dataItems == 0)
             {
                 throw new ConfigurationErrorsException(Resources.MustHaveAtLeastOneBehaviorAttribute, reader);
             }
@@ -80,23 +75,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         }
 
         /// <summary>
-        /// Returns the string name of the type of the interception behavior descriptor represented by this element.
-        /// </summary>
-        [ConfigurationProperty("behaviorDescriptorType")]
-        public string BehaviorDescriptorTypeName
-        {
-            get { return (string)this["behaviorDescriptorType"]; }
-            set { this["behaviorDescriptorType"] = value; }
-        }
-
-        /// <summary>
         /// Returns the name to use to resolve the interception behavior represented by this element.
         /// </summary>
-        [ConfigurationProperty("behavior")]
+        [ConfigurationProperty("behaviorName")]
         public string BehaviorName
         {
-            get { return (string)this["behavior"]; }
-            set { this["behavior"] = value; }
+            get { return (string)this["behaviorName"]; }
+            set { this["behaviorName"] = value; }
         }
     }
 }

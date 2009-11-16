@@ -25,7 +25,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// <returns>The <see cref="AdditionalInterface"/> object.</returns>
         public override InjectionMember CreateInjectionMember()
         {
-            return new Interceptor(this.CreateInstance<IInterceptor>(TypeName));
+            return new Interceptor(this.GetResolvedType<IInterceptor>(TypeName));
         }
 
         /// <summary>

@@ -17,35 +17,22 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 	[TestClass]
 	public class BuildKeyMappingStrategyTest
 	{
-		[TestMethod]
-		public void CanMakeArbitraryKeysToConcreteTypes()
-		{
-			MockBuilderContext context = new MockBuilderContext();
-			context.Policies.Set<IBuildKeyMappingPolicy>(new BuildKeyMappingPolicy(typeof(Foo)), "bar");
-			BuildKeyMappingStrategy strategy = new BuildKeyMappingStrategy();
-			context.Strategies.Add(strategy);
-			SpyStrategy spy = new SpyStrategy();
-			context.Strategies.Add(spy);
-
-		    context.BuildKey = "bar";
-		    context.Strategies.ExecuteBuildUp(context);
-
-			Assert.AreEqual<object>(typeof(Foo), spy.BuildKey);
-		}
 
 		[TestMethod]
 		public void CanMapGenericsWithIdenticalGenericParameters()
 		{
 			MockBuilderContext context = new MockBuilderContext();
-			context.Policies.Set<IBuildKeyMappingPolicy>(new GenericTypeBuildKeyMappingPolicy(typeof(Foo<>)), typeof(IFoo<>));
+			context.Policies.Set<IBuildKeyMappingPolicy>(new GenericTypeBuildKeyMappingPolicy(
+                new NamedTypeBuildKey(typeof(Foo<>))), 
+                new NamedTypeBuildKey(typeof(IFoo<>)));
 			BuildKeyMappingStrategy strategy = new BuildKeyMappingStrategy();
 			context.Strategies.Add(strategy);
 			SpyStrategy spy = new SpyStrategy();
 			context.Strategies.Add(spy);
-		    context.BuildKey = typeof (IFoo<int>);
+		    context.BuildKey = new NamedTypeBuildKey<IFoo<int>>();
 		    context.Strategies.ExecuteBuildUp(context);
 
-			Assert.AreEqual<object>(typeof(Foo<int>), spy.BuildKey);
+			Assert.AreEqual<object>(new NamedTypeBuildKey(typeof(Foo<int>)), spy.BuildKey);
 		}
 
 	    [TestMethod]
@@ -64,23 +51,24 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 		    context.Strategies.ExecuteBuildUp(context);
 
 	        Assert.IsInstanceOfType(spy.BuildKey, typeof (NamedTypeBuildKey));
-			Assert.AreEqual<object>(typeof(Foo<int>), BuildKey.GetType(spy.BuildKey));
-	        Assert.AreEqual("two", ((NamedTypeBuildKey) spy.BuildKey).Name);
+			Assert.AreEqual<object>(typeof(Foo<int>), spy.BuildKey.Type);
+	        Assert.AreEqual("two", spy.BuildKey.Name);
 	    }
 
 		[TestMethod]
 		public void CanMapInterfacesToConcreteTypes()
 		{
 			MockBuilderContext context = new MockBuilderContext();
-			context.Policies.Set<IBuildKeyMappingPolicy>(new BuildKeyMappingPolicy(typeof(Foo)), typeof(IFoo));
+			context.Policies.Set<IBuildKeyMappingPolicy>(new BuildKeyMappingPolicy(new NamedTypeBuildKey<Foo>()),
+                new NamedTypeBuildKey<IFoo>());
 			BuildKeyMappingStrategy strategy = new BuildKeyMappingStrategy();
 			context.Strategies.Add(strategy);
 			SpyStrategy spy = new SpyStrategy();
 			context.Strategies.Add(spy);
-		    context.BuildKey = typeof (IFoo);
+		    context.BuildKey = new NamedTypeBuildKey<IFoo>();
 		    context.Strategies.ExecuteBuildUp(context);
 
-			Assert.AreEqual<object>(typeof(Foo), spy.BuildKey);
+			Assert.AreEqual(new NamedTypeBuildKey(typeof(Foo)), spy.BuildKey);
 		}
 
 	    [TestMethod]
@@ -112,7 +100,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
 		class SpyStrategy : BuilderStrategy
 		{
-			public object BuildKey;
+			public NamedTypeBuildKey BuildKey;
 
 			public override void PreBuildUp(IBuilderContext context)
 			{

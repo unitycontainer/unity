@@ -26,6 +26,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void CallsMethodsMarkedWithInjectionAttribute()
         {
             MockBuilderContext context = GetContext();
+            var key = new NamedTypeBuildKey<ObjectWithInjectionMethod>();
             object intValue = 42;
             object stringValue = "Hello world";
 
@@ -33,11 +34,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             SetSingleton(context, typeof(string), stringValue);
 
             IBuildPlanPolicy plan =
-                GetPlanCreator(context).CreatePlan(context, typeof(ObjectWithInjectionMethod));
+                GetPlanCreator(context).CreatePlan(context, key);
 
             ObjectWithInjectionMethod existing = new ObjectWithInjectionMethod();
 
-            context.BuildKey = typeof(ObjectWithInjectionMethod);
+            context.BuildKey = key;
             context.Existing = existing;
             plan.BuildUp(context);
 
@@ -55,7 +56,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 MockBuilderContext context = GetContext();
-                GetPlanCreator(context).CreatePlan(context, typeof(ObjectWithGenericInjectionMethod));
+                GetPlanCreator(context).CreatePlan(context, new NamedTypeBuildKey(typeof(ObjectWithGenericInjectionMethod)));
                 Assert.Fail();
             }
             catch (IllegalInjectionMethodException)
@@ -70,7 +71,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 MockBuilderContext context = GetContext();
-                GetPlanCreator(context).CreatePlan(context, typeof(ObjectWithOutParamMethod));
+                GetPlanCreator(context).CreatePlan(context, new NamedTypeBuildKey(typeof(ObjectWithOutParamMethod)));
                 Assert.Fail();
             }
             catch (IllegalInjectionMethodException)
@@ -84,7 +85,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 MockBuilderContext context = GetContext();
-                GetPlanCreator(context).CreatePlan(context, typeof(ObjectWithRefParamMethod));
+                GetPlanCreator(context).CreatePlan(context, new NamedTypeBuildKey(typeof(ObjectWithRefParamMethod)));
                 Assert.Fail();
             }
             catch (IllegalInjectionMethodException)
@@ -96,10 +97,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void TheCurrentOperationIsNullAfterSuccessfullyExecutingTheBuildPlan()
         {
             MockBuilderContext context = GetContext();
-            context.BuildKey = typeof(ObjectWithSingleInjectionMethod);
+            var key = new NamedTypeBuildKey<ObjectWithSingleInjectionMethod>();
+            context.BuildKey = key;
             context.Existing = new ObjectWithSingleInjectionMethod();
 
-            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, typeof(ObjectWithSingleInjectionMethod));
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
             plan.BuildUp(context);
 
             Assert.IsNull(context.CurrentOperation);
@@ -109,11 +111,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void ExceptionThrownWhileInvokingTheInjectionMethodIsBubbledUpAndTheCurrentOperationIsNotCleared()
         {
             MockBuilderContext context = GetContext();
-            context.BuildKey = typeof(ObjectWithSingleThrowingInjectionMethod);
+            var key = new NamedTypeBuildKey<ObjectWithSingleThrowingInjectionMethod>();
+            context.BuildKey = key;
             context.Existing = new ObjectWithSingleThrowingInjectionMethod();
 
             IBuildPlanPolicy plan =
-                GetPlanCreator(context).CreatePlan(context, typeof(ObjectWithSingleThrowingInjectionMethod));
+                GetPlanCreator(context).CreatePlan(context, key);
 
             try
             {
@@ -136,14 +139,15 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             var resolverPolicy = new CurrentOperationSensingResolverPolicy<object>();
 
             MockBuilderContext context = GetContext();
-            context.BuildKey = typeof(ObjectWithSingleInjectionMethod);
+            var key = new NamedTypeBuildKey<ObjectWithSingleInjectionMethod>();
+            context.BuildKey = key;
             context.Existing = new ObjectWithSingleInjectionMethod();
 
             context.Policies.Set<IMethodSelectorPolicy>(
                 new TestSingleArgumentMethodSelectorPolicy<ObjectWithSingleInjectionMethod>(resolverPolicy),
-                typeof(ObjectWithSingleInjectionMethod));
+                key);
 
-            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, typeof(ObjectWithSingleInjectionMethod));
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
 
             plan.BuildUp(context);
 
@@ -157,14 +161,15 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             var resolverPolicy = new ExceptionThrowingTestResolverPolicy(exception);
 
             MockBuilderContext context = GetContext();
-            context.BuildKey = typeof(ObjectWithSingleInjectionMethod);
+            var key = new NamedTypeBuildKey<ObjectWithSingleInjectionMethod>();
+            context.BuildKey = key;
             context.Existing = new ObjectWithSingleInjectionMethod();
 
             context.Policies.Set<IMethodSelectorPolicy>(
                 new TestSingleArgumentMethodSelectorPolicy<ObjectWithSingleInjectionMethod>(resolverPolicy),
-                typeof(ObjectWithSingleInjectionMethod));
+                key);
 
-            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, typeof(ObjectWithSingleInjectionMethod));
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
 
             try
             {
@@ -217,7 +222,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         {
             SingletonLifetimePolicy policy = new SingletonLifetimePolicy();
             policy.SetValue(value);
-            context.PersistentPolicies.Set<ILifetimePolicy>(policy, t);
+            context.PersistentPolicies.Set<ILifetimePolicy>(policy, new NamedTypeBuildKey(t));
         }
 
         public class ObjectWithInjectionMethod

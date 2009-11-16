@@ -22,8 +22,9 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void LifetimeStrategyDefaultsToTransient()
         {
             MockBuilderContext context = CreateContext();
-            object result = context.ExecuteBuildUp(typeof(object), null);
-            object result2 = context.ExecuteBuildUp(typeof(object), null);
+            var key = new NamedTypeBuildKey<object>();
+            object result = context.ExecuteBuildUp(key, null);
+            object result2 = context.ExecuteBuildUp(key, null);
             Assert.IsNotNull(result);
             Assert.IsNotNull(result2);
             Assert.AreNotSame(result, result2);
@@ -33,10 +34,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void SingletonPolicyAffectsLifetime()
         {
             MockBuilderContext context = CreateContext();
-            context.Policies.Set<ILifetimePolicy>(new SingletonLifetimePolicy(), typeof(object));
+            var key = new NamedTypeBuildKey<object>();
+            context.Policies.Set<ILifetimePolicy>(new SingletonLifetimePolicy(), key);
 
-            object result = context.ExecuteBuildUp(typeof(object), null);
-            object result2 = context.ExecuteBuildUp(typeof(object), null);
+            object result = context.ExecuteBuildUp(key, null);
+            object result2 = context.ExecuteBuildUp(key, null);
             Assert.IsNotNull(result);
             Assert.AreSame(result, result2);
         }
@@ -45,10 +47,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void LifetimeStrategyAddsRecoveriesToContext()
         {
             MockBuilderContext context = CreateContext();
+            var key = new NamedTypeBuildKey<object>();
             RecoverableLifetime recovery = new RecoverableLifetime();
-            context.PersistentPolicies.Set<ILifetimePolicy>(recovery, typeof(object));
+            context.PersistentPolicies.Set<ILifetimePolicy>(recovery, key);
 
-            context.ExecuteBuildUp(typeof(object), null);
+            context.ExecuteBuildUp(key, null);
 
             Assert.AreEqual(1, context.RecoveryStack.Count);
 
@@ -60,19 +63,20 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void LifetimeStrategyUsesFactoryToGetLifetimePolicyForGenericType()
         {
             MockBuilderContext context = CreateContext();
+            var openKey = new NamedTypeBuildKey(typeof (MyFoo<>));
             context.PersistentPolicies.Set<ILifetimeFactoryPolicy>(
-                new LifetimeFactoryPolicy<RecoverableLifetime>(), typeof(MyFoo<>));
+                new LifetimeFactoryPolicy<RecoverableLifetime>(), openKey);
 
-            context.ExecuteBuildUp(typeof(MyFoo<string>), null);
+            context.ExecuteBuildUp(new NamedTypeBuildKey<MyFoo<string>>(), null);
             MyFoo<string> stringFoo = (MyFoo<string>)context.Existing;
 
-            context.ExecuteBuildUp(typeof(MyFoo<int>), null);
+            context.ExecuteBuildUp(new NamedTypeBuildKey<MyFoo<int>>(), null);
             MyFoo<int> intFoo = (MyFoo<int>)context.Existing;
 
             ILifetimePolicy stringLifetime =
-                context.Policies.GetNoDefault<ILifetimePolicy>(typeof(MyFoo<string>), false);
+                context.Policies.GetNoDefault<ILifetimePolicy>(new NamedTypeBuildKey(typeof(MyFoo<string>)), false);
             ILifetimePolicy intLifetime =
-                context.Policies.GetNoDefault<ILifetimePolicy>(typeof(MyFoo<int>), false);
+                context.Policies.GetNoDefault<ILifetimePolicy>(new NamedTypeBuildKey(typeof(MyFoo<int>)), false);
 
             Assert.IsNotNull(stringLifetime);
             Assert.IsNotNull(intLifetime);

@@ -25,7 +25,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     public class VirtualMethodInterceptor : ITypeInterceptor
     {
-        private readonly Dictionary<GeneratedTypeKey, Type> derivedClasses =
+        private static readonly Dictionary<GeneratedTypeKey, Type> derivedClasses =
             new Dictionary<GeneratedTypeKey, Type>(new GeneratedTypeKey.GeneratedTypeKeyComparer());
 
 

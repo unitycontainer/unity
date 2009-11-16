@@ -63,6 +63,7 @@
     <Compile Include="Injection\InjectionFactory.cs" />
     <Compile Include="Injection\OptionalParameter.cs" />
     <Compile Include="Lifetime\HierarchicalLifetimeManager.cs" />
+    <Compile Include="Lifetime\PerBuildSingleton.cs" />
     <Compile Include="ObjectBuilderCustomization\HierarchicalLifetimeStrategy.cs" />
     <Compile Include="ObjectBuilderCustomization\OptionalDependencyResolverPolicy.cs" />
     <Compile Include="ObjectBuilder\Strategies\BuildPlan\BuildOperation.cs" />
@@ -80,7 +81,6 @@
     <Compile Include="ObjectBuilder\Exceptions\IllegalInjectionMethodException.cs" />
     <Compile Include="ObjectBuilder\Exceptions\IllegalInjectionMethodException.Desktop.cs" />
     <Compile Include="ObjectBuilder\IBuilderContext.cs" />
-    <Compile Include="ObjectBuilder\IBuildKey.cs" />
     <Compile Include="ObjectBuilder\IRecoveryStack.cs" />
     <Compile Include="ObjectBuilder\IRequiresRecovery.cs" />
     <Compile Include="ObjectBuilder\Lifetime\ILifetimeContainer.cs" />
@@ -143,7 +143,6 @@
     <Compile Include="ObjectBuilder\Strategies\Lifetime\TransientLifetimePolicy.cs" />
     <Compile Include="ObjectBuilder\Strategies\StagedStrategyChain.cs" />
     <Compile Include="ObjectBuilder\Strategies\StrategyChain.cs" />
-    <Compile Include="ObjectBuilder\Utility\BuildKey.cs" />
     <Compile Include="ObjectBuilder\Utility\NamedTypeBuildKey.cs" />
     <Compile Include="ObjectBuilder\Utility\Sequence.cs" />
     <Compile Include="ResolutionFailedException.Desktop.cs" />

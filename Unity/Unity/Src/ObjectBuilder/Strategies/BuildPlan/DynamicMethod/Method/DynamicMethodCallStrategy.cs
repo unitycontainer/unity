@@ -136,7 +136,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             Guard.ArgumentNotNull(context, "context");
             context.CurrentOperation = new MethodArgumentResolveOperation(
-                BuildKey.GetType(context.BuildKey),
+                context.BuildKey.Type,
                 methodSignature, parameterName);
         }
 
@@ -147,7 +147,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         public static void SetCurrentOperationToInvokingMethod(string methodSignature, IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
-            context.CurrentOperation = new InvokingMethodOperation(BuildKey.GetType(context.BuildKey), methodSignature);
+            context.CurrentOperation = new InvokingMethodOperation(context.BuildKey.Type, methodSignature);
         }
 
         private static string GetMethodSignature(MethodBase method)

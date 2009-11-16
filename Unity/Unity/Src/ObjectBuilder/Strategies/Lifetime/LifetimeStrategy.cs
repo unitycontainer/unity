@@ -72,7 +72,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         private static ILifetimePolicy GetLifetimePolicy(IBuilderContext context)
         {
             ILifetimePolicy policy = context.Policies.GetNoDefault<ILifetimePolicy>(context.BuildKey, false);
-            if(policy == null && BuildKey.GetType(context.BuildKey).IsGenericType)
+            if(policy == null && context.BuildKey.Type.IsGenericType)
             {
                 policy = GetLifetimePolicyForGenericType(context);
             }
@@ -87,9 +87,9 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private static ILifetimePolicy GetLifetimePolicyForGenericType(IBuilderContext context)
         {
-            Type typeToBuild = BuildKey.GetType(context.BuildKey);
-            object openGenericBuildKey =
-                BuildKey.ReplaceType(context.BuildKey, typeToBuild.GetGenericTypeDefinition());
+            Type typeToBuild = context.BuildKey.Type;
+            object openGenericBuildKey = new NamedTypeBuildKey(typeToBuild.GetGenericTypeDefinition(),
+                                                               context.BuildKey.Name);
 
             ILifetimeFactoryPolicy factoryPolicy =
                 context.Policies.Get<ILifetimeFactoryPolicy>(openGenericBuildKey);

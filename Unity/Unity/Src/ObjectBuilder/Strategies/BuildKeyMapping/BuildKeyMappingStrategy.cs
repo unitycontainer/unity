@@ -23,7 +23,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="context">The context for the operation.</param>
 		public override void PreBuildUp(IBuilderContext context)
 		{
-			IBuildKeyMappingPolicy policy = context.Policies.Get<IBuildKeyMappingPolicy>(context.BuildKey);
+			var policy = context.Policies.Get<IBuildKeyMappingPolicy>(context.BuildKey);
 
 			if (policy != null)
 			{

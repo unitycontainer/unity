@@ -43,5 +43,16 @@ namespace Microsoft.Practices.Unity.TestSupport
         {
             return this.requiredInterfaces();
         }
+
+        /// <summary>
+        /// Returns a flag indicating if this behavior will actually do anything when invoked.
+        /// </summary>
+        /// <remarks>This is used to optimize interception. If the behaviors won't actually
+        /// do anything (for example, PIAB where no policies match) then the interception
+        /// mechanism can be skipped completely.</remarks>
+        public bool WillExecute
+        {
+            get { return true; }
+        }
     }
 }

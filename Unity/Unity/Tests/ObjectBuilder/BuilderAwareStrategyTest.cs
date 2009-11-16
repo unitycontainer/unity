@@ -20,29 +20,29 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 		[TestMethod]
 		public void BuildCallsClassWithInterface()
 		{
-			BuilderAwareStrategy strategy = new BuilderAwareStrategy();
-			MockBuilderContext context = new MockBuilderContext();
-			Aware obj = new Aware();
+			var strategy = new BuilderAwareStrategy();
+			var context = new MockBuilderContext();
+			var obj = new Aware();
 
 			context.Strategies.Add(strategy);
 
-		    context.ExecuteBuildUp(typeof (Aware), obj);
+		    context.ExecuteBuildUp(new NamedTypeBuildKey<Aware>(), obj);
 
 			Assert.IsTrue(obj.OnBuiltUp__Called);
 			Assert.IsFalse(obj.OnTearingDown__Called);
-			Assert.AreEqual(typeof(Aware), obj.OnBuiltUp_BuildKey);
+			Assert.AreEqual(new NamedTypeBuildKey<Aware>(), obj.OnBuiltUp_BuildKey);
 		}
 
 		[TestMethod]
 		public void BuildChecksConcreteTypeAndNotRequestedType()
 		{
-			BuilderAwareStrategy strategy = new BuilderAwareStrategy();
-			MockBuilderContext context = new MockBuilderContext();
-			Aware obj = new Aware();
+			var strategy = new BuilderAwareStrategy();
+			var context = new MockBuilderContext();
+			var obj = new Aware();
 
 			context.Strategies.Add(strategy);
 
-		    context.ExecuteBuildUp(typeof (Aware), obj);
+		    context.ExecuteBuildUp(new NamedTypeBuildKey<Aware>(), obj);
 
 			Assert.IsTrue(obj.OnBuiltUp__Called);
 			Assert.IsFalse(obj.OnTearingDown__Called);
@@ -51,13 +51,13 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 		[TestMethod]
 		public void BuildIgnoresClassWithoutInterface()
 		{
-			BuilderAwareStrategy strategy = new BuilderAwareStrategy();
-			MockBuilderContext context = new MockBuilderContext();
-			Ignorant obj = new Ignorant();
+			var strategy = new BuilderAwareStrategy();
+			var context = new MockBuilderContext();
+			var obj = new Ignorant();
 
 			context.Strategies.Add(strategy);
 
-		    context.ExecuteBuildUp(typeof (Ignorant), obj);
+		    context.ExecuteBuildUp(new NamedTypeBuildKey<Ignorant>(), obj);
 
 			Assert.IsFalse(obj.OnBuiltUp__Called);
 			Assert.IsFalse(obj.OnTearingDown__Called);
@@ -66,9 +66,9 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 		[TestMethod]
 		public void TearDownCallsClassWithInterface()
 		{
-			BuilderAwareStrategy strategy = new BuilderAwareStrategy();
-			MockBuilderContext context = new MockBuilderContext();
-			Aware obj = new Aware();
+			var strategy = new BuilderAwareStrategy();
+			var context = new MockBuilderContext();
+			var obj = new Aware();
 
 			context.Strategies.Add(strategy);
 
@@ -81,9 +81,9 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 		[TestMethod]
 		public void TearDownIgnoresClassWithoutInterface()
 		{
-			BuilderAwareStrategy strategy = new BuilderAwareStrategy();
-			MockBuilderContext context = new MockBuilderContext();
-			Ignorant obj = new Ignorant();
+			var strategy = new BuilderAwareStrategy();
+			var context = new MockBuilderContext();
+			var obj = new Ignorant();
 
 			context.Strategies.Add(strategy);
 
@@ -97,11 +97,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
 		class Ignorant
 		{
-			public bool OnBuiltUp__Called = false;
-			public object OnBuiltUp_BuildKey = null;
-			public bool OnTearingDown__Called = false;
+			public bool OnBuiltUp__Called;
+			public NamedTypeBuildKey OnBuiltUp_BuildKey;
+			public bool OnTearingDown__Called;
 
-			public void OnBuiltUp(object buildKey)
+			public void OnBuiltUp(NamedTypeBuildKey buildKey)
 			{
 				OnBuiltUp__Called = true;
 				OnBuiltUp_BuildKey = buildKey;

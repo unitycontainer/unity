@@ -48,7 +48,6 @@
     <Compile Include="CallCountInterceptionBehavior.cs" />
     <Compile Include="GlobalCountInterceptionBehavior.cs" />
     <Compile Include="DelegateInterceptionBehavior.cs" />
-    <Compile Include="DelegateInterceptionBehaviorDescriptor.cs" />
     <Compile Include="GlobalCountCallHandler.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="MockBuilderContext.cs" />

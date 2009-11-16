@@ -25,7 +25,7 @@ namespace Microsoft.Practices.Unity.Tests
         {
             InjectionConstructor ctor = new InjectionConstructor();
             var context = new MockBuilderContext();
-            context.BuildKey = typeof (GuineaPig);
+            context.BuildKey = new NamedTypeBuildKey(typeof (GuineaPig));
             IPolicyList policies = context.PersistentPolicies;
 
             ctor.AddPolicies(typeof(GuineaPig), policies);
@@ -46,7 +46,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             InjectionConstructor ctor = new InjectionConstructor(expectedString, expectedInt);
             var context = new MockBuilderContext();
-            context.BuildKey = typeof (GuineaPig);
+            context.BuildKey = new NamedTypeBuildKey(typeof (GuineaPig));
             IPolicyList policies = context.PersistentPolicies;
 
             ctor.AddPolicies(typeof(GuineaPig), policies);
@@ -69,7 +69,7 @@ namespace Microsoft.Practices.Unity.Tests
         {
             InjectionConstructor ctor = new InjectionConstructor("Logger", typeof(ILogger));
             var context = new MockBuilderContext();
-            context.BuildKey = typeof (GuineaPig);
+            context.BuildKey = new NamedTypeBuildKey(typeof(GuineaPig));
             IPolicyList policies = context.PersistentPolicies;
 
             ctor.AddPolicies(typeof(GuineaPig), policies);

@@ -53,7 +53,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         public SelectedConstructor SelectConstructor(IBuilderContext context)
         {
             SelectedConstructor result;
-            Type typeToBuild = BuildKey.GetType(context.BuildKey);
+            Type typeToBuild = context.BuildKey.Type;
 
             ReflectionHelper typeReflector = new ReflectionHelper(ctor.DeclaringType);
             if (!ctorReflector.MethodHasOpenGenericParameters && !typeReflector.IsOpenGeneric)

@@ -157,6 +157,9 @@
     <Compile Include="..\..\Unity\Src\Lifetime\LifetimeManagerFactory.cs">
       <Link>Unity\Lifetime\LifetimeManagerFactory.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Src\Lifetime\PerBuildSingleton.cs">
+      <Link>Unity\Lifetime\PerBuildSingleton.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Src\Lifetime\PerThreadLifetimeManager.cs">
       <Link>Unity\Lifetime\PerThreadLifetimeManager.cs</Link>
     </Compile>
@@ -222,9 +225,6 @@
     </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\IBuilderContext.cs">
       <Link>Unity\ObjectBuilder\IBuilderContext.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Src\ObjectBuilder\IBuildKey.cs">
-      <Link>Unity\ObjectBuilder\IBuildKey.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\IRecoveryStack.cs">
       <Link>Unity\ObjectBuilder\IRecoveryStack.cs</Link>
@@ -414,9 +414,6 @@
     </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\StrategyChain.cs">
       <Link>Unity\ObjectBuilder\Strategies\StrategyChain.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Src\ObjectBuilder\Utility\BuildKey.cs">
-      <Link>Unity\ObjectBuilder\Utility\BuildKey.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Utility\EnumerableExtensions.cs">
       <Link>Unity\ObjectBuilder\Utility\EnumerableExtensions.cs</Link>

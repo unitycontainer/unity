@@ -11,7 +11,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
+using Microsoft.Practices.Unity.Properties;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
@@ -160,14 +162,14 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             Type buildType;
 
-            if (!BuildKey.TryGetType(buildKey, out buildType) || !buildType.IsGenericType)
+            if (!TryGetType(buildKey, out buildType) || !buildType.IsGenericType)
                 return
                     GetNoDefault(policyInterface, buildKey, localOnly) ??
                     GetNoDefault(policyInterface, null, localOnly);
 
             return
                 GetNoDefault(policyInterface, buildKey, localOnly) ??
-                GetNoDefault(policyInterface, BuildKey.ReplaceType(buildKey, buildType.GetGenericTypeDefinition()), localOnly) ??
+                GetNoDefault(policyInterface, ReplaceType(buildKey, buildType.GetGenericTypeDefinition()), localOnly) ??
                 GetNoDefault(policyInterface, null, localOnly);
         }
 
@@ -270,6 +272,42 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             policies = newPolicies;
             Thread.MemoryBarrier();
+        }
+
+        private static bool TryGetType(object buildKey, out Type type)
+        {
+            type = buildKey as Type;
+
+            if (type == null)
+            {
+                var basedBuildKey = buildKey as NamedTypeBuildKey;
+                if (basedBuildKey != null)
+                    type = basedBuildKey.Type;
+            }
+
+            return type != null;
+        }
+
+        private static object ReplaceType(object buildKey, Type newType)
+        {
+            var typeKey = buildKey as Type;
+            if (typeKey != null)
+            {
+                return newType;
+            }
+
+            var originalKey = buildKey as NamedTypeBuildKey;
+            if (originalKey != null)
+            {
+                return new NamedTypeBuildKey(newType, originalKey.Name);
+            }
+
+            throw new ArgumentException(
+                string.Format(
+                    CultureInfo.CurrentCulture,
+                    Resources.CannotExtractTypeFromBuildKey,
+                    buildKey),
+                "buildKey");
         }
 
         class NullPolicyList : IPolicyList

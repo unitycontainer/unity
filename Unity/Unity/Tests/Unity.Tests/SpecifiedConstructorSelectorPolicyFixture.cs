@@ -30,7 +30,7 @@ namespace Microsoft.Practices.Unity.Tests
             ConstructorInfo ctor = typeof(ClassWithSimpleConstructor).GetConstructor(new Type[0]);
 
             SpecifiedConstructorSelectorPolicy policy = new SpecifiedConstructorSelectorPolicy(ctor, new InjectionParameterValue[0]);
-            BuilderContextMock builderContext = new BuilderContextMock(typeof(ClassWithSimpleConstructor));
+            BuilderContextMock builderContext = new BuilderContextMock(new NamedTypeBuildKey(typeof(ClassWithSimpleConstructor)));
 
             SelectedConstructor selectedCtor = policy.SelectConstructor(builderContext);
 
@@ -51,7 +51,7 @@ namespace Microsoft.Practices.Unity.Tests
                     new InjectionParameter<string>("abc")
                 });
 
-            BuilderContextMock builderContext = new BuilderContextMock(typeof(ClassWithConstructorParameters));
+            BuilderContextMock builderContext = new BuilderContextMock(new NamedTypeBuildKey(typeof(ClassWithConstructorParameters)));
 
             SelectedConstructor selectedCtor = policy.SelectConstructor(builderContext);
 
@@ -78,7 +78,7 @@ namespace Microsoft.Practices.Unity.Tests
                 });
 
             BuilderContextMock ctx = new BuilderContextMock();
-            ctx.BuildKey = typeof(LoggingCommand<User>);
+            ctx.BuildKey = new NamedTypeBuildKey(typeof(LoggingCommand<User>));
 
             SelectedConstructor result = policy.SelectConstructor(ctx);
 
@@ -114,17 +114,16 @@ namespace Microsoft.Practices.Unity.Tests
 
         private class BuilderContextMock : IBuilderContext
         {
-            private IPolicyList persistentPolicies = new PolicyList();
-            private object buildKey;
+            private readonly IPolicyList persistentPolicies = new PolicyList();
 
 
             public BuilderContextMock()
             {
             }
 
-            public BuilderContextMock(object buildKey)
+            public BuilderContextMock(NamedTypeBuildKey buildKey)
             {
-                this.buildKey = buildKey;
+                this.BuildKey = buildKey;
             }
 
             public IStrategyChain Strategies
@@ -137,9 +136,9 @@ namespace Microsoft.Practices.Unity.Tests
                 get { throw new NotImplementedException(); }
             }
 
-            public object OriginalBuildKey
+            public NamedTypeBuildKey OriginalBuildKey
             {
-                get { return buildKey; }
+                get { return BuildKey; }
             }
 
             public IPolicyList PersistentPolicies
@@ -157,11 +156,7 @@ namespace Microsoft.Practices.Unity.Tests
                 get { throw new NotImplementedException(); }
             }
 
-            public object BuildKey
-            {
-                get { return buildKey; }
-                set { buildKey = value; }
-            }
+            public NamedTypeBuildKey BuildKey { get; set; }
 
             public object Existing
             {
@@ -187,12 +182,12 @@ namespace Microsoft.Practices.Unity.Tests
                 set { throw new NotImplementedException(); }
             }
 
-            public object NewBuildUp(object newBuildKey)
+            public object NewBuildUp(NamedTypeBuildKey newBuildKey)
             {
                 throw new NotImplementedException();
             }
 
-            public object NewBuildUp(object newBuildKey, Action<IPolicyList> policyAdderBlock)
+            public object NewBuildUp(NamedTypeBuildKey newBuildKey, Action<IBuilderContext> childCustomizationBlock)
             {
                 throw new NotImplementedException();
             }

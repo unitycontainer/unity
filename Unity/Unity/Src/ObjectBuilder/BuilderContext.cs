@@ -24,11 +24,9 @@ namespace Microsoft.Practices.ObjectBuilder2
         readonly IStrategyChain chain;
         readonly ILifetimeContainer lifetime;
         private readonly IRecoveryStack recoveryStack = new RecoveryStack();
-        readonly object originalBuildKey;
+        readonly NamedTypeBuildKey originalBuildKey;
         private readonly IPolicyList persistentPolicies;
         readonly IPolicyList policies;
-        private object buildKey;
-        private object existing;
         private readonly CompositeResolverOverride resolverOverrides = new CompositeResolverOverride();
 
         /// <summary>
@@ -49,16 +47,16 @@ namespace Microsoft.Practices.ObjectBuilder2
         public BuilderContext(IStrategyChain chain,
             ILifetimeContainer lifetime,
             IPolicyList policies,
-            object originalBuildKey,
+            NamedTypeBuildKey originalBuildKey,
             object existing)
         {
             this.chain = chain;
             this.lifetime = lifetime;
             this.originalBuildKey = originalBuildKey;
-            this.buildKey = originalBuildKey;
+            this.BuildKey = originalBuildKey;
             this.persistentPolicies = policies;
             this.policies = new PolicyList(persistentPolicies);
-            this.existing = existing;
+            this.Existing = existing;
         }
 
         /// <summary>
@@ -73,15 +71,15 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// combined.</param>
         /// <param name="buildKey">Build key for this context.</param>
         /// <param name="existing">Existing object to build up.</param>
-        public BuilderContext(IStrategyChain chain, ILifetimeContainer lifetime, IPolicyList persistentPolicies, IPolicyList transientPolicies, object buildKey, object existing)
+        public BuilderContext(IStrategyChain chain, ILifetimeContainer lifetime, IPolicyList persistentPolicies, IPolicyList transientPolicies, NamedTypeBuildKey buildKey, object existing)
         {
             this.chain = chain;
             this.lifetime = lifetime;
             this.persistentPolicies = persistentPolicies;
             this.policies = transientPolicies;
             this.originalBuildKey = buildKey;
-            this.buildKey = buildKey;
-            this.existing = existing;
+            this.BuildKey = buildKey;
+            this.Existing = existing;
         }
 
         /// <summary>
@@ -99,11 +97,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <summary>
         /// Get the current build key for the current build operation.
         /// </summary>
-        public object BuildKey
-        {
-            get { return buildKey; }
-            set { buildKey = value; }
-        }
+        public NamedTypeBuildKey BuildKey { get; set; }
 
         /// <summary>
         /// The current object being built up or torn down.
@@ -111,11 +105,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <value>
         /// The current object being manipulated by the build operation. May
         /// be null if the object hasn't been created yet.</value>
-        public object Existing
-        {
-            get { return existing; }
-            set { existing = value; }
-        }
+        public object Existing { get; set; }
 
         /// <summary>
         /// Gets the <see cref="ILifetimeContainer"/> associated with the build.
@@ -134,7 +124,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <value>
         /// The original build key for the build operation.
         /// </value>
-        public object OriginalBuildKey
+        public NamedTypeBuildKey OriginalBuildKey
         {
             get { return originalBuildKey; }
         }
@@ -220,7 +210,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <returns>Created object.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp",
             Justification = "Kept for backward compatibility with ObjectBuilder")]
-        public object NewBuildUp(object newBuildKey)
+        public object NewBuildUp(NamedTypeBuildKey newBuildKey)
         {
             this.ChildContext =
                 new BuilderContext(chain, lifetime, persistentPolicies, policies, newBuildKey, null);
@@ -240,23 +230,22 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// of the build.
         /// </summary>
         /// <param name="newBuildKey">Key defining what to build up.</param>
-        /// <param name="policyAdderBlock">A delegate that takes a <see cref="IPolicyList"/>. This
-        /// is invoked before the build up process starts to give callers the opportunity to add
-        /// custom policies to the build process.</param>
+        /// <param name="childCustomizationBlock">A delegate that takes a <see cref="IBuilderContext"/>. This
+        /// is invoked with the new child context before the build up process starts. This gives callers
+        /// the opportunity to customize the context for the build process.</param>
         /// <returns>Created object.</returns>
-        public object NewBuildUp(object newBuildKey, Action<IPolicyList> policyAdderBlock)
+        public object NewBuildUp(NamedTypeBuildKey newBuildKey, Action<IBuilderContext> childCustomizationBlock)
         {
-            PolicyList childPolicies = new PolicyList(persistentPolicies);
-            policyAdderBlock(childPolicies);
-
-            this.ChildContext =
-                new BuilderContext(chain, lifetime, persistentPolicies, childPolicies, newBuildKey, null);
+            ChildContext =
+                new BuilderContext(chain, lifetime, persistentPolicies, policies, newBuildKey, null);
 
             ChildContext.AddResolverOverrides(Sequence.Collect(resolverOverrides));
 
-            object result = this.ChildContext.Strategies.ExecuteBuildUp(this.ChildContext);
+            childCustomizationBlock(ChildContext);
 
-            this.ChildContext = null;
+            object result = ChildContext.Strategies.ExecuteBuildUp(ChildContext);
+
+            ChildContext = null;
 
             return result;
         }

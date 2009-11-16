@@ -86,63 +86,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\BuildPlanStrategyFixture.cs">
-      <Link>ObjectBuilder.BuildPlan\BuildPlanStrategyFixture.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\ConstructorSelectorFixture.cs">
-      <Link>ObjectBuilder.BuildPlan\ConstructorSelectorFixture.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\DynamicMethodCallFixture.cs">
-      <Link>ObjectBuilder.BuildPlan\DynamicMethodCallFixture.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\DynamicMethodConstructionFixture.cs">
-      <Link>ObjectBuilder.BuildPlan\DynamicMethodConstructionFixture.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\DynamicMethodPropertySetterFixture.cs">
-      <Link>ObjectBuilder.BuildPlan\DynamicMethodPropertySetterFixture.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\PropertySelectorFixture.cs">
-      <Link>ObjectBuilder.BuildPlan\PropertySelectorFixture.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\TestDoubles\CurrentOperationSensingResolverPolicy.cs">
-      <Link>ObjectBuilder.BuildPlan\TestDoubles\CurrentOperationSensingResolverPolicy.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\TestDoubles\DependencyAttribute.cs">
-      <Link>ObjectBuilder.BuildPlan\TestDoubles\DependencyAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\TestDoubles\ExceptionThrowingTestResolverPolicy.cs">
-      <Link>ObjectBuilder.BuildPlan\TestDoubles\ExceptionThrowingTestResolverPolicy.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\TestDoubles\InjectionConstructorAttribute.cs">
-      <Link>ObjectBuilder.BuildPlan\TestDoubles\InjectionConstructorAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\TestDoubles\InjectionMethodAttribute.cs">
-      <Link>ObjectBuilder.BuildPlan\TestDoubles\InjectionMethodAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\TestObjects\DynamicBuilderMethodCreatorFactory.Silverlight.cs">
-      <Link>ObjectBuilder.BuildPlan\TestObjects\DynamicBuilderMethodCreatorFactory.Silverlight.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\TestObjects\FileLogger.cs">
-      <Link>ObjectBuilder.BuildPlan\TestObjects\FileLogger.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\TestObjects\NullLogger.cs">
-      <Link>ObjectBuilder.BuildPlan\TestObjects\NullLogger.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\TestObjects\ObjectWithAmbiguousConstructors.cs">
-      <Link>ObjectBuilder.BuildPlan\TestObjects\ObjectWithAmbiguousConstructors.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\TestObjects\ObjectWithAmbiguousMarkedConstructor.cs">
-      <Link>ObjectBuilder.BuildPlan\TestObjects\ObjectWithAmbiguousMarkedConstructor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\TestObjects\ObjectWithMarkedConstructor.cs">
-      <Link>ObjectBuilder.BuildPlan\TestObjects\ObjectWithMarkedConstructor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\TestObjects\ObjectWithMultipleConstructors.cs">
-      <Link>ObjectBuilder.BuildPlan\TestObjects\ObjectWithMultipleConstructors.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\ObjectBuilder.BuildPlan\TestObjects\OptionalLogger.cs">
-      <Link>ObjectBuilder.BuildPlan\TestObjects\OptionalLogger.cs</Link>
-    </Compile>
     <Compile Include="..\..\Unity\Tests\ObjectBuilder\BuilderAwareStrategyTest.cs">
       <Link>ObjectBuilder\BuilderAwareStrategyTest.cs</Link>
     </Compile>
@@ -152,6 +95,21 @@
     <Compile Include="..\..\Unity\Tests\ObjectBuilder\BuildKeyMappingStrategyTest.cs">
       <Link>ObjectBuilder\BuildKeyMappingStrategyTest.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\BuildPlanStrategyFixture.cs">
+      <Link>ObjectBuilder\BuildPlanStrategyFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\ConstructorSelectorFixture.cs">
+      <Link>ObjectBuilder\ConstructorSelectorFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\DynamicMethodCallFixture.cs">
+      <Link>ObjectBuilder\DynamicMethodCallFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\DynamicMethodConstructionFixture.cs">
+      <Link>ObjectBuilder\DynamicMethodConstructionFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\DynamicMethodPropertySetterFixture.cs">
+      <Link>ObjectBuilder\DynamicMethodPropertySetterFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Tests\ObjectBuilder\GenericTypeMappingTest.cs">
       <Link>ObjectBuilder\GenericTypeMappingTest.cs</Link>
     </Compile>
@@ -160,6 +118,48 @@
     </Compile>
     <Compile Include="..\..\Unity\Tests\ObjectBuilder\LifetimeStrategyTest.cs">
       <Link>ObjectBuilder\LifetimeStrategyTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\PropertySelectorFixture.cs">
+      <Link>ObjectBuilder\PropertySelectorFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\TestDoubles\CurrentOperationSensingResolverPolicy.cs">
+      <Link>ObjectBuilder\TestDoubles\CurrentOperationSensingResolverPolicy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\TestDoubles\DependencyAttribute.cs">
+      <Link>ObjectBuilder\TestDoubles\DependencyAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\TestDoubles\ExceptionThrowingTestResolverPolicy.cs">
+      <Link>ObjectBuilder\TestDoubles\ExceptionThrowingTestResolverPolicy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\TestDoubles\InjectionConstructorAttribute.cs">
+      <Link>ObjectBuilder\TestDoubles\InjectionConstructorAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\TestDoubles\InjectionMethodAttribute.cs">
+      <Link>ObjectBuilder\TestDoubles\InjectionMethodAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\TestObjects\DynamicBuilderMethodCreatorFactory.Silverlight.cs">
+      <Link>ObjectBuilder\TestObjects\DynamicBuilderMethodCreatorFactory.Silverlight.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\TestObjects\FileLogger.cs">
+      <Link>ObjectBuilder\TestObjects\FileLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\TestObjects\NullLogger.cs">
+      <Link>ObjectBuilder\TestObjects\NullLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\TestObjects\ObjectWithAmbiguousConstructors.cs">
+      <Link>ObjectBuilder\TestObjects\ObjectWithAmbiguousConstructors.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\TestObjects\ObjectWithAmbiguousMarkedConstructor.cs">
+      <Link>ObjectBuilder\TestObjects\ObjectWithAmbiguousMarkedConstructor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\TestObjects\ObjectWithMarkedConstructor.cs">
+      <Link>ObjectBuilder\TestObjects\ObjectWithMarkedConstructor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\TestObjects\ObjectWithMultipleConstructors.cs">
+      <Link>ObjectBuilder\TestObjects\ObjectWithMultipleConstructors.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\ObjectBuilder\TestObjects\OptionalLogger.cs">
+      <Link>ObjectBuilder\TestObjects\OptionalLogger.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Tests\ObjectBuilder\Utility\ActivatorCreationStrategy.cs">
       <Link>ObjectBuilder\Utility\ActivatorCreationStrategy.cs</Link>
@@ -272,6 +272,9 @@
     <Compile Include="..\..\Unity\Tests\Unity.Tests\ParameterMatcherFixture.cs">
       <Link>Unity.Tests\ParameterMatcherFixture.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\PerBuildSingletonFixture.cs">
+      <Link>Unity.Tests\PerBuildSingletonFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\PerThreadLifetimeManagerFixture.cs">
       <Link>Unity.Tests\PerThreadLifetimeManagerFixture.cs</Link>
     </Compile>
@@ -323,9 +326,6 @@
     <Compile Include="..\..\Unity\Tests\Unity.Tests\UnityContainerFixture.cs">
       <Link>Unity.Tests\UnityContainerFixture.cs</Link>
     </Compile>
-    <Compile Include="..\..\Unity\Tests\Unity.Tests\UnityContainerFixture.Silverlight.cs">
-      <Link>Unity.Tests\UnityContainerFixture.Silverlight.cs</Link>
-    </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\UnityExtensionFixture.cs">
       <Link>Unity.Tests\UnityExtensionFixture.cs</Link>
     </Compile>
@@ -351,7 +351,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ObjectBuilder.BuildPlan\Properties\" />
     <Folder Include="Unity.TestSupport\Properties\" />
     <Folder Include="Unity.Tests\Properties\" />
   </ItemGroup>

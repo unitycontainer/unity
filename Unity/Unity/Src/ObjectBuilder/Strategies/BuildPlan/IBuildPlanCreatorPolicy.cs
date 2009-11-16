@@ -23,6 +23,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="context">Current build context.</param>
         /// <param name="buildKey">Current build key.</param>
         /// <returns>The build plan.</returns>
-        IBuildPlanPolicy CreatePlan(IBuilderContext context, object buildKey);
+        IBuildPlanPolicy CreatePlan(IBuilderContext context, NamedTypeBuildKey buildKey);
     }
 }

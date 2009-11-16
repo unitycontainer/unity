@@ -127,10 +127,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
                 new UnityContainer()
                     .AddNewExtension<Interception>()
                     .RegisterType<ClassWithVirtualProperty>(
-                        new Interceptor(new VirtualMethodInterceptor()),
-                        new InterceptionBehavior(
-                            new DelegateInterceptionBehaviorDescriptor(
-                                (i, t1, t2, c) => new NaiveINotifyPropertyChangedInterceptionBehavior())));
+                    new Interceptor<VirtualMethodInterceptor>(),
+                    new InterceptionBehavior(new NaiveINotifyPropertyChangedInterceptionBehavior()));
 
             ClassWithVirtualProperty instance = container.Resolve<ClassWithVirtualProperty>();
 
@@ -148,15 +146,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             IUnityContainer container =
                 new UnityContainer()
                     .AddNewExtension<Interception>()
-                    .RegisterType<ClassWithVirtualProperty>(new Interceptor(new VirtualMethodInterceptor()));
+                    .RegisterType<ClassWithVirtualProperty>(new Interceptor<VirtualMethodInterceptor>());
 
             Assert.IsFalse(container.Resolve<ClassWithVirtualProperty>() is INotifyPropertyChanged);
 
             container
                 .RegisterType<ClassWithVirtualProperty>(
-                    new InterceptionBehavior(
-                        new DelegateInterceptionBehaviorDescriptor(
-                            (i, t1, t2, c) => new NaiveINotifyPropertyChangedInterceptionBehavior())));
+                    new InterceptionBehavior(new NaiveINotifyPropertyChangedInterceptionBehavior()));
 
             Assert.IsTrue(container.Resolve<ClassWithVirtualProperty>() is INotifyPropertyChanged);
         }
@@ -167,36 +163,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             IUnityContainer container =
                 new UnityContainer()
                     .AddNewExtension<Interception>()
-                    .RegisterType<ClassWithVirtualProperty>(new Interceptor(new VirtualMethodInterceptor()));
+                    .RegisterType<ClassWithVirtualProperty>(new Interceptor<VirtualMethodInterceptor>());
 
             ClassWithVirtualProperty instanceOne = container.Resolve<ClassWithVirtualProperty>();
             ClassWithVirtualProperty instanceTwo = container.Resolve<ClassWithVirtualProperty>();
 
             Assert.AreSame(typeof(ClassWithVirtualProperty), instanceOne.GetType().BaseType);
             Assert.AreSame(instanceOne.GetType(), instanceTwo.GetType());
-        }
-
-        [TestMethod]
-        public void DescriptorsAreQueriedForInterceptorsOnEachBuildUp()
-        {
-            int timesDescriptorInvoked = 0;
-
-            IUnityContainer container =
-                new UnityContainer()
-                    .AddNewExtension<Interception>()
-                    .RegisterType<ClassWithVirtualProperty>(
-                        new Interceptor(new VirtualMethodInterceptor()),
-                        new InterceptionBehavior(
-                            new DelegateInterceptionBehaviorDescriptor((i, t1, t2, c) =>
-                            {
-                                timesDescriptorInvoked++;
-                                return new DelegateInterceptionBehavior((mi, gn) => gn()(mi, gn));
-                            })));
-
-            ClassWithVirtualProperty instanceOne = container.Resolve<ClassWithVirtualProperty>();
-            ClassWithVirtualProperty instanceTwo = container.Resolve<ClassWithVirtualProperty>();
-
-            Assert.AreEqual(2, timesDescriptorInvoked);
         }
 
         [TestMethod]
@@ -209,7 +182,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
                     .AddNewExtension<Interception>()
                     .RegisterType<ClassWithSingleNonDefaultConstructor>(
                         new InjectionConstructor("some value"),
-                        new Interceptor(new VirtualMethodInterceptor()),
+                        new Interceptor<VirtualMethodInterceptor>(),
                         new InterceptionBehavior(callCountBehavior));
 
             ClassWithSingleNonDefaultConstructor instance = container.Resolve<ClassWithSingleNonDefaultConstructor>();
@@ -234,7 +207,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             container
                 .AddNewExtension<Interception>()
                 .RegisterType<ClassWithInternalConstructor>(
-                    new Interceptor(new VirtualMethodInterceptor()),
+                    new Interceptor<VirtualMethodInterceptor>(),
                     new InterceptionBehavior(callCountBehavior));
 
             ClassWithInternalConstructor interceptedInstance = container.Resolve<ClassWithInternalConstructor>();

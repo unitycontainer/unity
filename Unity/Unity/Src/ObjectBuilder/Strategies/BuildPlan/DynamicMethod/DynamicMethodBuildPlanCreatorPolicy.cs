@@ -35,13 +35,13 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="context">The current build context.</param>
         /// <param name="buildKey">The current build key.</param>
         /// <returns>The created build plan.</returns>
-        public IBuildPlanPolicy CreatePlan(IBuilderContext context, object buildKey)
+        public IBuildPlanPolicy CreatePlan(IBuilderContext context, NamedTypeBuildKey buildKey)
         {
             IDynamicBuilderMethodCreatorPolicy methodCreatorPolicy =
                 context.Policies.Get<IDynamicBuilderMethodCreatorPolicy>(context.BuildKey);
             DynamicBuildPlanGenerationContext generatorContext =
                 new DynamicBuildPlanGenerationContext(
-                    BuildKey.GetType(buildKey), methodCreatorPolicy);
+                    buildKey.Type, methodCreatorPolicy);
 
             IBuilderContext planContext = GetContext(context, buildKey, generatorContext);
 
@@ -50,7 +50,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             return new DynamicMethodBuildPlan(generatorContext.GetBuildMethod());
         }
 
-        private IBuilderContext GetContext(IBuilderContext originalContext, object buildKey, DynamicBuildPlanGenerationContext ilContext)
+        private IBuilderContext GetContext(IBuilderContext originalContext, NamedTypeBuildKey buildKey, DynamicBuildPlanGenerationContext ilContext)
         {
             return new BuilderContext(
                 strategies.MakeStrategyChain(),

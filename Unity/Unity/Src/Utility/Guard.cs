@@ -99,6 +99,8 @@ namespace Microsoft.Practices.Unity.Utility
             }
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
+            Justification = "Need to use exception as flow control here, no other choice")]
         private static string GetTypeName(object assignmentInstance)
         {
             string assignmentInstanceType;
@@ -114,4 +116,3 @@ namespace Microsoft.Practices.Unity.Utility
         }
     }
 }
-

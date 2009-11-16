@@ -33,7 +33,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         ///<exception cref="InvalidOperationException">Thrown when the constructor to choose is ambiguous.</exception>
         public virtual SelectedConstructor SelectConstructor(IBuilderContext context)
         {
-            Type typeToConstruct = BuildKey.GetType(context.BuildKey);
+            Type typeToConstruct = context.BuildKey.Type;
             ConstructorInfo ctor = FindInjectionConstructor(typeToConstruct) ?? FindLongestConstructor(typeToConstruct);
             if(ctor != null)
             {

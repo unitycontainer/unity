@@ -27,7 +27,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests.Utility
         {
             if(context.Existing == null)
             {
-                context.Existing = Activator.CreateInstance(BuildKey.GetType(context.BuildKey));
+                context.Existing = Activator.CreateInstance(context.BuildKey.Type);
             }
         }
     }

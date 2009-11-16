@@ -95,7 +95,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>True if matches, false if not.</returns>
         public bool Matches(MethodBase member)
         {
-            return patterns.Exists(delegate(Glob pattern) { return pattern.IsMatch(member.Name); });
+            return patterns.Exists(pattern => pattern.IsMatch(member.Name));
         }
     }
 }

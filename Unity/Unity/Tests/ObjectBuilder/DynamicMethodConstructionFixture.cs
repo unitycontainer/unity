@@ -24,8 +24,9 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void CanBuildUpObjectWithDefaultConstructorViaBuildPlan()
         {
             MockBuilderContext context = GetContext();
-            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, typeof(NullLogger));
-            context.BuildKey = typeof(NullLogger);
+            var key = new NamedTypeBuildKey<NullLogger>();
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
+            context.BuildKey = key;
             plan.BuildUp(context);
 
             object result = context.Existing;
@@ -37,12 +38,13 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void CanResolveSimpleParameterTypes()
         {
             MockBuilderContext context = GetContext();
-            SingletonLifetimePolicy lifetimePolicy = new SingletonLifetimePolicy();
+            var key = new NamedTypeBuildKey<FileLogger>();
+            var lifetimePolicy = new SingletonLifetimePolicy();
             lifetimePolicy.SetValue("C:\\Log.txt");
-            context.Policies.Set<ILifetimePolicy>(lifetimePolicy, typeof(string));
+            context.Policies.Set<ILifetimePolicy>(lifetimePolicy, new NamedTypeBuildKey<string>());
 
-            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, typeof(FileLogger));
-            context.BuildKey = typeof(FileLogger);
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
+            context.BuildKey = key;
 
             plan.BuildUp(context);
             object result = context.Existing;
@@ -57,13 +59,13 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void TheCurrentOperationIsNullAfterSuccessfullyExecutingTheBuildPlan()
         {
             MockBuilderContext context = GetContext();
-            context.BuildKey = typeof(ConstructorInjectionTestClass);
+            context.BuildKey = new NamedTypeBuildKey(typeof(ConstructorInjectionTestClass));
 
             context.Policies.Set<IConstructorSelectorPolicy>(
                 new TestSingleArgumentConstructorSelectorPolicy<ConstructorInjectionTestClass>(new CurrentOperationSensingResolverPolicy<object>()),
                 typeof(ConstructorInjectionTestClass));
 
-            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, typeof(ConstructorInjectionTestClass));
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, context.BuildKey);
             plan.BuildUp(context);
 
             Assert.IsNull(context.CurrentOperation);
@@ -73,10 +75,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void ExceptionThrownWhileInvokingTheConstructorIsBubbledUpAndTheCurrentOperationIsNotCleared()
         {
             MockBuilderContext context = GetContext();
-            context.BuildKey = typeof(ThrowingConstructorInjectionTestClass);
+            context.BuildKey = new NamedTypeBuildKey(typeof(ThrowingConstructorInjectionTestClass));
 
             IBuildPlanPolicy plan =
-                GetPlanCreator(context).CreatePlan(context, typeof(ThrowingConstructorInjectionTestClass));
+                GetPlanCreator(context).CreatePlan(context, context.BuildKey);
 
             try
             {
@@ -99,13 +101,13 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             var resolverPolicy = new CurrentOperationSensingResolverPolicy<object>();
 
             MockBuilderContext context = GetContext();
-            context.BuildKey = typeof(ConstructorInjectionTestClass);
+            context.BuildKey = new NamedTypeBuildKey(typeof(ConstructorInjectionTestClass));
 
             context.Policies.Set<IConstructorSelectorPolicy>(
                 new TestSingleArgumentConstructorSelectorPolicy<ConstructorInjectionTestClass>(resolverPolicy),
-                typeof(ConstructorInjectionTestClass));
+                new NamedTypeBuildKey(typeof(ConstructorInjectionTestClass)));
 
-            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, typeof(ConstructorInjectionTestClass));
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, context.BuildKey);
             plan.BuildUp(context);
 
             Assert.IsNotNull(resolverPolicy.currentOperation);
@@ -118,13 +120,13 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             var resolverPolicy = new ExceptionThrowingTestResolverPolicy(exception);
 
             MockBuilderContext context = GetContext();
-            context.BuildKey = typeof(ConstructorInjectionTestClass);
+            context.BuildKey = new NamedTypeBuildKey(typeof(ConstructorInjectionTestClass));
 
             context.Policies.Set<IConstructorSelectorPolicy>(
                 new TestSingleArgumentConstructorSelectorPolicy<ConstructorInjectionTestClass>(resolverPolicy),
-                typeof(ConstructorInjectionTestClass));
+                context.BuildKey);
 
-            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, typeof(ConstructorInjectionTestClass));
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, context.BuildKey);
 
             try
             {

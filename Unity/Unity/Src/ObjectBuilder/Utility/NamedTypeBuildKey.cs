@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Microsoft.Practices.ObjectBuilder2
@@ -18,10 +19,10 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// Build key used to combine a type object with a string name. Used by
     /// ObjectBuilder to indicate exactly what is being built.
     /// </summary>
-    public struct NamedTypeBuildKey : IBuildKey
+    public class NamedTypeBuildKey
     {
-        private Type type;
-        private string name;
+        private readonly Type type;
+        private readonly string name;
 
         /// <summary>
         /// Create a new <see cref="NamedTypeBuildKey"/> instance with the given
@@ -73,6 +74,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// Return the <see cref="Type"/> stored in this build key.
         /// </summary>
         /// <value>The type to build.</value>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "This is the type part of the key.")]
         public Type Type
         {
             get { return type; }
@@ -88,18 +90,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         }
 
         /// <summary>
-        /// Construct a new build key object with the current type
-        /// replaced with the specified <paramref name="newType"/>.
-        /// </summary>
-        /// <remarks>This method creates a new build key object, the original is unchanged.</remarks>
-        /// <param name="newType">New type to place in the build key.</param>
-        /// <returns>The new build key.</returns>
-        public object ReplaceType(Type newType)
-        {
-            return new NamedTypeBuildKey(newType, name);
-        }
-
-        /// <summary>
         /// Compare two <see cref="NamedTypeBuildKey"/> instances.
         /// </summary>
         /// <remarks>Two <see cref="NamedTypeBuildKey"/> instances compare equal
@@ -109,11 +99,12 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <returns>True if the two keys are equal, false if not.</returns>
         public override bool Equals(object obj)
         {
-            if(!(obj is NamedTypeBuildKey))
+            var other = obj as NamedTypeBuildKey;
+            if(other == null)
             {
                 return false;
             }
-            return this == (NamedTypeBuildKey)obj;
+            return this == other;
         }
 
         /// <summary>
@@ -124,7 +115,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             int typeHash = type == null ? 0 : type.GetHashCode();
             int nameHash = name == null ? 0 : name.GetHashCode();
-            return typeHash ^ nameHash;
+            return (typeHash + 37) ^ (nameHash + 17);
         }
 
         /// <summary>
@@ -137,6 +128,17 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <returns>True if the values of the keys are the same, else false.</returns>
         public static bool operator ==(NamedTypeBuildKey left, NamedTypeBuildKey right)
         {
+            var leftIsNull = ReferenceEquals(left, null);
+            var rightIsNull = ReferenceEquals(right, null);
+            if(leftIsNull && rightIsNull)
+            {
+                return true;
+            }
+            if(leftIsNull || rightIsNull)
+            {
+                return false;
+            }
+
             return left.type == right.type &&
                    string.Compare(left.name, right.name, StringComparison.Ordinal) == 0;
             
@@ -164,5 +166,30 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             return string.Format(CultureInfo.InvariantCulture, "Build Key[{0}, {1}]", type, name ?? "null");
         }
+    }
+
+    /// <summary>
+    /// A generic version of <see cref="NamedTypeBuildKey"/> so that
+    /// you can new up a key using generic syntax.
+    /// </summary>
+    /// <typeparam name="T">Type for the key.</typeparam>
+    public class NamedTypeBuildKey<T> : NamedTypeBuildKey
+    {
+        /// <summary>
+        /// Construct a new <see cref="NamedTypeBuildKey{T}"/> that
+        /// specifies the given type.
+        /// </summary>
+        public NamedTypeBuildKey() : base(typeof(T), null)
+        {
+            
+        }
+
+        /// <summary>
+        /// Construct a new <see cref="NamedTypeBuildKey{T}"/> that
+        /// specifies the given type and name.
+        /// </summary>
+        /// <param name="name">Name for the key.</param>
+        public NamedTypeBuildKey(string name) : base(typeof(T), name)
+        {}
     }
 }

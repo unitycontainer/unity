@@ -21,6 +21,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="buildKey">The build key to map.</param>
         /// <returns>The new build key.</returns>
-		object Map(object buildKey);
+		NamedTypeBuildKey Map(NamedTypeBuildKey buildKey);
 	}
 }

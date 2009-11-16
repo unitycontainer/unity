@@ -40,21 +40,25 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             if (context.Existing != null) return;
 
-            Type typeToBuild;
-            if (!BuildKey.TryGetType(context.BuildKey, out typeToBuild)) return;
+            Type typeToBuild = context.BuildKey.Type;
 
-            ITypeInterceptionPolicy interceptionPolicy = FindInterceptionPolicy<ITypeInterceptionPolicy>(context);
+            var interceptionPolicy = FindInterceptionPolicy<ITypeInterceptionPolicy>(context);
             if (interceptionPolicy == null) return;
 
-            if (!interceptionPolicy.Interceptor.CanIntercept(typeToBuild)) return;
+            var interceptor = interceptionPolicy.GetInterceptor(context);
+            if (!interceptor.CanIntercept(typeToBuild)) return;
 
-            IInterceptionBehaviorsPolicy interceptionBehaviorsPolicy =
-                FindInterceptionPolicy<IInterceptionBehaviorsPolicy>(context);
+            var interceptionBehaviorsPolicy = FindInterceptionPolicy<IInterceptionBehaviorsPolicy>(context);
+
             IEnumerable<IInterceptionBehavior> interceptionBehaviors =
-                GetInterceptionBehaviors(interceptionBehaviorsPolicy, context, interceptionPolicy, typeToBuild);
+                interceptionBehaviorsPolicy == null ?
+                    Enumerable.Empty<IInterceptionBehavior>() :
+                    interceptionBehaviorsPolicy.GetEffectiveBehaviors(
+                        context, interceptor, typeToBuild, typeToBuild);
 
             IAdditionalInterfacesPolicy additionalInterfacesPolicy =
                 FindInterceptionPolicy<IAdditionalInterfacesPolicy>(context);
+
             IEnumerable<Type> additionalInterfaces =
                 additionalInterfacesPolicy != null ? additionalInterfacesPolicy.AdditionalInterfaces : Type.EmptyTypes;
 
@@ -66,7 +70,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 Intercept.GetAllAdditionalInterfaces(interceptionBehaviors, additionalInterfaces);
 
             Type interceptingType =
-                interceptionPolicy.Interceptor.CreateProxyType(typeToBuild, allAdditionalInterfaces);
+                interceptor.CreateProxyType(typeToBuild, allAdditionalInterfaces);
 
             context.Policies.Set<IConstructorSelectorPolicy>(
                 new DerivedTypeConstructorSelectorPolicy(
@@ -104,33 +108,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             where TPolicy : class, IBuilderPolicy
         {
             return context.Policies.Get<TPolicy>(context.BuildKey, false) ??
-                context.Policies.Get<TPolicy>(BuildKey.GetType(context.BuildKey), false);
-        }
-
-        private static IEnumerable<IInterceptionBehavior> GetInterceptionBehaviors(
-            IInterceptionBehaviorsPolicy interceptionBehaviorsPolicy,
-            IBuilderContext context,
-            ITypeInterceptionPolicy interceptionPolicy,
-            Type builtType)
-        {
-            if (interceptionBehaviorsPolicy == null)
-            {
-                return new IInterceptionBehavior[0];
-            }
-
-            IUnityContainer container = context.NewBuildUp<IUnityContainer>();
-            IEnumerable<IInterceptionBehavior> interceptionBehaviors =
-                interceptionBehaviorsPolicy.InterceptionBehaviorDescriptors
-                    .Select(pid =>
-                        pid.GetInterceptionBehavior(
-                            interceptionPolicy.Interceptor,
-                            builtType,
-                            builtType,
-                            container))
-                    .Where(pi => pi != null)
-                    .ToArray();
-
-            return interceptionBehaviors;
+                context.Policies.Get<TPolicy>(context.BuildKey.Type, false);
         }
 
         private class EffectiveInterceptionBehaviorsPolicy : IBuilderPolicy

@@ -58,7 +58,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         private MockBuilderContext GetContext(Type t)
         {
             var context = new MockBuilderContext();
-            context.BuildKey = t;
+            context.BuildKey = new NamedTypeBuildKey(t);
             return context;
         }
     }

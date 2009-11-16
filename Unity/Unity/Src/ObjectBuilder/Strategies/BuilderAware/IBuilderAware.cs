@@ -21,7 +21,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// Called by the <see cref="BuilderAwareStrategy"/> when the object is being built up.
         /// </summary>
         /// <param name="buildKey">The key of the object that was just built up.</param>
-		void OnBuiltUp(object buildKey);
+		void OnBuiltUp(NamedTypeBuildKey buildKey);
 
         /// <summary>
         /// Called by the <see cref="BuilderAwareStrategy"/> when the object is being torn down.

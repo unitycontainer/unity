@@ -86,7 +86,7 @@ namespace Microsoft.Practices.Unity.Tests
         IBuilderContext GetMockContextThatThrows()
         {
             var mockContext = new Mock<IBuilderContext>();
-            mockContext.Setup(c => c.NewBuildUp(It.IsAny<object>()))
+            mockContext.Setup(c => c.NewBuildUp(It.IsAny<NamedTypeBuildKey>()))
                 .Throws(new InvalidOperationException());
             return mockContext.Object;
         }
@@ -94,7 +94,7 @@ namespace Microsoft.Practices.Unity.Tests
         IBuilderContext GetMockContextThatResolvesUnnamedStrings(string expected)
         {
             var mockContext = new Mock<IBuilderContext>();
-            mockContext.Setup(c => c.NewBuildUp(It.IsAny<object>()))
+            mockContext.Setup(c => c.NewBuildUp(It.IsAny<NamedTypeBuildKey>()))
                 .Returns(expected);
             return mockContext.Object;
         }

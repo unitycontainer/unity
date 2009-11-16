@@ -32,7 +32,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// that contain the properties to set.</returns>
         public virtual IEnumerable<SelectedProperty> SelectProperties(IBuilderContext context)
         {
-            Type t = BuildKey.GetType(context.BuildKey);
+            Type t = context.BuildKey.Type;
             foreach(PropertyInfo prop in t.GetProperties(BindingFlags.Public | BindingFlags.SetProperty | BindingFlags.Instance))
             {
                 if(prop.GetIndexParameters().Length == 0 &&               // Ignore indexers

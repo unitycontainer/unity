@@ -136,22 +136,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
 
         [TestMethod]
         [DeploymentItem("InterceptionThroughInjectionMembers.config")]
-        public void DeserializingInterceptionBehaviorElementWithMultipleDataThrows()
-        {
-            var config = this.OpenConfigFile(this.ConfigFileName);
-
-            try
-            {
-                Assert.IsNotNull(config.Sections["DeserializingInterceptionBehaviorElementWithMultipleDataThrows"]);
-                Assert.Fail("should have thrown ConfigurationErrorsException");
-            }
-            catch (ConfigurationErrorsException)
-            {
-            }
-        }
-
-        [TestMethod]
-        [DeploymentItem("InterceptionThroughInjectionMembers.config")]
         [ExpectedException(typeof(TypeLoadException))]
         public void InterceptorConfiguredWithNonResolvableTypeThrows()
         {
@@ -167,15 +151,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
             IUnityContainer container =
                 GetConfiguredContainer("InterceptorConfiguredWithNonCompatibleTypeThrows");
         }
-
-        [TestMethod]
-        [DeploymentItem("InterceptionThroughInjectionMembers.config")]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void InterceptorConfiguredWithNonInstantiableTypeThrows()
-        {
-            IUnityContainer container =
-                GetConfiguredContainer("InterceptorConfiguredWithNonInstantiableTypeThrows");
-        }
     }
 
     public class Interceptable
@@ -183,18 +158,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
         public virtual int DoSomething()
         {
             return 10;
-        }
-    }
-
-    public class FixedGlobalCountInterceptionBehaviorDescriptor : IInterceptionBehaviorDescriptor
-    {
-        public IInterceptionBehavior GetInterceptionBehavior(
-            IInterceptor interceptor,
-            Type interceptedType,
-            Type implementationType,
-            IUnityContainer container)
-        {
-            return new GlobalCountInterceptionBehavior("fixed");
         }
     }
 

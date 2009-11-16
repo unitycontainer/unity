@@ -37,7 +37,7 @@ namespace Microsoft.Practices.Unity
         public override void PreBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
-            Type typeToBuild = BuildKey.GetType(context.BuildKey);
+            Type typeToBuild = context.BuildKey.Type;
             if (typeToBuild.IsArray && typeToBuild.GetArrayRank() == 1)
             {
                 Type elementType = typeToBuild.GetElementType();

@@ -16,14 +16,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
             Container =
                 new UnityContainer()
                     .RegisterType<BaseClass, DerivedClass>("derived",
-                        new Interceptor(new TransparentProxyInterceptor()),
-                        new InterceptionBehavior(new PolicyInjectionBehaviorDescriptor()))
+                        new Interceptor<TransparentProxyInterceptor>(),
+                        new InterceptionBehavior<PolicyInjectionBehavior>())
                     .RegisterType<BaseClass, DerivedWithNoOverrideClass>("derived-nooverride",
-                        new Interceptor(new TransparentProxyInterceptor()),
-                        new InterceptionBehavior(new PolicyInjectionBehaviorDescriptor()))
+                        new Interceptor<TransparentProxyInterceptor>(),
+                        new InterceptionBehavior<PolicyInjectionBehavior>())
                     .RegisterType<BaseClass>(
-                        new Interceptor(new TransparentProxyInterceptor()),
-                        new InterceptionBehavior(new PolicyInjectionBehaviorDescriptor()))
+                        new Interceptor<TransparentProxyInterceptor>(),
+                        new InterceptionBehavior<PolicyInjectionBehavior>())
                     .AddNewExtension<Interception>()
                     .Configure<Interception>()
                         .AddPolicy("base")
@@ -137,13 +137,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
         }
 
         [AppendSuffixCallHandlerNoInheritance(Suffix = "-derivedhandler", Order = 2)]
-        public virtual string AttributeNoInheritanceInterceptedMethod()
+        public new virtual string AttributeNoInheritanceInterceptedMethod()
         {
             return "base";
         }
 
         [AppendSuffixCallHandlerInheritance(Suffix = "-derivedhandler", Order = 2)]
-        public virtual string AttributeInheritanceInterceptedMethod()
+        public new virtual string AttributeInheritanceInterceptedMethod()
         {
             return "base";
         }

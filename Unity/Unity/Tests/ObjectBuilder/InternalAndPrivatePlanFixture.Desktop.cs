@@ -9,7 +9,6 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
 using Microsoft.Practices.Unity.TestSupport;
@@ -24,11 +23,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void ExistingObjectIsUntouchedByConstructionPlan()
         {
             MockBuilderContext context = GetContext();
-            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, typeof(OptionalLogger));
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, new NamedTypeBuildKey(typeof(OptionalLogger)));
 
-            OptionalLogger existing = new OptionalLogger("C:\\foo.bar");
+            var existing = new OptionalLogger("C:\\foo.bar");
 
-            context.BuildKey = typeof(OptionalLogger);
+            context.BuildKey = new NamedTypeBuildKey(typeof(OptionalLogger));
             context.Existing = existing;
 
             plan.BuildUp(context);
@@ -42,14 +41,13 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void CanCreateObjectWithoutExplicitConstructorDefined()
         {
             MockBuilderContext context = GetContext();
+            var key = new NamedTypeBuildKey<InternalObjectWithoutExplicitConstructor>();
             IBuildPlanPolicy plan =
-                GetPlanCreator(context).CreatePlan(context,
-                    typeof(InternalObjectWithoutExplicitConstructor));
+                GetPlanCreator(context).CreatePlan(context, key);
 
-            context.BuildKey = typeof(InternalObjectWithoutExplicitConstructor);
+            context.BuildKey = key;
             plan.BuildUp(context);
-            InternalObjectWithoutExplicitConstructor result =
-                (InternalObjectWithoutExplicitConstructor)context.Existing;
+            var result = (InternalObjectWithoutExplicitConstructor)context.Existing;
             Assert.IsNotNull(result);
         }
 
@@ -57,11 +55,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void CanCreatePlanAndExecuteItForPrivateClassWhenInFullTrust()
         {
             MockBuilderContext context = GetContext();
+            var key = new NamedTypeBuildKey<PrivateClassWithoutExplicitConstructor>();
             IBuildPlanPolicy plan =
-                GetPlanCreator(context).CreatePlan(context,
-                    typeof(PrivateClassWithoutExplicitConstructor));
+                GetPlanCreator(context).CreatePlan(context, key);
 
-            context.BuildKey = typeof(PrivateClassWithoutExplicitConstructor);
+            context.BuildKey = key;
             plan.BuildUp(context);
 
             Assert.IsNotNull(context.Existing);
@@ -69,15 +67,14 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         }
 
 
-        private MockBuilderContext GetContext()
+        private static MockBuilderContext GetContext()
         {
-            StagedStrategyChain<BuilderStage> chain = new StagedStrategyChain<BuilderStage>();
+            var chain = new StagedStrategyChain<BuilderStage>();
             chain.AddNew<DynamicMethodConstructorStrategy>(BuilderStage.Creation);
 
-            DynamicMethodBuildPlanCreatorPolicy policy =
-                new DynamicMethodBuildPlanCreatorPolicy(chain);
+            var policy = new DynamicMethodBuildPlanCreatorPolicy(chain);
 
-            MockBuilderContext context = new MockBuilderContext();
+            var context = new MockBuilderContext();
 
             context.Strategies.Add(new LifetimeStrategy());
 
@@ -90,7 +87,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             return context;
         }
 
-        private IBuildPlanCreatorPolicy GetPlanCreator(IBuilderContext context)
+        private static IBuildPlanCreatorPolicy GetPlanCreator(IBuilderContext context)
         {
             return context.Policies.Get<IBuildPlanCreatorPolicy>(null);
         }

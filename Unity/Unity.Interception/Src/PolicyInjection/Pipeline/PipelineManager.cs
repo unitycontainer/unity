@@ -34,17 +34,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// been set, returns a new empty pipeline.</returns>
         public HandlerPipeline GetPipeline(MethodBase method)
         {
-            return GetPipeline(HandlerPipelineKey.ForMethod(method));
-        }
-
-        /// <summary>
-        /// Retrieve the pipeline assocated with the requested <paramref name="key"/>.
-        /// </summary>
-        /// <param name="key">The key for which the pipeline is being requested.</param>
-        /// <returns>The handler pipeline for the given key. If no pipeline has
-        /// been set, returns a new empty pipeline.</returns>
-        public HandlerPipeline GetPipeline(HandlerPipelineKey key)
-        {
+            HandlerPipelineKey key = HandlerPipelineKey.ForMethod(method);
             HandlerPipeline pipeline = emptyPipeline;
             if(pipelines.ContainsKey(key))
             {
@@ -60,17 +50,45 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="pipeline">The new pipeline.</param>
         public void SetPipeline(MethodBase method, HandlerPipeline pipeline)
         {
-            SetPipeline(HandlerPipelineKey.ForMethod(method), pipeline);
+            HandlerPipelineKey key = HandlerPipelineKey.ForMethod(method);
+            pipelines[key] = pipeline;
         }
 
         /// <summary>
-        /// Set a new pipeline for a method.
+        /// Get the pipeline for the given method, creating it if necessary.
         /// </summary>
-        /// <param name="key">The key on which the pipeline should be set.</param>
-        /// <param name="pipeline">The new pipeline.</param>
-        public void SetPipeline(HandlerPipelineKey key, HandlerPipeline pipeline)
+        /// <param name="method">Method to retrieve the pipeline for.</param>
+        /// <param name="handlers">Handlers to initialize the pipeline with</param>
+        /// <returns>True if the pipeline has any handlers in it, false if not.</returns>
+        public bool InitializePipeline(MethodImplementationInfo method, IEnumerable<ICallHandler> handlers)
         {
-            pipelines[key] = pipeline;
+            var pipeline = CreatePipeline(method.ImplementationMethodInfo, handlers);
+            if(method.InterfaceMethodInfo != null)
+            {
+                pipelines[HandlerPipelineKey.ForMethod(method.InterfaceMethodInfo)] = pipeline;
+            }
+
+            return pipeline.Count > 0;
+        }
+
+        private HandlerPipeline CreatePipeline(MethodInfo method, IEnumerable<ICallHandler> handlers)
+        {
+            HandlerPipelineKey key = HandlerPipelineKey.ForMethod(method);
+            if (pipelines.ContainsKey(key))
+            {
+                return pipelines[key];
+            }
+
+            if (method.GetBaseDefinition() == method)
+            {
+                pipelines[key] = new HandlerPipeline(handlers);
+                return pipelines[key];
+            }
+
+            var basePipeline = CreatePipeline(method.GetBaseDefinition(), handlers);
+            pipelines[key] = basePipeline;
+            return basePipeline;
+            
         }
     }
 }

@@ -94,7 +94,7 @@
     <Compile Include="PipelineFixture.cs" />
     <Compile Include="PolicyFixture.cs" />
     <Compile Include="PolicyInjection\HandlerPipelineKeyFixture.cs" />
-    <Compile Include="PolicyInjection\PolicyInjectionBehaviorFixture.cs" />
+    <Compile Include="PolicyInjection\VirtualMethodOverrideFixture.cs" />
     <Compile Include="PolicySetFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransparentProxyInterception\InterceptingRealProxyFixture.cs" />

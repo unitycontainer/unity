@@ -682,39 +682,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
             Assert.AreEqual(1, intercepts);
         }
-
-        [TestMethod]
-        [Ignore]    // REVIEW should this test hold?
-        public void TypeDerivedFromTypeWithReservedTypeAttributeGetsReservedValuesFromClonedCustomAttributes()
-        {
-            InterceptingClassGenerator generator =
-                new InterceptingClassGenerator(typeof(ClassWithPermissionAttribute));
-            Type generatedType = generator.GenerateType();
-
-            Assert.AreEqual(typeof(ClassWithPermissionAttribute).Attributes, generatedType.Attributes);
-        }
-
-        [TestMethod]
-        [Ignore]    // REVIEW just not possible?
-        public void CanInterceptAliasedMethods()
-        {
-            InterceptingClassGenerator generator =
-                new InterceptingClassGenerator(typeof(DerivedFromMainType));
-            Type generatedType = generator.GenerateType();
-
-            DerivedFromMainType instance = (DerivedFromMainType)Activator.CreateInstance(generatedType);
-            int intercepts = 0;
-            ((IInterceptingProxy)instance)
-                .AddInterceptionBehavior(
-                    new DelegateInterceptionBehavior((mi, gn) => { intercepts++; return gn()(mi, gn); }));
-
-            int fromDerivedType = instance.DoSomething();
-            int fromMainType = ((MainType)instance).DoSomething();
-
-            Assert.AreEqual(2, intercepts);
-            Assert.AreEqual(10, fromDerivedType);
-            Assert.AreEqual(5, fromMainType);
-        }
     }
 
     public class ClassWithDefaultCtor

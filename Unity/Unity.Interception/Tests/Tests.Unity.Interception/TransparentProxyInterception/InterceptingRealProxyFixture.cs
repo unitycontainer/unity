@@ -58,32 +58,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.TransparaentProxyInter
         }
 
         [TestMethod]
-        [Ignore] // this would be taken care of by the policy injection interceptor?
-        public void ProxyMapsInterfaceMethodsToTheirImplementations()
-        {
-            //MethodInfo something = typeof(InterfaceOne).GetMethod("Something");
-            //MethodInfo somethingImpl = typeof (MBROWithInterface).GetMethod("Something");
-
-            //CallCountHandler handler = new CallCountHandler();
-
-            //MBROWithInterface original = new MBROWithInterface();
-            //MBROWithInterface intercepted = new InterceptingRealProxy(original, typeof(MBROWithOneMethod))
-            //    .GetTransparentProxy() as MBROWithInterface;
-
-            //HandlerPipeline pipeline = new HandlerPipeline(Sequence.Collect<ICallHandler>(handler));
-            //IInterceptingProxy proxy = (IInterceptingProxy)intercepted;
-
-            //proxy.SetPipeline(something, pipeline);
-            //HandlerPipeline implPipeline = proxy.GetPipeline(somethingImpl);
-
-            //Assert.AreSame(pipeline, implPipeline);
-        }
-
-        [TestMethod]
         public void ProxyInterceptsAddingAHandlerToAnEvent()
         {
             // arrange
-            CallCountInterceptionBehavior interceptor = new CallCountInterceptionBehavior();
+            CallCountInterceptionBehavior interceptor
+                = new CallCountInterceptionBehavior();
 
             MBROWithAnEvent original = new MBROWithAnEvent();
             MBROWithAnEvent intercepted = new InterceptingRealProxy(original, typeof(MBROWithAnEvent))

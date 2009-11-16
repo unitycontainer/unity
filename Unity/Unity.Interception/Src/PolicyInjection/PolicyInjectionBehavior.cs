@@ -41,7 +41,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public PolicyInjectionBehavior(CurrentInterceptionRequest interceptionRequest, InjectionPolicy[] policies,
             IUnityContainer container)
         {
-            this.pipelineManager = null;
             var allPolicies = new PolicySet(policies);
             bool hasHandlers = false;
 
@@ -51,22 +50,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 interceptionRequest.Interceptor.GetInterceptableMethods(
                     interceptionRequest.TypeToIntercept, interceptionRequest.ImplementationType))
             {
-                var pipeline = new HandlerPipeline(allPolicies.GetHandlersFor(method, container));
-                if (pipeline.Count > 0)
-                {
-                    manager.SetPipeline(method.ImplementationMethodInfo, pipeline);
-                    if (method.InterfaceMethodInfo != null)
-                    {
-                        manager.SetPipeline(method.InterfaceMethodInfo, pipeline);
-                    }
-                    hasHandlers = true;
-                }
+                bool hasNewHandlers = manager.InitializePipeline(method,
+                    allPolicies.GetHandlersFor(method, container));
+                hasHandlers = hasHandlers || hasNewHandlers;
             }
-
-            if(hasHandlers)
-            {
-                this.pipelineManager = manager;
-            }
+            pipelineManager = hasHandlers ? manager : null;
         }
 
         /// <summary>

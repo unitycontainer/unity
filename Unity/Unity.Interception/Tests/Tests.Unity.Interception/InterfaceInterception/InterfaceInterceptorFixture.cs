@@ -189,19 +189,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         }
 
         [TestMethod]
-        [Ignore] // TODO: Known issue - we don't copy attributes yet
-        public void ProxyPropertyReflectionReturnsAttributes()
-        {
-            IInstanceInterceptor interceptor = new InterfaceInterceptor();
-            HasSomeProperties target = new HasSomeProperties();
-            IInterceptingProxy proxy = interceptor.CreateProxy(typeof(IHaveSomeProperties), target);
-
-            PropertyInfo nameProp = proxy.GetType().GetProperty("Name");
-            SampleAttribute attr = (SampleAttribute)Attribute.GetCustomAttribute(nameProp, typeof(SampleAttribute));
-            Assert.AreEqual("A name", attr.Name);
-        }
-
-        [TestMethod]
         public void ProxyInterceptsEvents()
         {
             IInstanceInterceptor interceptor = new InterfaceInterceptor();

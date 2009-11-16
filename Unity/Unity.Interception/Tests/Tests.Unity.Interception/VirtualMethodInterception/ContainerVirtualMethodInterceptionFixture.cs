@@ -43,10 +43,23 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             CallCountHandler h1 = new CallCountHandler();
             CallCountHandler h2 = new CallCountHandler();
 
-            IUnityContainer container = GetConfiguredContainer(h1, h2);
-            AddPoliciesToContainer(container);
-            ConfigureInterceptionWithRegisterType(container);
-
+            IUnityContainer container = new UnityContainer()
+                .AddNewExtension<Interception>()
+                .RegisterInstance<ICallHandler>("h1", h1)
+                .RegisterInstance<ICallHandler>("h2", h2)
+                .RegisterType<Interceptee>(
+                    new Interceptor<VirtualMethodInterceptor>(),
+                    new InterceptionBehavior<PolicyInjectionBehavior>())
+                .Configure<Interception>()
+                    .AddPolicy("methodOne")
+                        .AddMatchingRule<MemberNameMatchingRule>(new InjectionConstructor("MethodOne"))
+                        .AddCallHandler("h1")
+                .Interception
+                    .AddPolicy("methodTwo")
+                        .AddMatchingRule<MemberNameMatchingRule>(new InjectionConstructor("MethodTwo"))
+                        .AddCallHandler("h2")
+                .Interception.Container;
+            
             Interceptee foo = container.Resolve<Interceptee>();
 
             int oneCount = 0;
@@ -193,29 +206,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             Assert.AreEqual(1, callCountBehavior.CallCount);
         }
 
-        [TestMethod]
-        [Ignore]    // determine whether this should be enabled.
-        public void CanInterceptClassWithInternalConstructor()
-        {
-            IUnityContainer container = new UnityContainer();
-
-            ClassWithInternalConstructor nonInterceptedInstance = container.Resolve<ClassWithInternalConstructor>();
-
-            Assert.AreEqual(10, nonInterceptedInstance.Method());
-
-            CallCountInterceptionBehavior callCountBehavior = new CallCountInterceptionBehavior();
-            container
-                .AddNewExtension<Interception>()
-                .RegisterType<ClassWithInternalConstructor>(
-                    new Interceptor<VirtualMethodInterceptor>(),
-                    new InterceptionBehavior(callCountBehavior));
-
-            ClassWithInternalConstructor interceptedInstance = container.Resolve<ClassWithInternalConstructor>();
-
-            Assert.AreEqual(10, interceptedInstance.Method());
-            Assert.AreEqual(1, callCountBehavior.CallCount);
-        }
-
         protected virtual IUnityContainer GetContainer()
         {
             IUnityContainer container = new UnityContainer()
@@ -258,8 +248,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
         private IUnityContainer ConfigureInterceptionWithRegisterType(IUnityContainer container)
         {
-            container.Configure<Interception>()
-                .SetInterceptorFor<Interceptee>(null, new VirtualMethodInterceptor());
+            container.RegisterType<Interceptee>(
+                new Interceptor<VirtualMethodInterceptor>(),
+                new InterceptionBehavior<PolicyInjectionBehavior>());
             return container;
         }
     }

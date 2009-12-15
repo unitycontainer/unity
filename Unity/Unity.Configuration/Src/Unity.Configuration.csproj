@@ -1,40 +1,40 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4C89931B-67A9-4BDC-A565-E1E0207E1BD9}</ProjectGuid>
+    <ProjectGuid>{AEF45ED2-3E7F-4AA5-9001-A4D1BAC12EBE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.Practices.Unity.Configuration</RootNamespace>
-    <AssemblyName>Microsoft.Practices.Unity.Configuration</AssemblyName><FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
+    <AssemblyName>Microsoft.Practices.Unity.Configuration</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-  </PropertyGroup>
+    <FileAlignment>512</FileAlignment></PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\bin\Desktop\Debug</OutputPath>
+    <OutputPath>..\..\bin\Desktop\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.Design#CA1014;-Microsoft.Usage#CA2209</CodeAnalysisRules>
     <DocumentationFile>..\..\bin\Desktop\Debug\Microsoft.Practices.Unity.Configuration.xml</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.Design#CA1020</CodeAnalysisRules>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\bin\Desktop\Release</OutputPath>
+    <OutputPath>..\..\bin\Desktop\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\bin\Desktop\Release\Microsoft.Practices.Unity.Configuration.xml</DocumentationFile>
+    <DocumentationFile>..\..\bin\Desktop\Release\Microsoft.Practices.Unity.Configuration.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.Design#CA1020</CodeAnalysisRules>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -49,49 +49,57 @@
     <Compile Include="..\..\Common\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AssemblyQualifiedTypeNameConverter.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionConstructorElement\InjectionConstructorElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionMemberElement\InjectionMemberElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionMemberElement\InjectionMemberElementCollection.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionMethodElement\InjectionMethodElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionParameterValueElement\ArrayValueElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionParameterValueElement\DependencyValueElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionParameterValueElement\InjectionParameterValueElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionParameterValueElement\OptionalValueElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionPropertyElement\InjectionPropertyElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\MethodParameterElement\MethodParameterElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\MethodParameterElement\MethodParameterElementCollection.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\InjectionParameterValueElement\InstanceValueElement.cs" />
-    <Compile Include="InstanceDescriptionConfigurationElement.cs" />
-    <Compile Include="IResolvesTypeAliases.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeInjectionElement\TypeInjectionElement.cs" />
-    <Compile Include="InjectionParameterValueHelper.cs" />
-    <Compile Include="TypeResolvingConfigurationElement.cs" />
-    <Compile Include="TypeResolvingConfigurationElementCollection.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\LifetimeElement\UnityLifetimeElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeExtensionConfigurationElement\UnityContainerTypeConfigurationElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\TypeExtensionConfigurationElement\UnityContainerTypeConfigurationElementCollection.cs" />
-    <Compile Include="ConfigurationElements\TypeAliasesElement\UnityTypeAliasCollection.cs" />
-    <Compile Include="ConfigurationElements\TypeAliasesElement\UnityTypeAlias.cs" />
-    <Compile Include="IContainerConfigurationCommand.cs" />
+    <Compile Include="AliasElement.cs" />
+    <Compile Include="AliasElementCollection.cs" />
+    <Compile Include="ArrayElement.cs" />
+    <Compile Include="ConfigurationHelpers\ConfigurationElementExtensions.cs" />
+    <Compile Include="ContainerConfiguringElement.cs" />
+    <Compile Include="ConfigurationHelpers\DeserializableConfigurationElementCollection.cs" />
+    <Compile Include="ConfigurationHelpers\DeserializableConfigurationElementCollectionBase.cs" />
+    <Compile Include="ConfigurationHelpers\DeserializableConfigurationElement.cs" />
+    <Compile Include="ConfigurationHelpers\DictionaryExtensions.cs" />
+    <Compile Include="ConfigurationHelpers\IDeserializableElement.cs" />
+    <Compile Include="ConfigurationHelpers\UnknownElementHandlerMap.cs" />
+    <Compile Include="ConfigurationHelpers\ValueElementHelper.cs" />
+    <Compile Include="ConstructorElement.cs" />
+    <Compile Include="ContainerConfiguringElementCollection.cs" />
+    <Compile Include="ContainerElement.cs" />
+    <Compile Include="ContainerExtensionElement.cs" />
+    <Compile Include="ContainerExtensionElementCollection.cs" />
+    <Compile Include="DependencyElement.cs" />
+    <Compile Include="ExtensionConfigurationElement.cs" />
+    <Compile Include="ExtensionConfigurationElementCollection.cs" />
+    <Compile Include="ExtensionElementMap.cs" />
+    <Compile Include="InjectionMemberElement.cs" />
+    <Compile Include="InjectionMemberElementCollection.cs" />
+    <Compile Include="InstanceElement.cs" />
+    <Compile Include="InstanceElementCollection.cs" />
+    <Compile Include="ConfigurationHelpers\IValueProvidingElement.cs" />
+    <Compile Include="LifetimeElement.cs" />
+    <Compile Include="MethodElement.cs" />
+    <Compile Include="OptionalElement.cs" />
+    <Compile Include="ParameterElement.cs" />
+    <Compile Include="ParameterElementCollection.cs" />
+    <Compile Include="ParameterValueElement.cs" />
+    <Compile Include="ParameterValueElementCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ConfigurationElements\UnityConfigurationSection.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\UnityContainerElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\ContainerConfigurationExtensionElement\UnityContainerExtensionConfigurationElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\ContainerConfigurationExtensionElement\UnityContainerExtensionConfigurationElementCollection.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\ContainerExtensionElement\UnityContainerExtensionElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\ContainerExtensionElement\UnityContainerExtensionElementCollection.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\UnityContainerElementCollection.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\InstancesElement\UnityInstanceElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\InstancesElement\UnityInstanceElementCollection.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\UnityTypeElement.cs" />
-    <Compile Include="ConfigurationElements\ContainerElement\TypesElement\UnityTypeElementCollection.cs" />
-    <Compile Include="UnityTypeResolver.cs" />
+    <Compile Include="PropertyElement.cs" />
+    <Compile Include="RegisterElement.cs" />
+    <Compile Include="RegisterElementCollection.cs" />
+    <Compile Include="SectionExtension.cs" />
+    <Compile Include="SectionExtensionContext.cs" />
+    <Compile Include="SectionExtensionElement.cs" />
+    <Compile Include="SectionExtensionElementCollection.cs" />
+    <Compile Include="TypeResolver.cs" />
+    <Compile Include="UnityConfigurationSection.cs" />
+    <Compile Include="ContainerElementCollection.cs" />
+    <Compile Include="UnityContainerExtensions.cs" />
+    <Compile Include="ValueElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Unity\Src\Unity.csproj">
@@ -101,15 +109,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

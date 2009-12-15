@@ -117,37 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConversionNotSupported" xml:space="preserve">
-    <value>Can only convert to and from strings, not type {0}</value>
+  <data name="CannotCreateContainerConfiguringElement" xml:space="preserve">
+    <value>An abstract ContainerConfiguringElement cannot be created. Please specify a concrete type.</value>
   </data>
-  <data name="GenericParameterArrayNotSupported" xml:space="preserve">
-    <value>The value element named &lt;{1}&gt; is not available with generic arrays in the property or parameter named "{0}".</value>
+  <data name="CannotCreateExtensionConfigurationElement" xml:space="preserve">
+    <value>An abstract ExtensionConfigurationElement object cannot be created. Please specify a concrete type.</value>
   </data>
-  <data name="GenericParameterNotSupported" xml:space="preserve">
-    <value>The value element named &lt;{1}&gt; is not available with generic parameters in the property or parameter named "{0}".</value>
+  <data name="CannotCreateInjectionMemberElement" xml:space="preserve">
+    <value>An abstract InjectionMemberElement object cannot be created. Please specify a concrete type.</value>
   </data>
-  <data name="InvalidConfiguration" xml:space="preserve">
-    <value>The configuration that leads to the current state is invalid and should have been checked during deserialization.</value>
+  <data name="CannotCreateParameterValueElement" xml:space="preserve">
+    <value>An abstract ParameterValueElement object cannot be created. Please specify a concrete type.</value>
   </data>
-  <data name="MustGiveValueOrDependency" xml:space="preserve">
-    <value>The configuration file does not specify a &lt;value&gt; or &lt;dependency&gt; element for the property or parameter named "{0}". You must specify one of them but not both.</value>
+  <data name="DestinationNameFormat" xml:space="preserve">
+    <value>{0} {1}</value>
   </data>
-  <data name="MustHaveOnlyOneOfValueOrDependency" xml:space="preserve">
-    <value>The configuration file specifies both a &lt;value&gt; and a &lt;dependency&gt;element for the property or parameter named "{0}". You must specify only one of these.</value>
+  <data name="ExtensionTypeNotFound" xml:space="preserve">
+    <value>Could not load section extension type {0}.</value>
   </data>
-  <data name="MustNotProvideATypeForDependencyIfBelongsToGeneric" xml:space="preserve">
-    <value>The configuration file includes a &lt;dependency&gt; element that specifies a type for the generic parameter "{0}".</value>
+  <data name="ExtensionTypeNotValid" xml:space="preserve">
+    <value>The extension type {0} does not derive from SectionExtension.</value>
   </data>
-  <data name="NeitherParameterTypeNorGenericParameterNameSpecified" xml:space="preserve">
-    <value>The configuration file must include a value for one of "parameterType" and "genericParameterName" for the property or parameter named "{0}".</value>
+  <data name="InvalidExtensionElementType" xml:space="preserve">
+    <value>The extension element type {0} that is being added does not derive from ContainerConfiguringElement, InjectionMemberElement, or ParameterValueElement. An extension element must derive from one of these types.</value>
   </data>
-  <data name="OnlyOneOfParameterTypeAndGenericParameterNameAllowed" xml:space="preserve">
-    <value>The configuration file includes values for more than one of "parameterType" and "genericParameterName" for the property or parameter named "{0}". You must specify only one of these.</value>
+  <data name="InvalidValueAttributes" xml:space="preserve">
+    <value>No valid attributes were found to construct the value for the {0}. Please check the configuration file.</value>
   </data>
-  <data name="OnlyOneValueElementAllowed" xml:space="preserve">
-    <value>The configuration file includes more than one value element for the property or parameter named "{0}".</value>
+  <data name="NoMatchingConstructor" xml:space="preserve">
+    <value>Configuration is incorrect, the type {0} does not have a constructor that takes parameters named {1}.</value>
   </data>
-  <data name="ParameterTypeIsNotArray" xml:space="preserve">
-    <value>The configuration file includes a property or parameter which is configured with an array value but has type {0} which is not an array type. ({1} line {2})</value>
+  <data name="NoMatchingMethod" xml:space="preserve">
+    <value>Configuration is incorrect, the type {0} does not have a method named {1} that takes parameters named {2}.</value>
+  </data>
+  <data name="NoSuchProperty" xml:space="preserve">
+    <value>The type {0} does not have a property named {1}.</value>
+  </data>
+  <data name="NotAnArray" xml:space="preserve">
+    <value>The configuration is set to inject an array, but the type {0} is not an array type.</value>
+  </data>
+  <data name="Parameter" xml:space="preserve">
+    <value>parameter</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>property</value>
+  </data>
+  <data name="RequiredPropertyMissing" xml:space="preserve">
+    <value>The attribute {0} must be present and non-empty.</value>
+  </data>
+  <data name="ValueNotAllowedForGenericParameter" xml:space="preserve">
+    <value>The parameter {0} is a generic parameter. You cannot specify a specific value for generic parameters.</value>
   </data>
 </root>

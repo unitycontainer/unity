@@ -67,6 +67,7 @@
     <Compile Include="CodeplexIssuesFixture.cs" />
     <Compile Include="ConstructorWithOutParametersFixture.cs" />
     <Compile Include="ContainerControlledLifetimeThreadingFixture.cs" />
+    <Compile Include="ContainerRegistrationsFixture.cs" />
     <Compile Include="DependencyArrayAttributeFixture.cs" />
     <Compile Include="GenericChainingFixture.cs" />
     <Compile Include="GenericParameterFixture.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="OptionalDependencyAttributeFixture.cs" />
     <Compile Include="OptionalDependencyResolverPolicyFixture.cs" />
     <Compile Include="ParameterMatcherFixture.cs" />
-    <Compile Include="PerBuildSingletonFixture.cs" />
+    <Compile Include="PerResolveLifetimeFixture.cs" />
     <Compile Include="PerThreadLifetimeManagerFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionHelperFixture.cs" />
@@ -109,10 +110,6 @@
     <Compile Include="UnityHierarchyFixture.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Unity.Configuration\Src\Unity.Configuration.csproj">
-      <Project>{4C89931B-67A9-4BDC-A565-E1E0207E1BD9}</Project>
-      <Name>Unity.Configuration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Src\Unity.csproj">
       <Project>{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}</Project>
       <Name>Unity</Name>

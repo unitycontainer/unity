@@ -21,6 +21,7 @@ namespace Microsoft.Practices.Unity.TestSupport
     public class SessionLifetimeManager : LifetimeManager
     {
         private readonly string sessionKey;
+        public static string LastUsedSessionKey;
 
         public SessionLifetimeManager(string sessionKey)
         {
@@ -34,6 +35,7 @@ namespace Microsoft.Practices.Unity.TestSupport
 
         public override object GetValue()
         {
+            LastUsedSessionKey = sessionKey;
             return null;
         }
 

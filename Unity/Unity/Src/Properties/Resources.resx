@@ -258,7 +258,7 @@ At the time of the exception, the container was:
     <value>Setting value for property {0}.{1}</value>
   </data>
   <data name="TypeIsNotConstructable" xml:space="preserve">
-    <value>The type {0} is cannot be constructed. You must configure the container to supply this value.</value>
+    <value>The type {0} cannot be constructed. You must configure the container to supply this value.</value>
   </data>
   <data name="TypesAreNotAssignable" xml:space="preserve">
     <value>The type {1} cannot be assigned to variables of type {0}.</value>

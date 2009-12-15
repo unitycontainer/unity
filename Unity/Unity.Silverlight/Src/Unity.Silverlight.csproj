@@ -70,6 +70,9 @@
     <Compile Include="..\..\Unity\Src\CompositeResolverOverride.cs">
       <Link>Unity\CompositeResolverOverride.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Src\ContainerRegistration.cs">
+      <Link>Unity\ContainerRegistration.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Src\DependencyOverride.cs">
       <Link>Unity\DependencyOverride.cs</Link>
     </Compile>
@@ -157,8 +160,8 @@
     <Compile Include="..\..\Unity\Src\Lifetime\LifetimeManagerFactory.cs">
       <Link>Unity\Lifetime\LifetimeManagerFactory.cs</Link>
     </Compile>
-    <Compile Include="..\..\Unity\Src\Lifetime\PerBuildSingleton.cs">
-      <Link>Unity\Lifetime\PerBuildSingleton.cs</Link>
+    <Compile Include="..\..\Unity\Src\Lifetime\PerResolveLifetimeManager.cs">
+      <Link>Unity\Lifetime\PerResolveLifetimeManager.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\Lifetime\PerThreadLifetimeManager.cs">
       <Link>Unity\Lifetime\PerThreadLifetimeManager.cs</Link>

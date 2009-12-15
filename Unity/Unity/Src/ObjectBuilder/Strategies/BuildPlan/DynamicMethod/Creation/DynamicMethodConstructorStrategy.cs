@@ -1,8 +1,8 @@
-﻿//===============================================================================
+//===============================================================================
 // Microsoft patterns & practices
 // Unity Application Block
 //===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
+// Copyright � Microsoft Corporation.  All rights reserved.
 // THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
 // OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
 // LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -238,7 +238,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         }
 
         /// <summary>
-        /// A helper method used by the generated IL to set up a PerBuildSingleton lifetime manager
+        /// A helper method used by the generated IL to set up a PerResolveLifetimeManager lifetime manager
         /// if the current object is such.
         /// </summary>
         /// <param name="context">Current build context.</param>
@@ -248,9 +248,9 @@ namespace Microsoft.Practices.ObjectBuilder2
             Guard.ArgumentNotNull(context, "context");
 
             var lifetime = context.Policies.Get<ILifetimePolicy>(context.BuildKey);
-            if(lifetime is PerBuildSingleton)
+            if(lifetime is PerResolveLifetimeManager)
             {
-                var perBuildLifetime = new PerBuildSingleton(context.Existing);
+                var perBuildLifetime = new PerResolveLifetimeManager(context.Existing);
                 context.Policies.Set<ILifetimePolicy>(perBuildLifetime, context.BuildKey);
             }
         }

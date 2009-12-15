@@ -9,6 +9,8 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System;
+
 namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
@@ -23,5 +25,10 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <returns>The new instance.</returns>
         ILifetimePolicy CreateLifetimePolicy();
+
+        /// <summary>
+        /// The type of Lifetime manager that will be created by this factory.
+        /// </summary>
+        Type LifetimeType { get; }
     }
 }

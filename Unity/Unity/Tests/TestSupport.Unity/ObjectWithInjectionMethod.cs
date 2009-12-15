@@ -9,29 +9,25 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using Microsoft.Practices.Unity.TestSupport;
-
 namespace Microsoft.Practices.Unity.TestSupport
 {
     public class ObjectWithInjectionMethod
     {
-        private string connectionString;
-        private ILogger logger;
+        public string ConnectionString { get; private set; }
+
+        public ILogger Logger { get; private set; }
+
+        public object MoreData { get; private set; }
 
         public void Initialize(string connectionString, ILogger logger)
         {
-            this.connectionString = connectionString;
-            this.logger = logger;
+            ConnectionString = connectionString;
+            Logger = logger;
         }
 
-        public string ConnectionString
+        public void MoreInitialization(object data)
         {
-            get { return connectionString; }
-        }
-
-        public ILogger Logger
-        {
-            get { return logger; }
+            MoreData = data;
         }
     }
 }

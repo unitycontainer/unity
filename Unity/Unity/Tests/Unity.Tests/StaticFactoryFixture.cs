@@ -9,6 +9,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System.Linq;
 using Microsoft.Practices.Unity.StaticFactory;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -166,6 +167,33 @@ namespace Microsoft.Practices.Unity.Tests
                     }));
 
             child.Resolve<MockDatabase>();
+        }
+
+        [TestMethod]
+        public void RegisteredFactoriesAreExecutedWhenDoingResolveAllWithOldAPI()
+        {
+            var container = new UnityContainer()
+                .AddNewExtension<StaticFactoryExtension>()
+                .Configure<StaticFactoryExtension>()
+                    .RegisterFactory<string>("one", c => "this")
+                    .RegisterFactory<string>("two", c => "that" )
+                    .RegisterFactory<string>("three", c => "the other")
+                .Container;
+
+            var result = container.ResolveAll<string>();
+            Assert.AreEqual(3, result.Count());
+        }
+
+        [TestMethod]
+        public void RegisteredFactoriesAreExecutedWhenDoingResolveAll()
+        {
+            var container = new UnityContainer()
+                .RegisterType<string>("one", new InjectionFactory(c => "this"))
+                .RegisterType<string>("two", new InjectionFactory(c => "that"))
+                .RegisterType<string>("three", new InjectionFactory(c => "the other"));
+
+            var result = container.ResolveAll<string>();
+            Assert.AreEqual(3, result.Count());
         }
 
 #pragma warning restore 618

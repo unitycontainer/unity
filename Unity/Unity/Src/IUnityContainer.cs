@@ -160,5 +160,11 @@ namespace Microsoft.Practices.Unity
         /// settings or lifetime.</remarks>
         /// <returns>The new child container.</returns>
         IUnityContainer CreateChildContainer();
+
+        /// <summary>
+        /// Get a sequence of <see cref="ContainerRegistration"/> that describe the current state
+        /// of the container.
+        /// </summary>
+        IEnumerable<ContainerRegistration> Registrations { get; }
     }
 }

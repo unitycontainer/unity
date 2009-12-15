@@ -9,6 +9,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System;
 using Microsoft.Practices.ObjectBuilder2.Tests.Utility;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -132,6 +133,14 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             public ILifetimePolicy CreateLifetimePolicy()
             {
                 return new T();
+            }
+
+            /// <summary>
+            /// The type of Lifetime manager that will be created by this factory.
+            /// </summary>
+            public Type LifetimeType
+            {
+                get { return typeof (T); }
             }
         }
     }

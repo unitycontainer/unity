@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Microsoft.Practices.Unity
 {
@@ -35,35 +36,37 @@ namespace Microsoft.Practices.Unity
 
         public void RegisterType(Type t, string name)
         {
-            if(!string.IsNullOrEmpty(name))
+            if(!registeredKeys.ContainsKey(t))
             {
-                if(!registeredKeys.ContainsKey(t))
-                {
-                    registeredKeys[t] = new List<string>();
-                }
-
-                RemoveMatchingKeys(t, name);
-                registeredKeys[t].Add(name);
+                registeredKeys[t] = new List<string>();
             }
+
+            RemoveMatchingKeys(t, name);
+            registeredKeys[t].Add(name);
         }
 
         public IEnumerable<string> GetKeys(Type t)
         {
+            var keys = Enumerable.Empty<string>();
+
             if(parent != null)
             {
-                foreach(string name in parent.GetKeys(t))
-                {
-                    yield return name;
-                }
+                keys = keys.Concat(parent.GetKeys(t));
             }
 
-            if(!registeredKeys.ContainsKey(t))
+            if(registeredKeys.ContainsKey(t))
             {
-                yield break;
+                keys = keys.Concat(registeredKeys[t]);
             }
-            foreach(string name in registeredKeys[t])
+
+            return keys;
+        }
+
+        public IEnumerable<Type> RegisteredTypes
+        {
+            get
             {
-                yield return name;
+                return registeredKeys.Keys;
             }
         }
 
@@ -75,22 +78,11 @@ namespace Microsoft.Practices.Unity
         // We need to do this the long way - Silverlight doesn't support List<T>.RemoveAll(Predicate)
         private void RemoveMatchingKeys(Type t, string name)
         {
-            List<int> indexes = new List<int>();
-            int i = 0;
-            foreach(string s in registeredKeys[t])
-            {
-                if(name == s)
-                {
-                    indexes.Add(i);
-                }
-                ++i;
-            }
+            var uniqueNames = from registeredName in registeredKeys[t]
+                              where registeredName != name
+                              select registeredName;
 
-            indexes.Reverse();
-            foreach(int index in indexes)
-            {
-                registeredKeys[t].RemoveAt(index);
-            }
+            registeredKeys[t] = uniqueNames.ToList();
         }
     }
 }

@@ -21,8 +21,7 @@ namespace Microsoft.Practices.Unity
     /// </summary>
     public class LifetimeManagerFactory : ILifetimeFactoryPolicy
     {
-        private ExtensionContext containerContext;
-        private Type lifetimeType;
+        private readonly ExtensionContext containerContext;
 
         /// <summary>
         /// Create a new <see cref="LifetimeManagerFactory"/> that will
@@ -34,7 +33,7 @@ namespace Microsoft.Practices.Unity
         public LifetimeManagerFactory(ExtensionContext containerContext, Type lifetimeType)
         {
             this.containerContext = containerContext;
-            this.lifetimeType = lifetimeType;
+            LifetimeType = lifetimeType;
         }
 
         /// <summary>
@@ -43,7 +42,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>The new instance.</returns>
         public ILifetimePolicy CreateLifetimePolicy()
         {
-            LifetimeManager lifetime = (LifetimeManager)containerContext.Container.Resolve(lifetimeType);
+            var lifetime = (LifetimeManager)containerContext.Container.Resolve(LifetimeType);
             if(lifetime is IDisposable)
             {
                 containerContext.Lifetime.Add(lifetime);
@@ -51,5 +50,10 @@ namespace Microsoft.Practices.Unity
             lifetime.InUse = true;
             return lifetime;
         }
+
+        /// <summary>
+        /// The type of Lifetime manager that will be created by this factory.
+        /// </summary>
+        public Type LifetimeType { get; private set; }
     }
 }

@@ -127,7 +127,7 @@ namespace Microsoft.Practices.Unity
 
         private static string FormatName(string name)
         {
-            return string.IsNullOrEmpty(name) ? "(none)" : '"' + name + '"';
+            return string.IsNullOrEmpty(name) ? "(none)" : name;
         }
 
         private static string ExceptionReason(IBuilderContext context)

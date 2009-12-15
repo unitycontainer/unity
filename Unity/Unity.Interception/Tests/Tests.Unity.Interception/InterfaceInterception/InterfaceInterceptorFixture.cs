@@ -253,7 +253,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             
             var interceptableMethods = interceptor.GetInterceptableMethods(typeof(IProxiedInterface), instance.GetType()).ToArray();
 
-            Assert.IsTrue(interceptableMethods.Where(x => x.InterfaceMethodInfo.Name == "DoSomething").Any());
+            interceptableMethods.Where(x => x.InterfaceMethodInfo.Name == "DoSomething").AssertHasItems();
         }
 
         public interface IProxiedInterface

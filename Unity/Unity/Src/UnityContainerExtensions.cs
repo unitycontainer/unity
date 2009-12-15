@@ -653,7 +653,64 @@ namespace Microsoft.Practices.Unity
 
         #endregion
 
+        #region Introspection Helpers
+
+        ///<summary>
+        /// Check if a particular type has been registered with the container with
+        /// the default name.
+        ///</summary>
+        ///<param name="container">Container to inspect.</param>
+        ///<param name="typeToCheck">Type to check registration for.</param>
+        ///<returns>True if this type has been registered, false if not.</returns>
+        public static bool IsRegistered(this IUnityContainer container, Type typeToCheck)
+        {
+            return container.IsRegistered(typeToCheck, null);
+        }
+
+        /// <summary>
+        /// Check if a particular type/name pair has been registered with the container.
+        /// </summary>
+        /// <param name="container">Container to inspect.</param>
+        /// <param name="typeToCheck">Type to check registration for.</param>
+        /// <param name="nameToCheck">Name to check registration for.</param>
+        /// <returns>True if this type/name pair has been registered, false if not.</returns>
+        public static bool IsRegistered(this IUnityContainer container, Type typeToCheck, string nameToCheck)
+        {
+            var registration = from r in container.Registrations
+                               where r.RegisteredType == typeToCheck && r.Name == nameToCheck
+                               select r;
+            return registration.FirstOrDefault() != null;
+        }
+
+        /// <summary>
+        /// Check if a particular type has been registered with the container with the default name.
+        /// </summary>
+        /// <typeparam name="T">Type to check registration for.</typeparam>
+        /// <param name="container">Container to inspect.</param>
+        /// <returns>True if this type has been registered, false if not.</returns>
+        public static bool IsRegistered<T>(this IUnityContainer container)
+        {
+            return container.IsRegistered(typeof (T));
+        }
+        
+        /// <summary>
+        /// Check if a particular type/name pair has been registered with the container.
+        /// </summary>
+        /// <typeparam name="T">Type to check registration for.</typeparam>
+        /// <param name="container">Container to inspect.</param>
+        /// <param name="nameToCheck">Name to check registration for.</param>
+        /// <returns>True if this type/name pair has been registered, false if not.</returns>
+        public static bool IsRegistered<T>(this IUnityContainer container, string nameToCheck)
+        {
+            return container.IsRegistered(typeof (T), nameToCheck);
+        }
+
+
+
+        #endregion
+
         #region Helper methods
+
         private static LifetimeManager CreateDefaultInstanceLifetimeManager()
         {
             return new ContainerControlledLifetimeManager();

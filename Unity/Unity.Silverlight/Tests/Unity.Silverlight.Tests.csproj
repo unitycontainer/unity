@@ -173,6 +173,9 @@
     <Compile Include="..\..\Unity\Tests\TestSupport.Unity\Barrier.cs">
       <Link>Unity.TestSupport\Barrier.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\EnumerableAssertionExtensions.cs">
+      <Link>Unity.TestSupport\EnumerableAssertionExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Tests\TestSupport.Unity\ILogger.cs">
       <Link>Unity.TestSupport\ILogger.cs</Link>
     </Compile>
@@ -187,9 +190,6 @@
     </Compile>
     <Compile Include="..\..\Unity\Tests\TestSupport.Unity\MockLogger.cs">
       <Link>Unity.TestSupport\MockLogger.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Tests\TestSupport.Unity\MockUnityContainer.cs">
-      <Link>Unity.TestSupport\MockUnityContainer.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Tests\TestSupport.Unity\ObjectUsingLogger.cs">
       <Link>Unity.TestSupport\ObjectUsingLogger.cs</Link>
@@ -220,6 +220,9 @@
     </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\ContainerControlledLifetimeThreadingFixture.cs">
       <Link>Unity.Tests\ContainerControlledLifetimeThreadingFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\ContainerRegistrationsFixture.cs">
+      <Link>Unity.Tests\ContainerRegistrationsFixture.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\DependencyArrayAttributeFixture.cs">
       <Link>Unity.Tests\DependencyArrayAttributeFixture.cs</Link>
@@ -272,8 +275,8 @@
     <Compile Include="..\..\Unity\Tests\Unity.Tests\ParameterMatcherFixture.cs">
       <Link>Unity.Tests\ParameterMatcherFixture.cs</Link>
     </Compile>
-    <Compile Include="..\..\Unity\Tests\Unity.Tests\PerBuildSingletonFixture.cs">
-      <Link>Unity.Tests\PerBuildSingletonFixture.cs</Link>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\PerResolveLifetimeFixture.cs">
+      <Link>Unity.Tests\PerResolveLifetimeFixture.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\PerThreadLifetimeManagerFixture.cs">
       <Link>Unity.Tests\PerThreadLifetimeManagerFixture.cs</Link>

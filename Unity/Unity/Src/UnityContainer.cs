@@ -95,6 +95,10 @@ namespace Microsoft.Practices.Unity
         public IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager, InjectionMember[] injectionMembers)
         {
             Guard.ArgumentNotNull(to, "to");
+            if(string.IsNullOrEmpty(name))
+            {
+                name = null;
+            }
 
             if (from != null && !from.IsGenericType && !to.IsGenericType)
             {
@@ -184,7 +188,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>Set of objects of type <paramref name="t"/>.</returns>
         public IEnumerable<object> ResolveAll(Type t, params ResolverOverride[] resolverOverrides)
         {
-            var names = new List<string>(registeredNames.GetKeys(t));
+            var names = registeredNames.GetKeys(t).Where(s => !string.IsNullOrEmpty(s));
             foreach (string name in names)
             {
                 yield return Resolve(t, name, resolverOverrides);
@@ -552,6 +556,24 @@ namespace Microsoft.Practices.Unity
         #endregion
 
         /// <summary>
+        /// Get a sequence of <see cref="ContainerRegistration"/> that describe the current state
+        /// of the container.
+        /// </summary>
+        public IEnumerable<ContainerRegistration> Registrations
+        {
+            get
+            {
+                var allRegisteredNames = new Dictionary<Type, List<string>>();
+                FillTypeRegistrationDictionary(allRegisteredNames);
+
+                return
+                    from type in allRegisteredNames.Keys
+                    from name in allRegisteredNames[type]
+                    select new ContainerRegistration(type, name, policies);
+            }
+        }
+
+        /// <summary>
         /// Remove policies associated with building this type. This removes the
         /// compiled build plan so that it can be rebuilt with the new settings
         /// the next time this type is resolved.
@@ -565,5 +587,24 @@ namespace Microsoft.Practices.Unity
             DependencyResolverTrackerPolicy.RemoveResolvers(policies, buildKey);
         }
 
+
+        private void FillTypeRegistrationDictionary(IDictionary<Type, List<string>> typeRegistrations)
+        {
+            if(parent != null)
+            {
+                parent.FillTypeRegistrationDictionary(typeRegistrations);
+            }
+
+            foreach(Type t in registeredNames.RegisteredTypes)
+            {
+                if(!typeRegistrations.ContainsKey(t))
+                {
+                    typeRegistrations[t] = new List<string>();
+                }
+
+                typeRegistrations[t] =
+                    (typeRegistrations[t].Concat(registeredNames.GetKeys(t))).Distinct().ToList();
+            }
+        }
     }
 }

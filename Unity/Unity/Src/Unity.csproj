@@ -58,12 +58,13 @@
     <Compile Include="Attributes\DependencyAttribute.cs" />
     <Compile Include="Attributes\OptionalDependencyAttribute.cs" />
     <Compile Include="CompositeResolverOverride.cs" />
+    <Compile Include="ContainerRegistration.cs" />
     <Compile Include="DependencyOverride.cs" />
     <Compile Include="DependencyOverrides.cs" />
     <Compile Include="Injection\InjectionFactory.cs" />
     <Compile Include="Injection\OptionalParameter.cs" />
     <Compile Include="Lifetime\HierarchicalLifetimeManager.cs" />
-    <Compile Include="Lifetime\PerBuildSingleton.cs" />
+    <Compile Include="Lifetime\PerResolveLifetimeManager.cs" />
     <Compile Include="ObjectBuilderCustomization\HierarchicalLifetimeStrategy.cs" />
     <Compile Include="ObjectBuilderCustomization\OptionalDependencyResolverPolicy.cs" />
     <Compile Include="ObjectBuilder\Strategies\BuildPlan\BuildOperation.cs" />

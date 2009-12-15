@@ -51,38 +51,50 @@
     <Compile Include="..\..\Common\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AdditionalInterfaceElement.cs">
+    <None Include="OriginalCode\AdditionalInterfaceElement.cs">
       <SubType>Code</SubType>
-    </Compile>
+    </None>
+    <None Include="OriginalCode\InterceptionBehaviorElement.cs" />
+    <None Include="OriginalCode\InterceptionMemberElement.cs" />
+    <None Include="OriginalCode\InterceptorConfigurationElementCollection.cs" />
+    <None Include="OriginalCode\InterceptorElement.cs" />
+    <None Include="OriginalCode\InterceptorTargetConfigurationElementBase.cs" />
+    <None Include="OriginalCode\DefaultInterceptorTargetConfigurationElement.cs" />
+    <None Include="OriginalCode\RuleDrivenPolicyElementConfigurationElement.cs" />
+    <None Include="OriginalCode\PolicyElementConfigurationElement.cs" />
+    <None Include="OriginalCode\MatchingRuleConfigurationElement.cs" />
+    <None Include="OriginalCode\MatchingRuleConfigurationElementCollection.cs" />
+    <None Include="OriginalCode\CallHandlerConfigurationElement.cs" />
+    <None Include="OriginalCode\CallHandlerConfigurationElementCollection.cs" />
+    <None Include="OriginalCode\InterceptionConfigurationElement.cs" />
+    <Compile Include="AddInterfaceElement.cs" />
+    <Compile Include="CallHandlerElement.cs" />
+    <Compile Include="CallHandlerElementCollection.cs" />
     <Compile Include="InterceptionBehaviorElement.cs" />
-    <Compile Include="InterceptionMemberElement.cs" />
-    <Compile Include="InterceptorConfigurationElementCollection.cs" />
+    <Compile Include="InterceptionConfigurationExtension.cs" />
+    <Compile Include="InterceptionElement.cs" />
     <Compile Include="InterceptorElement.cs" />
-    <Compile Include="InterceptorTargetConfigurationElementBase.cs" />
-    <Compile Include="DefaultInterceptorTargetConfigurationElement.cs" />
-    <Compile Include="RuleDrivenPolicyElementConfigurationElement.cs" />
-    <Compile Include="PolicyElementConfigurationElement.cs" />
-    <Compile Include="MatchingRuleConfigurationElement.cs" />
-    <Compile Include="MatchingRuleConfigurationElementCollection.cs" />
-    <Compile Include="CallHandlerConfigurationElement.cs" />
-    <Compile Include="CallHandlerConfigurationElementCollection.cs" />
-    <Compile Include="InterceptionConfigurationElement.cs" />
+    <Compile Include="MatchingRuleElement.cs" />
+    <Compile Include="MatchingRuleElementCollection.cs" />
+    <Compile Include="PolicyChildElement.cs" />
+    <Compile Include="PolicyElement.cs" />
+    <Compile Include="PolicyElementCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="InterceptionPolicyConfigurationElementCollection.cs" />
-    <Compile Include="InterceptionPolicyConfigurationElement.cs" />
+    <None Include="OriginalCode\InterceptionPolicyConfigurationElementCollection.cs" />
+    <None Include="OriginalCode\InterceptionPolicyConfigurationElement.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="KeyInterceptorTargetConfigurationElement.cs" />
-    <Compile Include="InterceptorTargetConfigurationElementCollection.cs" />
-    <Compile Include="InterceptorTargetKey.cs" />
-    <Compile Include="InterceptorConfigurationElement.cs" />
+    <None Include="OriginalCode\KeyInterceptorTargetConfigurationElement.cs" />
+    <None Include="OriginalCode\InterceptorTargetConfigurationElementCollection.cs" />
+    <None Include="OriginalCode\InterceptorTargetKey.cs" />
+    <None Include="OriginalCode\InterceptorConfigurationElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Unity.Configuration\Src\Unity.Configuration.csproj">
-      <Project>{4C89931B-67A9-4BDC-A565-E1E0207E1BD9}</Project>
+      <Project>{AEF45ED2-3E7F-4AA5-9001-A4D1BAC12EBE}</Project>
       <Name>Unity.Configuration</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Unity.Interception\Src\Unity.Interception.csproj">

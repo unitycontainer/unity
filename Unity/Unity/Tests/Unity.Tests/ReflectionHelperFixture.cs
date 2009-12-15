@@ -15,6 +15,8 @@ using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Microsoft.Practices.Unity.TestSupport;
+
 namespace Microsoft.Practices.Unity.Tests
 {
     [TestClass]
@@ -108,9 +110,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             Type[] closedTypes = helper.GetClosedParameterTypes(closedType.GetGenericArguments());
 
-            CollectionAssert.AreEqual(
-                Sequence.Collect(typeof(ICommand<User>), typeof(ICommand<Account>)),
-                closedTypes);
+            closedTypes.AssertContainsExactly(typeof(ICommand<User>), typeof(ICommand<Account>));
         }
 
         [TestMethod]
@@ -123,9 +123,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             Type[] closedTypes = helper.GetClosedParameterTypes(closedType.GetGenericArguments());
 
-            CollectionAssert.AreEqual(
-                Sequence.Collect(typeof(User[]), typeof(Account[,])),
-                closedTypes);
+            closedTypes.AssertContainsExactly(typeof(User[]), typeof(Account[,]));
         }
 
         public class TypeWithArrayConstructorParameters<T1, T2>

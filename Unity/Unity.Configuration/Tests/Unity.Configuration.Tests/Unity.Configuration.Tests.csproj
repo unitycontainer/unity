@@ -49,12 +49,26 @@
     <Compile Include="TestObjects\GenericArrayPropertyDependency.cs" />
     <Compile Include="TestObjects\GenericObjectWithConstructorDependency.cs" />
     <Compile Include="TestObjects\GenericObjectWithNestedDependency.cs" />
+    <Compile Include="TestObjects\MyGenericTypes\CompactCarItem.cs" />
+    <Compile Include="TestObjects\MyGenericTypes\DiggerItem.cs" />
+    <Compile Include="TestObjects\MyGenericTypes\IGenericService.cs" />
+    <Compile Include="TestObjects\MyGenericTypes\IItem.cs" />
+    <Compile Include="TestObjects\MyGenericTypes\ItemCategory.cs" />
+    <Compile Include="TestObjects\MyGenericTypes\ItemsCollection.cs" />
+    <Compile Include="TestObjects\MyGenericTypes\LargeTruckItem.cs" />
+    <Compile Include="TestObjects\MyGenericTypes\MidsizeCarItem.cs" />
+    <Compile Include="TestObjects\MyGenericTypes\MidsizeVanItem.cs" />
+    <Compile Include="TestObjects\MyGenericTypes\MyPrintService.cs" />
+    <Compile Include="TestObjects\MyGenericTypes\PickupTruckItem.cs" />
+    <Compile Include="TestObjects\MyGenericTypes\PostRollerItem.cs" />
+    <Compile Include="TestObjects\MyGenericTypes\TractorItem.cs" />
     <Compile Include="TestObjects\ObjectTakingScalars.cs" />
     <Compile Include="TestObjects\ObjectWithOverloads.cs" />
     <Compile Include="TestObjects\SeventeenValueElement.cs" />
     <Compile Include="TestObjects\TestSectionExtension.cs" />
     <Compile Include="When_ConfigurationContainerForMethodInjection.cs" />
     <Compile Include="When_ConfiguringContainerForArrayInjection.cs" />
+    <Compile Include="When_ConfiguringContainerForGenericAndNonGenericTypes.cs" />
     <Compile Include="When_ConfiguringContainerForPropertyInjection.cs" />
     <Compile Include="When_ConfiguringContainerForSpecificConstructors.cs" />
     <Compile Include="When_ConfiguringContainerToResolveGenerics.cs" />
@@ -81,6 +95,7 @@
     <Compile Include="When_LoadingEmptySection.cs" />
     <Compile Include="When_LoadingSectionWithAliases.cs" />
     <Compile Include="When_LoadingSectionWithProperties.cs" />
+    <Compile Include="When_ResolvingTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Unity\Src\Unity.csproj">
@@ -155,6 +170,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ConfigFiles\OptionalDependency.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ConfigFiles\Generics.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

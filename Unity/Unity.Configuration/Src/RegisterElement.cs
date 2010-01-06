@@ -1,6 +1,19 @@
-﻿using System;
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
+using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -9,11 +22,11 @@ namespace Microsoft.Practices.Unity.Configuration
     /// </summary>
     public class RegisterElement : ContainerConfiguringElement
     {
+        private const string InjectionMembersPropertyName = "";
+        private const string LifetimePropertyName = "lifetime";
         private const string MapToPropertyName = "mapTo";
         private const string NamePropertyName = "name";
         private const string TypePropertyName = "type";
-        private const string LifetimePropertyName = "lifetime";
-        private const string InjectionMembersPropertyName = "";
 
         /// <summary>
         /// The type that is registered.
@@ -21,7 +34,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(TypePropertyName, IsRequired = true, IsKey = true)]
         public string TypeName
         {
-            get { return (string)base[TypePropertyName]; }
+            get { return (string) base[TypePropertyName]; }
             set { base[TypePropertyName] = value; }
         }
 
@@ -31,7 +44,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(NamePropertyName, DefaultValue = "", IsRequired = false)]
         public string Name
         {
-            get { return (string)base[NamePropertyName]; }
+            get { return (string) base[NamePropertyName]; }
             set { base[NamePropertyName] = value; }
         }
 
@@ -41,7 +54,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(MapToPropertyName, DefaultValue = "", IsRequired = false)]
         public string MapToName
         {
-            get { return (string)base[MapToPropertyName]; }
+            get { return (string) base[MapToPropertyName]; }
             set { base[MapToPropertyName] = value; }
         }
 
@@ -74,13 +87,14 @@ namespace Microsoft.Practices.Unity.Configuration
             Type registeringType = GetRegisteringType();
             Type mappedType = GetMappedType();
             LifetimeManager lifetime = Lifetime.CreateLifetimeManager();
-            var injectionMembers = InjectionMembers.SelectMany(m => m.GetInjectionMembers(container, registeringType, mappedType, Name));
+            IEnumerable<InjectionMember> injectionMembers =
+                InjectionMembers.SelectMany(m => m.GetInjectionMembers(container, registeringType, mappedType, Name));
             container.RegisterType(registeringType, mappedType, Name, lifetime, injectionMembers.ToArray());
         }
 
         private Type GetRegisteringType()
         {
-            if(!string.IsNullOrEmpty(MapToName))
+            if (!string.IsNullOrEmpty(MapToName))
             {
                 return TypeResolver.ResolveType(TypeName);
             }
@@ -89,7 +103,7 @@ namespace Microsoft.Practices.Unity.Configuration
 
         private Type GetMappedType()
         {
-            if(string.IsNullOrEmpty(MapToName))
+            if (string.IsNullOrEmpty(MapToName))
             {
                 return TypeResolver.ResolveType(TypeName);
             }

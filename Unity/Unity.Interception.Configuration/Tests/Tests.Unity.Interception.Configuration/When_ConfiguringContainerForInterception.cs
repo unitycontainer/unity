@@ -1,5 +1,17 @@
-﻿using System;
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
+using System;
 using System.Linq;
+using System.Runtime.Remoting;
 using Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests.TestObjects;
 using Microsoft.Practices.Unity.TestSupport;
@@ -107,5 +119,23 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
 
             Assert.AreEqual(1, callCount.CallCount);
         }
+
+        [TestMethod]
+        public void Then_CanConfigureDefaultInterceptor()
+        {
+            IUnityContainer container = ConfiguredContainer("configuringDefaultInterceptor")
+                .Configure<Interception>()
+                    .AddPolicy("all")
+                        .AddMatchingRule<AlwaysMatchingRule>()
+                        .AddCallHandler<GlobalCountCallHandler>()
+                .Container;
+
+            var instance1 = container.Resolve<Wrappable>();
+            var instance2 = container.Resolve<Wrappable>("two");
+
+            Assert.IsTrue(RemotingServices.IsTransparentProxy(instance1));
+            Assert.IsTrue(RemotingServices.IsTransparentProxy(instance2));
+        }
+
     }
 }

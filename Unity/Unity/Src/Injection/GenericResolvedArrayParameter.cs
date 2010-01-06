@@ -14,10 +14,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Utility;
 using Microsoft.Practices.Unity.Properties;
-using Guard = Microsoft.Practices.Unity.Utility.Guard;
 
 namespace Microsoft.Practices.Unity
 {
@@ -91,19 +89,12 @@ namespace Microsoft.Practices.Unity
 
             Type typeToResolve = new ReflectionHelper(typeToBuild).GetNamedGenericParameter(genericParameterName);
 
-            if (this.elementValues.Count == 0)
+            var resolverPolicies = new List<IDependencyResolverPolicy>();
+            foreach (InjectionParameterValue pv in elementValues)
             {
-                return new NamedTypeDependencyResolverPolicy(typeToResolve.MakeArrayType(), null);
+                resolverPolicies.Add(pv.GetResolverPolicy(typeToBuild));
             }
-            else
-            {
-                List<IDependencyResolverPolicy> resolverPolicies = new List<IDependencyResolverPolicy>();
-                foreach (InjectionParameterValue pv in elementValues)
-                {
-                    resolverPolicies.Add(pv.GetResolverPolicy(typeToBuild));
-                }
-                return new ResolvedArrayWithElementsResolverPolicy(typeToResolve, resolverPolicies.ToArray());
-            }
+            return new ResolvedArrayWithElementsResolverPolicy(typeToResolve, resolverPolicies.ToArray());
         }
 
         private void GuardTypeToBuildIsGeneric(Type typeToBuild)

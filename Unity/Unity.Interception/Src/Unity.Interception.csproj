@@ -50,6 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContainerIntegration\AdditionalInterface.cs" />
+    <Compile Include="ContainerIntegration\DefaultInterceptionBehavior.cs" />
+    <Compile Include="ContainerIntegration\DefaultInterceptor.cs" />
+    <Compile Include="ContainerIntegration\InterceptionBehaviorBase.cs" />
     <Compile Include="ContainerIntegration\ObjectBuilder\AdditionalInterfacesPolicy.cs" />
     <Compile Include="ContainerIntegration\ObjectBuilder\ResolvedInstanceInterceptionPolicy.cs" />
     <Compile Include="ContainerIntegration\ObjectBuilder\ResolvedTypeInterceptionPolicy.cs" />

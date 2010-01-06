@@ -45,7 +45,7 @@ namespace Microsoft.Practices.Unity.Tests
             IUnityContainer container = new UnityContainer()
                 .RegisterType(
                     typeof(ClassWithOneArrayGenericParameter<>),
-                    new InjectionConstructor(new GenericResolvedArrayParameter("T")));
+                    new InjectionConstructor(new GenericParameter("T[]")));
 
             Account a0 = new Account();
             container.RegisterInstance<Account>("a0", a0);
@@ -95,7 +95,7 @@ namespace Microsoft.Practices.Unity.Tests
             IUnityContainer container = new UnityContainer()
                 .RegisterType(typeof(ClassWithOneArrayGenericParameter<>),
                                        new InjectionConstructor(),
-                                       new InjectionProperty("InjectedValue", new GenericResolvedArrayParameter("T")));
+                                       new InjectionProperty("InjectedValue", new GenericParameter("T()")));
 
             Account a0 = new Account();
             container.RegisterInstance<Account>("a1", a0);
@@ -113,18 +113,12 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void AppropriateExceptionIsThrownWhenNoMatchingConstructorCanBeFound()
         {
-            try
-            {
-                new UnityContainer()
-                    .RegisterType(typeof(ClassWithOneGenericParameter<>),
-                                           new InjectionConstructor(new GenericResolvedArrayParameter("T")));
-                Assert.Fail("Call to ConfigureInjectionFor<>() should have thrown.");
-            }
-            catch (InvalidOperationException)
-            {
-            }
+            new UnityContainer()
+                .RegisterType(typeof(ClassWithOneGenericParameter<>),
+                    new InjectionConstructor(new GenericResolvedArrayParameter("T")));
         }
 
         private void GetT<T>() { }

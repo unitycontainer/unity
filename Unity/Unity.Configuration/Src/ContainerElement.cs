@@ -1,4 +1,15 @@
-﻿using System;
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
+using System;
 using System.Configuration;
 using System.Linq;
 using System.Xml;
@@ -21,12 +32,14 @@ namespace Microsoft.Practices.Unity.Configuration
         private static readonly UnknownElementHandlerMap<ContainerElement> unknownElementHandlerMap =
             new UnknownElementHandlerMap<ContainerElement>
                 {
-                    {"types", (ce, xr) => ce.ReadTypesElement(xr)},
-                    {"extension", (ce, xr) => ce.ReadUnwrappedElement<ContainerExtensionElement, ContainerExtensionElementCollection>(xr, ce.Extensions)},
-                    {"instance", (ce, xr) => ce.ReadUnwrappedElement<InstanceElement, InstanceElementCollection>(xr, ce.Instances)}
+                    {"types", (ce, xr) => ce.Registrations.Deserialize(xr) },
+                    {"extension", (ce, xr) => ce.ReadUnwrappedElement(xr, ce.Extensions) },
+                    {"instance", (ce, xr) => ce.ReadUnwrappedElement(xr, ce.Instances) }
                 };
 
-        private ContainerConfiguringElementCollection configuringElements = new ContainerConfiguringElementCollection();
+        private readonly ContainerConfiguringElementCollection configuringElements = new ContainerConfiguringElementCollection();
+
+        internal UnityConfigurationSection ContainingSection { get; set; }
 
         /// <summary>
         /// Name for this container configuration as given in the config file.
@@ -77,6 +90,15 @@ namespace Microsoft.Practices.Unity.Configuration
             get { return configuringElements; }
         }
 
+        /// <summary>
+        /// Original configuration API kept for backwards compatibility.
+        /// </summary>
+        /// <param name="container">Container to configure</param>
+        [Obsolete("Use the UnityConfigurationSection.Configure(container, name) method instead")]
+        public void Configure(IUnityContainer container)
+        {
+            ContainingSection.Configure(container, Name);
+        }
 
         /// <summary>
         /// Apply the configuration information in this element to the
@@ -121,19 +143,12 @@ namespace Microsoft.Practices.Unity.Configuration
                 base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
-        private void ReadTypesElement(XmlReader reader)
-        {
-            Registrations.Deserialize(reader);
-        }
-
         private bool DeserializeContainerConfiguringElement(string elementName, XmlReader reader)
         {
             Type elementType = ExtensionElementMap.GetContainerConfiguringElementType(elementName);
             if(elementType != null)
             {
-                var element = (ContainerConfiguringElement) Activator.CreateInstance(elementType);
-                element.Deserialize(reader);
-                ConfiguringElements.Add(element);
+                this.ReadElementByType(reader, elementType, ConfiguringElements);
                 return true;
             }
             return false;

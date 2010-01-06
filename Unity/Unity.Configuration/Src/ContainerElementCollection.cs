@@ -1,3 +1,14 @@
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -13,6 +24,8 @@ namespace Microsoft.Practices.Unity.Configuration
     [ConfigurationCollection(typeof(ContainerElement), AddItemName="container")]
     public class ContainerElementCollection : DeserializableConfigurationElementCollection<ContainerElement>
     {
+        internal UnityConfigurationSection ContainingSection { get; set; }
+
         /// <summary>
         /// Retrieve a stored <see cref="ContainerElement"/> by name.
         /// </summary>
@@ -20,7 +33,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>The stored container or null if not in the collection.</returns>
         public new ContainerElement this[string name]
         {
-            get { return (ContainerElement) BaseGet(name); }
+            get { return GetElement(name); }
         }
 
         /// <summary>
@@ -28,7 +41,36 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         public ContainerElement Default
         {
-            get { return (ContainerElement)BaseGet(string.Empty); }
+            get { return GetElement(string.Empty); }
+        }
+
+        /// <summary>
+        /// Plug point to get objects out of the collection.
+        /// </summary>
+        /// <param name="index">Index in the collection to retrieve the item from.</param>
+        /// <returns>Item at that index or null if not present.</returns>
+        protected override ContainerElement GetElement(int index)
+        {
+            return PrepareElement(base.GetElement(index));
+        }
+
+        /// <summary>
+        /// Plug point to get objects out of the collection.
+        /// </summary>
+        /// <param name="key">Key to look up the object by.</param>
+        /// <returns>Item with that key or null if not present.</returns>
+        protected override ContainerElement GetElement(object key)
+        {
+            return PrepareElement(base.GetElement(key));
+        }
+
+        private ContainerElement PrepareElement(ContainerElement element)
+        {
+            if(element != null)
+            {
+                element.ContainingSection = ContainingSection;
+            }
+            return element;
         }
 
         /// <summary>

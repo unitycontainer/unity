@@ -51,46 +51,32 @@
     <Compile Include="..\..\Common\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <None Include="OriginalCode\AdditionalInterfaceElement.cs">
-      <SubType>Code</SubType>
-    </None>
-    <None Include="OriginalCode\InterceptionBehaviorElement.cs" />
-    <None Include="OriginalCode\InterceptionMemberElement.cs" />
-    <None Include="OriginalCode\InterceptorConfigurationElementCollection.cs" />
-    <None Include="OriginalCode\InterceptorElement.cs" />
-    <None Include="OriginalCode\InterceptorTargetConfigurationElementBase.cs" />
-    <None Include="OriginalCode\DefaultInterceptorTargetConfigurationElement.cs" />
-    <None Include="OriginalCode\RuleDrivenPolicyElementConfigurationElement.cs" />
-    <None Include="OriginalCode\PolicyElementConfigurationElement.cs" />
-    <None Include="OriginalCode\MatchingRuleConfigurationElement.cs" />
-    <None Include="OriginalCode\MatchingRuleConfigurationElementCollection.cs" />
-    <None Include="OriginalCode\CallHandlerConfigurationElement.cs" />
-    <None Include="OriginalCode\CallHandlerConfigurationElementCollection.cs" />
-    <None Include="OriginalCode\InterceptionConfigurationElement.cs" />
     <Compile Include="AddInterfaceElement.cs" />
     <Compile Include="CallHandlerElement.cs" />
     <Compile Include="CallHandlerElementCollection.cs" />
+    <Compile Include="DefaultElement.cs" />
     <Compile Include="InterceptionBehaviorElement.cs" />
     <Compile Include="InterceptionConfigurationExtension.cs" />
     <Compile Include="InterceptionElement.cs" />
     <Compile Include="InterceptorElement.cs" />
+    <Compile Include="InterceptorRegistrationElement.cs" />
+    <Compile Include="InterceptorRegistrationElementCollection.cs" />
+    <Compile Include="InterceptorsElement.cs" />
+    <Compile Include="InterceptorsInterceptorElement.cs" />
+    <Compile Include="InterceptorsInterceptorElementCollection.cs" />
+    <Compile Include="KeyElement.cs" />
     <Compile Include="MatchingRuleElement.cs" />
     <Compile Include="MatchingRuleElementCollection.cs" />
     <Compile Include="PolicyChildElement.cs" />
     <Compile Include="PolicyElement.cs" />
     <Compile Include="PolicyElementCollection.cs" />
+    <Compile Include="PolicyInjectionElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="OriginalCode\InterceptionPolicyConfigurationElementCollection.cs" />
-    <None Include="OriginalCode\InterceptionPolicyConfigurationElement.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="OriginalCode\KeyInterceptorTargetConfigurationElement.cs" />
-    <None Include="OriginalCode\InterceptorTargetConfigurationElementCollection.cs" />
-    <None Include="OriginalCode\InterceptorTargetKey.cs" />
-    <None Include="OriginalCode\InterceptorConfigurationElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Unity.Configuration\Src\Unity.Configuration.csproj">

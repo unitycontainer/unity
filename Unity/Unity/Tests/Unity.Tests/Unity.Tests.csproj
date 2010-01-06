@@ -38,6 +38,7 @@
     <Optimize>false</Optimize>
     <OutputPath>.\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -68,6 +69,7 @@
     <Compile Include="ConstructorWithOutParametersFixture.cs" />
     <Compile Include="ContainerControlledLifetimeThreadingFixture.cs" />
     <Compile Include="ContainerRegistrationsFixture.cs" />
+    <Compile Include="DeferredResolveFixture.cs" />
     <Compile Include="DependencyArrayAttributeFixture.cs" />
     <Compile Include="GenericChainingFixture.cs" />
     <Compile Include="GenericParameterFixture.cs" />

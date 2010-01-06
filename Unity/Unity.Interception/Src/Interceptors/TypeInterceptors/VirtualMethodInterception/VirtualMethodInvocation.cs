@@ -46,10 +46,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             this.context = new Hashtable();
 
             ParameterInfo[] targetParameters = targetMethod.GetParameters();
-            this.arguments = new ParameterCollection(parameterValues, targetParameters, 
-                delegate { return true; });
-            this.inputs = new ParameterCollection(parameterValues, targetParameters, 
-                delegate(ParameterInfo param) { return param.IsIn; });
+            this.arguments = new ParameterCollection(parameterValues, targetParameters, param => true );
+            this.inputs = new ParameterCollection(parameterValues, targetParameters, param => !param.IsOut);
         }
 
         /// <summary>

@@ -211,7 +211,7 @@
     <value>The type {0} does not have a public method named {1} that takes the parameters ({2}).</value>
   </data>
   <data name="NoSuchProperty" xml:space="preserve">
-    <value>The type {0} does not contain a property named {1}.</value>
+    <value>The type {0} does not contain an instance property named {1}.</value>
   </data>
   <data name="NotAGenericType" xml:space="preserve">
     <value>The type {0} is not a generic type, and you are attempting to inject a generic parameter named "{1}".</value>

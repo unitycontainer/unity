@@ -116,6 +116,43 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 			Assert.AreSame(defaultPolicy, result);
 		}
 
+        [TestMethod]
+        public void PolicyRegisteredForTypeIsUsedIfKeyIsNotFound()
+        {
+            PolicyList list = new PolicyList();
+            FakePolicy policyForType = new FakePolicy();
+            list.Set<IBuilderPolicy>(policyForType, typeof (object));
+
+            IBuilderPolicy result = list.Get<IBuilderPolicy>(new NamedTypeBuildKey<object>("name"));
+
+            Assert.AreSame(policyForType, result);
+        }
+
+        [TestMethod]
+        public void PolicyForClosedGenericTypeOverridesPolicyForOpenType()
+        {
+            PolicyList list = new PolicyList();
+            FakePolicy openTypePolicy = new FakePolicy();
+            FakePolicy closedTypePolicy = new FakePolicy();
+            list.Set<IBuilderPolicy>(openTypePolicy, typeof (IFoo<>));
+            list.Set<IBuilderPolicy>(closedTypePolicy, typeof (IFoo<object>));
+
+            IBuilderPolicy result = list.Get<IBuilderPolicy>(new NamedTypeBuildKey<IFoo<object>>("name"));
+            Assert.AreSame(closedTypePolicy, result);
+
+        }
+
+        [TestMethod]
+        public void PolicyRegisteredForOpenGenericTypeUsedIfKeyIsNotFound()
+        {
+            PolicyList list = new PolicyList();
+            FakePolicy policyForType = new FakePolicy();
+            list.Set<IBuilderPolicy>(policyForType, typeof(IFoo<>));
+
+            IBuilderPolicy result = list.Get<IBuilderPolicy>(new NamedTypeBuildKey<IFoo<object>>("name"));
+            Assert.AreSame(policyForType, result);
+        }
+
 		[TestMethod]
 		public void OuterPolicyDefaultOverridesInnerPolicyDefault()
 		{

@@ -1,3 +1,14 @@
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -33,7 +44,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_ExtensionElementHasExpectedType()
         {
-            Assert.AreEqual("MockExtension",
+            Assert.AreEqual("MockContainerExtension",
                 defaultContainer.Extensions[0].TypeName);
         }
 
@@ -47,7 +58,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_NewSchemaContainerExtensionElementHasExpectedType()
         {
-            Assert.AreEqual("MockExtension",
+            Assert.AreEqual("MockContainerExtension",
                 newSchemaContainer.Extensions[0].TypeName);
         }
     }

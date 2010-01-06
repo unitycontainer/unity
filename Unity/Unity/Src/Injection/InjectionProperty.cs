@@ -16,7 +16,7 @@ using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Properties;
-using Guard = Microsoft.Practices.Unity.Utility.Guard;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity
 {
@@ -67,7 +67,7 @@ namespace Microsoft.Practices.Unity
         public override void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
         {
             Guard.ArgumentNotNull(implementationType, "implementationType");
-            PropertyInfo propInfo = implementationType.GetProperty(propertyName);
+            PropertyInfo propInfo = implementationType.GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             GuardPropertyExists(propInfo, implementationType, propertyName);
             GuardPropertyIsSettable(propInfo);
             GuardPropertyIsNotIndexer(propInfo);

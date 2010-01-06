@@ -16,9 +16,9 @@ namespace Microsoft.Practices.ObjectBuilder2
 {
     class FactoryDelegateBuildPlanPolicy : IBuildPlanPolicy
     {
-        private readonly Func<IUnityContainer, object> factory;
+        private readonly Func<IUnityContainer, Type, string, object> factory;
 
-        public FactoryDelegateBuildPlanPolicy(Func<IUnityContainer, object> factory)
+        public FactoryDelegateBuildPlanPolicy(Func<IUnityContainer, Type, string, object> factory)
         {
             this.factory = factory;
         }
@@ -33,7 +33,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             if(context.Existing == null)
             {
                 var currentContainer = context.NewBuildUp<IUnityContainer>();
-                context.Existing = factory(currentContainer);
+                context.Existing = factory(currentContainer, context.BuildKey.Type, context.BuildKey.Name);
 
                 DynamicMethodConstructorStrategy.SetPerBuildSingleton(context);
             }

@@ -1,3 +1,14 @@
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
 using System;
 using System.Configuration;
 using System.Globalization;
@@ -15,6 +26,31 @@ namespace Microsoft.Practices.Unity.Configuration
         private const string ContainersPropertyName = "";
         private const string TypeAliasesPropertyName = "aliases";
         private const string SectionExtensionsPropertyName = "extensions";
+        private const string NamespacesPropertyName = "namespaces";
+        private const string AssembliesPropertyName = "asemblies";
+
+        [ThreadStatic]
+        private static UnityConfigurationSection currentSection;
+
+        private static readonly UnknownElementHandlerMap<UnityConfigurationSection> unknownElementHandlerMap
+            = new UnknownElementHandlerMap<UnityConfigurationSection>
+                {
+                    { "typeAliases", (s, xr) => s.TypeAliases.Deserialize(xr) },
+                    { "containers", (s, xr) => s.Containers.Deserialize(xr) },
+                    { "alias", (s, xr) => s.ReadUnwrappedElement(xr, s.TypeAliases) },
+                    { "sectionExtension", (s, xr) => s.DeserializeSectionExtension(xr) },
+                    { "namespace", (s, xr) => s.ReadUnwrappedElement(xr, s.Namespaces) },
+                    { "assembly", (s, xr) => s.ReadUnwrappedElement(xr, s.Assemblies) }
+                };
+
+        /// <summary>
+        /// The current <see cref="UnityConfigurationSection"/> that is being deserialized
+        /// or being configured from.
+        /// </summary>
+        public static UnityConfigurationSection CurrentSection
+        {
+            get { return currentSection; }
+        }
 
         /// <summary>
         /// The set of containers defined in this configuration section.
@@ -22,7 +58,12 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(ContainersPropertyName, IsDefaultCollection = true)]
         public ContainerElementCollection Containers
         {
-            get { return (ContainerElementCollection)base[ContainersPropertyName]; }
+            get
+            {
+                var containers = (ContainerElementCollection)base[ContainersPropertyName];
+                containers.ContainingSection = this;
+                return containers;
+            }
         }
 
         /// <summary>
@@ -44,15 +85,32 @@ namespace Microsoft.Practices.Unity.Configuration
         }
 
         /// <summary>
+        /// Any namespaces added to the type search list.
+        /// </summary>
+        [ConfigurationProperty(NamespacesPropertyName)]
+        public NamedElementCollection Namespaces
+        {
+            get { return (NamedElementCollection) base[NamespacesPropertyName]; }
+        }
+
+        /// <summary>
+        /// Any assemblies added to the type search list.
+        /// </summary>
+        [ConfigurationProperty(AssembliesPropertyName)]
+        public NamedElementCollection Assemblies
+        {
+            get { return (NamedElementCollection) base[AssembliesPropertyName]; }
+        }
+
+
+        /// <summary>
         /// Apply the configuration in the default container element to the given container.
         /// </summary>
         /// <param name="container">Container to configure.</param>
         /// <returns>The passed in <paramref name="container"/>.</returns>
         public IUnityContainer Configure(IUnityContainer container)
         {
-            TypeResolver.SetAliases(TypeAliases);
-            Containers.Default.ConfigureContainer(container);
-            return container;
+            return Configure(container, "");
         }
 
         /// <summary>
@@ -63,9 +121,24 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>The passed in <paramref name="container"/>.</returns>
         public IUnityContainer Configure(IUnityContainer container, string configuredContainerName)
         {
-            TypeResolver.SetAliases(TypeAliases);
-            Containers[configuredContainerName].ConfigureContainer(container);
+            currentSection = this;
+            TypeResolver.SetAliases(this);
+            var containerElement = GuardContainerExists(configuredContainerName, Containers[configuredContainerName]);
+
+            containerElement.ConfigureContainer(container);
             return container;
+        }
+
+        private static ContainerElement GuardContainerExists(string configuredContainerName, ContainerElement containerElement)
+        {
+            if(containerElement == null)
+            {
+                throw new ArgumentException(
+                    string.Format(CultureInfo.CurrentUICulture,
+                        Resources.NoSuchContainer, configuredContainerName),
+                    "configuredContainerName");
+            }
+            return containerElement;
         }
 
         /// <summary>
@@ -77,6 +150,7 @@ namespace Microsoft.Practices.Unity.Configuration
         protected override void DeserializeSection(XmlReader reader)
         {
             ExtensionElementMap.Clear();
+            currentSection = this;
             base.DeserializeSection(reader);
         }
 
@@ -104,45 +178,16 @@ namespace Microsoft.Practices.Unity.Configuration
         ///                 </exception>
         protected override bool OnDeserializeUnrecognizedElement(string elementName, XmlReader reader)
         {
-            if (elementName == "typeAliases")
-            {
-                TypeAliases.Deserialize(reader);
-                return true;
-            }
-
-            if (elementName == "containers")
-            {
-                Containers.Deserialize(reader);
-                return true;
-            }
-
-            if (elementName == "alias")
-            {
-                DeserializeUnwrappedElement(reader, TypeAliases);
-                return true;
-                
-            }
-            if (elementName == "sectionExtension")
-            {
-                TypeResolver.SetAliases(TypeAliases);
-                var element = DeserializeUnwrappedElement(reader, SectionExtensions);
-                element.ExtensionObject.AddExtensions(new ExtensionContext(this, element.Prefix));
-                return true;
-            }
-
-            return base.OnDeserializeUnrecognizedElement(elementName, reader);
+            return unknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
+                base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
-        private static TElement DeserializeUnwrappedElement<TElement>(XmlReader reader, DeserializableConfigurationElementCollectionBase<TElement> collection)
-            where TElement : DeserializableConfigurationElement, new()
+        private void DeserializeSectionExtension(XmlReader reader)
         {
-            var element = new TElement();
-            element.Deserialize(reader);
-            collection.Add(element);
-            return element;
+            TypeResolver.SetAliases(this);
+            var element = this.ReadUnwrappedElement(reader, SectionExtensions);
+            element.ExtensionObject.AddExtensions(new ExtensionContext(this, element.Prefix));
         }
-
-        
 
         private class ExtensionContext : SectionExtensionContext
         {

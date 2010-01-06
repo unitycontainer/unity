@@ -343,6 +343,9 @@
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Property\SettingPropertyOperation.cs">
       <Link>Unity\ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Property\SettingPropertyOperation.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\BuildPlan\Factory\DeferredResolveBuildPlanPolicy.cs">
+      <Link>Unity\ObjectBuilder\Strategies\BuildPlan\Factory\DeferredResolveBuildPlanPolicy.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\BuildPlan\Factory\FactoryDelegateBuildPlanPolicy.cs">
       <Link>Unity\ObjectBuilder\Strategies\BuildPlan\Factory\FactoryDelegateBuildPlanPolicy.cs</Link>
     </Compile>

@@ -1,3 +1,14 @@
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
 using System.Configuration;
 using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
@@ -10,6 +21,12 @@ namespace Microsoft.Practices.Unity.Configuration
     [ConfigurationCollection(typeof (RegisterElement), AddItemName = "register")]
     public class RegisterElementCollection : DeserializableConfigurationElementCollection<RegisterElement>
     {
+        private static readonly UnknownElementHandlerMap<RegisterElementCollection> unknownElementHandlerMap
+            = new UnknownElementHandlerMap<RegisterElementCollection>
+                {
+                    { "type", (rec, xr) => rec.ReadUnwrappedElement(xr, rec) }
+                };
+
         /// <summary>
         /// Causes the configuration system to throw an exception.
         /// </summary>
@@ -23,14 +40,8 @@ namespace Microsoft.Practices.Unity.Configuration
         ///                 </exception>
         protected override bool OnDeserializeUnrecognizedElement(string elementName, XmlReader reader)
         {
-            if (elementName == "type")
-            {
-                var element = new RegisterElement();
-                element.Deserialize(reader);
-                Add(element);
-                return true;
-            }
-            return base.OnDeserializeUnrecognizedElement(elementName, reader);
+            return unknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
+                base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
         /// <summary>

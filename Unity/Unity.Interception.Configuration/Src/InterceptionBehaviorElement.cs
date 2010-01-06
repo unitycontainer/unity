@@ -1,10 +1,20 @@
-﻿using System;
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using Microsoft.Practices.Unity.Configuration;
+using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 using Microsoft.Practices.Unity.InterceptionExtension.Configuration.Properties;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
@@ -17,6 +27,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
     {
         private const string TypeNamePropertyName = "type";
         private const string NamePropertyName = "name";
+        private const string IsDefaultForTypePropertyName = "isDefaultForType";
 
         /// <summary>
         /// Type of behavior to add.
@@ -37,6 +48,18 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             get { return (string) base[NamePropertyName]; }
             set { base[NamePropertyName] = value; }
         }
+
+        /// <summary>
+        /// Should this behavior be configured as a default behavior for this type, or
+        /// specifically for this type/name pair only?
+        /// </summary>
+        [ConfigurationProperty(IsDefaultForTypePropertyName, IsRequired = false, DefaultValue = false)]
+        public bool IsDefaultForType
+        {
+            get { return (bool) base[IsDefaultForTypePropertyName]; }
+            set { base[IsDefaultForTypePropertyName] = value; }
+        }
+
 
         /// <summary>
         /// Reads XML from the configuration file.
@@ -79,7 +102,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             Type behaviorType = TypeResolver.ResolveTypeWithDefault(TypeName, typeof (IInterceptionBehavior));
             GuardBehaviorType(behaviorType);
 
-            return new[] {new InterceptionBehavior(behaviorType, Name)};
+            if(IsDefaultForType)
+            {
+                return new[] {new DefaultInterceptionBehavior(behaviorType, Name)};
+            }
+            else
+            {
+                return new[] {new InterceptionBehavior(behaviorType, Name)};
+            }
         }
 
         private void GuardHasRequiredAttributes()
@@ -93,13 +123,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
 
         private void GuardBehaviorType(Type resolvedType)
         {
-            if(resolvedType == null)
-            {
-                throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentUICulture,
-                        Resources.CouldNotResolveType, TypeName));
-            }
-
             if(!typeof(IInterceptionBehavior).IsAssignableFrom(resolvedType))
             {
                 throw new InvalidOperationException(

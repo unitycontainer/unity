@@ -1,6 +1,16 @@
-﻿using System.Configuration;
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
+using System.Configuration;
 using System.Xml;
-using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
@@ -17,8 +27,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         private static readonly UnknownElementHandlerMap<PolicyElement> unknownElementHandlerMap =
             new UnknownElementHandlerMap<PolicyElement>
                 {
-                    {"matchingRule", (pe, xr) => DeserializeUnwrappedElement(xr, pe.MatchingRules)},
-                    {"callHandler", (pe, xr) => DeserializeUnwrappedElement(xr, pe.CallHandlers)}
+                    {"matchingRule", (pe, xr) => pe.ReadUnwrappedElement(xr, pe.MatchingRules)},
+                    {"callHandler", (pe, xr) => pe.ReadUnwrappedElement(xr, pe.CallHandlers)}
                 };
 
         /// <summary>
@@ -89,15 +99,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             {
                 callHandlerElement.Configure(container, policyDefinition);
             }
-        }
-
-        private static void DeserializeUnwrappedElement<TElement>(XmlReader reader,
-            DeserializableConfigurationElementCollectionBase<TElement> collection)
-            where TElement : DeserializableConfigurationElement, new()
-        {
-            var element = new TElement();
-            element.Deserialize(reader);
-            collection.Add(element);
         }
     }
 }

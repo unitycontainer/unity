@@ -60,13 +60,39 @@ namespace Microsoft.Practices.Unity
         public override IDependencyResolverPolicy GetResolverPolicy(Type typeToBuild)
         {
             Guard.ArgumentNotNull(typeToBuild, "typeToBuild");
-            ReflectionHelper parameterReflector = new ReflectionHelper(ParameterType);
-            Type typeToResolve = parameterReflector.Type;
+
+            var parameterReflector = new ReflectionHelper(ParameterType);
+
+            if(parameterReflector.IsGenericArray)
+            {
+                return CreateGenericArrayResolverPolicy(typeToBuild, parameterReflector);
+            }
+
             if (parameterReflector.IsOpenGeneric)
             {
-                typeToResolve = parameterReflector.GetClosedParameterType(typeToBuild.GetGenericArguments());
+                return CreateGenericResolverPolicy(typeToBuild, parameterReflector);
             }
+
+            return CreateResolverPolicy(parameterReflector.Type);
+        }
+
+        private IDependencyResolverPolicy CreateResolverPolicy(Type typeToResolve)
+        {
             return new NamedTypeDependencyResolverPolicy(typeToResolve, name);
+        }
+
+        private IDependencyResolverPolicy CreateGenericResolverPolicy(Type typeToBuild, ReflectionHelper parameterReflector)
+        {
+            return new NamedTypeDependencyResolverPolicy(
+                parameterReflector.GetClosedParameterType(typeToBuild.GetGenericArguments()), 
+                name);
+        }
+
+        private IDependencyResolverPolicy CreateGenericArrayResolverPolicy(Type typeToBuild, ReflectionHelper parameterReflector)
+        {
+            Type arrayType = parameterReflector.GetClosedParameterType(typeToBuild.GetGenericArguments());
+            return new NamedTypeDependencyResolverPolicy(arrayType, name);
+
         }
     }
 

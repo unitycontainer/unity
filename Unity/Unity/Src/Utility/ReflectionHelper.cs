@@ -59,6 +59,30 @@ namespace Microsoft.Practices.Unity.Utility
         }
 
         /// <summary>
+        /// Is this type an array type?
+        /// </summary>
+        public bool IsArray
+        {
+            get { return t.IsArray; }
+        }
+
+        /// <summary>
+        /// Is this type an array of generic elements?
+        /// </summary>
+        public bool IsGenericArray
+        {
+            get { return IsArray && ArrayElementType.IsGenericParameter; }
+        }
+
+        /// <summary>
+        /// The type of the elements in this type (if it's an array).
+        /// </summary>
+        public Type ArrayElementType
+        {
+            get { return t.GetElementType(); }
+        }
+
+        /// <summary>
         /// Test the given <see cref="MethodBase"/> object, looking at
         /// the parameters. Determine if any of the parameters are
         /// open generic types that need type attributes filled in.
@@ -102,11 +126,11 @@ namespace Microsoft.Practices.Unity.Utility
                 }
                 return Type.GetGenericTypeDefinition().MakeGenericType(typeArgs);
             }
-            else if (Type.IsGenericParameter)
+            if (Type.IsGenericParameter)
             {
                 return genericArguments[Type.GenericParameterPosition];
             }
-            else if (Type.IsArray && Type.GetElementType().IsGenericParameter)
+            if (IsArray && ArrayElementType.IsGenericParameter)
             {
                 int rank;
                 if ((rank = Type.GetArrayRank()) == 1)
@@ -115,16 +139,11 @@ namespace Microsoft.Practices.Unity.Utility
                     return genericArguments[Type.GetElementType().GenericParameterPosition]
                         .MakeArrayType();
                 }
-                else
-                {
-                    return genericArguments[Type.GetElementType().GenericParameterPosition]
-                        .MakeArrayType(rank);
-                }
+
+                return genericArguments[Type.GetElementType().GenericParameterPosition]
+                    .MakeArrayType(rank);
             }
-            else
-            {
-                return Type;
-            }
+            return Type;
         }
 
         /// <summary>

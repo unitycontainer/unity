@@ -1,10 +1,22 @@
-﻿using System;
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using Microsoft.Practices.Unity.Configuration;
+using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 using Microsoft.Practices.Unity.InterceptionExtension.Configuration.Properties;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
@@ -48,18 +60,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         public override IEnumerable<InjectionMember> GetInjectionMembers(IUnityContainer container, Type fromType, Type toType, string name)
         {
             Type interfaceType = TypeResolver.ResolveType(TypeName);
-            GuardInterfaceTypeFound(interfaceType);
             return new[] {new AdditionalInterface(interfaceType)};
-        }
-
-        private void GuardInterfaceTypeFound(Type type)
-        {
-            if(type == null)
-            {
-                throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentUICulture,
-                        Resources.CouldNotResolveType, TypeName));
-            }
         }
     }
 }

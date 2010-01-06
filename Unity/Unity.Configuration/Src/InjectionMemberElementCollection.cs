@@ -1,4 +1,15 @@
-﻿using System;
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -45,15 +56,8 @@ namespace Microsoft.Practices.Unity.Configuration
         ///                 </exception>
         protected override bool OnDeserializeUnrecognizedElement(string elementName, XmlReader reader)
         {
-            Type elementType = GetKnownElementType(elementName) ?? GetExtensionElementType(elementName);
-            if(elementType != null)
-            {
-                var element = (InjectionMemberElement) Activator.CreateInstance(elementType);
-                element.Deserialize(reader);
-                Add(element);
-                return true;
-            }
-            return base.OnDeserializeUnrecognizedElement(elementName, reader);
+            return DeserializeRegisteredElement(elementName, reader) ||
+                base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
         /// <summary>
@@ -82,14 +86,20 @@ namespace Microsoft.Practices.Unity.Configuration
 
         private Type GetKnownElementType(string elementName)
         {
-            Type elementType = null;
-            elementTypeMap.TryGetValue(elementName, out elementType);
-            return elementType;
+            return elementTypeMap.GetOrNull(elementName);
         }
 
         private static Type GetExtensionElementType(string elementName)
         {
             return ExtensionElementMap.GetInjectionMemberElementType(elementName);
+        }
+
+        private bool DeserializeRegisteredElement(string elementName, XmlReader reader)
+        {
+            Type elementType = GetKnownElementType(elementName) ?? GetExtensionElementType(elementName);
+            if(elementType == null) return false;
+            this.ReadElementByType(reader, elementType, this);
+            return true;
         }
     }
 }

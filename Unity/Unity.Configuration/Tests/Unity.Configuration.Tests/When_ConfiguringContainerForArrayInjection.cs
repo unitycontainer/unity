@@ -1,4 +1,15 @@
-﻿using System.Linq;
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
+using System.Linq;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.Configuration.Tests.TestObjects;
 using Microsoft.Practices.Unity.TestSupport;
@@ -53,17 +64,19 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         }
 
         [TestMethod]
-        [Ignore] // Bug with generics support in the container, ignore this until fixed.
         public void Then_GenericArrayPropertiesAreInjected()
         {
-            Container.RegisterType(typeof (GenericArrayPropertyDependency<>), "testing",
-                new InjectionProperty("Stuff"));
-
-            var result1 = Container.Resolve<GenericArrayPropertyDependency<string>>("testing");
-
             var result = Container.Resolve<GenericArrayPropertyDependency<string>>("defaultResolution");
 
             result.Stuff.AssertContainsInAnyOrder("first", "second", "third");
         }
+
+        [TestMethod]
+        public void Then_CanConfigureZeroLengthGenericArrayToBeInjected()
+        {
+            var result = Container.Resolve<GenericArrayPropertyDependency<string>>("explicitZeroLengthArray");
+
+            Assert.AreEqual(0, result.Stuff.Count());
+        }    
     }
 }

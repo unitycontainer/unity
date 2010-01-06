@@ -1,3 +1,14 @@
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
 using System.Configuration;
 using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
@@ -9,6 +20,12 @@ namespace Microsoft.Practices.Unity.Configuration
     /// </summary>
     public class AliasElementCollection : DeserializableConfigurationElementCollection<AliasElement>
     {
+        private static readonly UnknownElementHandlerMap<AliasElementCollection> unknownElementHandlerMap
+            = new UnknownElementHandlerMap<AliasElementCollection>
+                {
+                    { "typeAlias", (aec, xr) => aec.ReadUnwrappedElement(xr, aec)}
+                };
+
         /// <summary>
         /// Indexer that allows you to get or set an alias by the alias name.
         /// </summary>
@@ -48,14 +65,8 @@ namespace Microsoft.Practices.Unity.Configuration
         ///                 </exception>
         protected override bool OnDeserializeUnrecognizedElement(string elementName, XmlReader reader)
         {
-            if(elementName == "typeAlias")
-            {
-                var element = new AliasElement();
-                element.Deserialize(reader);
-                Add(element);
-                return true;
-            }
-            return base.OnDeserializeUnrecognizedElement(elementName, reader);
+            return unknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
+                base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
         /// <summary>

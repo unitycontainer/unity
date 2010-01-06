@@ -1,9 +1,21 @@
-﻿using System;
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 using Microsoft.Practices.Unity.Configuration.Properties;
 
 namespace Microsoft.Practices.Unity.Configuration
@@ -56,6 +68,10 @@ namespace Microsoft.Practices.Unity.Configuration
 
             var values = Values.Select(v => v.GetInjectionParameterValue(container, elementType));
 
+            if(elementType.IsGenericParameter)
+            {
+                return new GenericResolvedArrayParameter(elementType.Name, values.ToArray());
+            }
             return new ResolvedArrayParameter(elementType, values.ToArray());
         }
 

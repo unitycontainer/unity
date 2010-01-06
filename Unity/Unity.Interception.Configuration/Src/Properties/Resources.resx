@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CannotCreateInterceptorRegistrationElement" xml:space="preserve">
+    <value>The abstract type InterceptorRegistrationElement cannot be created. Please create a concrete instance.</value>
+  </data>
   <data name="CannotHaveInjectionWithoutTypeName" xml:space="preserve">
     <value>The &lt;injection/&gt; element is not allowed on element named '{0}' because it doesn't have a type attribute.</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="ExceptionResolvedTypeNotCompatible" xml:space="preserve">
     <value>The type name {0} resolved to type {1} is not compatible with the required type {2}.</value>
+  </data>
+  <data name="InvalidInterceptorType" xml:space="preserve">
+    <value>The type {0} could not be resolved to a valid type. Please double check your configuration.</value>
   </data>
   <data name="MustHaveAtLeastOneBehaviorAttribute" xml:space="preserve">
     <value>The interception behavior element must have at least one of the 'name' or 'type' attributes.</value>

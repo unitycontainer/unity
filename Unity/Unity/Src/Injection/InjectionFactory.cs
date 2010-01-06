@@ -10,9 +10,6 @@
 //===============================================================================
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Utility;
 
@@ -26,7 +23,7 @@ namespace Microsoft.Practices.Unity
     /// thing the old static factory extension was used for.</remarks>
     public class InjectionFactory : InjectionMember
     {
-        private readonly Func<IUnityContainer, object> factoryFunc;
+        private readonly Func<IUnityContainer, Type, string, object> factoryFunc;
 
         /// <summary>
         /// Create a new instance of <see cref="InjectionFactory"/> with
@@ -34,6 +31,16 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         /// <param name="factoryFunc">Factory function.</param>
         public InjectionFactory(Func<IUnityContainer, object> factoryFunc)
+            : this((c, t, s) => factoryFunc(c))
+        {
+        }
+
+        /// <summary>
+        /// Create a new instance of <see cref="InjectionFactory"/> with
+        /// the given factory function.
+        /// </summary>
+        /// <param name="factoryFunc">Factory function.</param>
+        public InjectionFactory(Func<IUnityContainer, Type, string, object> factoryFunc)
         {
             Guard.ArgumentNotNull(factoryFunc, "factoryFunc");
             this.factoryFunc = factoryFunc;

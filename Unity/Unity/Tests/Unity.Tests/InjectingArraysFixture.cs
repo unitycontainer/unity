@@ -107,21 +107,15 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void CreatingResolvedArrayParameterWithValuesOfNonCompatibleType()
         {
             ILogger logger2 = new SpecialLogger();
 
-            try
-            {
-                new ResolvedArrayParameter<ILogger>(
-                    new ResolvedParameter<ILogger>("log1"),
-                    typeof(int),
-                    logger2);
-                Assert.Fail("Should have thrown");
-            }
-            catch (InvalidOperationException)
-            {
-            }
+            new ResolvedArrayParameter<ILogger>(
+                new ResolvedParameter<ILogger>("log1"),
+                typeof(int),
+                logger2);
         }
 
         [TestMethod]
@@ -137,6 +131,20 @@ namespace Microsoft.Practices.Unity.Tests
             CollectionAssert.AreEqual(expected, result.loggers);
         }
 
+        [TestMethod]
+        public void ContainerAutomaticallyResolvesAllWhenInjectingGenericArrays()
+        {
+            ILogger[] expected = new ILogger[] { new MockLogger(), new SpecialLogger() };
+            IUnityContainer container = new UnityContainer()
+                .RegisterInstance("one", expected[0])
+                .RegisterInstance("two", expected[1])
+                .RegisterType(typeof (GenericTypeWithArrayProperty<>),
+                    new InjectionProperty("Prop"));
+
+            var result = container.Resolve<GenericTypeWithArrayProperty<ILogger>>();
+            result.Prop.AssertContainsInAnyOrder(expected[0], expected[1]);
+        }
+
         public class TypeWithArrayConstructorParameter
         {
             public readonly ILogger[] loggers;
@@ -145,6 +153,11 @@ namespace Microsoft.Practices.Unity.Tests
             {
                 this.loggers = loggers;
             }
+        }
+
+        public class GenericTypeWithArrayProperty<T>
+        {
+            public T[] Prop { get; set; }
         }
     }
 }

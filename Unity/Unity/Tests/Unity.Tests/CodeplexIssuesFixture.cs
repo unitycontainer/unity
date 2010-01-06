@@ -9,8 +9,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Practices.Unity.TestSupport;
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -90,6 +92,47 @@ namespace Microsoft.Practices.Unity.Tests
             IDictionary<string, string> result = container.Resolve<IDictionary<string, string>>();
         }
 
+        // http://unity.codeplex.com/WorkItem/View.aspx?WorkItemId=6431
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AccessViolationExceptionOnx64()
+        {
+            var container1 = new UnityContainer();
+            container1.RegisterType<InnerX64Class>();
+            // FooProperty is static, this should throw here
+            container1.RegisterType<OuterX64Class>(new InjectionProperty("FooProperty"));
+        }
+
+        // http://unity.codeplex.com/WorkItem/View.aspx?WorkItemId=6491
+        [TestMethod]
+        public void CanResolveTimespan()
+        {
+            var container = new UnityContainer()
+                .RegisterType<TimeSpan>(new ExternallyControlledLifetimeManager(),
+                new InjectionConstructor(0L));
+            var expected = new TimeSpan();
+            var result = container.Resolve<TimeSpan>();
+
+            Assert.AreEqual(expected, result);
+        }
+
+        // http://unity.codeplex.com/WorkItem/View.aspx?WorkItemId=6053
+        [TestMethod]
+        public void ResolveAllWithChildDoesNotRepeatOverriddenRegistrations()
+        {
+            var parent = new UnityContainer()
+                .RegisterInstance("str1", "string1")
+                .RegisterInstance("str2", "string2");
+
+            var child = parent.CreateChildContainer()
+                .RegisterInstance("str2", "string20")
+                .RegisterInstance("str3", "string30");
+
+            var result = child.ResolveAll<string>();
+
+            result.AssertContainsInAnyOrder("string1", "string20", "string30");
+        }
+
         public interface IBasicInterface
         { 
         }
@@ -123,6 +166,16 @@ namespace Microsoft.Practices.Unity.Tests
         public class MockBasic : IBasicInterface
         {
             
+        }
+
+        public class InnerX64Class
+        {
+            
+        }
+
+        public class OuterX64Class
+        {
+            public static InnerX64Class FooProperty { get; set; }
         }
     }
 }

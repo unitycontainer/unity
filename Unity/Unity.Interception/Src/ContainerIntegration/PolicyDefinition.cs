@@ -69,7 +69,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             return Guid.NewGuid().ToString();
         }
 
-        private IUnityContainer Container
+        /// <summary>
+        /// The <see cref="IUnityContainer"/> that is currently being
+        /// configured.
+        /// </summary>
+        public IUnityContainer Container
         {
             get { return extension.Container; }
         }

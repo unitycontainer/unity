@@ -26,7 +26,7 @@
     <DocumentationFile>..\..\bin\Desktop\Debug\Microsoft.Practices.Unity.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.Design#CA1020;-Microsoft.Design#CA1004;-Microsoft.Design#CA1063;-Microsoft.Usage#CA2209</CodeAnalysisRules>
+    <CodeAnalysisRules>-Microsoft.Usage#CA2209;-Microsoft.Design#CA2210;-Microsoft.Design#CA1020;-Microsoft.Design#CA1004;-Microsoft.Design#CA1063;-Microsoft.Maintainability#CA1506</CodeAnalysisRules>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -68,6 +68,7 @@
     <Compile Include="ObjectBuilderCustomization\HierarchicalLifetimeStrategy.cs" />
     <Compile Include="ObjectBuilderCustomization\OptionalDependencyResolverPolicy.cs" />
     <Compile Include="ObjectBuilder\Strategies\BuildPlan\BuildOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Factory\DeferredResolveBuildPlanPolicy.cs" />
     <Compile Include="ObjectBuilder\Utility\EnumerableExtensions.cs" />
     <Compile Include="ParameterOverride.cs" />
     <Compile Include="ParameterOverrides.cs" />

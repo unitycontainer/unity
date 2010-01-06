@@ -1,4 +1,15 @@
-﻿using System.Collections.Generic;
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
+using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml;
@@ -16,8 +27,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         Justification = "It is spelled correctly")]
     public abstract class DeserializableConfigurationElementCollectionBase<TElement> :
         ConfigurationElementCollection,
-        IEnumerable<TElement>,
-        IDeserializableElement
+        IEnumerable<TElement>
         where TElement : ConfigurationElement
     {
         /// <summary>
@@ -27,16 +37,37 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <returns>The item at the given index.</returns>
         public TElement this[int index]
         {
-            get { return (TElement) BaseGet(index); }
+            get { return GetElement(index); }
             set
             {
-                if (BaseGet(index) != null)
+                if (GetElement(index) != null)
                 {
                     BaseRemoveAt(index);
                 }
                 BaseAdd(index, value);
             }
         }
+
+        /// <summary>
+        /// Plug point to get objects out of the collection.
+        /// </summary>
+        /// <param name="index">Index in the collection to retrieve the item from.</param>
+        /// <returns>Item at that index or null if not present.</returns>
+        protected virtual TElement GetElement(int index)
+        {
+            return (TElement) BaseGet(index);
+        }
+
+        /// <summary>
+        /// Plug point to get objects out of the collection.
+        /// </summary>
+        /// <param name="key">Key to look up the object by.</param>
+        /// <returns>Item with that key or null if not present.</returns>
+        protected virtual TElement GetElement(object key)
+        {
+            return (TElement) BaseGet(key);
+        }
+
 
         #region IDeserializableElement Members
 

@@ -16,7 +16,6 @@ using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Properties;
 using Microsoft.Practices.Unity.Utility;
-using Guard = Microsoft.Practices.Unity.Utility.Guard;
 
 namespace Microsoft.Practices.Unity
 {
@@ -27,6 +26,7 @@ namespace Microsoft.Practices.Unity
     public class GenericParameter : InjectionParameterValue
     {
         private readonly string genericParameterName;
+        private readonly bool isArray;
         private readonly string resolutionKey;
 
         /// <summary>
@@ -47,7 +47,16 @@ namespace Microsoft.Practices.Unity
         /// <param name="resolutionKey">name to use when looking up in the container.</param>
         public GenericParameter(string genericParameterName, string resolutionKey)
         {
-            this.genericParameterName = genericParameterName;
+            if (genericParameterName.EndsWith("[]", StringComparison.Ordinal) || genericParameterName.EndsWith("()", StringComparison.Ordinal))
+            {
+                this.genericParameterName = genericParameterName.Replace("[]", "").Replace("()", "");
+                this.isArray = true;
+            }
+            else
+            {
+                this.genericParameterName = genericParameterName;
+                this.isArray = false;
+            }
             this.resolutionKey = resolutionKey;
         }
 
@@ -71,7 +80,11 @@ namespace Microsoft.Practices.Unity
         public override bool MatchesType(Type t)
         {
             Guard.ArgumentNotNull(t, "t");
-            return t.IsGenericParameter && t.Name == genericParameterName;
+            if(!isArray)
+            {
+                return t.IsGenericParameter && t.Name == genericParameterName;
+            }
+            return t.IsArray && t.GetElementType().IsGenericParameter && t.GetElementType().Name == genericParameterName;
         }
 
         /// <summary>
@@ -85,8 +98,11 @@ namespace Microsoft.Practices.Unity
         {
             GuardTypeToBuildIsGeneric(typeToBuild);
             GuardTypeToBuildHasMatchingGenericParameter(typeToBuild);
-
             Type typeToResolve = new ReflectionHelper(typeToBuild).GetNamedGenericParameter(genericParameterName);
+            if(isArray)
+            {
+                typeToResolve = typeToResolve.MakeArrayType();
+            }
 
             return new NamedTypeDependencyResolverPolicy(typeToResolve, resolutionKey);
         }

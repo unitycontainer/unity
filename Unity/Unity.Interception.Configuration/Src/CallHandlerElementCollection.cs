@@ -1,4 +1,15 @@
-﻿using System.Configuration;
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
+using System.Configuration;
 using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 
@@ -7,9 +18,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
     /// <summary>
     /// A collection of <see cref="CallHandlerElement"/>s for configuration.
     /// </summary>
-    [ConfigurationCollection(typeof (CallHandlerElement))]
+    [ConfigurationCollection(typeof(CallHandlerElement))]
     public class CallHandlerElementCollection : DeserializableConfigurationElementCollection<CallHandlerElement>
     {
+        private static readonly UnknownElementHandlerMap<CallHandlerElementCollection> unknownElementHandlerMap
+            = new UnknownElementHandlerMap<CallHandlerElementCollection>
+                {
+                    { "callHandler", (chec, xr) => chec.ReadUnwrappedElement(xr, chec) }
+                };
+
         /// <summary>
         /// Retrieve a call handler element from the collection by name.
         /// </summary>
@@ -17,7 +34,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// <returns>The rule, or null if not in the collection.</returns>
         public new CallHandlerElement this[string name]
         {
-            get { return (CallHandlerElement) BaseGet(name); }
+            get { return (CallHandlerElement)BaseGet(name); }
         }
 
         /// <summary>
@@ -30,7 +47,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         ///                 </param>
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((CallHandlerElement) element).Name;
+            return ((CallHandlerElement)element).Name;
         }
 
         /// <summary>
@@ -46,14 +63,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         ///                 </exception>
         protected override bool OnDeserializeUnrecognizedElement(string elementName, XmlReader reader)
         {
-            if (elementName == "callHandler")
-            {
-                var element = new CallHandlerElement();
-                element.Deserialize(reader);
-                Add(element);
-                return true;
-            }
-            return base.OnDeserializeUnrecognizedElement(elementName, reader);
+            return unknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
+                base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
     }
 }

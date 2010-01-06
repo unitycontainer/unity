@@ -11,7 +11,6 @@
 
 using System;
 using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -20,20 +19,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// configures a container accordingly.
     /// </summary>
     /// <seealso cref="IInterceptionBehavior"/>
-    public class InterceptionBehavior : InterceptionMember
+    public class InterceptionBehavior : InterceptionBehaviorBase
     {
-        private readonly NamedTypeBuildKey behaviorKey;
-        private readonly IInterceptionBehavior explicitBehavior;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="InterceptionBehavior"/> with a 
         /// <see cref="IInterceptionBehavior"/>.
         /// </summary>
         /// <param name="interceptionBehavior">The interception behavior to use.</param>
-        public InterceptionBehavior(IInterceptionBehavior interceptionBehavior)
+        public InterceptionBehavior(IInterceptionBehavior interceptionBehavior) : base(interceptionBehavior)
         {
-            Guard.ArgumentNotNull(interceptionBehavior, "interceptionBehavior");
-            explicitBehavior = interceptionBehavior;
         }
 
         /// <summary>
@@ -43,10 +37,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="behaviorType">Type of behavior to </param>
         /// <param name="name"></param>
         public InterceptionBehavior(Type behaviorType, string name)
+            : base(behaviorType, name)
         {
-            Guard.ArgumentNotNull(behaviorType, "behaviorType");
-            Guard.TypeIsAssignable(typeof (IInterceptionBehavior), behaviorType, "behaviorType");
-            behaviorKey = new NamedTypeBuildKey(behaviorType, name);    
         }
 
         /// <summary>
@@ -55,48 +47,21 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="behaviorType">Type of behavior to </param>
         public InterceptionBehavior(Type behaviorType)
-            : this(behaviorType, null)
+            : base(behaviorType)
         {
             
         }
 
         /// <summary>
-        /// Add policies to the <paramref name="policies"/> to configure the container to use the represented 
-        /// <see cref="IInterceptionBehavior"/> for the supplied parameters.
+        /// Get the list of behaviors for the current type so that it can be added to.
         /// </summary>
-        /// <param name="serviceType">Interface being registered.</param>
-        /// <param name="implementationType">Type to register.</param>
-        /// <param name="name">Name used to resolve the type object.</param>
-        /// <param name="policies">Policy list to add policies to.</param>
-        public override void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
+        /// <param name="policies">Policy list.</param>
+        /// <param name="implementationType">Implementation type to set behaviors for.</param>
+        /// <param name="name">Name type is registered under.</param>
+        /// <returns>An instance of <see cref="InterceptionBehaviorsPolicy"/>.</returns>
+        protected override InterceptionBehaviorsPolicy GetBehaviorsPolicy(IPolicyList policies, Type implementationType, string name)
         {
-            if(explicitBehavior != null)
-            {
-                AddExplicitBehaviorPolicies(implementationType, name, policies);
-            }
-            else
-            {
-                AddKeyedPolicies(implementationType, name, policies);
-            }
-        }
-
-        private void AddExplicitBehaviorPolicies(Type implementationType, string name, IPolicyList policies)
-        {
-            var lifetimeManager = new ContainerControlledLifetimeManager();
-            lifetimeManager.SetValue(explicitBehavior);
-            var behaviorName = Guid.NewGuid().ToString();
-            var newBehaviorKey = new NamedTypeBuildKey(explicitBehavior.GetType(), behaviorName);
-
-            policies.Set<ILifetimePolicy>(lifetimeManager, newBehaviorKey);
-
-            var behaviorsPolicy = InterceptionBehaviorsPolicy.GetOrCreate(policies, implementationType, name);
-            behaviorsPolicy.AddBehaviorKey(newBehaviorKey);
-        }
-
-        private void AddKeyedPolicies(Type implementationType, string name, IPolicyList policies)
-        {
-            var behaviorsPolicy = InterceptionBehaviorsPolicy.GetOrCreate(policies, implementationType, name);
-            behaviorsPolicy.AddBehaviorKey(behaviorKey);
+            return InterceptionBehaviorsPolicy.GetOrCreate(policies, implementationType, name);
         }
     }
 

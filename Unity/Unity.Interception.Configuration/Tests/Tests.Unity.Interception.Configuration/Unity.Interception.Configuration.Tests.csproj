@@ -57,13 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigFiles\ConfigFileLocator.cs" />
-    <None Include="OriginalCode\ConfigurationFixtureBase.cs" />
-    <None Include="OriginalCode\ConfiguringGeneralizedInterceptionFixture.cs" />
-    <None Include="OriginalCode\ConfiguringInterceptionFixture.cs" />
-    <None Include="OriginalCode\ConfiguringInterceptorsFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestObjects\Interceptable.cs" />
+    <Compile Include="TestObjects\MyTransparentProxyInterceptorTypeConverter.cs" />
+    <Compile Include="TestObjects\WrappableWithVirtualMethods.cs" />
     <Compile Include="When_ConfiguringContainerForInterception.cs" />
+    <Compile Include="When_ConfiguringInterceptorsThroughContainerElementExtension.cs" />
     <Compile Include="When_ConfiguringPolicies.cs" />
     <Compile Include="When_LoadingContainersThatConfigureInterception.cs" />
     <Compile Include="When_LoadingSectionWithPolicies.cs" />
@@ -95,12 +94,7 @@
     <EmbeddedResource Include="ConfigFiles\SectionExtensionBasics.config" />
     <EmbeddedResource Include="ConfigFiles\Policies.config" />
     <EmbeddedResource Include="ConfigFiles\InterceptionInjectionMembers.config" />
-    <None Include="OriginalCode\InterceptionThroughInjectionMembers.config">
-    </None>
-    <None Include="OriginalCode\Interceptors.config">
-    </None>
-    <None Include="OriginalCode\Interception.config">
-    </None>
+    <EmbeddedResource Include="ConfigFiles\InterceptorsThroughContainerElementExtension.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

@@ -129,6 +129,9 @@
   <data name="CannotCreateParameterValueElement" xml:space="preserve">
     <value>An abstract ParameterValueElement object cannot be created. Please specify a concrete type.</value>
   </data>
+  <data name="CouldNotResolveType" xml:space="preserve">
+    <value>The type name or alias {0} could not be resolved. Please check your configuration file and verify this type name.</value>
+  </data>
   <data name="DestinationNameFormat" xml:space="preserve">
     <value>{0} {1}</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="NoMatchingMethod" xml:space="preserve">
     <value>Configuration is incorrect, the type {0} does not have a method named {1} that takes parameters named {2}.</value>
+  </data>
+  <data name="NoSuchContainer" xml:space="preserve">
+    <value>The container named "{0}" is not defined in this configuration section.</value>
   </data>
   <data name="NoSuchProperty" xml:space="preserve">
     <value>The type {0} does not have a property named {1}.</value>

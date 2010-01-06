@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
 using System.Configuration;
-using System.Linq;
-using System.Text;
 using System.Xml;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
 {
@@ -21,10 +28,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         private static readonly UnknownElementHandlerMap<InterceptionElement> unknownElementHandlerMap =
             new UnknownElementHandlerMap<InterceptionElement>
                 {
-                    { "policy", (ie, xr) => ReadUnwrappedElement(xr, ie.Policies)},
+                    {"policy", (ie, xr) => ie.ReadUnwrappedElement(xr, ie.Policies)},
                 };
 
-            /// <summary>
+        /// <summary>
         /// Policies defined for this container.
         /// </summary>
         [ConfigurationProperty(PoliciesPropertyName)]
@@ -68,14 +75,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         protected override void ConfigureContainer(IUnityContainer container)
         {
             Policies.ForEach(policy => policy.ConfigureContainer(container));
-        }
-
-        private static void ReadUnwrappedElement<TElement>(XmlReader reader, DeserializableConfigurationElementCollectionBase<TElement> collection)
-            where TElement : DeserializableConfigurationElement, new()
-        {
-            var element = new TElement();
-            element.Deserialize(reader);
-            collection.Add(element);
         }
     }
 }

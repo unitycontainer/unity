@@ -1,4 +1,15 @@
-﻿using System.Configuration;
+﻿//===============================================================================
+// Microsoft patterns & practices
+// Unity Application Block
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+
+using System.Configuration;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
@@ -9,6 +20,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
     [ConfigurationCollection(typeof(MatchingRuleElement))]
     public class MatchingRuleElementCollection : DeserializableConfigurationElementCollection<MatchingRuleElement>
     {
+        private static readonly UnknownElementHandlerMap<MatchingRuleElementCollection> unknownElementHandlerMap
+            = new UnknownElementHandlerMap<MatchingRuleElementCollection>
+                {
+                    { "matchingRule", (mrec, xr) => mrec.ReadUnwrappedElement(xr, mrec) }
+                };
+
         /// <summary>
         /// Retrieve a matching rule element from the collection by name.
         /// </summary>
@@ -45,14 +62,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         ///                 </exception>
         protected override bool OnDeserializeUnrecognizedElement(string elementName, System.Xml.XmlReader reader)
         {
-            if(elementName == "matchingRule")
-            {
-                var element = new MatchingRuleElement();
-                element.Deserialize(reader);
-                Add(element);
-                return true;
-            }
-            return base.OnDeserializeUnrecognizedElement(elementName, reader);
+            return unknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
+                base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
     }
 }

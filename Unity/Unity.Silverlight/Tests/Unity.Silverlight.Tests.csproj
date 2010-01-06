@@ -224,6 +224,9 @@
     <Compile Include="..\..\Unity\Tests\Unity.Tests\ContainerRegistrationsFixture.cs">
       <Link>Unity.Tests\ContainerRegistrationsFixture.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\DeferredResolveFixture.cs">
+      <Link>Unity.Tests\DeferredResolveFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\DependencyArrayAttributeFixture.cs">
       <Link>Unity.Tests\DependencyArrayAttributeFixture.cs</Link>
     </Compile>

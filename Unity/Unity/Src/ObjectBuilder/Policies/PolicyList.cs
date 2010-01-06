@@ -161,16 +161,55 @@ namespace Microsoft.Practices.ObjectBuilder2
                                   bool localOnly)
         {
             Type buildType;
+            TryGetType(buildKey, out buildType);
 
-            if (!TryGetType(buildKey, out buildType) || !buildType.IsGenericType)
-                return
-                    GetNoDefault(policyInterface, buildKey, localOnly) ??
-                    GetNoDefault(policyInterface, null, localOnly);
+            return GetPolicyForKey(policyInterface, buildKey, localOnly) ??
+                GetPolicyForOpenGenericKey(policyInterface, buildKey, buildType, localOnly) ??
+                GetPolicyForType(policyInterface, buildType, localOnly) ??
+                GetPolicyForOpenGenericType(policyInterface, buildType, localOnly) ??
+                GetDefaultForPolicy(policyInterface, localOnly);
+        }
 
-            return
-                GetNoDefault(policyInterface, buildKey, localOnly) ??
-                GetNoDefault(policyInterface, ReplaceType(buildKey, buildType.GetGenericTypeDefinition()), localOnly) ??
-                GetNoDefault(policyInterface, null, localOnly);
+        private IBuilderPolicy GetPolicyForKey(Type policyInterface, object buildKey, bool localOnly)
+        {
+            if(buildKey != null)
+            {
+                return GetNoDefault(policyInterface, buildKey, localOnly);
+            }
+            return null;
+        }
+
+        private IBuilderPolicy GetPolicyForOpenGenericKey(Type policyInterface, object buildKey, Type buildType, bool localOnly)
+        {
+            if(buildType != null && buildType.IsGenericType)
+            {
+                return GetNoDefault(policyInterface, ReplaceType(buildKey, buildType.GetGenericTypeDefinition()),
+                    localOnly);
+            }
+            return null;
+        }
+
+        private IBuilderPolicy GetPolicyForType(Type policyInterface, Type buildType, bool localOnly)
+        {
+            if(buildType != null)
+            {
+                return GetNoDefault(policyInterface, buildType, localOnly);
+            }
+            return null;
+        }
+
+        private IBuilderPolicy GetPolicyForOpenGenericType(Type policyInterface, Type buildType, bool localOnly)
+        {
+            if(buildType != null && buildType.IsGenericType)
+            {
+                return GetNoDefault(policyInterface, buildType.GetGenericTypeDefinition(), localOnly);
+            }
+            return null;
+        }
+
+        private IBuilderPolicy GetDefaultForPolicy(Type policyInterface, bool localOnly)
+        {
+            return GetNoDefault(policyInterface, null, localOnly);
         }
 
         /// <summary>

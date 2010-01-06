@@ -53,12 +53,17 @@
     <Compile Include="AliasElementCollection.cs" />
     <Compile Include="ArrayElement.cs" />
     <Compile Include="ConfigurationHelpers\ConfigurationElementExtensions.cs" />
+    <Compile Include="ConfigurationHelpers\InputStream.cs" />
+    <Compile Include="ConfigurationHelpers\ParseBuilder.cs" />
+    <Compile Include="ConfigurationHelpers\ParseResult.cs" />
+    <Compile Include="ConfigurationHelpers\SequenceResult.cs" />
+    <Compile Include="ConfigurationHelpers\TypeNameInfo.cs" />
+    <Compile Include="ConfigurationHelpers\TypeNameParser.cs" />
     <Compile Include="ContainerConfiguringElement.cs" />
     <Compile Include="ConfigurationHelpers\DeserializableConfigurationElementCollection.cs" />
     <Compile Include="ConfigurationHelpers\DeserializableConfigurationElementCollectionBase.cs" />
     <Compile Include="ConfigurationHelpers\DeserializableConfigurationElement.cs" />
     <Compile Include="ConfigurationHelpers\DictionaryExtensions.cs" />
-    <Compile Include="ConfigurationHelpers\IDeserializableElement.cs" />
     <Compile Include="ConfigurationHelpers\UnknownElementHandlerMap.cs" />
     <Compile Include="ConfigurationHelpers\ValueElementHelper.cs" />
     <Compile Include="ConstructorElement.cs" />
@@ -77,6 +82,8 @@
     <Compile Include="ConfigurationHelpers\IValueProvidingElement.cs" />
     <Compile Include="LifetimeElement.cs" />
     <Compile Include="MethodElement.cs" />
+    <Compile Include="NamedElement.cs" />
+    <Compile Include="NamedElementCollection.cs" />
     <Compile Include="OptionalElement.cs" />
     <Compile Include="ParameterElement.cs" />
     <Compile Include="ParameterElementCollection.cs" />
@@ -95,7 +102,8 @@
     <Compile Include="SectionExtensionContext.cs" />
     <Compile Include="SectionExtensionElement.cs" />
     <Compile Include="SectionExtensionElementCollection.cs" />
-    <Compile Include="TypeResolver.cs" />
+    <Compile Include="ConfigurationHelpers\TypeResolver.cs" />
+    <Compile Include="ConfigurationHelpers\TypeResolverImpl.cs" />
     <Compile Include="UnityConfigurationSection.cs" />
     <Compile Include="ContainerElementCollection.cs" />
     <Compile Include="UnityContainerExtensions.cs" />

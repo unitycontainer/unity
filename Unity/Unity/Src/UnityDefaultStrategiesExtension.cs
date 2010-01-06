@@ -9,6 +9,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 
@@ -58,6 +59,13 @@ namespace Microsoft.Practices.Unity
 
             Context.Policies.SetDefault<IBuildPlanCreatorPolicy>(
                 new DynamicMethodBuildPlanCreatorPolicy(Context.BuildPlanStrategies));
+
+            Context.Policies.Set<IBuildPlanPolicy>(
+                new DeferredResolveBuildPlanPolicy(),
+                typeof(Func<>));
+            Context.Policies.Set<ILifetimePolicy>(
+                new PerResolveLifetimeManager(),
+                typeof (Func<>));
         }
     }
 }

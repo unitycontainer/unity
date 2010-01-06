@@ -188,7 +188,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>Set of objects of type <paramref name="t"/>.</returns>
         public IEnumerable<object> ResolveAll(Type t, params ResolverOverride[] resolverOverrides)
         {
-            var names = registeredNames.GetKeys(t).Where(s => !string.IsNullOrEmpty(s));
+            var names = registeredNames.GetKeys(t).Where(s => !string.IsNullOrEmpty(s)).Distinct();
             foreach (string name in names)
             {
                 yield return Resolve(t, name, resolverOverrides);

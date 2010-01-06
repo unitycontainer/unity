@@ -9,7 +9,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System.Linq;
+using System;
 using Microsoft.Practices.Unity.StaticFactory;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -156,17 +156,20 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void FactoryRecievesCurrentContainerWhenUsingChildWhenUsingInjectionFactory()
         {
+            bool factoryWasCalled = false;
             IUnityContainer parent = new UnityContainer();
 
             IUnityContainer child = parent.CreateChildContainer();
 
             parent.RegisterType<MockDatabase>(
                 new InjectionFactory(c => {
+                        factoryWasCalled = true;
                         Assert.AreSame(child, c);
                         return MockDatabase.Create("connectionString");
                     }));
 
             child.Resolve<MockDatabase>();
+            Assert.IsTrue(factoryWasCalled);
         }
 
         [TestMethod]
@@ -181,7 +184,7 @@ namespace Microsoft.Practices.Unity.Tests
                 .Container;
 
             var result = container.ResolveAll<string>();
-            Assert.AreEqual(3, result.Count());
+            result.AssertContainsInAnyOrder("this", "that", "the other");
         }
 
         [TestMethod]
@@ -193,9 +196,21 @@ namespace Microsoft.Practices.Unity.Tests
                 .RegisterType<string>("three", new InjectionFactory(c => "the other"));
 
             var result = container.ResolveAll<string>();
-            Assert.AreEqual(3, result.Count());
+            result.AssertContainsInAnyOrder("this", "that", "the other");
         }
 
+        [TestMethod]
+        public void CanRegisterFactoryFunctionThatReceivesTypeAndName()
+        {
+            Func<IUnityContainer, Type, string, object> factory = (c, t, s) => s + t.Name;
+            var container = new UnityContainer()
+                .RegisterType<string>("one", new InjectionFactory(factory))
+                .RegisterType<string>("two", new InjectionFactory(factory))
+                .RegisterType<string>("three", new InjectionFactory(factory));
+
+            var result = container.ResolveAll<string>();
+            result.AssertContainsInAnyOrder("oneString", "twoString", "threeString");
+        }
 #pragma warning restore 618
     }
 }

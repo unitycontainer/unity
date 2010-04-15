@@ -27,10 +27,12 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// Returns sequence of properties on the given type that
         /// should be set as part of building that object.
         /// </summary>
-        /// <param name="context">current build context.</param>
+        /// <param name="context">Current build context.</param>
+        /// <param name="resolverPolicyDestination">The <see cref='IPolicyList'/> to add any
+        /// generated resolver objects into.</param>
         /// <returns>Sequence of <see cref="PropertyInfo"/> objects
         /// that contain the properties to set.</returns>
-        public virtual IEnumerable<SelectedProperty> SelectProperties(IBuilderContext context)
+        public virtual IEnumerable<SelectedProperty> SelectProperties(IBuilderContext context, IPolicyList resolverPolicyDestination)
         {
             Type t = context.BuildKey.Type;
             foreach(PropertyInfo prop in t.GetProperties(BindingFlags.Public | BindingFlags.SetProperty | BindingFlags.Instance))
@@ -39,16 +41,16 @@ namespace Microsoft.Practices.ObjectBuilder2
                    prop.CanWrite &&                                      // Is writable
                    prop.IsDefined(typeof(TResolutionAttribute), false))  // Marked with the attribute
                 {
-                    yield return CreateSelectedProperty(context, prop);
+                    yield return CreateSelectedProperty(context, resolverPolicyDestination, prop);
                 }
             }
         }
 
-        private SelectedProperty CreateSelectedProperty(IBuilderContext context, PropertyInfo property)
+        private SelectedProperty CreateSelectedProperty(IBuilderContext context, IPolicyList resolverPolicyDestination, PropertyInfo property)
         {
             string key = Guid.NewGuid().ToString();
             SelectedProperty result = new SelectedProperty(property, key);
-            context.PersistentPolicies.Set<IDependencyResolverPolicy>(CreateResolver(property), key);
+            resolverPolicyDestination.Set<IDependencyResolverPolicy>(CreateResolver(property), key);
             DependencyResolverTrackerPolicy.TrackKey(context.PersistentPolicies,
                 context.BuildKey,
                 key);

@@ -46,7 +46,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <returns>The description string.</returns>
         public override string ToString()
         {
-            return string.Format(CultureInfo.CurrentUICulture,
+            return string.Format(CultureInfo.CurrentCulture,
                 Resources.MethodArgumentResolveOperation,
                 parameterName, TypeBeingConstructed.Name, methodSignature);
         }

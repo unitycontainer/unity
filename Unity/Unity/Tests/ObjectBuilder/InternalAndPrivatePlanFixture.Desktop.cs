@@ -25,7 +25,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             MockBuilderContext context = GetContext();
             IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, new NamedTypeBuildKey(typeof(OptionalLogger)));
 
-            var existing = new OptionalLogger("C:\\foo.bar");
+            var existing = new OptionalLogger("C:\\log.log");
 
             context.BuildKey = new NamedTypeBuildKey(typeof(OptionalLogger));
             context.Existing = existing;
@@ -34,7 +34,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             object result = context.Existing;
 
             Assert.AreSame(existing, result);
-            Assert.AreEqual("C:\\foo.bar", existing.LogFile);
+            Assert.AreEqual("C:\\log.log", existing.LogFile);
         }
 
         [TestMethod]

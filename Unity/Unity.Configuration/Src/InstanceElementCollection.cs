@@ -21,6 +21,7 @@ namespace Microsoft.Practices.Unity.Configuration
     /// <summary>
     /// A collection of <see cref="InstanceElement"/>s.
     /// </summary>
+    [ConfigurationCollection(typeof(InstanceElement))]
     public class InstanceElementCollection : DeserializableConfigurationElementCollection<InstanceElement>
     {
         /// <summary>

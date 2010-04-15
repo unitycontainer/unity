@@ -32,9 +32,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             AddPoliciesToContainer(container);
             ConfigureInterceptionWithRegisterType(container);
 
-            Interceptee foo = container.Resolve<Interceptee>();
+            Interceptee target = container.Resolve<Interceptee>();
 
-            Assert.AreNotSame(typeof(Interceptee), foo.GetType());
+            Assert.AreNotSame(typeof(Interceptee), target.GetType());
         }
 
         [TestMethod]
@@ -60,19 +60,19 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
                         .AddCallHandler("h2")
                 .Interception.Container;
             
-            Interceptee foo = container.Resolve<Interceptee>();
+            Interceptee target = container.Resolve<Interceptee>();
 
             int oneCount = 0;
             int twoCount = 0;
 
             for (oneCount = 0; oneCount < 2; ++oneCount)
             {
-                foo.MethodOne();
+                target.MethodOne();
             }
 
             for (twoCount = 0; twoCount < 3; ++twoCount)
             {
-                foo.MethodTwo("hi", twoCount);
+                target.MethodTwo("hi", twoCount);
             }
 
             Assert.AreEqual(oneCount, h1.CallCount);

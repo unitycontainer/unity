@@ -12,8 +12,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
+using Microsoft.Practices.Unity.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
@@ -29,6 +28,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         MethodImplementationInfo hasAttributeMethod;
         MethodImplementationInfo doesntHaveAttributeMethod;
         MethodImplementationInfo aNewMethod;
+        MethodImplementationInfo getNewNameMethod;
+
+        MethodImplementationInfo getItemMethod;
+        MethodImplementationInfo setItemMethod;
+        MethodImplementationInfo getItemIntMethod;
+        MethodImplementationInfo setItemIntMethod;
+        MethodImplementationInfo getItemStringMethod;
+        MethodImplementationInfo setItemStringMethod;
 
         [TestInitialize]
         public void Setup()
@@ -41,11 +48,21 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             hasAttributeMethod = MakeMethodImpl<SecondAttributeTestTarget>("HasAttribute");
             doesntHaveAttributeMethod = MakeMethodImpl<SecondAttributeTestTarget>("DoesntHaveAttribute");
             aNewMethod = MakeMethodImpl<DerivedAttributeTestTarget>("ANewMethod");
+            getNewNameMethod = new MethodImplementationInfo(null, StaticReflection.GetPropertyGetMethodInfo((DerivedAttributeTestTarget t) => t.Name));
+
+            getItemMethod = new MethodImplementationInfo(null, StaticReflection.GetPropertyGetMethodInfo((DerivedAttributeTestTarget t) => t.Item));
+            setItemMethod = new MethodImplementationInfo(null, StaticReflection.GetPropertySetMethodInfo((DerivedAttributeTestTarget t) => t.Item));
+
+            getItemIntMethod = new MethodImplementationInfo(null, typeof(DerivedAttributeTestTarget).GetMethod("get_Item", new[] { typeof(int) }));
+            setItemIntMethod = new MethodImplementationInfo(null, typeof(DerivedAttributeTestTarget).GetMethod("set_Item", new[] { typeof(int), typeof(object) }));
+
+            getItemStringMethod = new MethodImplementationInfo(null, typeof(DerivedAttributeTestTarget).GetMethod("get_Item", new[] { typeof(string), typeof(double) }));
+            setItemStringMethod = new MethodImplementationInfo(null, typeof(DerivedAttributeTestTarget).GetMethod("set_Item", new[] { typeof(string), typeof(double), typeof(object) }));
         }
 
         private static MethodImplementationInfo MakeMethodImpl<T>(string name)
         {
-            return new MethodImplementationInfo(null, typeof (T).GetMethod(name));
+            return new MethodImplementationInfo(null, typeof(T).GetMethod(name));
         }
 
         [TestMethod]
@@ -118,7 +135,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public void ShouldHaveLoggingHandlerForNothingSpecial()
         {
             AttributeDrivenPolicy policy = new AttributeDrivenPolicy();
-            List<ICallHandler> handlers 
+            List<ICallHandler> handlers
                 = new List<ICallHandler>(policy.GetHandlersFor(nothingSpecialMethod, new UnityContainer()));
             Assert.AreEqual(1, handlers.Count);
             Assert.AreSame(typeof(CallHandler2), handlers[0].GetType());
@@ -128,7 +145,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public void ShouldHaveLoggingAndValidationForDoSomething()
         {
             AttributeDrivenPolicy policy = new AttributeDrivenPolicy();
-            List<ICallHandler> handlers 
+            List<ICallHandler> handlers
                 = new List<ICallHandler>(policy.GetHandlersFor(doSomethingMethod, new UnityContainer()));
 
             Assert.AreEqual(2, handlers.Count);
@@ -148,10 +165,90 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         }
 
         [TestMethod]
+        public void ShouldApplyHandlersIfAttributesAreOnNewProperty()
+        {
+            AttributeDrivenPolicy policy = new AttributeDrivenPolicy();
+            List<ICallHandler> handlers =
+                new List<ICallHandler>(policy.GetHandlersFor(getNewNameMethod, new UnityContainer()));
+            Assert.AreEqual(2, handlers.Count);
+            Assert.AreSame(typeof(CallHandler2), handlers[0].GetType());
+            Assert.AreSame(typeof(CallHandler1), handlers[1].GetType());
+        }
+
+
+        [TestMethod]
+        public void ShouldApplyHandlersToGetterIfAttributesAreOnItemProperty()
+        {
+            AttributeDrivenPolicy policy = new AttributeDrivenPolicy();
+            List<ICallHandler> handlers =
+                new List<ICallHandler>(policy.GetHandlersFor(getItemMethod, new UnityContainer()));
+            Assert.AreEqual(2, handlers.Count);
+            Assert.AreSame(typeof(CallHandler2), handlers[0].GetType());
+            Assert.AreSame(typeof(CallHandler3), handlers[1].GetType());
+        }
+
+        [TestMethod]
+        public void ShouldApplyHandlersToSetterIfAttributesAreOnItemProperty()
+        {
+            AttributeDrivenPolicy policy = new AttributeDrivenPolicy();
+            List<ICallHandler> handlers =
+                new List<ICallHandler>(policy.GetHandlersFor(setItemMethod, new UnityContainer()));
+            Assert.AreEqual(2, handlers.Count);
+            Assert.AreSame(typeof(CallHandler2), handlers[0].GetType());
+            Assert.AreSame(typeof(CallHandler3), handlers[1].GetType());
+        }
+
+
+        [TestMethod]
+        public void ShouldApplyHandlersToGetterIfAttributesAreOnIndexedItemProperty()
+        {
+            AttributeDrivenPolicy policy = new AttributeDrivenPolicy();
+            List<ICallHandler> handlers =
+                new List<ICallHandler>(policy.GetHandlersFor(getItemIntMethod, new UnityContainer()));
+            Assert.AreEqual(2, handlers.Count);
+            Assert.AreSame(typeof(CallHandler2), handlers[0].GetType());
+            Assert.AreSame(typeof(CallHandler1), handlers[1].GetType());
+        }
+
+        [TestMethod]
+        public void ShouldApplyHandlersToSetterIfAttributesAreOnIndexedItemProperty()
+        {
+            AttributeDrivenPolicy policy = new AttributeDrivenPolicy();
+            List<ICallHandler> handlers =
+                new List<ICallHandler>(policy.GetHandlersFor(setItemIntMethod, new UnityContainer()));
+            Assert.AreEqual(2, handlers.Count);
+            Assert.AreSame(typeof(CallHandler2), handlers[0].GetType());
+            Assert.AreSame(typeof(CallHandler1), handlers[1].GetType());
+        }
+
+        [TestMethod]
+        public void ShouldApplyHandlersToGetterIfAttributesAreOnSecondIndexedItemProperty()
+        {
+            AttributeDrivenPolicy policy = new AttributeDrivenPolicy();
+            List<ICallHandler> handlers =
+                new List<ICallHandler>(policy.GetHandlersFor(getItemStringMethod, new UnityContainer()));
+            Assert.AreEqual(2, handlers.Count);
+            Assert.AreSame(typeof(CallHandler2), handlers[0].GetType());
+            Assert.AreSame(typeof(CallHandler3), handlers[1].GetType());
+        }
+
+        [TestMethod]
+        public void ShouldApplyHandlersToSetterIfAttributesAreOnSecondIndexedItemProperty()
+        {
+            AttributeDrivenPolicy policy = new AttributeDrivenPolicy();
+            List<ICallHandler> handlers =
+                new List<ICallHandler>(policy.GetHandlersFor(setItemStringMethod, new UnityContainer()));
+            Assert.AreEqual(2, handlers.Count);
+            Assert.AreSame(typeof(CallHandler2), handlers[0].GetType());
+            Assert.AreSame(typeof(CallHandler3), handlers[1].GetType());
+        }
+
+
+        [TestMethod]
         public void ShouldInheritHandlersFromBaseClass()
         {
             AttributeDrivenPolicy policy = new AttributeDrivenPolicy();
-            List<ICallHandler> handlers 
+            List<ICallHandler> handlers
                 = new List<ICallHandler>(policy.GetHandlersFor(aNewMethod, new UnityContainer()));
             Assert.AreEqual(1, handlers.Count);
             Assert.AreSame(typeof(CallHandler2), handlers[0].GetType());
@@ -161,8 +258,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public void ShouldInheritHandlersFromInterface()
         {
             MethodImplementationInfo getNewsMethod = new MethodImplementationInfo(
-                typeof (INewsService).GetMethod("GetNews"),
-                typeof (NewsService).GetMethod("GetNews"));
+                typeof(INewsService).GetMethod("GetNews"),
+                typeof(NewsService).GetMethod("GetNews"));
             AttributeDrivenPolicy policy = new AttributeDrivenPolicy();
             List<ICallHandler> handlers
                 = new List<ICallHandler>(policy.GetHandlersFor(getNewsMethod, new UnityContainer()));
@@ -177,7 +274,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [CallHandler3]
         public string Name
         {
-            get { return "foo"; }
+            get { return "someName"; }
             set { }
         }
 
@@ -200,6 +297,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         {
             return 43;
         }
+
+        [CallHandler1]
+        public object this[int ignored] { get { return null; } set { ;} }
+
+        [CallHandler3]
+        public object this[string ignored, double ignored2] { get { return null; } set { ;} }
     }
 
     class SecondAttributeTestTarget : MarshalByRefObject
@@ -213,6 +316,16 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
     class DerivedAttributeTestTarget : AttributeTestTarget
     {
         public void ANewMethod() { }
+
+        [CallHandler1]
+        public new string Name
+        {
+            get { return "someOtherName"; }
+            set { }
+        }
+
+        [CallHandler3]
+        public object Item { get; set; }
     }
 
     public interface INewsService

@@ -17,6 +17,7 @@ using System.Reflection;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Messaging;
 using System.Runtime.Remoting.Proxies;
+using System.Security;
 using System.Security.Permissions;
 using Microsoft.Practices.Unity.InterceptionExtension.Properties;
 using Microsoft.Practices.Unity.Utility;
@@ -28,6 +29,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// invoked by a call on the corresponding TransparentProxy
     /// object. It routes calls through the handlers as appropriate.
     /// </summary>
+    [SecurityCritical(SecurityCriticalScope.Everything)]
+    [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
     public class InterceptingRealProxy : RealProxy, IRemotingTypeInfo, IInterceptingProxy
     {
         private readonly InterceptionBehaviorPipeline interceptorsPipeline = new InterceptionBehaviorPipeline();

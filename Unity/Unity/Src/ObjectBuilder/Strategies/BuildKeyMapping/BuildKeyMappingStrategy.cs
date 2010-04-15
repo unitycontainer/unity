@@ -27,7 +27,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
 			if (policy != null)
 			{
-				context.BuildKey = policy.Map(context.BuildKey);
+				context.BuildKey = policy.Map(context.BuildKey, context);
 			}
 		}
 	}

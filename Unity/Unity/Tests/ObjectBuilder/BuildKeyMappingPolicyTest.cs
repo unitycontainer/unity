@@ -21,7 +21,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 		{
 			var policy = new BuildKeyMappingPolicy(new NamedTypeBuildKey<string>());
 
-			Assert.AreEqual(new NamedTypeBuildKey<string>(), policy.Map(new NamedTypeBuildKey<object>()));
+			Assert.AreEqual(new NamedTypeBuildKey<string>(), policy.Map(new NamedTypeBuildKey<object>(), null));
 		}
 	}
 }

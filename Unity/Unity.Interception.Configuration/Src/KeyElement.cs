@@ -9,8 +9,11 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System;
 using System.Configuration;
+using System.Xml;
 using Microsoft.Practices.Unity.Configuration;
+using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
 {
@@ -34,6 +37,24 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         internal override string Key
         {
             get { return "key:" + TypeName + ":" + Name; }
+        }
+
+        internal override string ElementName
+        {
+            get { return "key"; }
+        }
+
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            base.SerializeContent(writer);
+            writer.WriteAttributeIfNotEmpty(NamePropertyName, Name);
         }
 
         /// <summary>

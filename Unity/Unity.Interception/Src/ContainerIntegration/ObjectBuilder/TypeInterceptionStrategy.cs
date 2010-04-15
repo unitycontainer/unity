@@ -51,10 +51,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             var interceptionBehaviorsPolicy = FindInterceptionPolicy<IInterceptionBehaviorsPolicy>(context);
 
             IEnumerable<IInterceptionBehavior> interceptionBehaviors =
-                interceptionBehaviorsPolicy == null ?
-                    Enumerable.Empty<IInterceptionBehavior>() :
-                    interceptionBehaviorsPolicy.GetEffectiveBehaviors(
-                        context, interceptor, typeToBuild, typeToBuild);
+                interceptionBehaviorsPolicy == null
+                    ?
+                        Enumerable.Empty<IInterceptionBehavior>()
+                    :
+                        interceptionBehaviorsPolicy.GetEffectiveBehaviors(
+                            context, interceptor, typeToBuild, typeToBuild)
+                        .Where(ib => ib.WillExecute);
 
             IAdditionalInterfacesPolicy additionalInterfacesPolicy =
                 FindInterceptionPolicy<IAdditionalInterfacesPolicy>(context);
@@ -72,10 +75,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Type interceptingType =
                 interceptor.CreateProxyType(typeToBuild, allAdditionalInterfaces);
 
-            context.Policies.Set<IConstructorSelectorPolicy>(
+            IPolicyList selectorPolicyDestination;
+            var originalSelectorPolicy = context.Policies.Get<IConstructorSelectorPolicy>(context.BuildKey, out selectorPolicyDestination);
+
+            selectorPolicyDestination.Set<IConstructorSelectorPolicy>(
                 new DerivedTypeConstructorSelectorPolicy(
                     interceptingType,
-                    context.Policies.Get<IConstructorSelectorPolicy>(context.BuildKey)),
+                    originalSelectorPolicy),
                 context.BuildKey);
         }
 
@@ -123,8 +129,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
         private class DerivedTypeConstructorSelectorPolicy : IConstructorSelectorPolicy
         {
-            private Type interceptingType;
-            private IConstructorSelectorPolicy originalConstructorSelectorPolicy;
+            private readonly Type interceptingType;
+            private readonly IConstructorSelectorPolicy originalConstructorSelectorPolicy;
 
             public DerivedTypeConstructorSelectorPolicy(
                 Type interceptingType,
@@ -134,10 +140,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 this.originalConstructorSelectorPolicy = originalConstructorSelectorPolicy;
             }
 
-            public SelectedConstructor SelectConstructor(IBuilderContext context)
+            public SelectedConstructor SelectConstructor(IBuilderContext context, IPolicyList resolverPolicyDestination)
             {
                 SelectedConstructor originalConstructor =
-                    this.originalConstructorSelectorPolicy.SelectConstructor(context);
+                    originalConstructorSelectorPolicy.SelectConstructor(context, resolverPolicyDestination);
 
                 return FindNewConstructor(originalConstructor, interceptingType);
             }

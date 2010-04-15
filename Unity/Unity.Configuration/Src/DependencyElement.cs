@@ -12,7 +12,11 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
+using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Microsoft.Practices.Unity.Configuration.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -20,7 +24,7 @@ namespace Microsoft.Practices.Unity.Configuration
     /// A <see cref="ParameterValueElement"/> derived class that describes
     /// a parameter that should be resolved through the container.
     /// </summary>
-    public class DependencyElement : ParameterValueElement
+    public class DependencyElement : ParameterValueElement, IAttributeOnlyElement
     {
         private const string NamePropertyName = "name";
         private const string TypeNamePropertyName = "type";
@@ -30,7 +34,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         public DependencyElement()
         {
-            
+
         }
 
         /// <summary>
@@ -42,9 +46,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// initialize this object with.</param>
         public DependencyElement(IDictionary<string, string> attributeValues)
         {
-            GuardPropertyValueIsPresent(attributeValues, "dependencyName");
-            Name = attributeValues["dependencyName"];
-
+            SetIfPresent(attributeValues, "dependencyName", value => Name = value);
             SetIfPresent(attributeValues, "dependencyType", value => TypeName = value);
         }
 
@@ -54,7 +56,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(NamePropertyName, IsRequired = false)]
         public string Name
         {
-            get { return (string) base[NamePropertyName]; }
+            get { return (string)base[NamePropertyName]; }
             set { base[NamePropertyName] = value; }
         }
 
@@ -66,8 +68,34 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(TypeNamePropertyName, IsRequired = false)]
         public string TypeName
         {
-            get { return (string) base[TypeNamePropertyName]; }
+            get { return (string)base[TypeNamePropertyName]; }
             set { base[TypeNamePropertyName] = value; }
+        }
+
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        void IAttributeOnlyElement.SerializeContent(XmlWriter writer)
+        {
+            writer.WriteAttributeIfNotEmpty("dependencyName", Name)
+                .WriteAttributeIfNotEmpty("dependencyType", TypeName);
+        }
+
+
+        ///<summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>. This
+        /// method always outputs an explicit &lt;dependency&gt; tag, instead of providing
+        /// attributes to the parent method.
+        ///</summary>
+        ///<param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            writer.WriteAttributeIfNotEmpty(NamePropertyName, Name)
+                .WriteAttributeIfNotEmpty(TypeNamePropertyName, TypeName);
         }
 
         /// <summary>
@@ -81,27 +109,35 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns></returns>
         public override InjectionParameterValue GetInjectionParameterValue(IUnityContainer container, Type parameterType)
         {
+            Guard.ArgumentNotNull(parameterType, "parameterType");
+
             string dependencyName = Name;
-            if(string.IsNullOrEmpty(dependencyName))
+            if (string.IsNullOrEmpty(dependencyName))
             {
                 dependencyName = null;
             }
 
-            return new ResolvedParameter(GetDependencyType(parameterType), dependencyName);
-        }
-
-        private Type GetDependencyType(Type parameterType)
-        {
-            if(!string.IsNullOrEmpty(TypeName))
+            if (parameterType.IsGenericParameter)
             {
-                return TypeResolver.ResolveType(TypeName);
+                if (!string.IsNullOrEmpty(this.TypeName))
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            Resources.DependencyForGenericParameterWithTypeSet,
+                            parameterType.Name,
+                            this.TypeName));
+                }
+
+                return new GenericParameter(parameterType.Name, dependencyName);
             }
-            return parameterType;
+
+            return new ResolvedParameter(TypeResolver.ResolveTypeWithDefault(TypeName, parameterType), dependencyName);
         }
 
         private static void SetIfPresent(IDictionary<string, string> attributeValues, string key, Action<string> setter)
         {
-            if(attributeValues.ContainsKey(key))
+            if (attributeValues.ContainsKey(key))
             {
                 setter(attributeValues[key]);
             }

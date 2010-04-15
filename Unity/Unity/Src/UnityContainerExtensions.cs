@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity
 {
@@ -35,6 +36,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
         public static IUnityContainer RegisterType<T>(this IUnityContainer container, params InjectionMember[] injectionMembers)
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.RegisterType(null, typeof(T), null, null, injectionMembers);
         }
 
@@ -58,6 +60,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
         public static IUnityContainer RegisterType<TFrom, TTo>(this IUnityContainer container, params InjectionMember[] injectionMembers) where TTo : TFrom
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.RegisterType(typeof(TFrom), typeof(TTo), null, null, injectionMembers);
         }
 
@@ -75,6 +78,7 @@ namespace Microsoft.Practices.Unity
         public static IUnityContainer RegisterType<TFrom, TTo>(this IUnityContainer container, LifetimeManager lifetimeManager,
                                                                params InjectionMember[] injectionMembers) where TTo : TFrom
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.RegisterType(typeof(TFrom), typeof(TTo), null, lifetimeManager, injectionMembers);
         }
 
@@ -95,7 +99,8 @@ namespace Microsoft.Practices.Unity
         public static IUnityContainer RegisterType<TFrom, TTo>(this IUnityContainer container, string name, params InjectionMember[] injectionMembers)
             where TTo : TFrom
         {
-            return container.RegisterType(typeof (TFrom), typeof (TTo), name, null, injectionMembers);
+            Guard.ArgumentNotNull(container, "container");
+            return container.RegisterType(typeof(TFrom), typeof(TTo), name, null, injectionMembers);
         }
 
         /// <summary>
@@ -113,7 +118,8 @@ namespace Microsoft.Practices.Unity
         public static IUnityContainer RegisterType<TFrom, TTo>(this IUnityContainer container, string name, LifetimeManager lifetimeManager,
                                                                params InjectionMember[] injectionMembers) where TTo : TFrom
         {
-            return container.RegisterType(typeof (TFrom), typeof (TTo), name, lifetimeManager, injectionMembers);
+            Guard.ArgumentNotNull(container, "container");
+            return container.RegisterType(typeof(TFrom), typeof(TTo), name, lifetimeManager, injectionMembers);
         }
 
         /// <summary>
@@ -128,7 +134,8 @@ namespace Microsoft.Practices.Unity
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
         public static IUnityContainer RegisterType<T>(this IUnityContainer container, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
         {
-            return container.RegisterType(null, typeof (T), null, lifetimeManager, injectionMembers);
+            Guard.ArgumentNotNull(container, "container");
+            return container.RegisterType(null, typeof(T), null, lifetimeManager, injectionMembers);
         }
 
         /// <summary>
@@ -142,7 +149,8 @@ namespace Microsoft.Practices.Unity
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
         public static IUnityContainer RegisterType<T>(this IUnityContainer container, string name, params InjectionMember[] injectionMembers)
         {
-            return container.RegisterType(null, typeof (T), name, null, injectionMembers);
+            Guard.ArgumentNotNull(container, "container");
+            return container.RegisterType(null, typeof(T), name, null, injectionMembers);
         }
 
         /// <summary>
@@ -159,7 +167,8 @@ namespace Microsoft.Practices.Unity
         public static IUnityContainer RegisterType<T>(this IUnityContainer container, string name, LifetimeManager lifetimeManager,
                                                       params InjectionMember[] injectionMembers)
         {
-            return container.RegisterType(null, typeof (T), name, lifetimeManager, injectionMembers);
+            Guard.ArgumentNotNull(container, "container");
+            return container.RegisterType(null, typeof(T), name, lifetimeManager, injectionMembers);
         }
 
         #endregion
@@ -176,6 +185,7 @@ namespace Microsoft.Practices.Unity
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
         public static IUnityContainer RegisterType(this IUnityContainer container, Type t, params InjectionMember[] injectionMembers)
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.RegisterType(null, t, null, null, injectionMembers);
         }
 
@@ -200,6 +210,7 @@ namespace Microsoft.Practices.Unity
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "To")]
         public static IUnityContainer RegisterType(this IUnityContainer container, Type from, Type to, params InjectionMember[] injectionMembers)
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.RegisterType(from, to, null, null, injectionMembers);
         }
 
@@ -220,6 +231,7 @@ namespace Microsoft.Practices.Unity
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "To")]
         public static IUnityContainer RegisterType(this IUnityContainer container, Type from, Type to, string name, params InjectionMember[] injectionMembers)
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.RegisterType(from, to, name, null, injectionMembers);
         }
 
@@ -239,6 +251,7 @@ namespace Microsoft.Practices.Unity
         public static IUnityContainer RegisterType(this IUnityContainer container, Type from, Type to, LifetimeManager lifetimeManager,
                                                    params InjectionMember[] injectionMembers)
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.RegisterType(from, to, null, lifetimeManager, injectionMembers);
         }
 
@@ -255,6 +268,7 @@ namespace Microsoft.Practices.Unity
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
         public static IUnityContainer RegisterType(this IUnityContainer container, Type t, LifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.RegisterType(null, t, null, lifetimeManager, injectionMembers);
         }
 
@@ -270,6 +284,7 @@ namespace Microsoft.Practices.Unity
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
         public static IUnityContainer RegisterType(this IUnityContainer container, Type t, string name, params InjectionMember[] injectionMembers)
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.RegisterType(null, t, name, null, injectionMembers);
         }
 
@@ -288,6 +303,7 @@ namespace Microsoft.Practices.Unity
         public static IUnityContainer RegisterType(this IUnityContainer container, Type t, string name, LifetimeManager lifetimeManager,
                                                    params InjectionMember[] injectionMembers)
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.RegisterType(null, t, name, lifetimeManager, injectionMembers);
         }
 
@@ -317,7 +333,8 @@ namespace Microsoft.Practices.Unity
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
         public static IUnityContainer RegisterInstance<TInterface>(this IUnityContainer container, TInterface instance)
         {
-            return container.RegisterInstance(typeof (TInterface), null, instance, CreateDefaultInstanceLifetimeManager());
+            Guard.ArgumentNotNull(container, "container");
+            return container.RegisterInstance(typeof(TInterface), null, instance, CreateDefaultInstanceLifetimeManager());
         }
 
         /// <summary>
@@ -341,7 +358,8 @@ namespace Microsoft.Practices.Unity
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
         public static IUnityContainer RegisterInstance<TInterface>(this IUnityContainer container, TInterface instance, LifetimeManager lifetimeManager)
         {
-            return container.RegisterInstance(typeof (TInterface), null, instance, lifetimeManager);
+            Guard.ArgumentNotNull(container, "container");
+            return container.RegisterInstance(typeof(TInterface), null, instance, lifetimeManager);
         }
 
         /// <summary>
@@ -363,7 +381,8 @@ namespace Microsoft.Practices.Unity
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
         public static IUnityContainer RegisterInstance<TInterface>(this IUnityContainer container, string name, TInterface instance)
         {
-            return container.RegisterInstance(typeof (TInterface), name, instance, CreateDefaultInstanceLifetimeManager());
+            Guard.ArgumentNotNull(container, "container");
+            return container.RegisterInstance(typeof(TInterface), name, instance, CreateDefaultInstanceLifetimeManager());
         }
 
         /// <summary>
@@ -385,7 +404,8 @@ namespace Microsoft.Practices.Unity
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
         public static IUnityContainer RegisterInstance<TInterface>(this IUnityContainer container, string name, TInterface instance, LifetimeManager lifetimeManager)
         {
-            return container.RegisterInstance(typeof (TInterface), name, instance, lifetimeManager);
+            Guard.ArgumentNotNull(container, "container");
+            return container.RegisterInstance(typeof(TInterface), name, instance, lifetimeManager);
         }
 
         #endregion
@@ -411,6 +431,7 @@ namespace Microsoft.Practices.Unity
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
         public static IUnityContainer RegisterInstance(this IUnityContainer container, Type t, object instance)
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.RegisterInstance(t, null, instance, CreateDefaultInstanceLifetimeManager());
         }
 
@@ -436,6 +457,7 @@ namespace Microsoft.Practices.Unity
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
         public static IUnityContainer RegisterInstance(this IUnityContainer container, Type t, object instance, LifetimeManager lifetimeManager)
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.RegisterInstance(t, null, instance, lifetimeManager);
         }
 
@@ -459,6 +481,7 @@ namespace Microsoft.Practices.Unity
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
         public static IUnityContainer RegisterInstance(this IUnityContainer container, Type t, string name, object instance)
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.RegisterInstance(t, name, instance, CreateDefaultInstanceLifetimeManager());
         }
 
@@ -477,7 +500,8 @@ namespace Microsoft.Practices.Unity
         /// <returns>The retrieved object.</returns>
         public static T Resolve<T>(this IUnityContainer container, params ResolverOverride[] overrides)
         {
-            return (T) container.Resolve(typeof (T), null, overrides);
+            Guard.ArgumentNotNull(container, "container");
+            return (T)container.Resolve(typeof(T), null, overrides);
         }
 
         /// <summary>
@@ -490,7 +514,8 @@ namespace Microsoft.Practices.Unity
         /// <returns>The retrieved object.</returns>
         public static T Resolve<T>(this IUnityContainer container, string name, params ResolverOverride[] overrides)
         {
-            return (T) container.Resolve(typeof (T), name, overrides);
+            Guard.ArgumentNotNull(container, "container");
+            return (T)container.Resolve(typeof(T), name, overrides);
         }
 
         /// <summary>
@@ -503,6 +528,7 @@ namespace Microsoft.Practices.Unity
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
         public static object Resolve(this IUnityContainer container, Type t, params ResolverOverride[] overrides)
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.Resolve(t, null, overrides);
         }
 
@@ -528,7 +554,8 @@ namespace Microsoft.Practices.Unity
         /// <returns>Set of objects of type <typeparamref name="T"/>.</returns>
         public static IEnumerable<T> ResolveAll<T>(this IUnityContainer container, params ResolverOverride[] resolverOverrides)
         {
-            return container.ResolveAll(typeof (T), resolverOverrides).Cast<T>();
+            Guard.ArgumentNotNull(container, "container");
+            return container.ResolveAll(typeof(T), resolverOverrides).Cast<T>();
         }
 
         #endregion
@@ -558,7 +585,8 @@ namespace Microsoft.Practices.Unity
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
         public static T BuildUp<T>(this IUnityContainer container, T existing, params ResolverOverride[] resolverOverrides)
         {
-            return (T) container.BuildUp(typeof (T), existing, null, resolverOverrides);
+            Guard.ArgumentNotNull(container, "container");
+            return (T)container.BuildUp(typeof(T), existing, null, resolverOverrides);
         }
 
         /// <summary>
@@ -581,7 +609,8 @@ namespace Microsoft.Practices.Unity
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
         public static T BuildUp<T>(this IUnityContainer container, T existing, string name, params ResolverOverride[] resolverOverrides)
         {
-            return (T) container.BuildUp(typeof (T), existing, name, resolverOverrides);
+            Guard.ArgumentNotNull(container, "container");
+            return (T)container.BuildUp(typeof(T), existing, name, resolverOverrides);
         }
 
         /// <summary>
@@ -609,12 +638,9 @@ namespace Microsoft.Practices.Unity
             Justification = "Back compat with ObjectBuilder")]
         public static object BuildUp(this IUnityContainer container, Type t, object existing, params ResolverOverride[] resolverOverrides)
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.BuildUp(t, existing, null, resolverOverrides);
         }
-
-        #endregion
-
-        #region Teardown
 
         #endregion
 
@@ -624,13 +650,15 @@ namespace Microsoft.Practices.Unity
         /// Creates a new extension object and adds it to the container.
         /// </summary>
         /// <typeparam name="TExtension">Type of <see cref="UnityContainerExtension"/> to add. The extension type
-        /// must have a zero-argument public constructor.</typeparam>
+        /// will be resolved from within the supplied <paramref name="container"/>.</typeparam>
         /// <param name="container">Container to add the extension to.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
         public static IUnityContainer AddNewExtension<TExtension>(this IUnityContainer container) 
-            where TExtension : UnityContainerExtension, new()
+            where TExtension : UnityContainerExtension
         {
-            return container.AddExtension(new TExtension());
+            Guard.ArgumentNotNull(container, "container");
+            TExtension newExtension = container.Resolve<TExtension>();
+            return container.AddExtension(newExtension);
         }
 
         /// <summary>
@@ -648,7 +676,8 @@ namespace Microsoft.Practices.Unity
         public static TConfigurator Configure<TConfigurator>(this IUnityContainer container) 
             where TConfigurator : IUnityContainerExtensionConfigurator
         {
-            return (TConfigurator) container.Configure(typeof (TConfigurator));
+            Guard.ArgumentNotNull(container, "container");
+            return (TConfigurator)container.Configure(typeof(TConfigurator));
         }
 
         #endregion
@@ -664,6 +693,8 @@ namespace Microsoft.Practices.Unity
         ///<returns>True if this type has been registered, false if not.</returns>
         public static bool IsRegistered(this IUnityContainer container, Type typeToCheck)
         {
+            Guard.ArgumentNotNull(container, "container");
+            Guard.ArgumentNotNull(typeToCheck, "typeToCheck");
             return container.IsRegistered(typeToCheck, null);
         }
 
@@ -676,6 +707,9 @@ namespace Microsoft.Practices.Unity
         /// <returns>True if this type/name pair has been registered, false if not.</returns>
         public static bool IsRegistered(this IUnityContainer container, Type typeToCheck, string nameToCheck)
         {
+            Guard.ArgumentNotNull(container, "container");
+            Guard.ArgumentNotNull(typeToCheck, "typeToCheck");
+
             var registration = from r in container.Registrations
                                where r.RegisteredType == typeToCheck && r.Name == nameToCheck
                                select r;
@@ -690,6 +724,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>True if this type has been registered, false if not.</returns>
         public static bool IsRegistered<T>(this IUnityContainer container)
         {
+            Guard.ArgumentNotNull(container, "container");
             return container.IsRegistered(typeof (T));
         }
         
@@ -702,7 +737,8 @@ namespace Microsoft.Practices.Unity
         /// <returns>True if this type/name pair has been registered, false if not.</returns>
         public static bool IsRegistered<T>(this IUnityContainer container, string nameToCheck)
         {
-            return container.IsRegistered(typeof (T), nameToCheck);
+            Guard.ArgumentNotNull(container, "container");
+            return container.IsRegistered(typeof(T), nameToCheck);
         }
 
 

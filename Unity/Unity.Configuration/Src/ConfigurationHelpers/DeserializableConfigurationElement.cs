@@ -23,8 +23,6 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         Justification = "It is spelled correctly")]
     public abstract class DeserializableConfigurationElement : ConfigurationElement
     {
-        #region IDeserializableElement Members
-
         /// <summary>
         /// Load this element from the given <see cref="XmlReader"/>.
         /// </summary>
@@ -34,6 +32,16 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
             DeserializeElement(reader, false);
         }
 
-        #endregion
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public virtual void SerializeContent(XmlWriter writer)
+        {
+            
+        }
     }
 }

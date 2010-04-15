@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Practices.Unity.TestSupport;
 
@@ -36,14 +37,14 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanUseNonDefaultLifetimeManagerWithOpenGenericRegistration()
         {
             IUnityContainer container = new UnityContainer();
-            container.RegisterType(typeof(IFoo<>),
-                typeof(MyFoo<>),
+            container.RegisterType(typeof(ISomeInterface<>),
+                typeof(MyTypeImplementingSomeInterface<>),
                 new ContainerControlledLifetimeManager());
-            IFoo<int> intFoo = container.Resolve<IFoo<int>>();
-            IFoo<string> stringFoo1 = container.Resolve<IFoo<string>>();
-            IFoo<string> stringFoo2 = container.Resolve<IFoo<string>>();
+            ISomeInterface<int> intSomeInterface = container.Resolve<ISomeInterface<int>>();
+            ISomeInterface<string> stringObj1 = container.Resolve<ISomeInterface<string>>();
+            ISomeInterface<string> stringObj2 = container.Resolve<ISomeInterface<string>>();
 
-            Assert.AreSame(stringFoo1, stringFoo2);
+            Assert.AreSame(stringObj1, stringObj2);
         }
 
         // https://www.codeplex.com/Thread/View.aspx?ProjectName=unity&ThreadId=25301
@@ -51,16 +52,16 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanOverrideGenericLifetimeManagerWithSpecificOne()
         {
             IUnityContainer container = new UnityContainer()
-                .RegisterType(typeof(IFoo<>),
-                    typeof(MyFoo<>),
+                .RegisterType(typeof(ISomeInterface<>),
+                    typeof(MyTypeImplementingSomeInterface<>),
                     new ContainerControlledLifetimeManager())
-                .RegisterType(typeof(MyFoo<double>), new TransientLifetimeManager());
+                .RegisterType(typeof(MyTypeImplementingSomeInterface<double>), new TransientLifetimeManager());
 
-            IFoo<string> string1 = container.Resolve<IFoo<string>>();
-            IFoo<string> string2 = container.Resolve<IFoo<string>>();
+            ISomeInterface<string> string1 = container.Resolve<ISomeInterface<string>>();
+            ISomeInterface<string> string2 = container.Resolve<ISomeInterface<string>>();
 
-            IFoo<double> double1 = container.Resolve<IFoo<double>>();
-            IFoo<double> double2 = container.Resolve<IFoo<double>>();
+            ISomeInterface<double> double1 = container.Resolve<ISomeInterface<double>>();
+            ISomeInterface<double> double2 = container.Resolve<ISomeInterface<double>>();
 
             Assert.AreSame(string1, string2);
             Assert.AreNotSame(double1, double2);
@@ -99,8 +100,8 @@ namespace Microsoft.Practices.Unity.Tests
         {
             var container1 = new UnityContainer();
             container1.RegisterType<InnerX64Class>();
-            // FooProperty is static, this should throw here
-            container1.RegisterType<OuterX64Class>(new InjectionProperty("FooProperty"));
+            // SomeProperty is static, this should throw here
+            container1.RegisterType<OuterX64Class>(new InjectionProperty("SomeProperty"));
         }
 
         // http://unity.codeplex.com/WorkItem/View.aspx?WorkItemId=6491
@@ -133,6 +134,44 @@ namespace Microsoft.Practices.Unity.Tests
             result.AssertContainsInAnyOrder("string1", "string20", "string30");
         }
 
+        // http://unity.codeplex.com/WorkItem/View.aspx?WorkItemId=6997
+        [TestMethod]
+        public void IsRegisteredReturnsCorrectValue()
+        {
+            IUnityContainer container = new UnityContainer();
+            container.RegisterType<MyClass>(new InjectionConstructor("Name"));
+            var inst = container.Resolve<MyClass>();
+            Assert.IsTrue(container.IsRegistered<MyClass>());
+        }
+
+        // http://unity.codeplex.com/WorkItem/View.aspx?WorkItemId=3392
+        [TestMethod]
+        public void ResolveAllResolvesOpenGeneric()
+        {
+            IUnityContainer container = new UnityContainer()
+                .RegisterType(typeof (ISomeInterface<>), typeof (MyTypeImplementingSomeInterface<>), "open")
+                .RegisterType<ISomeInterface<string>, MyTypeImplementingSomeInterfaceOfString>("string");
+
+            var results = container.ResolveAll<ISomeInterface<string>>().ToList();
+
+            Assert.AreEqual(2, results.Count());
+            results.Select(o => o.GetType())
+                .AssertContainsInAnyOrder(typeof (MyTypeImplementingSomeInterface<string>), typeof (MyTypeImplementingSomeInterfaceOfString));
+        }
+
+        // http://unity.codeplex.com/WorkItem/View.aspx?WorkItemId=6999
+        [TestMethod]
+        public void ContainerControlledOpenGenericInParentResolvesProperlyInChild()
+        {
+            IUnityContainer parentContainer = new UnityContainer()
+                .RegisterType(typeof (ISomeInterface<>), typeof (MyTypeImplementingSomeInterface<>), new ContainerControlledLifetimeManager());
+
+            var childOneObject = parentContainer.CreateChildContainer().Resolve<ISomeInterface<string>>();
+            var childTwoObject = parentContainer.CreateChildContainer().Resolve<ISomeInterface<string>>();
+
+            Assert.AreSame(childOneObject, childTwoObject);
+        }
+
         public interface IBasicInterface
         { 
         }
@@ -153,12 +192,17 @@ namespace Microsoft.Practices.Unity.Tests
             }
         }
 
-        public interface IFoo<T>
+        public interface ISomeInterface<T>
         {
             
         }
 
-        public class MyFoo<T> : IFoo<T>
+        public class MyTypeImplementingSomeInterface<T> : ISomeInterface<T>
+        {
+            
+        }
+
+        public class MyTypeImplementingSomeInterfaceOfString : ISomeInterface<string>
         {
             
         }
@@ -175,7 +219,19 @@ namespace Microsoft.Practices.Unity.Tests
 
         public class OuterX64Class
         {
-            public static InnerX64Class FooProperty { get; set; }
+            public static InnerX64Class SomeProperty { get; set; }
+        }
+
+        public class MyClass
+        {
+            public string Name { get; set; }
+            public MyClass()
+            {
+            }
+            public MyClass(string name)
+            {
+                Name = name;
+            }
         }
     }
 }

@@ -23,17 +23,19 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void InjectionConstructorInsertsChooserForDefaultConstructor()
         {
-            InjectionConstructor ctor = new InjectionConstructor();
-            var context = new MockBuilderContext();
-            context.BuildKey = new NamedTypeBuildKey(typeof (GuineaPig));
+            var ctor = new InjectionConstructor();
+            var context = new MockBuilderContext
+                {
+                    BuildKey = new NamedTypeBuildKey(typeof (GuineaPig))
+                };
             IPolicyList policies = context.PersistentPolicies;
 
             ctor.AddPolicies(typeof(GuineaPig), policies);
 
-            IConstructorSelectorPolicy selector = policies.Get<IConstructorSelectorPolicy>(
+            var selector = policies.Get<IConstructorSelectorPolicy>(
                 new NamedTypeBuildKey(typeof(GuineaPig)));
 
-            SelectedConstructor selected = selector.SelectConstructor(context);
+            SelectedConstructor selected = selector.SelectConstructor(context, policies);
             Assert.AreEqual(typeof(GuineaPig).GetConstructor(new Type[0]), selected.Constructor);
             Assert.AreEqual(0, selected.GetParameterKeys().Length);
         }
@@ -44,17 +46,19 @@ namespace Microsoft.Practices.Unity.Tests
             string expectedString = "Hello";
             int expectedInt = 12;
 
-            InjectionConstructor ctor = new InjectionConstructor(expectedString, expectedInt);
-            var context = new MockBuilderContext();
-            context.BuildKey = new NamedTypeBuildKey(typeof (GuineaPig));
+            var ctor = new InjectionConstructor(expectedString, expectedInt);
+            var context = new MockBuilderContext
+                {
+                    BuildKey = new NamedTypeBuildKey(typeof (GuineaPig))
+                };
             IPolicyList policies = context.PersistentPolicies;
 
             ctor.AddPolicies(typeof(GuineaPig), policies);
 
-            IConstructorSelectorPolicy selector = policies.Get<IConstructorSelectorPolicy>(
+            var selector = policies.Get<IConstructorSelectorPolicy>(
                 new NamedTypeBuildKey(typeof(GuineaPig)));
 
-            SelectedConstructor selected = selector.SelectConstructor(context);
+            SelectedConstructor selected = selector.SelectConstructor(context, policies);
             string[] keys = selected.GetParameterKeys();
 
             Assert.AreEqual(typeof(GuineaPig).GetConstructor(Sequence.Collect(typeof(string), typeof(int))), selected.Constructor);
@@ -67,24 +71,23 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void InjectionConstructorSetsResolverForInterfaceToLookupInContainer()
         {
-            InjectionConstructor ctor = new InjectionConstructor("Logger", typeof(ILogger));
+            var ctor = new InjectionConstructor("Logger", typeof(ILogger));
             var context = new MockBuilderContext();
             context.BuildKey = new NamedTypeBuildKey(typeof(GuineaPig));
             IPolicyList policies = context.PersistentPolicies;
 
             ctor.AddPolicies(typeof(GuineaPig), policies);
 
-            IConstructorSelectorPolicy selector = policies.Get<IConstructorSelectorPolicy>(
+            var selector = policies.Get<IConstructorSelectorPolicy>(
                 new NamedTypeBuildKey(typeof(GuineaPig)));
 
-            SelectedConstructor selected = selector.SelectConstructor(context);
+            SelectedConstructor selected = selector.SelectConstructor(context, policies);
             string[] keys = selected.GetParameterKeys();
 
             Assert.AreEqual(typeof(GuineaPig).GetConstructor(Sequence.Collect(typeof(string), typeof(ILogger))), selected.Constructor);
             Assert.AreEqual(2, keys.Length);
 
-            IDependencyResolverPolicy policy =
-                context.Policies.Get<IDependencyResolverPolicy>(keys[1]);
+            var policy = context.Policies.Get<IDependencyResolverPolicy>(keys[1]);
             Assert.IsTrue(policy is NamedTypeDependencyResolverPolicy);
         }
 

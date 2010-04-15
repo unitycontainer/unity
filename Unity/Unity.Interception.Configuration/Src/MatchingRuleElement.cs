@@ -33,9 +33,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
                 LifetimeManager lifetime = Lifetime.CreateLifetimeManager();
                 IEnumerable<InjectionMember> injectionMembers =
                     Injection.SelectMany(
-                        element => element.GetInjectionMembers(container, typeof (IMatchingRule), matchingRuleType, Name));
+                        element => element.GetInjectionMembers(container, typeof(IMatchingRule), matchingRuleType, Name));
 
-                policyDefinition.AddMatchingRule(matchingRuleType, Name, lifetime, injectionMembers.ToArray());
+                policyDefinition.AddMatchingRule(matchingRuleType, lifetime, injectionMembers.ToArray());
             }
         }
     }

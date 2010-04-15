@@ -12,6 +12,7 @@
 using System;
 using System.ComponentModel;
 using System.Configuration;
+using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 
 namespace Microsoft.Practices.Unity.Configuration
@@ -76,6 +77,21 @@ namespace Microsoft.Practices.Unity.Configuration
         }
 
         /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            writer.WriteAttributeIfNotEmpty(NamePropertyName, Name)
+                .WriteAttributeIfNotEmpty(ValuePropertyName, Value)
+                .WriteAttributeIfNotEmpty(TypeNamePropertyName, TypeName)
+                .WriteAttributeIfNotEmpty(TypeConverterTypeNamePropertyName, TypeConverterTypeName);
+        }
+
+        /// <summary>
         /// Add the instance defined by this element to the given container.
         /// </summary>
         /// <param name="container">Container to configure.</param>
@@ -100,7 +116,7 @@ namespace Microsoft.Practices.Unity.Configuration
             }
 
             TypeConverter converter = GetTypeConverter();
-            return converter.ConvertFromString(Value);
+            return converter.ConvertFromInvariantString(Value);
         }
 
         private TypeConverter GetTypeConverter()

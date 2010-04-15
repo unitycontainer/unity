@@ -123,7 +123,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             PolicySet policies = new PolicySet();
 
             List<ICallHandler> oneHandlers
-                = new List<ICallHandler>(policies.GetHandlersFor(GetMethodImplInfo<Bar>("One"), container));
+                = new List<ICallHandler>(policies.GetHandlersFor(GetMethodImplInfo<TwoType>("One"), container));
 
             Assert.AreEqual(0, oneHandlers.Count);
 
@@ -132,7 +132,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             MethodImplementationInfo oneInfo = new MethodImplementationInfo(
                 typeof(IOne).GetMethod("One"),
-                typeof(Bar).GetMethod("One"));
+                typeof(TwoType).GetMethod("One"));
 
             oneHandlers
                 = new List<ICallHandler>(policies.GetHandlersFor(oneInfo, container));
@@ -142,7 +142,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Assert.IsTrue(oneHandlers[1] is MarkerCallHandler);
 
             Assert.AreEqual("IOneOne", ((MarkerCallHandler)oneHandlers[0]).HandlerName);
-            Assert.AreEqual("BarOneOverride", ((MarkerCallHandler)oneHandlers[1]).HandlerName);
+            Assert.AreEqual("MethodOneOverride", ((MarkerCallHandler)oneHandlers[1]).HandlerName);
         }
 
         [TestMethod]
@@ -159,7 +159,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             PolicySet policies = new PolicySet(policy);
             MethodImplementationInfo twoInfo = new MethodImplementationInfo(
-                typeof (ITwo).GetMethod("Two"), typeof (Bar).GetMethod("Two"));
+                typeof (ITwo).GetMethod("Two"), typeof (TwoType).GetMethod("Two"));
 
             List<ICallHandler> handlers
                 = new List<ICallHandler>(policies.GetHandlersFor(twoInfo, container));
@@ -195,7 +195,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             PolicySet policies = new PolicySet(policy);
 
             MethodImplementationInfo twoInfo = new MethodImplementationInfo(
-                typeof (ITwo).GetMethod("Two"), typeof (Bar).GetMethod("Two"));
+                typeof (ITwo).GetMethod("Two"), typeof (TwoType).GetMethod("Two"));
             List<ICallHandler> handlers
                 = new List<ICallHandler>(policies.GetHandlersFor(twoInfo, container));
 
@@ -242,7 +242,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             PolicySet policies = new PolicySet(policy);
 
             MethodImplementationInfo twoInfo = new MethodImplementationInfo(
-                typeof(ITwo).GetMethod("Two"), typeof(Bar).GetMethod("Two"));
+                typeof(ITwo).GetMethod("Two"), typeof(TwoType).GetMethod("Two"));
 
             List<ICallHandler> handlers 
                 = new List<ICallHandler>(policies.GetHandlersFor(twoInfo, container));
@@ -318,22 +318,22 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         void Two();
     }
 
-    public class Foo : IOne
+    public class OneType : IOne
     {
-        public void FooOne() { }
+        public void MethodOne() { }
 
-        public virtual void FooTwo() { }
+        public virtual void MethodTwo() { }
 
         public virtual void One() { }
     }
 
-    public class Bar : Foo, ITwo
+    public class TwoType : OneType, ITwo
     {
         public void BarOne() { }
 
-        public override void FooTwo() { }
+        public override void MethodTwo() { }
 
-        [MarkerCallHandler("BarOneOverride")]
+        [MarkerCallHandler("MethodOneOverride")]
         public override void One() { }
 
         public void Two() { }

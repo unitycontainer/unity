@@ -72,27 +72,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 overrideCount.ToString(CultureInfo.InvariantCulture);
         }
 
-        private void SetupGenericParameters(MethodBuilder methodBuilder)
-        {
-            if (methodToOverride.IsGenericMethod)
-            {
-                Type[] genericArguments = methodToOverride.GetGenericArguments();
-                string[] names = genericArguments
-                    .Select(t => t.Name)
-                    .ToArray();
-                GenericTypeParameterBuilder[] builders = methodBuilder.DefineGenericParameters(names);
-                for (int i = 0; i < genericArguments.Length; ++i)
-                {
-                    builders[i].SetGenericParameterAttributes(genericArguments[i].GenericParameterAttributes);
-
-                    foreach (Type type in genericArguments[i].GetGenericParameterConstraints())
-                    {
-                        builders[i].SetBaseTypeConstraint(type);
-                    }
-                }
-            }
-        }
-
         private static readonly OpCode[] loadArgsOpcodes = {
             OpCodes.Ldarg_1,
             OpCodes.Ldarg_2,
@@ -163,7 +142,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 MethodAttributes.Private | MethodAttributes.HideBySig);
             List<LocalBuilder> outOrRefLocals = new List<LocalBuilder>();
 
-            SetupGenericParameters(methodBuilder);
+            var paramMapper = new MethodOverrideParameterMapper(methodToOverride);
+            paramMapper.SetupParameters(methodBuilder);
 
             methodBuilder.SetReturnType(typeof(IMethodReturn));
             // Adding parameters
@@ -189,7 +169,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
                 if (MethodHasReturnValue)
                 {
-                    baseReturn = il.DeclareLocal(methodToOverride.ReturnType);
+                    baseReturn = il.DeclareLocal(paramMapper.GetReturnType());
                 }
                 LocalBuilder retval = il.DeclareLocal(typeof(IMethodReturn));
 
@@ -210,7 +190,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                         il.Emit(OpCodes.Ldloc, parameters);
                         EmitLoadConstant(il, i);
                         il.EmitCall(OpCodes.Callvirt, IListMethods.GetItem, null);
-                        Type parameterType = methodParameters[i].ParameterType;
+                        Type parameterType = paramMapper.GetParameterType(methodParameters[i].ParameterType);
 
                         if (parameterType.IsByRef)
                         {
@@ -228,7 +208,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     }
                 }
 
-                il.Emit(OpCodes.Callvirt, methodToOverride);
+                MethodInfo callTarget = methodToOverride;
+                if(callTarget.IsGenericMethod)
+                {
+                    callTarget = methodToOverride.MakeGenericMethod(paramMapper.MappedGenericParameters);
+                }
+
+                il.Emit(OpCodes.Callvirt, callTarget);
+
                 if (MethodHasReturnValue)
                 {
                     il.Emit(OpCodes.Stloc, baseReturn);
@@ -259,7 +246,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                         il.Emit(OpCodes.Ldloc, outputArguments);
                         EmitLoadConstant(il, i);
 
-                        Type parameterType = methodParameters[i].ParameterType;
+                        Type parameterType = paramMapper.GetParameterType(methodParameters[i].ParameterType);
                         if (parameterType.IsByRef)
                         {
                             parameterType = parameterType.GetElementType();
@@ -319,10 +306,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     methodName,
                     this.explicitImplementation ? explicitImplementationAttributes : implicitImplementationAttributes);
 
-            SetupGenericParameters(methodBuilder);
+            var paramMapper = new MethodOverrideParameterMapper(methodToOverride);
+            paramMapper.SetupParameters(methodBuilder);
 
-            methodBuilder.SetReturnType(methodToOverride.ReturnType);
-            methodBuilder.SetParameters(methodParameters.Select(pi => pi.ParameterType).ToArray());
+            methodBuilder.SetReturnType(paramMapper.GetReturnType());
+            methodBuilder.SetParameters(methodParameters.Select(pi => paramMapper.GetParameterType(pi.ParameterType)).ToArray());
             if (this.explicitImplementation)
             {
                 this.typeBuilder.DefineMethodOverride(methodBuilder, this.methodToOverride);
@@ -343,6 +331,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             // Create instance of VirtualMethodInvocation
             il.Emit(OpCodes.Ldarg_0); // target object
+
+            // If we have a targetField, that means we're building a proxy and
+            // should use it as the target object. If we don't, we're building
+            // a type interceptor and should leave the this pointer as the
+            // target.
+            if (targetField != null)
+            {
+                il.Emit(OpCodes.Ldfld, targetField);
+            }
 
             il.Emit(OpCodes.Ldtoken, methodToOverride);
             if (methodToOverride.DeclaringType.IsGenericType)
@@ -366,10 +363,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     il.Emit(OpCodes.Ldloc, parameterArray);
                     EmitLoadConstant(il, i);
                     EmitLoadArgument(il, i);
-                    Type elementType = methodParameters[i].ParameterType;
+                    Type elementType = paramMapper.GetParameterType(methodParameters[i].ParameterType);
                     if (elementType.IsByRef)
                     {
-                        elementType = methodParameters[i].ParameterType.GetElementType();
+                        elementType = paramMapper.GetElementType(methodParameters[i].ParameterType);
                         il.Emit(OpCodes.Ldobj, elementType);
                     }
                     EmitBox(il, elementType);
@@ -387,7 +384,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             // Put delegate reference onto the stack
             il.Emit(OpCodes.Ldarg_0);
-            il.Emit(OpCodes.Ldftn, delegateMethod);
+
+            MethodInfo callTarget = delegateMethod;
+            if(callTarget.IsGenericMethod)
+            {
+                callTarget = delegateMethod.MakeGenericMethod(paramMapper.MappedGenericParameters);
+            }
+
+            il.Emit(OpCodes.Ldftn, callTarget);
+
             il.Emit(OpCodes.Newobj, InvokeInterceptionBehaviorDelegateMethods.InvokeInterceptionBehaviorDelegate);
 
             // And call the pipeline
@@ -426,10 +431,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                         il.Emit(OpCodes.Callvirt, IMethodReturnMethods.GetOutputs);
                         EmitLoadConstant(il, outputArgNum++);
                         il.Emit(OpCodes.Callvirt, IListMethods.GetItem);
-                        EmitUnboxOrCast(il, pi.ParameterType.GetElementType());
+                        EmitUnboxOrCast(il, paramMapper.GetElementType(pi.ParameterType));
 
                         // And store in the caller
-                        il.Emit(OpCodes.Stobj, pi.ParameterType.GetElementType());
+                        il.Emit(OpCodes.Stobj, paramMapper.GetElementType(pi.ParameterType));
                     }
                 }
             }

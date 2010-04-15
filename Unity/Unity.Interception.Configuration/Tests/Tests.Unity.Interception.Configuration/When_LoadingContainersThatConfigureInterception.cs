@@ -77,5 +77,16 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
                 .Select(element => element.TypeName)
                 .AssertContainsExactly("GlobalCountInterceptionBehavior");
         }
+
+        [TestMethod]
+        public void Then_MultipleBehaviorsCanBeAddedInConfig()
+        {
+            var registration = GetRegistration("multipleBehaviorsOnOneRegistration",
+                IsInterceptableType).First();
+
+            registration.InjectionMembers.OfType<InterceptionBehaviorElement>()
+                .Select(element => element.Name)
+                .AssertContainsExactly("addInterface", "fixed");
+        }
     }
 }

@@ -60,11 +60,11 @@
     <Compile Include="TestObjects\MyGenericTypes\MidsizeVanItem.cs" />
     <Compile Include="TestObjects\MyGenericTypes\MyPrintService.cs" />
     <Compile Include="TestObjects\MyGenericTypes\PickupTruckItem.cs" />
-    <Compile Include="TestObjects\MyGenericTypes\PostRollerItem.cs" />
     <Compile Include="TestObjects\MyGenericTypes\TractorItem.cs" />
     <Compile Include="TestObjects\ObjectTakingScalars.cs" />
     <Compile Include="TestObjects\ObjectWithOverloads.cs" />
     <Compile Include="TestObjects\SeventeenValueElement.cs" />
+    <Compile Include="TestObjects\TestInjectionMemberElement.cs" />
     <Compile Include="TestObjects\TestSectionExtension.cs" />
     <Compile Include="When_ConfigurationContainerForMethodInjection.cs" />
     <Compile Include="When_ConfiguringContainerForArrayInjection.cs" />
@@ -79,6 +79,7 @@
     <Compile Include="When_ConfiguringContainerWithLifetimes.cs" />
     <Compile Include="When_ConfiguringContainerWithOptionalDependencies.cs" />
     <Compile Include="When_ConfiguringContainerWithSectionExtensions.cs" />
+    <Compile Include="When_DeserializingParameterElementWithMultipleInjectionValueElements.cs" />
     <Compile Include="When_LoadingConfigurationWithArrayInjection.cs" />
     <Compile Include="When_LoadingConfigurationWithConstructors.cs" />
     <Compile Include="When_LoadingConfigurationWithContainerExtensions.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="When_LoadingSectionWithAliases.cs" />
     <Compile Include="When_LoadingSectionWithProperties.cs" />
     <Compile Include="When_ResolvingTypes.cs" />
+    <Compile Include="When_SavingModifiedConfigurationSection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Unity\Src\Unity.csproj">

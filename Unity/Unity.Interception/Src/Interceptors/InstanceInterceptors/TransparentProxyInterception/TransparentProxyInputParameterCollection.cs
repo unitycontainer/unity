@@ -12,6 +12,8 @@
 using System;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
+using System.Security;
+using System.Security.Permissions;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -19,6 +21,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// A class that wraps the inputs of a <see cref="IMethodCallMessage"/> into the
     /// <see cref="IParameterCollection"/> interface.
     /// </summary>
+    [SecurityCritical(SecurityCriticalScope.Everything)]
+    [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
     class TransparentProxyInputParameterCollection : ParameterCollection
     {
         /// <summary>
@@ -27,8 +31,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="callMessage">The call message.</param>
         /// <param name="arguments">The arguments.</param>
-        public TransparentProxyInputParameterCollection(IMethodCallMessage callMessage, object[] arguments) 
-            : base(arguments, callMessage.MethodBase.GetParameters(), 
+        public TransparentProxyInputParameterCollection(IMethodCallMessage callMessage, object[] arguments)
+            : base(arguments, callMessage.MethodBase.GetParameters(),
                 delegate(ParameterInfo info) { return !info.IsOut; })
         {
         }

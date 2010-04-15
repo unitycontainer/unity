@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.Tests
         {
             IUnityContainer container = new UnityContainer()
                 .RegisterType(typeof (ClassWithOneGenericParameter<>),
-                        new InjectionConstructor("Fiddle", new InjectionParameter<object>("foo")));
+                        new InjectionConstructor("Fiddle", new InjectionParameter<object>("someValue")));
 
             ClassWithOneGenericParameter<User> result = container.Resolve<ClassWithOneGenericParameter<User>>();
 

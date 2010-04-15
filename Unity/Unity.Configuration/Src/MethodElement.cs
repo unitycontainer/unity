@@ -15,9 +15,10 @@ using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
+using System.Xml;
 using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 using Microsoft.Practices.Unity.Configuration.Properties;
 
 namespace Microsoft.Practices.Unity.Configuration
@@ -46,10 +47,10 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <summary>
         /// Name of the method to call.
         /// </summary>
-        [ConfigurationProperty(NamePropertyName)]
+        [ConfigurationProperty(NamePropertyName, IsRequired = true)]
         public string Name
         {
-            get { return (string) base[NamePropertyName]; }
+            get { return (string)base[NamePropertyName]; }
             set { base[NamePropertyName] = value; }
         }
 
@@ -59,7 +60,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(ParametersPropertyName, IsDefaultCollection = true)]
         public ParameterElementCollection Parameters
         {
-            get { return (ParameterElementCollection) base[ParametersPropertyName]; }
+            get { return (ParameterElementCollection)base[ParametersPropertyName]; }
         }
 
 
@@ -69,6 +70,30 @@ namespace Microsoft.Practices.Unity.Configuration
         public override string Key
         {
             get { return string.Format(CultureInfo.InvariantCulture, "method:{0}:{1}", Name, methodCount); }
+        }
+
+        /// <summary>
+        /// Element name to use to serialize this into XML.
+        /// </summary>
+        public override string ElementName
+        {
+            get { return "method"; }
+        }
+
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            writer.WriteAttributeString(NamePropertyName, Name);
+            foreach (var param in Parameters)
+            {
+                writer.WriteElement("param", param.SerializeContent);
+            }
         }
 
         /// <summary>
@@ -87,7 +112,7 @@ namespace Microsoft.Practices.Unity.Configuration
 
             GuardIsMatchingMethod(toType, methodToCall);
 
-            return new[] {MakeInjectionMember(container, methodToCall)};
+            return new[] { MakeInjectionMember(container, methodToCall) };
         }
 
         private MethodInfo FindMethodInfo(Type typeToInitialize)
@@ -100,7 +125,7 @@ namespace Microsoft.Practices.Unity.Configuration
             var parameterValues = new List<InjectionParameterValue>();
             var parameterInfos = methodToCall.GetParameters();
 
-            for(int index = 0; index < parameterInfos.Length; ++index)
+            for (int index = 0; index < parameterInfos.Length; ++index)
             {
                 parameterValues.Add(Parameters[index].GetParameterValue(container, parameterInfos[index].ParameterType));
             }
@@ -110,22 +135,22 @@ namespace Microsoft.Practices.Unity.Configuration
 
         private bool MethodMatches(MethodInfo method)
         {
-            if(method.Name != Name) return false;
+            if (method.Name != Name) return false;
 
             var methodParameters = method.GetParameters();
 
-            if(methodParameters.Length != Parameters.Count) return false;
+            if (methodParameters.Length != Parameters.Count) return false;
 
             return Sequence.Zip(Parameters, methodParameters).All(pair => pair.First.Matches(pair.Second));
         }
 
         private void GuardIsMatchingMethod(Type typeToInitialize, MethodInfo methodToCall)
         {
-            if(methodToCall == null)
+            if (methodToCall == null)
             {
                 string parameterNames = string.Join(", ", Parameters.Select(p => p.Name).ToArray());
 
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture,
+                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                     Resources.NoMatchingMethod, typeToInitialize, Name, parameterNames));
             }
         }

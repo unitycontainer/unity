@@ -41,6 +41,10 @@
     <CodeAnalysisRules>-Microsoft.Design#CA1004;-Microsoft.Design#CA1063</CodeAnalysisRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Desktop\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -49,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Common\GlobalAssemblyInfo.2010.cs">
+      <Link>GlobalAssemblyInfo.2010.cs</Link>
+    </None>
     <Compile Include="..\..\Common\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
@@ -61,14 +68,19 @@
     <Compile Include="ContainerRegistration.cs" />
     <Compile Include="DependencyOverride.cs" />
     <Compile Include="DependencyOverrides.cs" />
+    <Compile Include="Extension\ChildContainerCreatedEventArgs.cs" />
+    <Compile Include="Injection\GenericParameterBase.cs" />
+    <Compile Include="Injection\OptionalGenericParameter.cs" />
     <Compile Include="Injection\InjectionFactory.cs" />
     <Compile Include="Injection\OptionalParameter.cs" />
     <Compile Include="Lifetime\HierarchicalLifetimeManager.cs" />
     <Compile Include="Lifetime\PerResolveLifetimeManager.cs" />
     <Compile Include="ObjectBuilderCustomization\HierarchicalLifetimeStrategy.cs" />
     <Compile Include="ObjectBuilderCustomization\OptionalDependencyResolverPolicy.cs" />
+    <Compile Include="ObjectBuilder\Policies\PolicyListExtensions.cs" />
     <Compile Include="ObjectBuilder\Strategies\BuildPlan\BuildOperation.cs" />
     <Compile Include="ObjectBuilder\Strategies\BuildPlan\Factory\DeferredResolveBuildPlanPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\OverriddenBuildPlanMarkerPolicy.cs" />
     <Compile Include="ObjectBuilder\Utility\EnumerableExtensions.cs" />
     <Compile Include="ParameterOverride.cs" />
     <Compile Include="ParameterOverrides.cs" />
@@ -141,8 +153,6 @@
     <Compile Include="ObjectBuilder\Strategies\Lifetime\ILifetimeFactoryPolicy.cs" />
     <Compile Include="ObjectBuilder\Strategies\Lifetime\ILifetimePolicy.cs" />
     <Compile Include="ObjectBuilder\Strategies\Lifetime\LifetimeStrategy.cs" />
-    <Compile Include="ObjectBuilder\Strategies\Lifetime\SingletonLifetimePolicy.cs" />
-    <Compile Include="ObjectBuilder\Strategies\Lifetime\TransientLifetimePolicy.cs" />
     <Compile Include="ObjectBuilder\Strategies\StagedStrategyChain.cs" />
     <Compile Include="ObjectBuilder\Strategies\StrategyChain.cs" />
     <Compile Include="ObjectBuilder\Utility\NamedTypeBuildKey.cs" />
@@ -191,6 +201,7 @@
     <Compile Include="ObjectBuilderCustomization\SpecifiedPropertiesSelectorPolicy.cs" />
     <Compile Include="ResolutionFailedException.cs" />
     <Compile Include="Injection\ResolvedParameter.cs" />
+    <Compile Include="UnityServiceLocator.cs" />
     <Compile Include="Utility\Guard.cs" />
     <Compile Include="NamedTypesRegistry.cs" />
     <Compile Include="ObjectBuilderCustomization\UnityBuildStage.cs" />

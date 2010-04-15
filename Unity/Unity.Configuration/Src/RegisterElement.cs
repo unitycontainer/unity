@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 
 namespace Microsoft.Practices.Unity.Configuration
@@ -41,7 +42,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <summary>
         /// Name registered under.
         /// </summary>
-        [ConfigurationProperty(NamePropertyName, DefaultValue = "", IsRequired = false)]
+        [ConfigurationProperty(NamePropertyName, DefaultValue = "", IsRequired = false, IsKey = true)]
         public string Name
         {
             get { return (string) base[NamePropertyName]; }
@@ -92,6 +93,27 @@ namespace Microsoft.Practices.Unity.Configuration
             container.RegisterType(registeringType, mappedType, Name, lifetime, injectionMembers.ToArray());
         }
 
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            writer.WriteAttributeString(TypePropertyName, TypeName);
+            writer.WriteAttributeIfNotEmpty(MapToPropertyName, MapToName)
+                .WriteAttributeIfNotEmpty(NamePropertyName, Name);
+
+            if(!string.IsNullOrEmpty(Lifetime.TypeName))
+            {
+                writer.WriteElement("lifetime", Lifetime.SerializeContent);
+            }
+
+            SerializeInjectionMembers(writer);
+        }
+
         private Type GetRegisteringType()
         {
             if (!string.IsNullOrEmpty(MapToName))
@@ -108,6 +130,14 @@ namespace Microsoft.Practices.Unity.Configuration
                 return TypeResolver.ResolveType(TypeName);
             }
             return TypeResolver.ResolveType(MapToName);
+        }
+
+        private void SerializeInjectionMembers(XmlWriter writer)
+        {
+            foreach(var member in InjectionMembers)
+            {
+                writer.WriteElement(member.ElementName, member.SerializeContent);
+            }
         }
     }
 }

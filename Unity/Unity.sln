@@ -12,6 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{36634874
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E6EC67DC-CF5A-4A46-B600-658CFBC85C76}"
+	ProjectSection(SolutionItems) = preProject
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+	EndProjectSection
 	ProjectSection(FolderStartupServices) = postProject
 		{B4F97281-0DBD-4835-9ED8-7DFB966E87FF} = {B4F97281-0DBD-4835-9ED8-7DFB966E87FF}
 	EndProjectSection
@@ -36,7 +39,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Interception.Configur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Interception.Configuration.Tests", "Unity.Interception.Configuration\Tests\Tests.Unity.Interception.Configuration\Unity.Interception.Configuration.Tests.csproj", "{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.ServiceLocation.Tests", "Unity\Tests\Unity.ServiceLocation.Tests\Unity.ServiceLocation.Tests.csproj", "{43C01B41-785A-43F1-B7F1-0D6AB093A6B1}"
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Unity2.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -82,6 +90,10 @@ Global
 		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43C01B41-785A-43F1-B7F1-0D6AB093A6B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43C01B41-785A-43F1-B7F1-0D6AB093A6B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43C01B41-785A-43F1-B7F1-0D6AB093A6B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43C01B41-785A-43F1-B7F1-0D6AB093A6B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +109,7 @@ Global
 		{02BDF798-A924-4F07-A607-75B3C20EDA6E} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 		{190A49C4-CE38-4E32-ACD6-4A0B3F92DB03} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 		{BE0A991A-8C3E-4CDC-8DA4-2664D1BBD01D} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
+		{43C01B41-785A-43F1-B7F1-0D6AB093A6B1} = {36634874-C16A-4F0C-9717-51C1D3D1FEBE}
 	EndGlobalSection
 	GlobalSection(TextTemplating) = postSolution
 		TextTemplating = 1

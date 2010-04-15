@@ -24,7 +24,7 @@ namespace Microsoft.Practices.Unity.Utility
     {
         /// <summary>
         /// Pull out a <see cref="MethodInfo"/> object from an expression of the form
-        /// () => SomeClass.Foo()
+        /// () => SomeClass.SomeMethod()
         /// </summary>
         /// <param name="expression">Expression describing the method to call.</param>
         /// <returns>Corresponding <see cref="MethodInfo"/>.</returns>
@@ -37,7 +37,7 @@ namespace Microsoft.Practices.Unity.Utility
 
         /// <summary>
         /// Pull out a <see cref="MethodInfo"/> object from an expression of the form
-        /// x => x.Foo()
+        /// x => x.SomeMethod()
         /// </summary>
         /// <typeparam name="T">The type where the method is defined.</typeparam>
         /// <param name="expression">Expression describing the method to call.</param>
@@ -61,7 +61,7 @@ namespace Microsoft.Practices.Unity.Utility
 
         /// <summary>
         /// Pull out a <see cref="MethodInfo"/> object for the get method from an expression of the form
-        /// x => x.Foo
+        /// x => x.SomeProperty
         /// </summary>
         /// <typeparam name="T">The type where the method is defined.</typeparam>
         /// <typeparam name="TProperty">The type for the property.</typeparam>
@@ -83,7 +83,7 @@ namespace Microsoft.Practices.Unity.Utility
 
         /// <summary>
         /// Pull out a <see cref="MethodInfo"/> object for the set method from an expression of the form
-        /// x => x.Foo
+        /// x => x.SomeProperty
         /// </summary>
         /// <typeparam name="T">The type where the method is defined.</typeparam>
         /// <typeparam name="TProperty">The type for the property.</typeparam>

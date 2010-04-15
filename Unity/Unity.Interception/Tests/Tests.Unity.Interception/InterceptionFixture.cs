@@ -124,7 +124,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             IUnityContainer container = CreateContainer("CanCreateWrappedObject");
             container.Configure<Interception>().SetDefaultInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
-            Wrappable wrappable = container.Resolve<Wrappable>("foo");
+            Wrappable wrappable = container.Resolve<Wrappable>("someName");
             var wrappable2 = container.Resolve<Wrappable>("another");
             Assert.IsNotNull(wrappable);
             Assert.IsTrue(RemotingServices.IsTransparentProxy(wrappable));
@@ -139,7 +139,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 new DefaultInterceptor(new TransparentProxyInterceptor()),
                 new DefaultInterceptionBehavior<PolicyInjectionBehavior>());
 
-            var wrappable = container.Resolve<Wrappable>("foo");
+            var wrappable = container.Resolve<Wrappable>("someName");
             var wrappable2 = container.Resolve<Wrappable>("another");
             Assert.IsTrue(RemotingServices.IsTransparentProxy(wrappable));
             Assert.IsTrue(RemotingServices.IsTransparentProxy(wrappable2));
@@ -196,10 +196,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container.Configure<Interception>().SetInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Wrappable wrappable = container.Resolve<Wrappable>();
-            object foo = null;
-            wrappable.MethodRef(ref foo);
+            object someObj = null;
+            wrappable.MethodRef(ref someObj);
 
-            Assert.AreEqual("foo", foo);
+            Assert.AreEqual("parameter", someObj);
             Assert.AreEqual(1, GlobalCountCallHandler.Calls["CanInterceptWrappedObjectWithRef"]);
         }
 
@@ -212,10 +212,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container.Configure<Interception>().SetInterceptorFor<Wrappable>(new TransparentProxyInterceptor());
 
             Wrappable wrappable = container.Resolve<Wrappable>();
-            int foo = 0;
-            wrappable.MethodRefValue(ref foo);
+            int someObj = 0;
+            wrappable.MethodRefValue(ref someObj);
 
-            Assert.AreEqual(42, foo);
+            Assert.AreEqual(42, someObj);
             Assert.AreEqual(1, GlobalCountCallHandler.Calls["CanInterceptWrappedObjectWithValueTypeRef"]);
         }
 

@@ -68,8 +68,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
         {
             Glob glob = new Glob("*.cs");
 
-            Assert.IsTrue(glob.IsMatch("foo.cs"));
-            Assert.IsFalse(glob.IsMatch("foobarcs"));
+            Assert.IsTrue(glob.IsMatch("someFile.cs"));
+            Assert.IsFalse(glob.IsMatch("notmatchedcs"));
         }
 
         [TestMethod]
@@ -84,12 +84,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
         [TestMethod]
         public void QuestionMarksShouldMatchSingleCharacters()
         {
-            Glob glob = new Glob("foo??bar");
+            Glob glob = new Glob("one??two");
 
-            Assert.IsTrue(glob.IsMatch("foo00bar"));
-            Assert.IsTrue(glob.IsMatch("fooWEbar"));
-            Assert.IsFalse(glob.IsMatch("fooTooManybar"));
-            Assert.IsTrue(glob.IsMatch("foo??bar"));
+            Assert.IsTrue(glob.IsMatch("one00two"));
+            Assert.IsTrue(glob.IsMatch("oneWEtwo"));
+            Assert.IsFalse(glob.IsMatch("oneTooManytwo"));
+            Assert.IsTrue(glob.IsMatch("one??two"));
         }
 
         [TestMethod]

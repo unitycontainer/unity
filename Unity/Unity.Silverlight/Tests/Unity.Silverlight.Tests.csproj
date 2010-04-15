@@ -58,6 +58,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Lib\ThirdParty\Moq\Castle.DynamicProxy-Silverlight.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Silverlight\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Silverlight.Testing, Version=2.0.20930.1042, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Lib\SilverlightUnitTesting\Microsoft.Silverlight.Testing.dll</HintPath>
@@ -212,6 +216,24 @@
     <Compile Include="..\..\Unity\Tests\TestSupport.Unity\SpecialLogger.cs">
       <Link>Unity.TestSupport\SpecialLogger.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.ServiceLocation.Tests\Components\AdvancedLogger.cs">
+      <Link>Unity.ServiceLocation.Tests\Components\AdvancedLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.ServiceLocation.Tests\Components\ILogger.cs">
+      <Link>Unity.ServiceLocation.Tests\Components\ILogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.ServiceLocation.Tests\Components\SimpleLogger.cs">
+      <Link>Unity.ServiceLocation.Tests\Components\SimpleLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.ServiceLocation.Tests\ServiceLocatorFixture.cs">
+      <Link>Unity.ServiceLocation.Tests\ServiceLocatorFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.ServiceLocation.Tests\UnityServiceLocatorAdapterFixture.cs">
+      <Link>Unity.ServiceLocation.Tests\UnityServiceLocatorAdapterFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\BuildPlanAndChildContainerFixture.cs">
+      <Link>Unity.Tests\BuildPlanAndChildContainerFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\CodeGenBugFixture.cs">
       <Link>Unity.Tests\CodeGenBugFixture.cs</Link>
     </Compile>
@@ -275,6 +297,9 @@
     <Compile Include="..\..\Unity\Tests\Unity.Tests\OptionalDependencyResolverPolicyFixture.cs">
       <Link>Unity.Tests\OptionalDependencyResolverPolicyFixture.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\OptionalGenericParameterFixture.cs">
+      <Link>Unity.Tests\OptionalGenericParameterFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\ParameterMatcherFixture.cs">
       <Link>Unity.Tests\ParameterMatcherFixture.cs</Link>
     </Compile>
@@ -298,6 +323,9 @@
     </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\StaticFactoryFixture.cs">
       <Link>Unity.Tests\StaticFactoryFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Tests\Unity.Tests\TestDoubles\MockContainerExtensionWithNonDefaultConstructor.cs">
+      <Link>Unity.Tests\TestDoubles\MockContainerExtensionWithNonDefaultConstructor.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Tests\Unity.Tests\TestDoubles\SpyExtension.cs">
       <Link>Unity.Tests\TestDoubles\SpyExtension.cs</Link>

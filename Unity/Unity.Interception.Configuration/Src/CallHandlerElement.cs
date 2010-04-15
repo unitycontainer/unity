@@ -32,8 +32,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
                 Type handlerType = TypeResolver.ResolveType(TypeName);
                 IEnumerable<InjectionMember> injectionMembers =
                     Injection.SelectMany(
-                        element => element.GetInjectionMembers(container, typeof (ICallHandler), handlerType, Name));
-                policyDefinition.AddCallHandler(handlerType, Name, Lifetime.CreateLifetimeManager(),
+                        element => element.GetInjectionMembers(container, typeof(ICallHandler), handlerType, Name));
+                policyDefinition.AddCallHandler(handlerType, Lifetime.CreateLifetimeManager(),
                     injectionMembers.ToArray());
             }
         }

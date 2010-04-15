@@ -14,32 +14,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects.MyGenericTypes
+namespace Microsoft.Practices.Unity.TestSupport
 {
-    class PoshRollerItem : IItem
+    public interface IAdditionalInterface
     {
-        public PoshRollerItem(string name, int numberBottlesOfChampagne)
-        {
-            this.ItemName = name;
-            this.NumberOfBottlesOfChampagne = numberBottlesOfChampagne;
-        }
-
-        #region IItem Members
-
-        public string ItemName { get; set; }
-
-        public string ItemType
-        {
-            get { return "Posh Car"; }
-        }
-
-        public ItemCategory Category
-        {
-            get { return ItemCategory.Car; }
-        }
-
-        #endregion
-
-        public int NumberOfBottlesOfChampagne { get; set; }
+        int DoNothing();
     }
 }

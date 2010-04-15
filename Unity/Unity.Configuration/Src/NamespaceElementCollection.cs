@@ -15,10 +15,11 @@ using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 namespace Microsoft.Practices.Unity.Configuration
 {
     /// <summary>
-    /// A collection of <see cref="NamedElement"/>s in configuration.
+    /// A collection of <see cref="NamespaceElement"/>s in configuration.
     /// </summary>
-    [ConfigurationCollection(typeof (NamedElement))]
-    public class NamedElementCollection : DeserializableConfigurationElementCollection<NamedElement>
+    [ConfigurationCollection(typeof(NamespaceElement))]
+    public class NamespaceElementCollection :
+        DeserializableConfigurationElementCollection<NamespaceElement>
     {
         /// <summary>
         /// Gets the element key for a specified configuration element when overridden in a derived class.
@@ -30,7 +31,7 @@ namespace Microsoft.Practices.Unity.Configuration
         ///                 </param>
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((NamedElement) element).Name;
+            return ((NamespaceElement) element).Name;
         }
     }
 }

@@ -13,6 +13,8 @@ using System;
 using System.Collections;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
+using System.Security;
+using System.Security.Permissions;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -21,6 +23,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// remoting-based <see cref="IMethodCallMessage"/> in the PIAB call
     /// interface.
     /// </summary>
+    [SecurityCritical(SecurityCriticalScope.Everything)]
+    [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
     public sealed class TransparentProxyMethodInvocation : IMethodInvocation
     {
         private IMethodCallMessage callMessage;
@@ -45,8 +49,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             this.arguments = callMessage.Args;
             this.inputParams = new TransparentProxyInputParameterCollection(callMessage, this.arguments);
             this.allParams =
-                new ParameterCollection(arguments, callMessage.MethodBase.GetParameters(),
-                    delegate(ParameterInfo info) { return true; });
+                new ParameterCollection(arguments, callMessage.MethodBase.GetParameters(), info => true);
         }
 
         /// <summary>

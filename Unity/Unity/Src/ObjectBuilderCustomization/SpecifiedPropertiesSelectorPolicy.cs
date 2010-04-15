@@ -29,7 +29,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
 
         /// <summary>
         /// Add a property that will be par of the set returned when the 
-        /// <see cref="SelectProperties(IBuilderContext)"/> is called.
+        /// <see cref="SelectProperties(IBuilderContext, IPolicyList)"/> is called.
         /// </summary>
         /// <param name="property">The property to set.</param>
         /// <param name="value"><see cref="InjectionParameterValue"/> object describing
@@ -44,9 +44,11 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         /// should be set as part of building that object.
         /// </summary>
         /// <param name="context">Current build context.</param>
+        /// <param name="resolverPolicyDestination">The <see cref='IPolicyList'/> to add any
+        /// generated resolver objects into.</param>
         /// <returns>Sequence of <see cref="PropertyInfo"/> objects
         /// that contain the properties to set.</returns>
-        public IEnumerable<SelectedProperty> SelectProperties(IBuilderContext context)
+        public IEnumerable<SelectedProperty> SelectProperties(IBuilderContext context, IPolicyList resolverPolicyDestination)
         {
             Type typeToBuild = context.BuildKey.Type;
             var currentTypeReflector = new ReflectionHelper(context.BuildKey.Type);
@@ -62,7 +64,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
                 }
                 
                 string key = Guid.NewGuid().ToString();
-                context.PersistentPolicies.Set<IDependencyResolverPolicy>(pair.Second.GetResolverPolicy(typeToBuild), key);
+                resolverPolicyDestination.Set<IDependencyResolverPolicy>(pair.Second.GetResolverPolicy(typeToBuild), key);
                 yield return new SelectedProperty(currentProperty, key);
             }
         }

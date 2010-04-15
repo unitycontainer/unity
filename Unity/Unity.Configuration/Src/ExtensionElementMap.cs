@@ -11,7 +11,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Microsoft.Practices.Unity.Configuration.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -115,6 +120,21 @@ namespace Microsoft.Practices.Unity.Configuration
             return Instance.GetParameterValueElementType(tag);
         }
 
+
+        /// <summary>
+        /// Retrieve the correct tag to use when serializing the given
+        /// <paramref name="element"/> to XML.
+        /// </summary>
+        /// <param name="element">Element to be serialized.</param>
+        /// <returns>The tag for that element type.</returns>
+        /// <exception cref="ArgumentException"> if the element is of a type that
+        /// is not registered with the section already.</exception>
+        public static string GetTagForExtensionElement(ConfigurationElement element)
+        {
+            Guard.ArgumentNotNull(element, "element");
+            return Instance.GetTagForExtensionElement(element);
+        }
+
         #endregion
 
         #region Instance implementation of the interface
@@ -162,6 +182,50 @@ namespace Microsoft.Practices.Unity.Configuration
                 return parameterValueElements.GetOrNull(tag);
             }
 
+            public string GetTagForExtensionElement(ConfigurationElement element)
+            {
+                Type elementType = element.GetType();
+
+                Dictionary<string, Type> dictToSearch = GetDictToSearch(elementType);
+
+                foreach(var keyValue in dictToSearch)
+                {
+                    if (keyValue.Value == elementType)
+                    {
+                        return keyValue.Key;
+                    }
+                }
+
+                throw ElementTypeNotFound(elementType);
+            }
+
+            private Dictionary<string, Type> GetDictToSearch(Type elementType)
+            {
+                if(typeof(ContainerConfiguringElement).IsAssignableFrom(elementType))
+                {
+                    return containerConfiguringElements;
+                }
+                if(typeof(InjectionMemberElement).IsAssignableFrom(elementType))
+                {
+                    return injectionMemberElements;
+                }
+                if(typeof(ParameterValueElement).IsAssignableFrom(elementType))
+                {
+                    return parameterValueElements;
+                }
+                throw ElementTypeNotFound(elementType);
+            }
+
+            [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly",
+                Justification = "Factory method to create exception for callers.")]
+            private static Exception ElementTypeNotFound(Type elementType)
+            {
+                return new ArgumentException(
+                    string.Format(CultureInfo.CurrentCulture,
+                        Resources.ElementTypeNotRegistered,
+                        elementType), "memberElement");
+            }
+
             private static string CreateTag(string prefix, string tag)
             {
                 if(string.IsNullOrEmpty(prefix))
@@ -170,6 +234,8 @@ namespace Microsoft.Practices.Unity.Configuration
                 }
                 return prefix + "." + tag;
             }
+
+            
         }
         #endregion
 

@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using System.Security;
 using System.Security.Permissions;
@@ -289,8 +290,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             InterceptingGenericClass<DateTime> instance =
                 WireupHelper.GetInterceptedInstance<InterceptingGenericClass<DateTime>>("Reverse", handler);
 
-            DateTime now = DateTime.Now;
-
             string result = instance.Reverse(137);
 
             Assert.AreEqual("731", result);
@@ -309,8 +308,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             MethodBase reverse = typeof(InterceptingGenericClass<DateTime>).GetMethod("Reverse");
             pm.SetPipeline(reverse, new HandlerPipeline(Sequence.Collect<ICallHandler>(handler)));
             ((IInterceptingProxy)instance).AddInterceptionBehavior(new PolicyInjectionBehavior(pm));
-
-            DateTime now = DateTime.Now;
 
             string result = instance.Reverse(137);
 
@@ -743,183 +740,49 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
     //
     public class Wrapper : ClassWithDefaultCtor, IInterceptingProxy
     {
-        private readonly PipelineManager pipelines = new PipelineManager();
+        private readonly InterceptionBehaviorPipeline pipeline = new InterceptionBehaviorPipeline();
+
         private static readonly MethodBase methodOne = typeof(ClassWithDefaultCtor).GetMethod("MethodOne");
         private static readonly MethodBase calculateAnswer = typeof(ClassWithDefaultCtor).GetMethod("CalculateAnswer");
         private static readonly MethodBase addUp = typeof(ClassWithDefaultCtor).GetMethod("AddUp");
         private static readonly MethodBase methodWithRefParameters = typeof(ClassWithDefaultCtor).GetMethod("MethodWithRefParameters");
         private static readonly MethodBase outParams = typeof(ClassWithDefaultCtor).GetMethod("OutParams");
 
+        private static readonly MethodBase methodWithGenericReturnType = typeof (ClassWithDefaultCtor).GetMethods()
+            .Where(m => m.Name == "MethodWithGenericReturnType").First();
 
-        public override void MethodOne()
+        public override T MethodWithGenericReturnType<T>(T item)
         {
-            //HandlerPipeline pipeline = ((IInterceptingProxy)this).GetPipeline(methodOne);
-
-            //VirtualMethodInvocation inputs = new VirtualMethodInvocation(this, methodOne);
-            //IMethodReturn result = pipeline.Invoke(inputs, delegate(IMethodInvocation input, GetNextHandlerDelegate getNext)
-            //{
-            //    try
-            //    {
-            //        BaseMethodOne();
-            //        return input.CreateMethodReturn(null, input.Arguments);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        return input.CreateExceptionMethodReturn(ex);
-            //    }
-            //});
-
-            //if (result.Exception != null)
-            //{
-            //    throw result.Exception;
-            //}
+            var input = new VirtualMethodInvocation(this, methodWithGenericReturnType, item);
+            IMethodReturn result = pipeline.Invoke(input, MethodWithGenericReturnType_Delegate<T>);
+            if(result.Exception != null)
+            {
+                throw result.Exception;
+            }
+            return (T) result.ReturnValue;
         }
 
-        private void BaseMethodOne()
-        {
-            base.MethodOne();
-        }
-
-        public override int CalculateAnswer()
-        {
-            //HandlerPipeline pipeline = ((IInterceptingProxy)this).GetPipeline(calculateAnswer);
-            //VirtualMethodInvocation inputs = new VirtualMethodInvocation(this, calculateAnswer);
-            //IMethodReturn result = pipeline.Invoke(inputs, delegate(IMethodInvocation input, GetNextHandlerDelegate getNext)
-            //{
-            //    try
-            //    {
-            //        int returnValue = BaseCalculateAnswer();
-            //        return input.CreateMethodReturn(returnValue, input.Arguments);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        return input.CreateExceptionMethodReturn(ex);
-            //    }
-            //});
-
-            //if (result.Exception != null)
-            //{
-            //    throw result.Exception;
-            //}
-
-            //return (int)result.ReturnValue;
-            return 0;
-        }
-
-        private int BaseCalculateAnswer()
-        {
-            return base.CalculateAnswer();
-        }
-
-        public override string AddUp(int x, int y)
-        {
-            //HandlerPipeline pipeline = ((IInterceptingProxy)this).GetPipeline(addUp);
-            //VirtualMethodInvocation inputs = new VirtualMethodInvocation(this, addUp, x, y);
-            //IMethodReturn result = pipeline.Invoke(inputs, delegate(IMethodInvocation input, GetNextHandlerDelegate getNext)
-            //{
-            //    try
-            //    {
-            //        string returnValue = BaseAddUp((int)input.Inputs[0], (int)input.Inputs[1]);
-            //        return input.CreateMethodReturn(returnValue, input.Inputs[0], input.Inputs[1]);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        return input.CreateExceptionMethodReturn(ex);
-            //    }
-            //});
-
-            //if (result.Exception != null)
-            //{
-            //    throw result.Exception;
-            //}
-            //return (string)result.ReturnValue;
-            return null;
-        }
-
-        private string BaseAddUp(int x, int y)
-        {
-            return base.AddUp(x, y);
-        }
-
-        public override int MethodWithRefParameters(int x, ref string y, float f)
-        {
-            //HandlerPipeline pipeline = ((IInterceptingProxy)this).GetPipeline(methodWithRefParameters);
-            //VirtualMethodInvocation inputs = new VirtualMethodInvocation(this, methodWithRefParameters, x, y, f);
-            //IMethodReturn result = pipeline.Invoke(inputs, MethodWithRefParameters_Delegate);
-            //if (result.Exception != null)
-            //{
-            //    throw result.Exception;
-            //}
-            //y = (string)result.Outputs[0];
-            //return (int)result.ReturnValue;
-            return 0;
-        }
-
-        private IMethodReturn MethodWithRefParameters_Delegate(IMethodInvocation input, GetNextHandlerDelegate getNext)
+        private IMethodReturn MethodWithGenericReturnType_Delegate<T>(IMethodInvocation inputs, GetNextInterceptionBehaviorDelegate getNext)
         {
             try
             {
-                string refParam = (string)input.Arguments[1];
-                int returnValue = BaseMethodWithRefParameters((int)input.Arguments[0], ref refParam, (float)input.Arguments[2]);
-                return input.CreateMethodReturn(returnValue, input.Inputs[0], refParam, input.Inputs[2]);
+                T result = base.MethodWithGenericReturnType((T) inputs.Arguments[0]);
+                return inputs.CreateMethodReturn(result, inputs.Arguments);
             }
             catch (Exception ex)
             {
-                return input.CreateExceptionMethodReturn(ex);
-            }
-
-        }
-
-        private int BaseMethodWithRefParameters(int x, ref string y, float f)
-        {
-            return base.MethodWithRefParameters(x, ref y, f);
-        }
-
-        public override void OutParams(int x, out int plusOne, out int timesTwo)
-        {
-            //HandlerPipeline pipeline = ((IInterceptingProxy)this).GetPipeline(outParams);
-            //VirtualMethodInvocation inputs = new VirtualMethodInvocation(this, outParams, x, default(int), default(int));
-            //IMethodReturn result = pipeline.Invoke(inputs, OutParams_Delegate);
-            //if (result.Exception != null)
-            //{
-            //    throw result.Exception;
-            //}
-            //plusOne = (int)result.Outputs[0];
-            //timesTwo = (int)result.Outputs[1];
-            plusOne = 0;
-            timesTwo = 0;
-        }
-
-        private IMethodReturn OutParams_Delegate(IMethodInvocation input, GetNextHandlerDelegate getNext)
-        {
-            try
-            {
-                int outParam1;
-                int outParam2;
-
-                BaseOutParams((int)input.Arguments[0], out outParam1, out outParam2);
-                return input.CreateMethodReturn(null, input.Arguments[0], outParam1, outParam2);
-            }
-            catch (Exception ex)
-            {
-                return input.CreateExceptionMethodReturn(ex);
+                return inputs.CreateExceptionMethodReturn(ex);
             }
         }
 
-        private void BaseOutParams(int x, out int plusOne, out int timesTwo)
-        {
-            base.OutParams(x, out plusOne, out timesTwo);
-        }
 
+        /// <summary>
+        /// Adds a <see cref="IInterceptionBehavior"/> to the proxy.
+        /// </summary>
+        /// <param name="interceptor">The <see cref="IInterceptionBehavior"/> to add.</param>
         public void AddInterceptionBehavior(IInterceptionBehavior interceptor)
         {
-            throw new NotImplementedException();
-        }
-
-
-        public System.Collections.Generic.IEnumerable<MethodImplementationInfo> GetInterceptableMethods()
-        {
-            throw new NotImplementedException();
+            pipeline.Add(interceptor);
         }
     }
 

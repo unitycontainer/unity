@@ -24,15 +24,18 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="context">The context for the operation.</param>
         public override void PreBuildUp(IBuilderContext context)
         {
-            IBuildPlanPolicy plan = context.Policies.Get<IBuildPlanPolicy>(context.BuildKey);
-            if (plan == null)
+            IPolicyList buildPlanLocation;
+
+            var plan = context.Policies.Get<IBuildPlanPolicy>(context.BuildKey, out buildPlanLocation);
+            if (plan == null || plan is OverriddenBuildPlanMarkerPolicy)
             {
-                IBuildPlanCreatorPolicy planCreator =
-                    context.Policies.Get<IBuildPlanCreatorPolicy>(context.BuildKey);
+                IPolicyList creatorLocation;
+
+                var planCreator = context.Policies.Get<IBuildPlanCreatorPolicy>(context.BuildKey, out creatorLocation);
                 if (planCreator != null)
                 {
                     plan = planCreator.CreatePlan(context, context.BuildKey);
-                    context.PersistentPolicies.Set(plan, context.BuildKey);
+                    (buildPlanLocation ?? creatorLocation).Set(plan, context.BuildKey);
                 }
             }
             if (plan != null)

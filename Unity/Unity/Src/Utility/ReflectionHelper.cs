@@ -117,6 +117,8 @@ namespace Microsoft.Practices.Unity.Utility
         /// <returns>Corresponding closed type of this parameter.</returns>
         public Type GetClosedParameterType(Type[] genericArguments)
         {
+            Guard.ArgumentNotNull(genericArguments, "genericArguments");
+
             if (IsOpenGeneric)
             {
                 Type[] typeArgs = Type.GetGenericArguments();
@@ -148,8 +150,8 @@ namespace Microsoft.Practices.Unity.Utility
 
         /// <summary>
         /// Given a generic argument name, return the corresponding type for this
-        /// closed type. For example, if the current type is Foo&lt;User&gt;, and the
-        /// corresponding definition was Foo&lt;TSomething&gt;, calling this method
+        /// closed type. For example, if the current type is SomeType&lt;User&gt;, and the
+        /// corresponding definition was SomeType&lt;TSomething&gt;, calling this method
         /// and passing "TSomething" will return typeof(User).
         /// </summary>
         /// <param name="parameterName">Name of the generic parameter.</param>

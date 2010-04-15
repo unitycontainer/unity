@@ -63,6 +63,24 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Assert.AreEqual((2 + 5) * 3, output);
         }
 
+        [TestMethod]
+        public void HandlersCanChangeRefsAfterTargetReturns()
+        {
+            TransparentProxyInterceptor factory = new TransparentProxyInterceptor();
+            PolicySet policies = GetPolicies();
+
+
+            CanChangeParametersTarget target = new CanChangeParametersTarget();
+            IInterceptingProxy proxy = factory.CreateProxy(typeof(CanChangeParametersTarget), target);
+            ApplyPolicies(factory, proxy, target, policies);
+            CanChangeParametersTarget intercepted = (CanChangeParametersTarget)proxy;
+            int output = 3;
+
+            intercepted.DoSomethingElseWithRef(2, ref output);
+
+            Assert.AreEqual((2 + 3 + 5) * 3, output);
+        }
+
         PolicySet GetPolicies()
         {
             RuleDrivenPolicy doubleInputPolicy
@@ -75,7 +93,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             RuleDrivenPolicy tripleOutputPolicy
                 = new RuleDrivenPolicy(
                     "Triple an output parameter",
-                    new IMatchingRule[] { new MemberNameMatchingRule("DoSomethingElse") },
+                    new IMatchingRule[] { new MemberNameMatchingRule(new[] { "DoSomethingElse", "DoSomethingElseWithRef" }) },
                     new string[] { "Handler2" });
             container.RegisterInstance<ICallHandler>("Handler2", new TripleOutputHandler());
 
@@ -86,7 +104,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         {
             PipelineManager manager = new PipelineManager();
 
-            foreach(MethodImplementationInfo method in interceptor.GetInterceptableMethods(target.GetType(), target.GetType()))
+            foreach (MethodImplementationInfo method in interceptor.GetInterceptableMethods(target.GetType(), target.GetType()))
             {
                 HandlerPipeline pipeline = new HandlerPipeline(policies.GetHandlersFor(method, container));
                 manager.SetPipeline(method.ImplementationMethodInfo, pipeline);
@@ -158,10 +176,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             mostRecentInput = i;
         }
 
-        public void DoSomethingElse(int i,
-                                    out int j)
+        public void DoSomethingElse(int i, out int j)
         {
             j = i + 5;
+        }
+
+        public void DoSomethingElseWithRef(int i, ref int j)
+        {
+            j = i + j + 5;
         }
     }
 }

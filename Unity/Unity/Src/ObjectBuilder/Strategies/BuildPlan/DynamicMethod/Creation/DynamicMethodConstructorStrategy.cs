@@ -62,10 +62,11 @@ namespace Microsoft.Practices.ObjectBuilder2
             DynamicBuildPlanGenerationContext buildContext =
                 (DynamicBuildPlanGenerationContext)context.Existing;
 
+            IPolicyList resolverPolicyDestination; 
             IConstructorSelectorPolicy selector =
-                context.Policies.Get<IConstructorSelectorPolicy>(context.BuildKey);
+                context.Policies.Get<IConstructorSelectorPolicy>(context.BuildKey, out resolverPolicyDestination);
 
-            SelectedConstructor selectedCtor = selector.SelectConstructor(context);
+            SelectedConstructor selectedCtor = selector.SelectConstructor(context, resolverPolicyDestination);
 
             GuardTypeIsNonPrimitive(context, selectedCtor);
 

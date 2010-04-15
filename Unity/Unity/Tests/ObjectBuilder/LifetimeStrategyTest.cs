@@ -11,6 +11,7 @@
 
 using System;
 using Microsoft.Practices.ObjectBuilder2.Tests.Utility;
+using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -36,7 +37,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         {
             MockBuilderContext context = CreateContext();
             var key = new NamedTypeBuildKey<object>();
-            context.Policies.Set<ILifetimePolicy>(new SingletonLifetimePolicy(), key);
+            context.Policies.Set<ILifetimePolicy>(new ContainerControlledLifetimeManager(), key);
 
             object result = context.ExecuteBuildUp(key, null);
             object result2 = context.ExecuteBuildUp(key, null);
@@ -64,20 +65,18 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void LifetimeStrategyUsesFactoryToGetLifetimePolicyForGenericType()
         {
             MockBuilderContext context = CreateContext();
-            var openKey = new NamedTypeBuildKey(typeof (MyFoo<>));
+            var openKey = new NamedTypeBuildKey(typeof (YetAnotherDummyInterfaceImplementation<>));
             context.PersistentPolicies.Set<ILifetimeFactoryPolicy>(
                 new LifetimeFactoryPolicy<RecoverableLifetime>(), openKey);
 
-            context.ExecuteBuildUp(new NamedTypeBuildKey<MyFoo<string>>(), null);
-            MyFoo<string> stringFoo = (MyFoo<string>)context.Existing;
+            context.ExecuteBuildUp(new NamedTypeBuildKey<YetAnotherDummyInterfaceImplementation<string>>(), null);
 
-            context.ExecuteBuildUp(new NamedTypeBuildKey<MyFoo<int>>(), null);
-            MyFoo<int> intFoo = (MyFoo<int>)context.Existing;
+            context.ExecuteBuildUp(new NamedTypeBuildKey<YetAnotherDummyInterfaceImplementation<int>>(), null);
 
             ILifetimePolicy stringLifetime =
-                context.Policies.GetNoDefault<ILifetimePolicy>(new NamedTypeBuildKey(typeof(MyFoo<string>)), false);
+                context.Policies.GetNoDefault<ILifetimePolicy>(new NamedTypeBuildKey(typeof(YetAnotherDummyInterfaceImplementation<string>)), false);
             ILifetimePolicy intLifetime =
-                context.Policies.GetNoDefault<ILifetimePolicy>(new NamedTypeBuildKey(typeof(MyFoo<int>)), false);
+                context.Policies.GetNoDefault<ILifetimePolicy>(new NamedTypeBuildKey(typeof(YetAnotherDummyInterfaceImplementation<int>)), false);
 
             Assert.IsNotNull(stringLifetime);
             Assert.IsNotNull(intLifetime);
@@ -117,12 +116,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
         }
 
-        public interface IFoo<T>
+        public interface IWhyDoWeNeedSoManyInterfaces<T>
         {
             
         }
 
-        public class MyFoo<T> : IFoo<T>
+        public class YetAnotherDummyInterfaceImplementation<T> : IWhyDoWeNeedSoManyInterfaces<T>
         {
             
         }

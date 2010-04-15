@@ -10,9 +10,9 @@
 //===============================================================================
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Reflection;
 using Microsoft.Practices.Unity.Utility;
 
@@ -36,21 +36,76 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             Guard.ArgumentNotNull(method, "method");
 
+            var methodInfo = method as MethodInfo;
+            if (methodInfo != null)
+            {
+                return GetPropertyFromMethod(methodInfo);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Given a MethodInfo for a property's get or set method,
+        /// return the corresponding property info.
+        /// </summary>
+        /// <param name="method">MethodBase for the property's get or set method.</param>
+        /// <returns>PropertyInfo for the property, or null if method is not part of a property.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class.")]
+        public static PropertyInfo GetPropertyFromMethod(MethodInfo method)
+        {
+            Guard.ArgumentNotNull(method, "method");
+
             PropertyInfo property = null;
             if (method.IsSpecialName)
             {
-                Type containingType = method.DeclaringType;
+                var containingType = method.DeclaringType;
                 if (containingType != null)
                 {
-                    if (method.Name.StartsWith("get_", StringComparison.Ordinal) ||
-                        method.Name.StartsWith("set_", StringComparison.Ordinal))
+                    var isGetter = method.Name.StartsWith("get_", StringComparison.Ordinal);
+                    var isSetter = method.Name.StartsWith("set_", StringComparison.Ordinal);
+                    if (isSetter || isGetter)
                     {
-                        string propertyName = method.Name.Substring(4);
-                        property = containingType.GetProperty(propertyName);
+                        var propertyName = method.Name.Substring(4);
+                        Type propertyType;
+                        Type[] indexerTypes;
+
+                        GetPropertyTypes(method, isGetter, out propertyType, out indexerTypes);
+
+                        property =
+                            containingType.GetProperty(
+                                propertyName,
+                                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly,
+                                null,
+                                propertyType,
+                                indexerTypes,
+                                null);
                     }
                 }
             }
             return property;
+        }
+
+        private static void GetPropertyTypes(MethodInfo method, bool isGetter, out Type propertyType, out Type[] indexerTypes)
+        {
+            var parameters = method.GetParameters();
+            if (isGetter)
+            {
+                propertyType = method.ReturnType;
+                indexerTypes =
+                    parameters.Length == 0
+                        ? Type.EmptyTypes
+                        : parameters.Select(pi => pi.ParameterType).ToArray();
+            }
+            else
+            {
+                propertyType = parameters[parameters.Length - 1].ParameterType;
+                indexerTypes =
+                    parameters.Length == 1
+                        ? Type.EmptyTypes
+                        : parameters.Take(parameters.Length - 1).Select(pi => pi.ParameterType).ToArray();
+            }
         }
 
         /// <summary>
@@ -92,10 +147,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             {
                 attributes.AddRange(GetAttributes<TAttribute>(member.DeclaringType, inherits));
 
-                MethodBase methodBase = member as MethodBase;
-                if (methodBase != null)
+                MethodInfo methodInfo = member as MethodInfo;
+                if (methodInfo != null)
                 {
-                    PropertyInfo prop = GetPropertyFromMethod(methodBase);
+                    PropertyInfo prop = GetPropertyFromMethod(methodInfo);
                     if (prop != null)
                     {
                         attributes.AddRange(GetAttributes<TAttribute>(prop, inherits));

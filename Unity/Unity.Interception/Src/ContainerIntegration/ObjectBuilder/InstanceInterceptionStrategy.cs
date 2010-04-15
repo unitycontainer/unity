@@ -59,7 +59,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             if (interceptionBehaviors.Length > 0)
             {
                 context.Existing =
-                    Intercept.ThroughProxy(
+                    Intercept.ThroughProxyWithAdditionalInterfaces(
                         typeToIntercept,
                         context.Existing,
                         interceptor,

@@ -11,7 +11,9 @@
 
 using System;
 using System.Configuration;
+using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -39,6 +41,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <param name="targetType">Type that is aliased.</param>
         public AliasElement(string alias, Type targetType)
         {
+            Guard.ArgumentNotNull(targetType, "targetType");
             Alias = alias;
             TypeName = targetType.AssemblyQualifiedName;
         }
@@ -46,7 +49,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <summary>
         /// The alias used for this type.
         /// </summary>
-        [ConfigurationProperty(AliasPropertyName, IsRequired = true)]
+        [ConfigurationProperty(AliasPropertyName, IsRequired = true, IsKey = true)]
         public string Alias
         {
             get { return (string) base[AliasPropertyName]; }
@@ -61,6 +64,20 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             get { return (string) base[TypeNamePropertyName]; }
             set { base[TypeNamePropertyName] = value; }
+        }
+
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            Guard.ArgumentNotNull(writer, "writer");
+            writer.WriteAttributeString(AliasPropertyName, Alias);
+            writer.WriteAttributeString(TypeNamePropertyName, TypeName);
         }
     }
 }

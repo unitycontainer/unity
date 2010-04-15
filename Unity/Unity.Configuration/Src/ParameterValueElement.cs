@@ -66,7 +66,7 @@ namespace Microsoft.Practices.Unity.Configuration
                 string.IsNullOrEmpty(propertyValues[requiredProperty]))
             {
                 throw new ConfigurationErrorsException(
-                    string.Format(CultureInfo.CurrentUICulture,
+                    string.Format(CultureInfo.CurrentCulture,
                         Resources.RequiredPropertyMissing, requiredProperty));
             }
         }

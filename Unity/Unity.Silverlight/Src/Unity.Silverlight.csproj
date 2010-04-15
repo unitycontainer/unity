@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.Practices.Unity</RootNamespace>
-    <AssemblyName>Microsoft.Practices.Unity</AssemblyName>
+    <AssemblyName>Microsoft.Practices.Unity.Silverlight</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
@@ -29,7 +29,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\bin\Silverlight\Debug\Microsoft.Practices.Unity.xml</DocumentationFile>
+    <DocumentationFile>..\..\bin\Silverlight\Debug\Microsoft.Practices.Unity.Silverlight.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,9 +40,13 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\bin\Silverlight\Release\Microsoft.Practices.Unity.xml</DocumentationFile>
+    <DocumentationFile>..\..\bin\Silverlight\Release\Microsoft.Practices.Unity.Silverlight.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Silverlight\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="mscorlib" />
     <Reference Include="system" />
@@ -79,6 +83,9 @@
     <Compile Include="..\..\Unity\Src\DependencyOverrides.cs">
       <Link>Unity\DependencyOverrides.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Src\Extension\ChildContainerCreatedEventArgs.cs">
+      <Link>Unity\Extension\ChildContainerCreatedEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Src\Extension\ExtensionContext.cs">
       <Link>Unity\Extension\ExtensionContext.cs</Link>
     </Compile>
@@ -102,6 +109,9 @@
     </Compile>
     <Compile Include="..\..\Unity\Src\Injection\GenericParameter.cs">
       <Link>Unity\Injection\GenericParameter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\Injection\GenericParameterBase.cs">
+      <Link>Unity\Injection\GenericParameterBase.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\Injection\GenericResolvedArrayParameter.cs">
       <Link>Unity\Injection\GenericResolvedArrayParameter.cs</Link>
@@ -129,6 +139,9 @@
     </Compile>
     <Compile Include="..\..\Unity\Src\Injection\InjectionProperty.cs">
       <Link>Unity\Injection\InjectionProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\Injection\OptionalGenericParameter.cs">
+      <Link>Unity\Injection\OptionalGenericParameter.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\Injection\OptionalParameter.cs">
       <Link>Unity\Injection\OptionalParameter.cs</Link>
@@ -250,6 +263,9 @@
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Policies\PolicyList.cs">
       <Link>Unity\ObjectBuilder\Policies\PolicyList.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Src\ObjectBuilder\Policies\PolicyListExtensions.cs">
+      <Link>Unity\ObjectBuilder\Policies\PolicyListExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\RecoveryStack.cs">
       <Link>Unity\ObjectBuilder\RecoveryStack.cs</Link>
     </Compile>
@@ -367,6 +383,9 @@
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\BuildPlan\Method\SelectedMethod.cs">
       <Link>Unity\ObjectBuilder\Strategies\BuildPlan\Method\SelectedMethod.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\BuildPlan\OverriddenBuildPlanMarkerPolicy.cs">
+      <Link>Unity\ObjectBuilder\Strategies\BuildPlan\OverriddenBuildPlanMarkerPolicy.cs</Link>
+    </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\BuildPlan\Property\IPropertySelectorPolicy.cs">
       <Link>Unity\ObjectBuilder\Strategies\BuildPlan\Property\IPropertySelectorPolicy.cs</Link>
     </Compile>
@@ -408,12 +427,6 @@
     </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\Lifetime\LifetimeStrategy.cs">
       <Link>Unity\ObjectBuilder\Strategies\Lifetime\LifetimeStrategy.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\Lifetime\SingletonLifetimePolicy.cs">
-      <Link>Unity\ObjectBuilder\Strategies\Lifetime\SingletonLifetimePolicy.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\Lifetime\TransientLifetimePolicy.cs">
-      <Link>Unity\ObjectBuilder\Strategies\Lifetime\TransientLifetimePolicy.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\ObjectBuilder\Strategies\StagedStrategyChain.cs">
       <Link>Unity\ObjectBuilder\Strategies\StagedStrategyChain.cs</Link>
@@ -480,6 +493,9 @@
     </Compile>
     <Compile Include="..\..\Unity\Src\UnityDefaultStrategiesExtension.Silverlight.cs">
       <Link>Unity\UnityDefaultStrategiesExtension.Silverlight.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Unity\Src\UnityServiceLocator.cs">
+      <Link>Unity\UnityServiceLocator.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Src\Utility\Guard.cs">
       <Link>Unity\Utility\Guard.cs</Link>

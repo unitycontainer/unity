@@ -49,8 +49,10 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         /// Choose the constructor to call for the given type.
         /// </summary>
         /// <param name="context">Current build context</param>
+        /// <param name="resolverPolicyDestination">The <see cref='IPolicyList'/> to add any
+        /// generated resolver objects into.</param>
         /// <returns>The chosen constructor.</returns>
-        public SelectedConstructor SelectConstructor(IBuilderContext context)
+        public SelectedConstructor SelectConstructor(IBuilderContext context, IPolicyList resolverPolicyDestination)
         {
             SelectedConstructor result;
             Type typeToBuild = context.BuildKey.Type;
@@ -67,7 +69,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
                 result = new SelectedConstructor(typeToBuild.GetConstructor(closedCtorParameterTypes));
             }
 
-            SpecifiedMemberSelectorHelper.AddParameterResolvers(typeToBuild, context.PersistentPolicies, parameterValues, result);
+            SpecifiedMemberSelectorHelper.AddParameterResolvers(typeToBuild, resolverPolicyDestination, parameterValues, result);
             return result;
         }
     }

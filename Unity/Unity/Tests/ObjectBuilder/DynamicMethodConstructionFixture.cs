@@ -12,8 +12,10 @@
 using System;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
+using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using InjectionConstructorAttribute=Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {
@@ -39,7 +41,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         {
             MockBuilderContext context = GetContext();
             var key = new NamedTypeBuildKey<FileLogger>();
-            var lifetimePolicy = new SingletonLifetimePolicy();
+            var lifetimePolicy = new ContainerControlledLifetimeManager();
             lifetimePolicy.SetValue("C:\\Log.txt");
             context.Policies.Set<ILifetimePolicy>(lifetimePolicy, new NamedTypeBuildKey<string>());
 
@@ -154,12 +156,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
                 this.parameterResolverPolicy = parameterResolverPolicy;
             }
 
-            public SelectedConstructor SelectConstructor(IBuilderContext context)
+            public SelectedConstructor SelectConstructor(IBuilderContext context, IPolicyList resolverPoliciesDestination)
             {
                 var selectedConstructor = new SelectedConstructor(typeof(T).GetConstructor(new[] { typeof(object) }));
                 var key = Guid.NewGuid().ToString();
                 selectedConstructor.AddParameterKey(key);
-                context.Policies.Set<IDependencyResolverPolicy>(this.parameterResolverPolicy, key);
+                resolverPoliciesDestination.Set<IDependencyResolverPolicy>(this.parameterResolverPolicy, key);
 
                 return selectedConstructor;
             }

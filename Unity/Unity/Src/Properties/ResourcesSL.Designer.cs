@@ -252,6 +252,15 @@ namespace Microsoft.Practices.Unity.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The override marker build plan policy has been invoked. This should never happen, looks like a bug in the container..
+        /// </summary>
+        internal static string MarkerBuildPlanInvoked {
+            get {
+                return ResourceManager.GetString("MarkerBuildPlanInvoked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resolving parameter &quot;{0}&quot; of method {1}.{2}.
         /// </summary>
         internal static string MethodArgumentResolveOperation {
@@ -351,7 +360,7 @@ namespace Microsoft.Practices.Unity.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type {0} does not contain a property named {1}..
+        ///   Looks up a localized string similar to The type {0} does not contain an instance property named {1}..
         /// </summary>
         internal static string NoSuchProperty {
             get {
@@ -482,7 +491,7 @@ namespace Microsoft.Practices.Unity.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type {0} is cannot be constructed. You must configure the container to supply this value..
+        ///   Looks up a localized string similar to The type {0} cannot be constructed. You must configure the container to supply this value..
         /// </summary>
         internal static string TypeIsNotConstructable {
             get {

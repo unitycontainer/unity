@@ -9,9 +9,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System;
-using System.Reflection;
 using System.Runtime.Remoting.Messaging;
+using System.Security;
+using System.Security.Permissions;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -19,6 +19,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// A class that wraps the outputs of a <see cref="IMethodCallMessage"/> into the
     /// <see cref="IParameterCollection"/> interface.
     /// </summary>
+    [SecurityCritical(SecurityCriticalScope.Everything)]
+    [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
     class TransparentProxyOutputParameterCollection : ParameterCollection
     {
         /// <summary>
@@ -28,8 +30,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="callMessage">The call message.</param>
         /// <param name="arguments">The arguments.</param>
         public TransparentProxyOutputParameterCollection(IMethodCallMessage callMessage, object[] arguments)
-            : base(arguments, callMessage.MethodBase.GetParameters(),
-                delegate(ParameterInfo info) { return info.IsOut; })
+            : base(arguments, callMessage.MethodBase.GetParameters(), parameterInfo => parameterInfo.ParameterType.IsByRef)
         {
         }
     }

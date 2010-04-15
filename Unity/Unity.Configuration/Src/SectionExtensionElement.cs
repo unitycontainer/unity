@@ -10,15 +10,12 @@
 //===============================================================================
 
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
 using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 using Microsoft.Practices.Unity.Configuration.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -31,14 +28,20 @@ namespace Microsoft.Practices.Unity.Configuration
         private const string TypeNamePropertyName = "type";
         private const string PrefixPropertyName = "prefix";
 
+        private SectionExtension extensionObject;
+
         /// <summary>
         /// Type of the section extender object that will provide new elements to the schema.
         /// </summary>
         [ConfigurationProperty(TypeNamePropertyName, IsRequired = true, IsKey = true)]
         public string TypeName
         {
-            get { return (string) base[TypeNamePropertyName]; }
-            set { base[TypeNamePropertyName] = value; }
+            get { return (string)base[TypeNamePropertyName]; }
+            set
+            {
+                base[TypeNamePropertyName] = value;
+                extensionObject = null;
+            }
         }
 
         /// <summary>
@@ -48,7 +51,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(PrefixPropertyName, IsRequired = false)]
         public string Prefix
         {
-            get { return (string) base[PrefixPropertyName]; }
+            get { return (string)base[PrefixPropertyName]; }
             set { base[PrefixPropertyName] = value; }
         }
 
@@ -57,7 +60,14 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         public SectionExtension ExtensionObject
         {
-            get; private set;
+            get
+            {
+                if (extensionObject == null)
+                {
+                    extensionObject = (SectionExtension)Activator.CreateInstance(GetExtensionObjectType());
+                }
+                return extensionObject;
+            }
         }
 
         /// <summary>
@@ -74,26 +84,46 @@ namespace Microsoft.Practices.Unity.Configuration
         protected override void DeserializeElement(XmlReader reader, bool serializeCollectionKey)
         {
             base.DeserializeElement(reader, serializeCollectionKey);
+            GetExtensionObjectType();
+        }
 
-            Type extensionType = TypeResolver.ResolveType(TypeName);
-            GuardIsValidExtensionType(extensionType);
-
-            ExtensionObject = (SectionExtension) Activator.CreateInstance(extensionType);
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            Guard.ArgumentNotNull(writer, "writer");
+            writer.WriteAttributeString(TypeNamePropertyName, TypeName);
+            if (!string.IsNullOrEmpty(Prefix))
+            {
+                writer.WriteAttributeString(PrefixPropertyName, Prefix);
+            }
         }
 
         private void GuardIsValidExtensionType(Type extensionType)
         {
-            if(extensionType == null)
+            if (extensionType == null)
             {
-                throw new ConfigurationErrorsException(string.Format(CultureInfo.CurrentUICulture,
+                throw new ConfigurationErrorsException(string.Format(CultureInfo.CurrentCulture,
                     Resources.ExtensionTypeNotFound, TypeName));
             }
 
-            if(!typeof(SectionExtension).IsAssignableFrom(extensionType))
+            if (!typeof(SectionExtension).IsAssignableFrom(extensionType))
             {
-                throw new ConfigurationErrorsException(string.Format(CultureInfo.CurrentUICulture,
+                throw new ConfigurationErrorsException(string.Format(CultureInfo.CurrentCulture,
                     Resources.ExtensionTypeNotValid, TypeName));
             }
+        }
+
+        private Type GetExtensionObjectType()
+        {
+            Type extensionType = TypeResolver.ResolveType(TypeName);
+            GuardIsValidExtensionType(extensionType);
+            return extensionType;
         }
     }
 }

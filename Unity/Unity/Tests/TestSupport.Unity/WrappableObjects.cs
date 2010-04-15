@@ -61,24 +61,24 @@ namespace Microsoft.Practices.Unity.TestSupport
 
         public void MethodA() { }
 
-        public void MethodRef(ref object foo)
+        public void MethodRef(ref object parameter)
         {
-            foo = "foo";
+            parameter = "parameter";
         }
 
-        public void MethodRefValue(ref int foo)
+        public void MethodRefValue(ref int parameter)
         {
-            foo = 42;
+            parameter = 42;
         }
 
-        public void MethodOut(out object foo)
+        public void MethodOut(out object parameter)
         {
-            foo = "foo";
+            parameter = "parameter";
         }
 
-        public void MethodOutValue(out int foo)
+        public void MethodOutValue(out int parameter)
         {
-            foo = 42;
+            parameter = 42;
         }
     }
 

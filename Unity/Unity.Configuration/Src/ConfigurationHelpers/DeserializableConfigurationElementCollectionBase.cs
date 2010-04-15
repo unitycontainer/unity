@@ -28,7 +28,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
     public abstract class DeserializableConfigurationElementCollectionBase<TElement> :
         ConfigurationElementCollection,
         IEnumerable<TElement>
-        where TElement : ConfigurationElement
+        where TElement : DeserializableConfigurationElement
     {
         /// <summary>
         /// Indexer to retrieve items in the collection by index.
@@ -125,6 +125,23 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         public void Clear()
         {
             BaseClear();
+        }
+
+        /// <summary>
+        /// Write out the contents of this collection to the given
+        /// <paramref name="writer"/> without a containing element
+        /// corresponding directly to this container element. Each
+        /// child element will have a tag name given by
+        /// <paramref name="elementName"/>.
+        /// </summary>
+        /// <param name="writer"><see cref="XmlWriter"/> to output XML to.</param>
+        /// <param name="elementName">Name of tag to generate.</param>
+        public void SerializeElementContents(XmlWriter writer, string elementName)
+        {
+            foreach(TElement element in this)
+            {
+                writer.WriteElement(elementName, element.SerializeContent);
+            }
         }
     }
 }

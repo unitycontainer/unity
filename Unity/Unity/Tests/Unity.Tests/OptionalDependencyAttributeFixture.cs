@@ -25,34 +25,34 @@ namespace Microsoft.Practices.Unity.Tests
             IUnityContainer container = new UnityContainer();
 
             var result = container.Resolve<ObjectWithOptionalConstructorParameter>();
-            Assert.IsNull(result.Foo);
+            Assert.IsNull(result.SomeInterface);
         }
 
         [TestMethod]
         public void OptionalDependencyParameterIsResolvedIfRegisteredInContainer()
         {
-            IFoo expectedFoo = new Mock<IFoo>().Object;
+            ISomeInterface expectedSomeInterface = new Mock<ISomeInterface>().Object;
             IUnityContainer container = new UnityContainer()
-                .RegisterInstance<IFoo>(expectedFoo);
+                .RegisterInstance<ISomeInterface>(expectedSomeInterface);
 
             var result = container.Resolve<ObjectWithOptionalConstructorParameter>();
 
-            Assert.AreSame(expectedFoo, result.Foo);
+            Assert.AreSame(expectedSomeInterface, result.SomeInterface);
         }
 
         [TestMethod]
         public void OptionalDependencyParameterIsResolvedByName()
         {
-            IFoo namedFoo = new Mock<IFoo>().Object;
-            IFoo defaultFoo = new Mock<IFoo>().Object;
+            ISomeInterface namedSomeInterface = new Mock<ISomeInterface>().Object;
+            ISomeInterface defaultSomeInterface = new Mock<ISomeInterface>().Object;
 
             IUnityContainer container = new UnityContainer()
-                .RegisterInstance<IFoo>(defaultFoo)
-                .RegisterInstance<IFoo>("named", namedFoo);
+                .RegisterInstance<ISomeInterface>(defaultSomeInterface)
+                .RegisterInstance<ISomeInterface>("named", namedSomeInterface);
 
             var result = container.Resolve<ObjectWithNamedOptionalConstructorParameter>();
 
-            Assert.AreSame(namedFoo, result.Foo);
+            Assert.AreSame(namedSomeInterface, result.SomeInterface);
         }
 
         [TestMethod]
@@ -62,57 +62,57 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = container.Resolve<ObjectWithOptionalProperty>();
 
-            Assert.IsNull(result.Foo);
+            Assert.IsNull(result.SomeInterface);
         }
 
         [TestMethod]
         public void OptionalPropertiesAreInjectedWhenRegisteredInContainer()
         {
-            IFoo expected = new Mock<IFoo>().Object;
+            ISomeInterface expected = new Mock<ISomeInterface>().Object;
             IUnityContainer container = new UnityContainer()
                 .RegisterInstance(expected);
 
             var result = container.Resolve<ObjectWithOptionalProperty>();
 
-            Assert.AreSame(expected, result.Foo);
+            Assert.AreSame(expected, result.SomeInterface);
         }
 
         [TestMethod]
         public void OptionalPropertiesAreInjectedByName()
         {
-            IFoo namedFoo = new Mock<IFoo>().Object;
-            IFoo defaultFoo = new Mock<IFoo>().Object;
+            ISomeInterface namedSomeInterface = new Mock<ISomeInterface>().Object;
+            ISomeInterface defaultSomeInterface = new Mock<ISomeInterface>().Object;
 
             IUnityContainer container = new UnityContainer()
-                .RegisterInstance<IFoo>(defaultFoo)
-                .RegisterInstance<IFoo>("named", namedFoo);
+                .RegisterInstance<ISomeInterface>(defaultSomeInterface)
+                .RegisterInstance<ISomeInterface>("named", namedSomeInterface);
 
             var result = container.Resolve<ObjectWithNamedOptionalProperty>();
 
-            Assert.AreSame(namedFoo, result.Foo);
+            Assert.AreSame(namedSomeInterface, result.SomeInterface);
         }
 
-        public interface IFoo
+        public interface ISomeInterface
         {
         }
 
         public class ObjectWithOptionalConstructorParameter
         {
-            IFoo foo;
+            ISomeInterface someInterface;
 
-            public IFoo Foo { get { return foo; } }
+            public ISomeInterface SomeInterface { get { return someInterface; } }
 
-            public ObjectWithOptionalConstructorParameter([OptionalDependency] IFoo foo)
+            public ObjectWithOptionalConstructorParameter([OptionalDependency] ISomeInterface someInterface)
             {
-                this.foo = foo;
+                this.someInterface = someInterface;
             }
         }
 
         public class ObjectWithNamedOptionalConstructorParameter
             : ObjectWithOptionalConstructorParameter
         {
-            public ObjectWithNamedOptionalConstructorParameter([OptionalDependency("named")] IFoo foo)
-                : base(foo)
+            public ObjectWithNamedOptionalConstructorParameter([OptionalDependency("named")] ISomeInterface someInterface)
+                : base(someInterface)
             {
 
             }
@@ -121,7 +121,7 @@ namespace Microsoft.Practices.Unity.Tests
         public class ObjectWithOptionalProperty
         {
             [OptionalDependency]
-            public IFoo Foo
+            public ISomeInterface SomeInterface
             {
                 get;
                 set;
@@ -131,7 +131,7 @@ namespace Microsoft.Practices.Unity.Tests
         public class ObjectWithNamedOptionalProperty
         {
             [OptionalDependency("named")]
-            public IFoo Foo
+            public ISomeInterface SomeInterface
             {
                 get;
                 set;

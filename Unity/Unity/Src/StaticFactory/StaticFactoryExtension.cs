@@ -31,7 +31,7 @@ namespace Microsoft.Practices.Unity.StaticFactory
 
         /// <summary>
         /// Register the given factory delegate to be called when the container is
-        /// asked to resolve <typeparamref name="=TTypeToBuild"/> and <paramref name="name"/>.
+        /// asked to resolve <typeparamref name="TTypeToBuild"/> and <paramref name="name"/>.
         /// </summary>
         /// <typeparam name="TTypeToBuild">Type that will be requested from the container.</typeparam>
         /// <param name="name">The name that will be used when requesting to resolve this type.</param>
@@ -46,7 +46,7 @@ namespace Microsoft.Practices.Unity.StaticFactory
 
         /// <summary>
         /// Register the given factory delegate to be called when the container is
-        /// asked to resolve <typeparamref name="=TTypeToBuild"/>.
+        /// asked to resolve <typeparamref name="TTypeToBuild"/>.
         /// </summary>
         /// <typeparam name="TTypeToBuild">Type that will be requested from the container.</typeparam>
         /// <param name="factoryMethod">Delegate to invoke to create the instance.</param>

@@ -233,6 +233,24 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.TransparaentProxyInter
             Assert.AreEqual(null, changeProperty);
         }
 
+        [TestMethod]
+        public void CanInterceptGenericMethodOnInterface()
+        {
+            var interceptor = new CallCountInterceptionBehavior();
+
+            var original = new ObjectWithGenericMethod();
+            var intercepted = new InterceptingRealProxy(original, typeof(IInterfaceWithGenericMethod))
+                .GetTransparentProxy() as IInterfaceWithGenericMethod;
+
+            IInterceptingProxy proxy = (IInterceptingProxy)intercepted;
+            proxy.AddInterceptionBehavior(interceptor);
+
+            var result = intercepted.GetTypeName(6);
+
+            Assert.AreEqual("Int32", result);
+            Assert.AreEqual(1, interceptor.CallCount);
+        }
+
         internal class MBROWithOneMethod : MarshalByRefObject
         {
             public int DoSomething(int i)
@@ -283,5 +301,23 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.TransparaentProxyInter
         {
             int TheProperty { get; set; }
         }
+
+        internal interface IInterfaceWithGenericMethod
+        {
+            string GetTypeName<T>(T argument);
+        }
+
+        internal class ObjectWithGenericMethod : IInterfaceWithGenericMethod
+        {
+            #region IInterfaceWithGenericMethod Members
+
+            public string GetTypeName<T>(T argument)
+            {
+                return argument.GetType().Name;
+            }
+
+            #endregion
+        }
+
     }
 }

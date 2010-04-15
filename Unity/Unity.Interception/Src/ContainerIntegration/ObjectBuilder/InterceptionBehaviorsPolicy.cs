@@ -55,10 +55,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 var behavior = (IInterceptionBehavior)context.NewBuildUp(key,
                     childContext => childContext.AddResolverOverrides(
                         new DependencyOverride<CurrentInterceptionRequest>(interceptionRequest) ) );
-                if(behavior.WillExecute)
-                {
-                    yield return behavior;
-                }
+                yield return behavior;
             }
         }
 

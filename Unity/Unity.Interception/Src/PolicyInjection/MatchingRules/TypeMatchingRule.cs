@@ -35,9 +35,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class.")]
         public TypeMatchingRule(Type type)
-            : this(type.Name, false)
+            : this(SafeGetTypeName(type), false)
         {
-            Guard.ArgumentNotNull(type, "type");
         }
 
         /// <summary>
@@ -123,6 +122,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private static StringComparison Comparison(bool ignoreCase)
         {
             return ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+        }
+
+        private static string SafeGetTypeName(Type type)
+        {
+            Guard.ArgumentNotNull(type, "type");
+            return type.Name;
         }
     }
 }

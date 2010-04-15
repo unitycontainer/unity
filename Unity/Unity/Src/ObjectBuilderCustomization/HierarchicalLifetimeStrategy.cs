@@ -27,21 +27,16 @@ namespace Microsoft.Practices.Unity
         /// <param name="context">Context of the build operation.</param>
         public override void PreBuildUp(IBuilderContext context) 
         {
-            var activeLifetime = context.PersistentPolicies.Get<ILifetimePolicy>(context.BuildKey);
-            if (activeLifetime is HierarchicalLifetimeManager)         
+            IPolicyList lifetimePolicySource;
+
+            var activeLifetime = context.PersistentPolicies.Get<ILifetimePolicy>(context.BuildKey, out lifetimePolicySource);
+            if (activeLifetime is HierarchicalLifetimeManager && !ReferenceEquals(lifetimePolicySource, context.PersistentPolicies))         
             {
-                // did this come from the local container or the parent?   
-                var localLifetime = context.PersistentPolicies.Get<ILifetimePolicy>(context.BuildKey, true);     
-                if (localLifetime == null)               
-                {
-                    // came from parent, add a new Hierarchical lifetime manager locally   
-                    var newLifetime = new HierarchicalLifetimeManager();
-                    newLifetime.InUse = true;
-                    context.PersistentPolicies.Set<ILifetimePolicy>(newLifetime,   
-                        context.BuildKey);
-                    // Add to the lifetime container - we know this one is disposable
-                    context.Lifetime.Add(newLifetime);
-                }
+                // came from parent, add a new Hierarchical lifetime manager locally   
+                var newLifetime = new HierarchicalLifetimeManager { InUse = true };
+                context.PersistentPolicies.Set<ILifetimePolicy>(newLifetime, context.BuildKey);
+                // Add to the lifetime container - we know this one is disposable
+                context.Lifetime.Add(newLifetime);
             } 
         }
     }

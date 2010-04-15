@@ -28,11 +28,13 @@ namespace Microsoft.Practices.ObjectBuilder2
         }
 
         /// <summary>
-        /// Map the <paramref name="buildKey"/> to a new build key.
+        /// Maps the build key.
         /// </summary>
-        /// <param name="buildKey">The build key to mapl</param>
+        /// <param name="buildKey">The build key to map.</param>
+        /// <param name="context">Current build context. Used for contextual information
+        /// if writing a more sophisticated mapping, unused in this implementation.</param>
         /// <returns>The new build key.</returns>
-        public NamedTypeBuildKey Map(NamedTypeBuildKey buildKey)
+        public NamedTypeBuildKey Map(NamedTypeBuildKey buildKey, IBuilderContext context)
         {
             return newBuildKey;
         }

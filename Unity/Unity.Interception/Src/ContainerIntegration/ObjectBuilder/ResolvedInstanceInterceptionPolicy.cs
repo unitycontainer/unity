@@ -10,6 +10,7 @@
 //===============================================================================
 
 using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -39,6 +40,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="context">Context for current build operation.</param>
         public IInstanceInterceptor GetInterceptor(IBuilderContext context)
         {
+            Guard.ArgumentNotNull(context, "context");
             return (IInstanceInterceptor) context.NewBuildUp(buildKey);
         }
 

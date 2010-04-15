@@ -58,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\Common\GlobalAssemblyInfo.2010.cs">
+      <Link>GlobalAssemblyInfo.2010.cs</Link>
+    </None>
     <Compile Include="BuilderAwareStrategyTest.cs" />
     <Compile Include="BuilderContextTest.cs" />
     <Compile Include="BuildKeyMappingPolicyTest.cs">

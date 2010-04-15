@@ -11,7 +11,9 @@
 
 using System;
 using System.Configuration;
+using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -41,6 +43,19 @@ namespace Microsoft.Practices.Unity.Configuration
             var extensionType = GetExtensionType();
             var extension = (UnityContainerExtension)container.Resolve(extensionType);
             container.AddExtension(extension);
+        }
+
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(System.Xml.XmlWriter writer)
+        {
+            Guard.ArgumentNotNull(writer, "writer");
+            writer.WriteAttributeString(TypeNamePropertyName, TypeName);
         }
 
         private Type GetExtensionType()

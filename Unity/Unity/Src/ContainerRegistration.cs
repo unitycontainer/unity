@@ -63,7 +63,7 @@ namespace Microsoft.Practices.Unity
             var mappingPolicy = policies.Get<IBuildKeyMappingPolicy>(buildKey);
             if (mappingPolicy != null)
             {
-                return mappingPolicy.Map(buildKey).Type;
+                return mappingPolicy.Map(buildKey, null).Type;
             }
             return buildKey.Type;
         }

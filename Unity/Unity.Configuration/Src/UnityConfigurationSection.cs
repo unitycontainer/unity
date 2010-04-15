@@ -12,6 +12,7 @@
 using System;
 using System.Configuration;
 using System.Globalization;
+using System.Text;
 using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 using Microsoft.Practices.Unity.Configuration.Properties;
@@ -23,11 +24,22 @@ namespace Microsoft.Practices.Unity.Configuration
     /// </summary>
     public class UnityConfigurationSection : ConfigurationSection
     {
+        /// <summary>
+        /// The name of the section where unity configuration is expected to be found.
+        /// </summary>
+        public const string SectionName = "unity";
+
+        /// <summary>
+        /// XML Namespace string used for IntelliSense in this section.
+        /// </summary>
+        public const string XmlNamespace = "http://schemas.microsoft.com/practices/2010/unity";
+
         private const string ContainersPropertyName = "";
         private const string TypeAliasesPropertyName = "aliases";
         private const string SectionExtensionsPropertyName = "extensions";
         private const string NamespacesPropertyName = "namespaces";
-        private const string AssembliesPropertyName = "asemblies";
+        private const string AssembliesPropertyName = "assemblies";
+        private const string XmlnsPropertyName = "xmlns";
 
         [ThreadStatic]
         private static UnityConfigurationSection currentSection;
@@ -50,6 +62,17 @@ namespace Microsoft.Practices.Unity.Configuration
         public static UnityConfigurationSection CurrentSection
         {
             get { return currentSection; }
+        }
+
+        /// <summary>
+        /// Storage for XML namespace. The namespace isn't used or validated by config, but
+        /// it is useful for Visual Studio XML IntelliSense to kick in.
+        /// </summary>
+        [ConfigurationProperty(XmlnsPropertyName, IsRequired = false, DefaultValue = XmlNamespace)]
+        public string Xmlns
+        {
+            get { return (string)base[XmlnsPropertyName]; }
+            set { base[XmlnsPropertyName] = value; }
         }
 
         /// <summary>
@@ -81,25 +104,25 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(SectionExtensionsPropertyName)]
         public SectionExtensionElementCollection SectionExtensions
         {
-            get { return (SectionExtensionElementCollection) base[SectionExtensionsPropertyName]; }
+            get { return (SectionExtensionElementCollection)base[SectionExtensionsPropertyName]; }
         }
 
         /// <summary>
         /// Any namespaces added to the type search list.
         /// </summary>
         [ConfigurationProperty(NamespacesPropertyName)]
-        public NamedElementCollection Namespaces
+        public NamespaceElementCollection Namespaces
         {
-            get { return (NamedElementCollection) base[NamespacesPropertyName]; }
+            get { return (NamespaceElementCollection)base[NamespacesPropertyName]; }
         }
 
         /// <summary>
         /// Any assemblies added to the type search list.
         /// </summary>
         [ConfigurationProperty(AssembliesPropertyName)]
-        public NamedElementCollection Assemblies
+        public AssemblyElementCollection Assemblies
         {
-            get { return (NamedElementCollection) base[AssembliesPropertyName]; }
+            get { return (AssemblyElementCollection)base[AssembliesPropertyName]; }
         }
 
 
@@ -131,10 +154,10 @@ namespace Microsoft.Practices.Unity.Configuration
 
         private static ContainerElement GuardContainerExists(string configuredContainerName, ContainerElement containerElement)
         {
-            if(containerElement == null)
+            if (containerElement == null)
             {
                 throw new ArgumentException(
-                    string.Format(CultureInfo.CurrentUICulture,
+                    string.Format(CultureInfo.CurrentCulture,
                         Resources.NoSuchContainer, configuredContainerName),
                     "configuredContainerName");
             }
@@ -189,15 +212,76 @@ namespace Microsoft.Practices.Unity.Configuration
             element.ExtensionObject.AddExtensions(new ExtensionContext(this, element.Prefix));
         }
 
+        /// <summary>
+        /// Creates an XML string containing an unmerged view of the <see cref="T:System.Configuration.ConfigurationSection"/> object as a single section to write to a file.
+        /// </summary>
+        /// <returns>
+        /// An XML string containing an unmerged view of the <see cref="T:System.Configuration.ConfigurationSection"/> object.
+        /// </returns>
+        /// <param name="parentElement">The <see cref="T:System.Configuration.ConfigurationElement"/> instance to use as the parent when performing the un-merge.
+        ///                 </param><param name="name">The name of the section to create.
+        ///                 </param><param name="saveMode">The <see cref="T:System.Configuration.ConfigurationSaveMode"/> instance to use when writing to a string.
+        ///                 </param>
+        protected override string SerializeSection(ConfigurationElement parentElement, string name, ConfigurationSaveMode saveMode)
+        {
+            ExtensionElementMap.Clear();
+            currentSection = this;
+            TypeResolver.SetAliases(this);
+            InitializeSectionExtensions();
+
+            var sb = new StringBuilder();
+            using (var writer = MakeXmlWriter(sb))
+            {
+                writer.WriteStartElement(name, XmlNamespace);
+                writer.WriteAttributeString("xmlns", XmlNamespace);
+                TypeAliases.SerializeElementContents(writer, "alias");
+                Namespaces.SerializeElementContents(writer, "namespace");
+                Assemblies.SerializeElementContents(writer, "assembly");
+                SectionExtensions.SerializeElementContents(writer, "sectionExtension");
+                Containers.SerializeElementContents(writer, "container");
+                writer.WriteEndElement();
+            }
+
+            return sb.ToString();
+        }
+
+        private static XmlWriter MakeXmlWriter(StringBuilder sb)
+        {
+            var settings = new XmlWriterSettings
+                               {
+                                   Indent = true,
+                                   OmitXmlDeclaration = true,
+                                   ConformanceLevel = ConformanceLevel.Fragment
+                               };
+            return XmlWriter.Create(sb, settings);
+
+        }
+
+        private void InitializeSectionExtensions()
+        {
+            foreach (var extensionElement in SectionExtensions)
+            {
+                SectionExtension extensionObject = extensionElement.ExtensionObject;
+                extensionObject.AddExtensions(new ExtensionContext(this, extensionElement.Prefix, false));
+            }
+        }
+
         private class ExtensionContext : SectionExtensionContext
         {
             private readonly UnityConfigurationSection section;
             private readonly string prefix;
+            private readonly bool saveAliases;
 
             public ExtensionContext(UnityConfigurationSection section, string prefix)
+                : this(section, prefix, true)
+            {
+            }
+
+            public ExtensionContext(UnityConfigurationSection section, string prefix, bool saveAliases)
             {
                 this.section = section;
                 this.prefix = prefix;
+                this.saveAliases = saveAliases;
             }
 
             /// <summary>
@@ -209,8 +293,10 @@ namespace Microsoft.Practices.Unity.Configuration
             /// <param name="aliasedType">Type the alias maps to.</param>
             public override void AddAlias(string newAlias, Type aliasedType)
             {
+                if (!saveAliases) return;
+
                 string alias = newAlias;
-                if(!string.IsNullOrEmpty(prefix))
+                if (!string.IsNullOrEmpty(prefix))
                 {
                     alias = prefix + "." + alias;
                 }
@@ -225,21 +311,21 @@ namespace Microsoft.Practices.Unity.Configuration
             /// <param name="elementType">Type the tag maps to.</param>
             public override void AddElement(string tag, Type elementType)
             {
-                if(typeof(ContainerConfiguringElement).IsAssignableFrom(elementType))
+                if (typeof(ContainerConfiguringElement).IsAssignableFrom(elementType))
                 {
                     ExtensionElementMap.AddContainerConfiguringElement(prefix, tag, elementType);
                 }
-                else if(typeof(InjectionMemberElement).IsAssignableFrom(elementType))
+                else if (typeof(InjectionMemberElement).IsAssignableFrom(elementType))
                 {
                     ExtensionElementMap.AddInjectionMemberElement(prefix, tag, elementType);
                 }
-                else if(typeof(ParameterValueElement).IsAssignableFrom(elementType))
+                else if (typeof(ParameterValueElement).IsAssignableFrom(elementType))
                 {
                     ExtensionElementMap.AddParameterValueElement(prefix, tag, elementType);
                 }
                 else
                 {
-                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture,
+                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                         Resources.InvalidExtensionElementType,
                         elementType.Name));
                 }

@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.Remoting.Proxies;
+using System.Security;
+using System.Security.Permissions;
 using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
@@ -22,6 +24,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// An instance interceptor that uses remoting proxies to do the
     /// interception.
     /// </summary>
+    [SecurityCritical(SecurityCriticalScope.Everything)]
+    [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
     public class TransparentProxyInterceptor : IInstanceInterceptor
     {
         /// <summary>

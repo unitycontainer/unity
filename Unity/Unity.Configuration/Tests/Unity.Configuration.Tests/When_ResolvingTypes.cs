@@ -35,8 +35,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
                     { "MockLogger", "Microsoft.Practices.Unity.TestSupport.MockLogger, Unity.TestSupport" }
                 };
 
-            var namespaces = new[] {"System", "System.Collections.Generic", "Microsoft.Practices.Unity.TestSupport" };
-            var assemblies = new[] { "mscorlib", "System", "System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", "Unity.TestSupport" };
+            var namespaces = new[] { "System", "System.Collections.Generic", "Microsoft.Practices.Unity.TestSupport" };
+            var assemblies = new[] { "System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", "Unity.TestSupport" };
 
             typeResolver = new TypeResolverImpl(aliases, namespaces, assemblies);
         }
@@ -81,7 +81,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
                     {"PerResolveLifetimeManager", typeof (PerResolveLifetimeManager)},
                 };
 
-            foreach(var kv in expected)
+            foreach (var kv in expected)
             {
                 Assert.AreSame(kv.Value, typeResolver.ResolveType(kv.Key, true));
             }
@@ -96,44 +96,56 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_GuidIsFoundThroughSearch()
         {
-            Assert.AreSame(typeResolver.ResolveType("Guid", true), typeof (Guid));
+            Assert.AreSame(typeResolver.ResolveType("Guid", true), typeof(Guid));
+        }
+
+        [TestMethod]
+        public void Then_UriIsFoundThroughSearch()
+        {
+            Assert.AreSame(typeResolver.ResolveType("Uri", true), typeof(Uri));
         }
 
         [TestMethod]
         public void Then_OpenGenericIsResolvedThroughSearch()
         {
-            Assert.AreSame(typeResolver.ResolveType("Dictionary`2", true), typeof (Dictionary<,>));
+            Assert.AreSame(typeResolver.ResolveType("Dictionary`2", true), typeof(Dictionary<,>));
         }
 
         [TestMethod]
         public void Then_OpenGenericShorthandIsResolvedThroughSearch()
         {
-            Assert.AreSame(typeResolver.ResolveType("Dictionary[,]", true), typeof (Dictionary<,>));
+            Assert.AreSame(typeResolver.ResolveType("Dictionary[,]", true), typeof(Dictionary<,>));
         }
 
         [TestMethod]
         public void Then_ShorthandForOpenGenericWithOneParameterWorks()
         {
-            Assert.AreSame(typeResolver.ResolveType("List[]", true), typeof (List<>));
+            Assert.AreSame(typeResolver.ResolveType("List[]", true), typeof(List<>));
         }
 
         [TestMethod]
         public void Then_ShorthandGenericIsResolved()
         {
-            Assert.AreSame(typeResolver.ResolveType("List[int]", true), typeof (List<int>));
+            Assert.AreSame(typeResolver.ResolveType("List[int]", true), typeof(List<int>));
         }
 
         [TestMethod]
         public void Then_ShorthandWithMultipleParametersIsResolved()
         {
-            Assert.AreSame(typeResolver.ResolveType("Func[int, string]", true), typeof (Func<int, string>));
+            Assert.AreSame(typeResolver.ResolveType("Func[int, string]", true), typeof(Func<int, string>));
         }
 
         [TestMethod]
         public void Then_ShorthandWithLeadingAliasIsResolved()
         {
             Assert.AreSame(typeResolver.ResolveType("dict[string, datetime]", true),
-                typeof (Dictionary<string, DateTime>));
+                typeof(Dictionary<string, DateTime>));
+        }
+
+        [TestMethod]
+        public void Then_TypeThatCannotBeFoundReturnsNull()
+        {
+            Assert.IsNull(typeResolver.ResolveType("Namespace.Type, Assembly", false));
         }
     }
 }

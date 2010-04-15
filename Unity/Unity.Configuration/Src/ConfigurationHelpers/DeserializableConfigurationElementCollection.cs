@@ -22,7 +22,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         Justification = "It is spelled correctly.")]
     public abstract class DeserializableConfigurationElementCollection<TElement> :
         DeserializableConfigurationElementCollectionBase<TElement>
-        where TElement : ConfigurationElement, new()
+        where TElement : DeserializableConfigurationElement, new()
     {
         /// <summary>
         /// When overridden in a derived class, creates a new <see cref="T:System.Configuration.ConfigurationElement"/>.

@@ -58,7 +58,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         {
             var constructorElement = (ConstructorElement)firstRegistration.InjectionMembers[0];
 
-            constructorElement.Parameters.Select(p => p.Name).AssertContainsExactly("foo", "bar", "baz");
+            constructorElement.Parameters.Select(p => p.Name).AssertContainsExactly("one", "two", "three");
         }
 
         [TestMethod]

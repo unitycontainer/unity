@@ -11,7 +11,11 @@
 
 using System;
 using System.Configuration;
+using System.Globalization;
+using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Microsoft.Practices.Unity.Configuration.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -30,7 +34,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(NamePropertyName, IsRequired = false)]
         public string Name
         {
-            get { return (string) base[NamePropertyName]; }
+            get { return (string)base[NamePropertyName]; }
             set { base[NamePropertyName] = value; }
         }
 
@@ -41,10 +45,22 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(TypeNamePropertyName, IsRequired = false)]
         public string TypeName
         {
-            get { return (string) base[TypeNamePropertyName]; }
+            get { return (string)base[TypeNamePropertyName]; }
             set { base[TypeNamePropertyName] = value; }
         }
 
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            writer.WriteAttributeIfNotEmpty(NamePropertyName, Name)
+                .WriteAttributeIfNotEmpty(TypeNamePropertyName, TypeName);
+        }
 
         /// <summary>
         /// Generate an <see cref="InjectionParameterValue"/> object
@@ -57,10 +73,30 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns></returns>
         public override InjectionParameterValue GetInjectionParameterValue(IUnityContainer container, Type parameterType)
         {
-            Type targetType = TypeResolver.ResolveTypeWithDefault(TypeName, parameterType);
-            string name = string.IsNullOrEmpty(Name) ? null : Name;
+            Guard.ArgumentNotNull(parameterType, "parameterType");
 
-            return new OptionalParameter(targetType, name);
+            string dependencyName = Name;
+            if (string.IsNullOrEmpty(dependencyName))
+            {
+                dependencyName = null;
+            }
+
+            if (parameterType.IsGenericParameter)
+            {
+                if (!string.IsNullOrEmpty(this.TypeName))
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.CurrentCulture,
+                            Resources.DependencyForOptionalGenericParameterWithTypeSet,
+                            parameterType.Name,
+                            this.TypeName));
+                }
+
+                return new OptionalGenericParameter(parameterType.Name, dependencyName);
+            }
+
+            return new OptionalParameter(TypeResolver.ResolveTypeWithDefault(TypeName, parameterType), dependencyName);
         }
     }
 }

@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System.Threading;
+using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
@@ -50,7 +51,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         private IPolicyList GetPolicies()
         {
             PolicyList policies = new PolicyList();
-            policies.Set<ILifetimePolicy>(new SingletonLifetimePolicy(), new NamedTypeBuildKey(typeof (object)));
+            policies.Set<ILifetimePolicy>(new ContainerControlledLifetimeManager(), new NamedTypeBuildKey(typeof (object)));
             return policies;
         }
     }

@@ -323,6 +323,18 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             Assert.IsTrue(invoked);
         }
 
+        [TestMethod]
+        public void AssortedParameterKindsAreProperlyHandled()
+        {
+            var interceptor = new VirtualMethodInterceptor();
+
+            var type = interceptor.CreateProxyType(typeof(AssortedParameterKindsAreProperlyHandledHelper.TypeWithAssertedParameterKinds));
+
+            IInterceptingProxy proxy = Activator.CreateInstance(type) as IInterceptingProxy;
+
+            AssortedParameterKindsAreProperlyHandledHelper.PerformTest(proxy);
+        }
+
         private void SetPipeline(PipelineManager manager, object instance, string methodName, params ICallHandler[] handlers)
         {
             HandlerPipeline pipeline = new HandlerPipeline(handlers);

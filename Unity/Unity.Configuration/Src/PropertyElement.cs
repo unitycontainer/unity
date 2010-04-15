@@ -13,10 +13,10 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
-using System.Linq;
-using System.Text;
+using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 using Microsoft.Practices.Unity.Configuration.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -43,7 +43,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(NamePropertyName, IsRequired = true)]
         public string Name
         {
-            get { return (string) base[NamePropertyName]; }
+            get { return (string)base[NamePropertyName]; }
             set { base[NamePropertyName] = value; }
         }
 
@@ -64,6 +64,12 @@ namespace Microsoft.Practices.Unity.Configuration
             set { valueElement = value; }
         }
 
+        ParameterValueElement IValueProvidingElement.Value
+        {
+            get { return this.valueElement; }
+            set { this.Value = value; }
+        }
+
         /// <summary>
         /// A string describing where the value this element contains
         /// is being used. For example, if setting a property Prop1,
@@ -73,10 +79,18 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             get
             {
-                return string.Format(CultureInfo.CurrentUICulture,
+                return string.Format(CultureInfo.CurrentCulture,
                     Resources.DestinationNameFormat,
                     Resources.Property, Name);
             }
+        }
+
+        /// <summary>
+        /// Element name to use to serialize this into XML.
+        /// </summary>
+        public override string ElementName
+        {
+            get { return "property"; }
         }
 
         /// <summary>
@@ -93,7 +107,7 @@ namespace Microsoft.Practices.Unity.Configuration
         protected override void DeserializeElement(System.Xml.XmlReader reader, bool serializeCollectionKey)
         {
             base.DeserializeElement(reader, serializeCollectionKey);
-            valueElementHelper.CompleteValueElement();
+            valueElementHelper.CompleteValueElement(reader);
         }
 
         /// <summary>
@@ -134,9 +148,23 @@ namespace Microsoft.Practices.Unity.Configuration
         ///                 </exception>
         protected override bool OnDeserializeUnrecognizedElement(string elementName, System.Xml.XmlReader reader)
         {
-            return 
+            return
                 valueElementHelper.DeserializeUnknownElement(elementName, reader) ||
                 base.OnDeserializeUnrecognizedElement(elementName, reader);
+        }
+
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            Guard.ArgumentNotNull(writer, "writer");
+            writer.WriteAttributeString(NamePropertyName, Name);
+            ValueElementHelper.SerializeParameterValueElement(writer, Value, false);
         }
 
         /// <summary>
@@ -151,16 +179,16 @@ namespace Microsoft.Practices.Unity.Configuration
         /// applied to the container registration.</returns>
         public override IEnumerable<InjectionMember> GetInjectionMembers(IUnityContainer container, Type fromType, Type toType, string name)
         {
-            return new[] {new InjectionProperty(Name, Value.GetInjectionParameterValue(container, GetPropertyType(toType)))};
+            return new[] { new InjectionProperty(Name, Value.GetInjectionParameterValue(container, GetPropertyType(toType))) };
         }
 
         private Type GetPropertyType(Type typeContainingProperty)
         {
             var propertyInfo = typeContainingProperty.GetProperty(Name);
-            if(propertyInfo == null)
+            if (propertyInfo == null)
             {
                 throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentUICulture,
+                    string.Format(CultureInfo.CurrentCulture,
                         Resources.NoSuchProperty,
                         typeContainingProperty.Name, Name));
             }

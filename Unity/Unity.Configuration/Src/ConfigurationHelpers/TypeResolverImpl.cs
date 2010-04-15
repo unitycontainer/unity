@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
+using System.IO;
 using Microsoft.Practices.Unity.Configuration.Properties;
 
 namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
@@ -80,13 +80,15 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
             IEnumerable<string> namespaces, IEnumerable<string> assemblies)
         {
             aliases = new Dictionary<string, string>();
-            foreach(var pair in aliasesSequence)
+            foreach (var pair in aliasesSequence)
             {
                 aliases.Add(pair.Key, pair.Value);
             }
 
             this.namespaces = new List<string>(namespaces);
             this.assemblies = new List<string>(assemblies);
+            this.assemblies.Add(typeof(object).Assembly.FullName);
+            this.assemblies.Add(typeof(Uri).Assembly.FullName);
         }
 
         /// <summary>
@@ -103,10 +105,10 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
             Type resolvedType = ResolveTypeInternal(typeNameOrAlias) ??
                 ResolveGenericTypeShorthand(typeNameOrAlias);
 
-            if(resolvedType == null && throwIfResolveFails)
+            if (resolvedType == null && throwIfResolveFails)
             {
                 throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentUICulture,
+                    string.Format(CultureInfo.CurrentCulture,
                         Resources.CouldNotResolveType, typeNameOrAlias));
             }
             return resolvedType;
@@ -132,7 +134,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// return null on failure.</param>
         /// <returns>
         /// <para>If <paramref name="typeNameOrAlias"/> is null or an empty string,
-        /// then return <paramref name="=defaultValue"/>.</para>
+        /// then return <paramref name="defaultValue"/>.</para>
         /// <para>Otherwise, return the resolved type object. If the resolution fails
         /// and <paramref name="throwIfResolveFails"/> is false, then return null.</para>
         /// </returns>
@@ -154,7 +156,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         {
             string mappedTypeName = aliases.GetOrNull(typeNameOrAlias) ??
                 aliases.GetOrNull(RemoveGenericWart(typeNameOrAlias));
-            if(mappedTypeName != null)
+            if (mappedTypeName != null)
             {
                 return Type.GetType(mappedTypeName);
             }
@@ -185,7 +187,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
 
         private Type ResolveTypeThroughSearch(string typeNameOrAlias)
         {
-            if(namespaces.Count == 0)
+            if (namespaces.Count == 0)
             {
                 return SearchAssemblies(typeNameOrAlias);
             }
@@ -196,10 +198,10 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         {
             Type result = null;
             TypeNameInfo parseResult = TypeNameParser.Parse(typeNameOrAlias);
-            if(parseResult != null && parseResult.IsGenericType)
+            if (parseResult != null && parseResult.IsGenericType)
             {
                 result = ResolveTypeInternal(parseResult.FullName);
-                if(result == null) return null;
+                if (result == null) return null;
 
                 var genericParams = new List<Type>(parseResult.NumGenericParameters);
                 bool isOpenGeneric = (parseResult.GenericParameters[0] == null);
@@ -233,10 +235,16 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
             {
                 foreach (var ns in namespaces)
                 {
-                    Type result = Type.GetType(MakeTypeName(ns, typeNameOrAlias, asm));
-                    if (result != null)
+                    try
                     {
-                        return result;
+                        Type result = Type.GetType(MakeTypeName(ns, typeNameOrAlias, asm));
+                        if (result != null)
+                        {
+                            return result;
+                        }
+                    }
+                    catch (FileLoadException)
+                    {
                     }
                 }
             }
@@ -245,10 +253,10 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
 
         private Type SearchAssemblies(string typeNameOrAlias)
         {
-            foreach(var asm in assemblies)
+            foreach (var asm in assemblies)
             {
                 Type result = Type.GetType(MakeAssemblyQualifiedName(typeNameOrAlias, asm));
-                if(result != null)
+                if (result != null)
                 {
                     return result;
                 }
@@ -258,7 +266,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
 
         private static string MakeTypeName(string ns, string typename, string assembly)
         {
-            return MakeAssemblyQualifiedName(ns + "." + typename, assembly); 
+            return MakeAssemblyQualifiedName(ns + "." + typename, assembly);
         }
 
         private static string MakeAssemblyQualifiedName(string typename, string assembly)

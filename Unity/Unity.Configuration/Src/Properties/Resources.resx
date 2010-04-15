@@ -132,8 +132,23 @@
   <data name="CouldNotResolveType" xml:space="preserve">
     <value>The type name or alias {0} could not be resolved. Please check your configuration file and verify this type name.</value>
   </data>
+  <data name="DependencyForGenericParameterWithTypeSet" xml:space="preserve">
+    <value>The dependency element for generic parameter {0} must not have an explicit type name but has '{1}'.</value>
+  </data>
+  <data name="DependencyForOptionalGenericParameterWithTypeSet" xml:space="preserve">
+    <value>The optional dependency element for generic parameter {0} must not have an explicit type name but has '{1}'.</value>
+  </data>
   <data name="DestinationNameFormat" xml:space="preserve">
     <value>{0} {1}</value>
+  </data>
+  <data name="DuplicateParameterValueElement" xml:space="preserve">
+    <value>The injection configuration for {0} has multiple values.</value>
+  </data>
+  <data name="ElementTypeNotRegistered" xml:space="preserve">
+    <value>The configuration element type {0} has not been registered with the section.</value>
+  </data>
+  <data name="ElementWithAttributesAndParameterValueElements" xml:space="preserve">
+    <value>The injection configuration for {0} is specified through both attributes and child value elements.</value>
   </data>
   <data name="ExtensionTypeNotFound" xml:space="preserve">
     <value>Could not load section extension type {0}.</value>
@@ -171,7 +186,13 @@
   <data name="RequiredPropertyMissing" xml:space="preserve">
     <value>The attribute {0} must be present and non-empty.</value>
   </data>
-  <data name="ValueNotAllowedForGenericParameter" xml:space="preserve">
-    <value>The parameter {0} is a generic parameter. You cannot specify a specific value for generic parameters.</value>
+  <data name="ValueNotAllowedForGenericArrayType" xml:space="preserve">
+    <value>The value element for {1} was specified for the generic array type {0}. Value elements are not allowed for generic array types.</value>
+  </data>
+  <data name="ValueNotAllowedForGenericParameterType" xml:space="preserve">
+    <value>The value element for {1} was specified for the generic parameter type {0}. Value elements are not allowed for generic parameter types.</value>
+  </data>
+  <data name="ValueNotAllowedForOpenGenericType" xml:space="preserve">
+    <value>The value element for {1} was specified for the generic type {0}. Value elements are not allowed for generic types.</value>
   </data>
 </root>

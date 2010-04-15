@@ -75,7 +75,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
         /// <summary>
         /// Given a list of overloads for a method, return only those methods
-        /// that are actually visible. In other words, if there's a "new foo" method
+        /// that are actually visible. In other words, if there's a "new SomeType" method
         /// somewhere, return only the new one, not the one from the base class
         /// that's now hidden.
         /// </summary>

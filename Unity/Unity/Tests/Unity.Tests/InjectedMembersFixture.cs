@@ -127,11 +127,11 @@ namespace Microsoft.Practices.Unity.Tests
             container.Resolve<GuineaPig>();
 
             container.RegisterType<GuineaPig>(
-                new InjectionConstructor(new InjectionParameter(typeof(object), "foo")));
+                new InjectionConstructor(new InjectionParameter(typeof(object), "someValue")));
 
             GuineaPig pig2 = container.Resolve<GuineaPig>();
 
-            Assert.AreEqual("foo", pig2.ObjectProperty.ToString());
+            Assert.AreEqual("someValue", pig2.ObjectProperty.ToString());
         }
 
         [TestMethod]

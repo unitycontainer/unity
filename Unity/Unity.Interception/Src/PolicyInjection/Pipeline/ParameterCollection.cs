@@ -81,9 +81,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <value>value of the named parameter.</value>
         public object this[string parameterName]
         {
-            get { return arguments[IndexForInputParameterName(parameterName)]; }
+            get { return arguments[argumentInfo[IndexForInputParameterName(parameterName)].Index]; }
 
-            set { arguments[IndexForInputParameterName(parameterName)] = value; }
+            set { arguments[argumentInfo[IndexForInputParameterName(parameterName)].Index] = value; }
         }
 
         private int IndexForInputParameterName(string paramName)
@@ -99,10 +99,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         }
 
         /// <summary>
-        /// Gets the name of a parameter based on index.
+        /// Gets the value of a parameter based on index.
         /// </summary>
-        /// <param name="index">Index of parameter to get the name for.</param>
-        /// <value>Name of the requested parameter.</value>
+        /// <param name="index">Index of parameter to get the value for.</param>
+        /// <value>Value of the requested parameter.</value>
         public object this[int index]
         {
             get { return arguments[argumentInfo[index].Index]; }
@@ -161,7 +161,18 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             return
                 argumentInfo.Exists(
-                    delegate(ArgumentInfo info) { return arguments[info.Index].Equals(value); });
+                    delegate(ArgumentInfo info) 
+                    { 
+                        var argument = arguments[info.Index];
+
+                        if(argument == null)
+                        {
+                            return value == null;
+                        }
+
+                        return argument.Equals(value); 
+                    }
+                );
         }
 
         /// <summary>

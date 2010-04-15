@@ -31,7 +31,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             // empty
             container
                 .Configure<Interception>()
-                    .AddPolicy("foo");
+                    .AddPolicy("policy1");
 
             List<InjectionPolicy> policies
                 = new List<InjectionPolicy>(container.ResolveAll<InjectionPolicy>());
@@ -39,7 +39,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Assert.AreEqual(2, policies.Count);
             Assert.IsInstanceOfType(policies[0], typeof(AttributeDrivenPolicy));
             Assert.IsInstanceOfType(policies[1], typeof(RuleDrivenPolicy));
-            Assert.AreEqual("foo", policies[1].Name);
+            Assert.AreEqual("policy1", policies[1].Name);
         }
 
         [TestMethod]
@@ -84,8 +84,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             // empty
             container
                 .Configure<Interception>()
-                    .AddPolicy("foo").Interception
-                    .AddPolicy("bar");
+                    .AddPolicy("policy1").Interception
+                    .AddPolicy("policy2");
 
             List<InjectionPolicy> policies
                 = new List<InjectionPolicy>(container.ResolveAll<InjectionPolicy>());
@@ -93,9 +93,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Assert.AreEqual(3, policies.Count);
             Assert.IsInstanceOfType(policies[0], typeof(AttributeDrivenPolicy));
             Assert.IsInstanceOfType(policies[1], typeof(RuleDrivenPolicy));
-            Assert.AreEqual("foo", policies[1].Name);
+            Assert.AreEqual("policy1", policies[1].Name);
             Assert.IsInstanceOfType(policies[2], typeof(RuleDrivenPolicy));
-            Assert.AreEqual("bar", policies[2].Name);
+            Assert.AreEqual("policy2", policies[2].Name);
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .AddPolicy("foo")
+                    .AddPolicy("policy1")
                         .AddMatchingRule(rule1)
                         .AddCallHandler(handler1);
 
@@ -131,7 +131,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .AddPolicy("foo")
+                    .AddPolicy("policy1")
                         .AddMatchingRule(typeof(AlwaysMatchingRule))
                         .AddCallHandler(typeof(GlobalCountCallHandler));
 
@@ -155,7 +155,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .AddPolicy("foo")
+                    .AddPolicy("policy1")
                         .AddMatchingRule<AlwaysMatchingRule>()
                         .AddCallHandler<GlobalCountCallHandler>();
 
@@ -179,7 +179,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .AddPolicy("foo")
+                    .AddPolicy("policy1")
                         .AddMatchingRule<AlwaysMatchingRule>()
                         .AddCallHandler<GlobalCountCallHandler>(
                             new InjectionConstructor("handler1"))
@@ -208,7 +208,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .AddPolicy("foo")
+                    .AddPolicy("policy1")
                         .AddMatchingRule(typeof(AlwaysMatchingRule))
                         .AddCallHandler(
                             typeof(GlobalCountCallHandler),
@@ -239,7 +239,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .AddPolicy("foo")
+                    .AddPolicy("policy1")
                         .AddMatchingRule("rule1")
                         .AddCallHandler("handler1")
                         .AddCallHandler("handler2").Interception.Container
@@ -273,7 +273,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .AddPolicy("foo")
+                    .AddPolicy("policy1")
                         .AddMatchingRule<AlwaysMatchingRule>("rule1")
                         .AddCallHandler<GlobalCountCallHandler>(
                             "handler1",
@@ -309,7 +309,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .AddPolicy("foo")
+                    .AddPolicy("policy1")
                         .AddMatchingRule<AlwaysMatchingRule>(
                             "rule1",
                             new ContainerControlledLifetimeManager())
@@ -347,7 +347,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             {
                 container
                     .Configure<Interception>()
-                        .AddPolicy("foo")
+                        .AddPolicy("policy1")
                             .AddMatchingRule(typeof(AlwaysMatchingRule))
                             .AddMatchingRule((string)null)
                             .AddCallHandler(new CallCountHandler());

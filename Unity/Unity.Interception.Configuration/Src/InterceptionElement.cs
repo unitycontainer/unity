@@ -69,6 +69,21 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         }
 
         /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            foreach(var policy in Policies)
+            {
+                writer.WriteElement("policy", policy.SerializeContent);
+            }
+        }
+
+        /// <summary>
         /// Apply this element's configuration to the given <paramref name="container"/>.
         /// </summary>
         /// <param name="container">Container to configure.</param>

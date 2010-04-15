@@ -37,13 +37,15 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="context">The context for the operation.</param>
         public override void PreBuildUp(IBuilderContext context)
         {
+            Guard.ArgumentNotNull(context, "context");
             DynamicBuildPlanGenerationContext ilContext = (DynamicBuildPlanGenerationContext)(context.Existing);
 
-            IPropertySelectorPolicy selector = context.Policies.Get<IPropertySelectorPolicy>(context.BuildKey);
+            IPolicyList resolverPolicyDestination;
+            IPropertySelectorPolicy selector = context.Policies.Get<IPropertySelectorPolicy>(context.BuildKey, out resolverPolicyDestination);
 
             bool shouldClearOperation = false;
 
-            foreach (SelectedProperty property in selector.SelectProperties(context))
+            foreach (SelectedProperty property in selector.SelectProperties(context, resolverPolicyDestination))
             {
                 shouldClearOperation = true;
                 // Set the current operation to resolving
@@ -77,7 +79,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             if(setter == null)
             {
                 throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentUICulture,
+                    string.Format(CultureInfo.CurrentCulture,
                         Resources.PropertyNotSettable,
                         property.Name, property.DeclaringType.FullName)
                     );

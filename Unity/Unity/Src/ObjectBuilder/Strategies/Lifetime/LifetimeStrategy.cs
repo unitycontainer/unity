@@ -11,6 +11,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.ObjectBuilder2
@@ -79,7 +80,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
             if(policy == null)
             {
-                policy = new TransientLifetimePolicy();
+                policy = new TransientLifetimeManager();
                 context.PersistentPolicies.Set<ILifetimePolicy>(policy, context.BuildKey);
             }
             return policy;
@@ -91,13 +92,14 @@ namespace Microsoft.Practices.ObjectBuilder2
             object openGenericBuildKey = new NamedTypeBuildKey(typeToBuild.GetGenericTypeDefinition(),
                                                                context.BuildKey.Name);
 
+            IPolicyList factorySource;
             ILifetimeFactoryPolicy factoryPolicy =
-                context.Policies.Get<ILifetimeFactoryPolicy>(openGenericBuildKey);
+                context.Policies.Get<ILifetimeFactoryPolicy>(openGenericBuildKey, out factorySource);
 
             if(factoryPolicy != null)
             {
                 ILifetimePolicy lifetime = factoryPolicy.CreateLifetimePolicy();
-                context.PersistentPolicies.Set<ILifetimePolicy>(lifetime, context.BuildKey);
+                factorySource.Set<ILifetimePolicy>(lifetime, context.BuildKey);
                 return lifetime;
             }
 

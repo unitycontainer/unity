@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 
@@ -34,6 +35,21 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         public InterceptorsInterceptorElementCollection Interceptors
         {
             get { return (InterceptorsInterceptorElementCollection) base[InterceptorsPropertyName]; }
+        }
+
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            foreach(var interceptorElement in Interceptors)
+            {
+                writer.WriteElement("interceptor", interceptorElement.SerializeContent);
+            }
         }
 
         /// <summary>

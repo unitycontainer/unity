@@ -28,21 +28,22 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <summary>
         /// Choose the constructor to call for the given type.
         /// </summary>
-        /// <param name="context">Current build context.</param>
+        /// <param name="context">Current build context</param>
+        /// <param name="resolverPolicyDestination">The <see cref='IPolicyList'/> to add any
+        /// generated resolver objects into.</param>
         /// <returns>The chosen constructor.</returns>
-        ///<exception cref="InvalidOperationException">Thrown when the constructor to choose is ambiguous.</exception>
-        public virtual SelectedConstructor SelectConstructor(IBuilderContext context)
+        public SelectedConstructor SelectConstructor(IBuilderContext context, IPolicyList resolverPolicyDestination)
         {
             Type typeToConstruct = context.BuildKey.Type;
             ConstructorInfo ctor = FindInjectionConstructor(typeToConstruct) ?? FindLongestConstructor(typeToConstruct);
-            if(ctor != null)
+            if (ctor != null)
             {
-                return CreateSelectedConstructor(context, ctor);
+                return CreateSelectedConstructor(context, resolverPolicyDestination, ctor);
             }
             return null;
         }
 
-        private SelectedConstructor CreateSelectedConstructor(IBuilderContext context, ConstructorInfo ctor)
+        private SelectedConstructor CreateSelectedConstructor(IBuilderContext context, IPolicyList resolverPolicyDestination, ConstructorInfo ctor)
         {
             SelectedConstructor result = new SelectedConstructor(ctor);
             
@@ -50,8 +51,8 @@ namespace Microsoft.Practices.ObjectBuilder2
             {
                 string key = Guid.NewGuid().ToString();
                 IDependencyResolverPolicy policy = CreateResolver(param);
-                context.PersistentPolicies.Set<IDependencyResolverPolicy>(policy, key);
-                DependencyResolverTrackerPolicy.TrackKey(context.PersistentPolicies,
+                resolverPolicyDestination.Set<IDependencyResolverPolicy>(policy, key);
+                DependencyResolverTrackerPolicy.TrackKey(resolverPolicyDestination,
                     context.BuildKey,
                     key);
                 result.AddParameterKey(key);

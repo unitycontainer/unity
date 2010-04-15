@@ -24,7 +24,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     public static class Intercept
     {
         /// <summary>
-        /// Returns a <see cref="IInterceptingProxy"/> for type <paramref name="interceptedType"/> which wraps 
+        /// Returns a <see cref="IInterceptingProxy"/> for type <typeparamref name="T"/> which wraps 
         /// the supplied <paramref name="target"/>.
         /// </summary>
         /// <typeparam name="T">The type to intercept.</typeparam>
@@ -38,15 +38,38 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="additionalInterfaces"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
-        /// <paramref name="interceptedType"/>.</exception>
-        public static T ThroughProxy<T>(
+        /// <typeparamref name="T"/>.</exception>
+        public static T ThroughProxyWithAdditionalInterfaces<T>(
             T target,
             IInstanceInterceptor interceptor,
             IEnumerable<IInterceptionBehavior> interceptionBehaviors,
             IEnumerable<Type> additionalInterfaces)
             where T : class
         {
-            return (T)ThroughProxy(typeof(T), target, interceptor, interceptionBehaviors, additionalInterfaces);
+            return (T)ThroughProxyWithAdditionalInterfaces(typeof(T), target, interceptor, interceptionBehaviors, additionalInterfaces);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="IInterceptingProxy"/> for type <typeparamref name="T"/> which wraps
+        /// the supplied <paramref name="target"/>.
+        /// </summary>
+        /// <typeparam name="T">Type to intercept.</typeparam>
+        /// <param name="target">The instance to intercept.</param>
+        /// <param name="interceptor">The <see cref="IInstanceInterceptor"/> to use when creating the proxy.</param>
+        /// <param name="interceptionBehaviors">The interception behaviors for the new proxy.</param>
+        /// <returns>A proxy for <paramref name="target"/> compatible with <typeparamref name="T"/>.</returns>
+        /// <exception cref="ArgumentNullException">when <paramref name="target"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">when <paramref name="interceptor"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
+        /// <typeparamref name="T"/>.</exception>
+        public static T ThroughProxy<T>(
+            T target,
+            IInstanceInterceptor interceptor,
+            IEnumerable<IInterceptionBehavior> interceptionBehaviors)
+            where T : class
+        {
+            return (T) ThroughProxyWithAdditionalInterfaces(typeof (T), target, interceptor, interceptionBehaviors, Type.EmptyTypes);
         }
 
         /// <summary>
@@ -66,7 +89,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <exception cref="ArgumentNullException">when <paramref name="additionalInterfaces"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
         /// <paramref name="interceptedType"/>.</exception>
-        public static object ThroughProxy(
+        public static object ThroughProxyWithAdditionalInterfaces(
             Type interceptedType,
             object target,
             IInstanceInterceptor interceptor,
@@ -89,18 +112,58 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     "interceptedType");
             }
 
-            IEnumerable<Type> allAdditionalInterfaces
-                = GetAllAdditionalInterfaces(interceptionBehaviors, additionalInterfaces);
+            var behaviors = interceptionBehaviors.ToList();
+            if(behaviors.Where(ib => ib == null).Count() > 0)
+            {
+                throw new ArgumentException(
+                    string.Format(CultureInfo.CurrentCulture, Resources.NullBehavior),
+                    "interceptionBehaviors");
+            }
+
+            var activeBehaviors = behaviors.Where(ib => ib.WillExecute).ToList();
+
+            var allAdditionalInterfaces
+                = GetAllAdditionalInterfaces(activeBehaviors, additionalInterfaces).ToList();
+
+            // If no behaviors and no extra interfaces, nothing to do.
+            if(activeBehaviors.Count == 0 && allAdditionalInterfaces.Count == 0)
+            {
+                return target;
+            }
 
             IInterceptingProxy proxy =
-                (IInterceptingProxy)interceptor.CreateProxy(interceptedType, target, allAdditionalInterfaces.ToArray());
+                interceptor.CreateProxy(interceptedType, target, allAdditionalInterfaces.ToArray());
 
-            foreach (IInterceptionBehavior interceptionBehavior in interceptionBehaviors)
+            foreach (IInterceptionBehavior interceptionBehavior in activeBehaviors)
             {
                 proxy.AddInterceptionBehavior(interceptionBehavior);
             }
 
             return proxy;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="IInterceptingProxy"/> for type <paramref name="interceptedType"/> which wraps 
+        /// the supplied <paramref name="target"/>.
+        /// </summary>
+        /// <param name="interceptedType">The type to intercept.</param>
+        /// <param name="target">The instance to intercept.</param>
+        /// <param name="interceptor">The <see cref="IInstanceInterceptor"/> to use when creating the proxy.</param>
+        /// <param name="interceptionBehaviors">The interception behaviors for the new proxy.</param>
+        /// <returns>A proxy for <paramref name="target"/> compatible with <paramref name="interceptedType"/>.</returns>
+        /// <exception cref="ArgumentNullException">when <paramref name="interceptedType"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">when <paramref name="target"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">when <paramref name="interceptor"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
+        /// <paramref name="interceptedType"/>.</exception>
+        public static object ThroughProxy(
+            Type interceptedType,
+            object target,
+            IInstanceInterceptor interceptor,
+            IEnumerable<IInterceptionBehavior> interceptionBehaviors)
+        {
+            return ThroughProxyWithAdditionalInterfaces(interceptedType, target, interceptor, interceptionBehaviors, Type.EmptyTypes);
         }
 
         /// <summary>
@@ -110,23 +173,47 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <typeparam name="T">The type of the object to create.</typeparam>
         /// <param name="interceptor">The <see cref="ITypeInterceptor"/> to use when creating the proxy.</param>
         /// <param name="interceptionBehaviors">The interception behaviors for the new proxy.</param>
-        /// <param name="additionalInterfaces">Any additional interfaces the instance must implement.</param>
+        /// <param name="additionalInterfaces">Any additional interfaces the proxy must implement.</param>
         /// <param name="constructorParameters">The arguments for the creation of the new instance.</param>
-        /// <returns>A proxy for <paramref name="target"/> compatible with <paramref name="interceptedType"/>.</returns>
-        /// <exception cref="ArgumentNullException">when <paramref name="type"/> is <see langword="null"/>.</exception>
+        /// <returns>An instance of a class compatible with <typeparamref name="T"/> that includes execution of the
+        /// given <paramref name="interceptionBehaviors"/>.</returns>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptor"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentNullException">when <paramref name="additionalInterfaces"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">When <paramref name="additionalInterfaces"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
         /// <typeparamref name="T"/>.</exception>
-        public static T NewInstance<T>(
+        public static T NewInstanceWithAdditionalInterfaces<T>(
             ITypeInterceptor interceptor,
             IEnumerable<IInterceptionBehavior> interceptionBehaviors,
             IEnumerable<Type> additionalInterfaces,
             params object[] constructorParameters)
             where T : class
         {
-            return (T)NewInstance(typeof(T), interceptor, interceptionBehaviors, additionalInterfaces, constructorParameters);
+            return (T)NewInstanceWithAdditionalInterfaces(typeof(T), interceptor, interceptionBehaviors, additionalInterfaces, constructorParameters);
+        }
+
+        /// <summary>
+        /// Creates a new instance of type <typeparamref name="T"/> that is intercepted with the behaviors in 
+        /// <paramref name="interceptionBehaviors"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the object to create.</typeparam>
+        /// <param name="interceptor">The <see cref="ITypeInterceptor"/> to use when creating the proxy.</param>
+        /// <param name="interceptionBehaviors">The interception behaviors for the new proxy.</param>
+        /// <param name="constructorParameters">The arguments for the creation of the new instance.</param>
+        /// <returns>An instance of a class compatible with <typeparamref name="T"/> that includes execution of the
+        /// given <paramref name="interceptionBehaviors"/>.</returns>
+        /// <exception cref="ArgumentNullException">when <paramref name="interceptor"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
+        /// <typeparamref name="T"/>.</exception>
+        public static T NewInstance<T>(
+            ITypeInterceptor interceptor,
+            IEnumerable<IInterceptionBehavior> interceptionBehaviors,
+            params object[] constructorParameters)
+            where T : class
+        {
+            return
+                (T) NewInstanceWithAdditionalInterfaces(typeof (T), interceptor, interceptionBehaviors, Type.EmptyTypes, constructorParameters);
         }
 
         /// <summary>
@@ -138,14 +225,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="interceptionBehaviors">The interception behaviors for the new proxy.</param>
         /// <param name="additionalInterfaces">Any additional interfaces the instance must implement.</param>
         /// <param name="constructorParameters">The arguments for the creation of the new instance.</param>
-        /// <returns>A proxy for <paramref name="target"/> compatible with <paramref name="interceptedType"/>.</returns>
+        /// <returns>An instance of a class compatible with <paramref name="type"/> that includes execution of the
+        /// given <paramref name="interceptionBehaviors"/>.</returns>
         /// <exception cref="ArgumentNullException">when <paramref name="type"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptor"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="additionalInterfaces"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
         /// <paramref name="type"/>.</exception>
-        public static object NewInstance(
+        public static object NewInstanceWithAdditionalInterfaces(
             Type type,
             ITypeInterceptor interceptor,
             IEnumerable<IInterceptionBehavior> interceptionBehaviors,
@@ -167,21 +255,55 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     "type");
             }
 
+            var behaviors = interceptionBehaviors.ToList();
+
+            if(behaviors.Where(ib => ib == null).Count() > 0)
+            {
+                throw new ArgumentException(
+                    string.Format(CultureInfo.CurrentCulture, Resources.NullBehavior),
+                    "interceptionBehaviors");
+            }
+
             Type implementationType = type;
 
-            Type[] allAdditionalInterfaces = GetAllAdditionalInterfaces(interceptionBehaviors, additionalInterfaces);
+            var activeBehaviors = behaviors.Where(ib => ib.WillExecute);
+
+            Type[] allAdditionalInterfaces = GetAllAdditionalInterfaces(activeBehaviors, additionalInterfaces);
 
             Type interceptionType = interceptor.CreateProxyType(implementationType, allAdditionalInterfaces);
 
-            IInterceptingProxy proxy =
-                (IInterceptingProxy)Activator.CreateInstance(interceptionType, constructorParameters);
+            var proxy = (IInterceptingProxy)Activator.CreateInstance(interceptionType, constructorParameters);
 
-            foreach (IInterceptionBehavior interceptionBehavior in interceptionBehaviors)
+            foreach (IInterceptionBehavior interceptionBehavior in activeBehaviors)
             {
                 proxy.AddInterceptionBehavior(interceptionBehavior);
             }
 
             return proxy;
+        }
+
+        /// <summary>
+        /// Creates a new instance of type <paramref name="type"/> that is intercepted with the behaviors in 
+        /// <paramref name="interceptionBehaviors"/>.
+        /// </summary>
+        /// <param name="type">The type of the object to create.</param>
+        /// <param name="interceptor">The <see cref="ITypeInterceptor"/> to use when creating the proxy.</param>
+        /// <param name="interceptionBehaviors">The interception behaviors for the new proxy.</param>
+        /// <param name="constructorParameters">The arguments for the creation of the new instance.</param>
+        /// <returns>An instance of a class compatible with <paramref name="type"/> that includes execution of the
+        /// given <paramref name="interceptionBehaviors"/>.</returns>
+        /// <exception cref="ArgumentNullException">when <paramref name="type"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">when <paramref name="interceptor"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
+        /// <paramref name="type"/>.</exception>
+        public static object NewInstance(
+            Type type,
+            ITypeInterceptor interceptor,
+            IEnumerable<IInterceptionBehavior> interceptionBehaviors,
+            params object[] constructorParameters)
+        {
+            return NewInstanceWithAdditionalInterfaces(type, interceptor, interceptionBehaviors, Type.EmptyTypes, constructorParameters);
         }
 
         /// <summary>

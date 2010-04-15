@@ -26,7 +26,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof (List<>)));
 
-            var result = policy.Map(original);
+            var result = policy.Map(original, null);
             Assert.AreEqual(expected, result);
         }
 
@@ -36,7 +36,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             NamedTypeBuildKey original = new NamedTypeBuildKey(typeof (IList<string>), "test");
             IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof (List<>), "test"));
 
-            NamedTypeBuildKey result = policy.Map(original);
+            NamedTypeBuildKey result = policy.Map(original, null);
 
             Assert.AreEqual(typeof (List<string>), result.Type);
             Assert.AreEqual(original.Name, result.Name);
@@ -48,7 +48,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         {
             var original = new NamedTypeBuildKey(typeof (IList<string>));
             IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof (Dictionary<,>)));
-            policy.Map(original);
+            policy.Map(original, null);
         }
 
         [TestMethod]
@@ -56,7 +56,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void PolicyThrowsIfInputIsNotAGeneric()
         {
             IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof (List<>)));
-            policy.Map(new NamedTypeBuildKey<int>());
+            policy.Map(new NamedTypeBuildKey<int>(), null);
         }
 
     }

@@ -22,13 +22,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <summary>
         /// Removes an individual policy type for a build key.
         /// </summary>
-        /// <typeparam name="TPolicyInterface">The type the policy was registered as.</typeparam>
-        /// <param name="buildKey">The key the policy applies.</param>
-        void Clear<TPolicyInterface>(object buildKey);
-
-        /// <summary>
-        /// Removes an individual policy type for a build key.
-        /// </summary>
         /// <param name="policyInterface">The type of policy to remove.</param>
         /// <param name="buildKey">The key the policy applies.</param>
         void Clear(Type policyInterface,
@@ -42,97 +35,38 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <summary>
         /// Removes a default policy.
         /// </summary>
-        /// <typeparam name="TPolicyInterface">The type the policy was registered as.</typeparam>
-        void ClearDefault<TPolicyInterface>();
-
-        /// <summary>
-        /// Removes a default policy.
-        /// </summary>
         /// <param name="policyInterface">The type the policy was registered as.</param>
         void ClearDefault(Type policyInterface);
 
         /// <summary>
         /// Gets an individual policy.
         /// </summary>
-        /// <typeparam name="TPolicyInterface">The interface the policy is registered under.</typeparam>
-        /// <param name="buildKey">The key the policy applies.</param>
-        /// <returns>The policy in the list, if present; returns null otherwise.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
-            Justification = "Back compat with ObjectBuilder")]
-        TPolicyInterface Get<TPolicyInterface>(object buildKey)
-            where TPolicyInterface : IBuilderPolicy;
-
-
-        /// <summary>
-        /// Gets an individual policy.
-        /// </summary>
-        /// <param name="policyInterface">The interface the policy is registered under.</param>
-        /// <param name="buildKey">The key the policy applies.</param>
-        /// <returns>The policy in the list, if present; returns null otherwise.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
-            Justification="Back compat with ObjectBuilder")]
-        IBuilderPolicy Get(Type policyInterface,
-                           object buildKey);
-
-        /// <summary>
-        /// Gets an individual policy.
-        /// </summary>
-        /// <typeparam name="TPolicyInterface">The interface the policy is registered under.</typeparam>
-        /// <param name="buildKey">The key the policy applies.</param>
-        /// <param name="localOnly">true if the policy searches local only; otherwise false to seach up the parent chain.</param>
-        /// <returns>The policy in the list, if present; returns null otherwise.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
-            Justification = "Back compat with ObjectBuilder")]
-        TPolicyInterface Get<TPolicyInterface>(object buildKey,
-                                               bool localOnly)
-            where TPolicyInterface : IBuilderPolicy;
-
-        /// <summary>
-        /// Gets an individual policy.
-        /// </summary>
         /// <param name="policyInterface">The interface the policy is registered under.</param>
         /// <param name="buildKey">The key the policy applies.</param>
         /// <param name="localOnly">true if the policy searches local only; otherwise false to seach up the parent chain.</param>
+        /// <param name="containingPolicyList">The policy list in the chain that the searched for policy was found in, null if the policy was
+        /// not found.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
             Justification = "Back compat with ObjectBuilder")]
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#")]
         IBuilderPolicy Get(Type policyInterface,
-                           object buildKey,
-                           bool localOnly);
-
-        /// <summary>
-        /// Get the non default policy.
-        /// </summary>
-        /// <typeparam name="TPolicyInterface">The interface the policy is registered under.</typeparam>
-        /// <param name="buildKey">The key the policy applies.</param>
-        /// <param name="localOnly">true if the policy searches local only; otherwise false to seach up the parent chain.</param>
-        /// <returns>The policy in the list, if present; returns null otherwise.</returns>
-        TPolicyInterface GetNoDefault<TPolicyInterface>(object buildKey,
-                                                        bool localOnly)
-            where TPolicyInterface : IBuilderPolicy;
+            object buildKey,
+            bool localOnly,
+            out IPolicyList containingPolicyList);
 
         /// <summary>
         /// Get the non default policy.
         /// </summary>
         /// <param name="policyInterface">The interface the policy is registered under.</param>
-        /// <param name="buildKey">The key the policy applies.</param>
-        /// <param name="localOnly">true if the policy searches local only; otherwise false to seach up the parent chain.</param>
-        /// <returns>The policy in the list, if present; returns null otherwise.</returns>
-        IBuilderPolicy GetNoDefault(Type policyInterface,
-                                    object buildKey,
-                                    bool localOnly);
-
-        /// <summary>
-        /// Sets an individual policy.
-        /// </summary>
-        /// <typeparam name="TPolicyInterface">The interface the policy is registered under.</typeparam>
-        /// <param name="policy">The policy to be registered.</param>
-        /// <param name="buildKey">The key the policy applies.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Set",
-            Justification = "Back compat with ObjectBuilder")]
-        void Set<TPolicyInterface>(TPolicyInterface policy,
-                                   object buildKey)
-            where TPolicyInterface : IBuilderPolicy;
+        /// <param name="buildKey">The key the policy applies to.</param>
+        /// <param name="localOnly">True if the search should be in the local policy list only; otherwise false to search up the parent chain.</param>
+        /// <param name="containingPolicyList">The policy list in the chain that the searched for policy was found in, null if the policy was
+        /// not found.</param>
+        /// <returns>The policy in the list if present; returns null otherwise.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#")]
+        IBuilderPolicy GetNoDefault(Type policyInterface, object buildKey, bool localOnly,
+            out IPolicyList containingPolicyList);
 
         /// <summary>
         /// Sets an individual policy.
@@ -145,15 +79,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         void Set(Type policyInterface,
                  IBuilderPolicy policy,
                  object buildKey);
-
-        /// <summary>
-        /// Sets a default policy. When checking for a policy, if no specific individual policy
-        /// is available, the default will be used.
-        /// </summary>
-        /// <typeparam name="TPolicyInterface">The interface to register the policy under.</typeparam>
-        /// <param name="policy">The default policy to be registered.</param>
-        void SetDefault<TPolicyInterface>(TPolicyInterface policy)
-            where TPolicyInterface : IBuilderPolicy;
 
         /// <summary>
         /// Sets a default policy. When checking for a policy, if no specific individual policy

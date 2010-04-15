@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity
 {
@@ -35,6 +36,9 @@ namespace Microsoft.Practices.Unity
         /// <param name="innerOverride">Inner override to check after type matches.</param>
         public TypeBasedOverride(Type targetType, ResolverOverride innerOverride)
         {
+            Guard.ArgumentNotNull(targetType, "targetType");
+            Guard.ArgumentNotNull(innerOverride, "innerOverride");
+
             this.targetType = targetType;
             this.innerOverride = innerOverride;
         }
@@ -48,6 +52,8 @@ namespace Microsoft.Practices.Unity
         /// <returns>a <see cref="IDependencyResolverPolicy"/> object if this override applies, null if not.</returns>
         public override IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType)
         {
+            Guard.ArgumentNotNull(context, "context");
+
             var operation = context.CurrentOperation as BuildOperation;
             if(operation != null
                 && operation.TypeBeingConstructed == targetType)

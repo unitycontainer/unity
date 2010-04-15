@@ -117,11 +117,56 @@ namespace Microsoft.Practices.Unity.Configuration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The dependency element for generic parameter {0} must not have an explicit type name but has &apos;{1}&apos;..
+        /// </summary>
+        internal static string DependencyForGenericParameterWithTypeSet {
+            get {
+                return ResourceManager.GetString("DependencyForGenericParameterWithTypeSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The optional dependency element for generic parameter {0} must not have an explicit type name but has &apos;{1}&apos;..
+        /// </summary>
+        internal static string DependencyForOptionalGenericParameterWithTypeSet {
+            get {
+                return ResourceManager.GetString("DependencyForOptionalGenericParameterWithTypeSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} {1}.
         /// </summary>
         internal static string DestinationNameFormat {
             get {
                 return ResourceManager.GetString("DestinationNameFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The injection configuration for {0} has multiple values..
+        /// </summary>
+        internal static string DuplicateParameterValueElement {
+            get {
+                return ResourceManager.GetString("DuplicateParameterValueElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The configuration element type {0} has not been registered with the section..
+        /// </summary>
+        internal static string ElementTypeNotRegistered {
+            get {
+                return ResourceManager.GetString("ElementTypeNotRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The injection configuration for {0} is specified through both attributes and child value elements..
+        /// </summary>
+        internal static string ElementWithAttributesAndParameterValueElements {
+            get {
+                return ResourceManager.GetString("ElementWithAttributesAndParameterValueElements", resourceCulture);
             }
         }
         
@@ -234,11 +279,29 @@ namespace Microsoft.Practices.Unity.Configuration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The parameter {0} is a generic parameter. You cannot specify a specific value for generic parameters..
+        ///   Looks up a localized string similar to The value element for {1} was specified for the generic array type {0}. Value elements are not allowed for generic array types..
         /// </summary>
-        internal static string ValueNotAllowedForGenericParameter {
+        internal static string ValueNotAllowedForGenericArrayType {
             get {
-                return ResourceManager.GetString("ValueNotAllowedForGenericParameter", resourceCulture);
+                return ResourceManager.GetString("ValueNotAllowedForGenericArrayType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value element for {1} was specified for the generic parameter type {0}. Value elements are not allowed for generic parameter types..
+        /// </summary>
+        internal static string ValueNotAllowedForGenericParameterType {
+            get {
+                return ResourceManager.GetString("ValueNotAllowedForGenericParameterType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value element for {1} was specified for the generic type {0}. Value elements are not allowed for generic types..
+        /// </summary>
+        internal static string ValueNotAllowedForOpenGenericType {
+            get {
+                return ResourceManager.GetString("ValueNotAllowedForOpenGenericType", resourceCulture);
             }
         }
     }

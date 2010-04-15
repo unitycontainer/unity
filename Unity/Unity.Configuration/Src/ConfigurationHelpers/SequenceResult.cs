@@ -88,9 +88,9 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         }
 
         /// <summary>
-        /// Copies the elements of the <see cref="T:System.Collections.Generic.ICollection`1"/> to an <see cref="T:System.Array"/>, starting at a particular <see cref="T:System.Array"/> index.
+        /// Copies the elements of the sequence to an <see cref="T:System.Array"/>, starting at a particular <see cref="T:System.Array"/> index.
         /// </summary>
-        /// <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the elements copied from <see cref="T:System.Collections.Generic.ICollection`1"/>. The <see cref="T:System.Array"/> must have zero-based indexing.
+        /// <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the elements copied from this sequence. The <see cref="T:System.Array"/> must have zero-based indexing.
         ///                 </param><param name="arrayIndex">The zero-based index in <paramref name="array"/> at which copying begins.
         ///                 </param><exception cref="T:System.ArgumentNullException"><paramref name="array"/> is null.
         ///                 </exception><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="arrayIndex"/> is less than 0.
@@ -98,9 +98,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         ///                     -or-
         ///                 <paramref name="arrayIndex"/> is equal to or greater than the length of <paramref name="array"/>.
         ///                     -or-
-        ///                     The number of elements in the source <see cref="T:System.Collections.Generic.ICollection`1"/> is greater than the available space from <paramref name="arrayIndex"/> to the end of the destination <paramref name="array"/>.
-        ///                     -or-
-        ///                     Type <paramref name="T"/> cannot be cast automatically to the type of the destination <paramref name="array"/>.
+        ///                     The number of elements in the source is greater than the available space from <paramref name="arrayIndex"/> to the end of the destination <paramref name="array"/>.
         ///                 </exception>
         public void CopyTo(ParseResult[] array, int arrayIndex)
         {

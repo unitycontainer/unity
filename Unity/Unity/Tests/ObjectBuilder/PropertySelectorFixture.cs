@@ -51,7 +51,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         private List<PropertyInfo> SelectProperties(Type t)
         {
             IPropertySelectorPolicy selector = new PropertySelectorPolicy<DependencyAttribute>();
-            var properties =  new List<SelectedProperty>(selector.SelectProperties(GetContext(t)));
+            IBuilderContext context = GetContext(t);
+            var properties =  new List<SelectedProperty>(selector.SelectProperties(context, context.PersistentPolicies));
             return properties.Select(sp => sp.Property).ToList();
         }
 

@@ -22,30 +22,6 @@ namespace Microsoft.Practices.Unity.Configuration
     public class ParameterElementCollection : DeserializableConfigurationElementCollection<ParameterElement>
     {
         /// <summary>
-        /// Attempts to deserialize any unknown elements as <see cref="ParameterElement"/>s.
-        /// </summary>
-        /// <returns>
-        /// true if the unrecognized element was deserialized successfully; otherwise, false. The default is false.
-        /// </returns>
-        /// <param name="elementName">The name of the unrecognized element. 
-        ///                 </param><param name="reader">An input stream that reads XML from the configuration file. 
-        ///                 </param><exception cref="T:System.Configuration.ConfigurationErrorsException">The element specified in <paramref name="elementName"/> is the &lt;clear&gt; element.
-        ///                 </exception><exception cref="T:System.ArgumentException"><paramref name="elementName"/> starts with the reserved prefix "config" or "lock".
-        ///                 </exception>
-        protected override bool OnDeserializeUnrecognizedElement(string elementName, XmlReader reader)
-        {
-            var element = new ParameterElement();
-            element.Deserialize(reader);
-
-            if (string.IsNullOrEmpty(element.Name))
-            {
-                element.Name = elementName;
-            }
-            Add(element);
-            return true;
-        }
-
-        /// <summary>
         /// Gets the element key for a specified configuration element when overridden in a derived class.
         /// </summary>
         /// <returns>

@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System.Configuration;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -30,6 +31,9 @@ namespace Microsoft.Practices.Unity.Configuration
         public static IUnityContainer LoadConfiguration(this IUnityContainer container,
             UnityConfigurationSection section, string containerName)
         {
+            Guard.ArgumentNotNull(container, "container");
+            Guard.ArgumentNotNull(section, "section");
+
             section.Configure(container, containerName);
             return container;
         }
@@ -43,6 +47,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns><paramref name="container"/>.</returns>
         public static IUnityContainer LoadConfiguration(this IUnityContainer container, string containerName)
         {
+            Guard.ArgumentNotNull(container, "container");
             var section = (UnityConfigurationSection) ConfigurationManager.GetSection("unity");
             return container.LoadConfiguration(section, containerName);
         }
@@ -54,6 +59,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns><paramref name="container"/>.</returns>
         public static IUnityContainer LoadConfiguration(this IUnityContainer container)
         {
+            Guard.ArgumentNotNull(container, "container");
             var section = (UnityConfigurationSection) ConfigurationManager.GetSection("unity");
             return container.LoadConfiguration(section, "");
         }
@@ -66,6 +72,8 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns><paramref name="container"/>.</returns>
         public static IUnityContainer LoadConfiguration(this IUnityContainer container, UnityConfigurationSection section)
         {
+            Guard.ArgumentNotNull(container, "container");
+            Guard.ArgumentNotNull(section, "section");
             return container.LoadConfiguration(section, "");
         }
     }

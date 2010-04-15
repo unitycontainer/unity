@@ -14,6 +14,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity
 {
@@ -34,6 +35,7 @@ namespace Microsoft.Practices.Unity
         /// <param name="name">Name to resolve with.</param>
         public OptionalDependencyResolverPolicy(Type type, string name)
         {
+            Guard.ArgumentNotNull(type, "type");
             if(type.IsValueType)
             {
                 throw new ArgumentException(
@@ -84,6 +86,7 @@ namespace Microsoft.Practices.Unity
             Justification = "Entire purpose of this class is to eat the exception")]
         public object Resolve(IBuilderContext context)
         {
+            Guard.ArgumentNotNull(context, "context");
             var newKey = new NamedTypeBuildKey(type, name);
             try
             {

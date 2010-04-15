@@ -211,12 +211,12 @@ namespace Microsoft.Practices.Unity.Tests
                 this.resolverPolicy = resolverPolicy;
             }
 
-            public SelectedConstructor SelectConstructor(IBuilderContext context)
+            public SelectedConstructor SelectConstructor(IBuilderContext context, IPolicyList resolverPoliciesDestination)
             {
                 SelectedConstructor selectedConstructor
                     = new SelectedConstructor(typeof(InjectedObject).GetConstructor(new Type[] { typeof(object) }));
                 selectedConstructor.AddParameterKey("InjectedObject_injectedValue");
-                context.PersistentPolicies.Set<IDependencyResolverPolicy>(this.resolverPolicy, "InjectedObject_injectedValue");
+                resolverPoliciesDestination.Set<IDependencyResolverPolicy>(this.resolverPolicy, "InjectedObject_injectedValue");
 
                 return selectedConstructor;
             }

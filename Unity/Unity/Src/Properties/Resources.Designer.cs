@@ -252,6 +252,15 @@ namespace Microsoft.Practices.Unity.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The override marker build plan policy has been invoked. This should never happen, looks like a bug in the container..
+        /// </summary>
+        internal static string MarkerBuildPlanInvoked {
+            get {
+                return ResourceManager.GetString("MarkerBuildPlanInvoked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resolving parameter &quot;{0}&quot; of method {1}.{2}.
         /// </summary>
         internal static string MethodArgumentResolveOperation {

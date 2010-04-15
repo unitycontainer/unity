@@ -13,6 +13,7 @@ using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Tests.TestDoubles;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -102,8 +103,8 @@ namespace Microsoft.Practices.Unity.Tests
         {
             IUnityContainer container = new UnityContainer()
                 .RemoveAllExtensions()
-                .AddNewExtension<UnityDefaultBehaviorExtension>()
-                .AddNewExtension<UnityDefaultStrategiesExtension>();
+                .AddExtension(new UnityDefaultBehaviorExtension())
+                .AddExtension(new UnityDefaultStrategiesExtension());
 
             object result = container.Resolve<object>();
             Assert.IsNotNull(result);
@@ -121,5 +122,49 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.AreSame(extension, result);
         }
 
+        [TestMethod]
+        public void ContainerRaisesChildContainerCreatedToExtension()
+        {
+            bool childContainerEventRaised = false;
+            var mockExtension = new MockContainerExtension();
+
+            var container = new UnityContainer()
+                .AddExtension(mockExtension);
+
+            mockExtension.Context.ChildContainerCreated += (sender, ev) =>
+                {
+                    childContainerEventRaised = true;
+                };
+
+            var child = container.CreateChildContainer();
+            Assert.IsTrue(childContainerEventRaised);
+        }
+
+        [TestMethod]
+        public void ChildContainerCreatedEventGivesChildContainerToExtension()
+        {
+            var mockExtension = new MockContainerExtension();
+            ExtensionContext childContext = null;
+
+            var container = new UnityContainer()
+                .AddExtension(mockExtension);
+
+            mockExtension.Context.ChildContainerCreated += (sender, ev) =>
+            {
+                childContext = ev.ChildContext;
+            };
+
+            var child = container.CreateChildContainer();
+            Assert.AreSame(child, childContext.Container);
+        }
+
+        [TestMethod]
+        public void CanAddExtensionWithNonDefaultConstructor()
+        {
+            IUnityContainer container = new UnityContainer();
+            container.AddNewExtension<ContainerExtensionWithNonDefaultConstructor>();
+            var extension = container.Configure(typeof (ContainerExtensionWithNonDefaultConstructor));
+            Assert.IsNotNull(extension);
+        }
     }
 }

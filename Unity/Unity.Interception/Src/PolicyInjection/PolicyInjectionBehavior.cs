@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -66,6 +67,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>Return value from the target.</returns>
         public IMethodReturn Invoke(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext)
         {
+            Guard.ArgumentNotNull(input, "input");
+            Guard.ArgumentNotNull(getNext, "getNext");
+
             HandlerPipeline pipeline = GetPipeline(input.MethodBase);
 
             return pipeline.Invoke(

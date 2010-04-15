@@ -11,6 +11,7 @@
 
 using System;
 using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity
 {
@@ -43,6 +44,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>a <see cref="IDependencyResolverPolicy"/> object if this override applies, null if not.</returns>
         public override IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType)
         {
+            Guard.ArgumentNotNull(context, "context");
             var currentOperation = context.CurrentOperation as ResolvingPropertyValueOperation;
 
             if (currentOperation != null

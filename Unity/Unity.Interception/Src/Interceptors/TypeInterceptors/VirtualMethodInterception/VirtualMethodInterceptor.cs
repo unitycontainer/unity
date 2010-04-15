@@ -65,13 +65,32 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
         private IEnumerable<MethodImplementationInfo> DoGetInterceptableMethods(Type interceptedType, Type implementationType)
         {
+            var interceptableMethodsToInterfaceMap = new Dictionary<MethodInfo, MethodInfo>();
+
             foreach (MethodInfo method in
                 implementationType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
             {
                 if (MethodOverride.MethodCanBeIntercepted(method))
                 {
-                    yield return new MethodImplementationInfo(null, method);
+                    interceptableMethodsToInterfaceMap[method] = null;
                 }
+            }
+
+            foreach(Type itf in implementationType.GetInterfaces())
+            {
+                var mapping = implementationType.GetInterfaceMap(itf);
+                for(int i = 0; i < mapping.InterfaceMethods.Length; ++i)
+                {
+                    if(interceptableMethodsToInterfaceMap.ContainsKey(mapping.TargetMethods[i]))
+                    {
+                        interceptableMethodsToInterfaceMap[mapping.TargetMethods[i]] = mapping.InterfaceMethods[i];
+                    }
+                }
+            }
+
+            foreach(var kvp in interceptableMethodsToInterfaceMap)
+            {
+                yield return new MethodImplementationInfo(kvp.Value, kvp.Key);
             }
         }
 

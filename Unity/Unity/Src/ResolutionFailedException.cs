@@ -15,6 +15,7 @@ using System.Globalization;
 using System.Text;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity
 {
@@ -42,6 +43,7 @@ namespace Microsoft.Practices.Unity
         public ResolutionFailedException(Type typeRequested, string nameRequested, Exception innerException, IBuilderContext context)
             : base(CreateMessage(typeRequested, nameRequested, innerException, context), innerException)
         {
+            Guard.ArgumentNotNull(typeRequested, "typeRequested");
             if (typeRequested != null)
             {
                 this.typeRequested = typeRequested.Name;
@@ -67,6 +69,9 @@ namespace Microsoft.Practices.Unity
 
         private static string CreateMessage(Type typeRequested, string nameRequested, Exception innerException, IBuilderContext context)
         {
+            Guard.ArgumentNotNull(typeRequested, "typeRequested");
+            Guard.ArgumentNotNull(context, "context");
+
             var builder = new StringBuilder();
 
             builder.AppendFormat(

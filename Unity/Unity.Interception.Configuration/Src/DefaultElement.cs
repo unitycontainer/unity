@@ -21,6 +21,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             get { return "default:" + TypeName; }
         }
 
+        internal override string ElementName
+        {
+            get { return "default"; }
+        }
+
         /// <summary>
         /// Actually register the interceptor against this type.
         /// </summary>

@@ -13,9 +13,11 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
+using System.Xml;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 using Microsoft.Practices.Unity.InterceptionExtension.Configuration.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
 {
@@ -72,7 +74,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         ///                     - or -
         ///                     The lock status of the current node cannot be determined.  
         ///                 </exception>
-        protected override void DeserializeElement(System.Xml.XmlReader reader, bool serializeCollectionKey)
+        protected override void DeserializeElement(XmlReader reader, bool serializeCollectionKey)
         {
             base.DeserializeElement(reader, serializeCollectionKey);
 
@@ -84,7 +86,32 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// </summary>
         public override string Key
         {
-            get { return "interceptionBehavior:" + TypeName; }
+            get
+            {
+                if(string.IsNullOrEmpty(TypeName))
+                {
+                    return "interceptionBehavior:IInterceptionBehavior:" + Name;
+                }
+                return "interceptionBehavior:" + TypeName + ":" + Name;
+            }
+        }
+
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            Guard.ArgumentNotNull(writer, "writer");
+            writer.WriteAttributeIfNotEmpty(NamePropertyName, Name);
+            writer.WriteAttributeIfNotEmpty(TypeNamePropertyName, TypeName);
+            if(IsDefaultForType)
+            {
+                writer.WriteAttributeString(IsDefaultForTypePropertyName, IsDefaultForType.ToString());
+            }
         }
 
         /// <summary>
@@ -106,10 +133,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             {
                 return new[] {new DefaultInterceptionBehavior(behaviorType, Name)};
             }
-            else
-            {
-                return new[] {new InterceptionBehavior(behaviorType, Name)};
-            }
+            return new[] {new InterceptionBehavior(behaviorType, Name)};
         }
 
         private void GuardHasRequiredAttributes()
@@ -126,7 +150,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             if(!typeof(IInterceptionBehavior).IsAssignableFrom(resolvedType))
             {
                 throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentUICulture,
+                    string.Format(CultureInfo.CurrentCulture,
                         Resources.ExceptionResolvedTypeNotCompatible,
                         TypeName, resolvedType.FullName, typeof (IInterceptionBehavior).FullName));
             }

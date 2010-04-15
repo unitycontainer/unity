@@ -17,6 +17,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.Tests
 {
+    // This test uses security features that have been deprecated in .NET 4.0, so is
+    // only included in the VS 2008 projects.
     [TestClass]
     public class MediumTrustFixture
     {

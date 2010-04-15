@@ -13,7 +13,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.Globalization;
+using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Microsoft.Practices.Unity.Configuration.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -21,7 +25,7 @@ namespace Microsoft.Practices.Unity.Configuration
     /// Element that describes a constant value that will be
     /// injected into the container.
     /// </summary>
-    public class ValueElement : ParameterValueElement
+    public class ValueElement : ParameterValueElement, IAttributeOnlyElement
     {
         private const string ValuePropertyName = "value";
         private const string TypeConverterTypeNamePropertyName = "typeConverter";
@@ -31,7 +35,6 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         public ValueElement()
         {
-            
         }
 
         /// <summary>
@@ -45,7 +48,7 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             GuardPropertyValueIsPresent(propertyValues, "value");
             Value = propertyValues["value"];
-            if(propertyValues.ContainsKey("typeConverter"))
+            if (propertyValues.ContainsKey("typeConverter"))
             {
                 TypeConverterTypeName = propertyValues["typeConverter"];
             }
@@ -57,7 +60,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(ValuePropertyName)]
         public string Value
         {
-            get { return (string) base[ValuePropertyName]; }
+            get { return (string)base[ValuePropertyName]; }
             set { base[ValuePropertyName] = value; }
         }
 
@@ -67,8 +70,32 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(TypeConverterTypeNamePropertyName, IsRequired = false)]
         public string TypeConverterTypeName
         {
-            get { return (string) base[TypeConverterTypeNamePropertyName]; }
+            get { return (string)base[TypeConverterTypeNamePropertyName]; }
             set { base[TypeConverterTypeNamePropertyName] = value; }
+        }
+
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        void IAttributeOnlyElement.SerializeContent(XmlWriter writer)
+        {
+            this.SerializeContent(writer);
+        }
+
+        ///<summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>. This
+        /// method always outputs an explicit &lt;dependency&gt; tag, instead of providing
+        /// attributes to the parent method.
+        ///</summary>
+        ///<param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            writer.WriteAttributeIfNotEmpty(ValuePropertyName, Value)
+                .WriteAttributeIfNotEmpty(TypeConverterTypeNamePropertyName, TypeConverterTypeName);
         }
 
         /// <summary>
@@ -82,8 +109,45 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>The required <see cref="InjectionParameterValue"/> object.</returns>
         public override InjectionParameterValue GetInjectionParameterValue(IUnityContainer container, Type parameterType)
         {
+            CheckNonGeneric(parameterType);
+
             var converter = GetTypeConverter(parameterType);
             return new InjectionParameter(parameterType, converter.ConvertFromInvariantString(Value));
+        }
+
+        private void CheckNonGeneric(Type parameterType)
+        {
+            if (parameterType.IsGenericParameter)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        Resources.ValueNotAllowedForGenericParameterType,
+                        parameterType.Name,
+                        this.Value));
+            }
+
+            var reflector = new ReflectionHelper(parameterType);
+
+            if (reflector.IsOpenGeneric)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        Resources.ValueNotAllowedForOpenGenericType,
+                        parameterType.Name,
+                        this.Value));
+            }
+
+            if (reflector.IsGenericArray)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        Resources.ValueNotAllowedForGenericArrayType,
+                        parameterType.Name,
+                        this.Value));
+            }
         }
 
         private TypeConverter GetTypeConverter(Type parameterType)

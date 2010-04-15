@@ -104,7 +104,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             {
                 throw new ConfigurationErrorsException(
                     string.Format(
-                        CultureInfo.CurrentUICulture,
+                        CultureInfo.CurrentCulture,
                         Resources.CannotHaveLifetimeWithoutTypeName,
                         Name),
                     reader);
@@ -114,10 +114,31 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             {
                 throw new ConfigurationErrorsException(
                     string.Format(
-                        CultureInfo.CurrentUICulture,
+                        CultureInfo.CurrentCulture,
                         Resources.CannotHaveInjectionWithoutTypeName,
                         Name),
                     reader);
+            }
+        }
+
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            writer.WriteAttributeString(NamePropertyName, Name);
+            writer.WriteAttributeIfNotEmpty(TypeNamePropertyName, TypeName);
+            if(LifetimeIsPresent())
+            {
+                writer.WriteElement("lifetime", Lifetime.SerializeContent);
+            }
+            foreach(var injectionElement in Injection)
+            {
+                writer.WriteElement(injectionElement.ElementName, injectionElement.SerializeContent);
             }
         }
 

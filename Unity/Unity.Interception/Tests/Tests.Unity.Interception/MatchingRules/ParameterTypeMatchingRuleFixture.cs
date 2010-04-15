@@ -126,20 +126,20 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
             return "";
         }
 
-        public void TargetMethodInt(int foo) {}
+        public void TargetMethodInt(int intParam) {}
 
-        public void TargetMethodIntString(int foo,
-                                          string bar) {}
+        public void TargetMethodIntString(int intParam,
+                                          string stringParam) {}
 
-        public void TargetMethodString(string foo) {}
+        public void TargetMethodString(string param1) {}
 
-        public void TargetMethodStringInt(string foo,
-                                          int bar) {}
+        public void TargetMethodStringInt(string stringParam,
+                                          int intParam) {}
 
-        public string TargetWithOutParams(double foo,
-                                          out int bar)
+        public string TargetWithOutParams(double doubleParam,
+                                          out int outIntParam)
         {
-            bar = 42;
+            outIntParam = 42;
             return "";
         }
     }

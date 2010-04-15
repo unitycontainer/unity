@@ -177,6 +177,9 @@
   <data name="LifetimeManagerInUse" xml:space="preserve">
     <value>The lifetime manager is already registered. Lifetime managers cannot be reused, please create a new one.</value>
   </data>
+  <data name="MarkerBuildPlanInvoked" xml:space="preserve">
+    <value>The override marker build plan policy has been invoked. This should never happen, looks like a bug in the container.</value>
+  </data>
   <data name="MethodArgumentResolveOperation" xml:space="preserve">
     <value>Resolving parameter "{0}" of method {1}.{2}</value>
   </data>

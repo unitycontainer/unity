@@ -14,14 +14,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Remoting.Messaging;
+using System.Runtime.Remoting.Proxies;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
+using Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxyInterception;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Runtime.Remoting.Proxies;
-using System.Runtime.Remoting.Messaging;
-using System.Runtime.Remoting;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterception
 {
@@ -54,7 +54,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
 
             CollectionAssert.AreEquivalent(expected, methods);
         }
-
 
         [TestMethod]
         public void InterceptorMapsGenericMethodsOnClosedGenericInterfaces()
@@ -176,6 +175,21 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         }
 
         [TestMethod]
+        public void AssortedParameterKindsAreProperlyHandled()
+        {
+            IInstanceInterceptor interceptor = new InterfaceInterceptor();
+            AssortedParameterKindsAreProperlyHandledHelper.TypeWithAssertedParameterKinds target =
+                new AssortedParameterKindsAreProperlyHandledHelper.TypeWithAssertedParameterKinds();
+
+            IInterceptingProxy proxy =
+                interceptor.CreateProxy(
+                    typeof(AssortedParameterKindsAreProperlyHandledHelper.ITypeWithAssertedParameterKinds),
+                    target);
+
+            AssortedParameterKindsAreProperlyHandledHelper.PerformTest(proxy);
+        }
+
+        [TestMethod]
         public void ReflectingOverProxyTypeReturnsProperties()
         {
             IInstanceInterceptor interceptor = new InterfaceInterceptor();
@@ -230,13 +244,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
 
             ProxiedInterfaceImpl impl = new ProxiedInterfaceImpl();
             IProxiedInterface instance = (IProxiedInterface)new MyProxy(typeof(IProxiedInterface), impl).GetTransparentProxy();
-            
+
             IInstanceInterceptor interceptor = new InterfaceInterceptor();
-            
+
             IInterceptingProxy proxy = (IInterceptingProxy)interceptor.CreateProxy(typeof(IProxiedInterface), (IProxiedInterface)instance);
             proxy.AddInterceptionBehavior(callCounter);
 
-            IProxiedInterface inter = (IProxiedInterface) proxy;
+            IProxiedInterface inter = (IProxiedInterface)proxy;
 
             Assert.AreEqual("hello world", inter.DoSomething());
             Assert.AreEqual(1, callCounter.CallCount);
@@ -250,7 +264,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             IProxiedInterface instance = (IProxiedInterface)new MyProxy(typeof(IProxiedInterface), impl).GetTransparentProxy();
 
             IInstanceInterceptor interceptor = new InterfaceInterceptor();
-            
+
             var interceptableMethods = interceptor.GetInterceptableMethods(typeof(IProxiedInterface), instance.GetType()).ToArray();
 
             interceptableMethods.Where(x => x.InterfaceMethodInfo.Name == "DoSomething").AssertHasItems();
@@ -381,28 +395,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             }
         }
 
-
-
-        // Experimenting with reflection and open generics. Oy, what a pain.
-        [TestMethod]
-        public void OpenGenericImplementsOpenGenericInterface()
-        {
-            Type implementationType = typeof(GenericImplementationOne<>);
-            Type interfaceType = typeof(IGenericOne<>);
-
-            Assert.AreSame(interfaceType, implementationType.GetInterfaces()[0].GetGenericTypeDefinition());
-
-            Type genericArgument = implementationType.GetGenericArguments()[0];
-            Type implementedInterfaceType = interfaceType.MakeGenericType(genericArgument);
-
-            InterfaceMapping mapping = implementationType.GetInterfaceMap(implementedInterfaceType);
-            Assert.AreEqual(1, mapping.InterfaceMethods.Length);
-            Assert.AreSame(implementedInterfaceType.GetMethod("DoSomething"), mapping.InterfaceMethods[0]);
-            Assert.AreSame(typeof(GenericImplementationOne<>).GetMethod("DoSomething"), mapping.TargetMethods[0]);
-
-        }
-
-
         public interface IGenericOne<T>
         {
             T DoSomething(T something);
@@ -509,68 +501,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             }
         }
 
-        /// <summary>
-        /// Test class used to reverse engineer required generated code.
-        /// </summary>
-        class InterfaceOneInterceptor : IInterceptingProxy, IInterfaceOne
-        {
-            readonly PipelineManager pipelines;
-            private readonly IInterfaceOne target;
-
-            public InterfaceOneInterceptor(IInterfaceOne target)
-            {
-                this.target = target;
-                pipelines = new PipelineManager();
-            }
-
-            //HandlerPipeline IInterceptingProxy.GetPipeline(MethodBase method)
-            //{
-            //    return pipelines.GetPipeline(method.MetadataToken);
-            //}
-
-            //void IInterceptingProxy.SetPipeline(MethodBase method, HandlerPipeline pipeline)
-            //{
-            //    pipelines.SetPipeline(method.MetadataToken, pipeline);
-            //}
-
-            public void TargetMethod()
-            {
-                //    MethodInfo targetMethod = typeof(IInterfaceOne).GetMethod("TargetMethod");
-
-                //    VirtualMethodInvocation input = new VirtualMethodInvocation(target, targetMethod);
-                //    HandlerPipeline pipeline = ((IInterceptingProxy)this).GetPipeline(targetMethod);
-                //    IMethodReturn returnMessage = pipeline.Invoke(input, delegate(IMethodInvocation inputs, GetNextHandlerDelegate getNext)
-                //    {
-                //        try
-                //        {
-                //            target.TargetMethod();
-                //            return inputs.CreateMethodReturn(null);
-                //        }
-                //        catch (Exception ex)
-                //        {
-
-                //            return inputs.CreateExceptionMethodReturn(ex);
-                //        }
-                //    });
-
-                //    if (returnMessage.Exception != null)
-                //    {
-                //        throw returnMessage.Exception;
-                //    }
-            }
-
-            public void AddInterceptionBehavior(IInterceptionBehavior interceptor)
-            {
-                throw new NotImplementedException();
-            }
-
-
-            public IEnumerable<MethodImplementationInfo> GetInterceptableMethods()
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public interface IDoEvents
         {
             event EventHandler<EventArgs> SomeEvent;
@@ -584,64 +514,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             public void TriggerIt()
             {
                 SomeEvent(this, new EventArgs());
-            }
-        }
-
-        class InterfaceOneInterceptorWithAdditionalInterfaces : IInterceptingProxy, IInterfaceOne, IInterfaceTwo
-        {
-            private readonly InterceptionBehaviorPipeline pipeline;
-            private readonly Type typeToProxy;
-
-            private readonly IInterfaceOne target;
-
-            public InterfaceOneInterceptorWithAdditionalInterfaces(IInterfaceOne target, Type typeToProxy)
-            {
-                this.pipeline = new InterceptionBehaviorPipeline();
-                this.target = target;
-                this.typeToProxy = typeToProxy;
-            }
-
-            public void AddInterceptionBehavior(IInterceptionBehavior interceptor)
-            {
-                this.pipeline.Add(interceptor);
-            }
-
-            void IInterfaceOne.TargetMethod()
-            {
-                MethodInfo targetMethod = typeof(IInterfaceOne).GetMethod("TargetMethod");
-                VirtualMethodInvocation input = new VirtualMethodInvocation(target, targetMethod);
-                IMethodReturn returnMessage = this.pipeline.Invoke(input, delegate(IMethodInvocation inputs, GetNextInterceptionBehaviorDelegate getNext)
-                {
-                    try
-                    {
-                        target.TargetMethod();
-                        return inputs.CreateMethodReturn(null);
-                    }
-                    catch (Exception ex)
-                    {
-                        return inputs.CreateExceptionMethodReturn(ex);
-                    }
-                });
-
-                if (returnMessage.Exception != null)
-                {
-                    throw returnMessage.Exception;
-                }
-            }
-
-            void IInterfaceTwo.TargetMethod(int parameter)
-            {
-                MethodInfo targetMethod = typeof(IInterfaceTwo).GetMethod("TargetMethod");
-                VirtualMethodInvocation input = new VirtualMethodInvocation(target, targetMethod, parameter);
-                IMethodReturn returnMessage = this.pipeline.Invoke(input, delegate(IMethodInvocation inputs, GetNextInterceptionBehaviorDelegate getNext)
-                {
-                    return inputs.CreateExceptionMethodReturn(InterfaceMethodOverride.BuildAdditionalInterfaceNonImplementedException());
-                });
-
-                if (returnMessage.Exception != null)
-                {
-                    throw returnMessage.Exception;
-                }
             }
         }
 
@@ -966,12 +838,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
 
         public interface IDerivedInterface1 : IBaseInterface
         {
-            object TargetMethod(string foo);
+            object TargetMethod(string param1);
         }
 
         public interface IDerivedInterface2 : IBaseInterface
         {
-            void TargetMethod(string foo);
+            void TargetMethod(string param1);
         }
 
         public class BaseInterfaceImplementation : IBaseInterface
@@ -1031,6 +903,50 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             Assert.IsTrue(proxy1 is IBaseInterface2);
             Assert.IsTrue(proxy2 is IBaseInterface);
             Assert.IsTrue(proxy2 is IBaseInterface2);
+        }
+
+        [TestMethod]
+        public void InterfaceInterceptorSetsTargetToTargetObject()
+        {
+            object suppliedTarget = null;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+                {
+                    suppliedTarget = inputs.Target;
+                    return getNext()(inputs, getNext);
+                });
+
+            var actualTarget = new ImplementsInterfaceOne();
+
+            var proxy = Intercept.ThroughProxy<IInterfaceOne>(
+                actualTarget, new InterfaceInterceptor(),
+                new[] { behavior });
+
+            proxy.TargetMethod();
+
+            Assert.IsTrue(actualTarget.TargetMethodCalled);
+            Assert.AreSame(actualTarget, suppliedTarget);
+        }
+
+        [TestMethod]
+        public void CanInterceptInterfaceWithGenericMethod()
+        {
+            var target = new IntegrationFixture.ClassWithGenericMethod();
+
+            bool behaviorWasCalled = false;
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                behaviorWasCalled = true;
+                return getNext()(inputs, getNext);
+            });
+
+            var proxy = Intercept.ThroughProxy<IntegrationFixture.IInterfaceWithGenericMethod>(
+                target, new InterfaceInterceptor(),
+                new[] { behavior });
+
+            proxy.DoSomething<string>();
+
+            Assert.IsTrue(behaviorWasCalled);
         }
     }
 }

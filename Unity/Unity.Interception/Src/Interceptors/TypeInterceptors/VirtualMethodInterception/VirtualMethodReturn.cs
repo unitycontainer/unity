@@ -52,7 +52,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             invocationContext = originalInvocation.InvocationContext;
             this.exception = exception;
-            outputs = new ParameterCollection(new object[0], new ParameterInfo[0], delegate { return false;  });
+            outputs = new ParameterCollection(new object[0], new ParameterInfo[0], delegate { return false; });
         }
 
         /// <summary>

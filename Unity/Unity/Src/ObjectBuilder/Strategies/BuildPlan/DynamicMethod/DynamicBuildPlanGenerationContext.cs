@@ -184,6 +184,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "CastOr", Justification = "Its two words, not one.")]
         public void EmitCastOrUnbox(Type targetType)
         {
+            Guard.ArgumentNotNull(targetType, "targetType");
             if(targetType.IsValueType)
             {
                 IL.Emit(OpCodes.Unbox_Any, targetType);

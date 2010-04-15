@@ -30,7 +30,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IConstructorSelectorPolicy policy = CreateSelector();
             ConstructorInfo expectedCtor = GetConstructor<object>();
             MockBuilderContext context = GetContext<object>();
-            SelectedConstructor result = policy.SelectConstructor(context);
+            SelectedConstructor result = policy.SelectConstructor(context, new PolicyList());
 
             Assert.AreEqual(expectedCtor, result.Constructor);
         }
@@ -41,7 +41,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IConstructorSelectorPolicy policy = CreateSelector();
             ConstructorInfo expected = GetConstructor<ObjectWithMarkedConstructor>(typeof(string));
 
-            SelectedConstructor result = policy.SelectConstructor(GetContext<ObjectWithMarkedConstructor>());
+            SelectedConstructor result = policy.SelectConstructor(GetContext<ObjectWithMarkedConstructor>(), new PolicyList());
 
             Assert.AreEqual(expected, result.Constructor);
         }
@@ -54,7 +54,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
                 typeof(int), typeof(string));
 
             SelectedConstructor result =
-                policy.SelectConstructor(GetContext<ObjectWithMultipleConstructors>());
+                policy.SelectConstructor(GetContext<ObjectWithMultipleConstructors>(), new PolicyList());
 
             Assert.AreEqual(expected, result.Constructor);
         }
@@ -66,7 +66,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             try
             {
-                policy.SelectConstructor(GetContext<ObjectWithAmbiguousConstructors>());
+                policy.SelectConstructor(GetContext<ObjectWithAmbiguousConstructors>(), new PolicyList());
             }
             catch(InvalidOperationException)
             {
@@ -84,7 +84,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
                 typeof(string), typeof(string), typeof(int));
 
             SelectedConstructor result =
-                policy.SelectConstructor(GetContext<ObjectWithAmbiguousMarkedConstructor>());
+                policy.SelectConstructor(GetContext<ObjectWithAmbiguousMarkedConstructor>(), new PolicyList());
 
             Assert.AreEqual(expected, result.Constructor);
         }

@@ -29,7 +29,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <remarks>
         /// Don't do anything that could throw in this method,
         /// it will cause later recover operations to get skipped
-        /// and play real havok with the stack trace.
+        /// and play real havoc with the stack trace.
         /// </remarks>
         void Recover();
     }

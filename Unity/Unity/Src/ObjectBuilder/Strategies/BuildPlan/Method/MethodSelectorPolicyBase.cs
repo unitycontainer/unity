@@ -28,27 +28,29 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// Return the sequence of methods to call while building the target object.
         /// </summary>
         /// <param name="context">Current build context.</param>
+        /// <param name="resolverPolicyDestination">The <see cref='IPolicyList'/> to add any
+        /// generated resolver objects into.</param>
         /// <returns>Sequence of methods to call.</returns>
-        public virtual IEnumerable<SelectedMethod> SelectMethods(IBuilderContext context)
+        public virtual IEnumerable<SelectedMethod> SelectMethods(IBuilderContext context, IPolicyList resolverPolicyDestination)
         {
             Type t = context.BuildKey.Type;
             foreach(MethodInfo method in t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy))
             {
                 if(method.IsDefined(typeof(TMarkerAttribute), false))
                 {
-                    yield return CreateSelectedMethod(context, method);
+                    yield return CreateSelectedMethod(context, resolverPolicyDestination, method);
                 }
             }
         }
 
-        private SelectedMethod CreateSelectedMethod(IBuilderContext context, MethodInfo method)
+        private SelectedMethod CreateSelectedMethod(IBuilderContext context, IPolicyList resolverPolicyDestination, MethodInfo method)
         {
             SelectedMethod result = new SelectedMethod(method);
             foreach(ParameterInfo parameter in method.GetParameters())
             {
                 string key = Guid.NewGuid().ToString();
                 IDependencyResolverPolicy resolver = CreateResolver(parameter);
-                context.PersistentPolicies.Set<IDependencyResolverPolicy>(resolver, key);
+                resolverPolicyDestination.Set<IDependencyResolverPolicy>(resolver, key);
                 DependencyResolverTrackerPolicy.TrackKey(context.PersistentPolicies,
                     context.BuildKey,
                     key);

@@ -44,8 +44,10 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         /// Return the sequence of methods to call while building the target object.
         /// </summary>
         /// <param name="context">Current build context.</param>
+        /// <param name="resolverPolicyDestination">The <see cref='IPolicyList'/> to add any
+        /// generated resolver objects into.</param>
         /// <returns>Sequence of methods to call.</returns>
-        public IEnumerable<SelectedMethod> SelectMethods(IBuilderContext context)
+        public IEnumerable<SelectedMethod> SelectMethods(IBuilderContext context, IPolicyList resolverPolicyDestination)
         {
             foreach(Pair<MethodInfo, IEnumerable<InjectionParameterValue>> method in methods)
             {
@@ -67,7 +69,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
                 }
                 SpecifiedMemberSelectorHelper.AddParameterResolvers(
                         typeToBuild,
-                        context.PersistentPolicies, 
+                        resolverPolicyDestination, 
                         method.Second,
                         selectedMethod);
                 yield return selectedMethod;

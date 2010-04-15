@@ -29,10 +29,10 @@ namespace Microsoft.Practices.Unity.Tests
         {
             ConstructorInfo ctor = typeof(ClassWithSimpleConstructor).GetConstructor(new Type[0]);
 
-            SpecifiedConstructorSelectorPolicy policy = new SpecifiedConstructorSelectorPolicy(ctor, new InjectionParameterValue[0]);
-            BuilderContextMock builderContext = new BuilderContextMock(new NamedTypeBuildKey(typeof(ClassWithSimpleConstructor)));
+            var policy = new SpecifiedConstructorSelectorPolicy(ctor, new InjectionParameterValue[0]);
+            var builderContext = new BuilderContextMock(new NamedTypeBuildKey(typeof(ClassWithSimpleConstructor)));
 
-            SelectedConstructor selectedCtor = policy.SelectConstructor(builderContext);
+            SelectedConstructor selectedCtor = policy.SelectConstructor(builderContext, new PolicyList());
 
             Assert.AreEqual(ctor, selectedCtor.Constructor);
             Assert.AreEqual(0, selectedCtor.GetParameterKeys().Length);
@@ -44,16 +44,16 @@ namespace Microsoft.Practices.Unity.Tests
         {
             ConstructorInfo ctor = typeof(ClassWithConstructorParameters).GetConstructor(Types(typeof(int), typeof(string)));
 
-            SpecifiedConstructorSelectorPolicy policy = new SpecifiedConstructorSelectorPolicy(ctor,
+            var policy = new SpecifiedConstructorSelectorPolicy(ctor,
                 new InjectionParameterValue[]
                 {
                     new InjectionParameter<int>(37),
                     new InjectionParameter<string>("abc")
                 });
 
-            BuilderContextMock builderContext = new BuilderContextMock(new NamedTypeBuildKey(typeof(ClassWithConstructorParameters)));
+            var builderContext = new BuilderContextMock(new NamedTypeBuildKey(typeof(ClassWithConstructorParameters)));
 
-            SelectedConstructor selectedCtor = policy.SelectConstructor(builderContext);
+            SelectedConstructor selectedCtor = policy.SelectConstructor(builderContext, builderContext.PersistentPolicies);
 
             Assert.AreEqual(ctor, selectedCtor.Constructor);
             Assert.AreEqual(2, selectedCtor.GetParameterKeys().Length);
@@ -70,17 +70,19 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanSelectConcreteConstructorGivenGenericConstructor()
         {
             ConstructorInfo ctor = typeof(LoggingCommand<>).GetConstructors()[0];
-            SpecifiedConstructorSelectorPolicy policy = new SpecifiedConstructorSelectorPolicy(
+            var policy = new SpecifiedConstructorSelectorPolicy(
                 ctor,
                 new InjectionParameterValue[]
                 {
                     new ResolvedParameter(typeof (ICommand<>), "concrete")
                 });
 
-            BuilderContextMock ctx = new BuilderContextMock();
-            ctx.BuildKey = new NamedTypeBuildKey(typeof(LoggingCommand<User>));
+            var ctx = new BuilderContextMock
+                {
+                    BuildKey = new NamedTypeBuildKey(typeof (LoggingCommand<User>))
+                };
 
-            SelectedConstructor result = policy.SelectConstructor(ctx);
+            SelectedConstructor result = policy.SelectConstructor(ctx, new PolicyList());
 
             ConstructorInfo expectedCtor = typeof(LoggingCommand<User>).GetConstructor(Types(typeof(ICommand<User>)));
             Assert.AreSame(expectedCtor, result.Constructor);

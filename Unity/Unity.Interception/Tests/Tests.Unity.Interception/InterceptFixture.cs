@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 new DelegateInterceptionBehavior((mi, next) => { invoked = true; return mi.CreateMethodReturn(100); });
 
             IInterface proxy = (IInterface)
-                Intercept.ThroughProxy(
+                Intercept.ThroughProxyWithAdditionalInterfaces(
                     typeof(IInterface),
                     new BaseClass(10),
                     new InterfaceInterceptor(),
@@ -48,7 +48,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 new DelegateInterceptionBehavior((mi, next) => { invoked = true; return mi.CreateMethodReturn(100); });
 
             IInterface proxy = (IInterface)
-                Intercept.ThroughProxy(
+                Intercept.ThroughProxyWithAdditionalInterfaces(
                     typeof(IInterface),
                     new BaseClass(10),
                     new InterfaceInterceptor(),
@@ -71,7 +71,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                     () => new[] { typeof(ISomeInterface) });
 
             IInterface proxy = (IInterface)
-                Intercept.ThroughProxy(
+                Intercept.ThroughProxyWithAdditionalInterfaces(
                     typeof(IInterface),
                     new BaseClass(10),
                     new InterfaceInterceptor(),
@@ -92,7 +92,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 new DelegateInterceptionBehavior((mi, next) => { invoked = true; return mi.CreateMethodReturn(100); });
 
             IInterface proxy =
-                Intercept.ThroughProxy<IInterface>(
+                Intercept.ThroughProxyWithAdditionalInterfaces<IInterface>(
                     new BaseClass(10),
                     new InterfaceInterceptor(),
                     new[] { interceptionBehavior },
@@ -108,7 +108,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void InterceptingANullTypeThrows()
         {
-            Intercept.ThroughProxy(
+            Intercept.ThroughProxyWithAdditionalInterfaces(
                 null,
                 new BaseClass(),
                 new InterfaceInterceptor(),
@@ -120,7 +120,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void InterceptingANullTargetThrows()
         {
-            Intercept.ThroughProxy(
+            Intercept.ThroughProxyWithAdditionalInterfaces(
                 typeof(IInterface),
                 null,
                 new InterfaceInterceptor(),
@@ -132,7 +132,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void InterceptingWithANullInterceptorThrows()
         {
-            Intercept.ThroughProxy(
+            Intercept.ThroughProxyWithAdditionalInterfaces(
                 typeof(IInterface),
                 new BaseClass(),
                 null,
@@ -144,7 +144,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void InterceptingTypesNotCompatibleWithTheInterceptorThrows()
         {
-            Intercept.ThroughProxy(
+            Intercept.ThroughProxyWithAdditionalInterfaces(
                 typeof(IInterface),
                 new BaseClass(),
                 new RejectingInterceptor(),
@@ -156,7 +156,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void InterceptingWithANullSetOfInterceptionBehaviorsThrows()
         {
-            Intercept.ThroughProxy(
+            Intercept.ThroughProxyWithAdditionalInterfaces(
                 typeof(IInterface),
                 new BaseClass(),
                 new InterfaceInterceptor(),
@@ -168,7 +168,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void InterceptingWithANullSetOfAdditionalInterfacesThrows()
         {
-            Intercept.ThroughProxy(
+            Intercept.ThroughProxyWithAdditionalInterfaces(
                 typeof(IInterface),
                 new BaseClass(),
                 new InterfaceInterceptor(),
@@ -180,7 +180,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void InterceptingWithASetOfAdditionalInterfacesIncludingNonInterfaceTypeThrows()
         {
-            Intercept.ThroughProxy(
+            Intercept.ThroughProxyWithAdditionalInterfaces(
                 typeof(IInterface),
                 new BaseClass(),
                 new InterfaceInterceptor(),
@@ -196,7 +196,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 new DelegateInterceptionBehavior((mi, next) => { invoked = true; return mi.CreateMethodReturn(100); });
 
             BaseClass instance = (BaseClass)
-                Intercept.NewInstance(
+                Intercept.NewInstanceWithAdditionalInterfaces(
                     typeof(BaseClass),
                     new VirtualMethodInterceptor(),
                     new[] { interceptionBehavior },
@@ -217,7 +217,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 new DelegateInterceptionBehavior((mi, next) => { invoked = true; return mi.CreateMethodReturn(100); });
 
             BaseClass instance =
-                Intercept.NewInstance<BaseClass>(
+                Intercept.NewInstanceWithAdditionalInterfaces<BaseClass>(
                     new VirtualMethodInterceptor(),
                     new[] { interceptionBehavior },
                     Type.EmptyTypes,
@@ -236,8 +236,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Intercept.NewInstance(
                 null,
                 new VirtualMethodInterceptor(),
-                new IInterceptionBehavior[0],
-                Type.EmptyTypes);
+                new IInterceptionBehavior[0]);
         }
 
         [TestMethod]
@@ -247,8 +246,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Intercept.NewInstance(
                 typeof(BaseClass),
                 null,
-                new IInterceptionBehavior[0],
-                Type.EmptyTypes);
+                new IInterceptionBehavior[0]);
         }
 
         [TestMethod]
@@ -258,8 +256,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Intercept.NewInstance(
                 typeof(BaseClass),
                 new RejectingInterceptor(),
-                new IInterceptionBehavior[0],
-                Type.EmptyTypes);
+                new IInterceptionBehavior[0]);
         }
 
         [TestMethod]
@@ -269,15 +266,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Intercept.NewInstance(
                 typeof(BaseClass),
                 new VirtualMethodInterceptor(),
-                null,
-                Type.EmptyTypes);
+                null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void InterceptingNewInstanceWithANullSetOfAdditionalInterfacesThrows()
         {
-            Intercept.NewInstance(
+            Intercept.NewInstanceWithAdditionalInterfaces(
                 typeof(BaseClass),
                 new VirtualMethodInterceptor(),
                 new IInterceptionBehavior[0],
@@ -288,7 +284,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void InterceptingNewInstanceWithASetOfAdditionalInterfacesWithNullElementsThrows()
         {
-            Intercept.NewInstance(
+            Intercept.NewInstanceWithAdditionalInterfaces(
                 typeof(BaseClass),
                 new VirtualMethodInterceptor(),
                 new IInterceptionBehavior[0],
@@ -299,7 +295,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void InterceptingNewInstanceWithASetOfAdditionalInterfacesWithNonInterfaceElementsThrows()
         {
-            Intercept.NewInstance(
+            Intercept.NewInstanceWithAdditionalInterfaces(
                 typeof(BaseClass),
                 new VirtualMethodInterceptor(),
                 new IInterceptionBehavior[0],
@@ -310,7 +306,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void InterceptingNewInstanceWithASetOfAdditionalInterfacesWithGenericInterfaceElementsThrows()
         {
-            Intercept.NewInstance(
+            Intercept.NewInstanceWithAdditionalInterfaces(
                 typeof(BaseClass),
                 new VirtualMethodInterceptor(),
                 new IInterceptionBehavior[0],
@@ -324,8 +320,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Intercept.NewInstance(
                 typeof(BaseClass),
                 new VirtualMethodInterceptor(),
-                new IInterceptionBehavior[] { null },
-                Type.EmptyTypes);
+                new IInterceptionBehavior[] { null });
         }
 
         [TestMethod]
@@ -338,8 +333,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 new IInterceptionBehavior[] 
                 {
                     new DelegateInterceptionBehavior(null, () => null)
-                },
-                Type.EmptyTypes);
+                });
         }
 
         [TestMethod]
@@ -352,8 +346,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 new IInterceptionBehavior[] 
                 {
                     new DelegateInterceptionBehavior(null, () => new Type[] { null })
-                },
-                Type.EmptyTypes);
+                });
         }
 
         [TestMethod]
@@ -366,8 +359,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 new IInterceptionBehavior[] 
                 {
                     new DelegateInterceptionBehavior(null, () => new Type[] { typeof(object) })
-                },
-                Type.EmptyTypes);
+                });
         }
 
         [TestMethod]
@@ -380,8 +372,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 new IInterceptionBehavior[] 
                 {
                     new DelegateInterceptionBehavior(null, () => new Type[] { typeof(IEnumerable<>) })
-                },
-                Type.EmptyTypes);
+                });
         }
 
 
@@ -395,8 +386,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             AbstractClass instance =
                 Intercept.NewInstance<AbstractClass>(
                     new VirtualMethodInterceptor(),
-                    new[] { interceptionBehavior },
-                    Type.EmptyTypes);
+                    new[] { interceptionBehavior });
 
             int value = instance.DoSomething();
 

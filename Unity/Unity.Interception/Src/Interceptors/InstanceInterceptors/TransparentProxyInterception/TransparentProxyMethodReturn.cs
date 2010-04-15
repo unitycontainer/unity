@@ -11,7 +11,10 @@
 
 using System;
 using System.Collections;
+using System.Reflection;
 using System.Runtime.Remoting.Messaging;
+using System.Security;
+using System.Security.Permissions;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -19,10 +22,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// An implementation of <see cref="IMethodReturn"/> that wraps the
     /// remoting call and return messages.
     /// </summary>
+    [SecurityCritical(SecurityCriticalScope.Everything)]
+    [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
     class TransparentProxyMethodReturn : IMethodReturn
     {
         private readonly IMethodCallMessage callMessage;
-        private readonly TransparentProxyOutputParameterCollection outputs;
+        private readonly ParameterCollection outputs;
         private readonly IDictionary invocationContext;
         private readonly object[] arguments;
         private object returnValue;
@@ -59,7 +64,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             this.invocationContext = invocationContext;
             this.exception = ex;
             this.arguments = new object[0];
-            this.outputs = new TransparentProxyOutputParameterCollection(callMessage, arguments);
+            this.outputs = new ParameterCollection(this.arguments, new ParameterInfo[0], pi => false);
         }
 
         /// <summary>

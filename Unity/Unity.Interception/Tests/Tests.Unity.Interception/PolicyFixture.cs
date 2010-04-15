@@ -127,21 +127,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             return new MethodImplementationInfo(null,
                 typeof (T).GetMethod(methodName));
         }
-
-        //[TestMethod]
-        //public void ShouldOnlyGetHandlersOnceIfPolicyMatchesBothClassAndInterface()
-        //{
-        //    IMatchingRule[] rules = { new MemberNameMatchingRule("MyMethod") };
-        //    ICallHandler[] handlers = { new CallCountHandler() };
-
-        //    RuleDrivenPolicy p = new RuleDrivenPolicy(rules, handlers);
-
-        //    MethodInfo myMethod = typeof(MyFooClass).GetMethod("MyMethod");
-        //    List<ICallHandler> retrievedHandlers = new List<ICallHandler>(p.GetHandlersFor(myMethod));
-
-        //    Assert.AreEqual(1, retrievedHandlers.Count);
-        //    Assert.AreSame(handlers[0], retrievedHandlers[0]);
-        //}
     }
 
     class Handler1 : ICallHandler
@@ -204,12 +189,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         }
     }
 
-    public interface IFoo
+    public interface IYetAnotherInterface
     {
         void MyMethod();
     }
 
-    public class MyFooClass : IFoo
+    public class YetAnotherMyType : IYetAnotherInterface
     {
         public void MyMethod() { }
     }

@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting;
 using Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests.ConfigFiles;
@@ -137,5 +138,38 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
             Assert.IsTrue(RemotingServices.IsTransparentProxy(instance2));
         }
 
+        [TestMethod]
+        public void Then_CanAddInterfaceThroughConfiguredBehavior()
+        {
+            IUnityContainer container = ConfiguredContainer("addingInterfacesImplicitlyThroughBehavior");
+
+            var instance = container.Resolve<Interceptable>();
+            Assert.IsNotNull(instance as IAdditionalInterface);
+        }
+
+        [TestMethod]
+        public void Then_CanAddInterfaceThroughExplicitConfiguration()
+        {
+            IUnityContainer container = ConfiguredContainer("addingInterfacesExplicitlyWithBehavior");
+
+            var instance = container.Resolve<Interceptable>();
+            Assert.IsNotNull(instance as IAdditionalInterface);
+        }
+
+        [TestMethod]
+        public void Then_MultipleBehaviorsCanBeConfigured()
+        {
+            var container = ConfiguredContainer("multipleBehaviorsOnOneRegistration");
+            var instance = container.Resolve<Interceptable>();
+
+
+            instance.DoSomething();
+
+            var countHandler = (CallCountInterceptionBehavior) container.Resolve<IInterceptionBehavior>("fixed");
+
+            Assert.AreEqual(1, countHandler.CallCount);
+
+            Assert.IsNotNull(instance as IAdditionalInterface);
+        }
     }
 }

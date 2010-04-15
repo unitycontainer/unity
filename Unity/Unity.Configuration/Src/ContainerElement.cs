@@ -22,7 +22,7 @@ namespace Microsoft.Practices.Unity.Configuration
     /// A configuration element class defining the set of registrations to be
     /// put into a container.
     /// </summary>
-    public class ContainerElement : ConfigurationElement
+    public class ContainerElement : DeserializableConfigurationElement
     {
         private const string RegistrationsPropertyName = "";
         private const string NamePropertyName = "name";
@@ -143,6 +143,23 @@ namespace Microsoft.Practices.Unity.Configuration
                 base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            writer.WriteAttributeIfNotEmpty(NamePropertyName, Name);
+
+            Extensions.SerializeElementContents(writer, "extension");
+            Registrations.SerializeElementContents(writer, "register");
+            Instances.SerializeElementContents(writer, "instance");
+            SerializeContainerConfiguringElements(writer);
+        }
+
         private bool DeserializeContainerConfiguringElement(string elementName, XmlReader reader)
         {
             Type elementType = ExtensionElementMap.GetContainerConfiguringElementType(elementName);
@@ -152,6 +169,15 @@ namespace Microsoft.Practices.Unity.Configuration
                 return true;
             }
             return false;
+        }
+
+        private void SerializeContainerConfiguringElements(XmlWriter writer)
+        {
+            foreach(var element in ConfiguringElements)
+            {
+                string tag = ExtensionElementMap.GetTagForExtensionElement(element);
+                writer.WriteElement(tag, element.SerializeContent);
+            }
         }
     }
 }

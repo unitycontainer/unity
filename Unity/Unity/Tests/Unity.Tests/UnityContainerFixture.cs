@@ -536,7 +536,7 @@ namespace Microsoft.Practices.Unity.Tests
         public void GetReasonableExceptionWhenRegisteringNullInstance()
         {
             IUnityContainer container = new UnityContainer();
-            container.RegisterInstance<Foo>(null);
+            container.RegisterInstance<SomeType>(null);
 
         }
 
@@ -571,13 +571,13 @@ namespace Microsoft.Practices.Unity.Tests
         {
             IUnityContainer container = new UnityContainer()
                 .RegisterType(typeof(IRepository<>), typeof(MockRespository<>))
-                .RegisterType<IRepository<Foo>, FooRepository>();
+                .RegisterType<IRepository<SomeType>, SomeTypRepository>();
 
             IRepository<string> generalResult = container.Resolve<IRepository<string>>();
-            IRepository<Foo> specializedResult = container.Resolve<IRepository<Foo>>();
+            IRepository<SomeType> specializedResult = container.Resolve<IRepository<SomeType>>();
 
             Assert.IsInstanceOfType(generalResult, typeof(MockRespository<string>));
-            Assert.IsInstanceOfType(specializedResult, typeof(FooRepository));
+            Assert.IsInstanceOfType(specializedResult, typeof(SomeTypRepository));
         }
 
         [TestMethod]
@@ -701,7 +701,7 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.Fail("Expected exception did not occur");
         }
 
-        internal class Foo
+        internal class SomeType
         {
 
         }
@@ -716,7 +716,7 @@ namespace Microsoft.Practices.Unity.Tests
 
         }
 
-        public class FooRepository : IRepository<Foo>
+        public class SomeTypRepository : IRepository<SomeType>
         {
 
         }

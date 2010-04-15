@@ -77,6 +77,25 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             set { base[TypeConverterTypeNamePropertyName] = value; }
         }
 
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            writer.WriteAttributeString(TypeNamePropertyName, TypeName);
+            writer.WriteAttributeIfNotEmpty(ValuePropertyName, Value);
+            writer.WriteAttributeIfNotEmpty(TypeConverterTypeNamePropertyName, TypeConverterTypeName);
+
+            foreach(var registration in Registrations)
+            {
+                writer.WriteElement(registration.ElementName, registration.SerializeContent);
+            }
+        }
+
         internal void ConfigureContainer(IUnityContainer container)
         {
             var interceptor = CreateInterceptor();
@@ -129,7 +148,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         {
             if(!typeof(TTargetType).IsAssignableFrom(type))
             {
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture,
+                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                     Resources.ExceptionResolvedTypeNotCompatible,
                     TypeName, type.FullName, typeof(TTargetType).FullName));
             }

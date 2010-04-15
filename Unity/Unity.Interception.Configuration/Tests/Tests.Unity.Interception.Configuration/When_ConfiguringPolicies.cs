@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
@@ -23,7 +24,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
     [TestClass]
     public class When_ConfiguringPolicies : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_ConfiguringPolicies() : base("Policies")
+        public When_ConfiguringPolicies()
+            : base("Policies")
         {
         }
 
@@ -42,8 +44,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
             var policies = new List<InjectionPolicy>(container.ResolveAll<InjectionPolicy>());
 
             Assert.AreEqual(2, policies.Count);
-            Assert.IsInstanceOfType(policies[0], typeof (AttributeDrivenPolicy));
-            Assert.IsInstanceOfType(policies[1], typeof (RuleDrivenPolicy));
+            Assert.IsInstanceOfType(policies[0], typeof(AttributeDrivenPolicy));
+            Assert.IsInstanceOfType(policies[1], typeof(RuleDrivenPolicy));
             Assert.AreEqual("policyOne", policies[1].Name);
         }
 
@@ -122,18 +124,45 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
             Assert.AreEqual(1, GlobalCountCallHandler.Calls["handler1"]);
             Assert.AreEqual(1, GlobalCountCallHandler.Calls["handler2"]);
 
-            Assert.AreSame(
-                container.Resolve<IMatchingRule>("rule1"),
-                container.Resolve<IMatchingRule>("rule1"));
-            Assert.AreNotSame(
-                container.Resolve<IMatchingRule>("rule2"),
-                container.Resolve<IMatchingRule>("rule2"));
-            Assert.AreSame(
-                container.Resolve<ICallHandler>("handler1"),
-                container.Resolve<ICallHandler>("handler1"));
-            Assert.AreNotSame(
-                container.Resolve<ICallHandler>("handler2"),
-                container.Resolve<ICallHandler>("handler2"));
+            var matchingRuleRegistrations = container.Registrations.Where(r => r.RegisteredType == typeof(IMatchingRule));
+            var callHandlerRegistrations = container.Registrations.Where(r => r.RegisteredType == typeof(ICallHandler));
+
+            Assert.AreEqual(2, matchingRuleRegistrations.Count());
+            Assert.AreEqual(
+                1,
+                matchingRuleRegistrations.Where(r => r.LifetimeManagerType == typeof(ContainerControlledLifetimeManager)).Count());
+            Assert.AreEqual(
+                1,
+                matchingRuleRegistrations.Where(r => r.LifetimeManagerType == typeof(TransientLifetimeManager)).Count());
+
+            Assert.AreEqual(2, callHandlerRegistrations.Count());
+            Assert.AreEqual(
+                1,
+                callHandlerRegistrations.Where(r => r.LifetimeManagerType == typeof(ContainerControlledLifetimeManager)).Count());
+            Assert.AreEqual(
+                1,
+                callHandlerRegistrations.Where(r => r.LifetimeManagerType == typeof(TransientLifetimeManager)).Count());
+        }
+
+        [TestMethod]
+        public void Then_RulesAndHandlersInDifferentPoliciesCanHaveTheSameName()
+        {
+            IUnityContainer container
+                = GetConfiguredContainer("policyWithDuplicateRuleAndHandlerNames");
+
+            GlobalCountCallHandler.Calls.Clear();
+
+            container
+                .RegisterType<Wrappable>("wrappable",
+                    new Interceptor<TransparentProxyInterceptor>(),
+                    new InterceptionBehavior<PolicyInjectionBehavior>());
+
+            var wrappable1 = container.Resolve<Wrappable>("wrappable");
+            wrappable1.Method2();
+            wrappable1.Method3();
+
+            Assert.AreEqual(1, GlobalCountCallHandler.Calls["Method3Handler"]);
+            Assert.AreEqual(1, GlobalCountCallHandler.Calls["Method2Handler"]);
         }
     }
 }

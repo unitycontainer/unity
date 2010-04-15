@@ -14,8 +14,11 @@ using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
+using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DependencyAttribute=Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.DependencyAttribute;
+using InjectionConstructorAttribute=Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {
@@ -27,7 +30,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         {
             MockBuilderContext context = GetContext();
             object existingObject = new object();
-            SingletonLifetimePolicy lifetimePolicy = new SingletonLifetimePolicy();
+            var lifetimePolicy = new ContainerControlledLifetimeManager();
             lifetimePolicy.SetValue(existingObject);
             context.Policies.Set<ILifetimePolicy>(lifetimePolicy, new NamedTypeBuildKey<object>());
 
@@ -175,10 +178,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
                 this.resolverPolicy = resolverPolicy;
             }
 
-            public IEnumerable<SelectedProperty> SelectProperties(IBuilderContext context)
+            public IEnumerable<SelectedProperty> SelectProperties(IBuilderContext context, IPolicyList resolverPolicyDestination)
             {
                 var key = Guid.NewGuid().ToString();
-                context.Policies.Set<IDependencyResolverPolicy>(this.resolverPolicy, key);
+                resolverPolicyDestination.Set<IDependencyResolverPolicy>(this.resolverPolicy, key);
                 yield return
                     new SelectedProperty(
                         typeof(T).GetProperties(
@@ -210,14 +213,14 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
         }
 
-        public interface IFoo
+        public interface IStillAnotherInterface
         {
         }
 
         public class ClassThatTakesInterface
         {
             [Dependency]
-            public IFoo Foo
+            public IStillAnotherInterface StillAnotherInterface
             {
                 get { return null; }
                 set { }

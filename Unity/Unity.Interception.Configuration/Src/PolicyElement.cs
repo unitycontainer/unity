@@ -87,6 +87,26 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
                 base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            writer.WriteAttributeString(NamePropertyName, Name);
+            foreach(var matchingRuleElement in MatchingRules)
+            {
+                writer.WriteElement("matchingRule", matchingRuleElement.SerializeContent);
+            }
+            foreach(var callHandlerElement in CallHandlers)
+            {
+                writer.WriteElement("callHandler", callHandlerElement.SerializeContent);
+            }
+        }
+
         internal void ConfigureContainer(IUnityContainer container)
         {
             PolicyDefinition policyDefinition = container.Configure<Interception>().AddPolicy(Name);

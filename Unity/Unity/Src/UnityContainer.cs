@@ -40,6 +40,7 @@ namespace Microsoft.Practices.Unity
 
         private event EventHandler<RegisterEventArgs> registering;
         private event EventHandler<RegisterInstanceEventArgs> registeringInstance;
+        private event EventHandler<ChildContainerCreatedEventArgs> childContainerCreated;
 
         /// <summary>
         /// Create a default <see cref="UnityContainer"/>.
@@ -48,7 +49,7 @@ namespace Microsoft.Practices.Unity
             : this(null)
         {
             // Only a root container (one without a parent) gets the default strategies.
-            this.AddNewExtension<UnityDefaultStrategiesExtension>();
+            this.AddExtension(new UnityDefaultStrategiesExtension());
         }
 
         /// <summary>
@@ -70,12 +71,13 @@ namespace Microsoft.Practices.Unity
             // about nulls
             registering += delegate { };
             registeringInstance += delegate { };
+            childContainerCreated += delegate { };
 
             // Every container gets the default behavior
-            this.AddNewExtension<UnityDefaultBehaviorExtension>();
+            this.AddExtension(new UnityDefaultBehaviorExtension());
 
 #pragma warning disable 618
-            this.AddNewExtension<InjectedMembers>();
+            this.AddExtension( new InjectedMembers());
 #pragma warning restore 618
         }
 
@@ -188,12 +190,24 @@ namespace Microsoft.Practices.Unity
         /// <returns>Set of objects of type <paramref name="t"/>.</returns>
         public IEnumerable<object> ResolveAll(Type t, params ResolverOverride[] resolverOverrides)
         {
-            var names = registeredNames.GetKeys(t).Where(s => !string.IsNullOrEmpty(s)).Distinct();
+            var names = GetRegisteredNames(t);
+            if(t.IsGenericType)
+            {
+                names = names.Concat(GetRegisteredNames(t.GetGenericTypeDefinition()));
+            }
+            names = names.Distinct();
+
             foreach (string name in names)
             {
                 yield return Resolve(t, name, resolverOverrides);
             }
         }
+
+        private IEnumerable<string> GetRegisteredNames(Type t)
+        {
+            return registeredNames.GetKeys(t).Where(s => !string.IsNullOrEmpty(s));
+        }
+
         #endregion
 
         #region BuildUp existing object
@@ -311,6 +325,12 @@ namespace Microsoft.Practices.Unity
                 add { container.registeringInstance += value; }
                 remove { container.registeringInstance -= value; }
             }
+
+            public override event EventHandler<ChildContainerCreatedEventArgs> ChildContainerCreated
+            {
+                add { container.childContainerCreated += value; }
+                remove { container.childContainerCreated -= value; }
+            }
         }
 
         /// <summary>
@@ -396,9 +416,11 @@ namespace Microsoft.Practices.Unity
         /// <returns>The new child container.</returns>
         public IUnityContainer CreateChildContainer()
         {
-            return new UnityContainer(this);
+            var child = new UnityContainer(this);
+            var childContext = new ExtensionContextImpl(child);
+            childContainerCreated(this, new ChildContainerCreatedEventArgs(childContext));
+            return child;
         }
-
 
         /// <summary>
         /// The parent of this container.
@@ -583,8 +605,8 @@ namespace Microsoft.Practices.Unity
         private void ClearExistingBuildPlan(Type typeToInject, string name)
         {
             var buildKey = new NamedTypeBuildKey(typeToInject, name);
-            policies.Clear<IBuildPlanPolicy>(buildKey);
             DependencyResolverTrackerPolicy.RemoveResolvers(policies, buildKey);
+            policies.Set<IBuildPlanPolicy>(new OverriddenBuildPlanMarkerPolicy(), buildKey);
         }
 
 

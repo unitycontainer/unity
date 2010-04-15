@@ -10,13 +10,14 @@
 //===============================================================================
 
 using System;
-using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 using Microsoft.Practices.Unity.Configuration.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -43,10 +44,10 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <summary>
         /// Name of this parameter.
         /// </summary>
-        [ConfigurationProperty(NamePropertyName, IsRequired = false)]
+        [ConfigurationProperty(NamePropertyName, IsRequired = true, IsKey = true)]
         public string Name
         {
-            get { return (string) base[NamePropertyName]; }
+            get { return (string)base[NamePropertyName]; }
             set { base[NamePropertyName] = value; }
         }
 
@@ -58,10 +59,9 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(TypeNamePropertyName, IsRequired = false)]
         public string TypeName
         {
-            get { return (string) base[TypeNamePropertyName]; }
+            get { return (string)base[TypeNamePropertyName]; }
             set { base[TypeNamePropertyName] = value; }
         }
-
 
         /// <summary>
         /// Element that describes the value for this property.
@@ -79,6 +79,12 @@ namespace Microsoft.Practices.Unity.Configuration
             set { valueElement = value; }
         }
 
+        ParameterValueElement IValueProvidingElement.Value
+        {
+            get { return this.valueElement; }
+            set { this.Value = value; }
+        }
+
         /// <summary>
         /// A string describing where the value this element contains
         /// is being used. For example, if setting a property Prop1,
@@ -86,11 +92,11 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         public string DestinationName
         {
-            get 
+            get
             {
-                return string.Format(CultureInfo.CurrentUICulture,
+                return string.Format(CultureInfo.CurrentCulture,
                     Resources.DestinationNameFormat,
-                    Resources.Parameter, Name); 
+                    Resources.Parameter, Name);
             }
         }
 
@@ -103,31 +109,19 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>The value to use to configure the container.</returns>
         public InjectionParameterValue GetParameterValue(IUnityContainer container, Type parameterType)
         {
-            if(parameterType.IsGenericParameter)
-            {
-                return GetGenericParameterValue(parameterType);
-            }
-            else
-            {
-                return GetNonGenericParameterValue(container, parameterType);
-            }
-        }
+            Guard.ArgumentNotNull(parameterType, "parameterType");
 
-        private InjectionParameterValue GetNonGenericParameterValue(IUnityContainer container, Type parameterType)
-        {
             Type requiredType = parameterType;
-            if(!string.IsNullOrEmpty(TypeName))
+            if (!string.IsNullOrEmpty(TypeName))
             {
+                Debug.Assert(
+                    !parameterType.IsGenericParameter,
+                    "parameterType shouldn't be a generic parameter if TypeName is not null, because the " +
+                    "TypeName is used to match the method parameter when present.");
+
                 requiredType = TypeResolver.ResolveType(TypeName);
             }
             return Value.GetInjectionParameterValue(container, requiredType);
-        }
-
-        private InjectionParameterValue GetGenericParameterValue(Type parameterType)
-        {
-            GuardConfigIsValidForGenericParameter();
-
-            return new GenericParameter(parameterType.Name, ((DependencyElement) Value).Name);
         }
 
         /// <summary>
@@ -138,8 +132,9 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>True if this is a match, false if not.</returns>
         public bool Matches(ParameterInfo parameterInfo)
         {
-            if(Name != parameterInfo.Name) return false;
-            if(!string.IsNullOrEmpty(TypeName))
+            Guard.ArgumentNotNull(parameterInfo, "parameterInfo");
+            if (Name != parameterInfo.Name) return false;
+            if (!string.IsNullOrEmpty(TypeName))
             {
                 Type parameterElementType = TypeResolver.ResolveType(TypeName);
                 return parameterElementType == parameterInfo.ParameterType;
@@ -161,7 +156,7 @@ namespace Microsoft.Practices.Unity.Configuration
         protected override void DeserializeElement(XmlReader reader, bool serializeCollectionKey)
         {
             base.DeserializeElement(reader, serializeCollectionKey);
-            valueElementHelper.CompleteValueElement();
+            valueElementHelper.CompleteValueElement(reader);
         }
 
         /// <summary>
@@ -176,7 +171,7 @@ namespace Microsoft.Practices.Unity.Configuration
         protected override bool OnDeserializeUnrecognizedAttribute(string name, string value)
         {
             // Noop - we can read this for back compat, but it's now ignored.
-            if(name == "genericParameterName")
+            if (name == "genericParameterName")
                 return true;
             return valueElementHelper.DeserializeUnrecognizedAttribute(name, value);
         }
@@ -209,13 +204,19 @@ namespace Microsoft.Practices.Unity.Configuration
                 base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
-        private void GuardConfigIsValidForGenericParameter()
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
         {
-            if(!(Value is DependencyElement))
-            {
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture,
-                    Resources.ValueNotAllowedForGenericParameter, Name));
-            }
+            Guard.ArgumentNotNull(writer, "writer");
+            writer.WriteAttributeString(NamePropertyName, Name);
+            writer.WriteAttributeIfNotEmpty(TypeNamePropertyName, TypeName);
+            ValueElementHelper.SerializeParameterValueElement(writer, Value, false);
         }
     }
 }

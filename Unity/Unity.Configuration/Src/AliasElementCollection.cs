@@ -18,6 +18,7 @@ namespace Microsoft.Practices.Unity.Configuration
     /// <summary>
     /// A collection of <see cref="AliasElement"/>s.
     /// </summary>
+    [ConfigurationCollection(typeof(AliasElement))]
     public class AliasElementCollection : DeserializableConfigurationElementCollection<AliasElement>
     {
         private static readonly UnknownElementHandlerMap<AliasElementCollection> unknownElementHandlerMap

@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -37,5 +38,30 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>One or more <see cref="InjectionMember"/> objects that should be
         /// applied to the container registration.</returns>
         public abstract IEnumerable<InjectionMember> GetInjectionMembers(IUnityContainer container, Type fromType, Type toType, string name);
+
+        /// <summary>
+        /// Element name to use to serialize this into XML.
+        /// </summary>
+        public virtual string ElementName
+        {
+            get
+            {
+                return ExtensionElementMap.GetTagForExtensionElement(this);
+            }
+        }
+
+        /// <summary>
+        /// Get the standard tag name for an <see cref="InjectionMemberElement"/>
+        /// taking into account currently loaded section extensions.
+        /// </summary>
+        /// <param name="memberElement">Element to get the name for.</param>
+        /// <returns>The element name.</returns>
+        /// <exception cref="ArgumentException">If the member element is not currently registered
+        /// with the section.</exception>
+        public static string GetMemberElementName(InjectionMemberElement memberElement)
+        {
+            Guard.ArgumentNotNull(memberElement, "memberElement");
+            return memberElement.ElementName;
+        }
     }
 }

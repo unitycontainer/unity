@@ -14,8 +14,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
+using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DependencyAttribute=Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.DependencyAttribute;
+using InjectionConstructorAttribute=Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
+using InjectionMethodAttribute=Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionMethodAttribute;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {
@@ -220,7 +224,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
         private void SetSingleton(IBuilderContext context, Type t, object value)
         {
-            SingletonLifetimePolicy policy = new SingletonLifetimePolicy();
+            var policy = new ContainerControlledLifetimeManager();
             policy.SetValue(value);
             context.PersistentPolicies.Set<ILifetimePolicy>(policy, new NamedTypeBuildKey(t));
         }
@@ -310,10 +314,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
                 this.resolverPolicy = resolverPolicy;
             }
 
-            public IEnumerable<SelectedMethod> SelectMethods(IBuilderContext context)
+            public IEnumerable<SelectedMethod> SelectMethods(IBuilderContext context, IPolicyList resolverPolicyDestination)
             {
                 var key = Guid.NewGuid().ToString();
-                context.Policies.Set<IDependencyResolverPolicy>(this.resolverPolicy, key);
+                resolverPolicyDestination.Set<IDependencyResolverPolicy>(this.resolverPolicy, key);
                 var method =
                     new SelectedMethod(
                         typeof(T).GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)[0]);

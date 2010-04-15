@@ -12,9 +12,7 @@
 using System;
 using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration.Properties;
 using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers

@@ -203,6 +203,20 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.AreEqual(50, instance.Inner.LogLevel);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CreatingATypeOverrideForANullTypeThrows()
+        {
+            new TypeBasedOverride(null, new PropertyOverride("ignored", 10));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CreatingATypeOverrideForANullOverrideThrows()
+        {
+            new TypeBasedOverride(typeof(object), null);
+        }
+
         public class SimpleTestObject
         {
             public SimpleTestObject()

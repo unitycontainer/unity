@@ -12,14 +12,16 @@
 using System;
 using System.ComponentModel;
 using System.Configuration;
+using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
     /// <summary>
     /// A configuration element that represents lifetime managers.
     /// </summary>
-    public class LifetimeElement : ConfigurationElement
+    public class LifetimeElement : DeserializableConfigurationElement
     {
         private const string TypeConverterTypeNamePropertyName = "typeConverter";
         private const string TypeNamePropertyName = "type";
@@ -69,6 +71,28 @@ namespace Microsoft.Practices.Unity.Configuration
                 return (LifetimeManager) Activator.CreateInstance(GetLifetimeType());
             }
             return (LifetimeManager) converter.ConvertFrom(Value);
+        }
+
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(System.Xml.XmlWriter writer)
+        {
+            Guard.ArgumentNotNull(writer, "writer");
+
+            writer.WriteAttributeString(TypeNamePropertyName, TypeName);
+            if(!string.IsNullOrEmpty(Value))
+            {
+                writer.WriteAttributeString(ValuePropertyName, Value);
+            }
+            if(!string.IsNullOrEmpty(TypeConverterTypeName))
+            {
+                writer.WriteAttributeString(TypeConverterTypeNamePropertyName, TypeConverterTypeName);
+            }
         }
 
         private Type GetLifetimeType()

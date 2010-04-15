@@ -15,8 +15,10 @@ using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Xml;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Configuration.Properties;
+using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -26,7 +28,7 @@ namespace Microsoft.Practices.Unity.Configuration
     public class ConstructorElement : InjectionMemberElement
     {
         private const string ParametersPropertyName = "";
-
+        
         /// <summary>
         /// The parameters of the constructor to call.
         /// </summary>
@@ -42,6 +44,32 @@ namespace Microsoft.Practices.Unity.Configuration
         public override string Key
         {
             get { return "constructor"; }
+        }
+
+        /// <summary>
+        /// Element name to use to serialize this into XML.
+        /// </summary>
+        public override string ElementName
+        {
+            get
+            {
+                return "constructor";
+            }
+        }
+
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            foreach(var param in Parameters)
+            {
+                writer.WriteElement("param", param.SerializeContent);
+            }
         }
 
         /// <summary>
@@ -100,7 +128,7 @@ namespace Microsoft.Practices.Unity.Configuration
                 string parameterNames = string.Join(", ", Parameters.Select(p => p.Name).ToArray());
 
                 throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentUICulture, Resources.NoMatchingConstructor,
+                    string.Format(CultureInfo.CurrentCulture, Resources.NoMatchingConstructor,
                         typeToConstruct.FullName, parameterNames));
             }
         }

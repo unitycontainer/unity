@@ -15,6 +15,7 @@ using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 using Microsoft.Practices.Unity.Configuration.Properties;
 
@@ -37,7 +38,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(TypeNamePropertyName, IsRequired = false)]
         public string TypeName
         {
-            get { return (string) base[TypeNamePropertyName]; }
+            get { return (string)base[TypeNamePropertyName]; }
             set { base[TypeNamePropertyName] = value; }
         }
 
@@ -47,9 +48,25 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(ValuesPropertyName, IsDefaultCollection = true)]
         public ParameterValueElementCollection Values
         {
-            get { return (ParameterValueElementCollection) base[ValuesPropertyName]; }
+            get { return (ParameterValueElementCollection)base[ValuesPropertyName]; }
         }
 
+        /// <summary>
+        /// Write the contents of this element to the given <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <remarks>The caller of this method has already written the start element tag before
+        /// calling this method, so deriving classes only need to write the element content, not
+        /// the start or end tags.</remarks>
+        /// <param name="writer">Writer to send XML content to.</param>
+        public override void SerializeContent(XmlWriter writer)
+        {
+            writer.WriteAttributeIfNotEmpty(TypeNamePropertyName, TypeName);
+            foreach (var valueElement in Values)
+            {
+                ValueElementHelper.SerializeParameterValueElement(writer, valueElement, true);
+            }
+
+        }
 
         /// <summary>
         /// Generate an <see cref="InjectionParameterValue"/> object
@@ -68,7 +85,7 @@ namespace Microsoft.Practices.Unity.Configuration
 
             var values = Values.Select(v => v.GetInjectionParameterValue(container, elementType));
 
-            if(elementType.IsGenericParameter)
+            if (elementType.IsGenericParameter)
             {
                 return new GenericResolvedArrayParameter(elementType.Name, values.ToArray());
             }
@@ -77,13 +94,13 @@ namespace Microsoft.Practices.Unity.Configuration
 
         private void GuardTypeIsAnArray(Type externalParameterType)
         {
-            if(string.IsNullOrEmpty(TypeName))
+            if (string.IsNullOrEmpty(TypeName))
             {
-               if(!externalParameterType.IsArray)
-               {
-                   throw new InvalidOperationException(string.Format(CultureInfo.CurrentUICulture,
-                       Resources.NotAnArray, externalParameterType.Name));
-               }
+                if (!externalParameterType.IsArray)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
+                        Resources.NotAnArray, externalParameterType.Name));
+                }
             }
         }
 

@@ -13,6 +13,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Microsoft.Practices.Unity.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
@@ -33,6 +34,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
         public GenericTypeBuildKeyMappingPolicy(NamedTypeBuildKey destinationKey)
         {
+            Guard.ArgumentNotNull(destinationKey, "destinationKey");
             if(!destinationKey.Type.IsGenericTypeDefinition)
             {
                 throw new ArgumentException(
@@ -47,9 +49,12 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// Maps the build key.
         /// </summary>
         /// <param name="buildKey">The build key to map.</param>
+        /// <param name="context">Current build context. Used for contextual information
+        /// if writing a more sophisticated mapping.</param>
         /// <returns>The new build key.</returns>
-        public NamedTypeBuildKey Map(NamedTypeBuildKey buildKey)
+        public NamedTypeBuildKey Map(NamedTypeBuildKey buildKey, IBuilderContext context)
         {
+            Guard.ArgumentNotNull(buildKey, "buildKey");
             Type originalType = buildKey.Type;
             GuardSameNumberOfGenericArguments(originalType);
 

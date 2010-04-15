@@ -9,8 +9,6 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System;
-
 namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects
 {
     class TestSectionExtension : SectionExtension
@@ -33,6 +31,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects
             context.AddAlias<ObjectTakingScalars>("scalarObject");
             context.AddElement<ContainerConfigElementOne>("configOne");
             context.AddElement<ContainerConfigElementTwo>("configTwo");
+            context.AddElement<TestInjectionMemberElement>("testInjectionMember");
             context.AddElement<SeventeenValueElement>("seventeen");
         }
     }

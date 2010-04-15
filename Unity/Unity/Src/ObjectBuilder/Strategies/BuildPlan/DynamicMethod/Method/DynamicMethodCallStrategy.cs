@@ -41,12 +41,14 @@ namespace Microsoft.Practices.ObjectBuilder2
         // FxCop suppression: Validation is done by Guard class
         public override void PreBuildUp(IBuilderContext context)
         {
-            DynamicBuildPlanGenerationContext ilContext = (DynamicBuildPlanGenerationContext)(context.Existing);
-            IMethodSelectorPolicy selector = context.Policies.Get<IMethodSelectorPolicy>(context.BuildKey);
+            var ilContext = (DynamicBuildPlanGenerationContext)(context.Existing);
+            
+            IPolicyList resolverPolicyDestination;
+            var selector = context.Policies.Get<IMethodSelectorPolicy>(context.BuildKey, out resolverPolicyDestination);
 
             bool shouldClearOperation = false;
 
-            foreach (SelectedMethod method in selector.SelectMethods(context))
+            foreach (SelectedMethod method in selector.SelectMethods(context, resolverPolicyDestination))
             {
                 shouldClearOperation = true;
 

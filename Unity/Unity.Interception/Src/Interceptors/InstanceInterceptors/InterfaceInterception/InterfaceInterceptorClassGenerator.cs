@@ -43,7 +43,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         static InterfaceInterceptorClassGenerator()
         {
             assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
-                new AssemblyName("Unity_ILEmit_InterfaceProxies"), AssemblyBuilderAccess.RunAndSave);
+                new AssemblyName("Unity_ILEmit_InterfaceProxies"), 
+#if DEBUG_SAVE_GENERATED_ASSEMBLY
+                AssemblyBuilderAccess.RunAndSave
+#else
+                AssemblyBuilderAccess.Run
+#endif
+                );
 
         }
 

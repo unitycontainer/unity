@@ -40,7 +40,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         static InterceptingClassGenerator()
         {
             assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
-                new AssemblyName("Unity_ILEmit_DynamicClasses"), AssemblyBuilderAccess.RunAndSave);
+                new AssemblyName("Unity_ILEmit_DynamicClasses"), 
+#if DEBUG_SAVE_GENERATED_ASSEMBLY
+                AssemblyBuilderAccess.RunAndSave
+#else
+                AssemblyBuilderAccess.Run
+#endif
+                );
         }
 
         /// <summary>

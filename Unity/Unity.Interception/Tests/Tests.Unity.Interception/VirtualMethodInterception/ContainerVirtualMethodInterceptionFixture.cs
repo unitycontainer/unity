@@ -9,6 +9,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System;
 using System.ComponentModel;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -206,6 +207,23 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             Assert.AreEqual(1, callCountBehavior.CallCount);
         }
 
+        [TestMethod]
+        public void CanInterceptGenericTypeWithGenericMethodsWithConstraints()
+        {
+            var container = new UnityContainer()
+                .AddNewExtension<Interception>()
+                .RegisterType(typeof (GenericTypeWithGenericMethodsAndConstraints<>),
+                    new Interceptor<VirtualMethodInterceptor>());
+
+            var result = container.Resolve<GenericTypeWithGenericMethodsAndConstraints<ClassWithVirtualProperty>>();
+
+            Type interceptedType = result.GetType();
+            Type genericInterceptedType = interceptedType.GetGenericTypeDefinition();
+            Assert.IsFalse(interceptedType.ContainsGenericParameters);
+            Assert.IsTrue(interceptedType.IsGenericType);
+            Assert.IsFalse(interceptedType.IsGenericTypeDefinition);
+        }
+
         protected virtual IUnityContainer GetContainer()
         {
             IUnityContainer container = new UnityContainer()
@@ -393,4 +411,32 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             return 10;
         }
     }
+
+    public class GenericTypeWithGenericMethodsAndConstraints<T>
+        where T : class
+    {
+        public virtual void TestMethod1<T1>()
+        { }
+
+        public virtual void TestMethod2<T2>()
+            where T2 : struct
+        { }
+
+        public virtual void TestMethod3<T3>()
+            where T3 : class
+        { }
+
+        public virtual void TestMethod4<T4>()
+            where T4 : class, new()
+        { }
+
+        public virtual void TestMethod5<T5>()
+            where T5 : InjectionPolicy
+        { }
+
+        public virtual void TestMethod6<T6>()
+            where T6 : IMatchingRule
+        { }
+    }
+
 }

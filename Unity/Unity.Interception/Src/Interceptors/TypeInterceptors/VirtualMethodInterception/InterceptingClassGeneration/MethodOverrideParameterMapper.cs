@@ -46,7 +46,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 {
                     builders[i].SetGenericParameterAttributes(genericArguments[i].GenericParameterAttributes);
 
-                    foreach (Type type in genericArguments[i].GetGenericParameterConstraints())
+                    var constraintTypes = genericArguments[i].GetGenericParameterConstraints();
+
+                    builders[i].SetInterfaceConstraints(constraintTypes.Where(t => t.IsInterface).ToArray());
+                    foreach (Type type in constraintTypes.Where(t => !t.IsInterface))
                     {
                         builders[i].SetBaseTypeConstraint(type);
                     }

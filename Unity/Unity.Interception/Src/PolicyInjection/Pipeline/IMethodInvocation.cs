@@ -10,7 +10,7 @@
 //===============================================================================
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
@@ -38,7 +38,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// Retrieves a dictionary that can be used to store arbitrary additional
         /// values. This allows the user to pass values between call handlers.
         /// </summary>
-        IDictionary InvocationContext { get; }
+        IDictionary<string, object> InvocationContext { get; }
 
         /// <summary>
         /// The object that the call is made on.

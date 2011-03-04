@@ -28,12 +28,6 @@ namespace Microsoft.Practices.Unity.TestSupport
         {
         }
 
-        public GlobalCountCallHandler(NameValueCollection attributes)
-        {
-            callHandlerName = attributes["callhandler"];
-
-        }
-
         public GlobalCountCallHandler(string callHandlerName)
         {
             this.callHandlerName = callHandlerName;

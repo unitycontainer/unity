@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2A7F5EF7-9AB0-4C0C-BC54-0B05DC5263A5}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Practices.Unity</RootNamespace>
+    <AssemblyName>Microsoft.Practices.Unity.Silverlight</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Silverlight\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Silverlight\Release\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Lib\Silverlight\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Common\GlobalAssemblyInfo.cs">
+      <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Attributes\DependencyAttribute.cs" />
+    <Compile Include="Attributes\DependencyResolutionAttribute.cs" />
+    <Compile Include="Attributes\InjectionConstructorAttribute.cs" />
+    <Compile Include="Attributes\InjectionMethodAttribute.cs" />
+    <Compile Include="Attributes\OptionalDependencyAttribute.cs" />
+    <Compile Include="CompositeResolverOverride.cs" />
+    <Compile Include="ContainerRegistration.cs" />
+    <Compile Include="DependencyOverride.cs" />
+    <Compile Include="DependencyOverrides.cs" />
+    <Compile Include="Extension\ChildContainerCreatedEventArgs.cs" />
+    <Compile Include="Extension\ExtensionContext.cs" />
+    <Compile Include="Extension\IUnityContainerExtensionConfigurator.cs" />
+    <Compile Include="Extension\NamedEventArgs.cs" />
+    <Compile Include="Extension\RegisterEventArgs.cs" />
+    <Compile Include="Extension\RegisterInstanceEventArgs.cs" />
+    <Compile Include="Extension\UnityContainerExtension.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Injection\GenericParameter.cs" />
+    <Compile Include="Injection\GenericParameterBase.cs" />
+    <Compile Include="Injection\GenericResolvedArrayParameter.cs" />
+    <Compile Include="Injection\InjectedMembers.cs" />
+    <Compile Include="Injection\InjectionConstructor.cs" />
+    <Compile Include="Injection\InjectionFactory.cs" />
+    <Compile Include="Injection\InjectionMember.cs" />
+    <Compile Include="Injection\InjectionMethod.cs" />
+    <Compile Include="Injection\InjectionParameter.cs" />
+    <Compile Include="Injection\InjectionParameterValue.cs" />
+    <Compile Include="Injection\InjectionProperty.cs" />
+    <Compile Include="Injection\OptionalGenericParameter.cs" />
+    <Compile Include="Injection\OptionalParameter.cs" />
+    <Compile Include="Injection\ResolvedArrayParameter.cs" />
+    <Compile Include="Injection\ResolvedParameter.cs" />
+    <Compile Include="Injection\TypedInjectionValue.cs" />
+    <Compile Include="IUnityContainer.cs" />
+    <Compile Include="Lifetime\ContainerControlledLifetimeManager.cs" />
+    <Compile Include="Lifetime\ExternallyControlledLifetimeManager.cs" />
+    <Compile Include="Lifetime\HierarchicalLifetimeManager.cs" />
+    <Compile Include="Lifetime\LifetimeManager.cs" />
+    <Compile Include="Lifetime\LifetimeManagerFactory.cs" />
+    <Compile Include="Lifetime\PerResolveLifetimeManager.cs" />
+    <Compile Include="Lifetime\PerThreadLifetimeManager.cs" />
+    <Compile Include="Lifetime\SynchronizedLifetimeManager.cs" />
+    <Compile Include="Lifetime\TransientLifetimeManager.cs" />
+    <Compile Include="NamedTypesRegistry.cs" />
+    <Compile Include="ObjectBuilderCustomization\ArrayResolutionStrategy.cs" />
+    <Compile Include="ObjectBuilderCustomization\DefaultUnityConstructorSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\DefaultUnityMethodSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\DefaultUnityPropertySelectorPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\HierarchicalLifetimeStrategy.cs" />
+    <Compile Include="ObjectBuilderCustomization\LiteralValueDependencyResolverPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\NamedTypeDependencyResolverPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\OptionalDependencyResolverPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\ResolvedArrayWithElementsResolverPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\SpecifiedConstructorSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\SpecifiedMemberSelectorHelper.cs" />
+    <Compile Include="ObjectBuilderCustomization\SpecifiedMethodsSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\SpecifiedPropertiesSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\UnityBuildStage.cs" />
+    <Compile Include="ObjectBuilder\BuilderContext.cs" />
+    <Compile Include="ObjectBuilder\Exceptions\DependencyMissingException.cs" />
+    <Compile Include="ObjectBuilder\Exceptions\IllegalInjectionMethodException.cs" />
+    <Compile Include="ObjectBuilder\IBuilderContext.cs" />
+    <Compile Include="ObjectBuilder\IRecoveryStack.cs" />
+    <Compile Include="ObjectBuilder\IRequiresRecovery.cs" />
+    <Compile Include="ObjectBuilder\Lifetime\ILifetimeContainer.cs" />
+    <Compile Include="ObjectBuilder\Lifetime\LifetimeContainer.cs" />
+    <Compile Include="ObjectBuilder\Policies\IBuilderPolicy.cs" />
+    <Compile Include="ObjectBuilder\Policies\IPolicyList.cs" />
+    <Compile Include="ObjectBuilder\Policies\PolicyList.cs" />
+    <Compile Include="ObjectBuilder\Policies\PolicyListExtensions.cs" />
+    <Compile Include="ObjectBuilder\RecoveryStack.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuilderAware\BuilderAwareStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuilderAware\IBuilderAware.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuilderStage.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuilderStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildKeyMapping\BuildKeyMappingPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildKeyMapping\BuildKeyMappingStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildKeyMapping\GenericTypeBuildKeyMappingPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildKeyMapping\IBuildKeyMappingPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\BuildOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\BuildPlanStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Creation\ConstructorSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Creation\ConstructorSelectorPolicyBase.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Creation\IConstructorSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Creation\SelectedConstructor.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Creation\SelectedMemberWithParameters.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\AnonymousHostedDynamicBuilderMethodCreatorPolicy.Silverlight.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Creation\ConstructorArgumentResolveOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Creation\DynamicMethodConstructorStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Creation\InvokingConstructorOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\DynamicBuildPlanGenerationContext.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\DynamicMethodBuildPlan.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\DynamicMethodBuildPlanCreatorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\IDynamicBuilderMethodCreatorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Method\DynamicMethodCallStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Method\InvokingMethodOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Method\MethodArgumentResolveOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Property\DynamicMethodPropertySetterStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Property\PropertyOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Property\ResolvingPropertyValueOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Property\SettingPropertyOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Factory\DeferredResolveBuildPlanPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Factory\FactoryDelegateBuildPlanPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\IBuildPlanCreatorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\IBuildPlanPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Method\IMethodSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Method\MethodSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Method\MethodSelectorPolicyBase.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Method\SelectedMethod.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\OverriddenBuildPlanMarkerPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Property\IPropertySelectorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Property\PropertySelectorBase.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Property\PropertySelectorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Property\SelectedProperty.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Resolution\DependencyResolverTrackerPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Resolution\FixedTypeResolverPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Resolution\IDependencyResolverPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Resolution\IDependencyResolverTrackerPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\IBuilderStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\IStagedStrategyChain.cs" />
+    <Compile Include="ObjectBuilder\Strategies\IStrategyChain.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Lifetime\ILifetimeFactoryPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Lifetime\ILifetimePolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Lifetime\LifetimeStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Lifetime\SingletonLifetimePolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Lifetime\TransientLifetimePolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\StagedStrategyChain.cs" />
+    <Compile Include="ObjectBuilder\Strategies\StrategyChain.cs" />
+    <Compile Include="ObjectBuilder\Utility\EnumerableExtensions.cs" />
+    <Compile Include="ObjectBuilder\Utility\NamedTypeBuildKey.cs" />
+    <Compile Include="ObjectBuilder\Utility\Sequence.cs" />
+    <Compile Include="OverrideCollection.cs" />
+    <Compile Include="ParameterOverride.cs" />
+    <Compile Include="ParameterOverrides.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\ResourcesSL.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyOverride.cs" />
+    <Compile Include="PropertyOverrides.cs" />
+    <Compile Include="ResolutionFailedException.cs" />
+    <Compile Include="ResolverOverride.cs" />
+    <Compile Include="StaticFactory\IStaticFactoryConfiguration.cs" />
+    <Compile Include="StaticFactory\StaticFactoryExtension.cs" />
+    <Compile Include="TypeBasedOverride.cs" />
+    <Compile Include="UnityContainer.cs" />
+    <Compile Include="UnityContainerExtensions.cs" />
+    <Compile Include="UnityDefaultBehaviorExtension.cs" />
+    <Compile Include="UnityDefaultStrategiesExtension.cs" />
+    <Compile Include="UnityDefaultStrategiesExtension.Silverlight.cs" />
+    <Compile Include="UnityServiceLocator.cs" />
+    <Compile Include="Utility\Guard.cs" />
+    <Compile Include="Utility\MethodReflectionHelper.cs" />
+    <Compile Include="Utility\Pair.cs" />
+    <Compile Include="Utility\ParameterMatcher.cs" />
+    <Compile Include="Utility\ParameterReflectionHelper.cs" />
+    <Compile Include="Utility\ReflectionHelper.cs" />
+    <Compile Include="Utility\StaticReflection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Unity.csproj" />
+    <Content Include="Unity.csproj.user" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourcesSL.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

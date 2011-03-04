@@ -10,12 +10,9 @@
 //===============================================================================
 
 using System;
-using System.Collections.Specialized;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
 {
-    class MockDalWithOverloads : MarshalByRefObject
+    partial class MockDalWithOverloads
     {
         public int DoSomething(string s)
         {

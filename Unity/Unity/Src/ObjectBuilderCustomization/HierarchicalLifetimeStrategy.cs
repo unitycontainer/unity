@@ -25,6 +25,7 @@ namespace Microsoft.Practices.Unity
         /// forward direction.
         /// </summary>
         /// <param name="context">Context of the build operation.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public override void PreBuildUp(IBuilderContext context) 
         {
             IPolicyList lifetimePolicySource;

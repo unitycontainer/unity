@@ -10,7 +10,7 @@
 //===============================================================================
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
@@ -47,6 +47,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// in the IMethodInvocation object, so handlers can set context
         /// properties in the pre-call phase and retrieve them in the after-call phase.
         /// </remarks>
-        IDictionary InvocationContext { get; }
+        IDictionary<string, object> InvocationContext { get; }
     }
 }

@@ -16,7 +16,7 @@ using Moq;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 {
-    public static class AssortedParameterKindsAreProperlyHandledHelper
+    public static partial class AssortedParameterKindsAreProperlyHandledHelper
     {
         public static void PerformTest(IInterceptingProxy proxy)
         {
@@ -106,7 +106,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             int DoSomething(int param1, out int param2, int param3, ref int param4, int param5);
         }
 
-        public class TypeWithAssertedParameterKinds : MarshalByRefObject, ITypeWithAssertedParameterKinds
+        public partial class TypeWithAssertedParameterKinds : ITypeWithAssertedParameterKinds
         {
             public virtual int DoSomething(int param1, out int param2, int param3, ref int param4, int param5)
             {

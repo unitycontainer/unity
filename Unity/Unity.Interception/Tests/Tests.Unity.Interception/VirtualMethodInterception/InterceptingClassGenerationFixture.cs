@@ -25,7 +25,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInterception
 {
     [TestClass]
-    public class InterceptingClassGenerationFixture
+    public partial class InterceptingClassGenerationFixture
     {
         [TestMethod]
         public void CanCreateInterceptingClassOverClassWithDefaultConstructor()
@@ -442,36 +442,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             // assert
             Assert.IsTrue(instance is MainType);
             Assert.IsTrue(instance is IDoSomething);
-        }
-
-        [TestMethod]
-        public void GeneratedTypeForAdditionalInterfaceWithMethodsHavingSignaturesMatchingMethodsInTheBaseClassIsVerifiable()
-        {
-            PermissionSet grantSet = new PermissionSet(PermissionState.None);
-            grantSet.AddPermission(
-                new SecurityPermission(
-                    SecurityPermissionFlag.Execution
-                    | SecurityPermissionFlag.ControlEvidence
-                    | SecurityPermissionFlag.ControlPolicy));
-            grantSet.AddPermission(
-                new ReflectionPermission(ReflectionPermissionFlag.RestrictedMemberAccess
-                    | ReflectionPermissionFlag.ReflectionEmit
-                    | ReflectionPermissionFlag.MemberAccess));
-            grantSet.AddPermission(new FileIOPermission(PermissionState.Unrestricted));
-
-            AppDomain sandbox =
-                AppDomain.CreateDomain(
-                    "sandbox",
-                    AppDomain.CurrentDomain.Evidence,
-                    new AppDomainSetup { ApplicationBase = AppDomain.CurrentDomain.BaseDirectory },
-                    grantSet);
-
-            sandbox.DoCallBack(() =>
-                {
-                    InterceptingClassGenerator generator =
-                        new InterceptingClassGenerator(typeof(MainType), typeof(IDoSomething), typeof(IDoSomethingToo));
-                    Type generatedType = generator.GenerateType();
-                });
         }
 
         [TestMethod]
@@ -1012,7 +982,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         }
     }
 
+#if !SILVERLIGHT
     [System.Web.AspNetHostingPermission(SecurityAction.InheritanceDemand, Level = System.Web.AspNetHostingPermissionLevel.Minimal)]
+#endif
     public class ClassWithPermissionAttribute
     {
         public virtual void Method()

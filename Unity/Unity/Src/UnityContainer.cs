@@ -414,6 +414,7 @@ namespace Microsoft.Practices.Unity
         /// A child container shares the parent's configuration, but can be configured with different
         /// settings or lifetime.</remarks>
         /// <returns>The new child container.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public IUnityContainer CreateChildContainer()
         {
             var child = new UnityContainer(this);

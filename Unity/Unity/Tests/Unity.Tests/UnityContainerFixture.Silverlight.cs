@@ -22,10 +22,16 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void CanBuildUpProxiedClass()
         {
-            using (var channelFactory = GetChannelFactory())
+            var channelFactory = GetChannelFactory();
+            try
             {
                 var client = new UnityContainer().BuildUp<IService>(channelFactory.CreateChannel());
                 Assert.IsNotNull(client);
+            }
+            finally
+            {
+                if (channelFactory != null && channelFactory.State != CommunicationState.Faulted)
+                    ((IDisposable)channelFactory).Dispose();
             }
         }
 
@@ -56,8 +62,10 @@ namespace Microsoft.Practices.Unity.Tests
         [ServiceContract]
         public interface IService
         {
-            [OperationContract]
-            void Ignore();
+            [OperationContract(AsyncPattern = true)]
+            IAsyncResult BeginIgnore(AsyncCallback callback, object state);
+
+            void EndIgnore(IAsyncResult asyncResult);
         }
     }
 }

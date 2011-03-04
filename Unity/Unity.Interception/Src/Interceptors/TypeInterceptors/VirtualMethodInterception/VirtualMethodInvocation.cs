@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     {
         private readonly ParameterCollection inputs;
         private readonly ParameterCollection arguments;
-        private readonly Hashtable context;
+        private readonly Dictionary<string, object> context;
         private readonly object target;
         private readonly MethodBase targetMethod;
 
@@ -43,7 +43,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             this.target = target;
             this.targetMethod = targetMethod;
-            this.context = new Hashtable();
+            this.context = new Dictionary<string, object>();
 
             ParameterInfo[] targetParameters = targetMethod.GetParameters();
             this.arguments = new ParameterCollection(parameterValues, targetParameters, param => true );
@@ -70,7 +70,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// Retrieves a dictionary that can be used to store arbitrary additional
         /// values. This allows the user to pass values between call handlers.
         /// </summary>
-        public IDictionary InvocationContext
+        public IDictionary<string, object> InvocationContext
         {
             get { return context; }
         }

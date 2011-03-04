@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using System.Security;
@@ -28,7 +29,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     {
         private readonly IMethodCallMessage callMessage;
         private readonly ParameterCollection outputs;
-        private readonly IDictionary invocationContext;
+        private readonly IDictionary<string, object> invocationContext;
         private readonly object[] arguments;
         private object returnValue;
         private Exception exception;
@@ -42,7 +43,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="arguments">Collections of arguments passed to the method (including the new
         /// values of any out params).</param>
         /// <param name="invocationContext">Invocation context dictionary passed into the call.</param>
-        public TransparentProxyMethodReturn(IMethodCallMessage callMessage, object returnValue, object[] arguments, IDictionary invocationContext)
+        public TransparentProxyMethodReturn(IMethodCallMessage callMessage, object returnValue, object[] arguments, IDictionary<string, object> invocationContext)
         {
             this.callMessage = callMessage;
             this.invocationContext = invocationContext;
@@ -58,7 +59,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="ex">Exception that was thrown.</param>
         /// <param name="callMessage">The original call message that invoked the method.</param>
         /// <param name="invocationContext">Invocation context dictionary passed into the call.</param>
-        public TransparentProxyMethodReturn(Exception ex, IMethodCallMessage callMessage, IDictionary invocationContext)
+        public TransparentProxyMethodReturn(Exception ex, IMethodCallMessage callMessage, IDictionary<string, object> invocationContext)
         {
             this.callMessage = callMessage;
             this.invocationContext = invocationContext;
@@ -113,7 +114,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// properties in the pre-call phase and retrieve them in the after-call phase.
         /// </remarks>
         /// <value>The invocation context dictionary.</value>
-        public IDictionary InvocationContext
+        public IDictionary<string, object> InvocationContext
         {
             get { return invocationContext; }
         }

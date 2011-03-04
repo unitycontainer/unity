@@ -26,10 +26,6 @@ namespace Microsoft.Practices.Unity.TestSupport
         {
         }
 
-        public CallCountHandler(NameValueCollection attributes)
-        {
-        }
-
         /// <summary>
         /// Gets or sets the order in which the handler will be executed
         /// </summary>

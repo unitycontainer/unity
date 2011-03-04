@@ -11,7 +11,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using Microsoft.Practices.Unity.InterceptionExtension;
 
 namespace Microsoft.Practices.Unity.TestSupport
@@ -25,11 +24,6 @@ namespace Microsoft.Practices.Unity.TestSupport
         public GlobalCountInterceptionBehavior()
             : this("default")
         {
-        }
-
-        public GlobalCountInterceptionBehavior(NameValueCollection attributes)
-        {
-            callHandlerName = attributes["callhandler"];
         }
 
         public GlobalCountInterceptionBehavior(string callHandlerName)

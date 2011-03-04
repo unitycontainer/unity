@@ -51,44 +51,44 @@ namespace Microsoft.Practices.Unity.TestSupport
         public void Method4() { }
     }
 
-    public class Wrappable : MarshalByRefObject, Interface, InterfaceA
+    public partial class Wrappable : Interface, InterfaceA
     {
-        public void Method() { }
+        public virtual void Method() { }
 
-        public void Method2() { }
+        public virtual void Method2() { }
 
-        public void Method3() { }
+        public virtual void Method3() { }
 
-        public void MethodA() { }
+        public virtual void MethodA() { }
 
-        public void MethodRef(ref object parameter)
+        public virtual void MethodRef(ref object parameter)
         {
             parameter = "parameter";
         }
 
-        public void MethodRefValue(ref int parameter)
+        public virtual void MethodRefValue(ref int parameter)
         {
             parameter = 42;
         }
 
-        public void MethodOut(out object parameter)
+        public virtual void MethodOut(out object parameter)
         {
             parameter = "parameter";
         }
 
-        public void MethodOutValue(out int parameter)
+        public virtual void MethodOutValue(out int parameter)
         {
             parameter = 42;
         }
     }
 
-    public class WrappableWithProperty : MarshalByRefObject
+    public partial class WrappableWithProperty
     {
-        public void Method() { }
+        public virtual void Method() { }
 
         private Wrappable wrappable;
 
-        public Wrappable Wrappable
+        public virtual Wrappable Wrappable
         {
             get { return wrappable; }
             set { wrappable = value; }

@@ -26,8 +26,10 @@ using System.Security;
 [assembly: AssemblyProduct("Microsoft Unity Application Block")]
 [assembly: AssemblyCompany("Microsoft Corporation")]
 
+#if !SILVERLIGHT
 [assembly: SecurityCritical]
 [assembly: AllowPartiallyTrustedCallers]
+#endif
 
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]

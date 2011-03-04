@@ -58,7 +58,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     new TypeMatchingRule(matchInfo.Match, matchInfo.IgnoreCase);
                 foreach (ParameterInfo paramInfo in parametersInfo)
                 {
-                    if ((!paramInfo.IsOut && !paramInfo.IsRetval) &&
+                    if ((!paramInfo.IsOut && !paramInfo.IsReturn()) &&
                         (matchInfo.Kind == ParameterKind.Input ||
                             matchInfo.Kind == ParameterKind.InputOrOutput))
                     {
@@ -78,7 +78,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                         }
                     }
 
-                    if (paramInfo.IsRetval && matchInfo.Kind == ParameterKind.ReturnValue)
+                    if (paramInfo.IsReturn() && matchInfo.Kind == ParameterKind.ReturnValue)
                     {
                         if (typeRule.Matches(paramInfo.ParameterType))
                         {

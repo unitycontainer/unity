@@ -24,7 +24,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
     /// Tests for the <see cref="VirtualMethodInterceptor"/> class.
     /// </summary>
     [TestClass]
-    public class VirtualMethodInterceptorFixture
+    public partial class VirtualMethodInterceptorFixture
     {
         [TestMethod]
         public void CanInterceptBasicClass()
@@ -198,32 +198,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         }
 
         [TestMethod]
-        public void GeneratedTypeForAbstractIsVerifiable()
-        {
-            PermissionSet permissionSet = new PermissionSet(PermissionState.None);
-            permissionSet.AddPermission(
-                new SecurityPermission(
-                    SecurityPermissionFlag.Execution
-                    | SecurityPermissionFlag.ControlPolicy
-                    | SecurityPermissionFlag.ControlPrincipal));
-            permissionSet.AddPermission(new FileIOPermission(PermissionState.Unrestricted));
-
-            AppDomain domain =
-                AppDomain.CreateDomain(
-                    "isolated",
-                    AppDomain.CurrentDomain.Evidence,
-                    AppDomain.CurrentDomain.SetupInformation,
-                    permissionSet);
-
-            DerivedTypeCreator creator = (DerivedTypeCreator)
-                domain.CreateInstanceAndUnwrap(
-                    typeof(DerivedTypeCreator).Assembly.FullName,
-                    typeof(DerivedTypeCreator).FullName);
-
-            creator.CreateType(typeof(AbstractClassWithPublicConstructor));
-        }
-
-        [TestMethod]
         public void CanInvokeVirtualMethodOnInterceptedAbstractTypeInstance()
         {
             VirtualMethodInterceptor interceptor = new VirtualMethodInterceptor();
@@ -348,7 +322,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
     // Some test classes for interception
 
 
-    public class DerivedTypeCreator : MarshalByRefObject
+    public partial class DerivedTypeCreator
     {
         public void CreateType(Type baseType)
         {

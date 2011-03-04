@@ -29,8 +29,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public void CanProxyWithBehaviorThatAddsInterface()
         {
             var target = new MockDal();
-            var proxied = Intercept.ThroughProxy(target,
-                new TransparentProxyInterceptor(),
+            var proxied = Intercept.ThroughProxy<IDal>(target,
+                new InterfaceInterceptor(),
                 new[] { new AdditionalInterfaceBehavior()});
 
             Assert.IsNotNull(proxied);
@@ -40,8 +40,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public void BehaviorAddsInterface()
         {
             var target = new MockDal();
-            var proxied = Intercept.ThroughProxy(target,
-                new TransparentProxyInterceptor(),
+            var proxied = Intercept.ThroughProxy<IDal>(target,
+                new InterfaceInterceptor(),
                 new[] { new AdditionalInterfaceBehavior() });
 
             Assert.IsNotNull(proxied as IAdditionalInterface);
@@ -62,8 +62,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public void CanManuallyAddAdditionalInterface()
         {
             var target = new MockDal();
-            var proxied = Intercept.ThroughProxyWithAdditionalInterfaces(target,
-                new TransparentProxyInterceptor(),
+            var proxied = Intercept.ThroughProxyWithAdditionalInterfaces<IDal>(target,
+                new InterfaceInterceptor(),
                 new[] {new AdditionalInterfaceBehavior(false)},
                 new[] {typeof (IAdditionalInterface)});
 
@@ -74,8 +74,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public void CanInvokeMethodOnManuallyAddedInterface()
         {
             var target = new MockDal();
-            var proxied = Intercept.ThroughProxyWithAdditionalInterfaces(target,
-                new TransparentProxyInterceptor(),
+            var proxied = Intercept.ThroughProxyWithAdditionalInterfaces<IDal>(target,
+                new InterfaceInterceptor(),
                 new[] { new AdditionalInterfaceBehavior(false) },
                 new[] { typeof(IAdditionalInterface) });
 

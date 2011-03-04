@@ -115,7 +115,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .SetInterceptorFor<Wrappable>("wrappable", new TransparentProxyInterceptor());
+                    .SetInterceptorFor<Wrappable>("wrappable", new VirtualMethodInterceptor());
 
             Wrappable wrappable1 = container.Resolve<Wrappable>("wrappable");
             wrappable1.Method2();
@@ -139,7 +139,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .SetInterceptorFor<Wrappable>("wrappable", new TransparentProxyInterceptor());
+                    .SetInterceptorFor<Wrappable>("wrappable", new VirtualMethodInterceptor());
 
             Wrappable wrappable1 = container.Resolve<Wrappable>("wrappable");
             wrappable1.Method2();
@@ -163,7 +163,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .SetInterceptorFor<Wrappable>("wrappable", new TransparentProxyInterceptor());
+                    .SetInterceptorFor<Wrappable>("wrappable", new VirtualMethodInterceptor());
 
             Wrappable wrappable1 = container.Resolve<Wrappable>("wrappable");
             wrappable1.Method2();
@@ -191,7 +191,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .SetInterceptorFor<Wrappable>("wrappable", new TransparentProxyInterceptor());
+                    .SetInterceptorFor<Wrappable>("wrappable", new VirtualMethodInterceptor());
 
             Wrappable wrappable1 = container.Resolve<Wrappable>("wrappable");
             wrappable1.Method2();
@@ -222,7 +222,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .SetInterceptorFor<Wrappable>("wrappable", new TransparentProxyInterceptor());
+                    .SetInterceptorFor<Wrappable>("wrappable", new VirtualMethodInterceptor());
 
             Wrappable wrappable1 = container.Resolve<Wrappable>("wrappable");
             wrappable1.Method2();
@@ -256,7 +256,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .SetInterceptorFor<Wrappable>("wrappable", new TransparentProxyInterceptor());
+                    .SetInterceptorFor<Wrappable>("wrappable", new VirtualMethodInterceptor());
 
             Wrappable wrappable1 = container.Resolve<Wrappable>("wrappable");
             wrappable1.Method2();
@@ -287,7 +287,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .SetInterceptorFor<Wrappable>("wrappable", new TransparentProxyInterceptor());
+                    .SetInterceptorFor<Wrappable>("wrappable", new VirtualMethodInterceptor());
 
             Wrappable wrappable1 = container.Resolve<Wrappable>("wrappable");
             wrappable1.Method2();
@@ -325,7 +325,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container
                 .Configure<Interception>()
-                    .SetInterceptorFor<Wrappable>("wrappable", new TransparentProxyInterceptor());
+                    .SetInterceptorFor<Wrappable>("wrappable", new VirtualMethodInterceptor());
 
             Wrappable wrappable1 = container.Resolve<Wrappable>("wrappable");
             wrappable1.Method2();

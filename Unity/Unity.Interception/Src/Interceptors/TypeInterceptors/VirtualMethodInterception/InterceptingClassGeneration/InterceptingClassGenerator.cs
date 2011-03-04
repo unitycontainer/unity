@@ -24,7 +24,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// <summary>
     /// Class that handles generating the dynamic types used for interception.
     /// </summary>
-    public class InterceptingClassGenerator
+    public partial class InterceptingClassGenerator
     {
         private readonly Type typeToIntercept;
         private readonly IEnumerable<Type> additionalInterfaces;
@@ -274,16 +274,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             attributes &= ~TypeAttributes.Abstract;
 
             return attributes;
-        }
-
-        private static ModuleBuilder GetModuleBuilder()
-        {
-            string moduleName = Guid.NewGuid().ToString("N");
-#if DEBUG_SAVE_GENERATED_ASSEMBLY
-            return assemblyBuilder.DefineDynamicModule(moduleName, moduleName + ".dll", true);
-#else
-            return assemblyBuilder.DefineDynamicModule(moduleName);
-#endif
         }
 
         private HashSet<Type> GetImplementedInterfacesSet()

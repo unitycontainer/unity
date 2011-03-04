@@ -269,7 +269,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
     }
 
     [CallHandler2]//(Categories = new string[] { "one", "two" }, Priority = 34)]
-    class AttributeTestTarget : MarshalByRefObject
+    class AttributeTestTarget
     {
         [CallHandler3]
         public string Name
@@ -305,7 +305,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public object this[string ignored, double ignored2] { get { return null; } set { ;} }
     }
 
-    class SecondAttributeTestTarget : MarshalByRefObject
+    class SecondAttributeTestTarget
     {
         public void DoesntHaveAttribute() { }
 
@@ -338,7 +338,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
     {
         public IList GetNews()
         {
-            return new ArrayList(new string[] { "News1", "News2", "News3" });
+            return new List<string> { "News1", "News2", "News3" };
         }
     }
 

@@ -26,7 +26,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
         void Log(string message);
     }
 
-    public class MockDal : MarshalByRefObject, IDal, IMonitor
+    public partial class MockDal : IDal, IMonitor
     {
         private bool throwException;
         private double balance = 0.0;

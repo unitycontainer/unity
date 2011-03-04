@@ -79,6 +79,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         private void AddExplicitBehaviorPolicies(Type implementationType, string name, IPolicyList policies)
         {
             var lifetimeManager = new ContainerControlledLifetimeManager();

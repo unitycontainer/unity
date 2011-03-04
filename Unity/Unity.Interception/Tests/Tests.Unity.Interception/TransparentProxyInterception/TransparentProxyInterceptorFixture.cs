@@ -116,9 +116,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         [TestMethod]
         public void AssortedParameterKindsAreProperlyHandled()
         {
-            TransparentProxyInterceptor interceptor = new TransparentProxyInterceptor();
-            AssortedParameterKindsAreProperlyHandledHelper.TypeWithAssertedParameterKinds target =
-                new AssortedParameterKindsAreProperlyHandledHelper.TypeWithAssertedParameterKinds();
+            var interceptor = new TransparentProxyInterceptor();
+            var target = new AssortedParameterKindsAreProperlyHandledHelper.TypeWithAssertedParameterKinds();
 
             IInterceptingProxy proxy =
                 interceptor.CreateProxy(

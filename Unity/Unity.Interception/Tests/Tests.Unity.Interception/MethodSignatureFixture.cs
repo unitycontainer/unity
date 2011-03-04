@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System;
+using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -29,21 +30,21 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [TestMethod]
         public void ShouldPassWithNoParameters()
         {
-            SignatureTestTarget target = GetTarget();
+            ISignatureTestTarget target = GetTarget();
             target.MethodWithNoParameters();
         }
 
         [TestMethod]
         public void ShouldPassWithSimpleInputs()
         {
-            SignatureTestTarget target = GetTarget();
+            ISignatureTestTarget target = GetTarget();
             target.MethodWithSimpleInputs(1, "two");
         }
 
         [TestMethod]
         public void ShouldPassWithOutParams()
         {
-            SignatureTestTarget target = GetTarget();
+            ISignatureTestTarget target = GetTarget();
             int first;
             string second;
             target.MethodWithOutParams(out first, out second);
@@ -54,7 +55,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [TestMethod]
         public void ShouldPassWithInOutRef()
         {
-            SignatureTestTarget target = GetTarget();
+            ISignatureTestTarget target = GetTarget();
             string two;
             float three = 1.0f;
 
@@ -66,19 +67,19 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [TestMethod]
         public void ShouldPassWithVarArgs()
         {
-            SignatureTestTarget target = GetTarget();
+            ISignatureTestTarget target = GetTarget();
             target.MethodWithVarArgs(1, "two", "two and a half", "two and three quarters");
         }
 
-        SignatureTestTarget GetTarget()
+        ISignatureTestTarget GetTarget()
         {
-            TransparentProxyInterceptor interceptor = new TransparentProxyInterceptor();
+            var interceptor = new InterfaceInterceptor();
             PolicySet policySet = GetPolicies();
-            SignatureTestTarget target = new SignatureTestTarget();
-            IInterceptingProxy proxy = interceptor.CreateProxy(typeof(SignatureTestTarget), target);
+            var target = new SignatureTestTarget();
+            IInterceptingProxy proxy = interceptor.CreateProxy(typeof(ISignatureTestTarget), target);
 
             PipelineManager manager = new PipelineManager();
-            foreach (MethodImplementationInfo method in interceptor.GetInterceptableMethods(typeof(SignatureTestTarget), typeof(SignatureTestTarget)))
+            foreach (MethodImplementationInfo method in interceptor.GetInterceptableMethods(typeof(ISignatureTestTarget), typeof(SignatureTestTarget)))
             {
                 HandlerPipeline pipeline = new HandlerPipeline(
                     policySet.GetHandlersFor(method, container));
@@ -86,7 +87,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             }
             proxy.AddInterceptionBehavior(new PolicyInjectionBehavior(manager));
 
-            return (SignatureTestTarget)proxy;
+            return (ISignatureTestTarget)proxy;
         }
 
         PolicySet GetPolicies()
@@ -152,7 +153,26 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         }
     }
 
-    class SignatureTestTarget : MarshalByRefObject
+    public interface ISignatureTestTarget
+    {
+        void MethodWithInOutByrefParams(int one,
+            out string two,
+            ref float three,
+            decimal four);
+
+        void MethodWithNoParameters();
+
+        void MethodWithOutParams(out int first,
+            out string second);
+
+        void MethodWithSimpleInputs(int one,
+            string two);
+
+        void MethodWithVarArgs(int one,
+            params string[] two);
+    }
+
+    class SignatureTestTarget : ISignatureTestTarget
     {
         public void MethodWithInOutByrefParams(int one,
                                                out string two,
@@ -225,12 +245,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                                     GetNextHandlerDelegate getNext)
         {
             Assert.IsNotNull(expectedSignature);
-            Type[] messageSignature =
-                Array.ConvertAll<ParameterInfo, Type>(input.MethodBase.GetParameters(),
-                                                      delegate(ParameterInfo info)
-                                                      {
-                                                          return info.ParameterType;
-                                                      });
+            
+            Type[] messageSignature = input.MethodBase.GetParameters().Select(info => info.ParameterType).ToArray();
+
             Assert.AreEqual(expectedSignature.Length, messageSignature.Length);
             for (int i = 0; i < messageSignature.Length; ++i)
             {

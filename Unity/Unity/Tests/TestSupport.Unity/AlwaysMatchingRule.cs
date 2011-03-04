@@ -28,10 +28,6 @@ namespace Microsoft.Practices.Unity.TestSupport
         {
         }
 
-        public AlwaysMatchingRule(NameValueCollection configuration)
-        {
-        }
-
         public bool Matches(MethodBase member)
         {
             return true;

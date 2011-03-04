@@ -16,7 +16,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
 {
     [ApplyNoPolicies]
-    class CriticalFakeDal : MarshalByRefObject
+    partial class CriticalFakeDal
     {
         private bool throwException;
         private double balance = 0.0;

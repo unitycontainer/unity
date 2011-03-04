@@ -18,24 +18,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
     /// Summary description for PolicyInjectionWithGenericMethodsFixture
     /// </summary>
     [TestClass]
-    public class PolicyInjectionWithGenericMethodsFixture
+    public partial class PolicyInjectionWithGenericMethodsFixture
     {
         [TestCleanup]
         public void Teardown()
         {
             GlobalCountCallHandler.Calls.Clear();
-        }
-
-        [TestMethod]
-        public void TransparentProxyCanInterceptNonGenericMethod()
-        {
-            CanInterceptNonGenericMethod<TransparentProxyInterceptor>();
-        }
-
-        [TestMethod]
-        public void TransparentProxyCanInterceptGenericMethod()
-        {
-            CanInterceptGenericMethod<TransparentProxyInterceptor>();
         }
 
         [TestMethod]

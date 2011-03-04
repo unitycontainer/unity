@@ -25,21 +25,31 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [TestInitialize]
         public void SetUp()
         {
-            container = new UnityContainer();
+            container = new UnityContainer()
+                .AddNewExtension<Interception>()
+                .RegisterType<ICanChangeParametersTarget, CanChangeParametersTarget>(
+                    new Interceptor<InterfaceInterceptor>(),
+                    new InterceptionBehavior<PolicyInjectionBehavior>());
+
+            container.Configure<Interception>()
+                .AddPolicy("Double your inputs")
+                .AddMatchingRule<MemberNameMatchingRule>(
+                    new InjectionConstructor("DoSomething"))
+                .AddCallHandler("Handler1");
+
+            container.Configure<Interception>()
+                .AddPolicy("Triple an output parameter")
+                .AddMatchingRule(new MemberNameMatchingRule(new[] {"DoSomethingElse", "DoSomethingElseWithRef"}))
+                .AddCallHandler("Handler2");
+
+            container.RegisterInstance<ICallHandler>("Handler1", new DoubleInputHandler());
+            container.RegisterInstance<ICallHandler>("Handler2", new TripleOutputHandler());
         }
 
         [TestMethod]
         public void HandlersCanChangeInputsBeforeTargetIsCalled()
         {
-            TransparentProxyInterceptor factory = new TransparentProxyInterceptor();
-            PolicySet policies = GetPolicies();
-
-            CanChangeParametersTarget target = new CanChangeParametersTarget();
-            IInterceptingProxy proxy = factory.CreateProxy(typeof(CanChangeParametersTarget), target);
-
-            ApplyPolicies(factory, proxy, target, policies);
-
-            CanChangeParametersTarget intercepted = (CanChangeParametersTarget)proxy;
+            var intercepted = container.Resolve<ICanChangeParametersTarget>();
             Assert.AreEqual(0, intercepted.MostRecentInput);
             intercepted.DoSomething(2);
             Assert.AreEqual(4, intercepted.MostRecentInput);
@@ -48,14 +58,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [TestMethod]
         public void HandlersCanChangeOutputsAfterTargetReturns()
         {
-            TransparentProxyInterceptor factory = new TransparentProxyInterceptor();
-            PolicySet policies = GetPolicies();
-
-
-            CanChangeParametersTarget target = new CanChangeParametersTarget();
-            IInterceptingProxy proxy = factory.CreateProxy(typeof(CanChangeParametersTarget), target);
-            ApplyPolicies(factory, proxy, target, policies);
-            CanChangeParametersTarget intercepted = (CanChangeParametersTarget)proxy;
+            var intercepted = container.Resolve<ICanChangeParametersTarget>();
             int output;
 
             intercepted.DoSomethingElse(2, out output);
@@ -66,55 +69,16 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         [TestMethod]
         public void HandlersCanChangeRefsAfterTargetReturns()
         {
-            TransparentProxyInterceptor factory = new TransparentProxyInterceptor();
-            PolicySet policies = GetPolicies();
-
-
-            CanChangeParametersTarget target = new CanChangeParametersTarget();
-            IInterceptingProxy proxy = factory.CreateProxy(typeof(CanChangeParametersTarget), target);
-            ApplyPolicies(factory, proxy, target, policies);
-            CanChangeParametersTarget intercepted = (CanChangeParametersTarget)proxy;
+            var intercepted = container.Resolve<ICanChangeParametersTarget>();
             int output = 3;
 
             intercepted.DoSomethingElseWithRef(2, ref output);
 
             Assert.AreEqual((2 + 3 + 5) * 3, output);
         }
-
-        PolicySet GetPolicies()
-        {
-            RuleDrivenPolicy doubleInputPolicy
-                = new RuleDrivenPolicy(
-                    "Double your inputs",
-                    new IMatchingRule[] { new MemberNameMatchingRule("DoSomething") },
-                    new string[] { "Handler1" });
-            container.RegisterInstance<ICallHandler>("Handler1", new DoubleInputHandler());
-
-            RuleDrivenPolicy tripleOutputPolicy
-                = new RuleDrivenPolicy(
-                    "Triple an output parameter",
-                    new IMatchingRule[] { new MemberNameMatchingRule(new[] { "DoSomethingElse", "DoSomethingElseWithRef" }) },
-                    new string[] { "Handler2" });
-            container.RegisterInstance<ICallHandler>("Handler2", new TripleOutputHandler());
-
-            return new PolicySet(doubleInputPolicy, tripleOutputPolicy);
-        }
-
-        private void ApplyPolicies(IInterceptor interceptor, IInterceptingProxy proxy, object target, PolicySet policies)
-        {
-            PipelineManager manager = new PipelineManager();
-
-            foreach (MethodImplementationInfo method in interceptor.GetInterceptableMethods(target.GetType(), target.GetType()))
-            {
-                HandlerPipeline pipeline = new HandlerPipeline(policies.GetHandlersFor(method, container));
-                manager.SetPipeline(method.ImplementationMethodInfo, pipeline);
-            }
-
-            proxy.AddInterceptionBehavior(new PolicyInjectionBehavior(manager));
-        }
     }
 
-    class DoubleInputHandler : ICallHandler
+    public class DoubleInputHandler : ICallHandler
     {
         int order = 0;
 
@@ -136,7 +100,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         }
     }
 
-    class TripleOutputHandler : ICallHandler
+    public class TripleOutputHandler : ICallHandler
     {
         int order = 0;
 
@@ -162,7 +126,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         }
     }
 
-    class CanChangeParametersTarget : MarshalByRefObject
+    public interface ICanChangeParametersTarget
+    {
+        int MostRecentInput { get; }
+        void DoSomething(int i);
+        void DoSomethingElse(int i, out int j);
+        void DoSomethingElseWithRef(int i, ref int j);
+    }
+
+    public class CanChangeParametersTarget : ICanChangeParametersTarget
     {
         int mostRecentInput = 0;
 

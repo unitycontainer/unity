@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1D53AE0E-6E9E-4F5B-9D79-377ED9FC1EA5}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Practices.Unity.InterceptionExtension.Tests</RootNamespace>
+    <AssemblyName>Unity.Interception.Tests.Silverlight</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.DynamicProxy-Silverlight">
+      <HintPath>..\..\..\..\Lib\ThirdParty\Moq\Castle.DynamicProxy-Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Silverlight.Testing">
+      <HintPath>..\..\..\..\Lib\SilverlightUnitTesting\Microsoft.Silverlight.Testing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight">
+      <HintPath>..\..\..\..\Lib\SilverlightUnitTesting\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq.Silverlight">
+      <HintPath>..\..\..\..\Lib\ThirdParty\Moq\Moq.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddInterfaceFixture.cs" />
+    <Compile Include="AssortedParameterKindsAreProperlyHandledHelper.cs" />
+    <Compile Include="AttributeDrivenPolicyFixture.cs" />
+    <Compile Include="CodeplexIssuesFixture.cs" />
+    <Compile Include="ConvenienceConfigurationFixture.cs" />
+    <Compile Include="EventInterceptionFixture.cs" />
+    <Compile Include="HandlerInvocationFixture.cs" />
+    <Compile Include="InterceptFixture.cs" />
+    <Compile Include="InterceptionConfigurationFixture.cs" />
+    <Compile Include="InterceptionFixture.cs" />
+    <Compile Include="InterfaceInterception\ContainerInterfaceInterceptionFixture.cs" />
+    <Compile Include="InterfaceInterception\InterfaceInterceptorFixture.cs" />
+    <Compile Include="MatchingRuleSetFixture.cs" />
+    <Compile Include="MatchingRules\AssemblyMatchingRuleFixture.cs" />
+    <Compile Include="MatchingRules\AssemblyMatchingRuleFixture.Silverlight.cs" />
+    <Compile Include="MatchingRules\CustomAttributeMatchingRuleFixture.cs" />
+    <Compile Include="MatchingRules\GlobFixture.cs" />
+    <Compile Include="MatchingRules\MemberNameMatchingRuleFixture.cs" />
+    <Compile Include="MatchingRules\MethodSignatureMatchingRuleFixture.cs" />
+    <Compile Include="MatchingRules\NamespaceMatchingRuleFixture.cs" />
+    <Compile Include="MatchingRules\ParameterTypeMatchingRuleFixture.cs" />
+    <Compile Include="MatchingRules\PropertyMatchingRuleFixture.cs" />
+    <Compile Include="MatchingRules\ReturnTypeMatchingRuleFixture.cs" />
+    <Compile Include="MatchingRules\TagAttributeMatchingRuleFixture.cs" />
+    <Compile Include="MatchingRules\TypeMatchingRuleFixture.cs" />
+    <Compile Include="MethodSignatureFixture.cs" />
+    <Compile Include="ObjectsUnderTest\ClassWithGenericMethod.cs" />
+    <Compile Include="ObjectsUnderTest\CriticalFakeDal.cs" />
+    <Compile Include="ObjectsUnderTest\ExceptionEatingHandler.cs" />
+    <Compile Include="ObjectsUnderTest\ExceptionSwizzlerHandler.cs" />
+    <Compile Include="ObjectsUnderTest\IInterfaceWithGenericMethod.cs" />
+    <Compile Include="ObjectsUnderTest\InterfacesOnlyDal.cs" />
+    <Compile Include="ObjectsUnderTest\MakeReturnNullHandler.cs" />
+    <Compile Include="ObjectsUnderTest\MockDal.cs" />
+    <Compile Include="ObjectsUnderTest\MockDalWithOverloads.cs" />
+    <Compile Include="ObjectsUnderTest\PostCallCountHandler.cs" />
+    <Compile Include="ObjectsUnderTest\ShortcuttingHandler.cs" />
+    <Compile Include="ObjectsUnderTest\TestHandler.cs" />
+    <Compile Include="ObjectsUnderTest\TestHandlerAttribute.cs" />
+    <Compile Include="ObjectsUnderTest\TypeMatchingAssignmentRule.cs" />
+    <Compile Include="ParameterCollectionFixture.cs" />
+    <Compile Include="PipelineFixture.cs" />
+    <Compile Include="PolicyFixture.cs" />
+    <Compile Include="PolicyInjection\HandlerPipelineKeyFixture.cs" />
+    <Compile Include="PolicyInjection\PolicyInjectionWithGenericMethodsFixture.cs" />
+    <Compile Include="PolicyInjection\VirtualMethodOverrideFixture.cs" />
+    <Compile Include="PolicySetFixture.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VirtualMethodInterception\ContainerVirtualMethodInterceptionFixture.cs" />
+    <Compile Include="VirtualMethodInterception\InterceptingClassGenerationFixture.cs" />
+    <Compile Include="VirtualMethodInterception\InterceptingInterfaceMethodsFixture.cs" />
+    <Compile Include="VirtualMethodInterception\VirtualMethodInterceptorFixture.cs" />
+    <Compile Include="VirtualMethodInterception\WireupHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="obj\Debug\TemplateClassLibrary.dll" />
+    <Content Include="obj\Debug\TemplateClassLibrary.pdb" />
+    <Content Include="obj\Debug\Unity.Interception.Tests.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\Unity.Interception.Tests.dll" />
+    <Content Include="obj\Debug\Unity.Interception.Tests.pdb" />
+    <Content Include="obj\Debug\Unity.Interception.Tests.Silverlight.csproj.FileListAbsolute.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Unity\Src\Unity.Silverlight.csproj">
+      <Project>{2A7F5EF7-9AB0-4C0C-BC54-0B05DC5263A5}</Project>
+      <Name>Unity.Silverlight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Unity\Tests\TestSupport.Unity\Unity.TestSupport.Silverlight.csproj">
+      <Project>{B4B460E8-9034-4833-B0A1-98632D6599DC}</Project>
+      <Name>Unity.TestSupport.Silverlight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Src\Unity.Interception.Silverlight.csproj">
+      <Project>{893792B8-06F0-4254-9977-0B219666958A}</Project>
+      <Name>Unity.Interception.Silverlight</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

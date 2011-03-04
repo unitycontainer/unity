@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using System.Security;
@@ -30,7 +31,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private IMethodCallMessage callMessage;
         private TransparentProxyInputParameterCollection inputParams;
         private ParameterCollection allParams;
-        private Hashtable invocationContext;
+        private Dictionary<string, object> invocationContext;
         private object target;
         private object[] arguments;
 
@@ -44,7 +45,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public TransparentProxyMethodInvocation(IMethodCallMessage callMessage, object target)
         {
             this.callMessage = callMessage;
-            this.invocationContext = new Hashtable();
+            this.invocationContext = new Dictionary<string, object>();
             this.target = target;
             this.arguments = callMessage.Args;
             this.inputParams = new TransparentProxyInputParameterCollection(callMessage, this.arguments);
@@ -75,7 +76,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// values. This allows the user to pass values between call handlers.
         /// </summary>
         /// <value>The invocation context dictionary.</value>
-        public IDictionary InvocationContext
+        public IDictionary<string, object> InvocationContext
         {
             get { return invocationContext; }
         }

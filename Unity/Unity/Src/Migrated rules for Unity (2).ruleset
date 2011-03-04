@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Migrated rules for Unity (2).ruleset" Description="This rule set was created from the CodeAnalysisRules property for the &quot;Release (Any CPU)&quot; configuration in project &quot;D:\dev\EntlibSL\Work\Unity\Source\Unity\Unity\Src\Unity.csproj&quot;." ToolsVersion="10.0">
+  <IncludeAll Action="Warning" />
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA1004" Action="None" />
+    <Rule Id="CA1063" Action="None" />
+  </Rules>
+</RuleSet>

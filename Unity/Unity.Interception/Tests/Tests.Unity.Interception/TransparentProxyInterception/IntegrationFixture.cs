@@ -9,7 +9,12 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
+{
+}
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxyInterception
 {
@@ -30,46 +35,5 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
 
             Assert.AreEqual(0, result);
         }
-
-        public interface IInterfaceWithGenericMethod
-        {
-            [TestHandler]
-            T DoSomething<T>();
-        }
-
-        public class ClassWithGenericMethod : IInterfaceWithGenericMethod
-        {
-            public T DoSomething<T>()
-            {
-                return default(T);
-            }
-        }
-
-        public class TestHandlerAttribute : HandlerAttribute
-        {
-            public override ICallHandler CreateHandler(IUnityContainer container)
-            {
-                return new TestHandler();
-            }
-        }
-
-        public class TestHandler : ICallHandler
-        {
-            #region ICallHandler Members
-
-            public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
-            {
-                var methodName = input.MethodBase.Name;
-                var target = input.Target;
-
-                return getNext()(input, getNext);
-            }
-
-            public int Order { get; set; }
-
-            #endregion
-        }
-
-
     }
 }

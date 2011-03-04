@@ -120,7 +120,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
         }
     }
 
-    public class BaseClass : MarshalByRefObject
+    public class BaseClass
     {
         public virtual string InterceptedMethod()
         {

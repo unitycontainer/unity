@@ -60,7 +60,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Assert.AreEqual(returnHandler.ValueToRewriteTo, (string)result.ReturnValue);
         }
 
-        public string MyTargetMethod(int i)
+        public virtual string MyTargetMethod(int i)
         {
             return string.Format("i = {0}", i);
         }
@@ -97,8 +97,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
         IMethodInvocation MakeCallMessage()
         {
-            FakeMethodCallMessage msg = new FakeMethodCallMessage(GetTargetMemberInfo().ImplementationMethodInfo, 15);
-            IMethodInvocation invocation = new TransparentProxyMethodInvocation(msg, null);
+            IMethodInvocation invocation = new VirtualMethodInvocation(this, GetTargetMemberInfo().ImplementationMethodInfo, 15);
             return invocation;
         }
 

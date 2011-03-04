@@ -71,7 +71,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 return false;
             }
 
-            AssemblyName assembly = member.DeclaringType.Assembly.GetName();
+            var assembly = new AssemblyName(member.DeclaringType.Assembly.FullName);
 
             return DoesAssemblyNameMatchString(assemblyName, assembly);
         }
@@ -107,9 +107,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 }
 
                 CultureInfo requestedAssemblyCulture = assemblyNameToMatch.CultureInfo;
-                if (requestedAssemblyCulture != null && requestedAssemblyCulture.LCID != CultureInfo.InvariantCulture.LCID)
+
+                if (requestedAssemblyCulture != null && !requestedAssemblyCulture.IsInvariantCulture())
                 {
-                    if (assemblyName.CultureInfo.LCID != requestedAssemblyCulture.LCID)
+                    if (!assemblyName.CultureInfo.IsSameAs(requestedAssemblyCulture))
                     {
                         return false;
                     }

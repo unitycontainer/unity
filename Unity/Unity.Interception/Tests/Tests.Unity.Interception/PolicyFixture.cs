@@ -129,7 +129,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         }
     }
 
-    class Handler1 : ICallHandler
+    public class Handler1 : ICallHandler
     {
         int order = 0;
 
@@ -149,7 +149,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         }
     }
 
-    class Handler2 : ICallHandler
+    public class Handler2 : ICallHandler
     {
         int order = 0;
 
@@ -169,7 +169,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         }
     }
 
-    class Handler3 : ICallHandler
+    public class Handler3 : ICallHandler
     {
         int order = 0;
 

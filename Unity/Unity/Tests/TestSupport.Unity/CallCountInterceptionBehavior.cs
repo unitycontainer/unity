@@ -25,10 +25,6 @@ namespace Microsoft.Practices.Unity.TestSupport
         {
         }
 
-        public CallCountInterceptionBehavior(NameValueCollection attributes)
-        {
-        }
-
         public IMethodReturn Invoke(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext)
         {
             ++callCount;

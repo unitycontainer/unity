@@ -26,7 +26,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// A class used to generate proxy classes for doing interception on
     /// interfaces.
     /// </summary>
-    public class InterfaceInterceptorClassGenerator
+    public partial class InterfaceInterceptorClassGenerator
     {
         private readonly Type typeToIntercept;
         private readonly IEnumerable<Type> additionalInterfaces;
@@ -185,15 +185,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             typeToProxyField = typeBuilder.DefineField("typeToProxy", typeof(Type), FieldAttributes.Private);
         }
 
-        private static ModuleBuilder GetModuleBuilder()
-        {
-            string moduleName = Guid.NewGuid().ToString("N");
-#if DEBUG_SAVE_GENERATED_ASSEMBLY
-            return assemblyBuilder.DefineDynamicModule(moduleName, moduleName + ".dll", true);
-#else
-            return assemblyBuilder.DefineDynamicModule(moduleName);
-#endif
-        }
 
         private string CreateTypeName()
         {

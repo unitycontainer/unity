@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{893792B8-06F0-4254-9977-0B219666958A}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Practices.Unity.InterceptionExtension</RootNamespace>
+    <AssemblyName>Microsoft.Practices.Unity.Interception.Silverlight</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\..\Lib\Silverlight\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ContainerIntegration\AdditionalInterface.cs" />
+    <Compile Include="ContainerIntegration\DefaultInterceptionBehavior.cs" />
+    <Compile Include="ContainerIntegration\DefaultInterceptor.cs" />
+    <Compile Include="ContainerIntegration\Interception.cs" />
+    <Compile Include="ContainerIntegration\InterceptionBehavior.cs" />
+    <Compile Include="ContainerIntegration\InterceptionBehaviorBase.cs" />
+    <Compile Include="ContainerIntegration\InterceptionMember.cs" />
+    <Compile Include="ContainerIntegration\Interceptor.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\AdditionalInterfacesPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\FixedInstanceInterceptionPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\FixedTypeInterceptionPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\IAdditionalInterfacesPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\IInstanceInterceptionPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\IInterceptionBehaviorsPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\InstanceInterceptionStrategy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\InterceptionBehaviorsPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\ITypeInterceptionPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\ResolvedInstanceInterceptionPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\ResolvedTypeInterceptionPolicy.cs" />
+    <Compile Include="ContainerIntegration\ObjectBuilder\TypeInterceptionStrategy.cs" />
+    <Compile Include="ContainerIntegration\PolicyDefinition.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Intercept.cs" />
+    <Compile Include="InterceptionBehaviors\CurrentInterceptionRequest.cs" />
+    <Compile Include="InterceptionBehaviors\IInterceptionBehavior.cs" />
+    <Compile Include="InterceptionBehaviors\InterceptionBehaviorPipeline.cs" />
+    <Compile Include="Interceptors\IInterceptingProxy.cs" />
+    <Compile Include="Interceptors\IInterceptor.cs" />
+    <Compile Include="Interceptors\InstanceInterceptors\IInstanceInterceptor.cs" />
+    <Compile Include="Interceptors\InstanceInterceptors\InterfaceInterception\InterfaceImplementation.cs" />
+    <Compile Include="Interceptors\InstanceInterceptors\InterfaceInterception\InterfaceInterceptor.cs" />
+    <Compile Include="Interceptors\InstanceInterceptors\InterfaceInterception\InterfaceInterceptorClassGenerator.cs" />
+    <Compile Include="Interceptors\InstanceInterceptors\InterfaceInterception\InterfaceInterceptorClassGenerator.Silverlight.cs" />
+    <Compile Include="Interceptors\InstanceInterceptors\InterfaceInterception\InterfaceMethodOverride.cs" />
+    <Compile Include="Interceptors\MethodImplementationInfo.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\ITypeInterceptor.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\ConstructorWithResolverKeysSelectorPolicy.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\CompilerGeneratedAttributeMethods.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\GeneratedTypeKey.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\IInterceptingProxyMethods.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\IListMethods.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\IMethodInvocationMethods.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\IMethodReturnMethods.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\InterceptingClassGenerator.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\InterceptingClassGenerator.Silverlight.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\InterceptingProxyImplementor.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\InterceptionBehaviorPipelineMethods.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\InvokeInterceptionBehaviorDelegateMethods.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\MethodBaseMethods.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\MethodOverride.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\MethodOverrideParameterMapper.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\MethodSorter.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\ObjectMethods.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\VirtualMethodInvocationMethods.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\VirtualMethodInterceptor.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\VirtualMethodInvocation.cs" />
+    <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\VirtualMethodReturn.cs" />
+    <Compile Include="PolicyInjection\HandlerPipelineKey.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\ApplyNoPoliciesMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\AssemblyMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\AttributeDrivenPolicyMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\CustomAttributeMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\IMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\MatchingInfo.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\MatchingRuleSet.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\MemberNameMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\MethodSignatureMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\NamespaceMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\ParameterTypeMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\PropertyMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\ReturnTypeMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\TagAttribute.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\TagAttributeMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\TypeMatchingRule.cs" />
+    <Compile Include="PolicyInjection\MatchingRules\UtilityExtensions.Silverlight.cs" />
+    <Compile Include="PolicyInjection\Pipeline\HandlerPipeline.cs" />
+    <Compile Include="PolicyInjection\Pipeline\ICallHandler.cs" />
+    <Compile Include="PolicyInjection\Pipeline\IMethodInvocation.cs" />
+    <Compile Include="PolicyInjection\Pipeline\IMethodReturn.cs" />
+    <Compile Include="PolicyInjection\Pipeline\IParameterCollection.cs" />
+    <Compile Include="PolicyInjection\Pipeline\ParameterCollection.cs" />
+    <Compile Include="PolicyInjection\Pipeline\PipelineManager.cs" />
+    <Compile Include="PolicyInjection\Policies\ApplyNoPoliciesAttribute.cs" />
+    <Compile Include="PolicyInjection\Policies\AttributeDrivenPolicy.cs" />
+    <Compile Include="PolicyInjection\Policies\HandlerAttribute.cs" />
+    <Compile Include="PolicyInjection\Policies\InjectionPolicy.cs" />
+    <Compile Include="PolicyInjection\Policies\PolicySet.cs" />
+    <Compile Include="PolicyInjection\Policies\RuleDrivenPolicy.cs" />
+    <Compile Include="PolicyInjection\PolicyInjectionBehavior.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\ResourcesSL.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Glob.cs" />
+    <Compile Include="Utilities\ReflectionHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Unity\Src\Unity.Silverlight.csproj">
+      <Project>{2A7F5EF7-9AB0-4C0C-BC54-0B05DC5263A5}</Project>
+      <Name>Unity.Silverlight</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourcesSL.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

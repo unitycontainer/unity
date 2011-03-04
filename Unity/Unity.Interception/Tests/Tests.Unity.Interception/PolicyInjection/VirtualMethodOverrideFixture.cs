@@ -20,50 +20,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
     /// overridden virtual methods.
     /// </summary>
     [TestClass]
-    public class VirtualMethodOverrideFixture
+    public partial class VirtualMethodOverrideFixture
     {
-
-        [TestMethod]
-        public void CanInterceptDoSomethingMethodWithTransparentProxy()
-        {
-            var container = CreateContainer();
-            AddInterceptDoSomethingPolicy(container);
-            InterceptWith<DoubleDerivedClass, TransparentProxyInterceptor>(container);
-
-            var log = container.Resolve<Dictionary<string, List<string>>>();
-
-            var target = container.Resolve<DoubleDerivedClass>();
-            target.DoSomething();
-
-            AssertOneHandlerCreated(log);
-            var handlerId = GetHandlerId(log);
-
-            Assert.IsTrue(log.ContainsKey(handlerId));
-            Assert.AreEqual(1, log[handlerId].Count);
-        }
-
-        [TestMethod]
-        public void CallHandlerRunsWhenCallingThroughBaseClassReference()
-        {
-            var container = CreateContainer();
-            container.RegisterType<RootClass, DoubleDerivedClass>();
-            AddInterceptDoSomethingPolicy(container);
-            InterceptWith<DoubleDerivedClass, TransparentProxyInterceptor>(container);
-
-            var log = container.Resolve<Dictionary<string, List<string>>>();
-
-            var target = container.Resolve<RootClass>();
-            var baseRef = (RootClass) target;
-
-            baseRef.DoSomething();
-
-            AssertOneHandlerCreated(log);
-            var handlerId = GetHandlerId(log);
-
-            Assert.IsTrue(log.ContainsKey(handlerId));
-            Assert.AreEqual(1, log[handlerId].Count);
-
-        }
 
         private static string GetHandlerId(IDictionary<string, List<string>> log)
         {
@@ -78,7 +36,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
 
         #region Classes to intercept
 
-        public class RootClass : MarshalByRefObject
+        public partial class RootClass
         {
             public virtual string DoSomething()
             {

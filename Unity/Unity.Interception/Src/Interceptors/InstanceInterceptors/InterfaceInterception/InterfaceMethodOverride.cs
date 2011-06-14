@@ -41,6 +41,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private readonly FieldBuilder proxyInterceptionPipelineField;
         private readonly bool explicitImplementation;
         private readonly FieldBuilder targetField;
+        private readonly Type targetInterface;
+        private readonly GenericParameterMapper targetInterfaceParameterMapper;
         private readonly int overrideCount;
 
         internal InterfaceMethodOverride(
@@ -48,6 +50,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             FieldBuilder proxyInterceptionPipelineField,
             FieldBuilder targetField,
             MethodInfo methodToOverride,
+            Type targetInterface,
+            GenericParameterMapper targetInterfaceParameterMapper,
             bool explicitImplementation,
             int overrideCount)
         {
@@ -56,6 +60,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             this.explicitImplementation = explicitImplementation;
             this.targetField = targetField;
             this.methodToOverride = methodToOverride;
+            this.targetInterface = targetInterface;
+            this.targetInterfaceParameterMapper = targetInterfaceParameterMapper;
             this.methodParameters = methodToOverride.GetParameters();
             this.overrideCount = overrideCount;
         }
@@ -143,7 +149,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             List<LocalBuilder> outOrRefLocals = new List<LocalBuilder>();
 
             var paramMapper = new MethodOverrideParameterMapper(methodToOverride);
-            paramMapper.SetupParameters(methodBuilder);
+            paramMapper.SetupParameters(methodBuilder, this.targetInterfaceParameterMapper);
 
             methodBuilder.SetReturnType(typeof(IMethodReturn));
             // Adding parameters
@@ -209,9 +215,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 }
 
                 MethodInfo callTarget = methodToOverride;
-                if(callTarget.IsGenericMethod)
+                if (callTarget.IsGenericMethod)
                 {
-                    callTarget = methodToOverride.MakeGenericMethod(paramMapper.MappedGenericParameters);
+                    callTarget = methodToOverride.MakeGenericMethod(paramMapper.GenericMethodParameters);
                 }
 
                 il.Emit(OpCodes.Callvirt, callTarget);
@@ -226,7 +232,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 if (MethodHasReturnValue)
                 {
                     il.Emit(OpCodes.Ldloc, baseReturn);
-                    EmitBox(il, ReturnType);
+                    EmitBox(il, paramMapper.GetReturnType());
                 }
                 else
                 {
@@ -307,7 +313,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     this.explicitImplementation ? explicitImplementationAttributes : implicitImplementationAttributes);
 
             var paramMapper = new MethodOverrideParameterMapper(methodToOverride);
-            paramMapper.SetupParameters(methodBuilder);
+            paramMapper.SetupParameters(methodBuilder, this.targetInterfaceParameterMapper);
 
             methodBuilder.SetReturnType(paramMapper.GetReturnType());
             methodBuilder.SetParameters(methodParameters.Select(pi => paramMapper.GetParameterType(pi.ParameterType)).ToArray());
@@ -341,10 +347,17 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 il.Emit(OpCodes.Ldfld, targetField);
             }
 
-            il.Emit(OpCodes.Ldtoken, methodToOverride);
+            // If we have a generic method, we want to make sure we're using the open constructed generic method
+            // so when a closed generic version of the method is invoked the actual type parameters are used
+            il.Emit(
+                OpCodes.Ldtoken,
+                methodToOverride.IsGenericMethodDefinition
+                    ? methodToOverride.MakeGenericMethod(paramMapper.GenericMethodParameters)
+                    : methodToOverride);
             if (methodToOverride.DeclaringType.IsGenericType)
             {
-                il.Emit(OpCodes.Ldtoken, methodToOverride.DeclaringType);
+                // if the declaring type is generic, we need to get the method from the target type
+                il.Emit(OpCodes.Ldtoken, targetInterface);
                 il.Emit(OpCodes.Call, MethodBaseMethods.GetMethodForGenericFromHandle);
             }
             else
@@ -386,9 +399,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             il.Emit(OpCodes.Ldarg_0);
 
             MethodInfo callTarget = delegateMethod;
-            if(callTarget.IsGenericMethod)
+            if (callTarget.IsGenericMethod)
             {
-                callTarget = delegateMethod.MakeGenericMethod(paramMapper.MappedGenericParameters);
+                callTarget = delegateMethod.MakeGenericMethod(paramMapper.GenericMethodParameters);
             }
 
             il.Emit(OpCodes.Ldftn, callTarget);
@@ -443,7 +456,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             {
                 il.Emit(OpCodes.Ldloc, methodReturn);
                 il.EmitCall(OpCodes.Callvirt, IMethodReturnMethods.GetReturnValue, null);
-                EmitUnboxOrCast(il, ReturnType);
+                EmitUnboxOrCast(il, paramMapper.GetReturnType());
             }
             il.Emit(OpCodes.Ret);
 
@@ -453,11 +466,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private bool MethodHasReturnValue
         {
             get { return methodToOverride.ReturnType != typeof(void); }
-        }
-
-        private Type ReturnType
-        {
-            get { return methodToOverride.ReturnType; }
         }
 
         /// <summary>

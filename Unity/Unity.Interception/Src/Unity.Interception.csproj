@@ -41,7 +41,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\bin\Desktop\Debug</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;CODE_ANALYSIS;CODE_ANALYSIS;CODE_ANALYSIS;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\bin\Desktop\Debug\Microsoft.Practices.Unity.Interception.xml</DocumentationFile>
@@ -94,6 +94,7 @@
     <Compile Include="ContainerIntegration\InterceptionMember.cs" />
     <Compile Include="ContainerIntegration\Interceptor.cs" />
     <Compile Include="InterceptionBehaviors\CurrentInterceptionRequest.cs" />
+    <Compile Include="Interceptors\GenericParameterMapper.cs" />
     <Compile Include="Interceptors\IInterceptingProxy.cs" />
     <Compile Include="Interceptors\IInterceptor.cs" />
     <Compile Include="ContainerIntegration\ObjectBuilder\IInstanceInterceptionPolicy.cs" />

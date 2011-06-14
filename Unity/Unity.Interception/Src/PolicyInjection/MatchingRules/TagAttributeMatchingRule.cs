@@ -41,7 +41,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// false, case insensitive if <paramref name="ignoreCase"/> is true.
         /// </summary>
         /// <param name="tagToMatch">tag string to match.</param>
-        /// <param name="ignoreCase">if false, case-senstive comparison. If true, case-insensitive comparison.</param>
+        /// <param name="ignoreCase">if false, case-sensitive comparison. If true, case-insensitive comparison.</param>
         public TagAttributeMatchingRule(string tagToMatch, bool ignoreCase)
         {
             this.tagToMatch = tagToMatch;

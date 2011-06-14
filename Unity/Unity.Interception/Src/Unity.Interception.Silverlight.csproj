@@ -28,22 +28,26 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Bin\Debug</OutputPath>
+    <OutputPath>..\..\bin\Silverlight\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>..\..\bin\Silverlight\Debug\Microsoft.Practices.Unity.Interception.Silverlight.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Bin\Release</OutputPath>
+    <OutputPath>..\..\bin\Silverlight\Release\</OutputPath>
     <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>..\..\bin\Silverlight\Release\Microsoft.Practices.Unity.Interception.Silverlight.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Practices.ServiceLocation">
@@ -84,6 +88,7 @@
     <Compile Include="InterceptionBehaviors\CurrentInterceptionRequest.cs" />
     <Compile Include="InterceptionBehaviors\IInterceptionBehavior.cs" />
     <Compile Include="InterceptionBehaviors\InterceptionBehaviorPipeline.cs" />
+    <Compile Include="Interceptors\GenericParameterMapper.cs" />
     <Compile Include="Interceptors\IInterceptingProxy.cs" />
     <Compile Include="Interceptors\IInterceptor.cs" />
     <Compile Include="Interceptors\InstanceInterceptors\IInstanceInterceptor.cs" />

@@ -82,6 +82,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     yield return new MethodImplementationInfo(mapping.InterfaceMethods[i], mapping.TargetMethods[i]);
                 }
             }
+
+            foreach (var type in interceptedType.GetInterfaces())
+            {
+                foreach (var info in DoGetInterceptableMethods(type, implementationType))
+                {
+                    yield return info;
+                }
+            }
         }
 
         /// <summary>

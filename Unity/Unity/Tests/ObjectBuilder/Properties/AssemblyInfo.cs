@@ -22,7 +22,7 @@ using System.Security;
 [assembly : AssemblyConfiguration("")]
 [assembly : AssemblyCompany("Microsoft Corporation")]
 [assembly : AssemblyProduct("ObjectBuilder.Tests")]
-[assembly : AssemblyCopyright("Copyright © Microsoft Corporation 2007")]
+[assembly : AssemblyCopyright("Copyright © Microsoft Corporation 2011")]
 [assembly : AssemblyTrademark("")]
 [assembly : AssemblyCulture("")]
 

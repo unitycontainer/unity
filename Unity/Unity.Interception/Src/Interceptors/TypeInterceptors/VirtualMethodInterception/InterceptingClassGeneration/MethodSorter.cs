@@ -20,7 +20,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// <summary>
     /// A utility class that takes a set of <see cref="MethodInfo"/>s
     /// and pulls out shadowed methods, only returning the ones that
-    /// are actually accessible to be overriden.
+    /// are actually accessible to be overridden.
     /// </summary>
     class MethodSorter : IEnumerable<MethodInfo>
     {

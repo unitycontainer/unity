@@ -9,8 +9,6 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System;
-using System.Runtime.Remoting;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -150,7 +148,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container
                 .RegisterType<Interface, WrappableThroughInterface>()
                 .RegisterType<Interface>(
-                // TODO: Passes with Interface, TP, fails with VM
                     new Interceptor<InterfaceInterceptor>(),
                     new InterceptionBehavior<PolicyInjectionBehavior>());
 
@@ -231,6 +228,23 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                     .AddCallHandler("globalCountHandler");
 
             return container;
+        }
+
+        [TestMethod]
+        public void CanInterceptCallFromBaseOfWrappedInterface()
+        {
+            GlobalCountCallHandler.Calls.Clear();
+
+            IUnityContainer container = CreateContainer("CanInterceptCallFromBaseOfWrappedInterface");
+            container.RegisterType<Interface, WrappableThroughInterface>()
+                .RegisterType<Interface>(
+                    new Interceptor<InterfaceInterceptor>(),
+                    new InterceptionBehavior<PolicyInjectionBehavior>());
+
+            Interface wrappedOverInterface = container.Resolve<Interface>();
+            wrappedOverInterface.Method3();
+
+            Assert.AreEqual(1, GlobalCountCallHandler.Calls["CanInterceptCallFromBaseOfWrappedInterface"]);
         }
 
         [TestMethod]

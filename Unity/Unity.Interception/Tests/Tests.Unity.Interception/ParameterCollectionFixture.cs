@@ -12,7 +12,6 @@
 using System.Linq;
 using Microsoft.Practices.Unity.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 {
@@ -102,6 +101,19 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             var result = collection.Contains(null);
 
             Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void ContainsParameterWorksAsExpected()
+        {
+            var collection =
+                new ParameterCollection(
+                    new object[] { null },
+                    StaticReflection.GetMethodInfo(() => TestMethod(null, null, null, null, null)).GetParameters(),
+                    p => true);
+
+            Assert.IsTrue(new [] {"param1", "param2", "param3", "param4", "param5"}.All(collection.ContainsParameter));
+            Assert.IsTrue(new[] {"someOtherParam", "notThisOneEither"}.All(p => !collection.ContainsParameter(p)));
         }
 
         public static void TestMethod(object param1, object param2, object param3, object param4, object param5)

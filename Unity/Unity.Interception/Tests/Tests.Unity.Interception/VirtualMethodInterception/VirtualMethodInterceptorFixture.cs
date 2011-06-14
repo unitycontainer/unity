@@ -10,11 +10,10 @@
 //===============================================================================
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Security;
-using System.Security.Permissions;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -316,6 +315,588 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             IInterceptingProxy proxy = (IInterceptingProxy)instance;
             manager.SetPipeline(targetMethod, pipeline);
 
+        }
+
+
+
+
+
+
+
+        //[TestMethod]
+        //public void CanInterceptGenericInterfaceWithInterfaceConstraint()
+        //{
+        //    var target = new ConstrainedImpl();
+
+        //    bool behaviorWasCalled = false;
+
+        //    var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+        //    {
+        //        behaviorWasCalled = true;
+        //        return getNext()(inputs, getNext);
+        //    });
+
+        //    var proxy = Intercept.ThroughProxy<IConstrainedInterface<IBaseInterface>>(
+        //        target, new InterfaceInterceptor(),
+        //        new[] { behavior });
+
+        //    proxy.SomeMethod();
+
+        //    Assert.IsTrue(behaviorWasCalled);
+
+        //}
+
+
+
+
+        [TestMethod]
+        public void CanInterceptNonGenericMethodOnNonGenericInterface()
+        {
+            IMethodInvocation invocation = null;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<NonGenericClass>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+            instance.NonGenericMethod(null, null);
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(string), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(2, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(IEnumerable), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+            Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
+        }
+
+        [TestMethod]
+        public void CanInterceptGenericMethodOnNonGenericInterface()
+        {
+            IMethodInvocation invocation = null;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<NonGenericClass>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+            instance.GenericMethod<string>(null, null);
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(string), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(2, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(IEnumerable), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+            Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
+        }
+
+        [TestMethod]
+        public void CanInterceptGenericMethodWithConstraintOnNonGenericInterface()
+        {
+            IMethodInvocation invocation = null;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<NonGenericClass>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+            instance.GenericMethodWithConstraints<string>(null, null);
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(string), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(2, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(IEnumerable), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+            Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
+        }
+
+
+
+        [TestMethod]
+        public void CanInterceptNonGenericMethodOnGenericInterface()
+        {
+            IMethodInvocation invocation = null;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<GenericClass<IEnumerable>>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+            instance.NonGenericMethod(null, null);
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(string), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(2, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(IEnumerable), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+            Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
+        }
+
+        [TestMethod]
+        public void CanInterceptGenericMethodOnGenericInterface()
+        {
+            IMethodInvocation invocation = null;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<GenericClass<IEnumerable>>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+            instance.GenericMethod<string>(null, null);
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(string), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(2, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(IEnumerable), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+            Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
+        }
+
+        [TestMethod]
+        public void CanInterceptGenericMethodWithConstraintOnGenericInterface()
+        {
+            IMethodInvocation invocation = null;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<GenericClass<IEnumerable>>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+            instance.GenericMethodWithConstraints<string>(null, null);
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(string), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(2, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(IEnumerable), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+            Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
+        }
+
+        [TestMethod]
+        public void CanInterceptGenericMethodWithConstraintRelatedToInterfaceOnGenericInterface()
+        {
+            IMethodInvocation invocation = null;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<GenericClass<IEnumerable>>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+            instance.GenericMethodWithConstraintsOnTheInterfaceParameter<string>(null, null);
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(string), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(2, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(IEnumerable), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+            Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
+        }
+
+
+
+        [TestMethod]
+        public void CanInterceptNonGenericMethodOnGenericInterfaceWithConstraint()
+        {
+            IMethodInvocation invocation = null;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<GenericClassWithConstraint<IEnumerable>>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+            instance.NonGenericMethod(null, null);
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(string), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(2, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(IEnumerable), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+            Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
+        }
+
+        [TestMethod]
+        public void CanInterceptGenericMethodOnGenericInterfaceWithConstraint()
+        {
+            IMethodInvocation invocation = null;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<GenericClassWithConstraint<IEnumerable>>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+            instance.GenericMethod<string>(null, null);
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(string), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(2, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(IEnumerable), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+            Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
+        }
+
+        [TestMethod]
+        public void CanInterceptGenericMethodWithConstraintOnGenericInterfaceWithConstraint()
+        {
+            IMethodInvocation invocation = null;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<GenericClassWithConstraint<IEnumerable>>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+            instance.GenericMethodWithConstraints<string>(null, null);
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(string), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(2, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(IEnumerable), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+            Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
+        }
+
+        [TestMethod]
+        public void CanInterceptGenericMethodWithConstraintRelatedToInterfaceOnGenericInterfaceWithConstraint()
+        {
+            IMethodInvocation invocation = null;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<GenericClassWithConstraint<IEnumerable>>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+            instance.GenericMethodWithConstraintsOnTheInterfaceParameter<string>(null, null);
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(string), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(2, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(IEnumerable), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+            Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
+        }
+
+
+        public class NonGenericClass
+        {
+            public virtual string NonGenericMethod(IEnumerable param1, string param2)
+            {
+                return null;
+            }
+
+            public virtual T GenericMethod<T>(IEnumerable param1, T param2)
+            {
+                return default(T);
+            }
+
+            public virtual T GenericMethodWithConstraints<T>(IEnumerable param1, T param2) where T : class
+            {
+                return default(T);
+            }
+        }
+
+        public class GenericClass<T1>
+        {
+            public virtual string NonGenericMethod(T1 param1, string param2)
+            {
+                return null;
+            }
+
+            public virtual T GenericMethod<T>(T1 param1, T param2)
+            {
+                var handle = MethodBase.GetCurrentMethod().MethodHandle;
+
+                return default(T);
+            }
+
+            public virtual T GenericMethodWithConstraints<T>(T1 param1, T param2) where T : class
+            {
+                return default(T);
+            }
+
+            public virtual T GenericMethodWithConstraintsOnTheInterfaceParameter<T>(T1 param1, T param2) where T : T1
+            {
+                return default(T);
+            }
+        }
+
+        public class GenericClassWithConstraint<T1>
+            where T1 : class
+        {
+            public virtual string NonGenericMethod(T1 param1, string param2)
+            {
+                return null;
+            }
+
+            public virtual T GenericMethod<T>(T1 param1, T param2)
+            {
+                return default(T);
+            }
+
+            public virtual T GenericMethodWithConstraints<T>(T1 param1, T param2) where T : class
+            {
+                return default(T);
+            }
+
+            public virtual T GenericMethodWithConstraintsOnTheInterfaceParameter<T>(T1 param1, T param2) where T : T1
+            {
+                return default(T);
+            }
+        }
+
+
+
+        [TestMethod]
+        public void CanInterceptConstrainedInheritedInterfaceMethod()
+        {
+            IMethodInvocation invocation = null; ;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<DerivedNonGenericClass>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+            instance.Test<List<string>>();
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(List<string>), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(0, invocation.MethodBase.GetParameters().Count());
+        }
+
+        public class BaseGenericClass<TBaseType>
+        {
+            public virtual TDerivedType Test<TDerivedType>() where TDerivedType : TBaseType
+            {
+                return default(TDerivedType);
+            }
+        }
+
+        public class DerivedNonGenericClass : BaseGenericClass<ICollection<string>>
+        {
+        }
+
+
+        [TestMethod]
+        public void CanInterceptConstrainedInheritedInterfaceMethod2()
+        {
+            IMethodInvocation invocation = null; ;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<Class3<ICollection<string>>>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+            instance.TestMethod<List<string>, DerivedType>(
+                new DerivedType(),
+                new BaseType[0],
+                Enumerable.Empty<DerivedType>(),
+                new List<string>[0]);
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(List<string>), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(4, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(BaseType), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+            Assert.AreSame(typeof(IEnumerable<BaseType>), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
+            Assert.AreSame(typeof(IEnumerable<DerivedType>), invocation.MethodBase.GetParameters().ElementAt(2).ParameterType);
+            Assert.AreSame(typeof(List<string>[]), invocation.MethodBase.GetParameters().ElementAt(3).ParameterType);
+        }
+
+        public class Class1<T1, U1, V1>
+        {
+            public virtual W1 TestMethod<W1, X1>(T1 a, U1 b, IEnumerable<X1> c, W1[] d)
+                where W1 : V1
+                where X1 : T1
+            {
+                return default(W1);
+            }
+        }
+
+        public class Class2<T2, V2> : Class1<T2, IEnumerable<T2>, V2>
+            where T2 : new()
+        { }
+
+        public class Class3<V3> : Class2<BaseType, V3>
+            where V3 : class
+        { }
+
+        public class BaseType { }
+
+        public class DerivedType : BaseType { }
+
+
+
+        [TestMethod]
+        public void CanInterceptConstrainedInheritedInterfaceMethod3()
+        {
+            IMethodInvocation invocation;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<ClassA2<BaseType>>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+
+            invocation = null;
+
+            instance.Test<HashSet<BaseType>, List<Guid>>(new ISet<BaseType>[0], new List<Guid>());
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(KeyValuePair<HashSet<BaseType>, IEnumerable<ISet<BaseType>>[]>), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(2, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(ISet<BaseType>[]), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+            Assert.AreSame(typeof(List<Guid>), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
+
+
+            invocation = null;
+
+            instance.CompareTo((object)this);
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(int), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(1, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(object), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+
+
+            invocation = null;
+
+            ((IComparable<Guid>)instance).CompareTo(Guid.Empty);
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(int), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(1, invocation.MethodBase.GetParameters().Count());
+            Assert.AreSame(typeof(Guid), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
+        }
+
+
+        public class ClassA1<TA1, TB1> : IComparable<TB1>
+        {
+            public virtual KeyValuePair<M1, IEnumerable<TA1>[]> Test<M1, M2>(TA1[] p1, M2 p2)
+                where M1 : TA1
+                where M2 : IEnumerable<TB1>
+            {
+                return default(KeyValuePair<M1, IEnumerable<TA1>[]>);
+            }
+
+            public virtual int CompareTo(TB1 other)
+            {
+                return 0;
+            }
+        }
+
+        public class ClassA2<TC2> : ClassA1<ISet<TC2>, Guid>, IComparable
+            where TC2 : class, new()
+        {
+            public virtual int CompareTo(object obj)
+            {
+                return 0;
+            }
+        }
+
+        [TestMethod]
+        public void CanInterceptVirtualMethodsOnGenericNestedClassInGenericClass()
+        {
+            IMethodInvocation invocation;
+
+            var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
+            {
+                invocation = inputs;
+                return getNext()(inputs, getNext);
+            });
+
+            var instance =
+                Intercept.NewInstance<GenericClassWithNestedGenericClass<BaseType>.GenericNestedClass<DerivedType>>(
+                    new VirtualMethodInterceptor(),
+                    new[] { behavior });
+
+
+            invocation = null;
+
+            instance.Test<List<DerivedType>>();
+
+            Assert.IsNotNull(invocation);
+            Assert.AreSame(typeof(List<DerivedType>[]), ((MethodInfo)invocation.MethodBase).ReturnType);
+            Assert.AreEqual(0, invocation.MethodBase.GetParameters().Count());
+        }
+
+        public class GenericClassWithNestedGenericClass<T>
+        {
+            public class GenericNestedClass<U> where U : T
+            {
+                public virtual X[] Test<X>() where X : IEnumerable<U>
+                {
+                    return default(X[]);
+                }
+            }
         }
     }
 

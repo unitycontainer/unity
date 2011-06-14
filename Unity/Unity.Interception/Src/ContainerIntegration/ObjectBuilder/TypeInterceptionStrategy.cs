@@ -90,7 +90,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// PostBuildUp method is called when the chain has finished the PreBuildUp
         /// phase and executes in reverse order from the PreBuildUp calls.
         /// </summary>
-        /// <remarks>In this class, PostBuildUp checks to see if the object was proxyable,
+        /// <remarks>In this class, PostBuildUp checks to see if the object was proxiable,
         /// and if it was, wires up the handlers.</remarks>
         /// <param name="context">Context of the build operation.</param>
         public override void PostBuildUp(IBuilderContext context)

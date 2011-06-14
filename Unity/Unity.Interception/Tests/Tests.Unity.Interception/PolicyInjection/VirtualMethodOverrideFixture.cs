@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
@@ -32,6 +33,28 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
         {
             Assert.IsTrue(log.ContainsKey("created"));
             Assert.AreEqual(1, log["created"].Count);
+        }
+
+        [TestMethod]
+        public void CallHandlerRunsWhenCallingThroughBaseClassReference()
+        {
+            var container = CreateContainer();
+            container.RegisterType<RootClass, DoubleDerivedClass>();
+            AddInterceptDoSomethingPolicy(container);
+
+            InterceptWith<DoubleDerivedClass, VirtualMethodInterceptor>(container);
+
+            var log = container.Resolve<Dictionary<string, List<string>>>();
+
+            var target = container.Resolve<RootClass>();
+            var baseRef = (RootClass)target;
+
+            baseRef.DoSomething();
+
+            Assert.IsTrue(log.ContainsKey("created"), "No handlers were created");
+            
+            Assert.IsTrue(log.Keys.Any(k => log["created"].Any(entry=> entry == k)),
+                "Log doesn't contain any calls to handlers");
         }
 
         #region Classes to intercept

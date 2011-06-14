@@ -133,8 +133,14 @@
     <value>Could not create instance of type {0} with no constructor arguments.</value>
     <comment>{0} = Name of the type that caused the exception</comment>
   </data>
+  <data name="ExceptionCannotMapGenericTypeDefinition" xml:space="preserve">
+    <value>Cannot map generic type parameters on a generic type definition (an unbound generic type).</value>
+  </data>
   <data name="ExceptionContainsNullElement" xml:space="preserve">
     <value>Collection contains a null element.</value>
+  </data>
+  <data name="ExceptionMappedParametersDoNotMatch" xml:space="preserve">
+    <value>The lengths of the mapped generic parameters do not match.</value>
   </data>
   <data name="ExceptionNullInterfacesCollection" xml:space="preserve">
     <value>The collection of interfaces is null.</value>

@@ -144,7 +144,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         }
 
         /// <summary>
-        /// Construt a new <see cref="PropertyMatchingInfo"/> that matches the given methods of
+        /// Construct a new <see cref="PropertyMatchingInfo"/> that matches the given methods of
         /// the given property name.
         /// </summary>
         /// <param name="match">Property name to match.</param>

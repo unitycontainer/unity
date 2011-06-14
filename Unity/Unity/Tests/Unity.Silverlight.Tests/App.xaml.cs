@@ -30,7 +30,7 @@ namespace Unity.Silverlight.TestRunner
         {
             var settings = UnitTestSystem.CreateDefaultSettings();
 
-            settings.StartRunImmediately = true;
+            //settings.StartRunImmediately = true;
 
             var testAssemblies = new string[]
             {

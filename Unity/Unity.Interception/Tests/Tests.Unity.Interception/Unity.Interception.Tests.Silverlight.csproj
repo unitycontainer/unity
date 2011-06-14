@@ -114,6 +114,7 @@
     <Compile Include="PolicyInjection\HandlerPipelineKeyFixture.cs" />
     <Compile Include="PolicyInjection\PolicyInjectionWithGenericMethodsFixture.cs" />
     <Compile Include="PolicyInjection\VirtualMethodOverrideFixture.cs" />
+    <Compile Include="PolicyInjection\VirtualMethodOverrideFixture.Silverlight.cs" />
     <Compile Include="PolicySetFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VirtualMethodInterception\ContainerVirtualMethodInterceptionFixture.cs" />
@@ -122,20 +123,7 @@
     <Compile Include="VirtualMethodInterception\VirtualMethodInterceptorFixture.cs" />
     <Compile Include="VirtualMethodInterception\WireupHelper.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="obj\Debug\TemplateClassLibrary.dll" />
-    <Content Include="obj\Debug\TemplateClassLibrary.pdb" />
-    <Content Include="obj\Debug\Unity.Interception.Tests.csproj.FileListAbsolute.txt" />
-    <Content Include="obj\Debug\Unity.Interception.Tests.dll" />
-    <Content Include="obj\Debug\Unity.Interception.Tests.pdb" />
-    <Content Include="obj\Debug\Unity.Interception.Tests.Silverlight.csproj.FileListAbsolute.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="obj\Debug\TempPE\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\..\Unity\Src\Unity.Silverlight.csproj">
       <Project>{2A7F5EF7-9AB0-4C0C-BC54-0B05DC5263A5}</Project>

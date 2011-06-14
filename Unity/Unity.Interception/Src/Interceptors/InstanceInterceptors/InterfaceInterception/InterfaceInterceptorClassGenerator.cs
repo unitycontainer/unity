@@ -29,6 +29,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     public partial class InterfaceInterceptorClassGenerator
     {
         private readonly Type typeToIntercept;
+        private GenericParameterMapper mainInterfaceMapper;
         private readonly IEnumerable<Type> additionalInterfaces;
         private static readonly AssemblyBuilder assemblyBuilder;
 
@@ -43,7 +44,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         static InterfaceInterceptorClassGenerator()
         {
             assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
-                new AssemblyName("Unity_ILEmit_InterfaceProxies"), 
+                new AssemblyName("Unity_ILEmit_InterfaceProxies"),
 #if DEBUG_SAVE_GENERATED_ASSEMBLY
                 AssemblyBuilderAccess.RunAndSave
 #else
@@ -110,6 +111,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 new InterfaceImplementation(
                     this.typeBuilder,
                     this.typeToIntercept,
+                    this.mainInterfaceMapper,
                     this.proxyInterceptionPipelineField,
                     false,
                     this.targetField)
@@ -178,7 +180,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             ModuleBuilder moduleBuilder = GetModuleBuilder();
             typeBuilder = moduleBuilder.DefineType(CreateTypeName(), newAttributes);
 
-            DefineGenericArguments();
+            mainInterfaceMapper = DefineGenericArguments();
 
             proxyInterceptionPipelineField = InterceptingProxyImplementor.ImplementIInterceptingProxy(typeBuilder);
             targetField = typeBuilder.DefineField("target", typeToIntercept, FieldAttributes.Private);
@@ -191,9 +193,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             return "DynamicModule.ns.Wrapped_" + typeToIntercept.Name + "_" + Guid.NewGuid().ToString("N");
         }
 
-        private void DefineGenericArguments()
+        private GenericParameterMapper DefineGenericArguments()
         {
-            if (!typeToIntercept.IsGenericType) return;
+            if (!typeToIntercept.IsGenericType) return GenericParameterMapper.DefaultMapper;
 
             Type[] genericArguments = typeToIntercept.GetGenericArguments();
 
@@ -203,11 +205,25 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             for (int i = 0; i < genericArguments.Length; ++i)
             {
                 genericTypes[i].SetGenericParameterAttributes(genericArguments[i].GenericParameterAttributes);
+                var interfaceConstraints = new List<Type>();
                 foreach (Type constraint in genericArguments[i].GetGenericParameterConstraints())
                 {
-                    genericTypes[i].SetBaseTypeConstraint(constraint);
+                    if (constraint.IsClass)
+                    {
+                        genericTypes[i].SetBaseTypeConstraint(constraint);
+                    }
+                    else
+                    {
+                        interfaceConstraints.Add(constraint);
+                    }
+                }
+                if (interfaceConstraints.Count > 0)
+                {
+                    genericTypes[i].SetInterfaceConstraints(interfaceConstraints.ToArray());
                 }
             }
+
+            return new GenericParameterMapper(genericArguments, genericTypes.Cast<Type>().ToArray());
         }
     }
 }

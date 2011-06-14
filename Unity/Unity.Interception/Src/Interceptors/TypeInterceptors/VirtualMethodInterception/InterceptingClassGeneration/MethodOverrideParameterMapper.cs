@@ -10,7 +10,6 @@
 //===============================================================================
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -25,49 +24,55 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     internal class MethodOverrideParameterMapper
     {
-        private readonly List<KeyValuePair<Type, Type>> genericMethodParameters = new List<KeyValuePair<Type, Type>>();
         private readonly MethodInfo methodToOverride;
+        private GenericParameterMapper genericParameterMapper;
 
         public MethodOverrideParameterMapper(MethodInfo methodToOverride)
         {
-            this.methodToOverride = methodToOverride;    
+            this.methodToOverride = methodToOverride;
         }
 
-        public void SetupParameters(MethodBuilder methodBuilder)
+        public void SetupParameters(MethodBuilder methodBuilder, GenericParameterMapper parentMapper)
         {
             if (methodToOverride.IsGenericMethod)
             {
-                Type[] genericArguments = methodToOverride.GetGenericArguments();
-                string[] names = genericArguments
-                    .Select(t => t.Name)
-                    .ToArray();
-                GenericTypeParameterBuilder[] builders = methodBuilder.DefineGenericParameters(names);
+                var genericArguments = methodToOverride.GetGenericArguments();
+                var names = genericArguments.Select(t => t.Name).ToArray();
+                var builders = methodBuilder.DefineGenericParameters(names);
                 for (int i = 0; i < genericArguments.Length; ++i)
                 {
                     builders[i].SetGenericParameterAttributes(genericArguments[i].GenericParameterAttributes);
 
-                    var constraintTypes = genericArguments[i].GetGenericParameterConstraints();
+                    var constraintTypes =
+                        genericArguments[i]
+                            .GetGenericParameterConstraints()
+                            .Select(ct => parentMapper.Map(ct))
+                            .ToArray();
 
-                    builders[i].SetInterfaceConstraints(constraintTypes.Where(t => t.IsInterface).ToArray());
-                    foreach (Type type in constraintTypes.Where(t => !t.IsInterface))
+                    var interfaceConstraints = constraintTypes.Where(t => t.IsInterface).ToArray();
+                    Type baseConstraint = constraintTypes.Where(t => !t.IsInterface).FirstOrDefault();
+                    if (baseConstraint != null)
                     {
-                        builders[i].SetBaseTypeConstraint(type);
+                        builders[i].SetBaseTypeConstraint(baseConstraint);
+                    }
+                    if (interfaceConstraints.Length > 0)
+                    {
+                        builders[i].SetInterfaceConstraints(interfaceConstraints);
                     }
                 }
-                for(int i = 0; i < genericArguments.Length; ++i)
-                {
-                    genericMethodParameters.Add(new KeyValuePair<Type, Type>(genericArguments[i], builders[i].UnderlyingSystemType));
-                }
+
+                this.genericParameterMapper =
+                    new GenericParameterMapper(genericArguments, builders.Cast<Type>().ToArray(), parentMapper);
+            }
+            else
+            {
+                this.genericParameterMapper = parentMapper;
             }
         }
 
         public Type GetParameterType(Type originalParameterType)
         {
-            var mappedParameter = (from param in genericMethodParameters
-                where param.Key == originalParameterType
-                select param.Value).FirstOrDefault();
-
-            return mappedParameter ?? originalParameterType;
+            return this.genericParameterMapper.Map(originalParameterType);
         }
 
         public Type GetElementType(Type originalParameterType)
@@ -75,14 +80,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             return GetParameterType(originalParameterType).GetElementType();
         }
 
-        public Type[] MappedGenericParameters
-        {
-            get { return genericMethodParameters.Select(kvp => kvp.Value).ToArray(); }
-        }
-
         public Type GetReturnType()
         {
             return GetParameterType(methodToOverride.ReturnType);
+        }
+
+        public Type[] GenericMethodParameters
+        {
+            get { return this.genericParameterMapper.GetGeneratedParameters(); }
         }
     }
 }

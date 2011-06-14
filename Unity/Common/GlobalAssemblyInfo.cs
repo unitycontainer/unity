@@ -26,9 +26,9 @@ using System.Security;
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
-[assembly: AssemblyCopyright("Copyright © 2010 Microsoft Corporation.")]
+[assembly: AssemblyCopyright("Copyright © 2011 Microsoft Corporation.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("2.0.414.0")]
-[assembly: AssemblyFileVersion("2.0.414.0")]
+[assembly: AssemblyVersion("2.1.505.0")]
+[assembly: AssemblyFileVersion("2.1.505.0")]

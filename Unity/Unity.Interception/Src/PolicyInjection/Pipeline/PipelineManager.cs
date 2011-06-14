@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private static readonly HandlerPipeline emptyPipeline = new HandlerPipeline();
 
         /// <summary>
-        /// Retrieve the pipeline assocated with the requested <paramref name="method"/>.
+        /// Retrieve the pipeline associated with the requested <paramref name="method"/>.
         /// </summary>
         /// <param name="method">The method for which the pipeline is being requested.</param>
         /// <returns>The handler pipeline for the given method. If no pipeline has

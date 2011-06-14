@@ -48,5 +48,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="parameterName">Name of the parameter.</param>
         /// <returns>ParameterInfo object for the named parameter.</returns>
         ParameterInfo GetParameterInfo(string parameterName);
+
+        /// <summary>
+        /// Does this collection contain a parameter value with the given name?
+        /// </summary>
+        /// <param name="parameterName">Name of parameter to find.</param>
+        /// <returns>True if the parameter name is in the collection, false if not.</returns>
+        bool ContainsParameter(string parameterName);
     }
 }

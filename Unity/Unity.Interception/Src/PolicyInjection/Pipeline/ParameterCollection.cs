@@ -13,6 +13,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
@@ -57,7 +58,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// given array of arguments.
         /// </summary>
         /// <param name="arguments">Complete collection of arguments.</param>
-        /// <param name="argumentInfo">Type information about about each parameter.</param>
+        /// <param name="argumentInfo">Type information about each parameter.</param>
         /// <param name="isArgumentPartOfCollection">A <see cref="Predicate{ParameterInfo}"/> that indicates
         /// whether a particular parameter is part of the collection. Used to filter out only input
         /// parameters, for example.</param>
@@ -137,6 +138,16 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public string ParameterName(int index)
         {
             return argumentInfo[index].Name;
+        }
+
+        /// <summary>
+        /// Does this collection contain a parameter value with the given name?
+        /// </summary>
+        /// <param name="parameterName">Name of parameter to find.</param>
+        /// <returns>True if the parameter name is in the collection, false if not.</returns>
+        public bool ContainsParameter(string parameterName)
+        {
+            return argumentInfo.Any(info => info.Name == parameterName);
         }
 
         /// <summary>

@@ -100,7 +100,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
         /// <summary>
         /// Given a method on an object, return the set of MethodBases for that method,
-        /// plus any inteface methods that the member implements.
+        /// plus any interface methods that the member implements.
         /// </summary>
         /// <param name="member">Member to get Method Set for.</param>
         /// <returns>The set of methods</returns>

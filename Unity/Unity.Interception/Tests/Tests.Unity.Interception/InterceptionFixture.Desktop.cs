@@ -404,23 +404,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         }
 
 
-        [TestMethod]
-        public void CanInterceptCallFromBaseOfWrappedInterface()
-        {
-            GlobalCountCallHandler.Calls.Clear();
-
-            IUnityContainer container = CreateContainer("CanInterceptCallFromBaseOfWrappedInterface");
-            container.RegisterType<Interface, WrappableThroughInterface>()
-                .RegisterType<Interface>(
-                // TODO: Passes when using Transparent proxy, fails with interface
-                    new Interceptor<TransparentProxyInterceptor>(),
-                    new InterceptionBehavior<PolicyInjectionBehavior>());
-
-            Interface wrappedOverInterface = container.Resolve<Interface>();
-            wrappedOverInterface.Method3();
-
-            Assert.AreEqual(1, GlobalCountCallHandler.Calls["CanInterceptCallFromBaseOfWrappedInterface"]);
-        }
 
         public partial class BaseInterceptable : MarshalByRefObject
         {

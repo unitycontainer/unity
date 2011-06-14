@@ -21,6 +21,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     {
         private readonly TypeBuilder typeBuilder;
         private readonly Type @interface;
+        private readonly Type targetInterface;
+        private readonly GenericParameterMapper genericParameterMapper;
         private readonly FieldBuilder proxyInterceptionPipelineField;
         private readonly bool explicitImplementation;
         private readonly FieldBuilder targetField;
@@ -39,12 +41,37 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             FieldBuilder proxyInterceptionPipelineField,
             bool explicitImplementation,
             FieldBuilder targetField)
+            : this(typeBuilder, @interface, GenericParameterMapper.DefaultMapper, proxyInterceptionPipelineField, explicitImplementation, targetField)
+        { }
+
+        public InterfaceImplementation(
+            TypeBuilder typeBuilder,
+            Type @interface,
+            GenericParameterMapper genericParameterMapper,
+            FieldBuilder proxyInterceptionPipelineField,
+            bool explicitImplementation,
+            FieldBuilder targetField)
         {
             this.typeBuilder = typeBuilder;
             this.@interface = @interface;
+            this.genericParameterMapper = genericParameterMapper;
             this.proxyInterceptionPipelineField = proxyInterceptionPipelineField;
             this.explicitImplementation = explicitImplementation;
             this.targetField = targetField;
+
+            if (@interface.IsGenericType)
+            {
+                // when the @interface is generic we need to get references to its methods though it
+                // in this case, the targetInterface is a constructed version using the generic type parameters
+                // from the generated type generate type
+                var definition = @interface.GetGenericTypeDefinition();
+                var mappedParameters = definition.GetGenericArguments().Select(t => genericParameterMapper.Map(t)).ToArray();
+                this.targetInterface = definition.MakeGenericType(mappedParameters);
+            }
+            else
+            {
+                this.targetInterface = @interface;
+            }
         }
 
         public int Implement(HashSet<Type> implementedInterfaces, int memberCount)
@@ -79,6 +106,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     new InterfaceImplementation(
                         this.typeBuilder,
                         @extendedInterface,
+                        new GenericParameterMapper(@extendedInterface, this.genericParameterMapper),
                         this.proxyInterceptionPipelineField,
                         this.explicitImplementation,
                         this.targetField)
@@ -108,6 +136,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 this.proxyInterceptionPipelineField,
                 this.targetField,
                 method,
+                this.targetInterface,
+                this.genericParameterMapper,
                 this.explicitImplementation,
                 methodNum)
                 .AddMethod();
@@ -155,6 +185,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     this.proxyInterceptionPipelineField,
                     this.targetField,
                     method,
+                    this.targetInterface,
+                    this.genericParameterMapper,
                     this.explicitImplementation,
                     count)
                     .AddMethod();
@@ -197,6 +229,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     this.proxyInterceptionPipelineField,
                     this.targetField,
                     method,
+                    this.targetInterface,
+                    this.genericParameterMapper,
                     this.explicitImplementation,
                     count)
                     .AddMethod();

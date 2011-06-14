@@ -9,10 +9,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System.Collections.Specialized;
-using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.TestSupport
 {

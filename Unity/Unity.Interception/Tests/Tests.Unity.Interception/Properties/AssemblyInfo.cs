@@ -22,7 +22,7 @@ using System.Security;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
 [assembly: AssemblyProduct("Tests.Unity.Interception")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2011,2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -45,8 +45,3 @@ using System.Security;
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-
-#if !SILVERLIGHT
-[assembly: AllowPartiallyTrustedCallers()]
-[assembly: SecurityRules(SecurityRuleSet.Level1)]
-#endif

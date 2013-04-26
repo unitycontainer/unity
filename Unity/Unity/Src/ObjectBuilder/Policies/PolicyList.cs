@@ -12,7 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Threading;
+using System.Reflection;
 using Microsoft.Practices.Unity.Properties;
 
 namespace Microsoft.Practices.ObjectBuilder2
@@ -23,15 +23,17 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class PolicyList : IPolicyList
     {
-        readonly IPolicyList innerPolicyList;
-        readonly object lockObject = new object();
+        private readonly IPolicyList innerPolicyList;
+        private readonly object lockObject = new object();
+        // Does not need to be volatile. It is fine if a slightly out of date version of the current snapshot is read
+        // as long as replacing a snapshot when adding or removing policies is thread safe
         private Dictionary<PolicyKey, IBuilderPolicy> policies = new Dictionary<PolicyKey, IBuilderPolicy>();
 
         /// <summary>
         /// Initialize a new instance of a <see cref="PolicyList"/> class.
         /// </summary>
         public PolicyList()
-            : this(null) {}
+            : this(null) { }
 
         /// <summary>
         /// Initialize a new instance of a <see cref="PolicyList"/> class with another policy list.
@@ -68,7 +70,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             {
                 Dictionary<PolicyKey, IBuilderPolicy> newPolicies = ClonePolicies();
                 newPolicies.Remove(new PolicyKey(policyInterface, buildKey));
-                SwapPolicies(newPolicies);
+                this.policies = newPolicies;
             }
         }
 
@@ -79,7 +81,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             lock (lockObject)
             {
-                SwapPolicies(new Dictionary<PolicyKey, IBuilderPolicy>());
+                this.policies = new Dictionary<PolicyKey, IBuilderPolicy>();
             }
         }
 
@@ -125,7 +127,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private IBuilderPolicy GetPolicyForOpenGenericKey(Type policyInterface, object buildKey, Type buildType, bool localOnly, out IPolicyList containingPolicyList)
         {
-            if (buildType != null && buildType.IsGenericType)
+            if (buildType != null && buildType.GetTypeInfo().IsGenericType)
             {
                 return GetNoDefault(policyInterface, ReplaceType(buildKey, buildType.GetGenericTypeDefinition()),
                     localOnly, out containingPolicyList);
@@ -146,7 +148,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private IBuilderPolicy GetPolicyForOpenGenericType(Type policyInterface, Type buildType, bool localOnly, out IPolicyList containingPolicyList)
         {
-            if (buildType != null && buildType.IsGenericType)
+            if (buildType != null && buildType.GetTypeInfo().IsGenericType)
             {
                 return GetNoDefault(policyInterface, buildType.GetGenericTypeDefinition(), localOnly, out containingPolicyList);
             }
@@ -199,7 +201,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             {
                 Dictionary<PolicyKey, IBuilderPolicy> newPolicies = ClonePolicies();
                 newPolicies[new PolicyKey(policyInterface, buildKey)] = policy;
-                SwapPolicies(newPolicies);
+                this.policies = newPolicies;
             }
         }
 
@@ -218,12 +220,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         private Dictionary<PolicyKey, IBuilderPolicy> ClonePolicies()
         {
             return new Dictionary<PolicyKey, IBuilderPolicy>(policies);
-        }
-
-        private void SwapPolicies(Dictionary<PolicyKey, IBuilderPolicy> newPolicies)
-        {
-            policies = newPolicies;
-            Thread.MemoryBarrier();
         }
 
         private static bool TryGetType(object buildKey, out Type type)
@@ -323,16 +319,16 @@ namespace Microsoft.Practices.ObjectBuilder2
 
             public override bool Equals(object obj)
             {
-                if(obj != null && obj.GetType() == typeof(PolicyKey))
+                if (obj != null && obj.GetType() == typeof(PolicyKey))
                 {
-                    return this == (PolicyKey) obj;
+                    return this == (PolicyKey)obj;
                 }
                 return false;
             }
 
             public override int GetHashCode()
             {
-                return (SafeGetHashCode(PolicyType))*37 +
+                return (SafeGetHashCode(PolicyType)) * 37 +
                        SafeGetHashCode(BuildKey);
             }
 

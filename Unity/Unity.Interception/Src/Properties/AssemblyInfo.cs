@@ -27,7 +27,6 @@ using System.Security;
 [assembly: AssemblyCompany("Microsoft Corporation")]
 
 #if !SILVERLIGHT
-[assembly: SecurityCritical]
 [assembly: AllowPartiallyTrustedCallers]
 #endif
 
@@ -36,11 +35,11 @@ using System.Security;
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
-[assembly: AssemblyCopyright("Copyright © 2011 Microsoft Corporation.")]
+[assembly: AssemblyCopyright("Copyright © 2011,2012 Microsoft Corporation.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("2.1.505.0")]
-[assembly: AssemblyFileVersion("2.1.505.0")]
+[assembly: AssemblyVersion("3.0.0.0")]
+[assembly: AssemblyFileVersion("3.0.1304.0")]
 
 [assembly: NeutralResourcesLanguage("en")]

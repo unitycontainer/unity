@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Migrated rules for Unity.Interception.Configuration.ruleset" Description="This rule set was created from the CodeAnalysisRules property for the &quot;Debug (Any CPU)&quot; configuration in project &quot;D:\dev\EntlibSL\Work\Unity\Source\Unity\Unity.Interception.Configuration\Src\Unity.Interception.Configuration.csproj&quot;." ToolsVersion="10.0">
+<RuleSet Name="Migrated rules for Unity.Interception.Configuration.ruleset" Description="This rule set was created from the CodeAnalysisRules property for the &quot;Debug (Any CPU)&quot; configuration in project &quot;C:\prj\Unity\Unity\Source\Unity\Unity.Interception.Configuration\Src\Unity.Interception.Configuration.csproj&quot;." ToolsVersion="11.0">
   <IncludeAll Action="Warning" />
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
-    <Rule Id="CA1062" Action="None" />
     <Rule Id="CA2210" Action="None" />
   </Rules>
 </RuleSet>

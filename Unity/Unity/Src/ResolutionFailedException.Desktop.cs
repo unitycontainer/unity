@@ -11,52 +11,42 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Runtime.Serialization;
-using System.Security.Permissions;
-using Microsoft.Practices.Unity.Properties;
-using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity
 {
-    /// <summary>
-    /// The exception thrown by the Unity container when
-    /// an attempt to resolve a dependency fails.
-    /// </summary>
-    // FxCop suppression: The standard constructors don't make sense for this exception,
-    // as calling them will leave out the information that makes the exception useful
-    // in the first place.
-    [SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors")]
+    [SuppressMessage("Microsoft.Usage", "CA2240:ImplementISerializableCorrectly", Justification = "Implementing serialization with the new transparent approach")]
     [Serializable]
-    public partial class ResolutionFailedException
+    partial class ResolutionFailedException
     {
         #region Serialization Support
 
-        /// <summary>
-        /// Constructor to create a <see cref="ResolutionFailedException"/> from serialized state.
-        /// </summary>
-        /// <param name="info">Serialization info</param>
-        /// <param name="context">Serialization context</param>
-        protected ResolutionFailedException(SerializationInfo info, StreamingContext context) : base(info, context)
+        partial void RegisterSerializationHandler()
         {
-            typeRequested = info.GetString("typeRequested");
-            nameRequested = info.GetString("nameRequested");
+            this.SerializeObjectState += (s, e) =>
+                {
+                    e.AddSerializedState(new ResolutionFailedExceptionSerializationData(this.typeRequested, this.nameRequested));
+                };
         }
 
-        /// <summary>
-        /// Serialize this object into the given context.
-        /// </summary>
-        /// <param name="info">Serialization info</param>
-        /// <param name="context">Streaming context</param>
-        // FxCop suppression: Validation done via guard class
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2142:TransparentMethodsShouldNotBeProtectedWithLinkDemandsFxCopRule"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2141:TransparentMethodsMustNotSatisfyLinkDemandsFxCopRule"), SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        [Serializable]
+        private struct ResolutionFailedExceptionSerializationData : ISafeSerializationData
         {
-            Guard.ArgumentNotNull(info, "info");
-            base.GetObjectData(info, context);
-            info.AddValue("typeRequested", typeRequested, typeof(string));
-            info.AddValue("nameRequested", nameRequested, typeof(string));
+            private string typeRequested;
+            private string nameRequested;
+
+            public ResolutionFailedExceptionSerializationData(string typeRequested, string nameRequested)
+            {
+                this.typeRequested = typeRequested;
+                this.nameRequested = nameRequested;
+            }
+
+            public void CompleteDeserialization(object deserialized)
+            {
+                var exception = (ResolutionFailedException)deserialized;
+                exception.typeRequested = this.typeRequested;
+                exception.nameRequested = this.nameRequested;
+            }
         }
 
         #endregion

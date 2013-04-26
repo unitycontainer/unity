@@ -63,8 +63,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="namesToMatch">Collections of names to match. If any of these patterns match, the rule matches. </param>
         /// <param name="ignoreCase">If false, name comparisons are case sensitive. If true, name comparisons are case insensitive.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public MemberNameMatchingRule(IEnumerable<string> namesToMatch, bool ignoreCase)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(namesToMatch, "namesToMatch");
+
             patterns = new List<Glob>();
             foreach (string name in namesToMatch)
             {
@@ -78,8 +82,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="matches">List of <see cref="MatchingInfo"/> objects containing
         /// the pattern to match and case sensitivity flag.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public MemberNameMatchingRule(IEnumerable<MatchingInfo> matches)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(matches, "matches");
+
             patterns = new List<Glob>();
             foreach (MatchingInfo match in matches)
             {

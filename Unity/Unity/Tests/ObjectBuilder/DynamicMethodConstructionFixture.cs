@@ -14,8 +14,13 @@ using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.Practices.Unity.Utility;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using InjectionConstructorAttribute=Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
+#endif
+using InjectionConstructorAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {
@@ -91,7 +96,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             {
                 Assert.AreSame(ThrowingConstructorInjectionTestClass.constructorException, e);
 
-                var operation = (InvokingConstructorOperation) context.CurrentOperation;
+                var operation = (InvokingConstructorOperation)context.CurrentOperation;
                 Assert.IsNotNull(operation);
                 Assert.AreSame(typeof(ThrowingConstructorInjectionTestClass), operation.TypeBeingConstructed);
             }
@@ -139,12 +144,45 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             {
                 Assert.AreSame(exception, e);
 
-                var operation = (ConstructorArgumentResolveOperation) context.CurrentOperation;
+                var operation = (ConstructorArgumentResolveOperation)context.CurrentOperation;
                 Assert.IsNotNull(operation);
 
-                Assert.AreSame(typeof (ConstructorInjectionTestClass), operation.TypeBeingConstructed);
+                Assert.AreSame(typeof(ConstructorInjectionTestClass), operation.TypeBeingConstructed);
                 Assert.AreEqual("parameter", operation.ParameterName);
             }
+        }
+
+        [TestMethod]
+        public void ResolvingANewInstanceOfATypeWithPrivateConstructorThrows()
+        {
+            MockBuilderContext context = GetContext();
+            var key = new NamedTypeBuildKey<NoPublicConstructorInjectionTestClass>();
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
+            context.BuildKey = key;
+
+            try
+            {
+                plan.BuildUp(context);
+                Assert.Fail("should have thrown");
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+        }
+
+        [TestMethod]
+        public void CanBuildUpExistingObjectWithPrivateConstructor()
+        {
+            MockBuilderContext context = GetContext();
+            var key = new NamedTypeBuildKey<NoPublicConstructorInjectionTestClass>();
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
+            context.BuildKey = key;
+            context.Existing = NoPublicConstructorInjectionTestClass.CreateInstance();
+            plan.BuildUp(context);
+
+            object result = context.Existing;
+            Assert.IsNotNull(result);
         }
 
         public class TestSingleArgumentConstructorSelectorPolicy<T> : IConstructorSelectorPolicy
@@ -181,8 +219,6 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.PersistentPolicies.SetDefault<IConstructorSelectorPolicy>(
                 new ConstructorSelectorPolicy<InjectionConstructorAttribute>());
-            context.PersistentPolicies.SetDefault<IDynamicBuilderMethodCreatorPolicy>(
-                DynamicBuilderMethodCreatorFactory.CreatePolicy());
             context.PersistentPolicies.SetDefault<IBuildPlanCreatorPolicy>(policy);
 
             return context;
@@ -191,11 +227,6 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         private IBuildPlanCreatorPolicy GetPlanCreator(IBuilderContext context)
         {
             return context.Policies.Get<IBuildPlanCreatorPolicy>(null);
-        }
-
-        public interface ISomethingOrOther
-        {
-
         }
 
         public class ConstructorInjectionTestClass
@@ -212,6 +243,16 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             public ThrowingConstructorInjectionTestClass()
             {
                 throw constructorException;
+            }
+        }
+
+        public class NoPublicConstructorInjectionTestClass
+        {
+            private NoPublicConstructorInjectionTestClass() { }
+
+            public static NoPublicConstructorInjectionTestClass CreateInstance()
+            {
+                return new NoPublicConstructorInjectionTestClass();
             }
         }
     }

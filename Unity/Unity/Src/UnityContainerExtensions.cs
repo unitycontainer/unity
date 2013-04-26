@@ -653,7 +653,7 @@ namespace Microsoft.Practices.Unity
         /// will be resolved from within the supplied <paramref name="container"/>.</typeparam>
         /// <param name="container">Container to add the extension to.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        public static IUnityContainer AddNewExtension<TExtension>(this IUnityContainer container) 
+        public static IUnityContainer AddNewExtension<TExtension>(this IUnityContainer container)
             where TExtension : UnityContainerExtension
         {
             Guard.ArgumentNotNull(container, "container");
@@ -673,7 +673,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>The requested extension's configuration interface, or null if not found.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Configurator",
             Justification = "Configurator IS spelled correctly")]
-        public static TConfigurator Configure<TConfigurator>(this IUnityContainer container) 
+        public static TConfigurator Configure<TConfigurator>(this IUnityContainer container)
             where TConfigurator : IUnityContainerExtensionConfigurator
         {
             Guard.ArgumentNotNull(container, "container");
@@ -725,9 +725,9 @@ namespace Microsoft.Practices.Unity
         public static bool IsRegistered<T>(this IUnityContainer container)
         {
             Guard.ArgumentNotNull(container, "container");
-            return container.IsRegistered(typeof (T));
+            return container.IsRegistered(typeof(T));
         }
-        
+
         /// <summary>
         /// Check if a particular type/name pair has been registered with the container.
         /// </summary>
@@ -746,8 +746,8 @@ namespace Microsoft.Practices.Unity
         #endregion
 
         #region Helper methods
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope",
+            Justification = "Factory method to create a disposable but is not expected to owns its lifetime.")]
         private static LifetimeManager CreateDefaultInstanceLifetimeManager()
         {
             return new ContainerControlledLifetimeManager();

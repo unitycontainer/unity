@@ -13,7 +13,11 @@ using System;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -36,7 +40,7 @@ namespace Microsoft.Practices.Unity.Tests
                 new NamedTypeBuildKey(typeof(GuineaPig)));
 
             SelectedConstructor selected = selector.SelectConstructor(context, policies);
-            Assert.AreEqual(typeof(GuineaPig).GetConstructor(new Type[0]), selected.Constructor);
+            Assert.AreEqual(typeof(GuineaPig).GetMatchingConstructor(new Type[0]), selected.Constructor);
             Assert.AreEqual(0, selected.GetParameterKeys().Length);
         }
 
@@ -61,7 +65,7 @@ namespace Microsoft.Practices.Unity.Tests
             SelectedConstructor selected = selector.SelectConstructor(context, policies);
             string[] keys = selected.GetParameterKeys();
 
-            Assert.AreEqual(typeof(GuineaPig).GetConstructor(Sequence.Collect(typeof(string), typeof(int))), selected.Constructor);
+            Assert.AreEqual(typeof(GuineaPig).GetMatchingConstructor(Sequence.Collect(typeof(string), typeof(int))), selected.Constructor);
             Assert.AreEqual(2, keys.Length);
 
             Assert.AreEqual(expectedString, (string)ResolveValue(policies, keys[0]));
@@ -84,7 +88,7 @@ namespace Microsoft.Practices.Unity.Tests
             SelectedConstructor selected = selector.SelectConstructor(context, policies);
             string[] keys = selected.GetParameterKeys();
 
-            Assert.AreEqual(typeof(GuineaPig).GetConstructor(Sequence.Collect(typeof(string), typeof(ILogger))), selected.Constructor);
+            Assert.AreEqual(typeof(GuineaPig).GetMatchingConstructor(Sequence.Collect(typeof(string), typeof(ILogger))), selected.Constructor);
             Assert.AreEqual(2, keys.Length);
 
             var policy = context.Policies.Get<IDependencyResolverPolicy>(keys[1]);
@@ -92,13 +96,15 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void InjectionConstructorThrowsIfNoMatchingConstructor()
         {
             InjectionConstructor ctor = new InjectionConstructor(typeof(double));
             var context = new MockBuilderContext();
 
-            ctor.AddPolicies(typeof(GuineaPig), context.PersistentPolicies);
+            AssertExtensions.AssertException<InvalidOperationException>(() =>
+                {
+                    ctor.AddPolicies(typeof(GuineaPig), context.PersistentPolicies);
+                });
         }
 
         private object ResolveValue(IPolicyList policies, string key)

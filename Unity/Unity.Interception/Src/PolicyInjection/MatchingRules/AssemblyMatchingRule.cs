@@ -71,7 +71,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 return false;
             }
 
-            var assembly = new AssemblyName(member.DeclaringType.Assembly.FullName);
+            AssemblyName assembly = member.DeclaringType.Assembly.GetName();
 
             return DoesAssemblyNameMatchString(assemblyName, assembly);
         }

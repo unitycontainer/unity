@@ -10,7 +10,12 @@
 //===============================================================================
 
 using System;
+using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -135,20 +140,26 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ConfiguringInjectionConstructorThatDoesNotExistThrows()
         {
             IUnityContainer container = new UnityContainer();
-            container.RegisterType<GuineaPig>(
-                new InjectionConstructor(typeof (string), typeof (string)));
+
+            AssertExtensions.AssertException<InvalidOperationException>(() =>
+                {
+                    container.RegisterType<GuineaPig>(
+                        new InjectionConstructor(typeof(string), typeof(string)));
+                });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void RegisterTypeThrowsIfTypeIsNull()
         {
             IUnityContainer container = new UnityContainer();
-            container.RegisterType(null);
+
+            AssertExtensions.AssertException<ArgumentNullException>(() =>
+                {
+                    container.RegisterType(null);
+                });
         }
 
         public class GuineaPig

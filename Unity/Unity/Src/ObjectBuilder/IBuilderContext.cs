@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
@@ -165,8 +166,10 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="name">Name to resolve with.</param>
         /// <returns>The resulting object.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static TResult NewBuildUp<TResult>(this IBuilderContext context, string name)
         {
+            Guard.ArgumentNotNull(context, "context");
             return (TResult) context.NewBuildUp(NamedTypeBuildKey.Make<TResult>(name));
         }
 
@@ -176,8 +179,11 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="context">Context to add overrides to.</param>
         /// <param name="overrides">The overrides.</param>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static void AddResolverOverrides(this IBuilderContext context, params ResolverOverride[] overrides)
         {
+            Guard.ArgumentNotNull(context, "context");
+
             context.AddResolverOverrides(overrides);
         }
     }

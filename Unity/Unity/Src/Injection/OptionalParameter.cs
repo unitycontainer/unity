@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Utility;
 
@@ -64,7 +65,7 @@ namespace Microsoft.Practices.Unity
             Type typeToResolve = parameterReflector.Type;
             if (parameterReflector.IsOpenGeneric)
             {
-                typeToResolve = parameterReflector.GetClosedParameterType(typeToBuild.GetGenericArguments());
+                typeToResolve = parameterReflector.GetClosedParameterType(typeToBuild.GenericTypeArguments);
             }
 
             return new OptionalDependencyResolverPolicy(typeToResolve, name);

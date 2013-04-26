@@ -35,6 +35,8 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <param name="writeContent">Nested lambda which, when executed, will create the content for the
         /// element.</param>
         /// <returns><paramref name="writer"/> (for method chaining if desired).</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public static XmlWriter WriteElement(this XmlWriter writer, string elementName, Action<XmlWriter> writeContent)
         {
             Guard.ArgumentNotNull(writer, "writer");
@@ -53,6 +55,8 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <param name="attributeName">Attribute name to write.</param>
         /// <param name="attributeValue">Value for the attribute.</param>
         /// <returns><paramref name="writer"/> (for method chaining if desired).</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public static XmlWriter WriteAttributeIfNotEmpty(this XmlWriter writer, string attributeName, string attributeValue)
         {
             Guard.ArgumentNotNull(writer, "writer");

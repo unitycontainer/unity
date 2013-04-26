@@ -55,8 +55,6 @@ namespace Microsoft.Practices.Unity
             Context.Policies.SetDefault<IMethodSelectorPolicy>(
                 new DefaultUnityMethodSelectorPolicy());
 
-            SetDynamicBuilderMethodCreatorPolicy();
-
             Context.Policies.SetDefault<IBuildPlanCreatorPolicy>(
                 new DynamicMethodBuildPlanCreatorPolicy(Context.BuildPlanStrategies));
 
@@ -65,7 +63,11 @@ namespace Microsoft.Practices.Unity
                 typeof(Func<>));
             Context.Policies.Set<ILifetimePolicy>(
                 new PerResolveLifetimeManager(),
-                typeof (Func<>));
+                typeof(Func<>));
+
+            Context.Policies.Set<IBuildPlanCreatorPolicy>(
+                new LazyDynamicMethodBuildPlanCreatorPolicy(),
+                typeof(Lazy<>));
         }
     }
 }

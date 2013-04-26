@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Proxies;
 using System.Security;
@@ -24,8 +25,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// An instance interceptor that uses remoting proxies to do the
     /// interception.
     /// </summary>
-    [SecurityCritical(SecurityCriticalScope.Everything)]
-    [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
     public class TransparentProxyInterceptor : IInstanceInterceptor
     {
         /// <summary>
@@ -104,6 +103,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="target">Object to create the proxy for.</param>
         /// <param name="additionalInterfaces">Additional interfaces the proxy must implement.</param>
         /// <returns>The proxy object.</returns>
+        [SecuritySafeCritical]
         public IInterceptingProxy CreateProxy(Type t, object target, params Type[] additionalInterfaces)
         {
             Guard.ArgumentNotNull(t, "t");

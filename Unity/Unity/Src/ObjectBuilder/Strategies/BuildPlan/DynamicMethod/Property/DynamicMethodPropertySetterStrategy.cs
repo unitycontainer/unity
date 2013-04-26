@@ -10,10 +10,11 @@
 //===============================================================================
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq.Expressions;
 using System.Reflection;
-using System.Reflection.Emit;
 using Microsoft.Practices.Unity.Properties;
 using Microsoft.Practices.Unity.Utility;
 
@@ -38,7 +39,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         public override void PreBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
-            DynamicBuildPlanGenerationContext ilContext = (DynamicBuildPlanGenerationContext)(context.Existing);
+            DynamicBuildPlanGenerationContext dynamicBuildContext = (DynamicBuildPlanGenerationContext)(context.Existing);
 
             IPolicyList resolverPolicyDestination;
             IPropertySelectorPolicy selector = context.Policies.Get<IPropertySelectorPolicy>(context.BuildKey, out resolverPolicyDestination);
@@ -48,35 +49,45 @@ namespace Microsoft.Practices.ObjectBuilder2
             foreach (SelectedProperty property in selector.SelectProperties(context, resolverPolicyDestination))
             {
                 shouldClearOperation = true;
-                // Set the current operation to resolving
-                ilContext.IL.Emit(OpCodes.Ldstr, property.Property.Name);
-                ilContext.EmitLoadContext();
-                ilContext.IL.EmitCall(OpCodes.Call, setCurrentOperationToResolvingPropertyValue, null);
 
-                // Resolve the property value
-                ilContext.EmitLoadExisting();
-                ilContext.EmitResolveDependency(property.Property.PropertyType, property.Key);
+                ParameterExpression resolvedObjectParameter = Expression.Parameter(property.Property.PropertyType);
 
-                // Set the current operation to setting 
-                ilContext.IL.Emit(OpCodes.Ldstr, property.Property.Name);
-                ilContext.EmitLoadContext();
-                ilContext.IL.EmitCall(OpCodes.Call, setCurrentOperationToSettingProperty, null);
-
-                // Call the property setter
-                ilContext.IL.EmitCall(OpCodes.Callvirt, GetValidatedPropertySetter(property.Property), null);
+                dynamicBuildContext.AddToBuildPlan(
+                    Expression.Block(
+                        new ParameterExpression[] { resolvedObjectParameter },
+                        Expression.Call(
+                                    null, 
+                                    setCurrentOperationToResolvingPropertyValue,
+                                    Expression.Constant(property.Property.Name),
+                                    dynamicBuildContext.ContextParameter),
+                        Expression.Assign(
+                                resolvedObjectParameter,
+                                dynamicBuildContext.GetResolveDependencyExpression(property.Property.PropertyType, property.Key)),
+                        Expression.Call(
+                                    null,
+                                    setCurrentOperationToSettingProperty,
+                                    Expression.Constant(property.Property.Name),
+                                    dynamicBuildContext.ContextParameter),
+                        Expression.Call(
+                            Expression.Convert(dynamicBuildContext.GetExistingObjectExpression(), dynamicBuildContext.TypeToBuild ),
+                            GetValidatedPropertySetter(property.Property),
+                            resolvedObjectParameter)
+                        ));
             }
 
             // Clear the current operation
             if (shouldClearOperation)
             {
-                ilContext.EmitClearCurrentOperation();
+                dynamicBuildContext.AddToBuildPlan(dynamicBuildContext.GetClearCurrentOperationExpression());
             }
         }
 
         private static MethodInfo GetValidatedPropertySetter(PropertyInfo property)
         {
-            var setter = property.GetSetMethod();
-            if(setter == null)
+            //todo: Added a check for private to meet original expectations; we could consider opening this up for 
+            //      private property injection.
+            var setter = property.SetMethod;
+            if(setter == null || setter.IsPrivate)
             {
                 throw new InvalidOperationException(
                     string.Format(CultureInfo.CurrentCulture,

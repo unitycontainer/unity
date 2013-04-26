@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
@@ -234,8 +235,11 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// is invoked with the new child context before the build up process starts. This gives callers
         /// the opportunity to customize the context for the build process.</param>
         /// <returns>Created object.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public object NewBuildUp(NamedTypeBuildKey newBuildKey, Action<IBuilderContext> childCustomizationBlock)
         {
+            Guard.ArgumentNotNull(childCustomizationBlock, "childCustomizationBlock");
+
             ChildContext =
                 new BuilderContext(chain, lifetime, persistentPolicies, policies, newBuildKey, null);
 

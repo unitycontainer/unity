@@ -152,9 +152,6 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.Strategies.Add(new LifetimeStrategy());
 
-            context.PersistentPolicies.SetDefault<IDynamicBuilderMethodCreatorPolicy>(
-                DynamicBuilderMethodCreatorFactory.CreatePolicy());
-
             context.Policies.SetDefault<IConstructorSelectorPolicy>(
                 new ConstructorSelectorPolicy<InjectionConstructorAttribute>());
             context.Policies.SetDefault<IPropertySelectorPolicy>(

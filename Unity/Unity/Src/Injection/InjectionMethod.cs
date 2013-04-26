@@ -67,19 +67,23 @@ namespace Microsoft.Practices.Unity
         /// <param name="targetMethod">MethodInfo for the method you're checking.</param>
         /// <param name="nameToMatch">Name of the method you're looking for.</param>
         /// <returns>True if a match, false if not.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         protected virtual bool MethodNameMatches(MemberInfo targetMethod, string nameToMatch)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(targetMethod, "targetMethod");
+
             return targetMethod.Name == nameToMatch;
         }
 
         private MethodInfo FindMethod(Type typeToCreate)
         {
             ParameterMatcher matcher = new ParameterMatcher(methodParameters);
-            foreach(MethodInfo method in typeToCreate.GetMethods())
+            foreach (MethodInfo method in typeToCreate.GetMethodsHierarchical())
             {
-                if(MethodNameMatches(method, methodName))
+                if (MethodNameMatches(method, methodName))
                 {
-                    if(matcher.Matches(method.GetParameters()))
+                    if (matcher.Matches(method.GetParameters()))
                     {
                         return method;
                     }
@@ -99,7 +103,7 @@ namespace Microsoft.Practices.Unity
 
         private void GuardMethodNotNull(MethodInfo info, Type typeToCreate)
         {
-            if(info == null)
+            if (info == null)
             {
                 ThrowIllegalInjectionMethod(Resources.NoSuchMethod, typeToCreate);
             }
@@ -107,7 +111,7 @@ namespace Microsoft.Practices.Unity
 
         private void GuardMethodNotStatic(MethodInfo info, Type typeToCreate)
         {
-            if(info.IsStatic)
+            if (info.IsStatic)
             {
                 ThrowIllegalInjectionMethod(Resources.CannotInjectStaticMethod, typeToCreate);
             }
@@ -115,7 +119,7 @@ namespace Microsoft.Practices.Unity
 
         private void GuardMethodNotGeneric(MethodInfo info, Type typeToCreate)
         {
-            if(info.IsGenericMethodDefinition)
+            if (info.IsGenericMethodDefinition)
             {
                 ThrowIllegalInjectionMethod(Resources.CannotInjectGenericMethod, typeToCreate);
             }
@@ -123,7 +127,7 @@ namespace Microsoft.Practices.Unity
 
         private void GuardMethodHasNoOutParams(MethodInfo info, Type typeToCreate)
         {
-            if(info.GetParameters().Any(param => param.IsOut))
+            if (info.GetParameters().Any(param => param.IsOut))
             {
                 ThrowIllegalInjectionMethod(Resources.CannotInjectMethodWithOutParams, typeToCreate);
             }
@@ -131,7 +135,7 @@ namespace Microsoft.Practices.Unity
 
         private void GuardMethodHasNoRefParams(MethodInfo info, Type typeToCreate)
         {
-            if(info.GetParameters().Any(param => param.ParameterType.IsByRef))
+            if (info.GetParameters().Any(param => param.ParameterType.IsByRef))
             {
                 ThrowIllegalInjectionMethod(Resources.CannotInjectMethodWithRefParams, typeToCreate);
             }
@@ -142,7 +146,7 @@ namespace Microsoft.Practices.Unity
             throw new InvalidOperationException(
                 string.Format(CultureInfo.CurrentCulture,
                     message,
-                    typeToCreate.Name,
+                    typeToCreate.GetTypeInfo().Name,
                     methodName,
                     methodParameters.JoinStrings(", ", mp => mp.ParameterTypeName)));
         }
@@ -151,7 +155,7 @@ namespace Microsoft.Practices.Unity
         {
             var key = new NamedTypeBuildKey(typeToCreate, name);
             var selector = policies.GetNoDefault<IMethodSelectorPolicy>(key, false);
-            if(selector == null || !(selector is SpecifiedMethodsSelectorPolicy))
+            if (selector == null || !(selector is SpecifiedMethodsSelectorPolicy))
             {
                 selector = new SpecifiedMethodsSelectorPolicy();
                 policies.Set<IMethodSelectorPolicy>(selector, key);

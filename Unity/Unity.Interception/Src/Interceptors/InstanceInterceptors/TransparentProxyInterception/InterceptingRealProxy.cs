@@ -29,7 +29,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// invoked by a call on the corresponding TransparentProxy
     /// object. It routes calls through the handlers as appropriate.
     /// </summary>
-    [SecurityCritical(SecurityCriticalScope.Everything)]
+    [SecurityCritical()]
     [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
     public class InterceptingRealProxy : RealProxy, IRemotingTypeInfo, IInterceptingProxy
     {
@@ -79,6 +79,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// Adds a <see cref="IInterceptionBehavior"/> to the proxy.
         /// </summary>
         /// <param name="interceptor">The <see cref="IInterceptionBehavior"/> to add.</param>
+        [SecuritySafeCritical]
         public void AddInterceptionBehavior(IInterceptionBehavior interceptor)
         {
             Guard.ArgumentNotNull(interceptor, "interceptor");
@@ -101,9 +102,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         ///<param name="fromType">The type to cast to. </param>
         ///<param name="o">The object for which to check casting. </param>
         ///<exception cref="T:System.Security.SecurityException">The immediate caller makes the call through a reference to the interface and does not have infrastructure permission. </exception>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class.")]
+        [SecurityCritical]
         public bool CanCastTo(Type fromType, object o)
         {
             Guard.ArgumentNotNull(fromType, "fromType");
@@ -140,10 +141,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         ///
         ///<exception cref="T:System.Security.SecurityException">The immediate caller makes the call through a reference to the interface and does not have infrastructure permission. </exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="Infrastructure" /></PermissionSet>
         public string TypeName
-        {
-            [method: SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
+        {            
+            [SecurityCritical]
             get { return typeName; }
-            [method: SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
+
+            [SecurityCritical]
             set { typeName = value; }
         }
 
@@ -161,7 +163,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>An <see cref="TransparentProxyMethodReturn"/> object contains the
         /// information about the target method's return value.</returns>
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
+        [SecurityCritical]
         public override IMessage Invoke(IMessage msg)
         {
             Guard.ArgumentNotNull(msg, "msg");

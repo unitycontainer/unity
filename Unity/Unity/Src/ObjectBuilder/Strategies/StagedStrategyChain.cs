@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -128,7 +129,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         
         private static int NumberOfEnumValues()
         {
-            return typeof(TStageEnum).GetFields(BindingFlags.Public | BindingFlags.Static).Length;
+            return typeof(TStageEnum).GetTypeInfo().DeclaredFields.Where(f => f.IsPublic &&  f.IsStatic).Count();
         }
     }
 }

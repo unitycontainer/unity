@@ -9,9 +9,11 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.ObjectBuilder
 {
@@ -31,8 +33,11 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         /// for this parameter.</remarks>
         /// <param name="parameter">Parameter to create the resolver for.</param>
         /// <returns>The resolver object.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         protected override IDependencyResolverPolicy CreateResolver(ParameterInfo parameter)
         {
+            Guard.ArgumentNotNull(parameter, "parameter");
+
             // Resolve all DependencyAttributes on this parameter, if any
             var attrs = parameter.GetCustomAttributes(false).OfType<DependencyResolutionAttribute>().ToList();
 

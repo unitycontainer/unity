@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System;
+using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 
 namespace Microsoft.Practices.Unity
@@ -78,7 +79,7 @@ namespace Microsoft.Practices.Unity
                 return lifetime.GetType();
             }
 
-            if(MappedToType.IsGenericType)
+            if (MappedToType.GetTypeInfo().IsGenericType)
             {
                 var genericKey = new NamedTypeBuildKey(MappedToType.GetGenericTypeDefinition(), Name);
                 var lifetimeFactory = policies.Get<ILifetimeFactoryPolicy>(genericKey);

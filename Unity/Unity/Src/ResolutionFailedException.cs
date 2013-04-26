@@ -12,6 +12,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Reflection;
 using System.Text;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Properties;
@@ -29,8 +30,8 @@ namespace Microsoft.Practices.Unity
     [SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors")]
     public partial class ResolutionFailedException : Exception
     {
-        private readonly string typeRequested;
-        private readonly string nameRequested;
+        private string typeRequested;
+        private string nameRequested;
 
         /// <summary>
         /// Create a new <see cref="ResolutionFailedException"/> that records
@@ -46,9 +47,12 @@ namespace Microsoft.Practices.Unity
             Guard.ArgumentNotNull(typeRequested, "typeRequested");
             if (typeRequested != null)
             {
-                this.typeRequested = typeRequested.Name;
+                this.typeRequested = typeRequested.GetTypeInfo().Name;
             }
+
             this.nameRequested = nameRequested;
+
+            this.RegisterSerializationHandler();
         }
 
         /// <summary>
@@ -67,6 +71,8 @@ namespace Microsoft.Practices.Unity
             get { return nameRequested; }
         }
 
+        partial void RegisterSerializationHandler();
+
         private static string CreateMessage(Type typeRequested, string nameRequested, Exception innerException, IBuilderContext context)
         {
             Guard.ArgumentNotNull(typeRequested, "typeRequested");
@@ -80,7 +86,7 @@ namespace Microsoft.Practices.Unity
                 typeRequested,
                 FormatName(nameRequested),
                 ExceptionReason(context),
-                innerException != null ? innerException.GetType().Name : "ResolutionFailedException",
+                innerException != null ? innerException.GetType().GetTypeInfo().Name : "ResolutionFailedException",
                 innerException != null ? innerException.Message : null);
             builder.AppendLine();
 

@@ -13,7 +13,11 @@ using System;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -182,10 +186,12 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingAPropertyOverrideForANullValueThrows()
         {
-            new PropertyOverride("ignored", null);
+            AssertExtensions.AssertException<ArgumentNullException>(() =>
+                {
+                    new PropertyOverride("ignored", null);
+                });
         }
 
         [TestMethod]
@@ -204,17 +210,21 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingATypeOverrideForANullTypeThrows()
         {
-            new TypeBasedOverride(null, new PropertyOverride("ignored", 10));
+            AssertExtensions.AssertException<ArgumentNullException>(() =>
+                {
+                    new TypeBasedOverride(null, new PropertyOverride("ignored", 10));
+                });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingATypeOverrideForANullOverrideThrows()
         {
-            new TypeBasedOverride(typeof(object), null);
+            AssertExtensions.AssertException<ArgumentNullException>(() =>
+                {
+                    new TypeBasedOverride(typeof(object), null);
+                });
         }
 
         public class SimpleTestObject

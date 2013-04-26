@@ -12,7 +12,11 @@
 using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
 using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {
@@ -80,8 +84,6 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.PersistentPolicies.SetDefault<IConstructorSelectorPolicy>(
                 new ConstructorSelectorPolicy<InjectionConstructorAttribute>());
-            context.PersistentPolicies.SetDefault<IDynamicBuilderMethodCreatorPolicy>(
-                DynamicBuilderMethodCreatorFactory.CreatePolicy());
             context.PersistentPolicies.SetDefault<IBuildPlanCreatorPolicy>(policy);
 
             return context;

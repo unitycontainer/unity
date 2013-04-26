@@ -11,6 +11,7 @@
 
 using System;
 using System.Globalization;
+using System.Reflection;
 using Microsoft.Practices.Unity.Properties;
 
 namespace Microsoft.Practices.ObjectBuilder2
@@ -49,7 +50,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             return string.Format(CultureInfo.CurrentCulture,
                 Resources.InvokingMethodOperation,
-                TypeBeingConstructed.Name,
+                TypeBeingConstructed.GetTypeInfo().Name,
                 methodSignature);
         }
     }

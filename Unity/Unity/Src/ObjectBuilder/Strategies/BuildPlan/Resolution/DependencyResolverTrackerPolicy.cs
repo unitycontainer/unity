@@ -9,9 +9,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
@@ -28,7 +26,10 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="key">Key that was used to add the resolver to the policy set.</param>
         public void AddResolverKey(object key)
         {
-            keys.Add(key);
+            lock (this.keys)
+            {
+                keys.Add(key);
+            }
         }
 
         /// <summary>
@@ -37,11 +38,17 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="policies">Policy list to remove the resolvers from.</param>
         public void RemoveResolvers(IPolicyList policies)
         {
-            foreach(object key in keys)
+            var allKeys = new List<object>();
+            lock (this.keys)
+            {
+                allKeys.AddRange(this.keys);
+                keys.Clear();
+            }
+
+            foreach (object key in allKeys)
             {
                 policies.Clear<IDependencyResolverPolicy>(key);
             }
-            keys.Clear();
         }
 
         // Helper methods for adding and removing the tracker policy.
@@ -58,7 +65,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             IDependencyResolverTrackerPolicy tracker =
                 policies.Get<IDependencyResolverTrackerPolicy>(buildKey);
-            if(tracker == null)
+            if (tracker == null)
             {
                 tracker = new DependencyResolverTrackerPolicy();
                 policies.Set<IDependencyResolverTrackerPolicy>(tracker, buildKey);

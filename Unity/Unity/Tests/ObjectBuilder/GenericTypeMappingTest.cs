@@ -11,7 +11,11 @@
 
 using System;
 using System.Collections.Generic;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {
@@ -43,20 +47,35 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void PolicyThrowsIfWrongNumberOfGenericParameters()
         {
             var original = new NamedTypeBuildKey(typeof (IList<string>));
             IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof (Dictionary<,>)));
-            policy.Map(original, null);
+            try
+            {
+                policy.Map(original, null);
+                Assert.Fail("Expected exception");
+            }
+            catch (ArgumentException)
+            {
+                // expected
+            }
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void PolicyThrowsIfInputIsNotAGeneric()
         {
             IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof (List<>)));
-            policy.Map(new NamedTypeBuildKey<int>(), null);
+
+            try
+            {
+                policy.Map(new NamedTypeBuildKey<int>(), null);
+                Assert.Fail("Expected Exception");
+            }
+            catch(ArgumentException)
+            {
+                // expected
+            }
         }
 
     }

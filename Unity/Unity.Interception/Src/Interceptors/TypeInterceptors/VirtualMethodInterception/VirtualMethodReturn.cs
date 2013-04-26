@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -34,8 +35,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="originalInvocation">The method invocation.</param>
         /// <param name="returnValue">Return value (should be null if method returns void).</param>
         /// <param name="arguments">All arguments (including current values) passed to the method.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public VirtualMethodReturn(IMethodInvocation originalInvocation, object returnValue, object[] arguments)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(originalInvocation, "originalInvocation");
+
             invocationContext = originalInvocation.InvocationContext;
             this.returnValue = returnValue;
             outputs = new ParameterCollection(arguments, originalInvocation.MethodBase.GetParameters(),
@@ -47,8 +52,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="originalInvocation">The method invocation.</param>
         /// <param name="exception">Exception that was thrown.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public VirtualMethodReturn(IMethodInvocation originalInvocation, Exception exception)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(originalInvocation, "originalInvocation");
+            
             invocationContext = originalInvocation.InvocationContext;
             this.exception = exception;
             outputs = new ParameterCollection(new object[0], new ParameterInfo[0], delegate { return false; });

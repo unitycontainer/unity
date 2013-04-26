@@ -9,32 +9,42 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
-    /// A delegate type that defines the signature of the
-    /// dynamic method created by the build plans.
+    /// 
     /// </summary>
-    /// <param name="context"><see cref="IBuilderContext"/> used to build up the object.</param>
-    delegate void DynamicBuildPlanMethod(
-        IBuilderContext context);
-    
-    /// <summary>
-    /// An implementation of <see cref="IBuildPlanPolicy"/> that runs the
-    /// given delegate to execute the plan.
-    /// </summary>
-    class DynamicMethodBuildPlan : IBuildPlanPolicy
-    {
-        private DynamicBuildPlanMethod planMethod;
+    /// <param name="context"></param>
+    public delegate void DynamicBuildPlanMethod(IBuilderContext context);
 
-        public DynamicMethodBuildPlan(DynamicBuildPlanMethod planMethod)
+    /// <summary>
+    /// 
+    /// </summary>
+    public class DynamicMethodBuildPlan : IBuildPlanPolicy
+    {
+        DynamicBuildPlanMethod buildMethod;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="buildMethod"></param>
+        public DynamicMethodBuildPlan(DynamicBuildPlanMethod buildMethod)
         {
-            this.planMethod = planMethod;
+            this.buildMethod = buildMethod;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public void BuildUp(IBuilderContext context)
         {
-            planMethod(context);
+            buildMethod(context);
         }
     }
 }

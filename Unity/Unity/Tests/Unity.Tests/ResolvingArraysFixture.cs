@@ -13,7 +13,11 @@ using System.Collections.Generic;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 using System;
 
 namespace Microsoft.Practices.Unity.Tests
@@ -214,7 +218,7 @@ namespace Microsoft.Practices.Unity.Tests
             public SelectedConstructor SelectConstructor(IBuilderContext context, IPolicyList resolverPoliciesDestination)
             {
                 SelectedConstructor selectedConstructor
-                    = new SelectedConstructor(typeof(InjectedObject).GetConstructor(new Type[] { typeof(object) }));
+                    = new SelectedConstructor(typeof(InjectedObject).GetMatchingConstructor(new Type[] { typeof(object) }));
                 selectedConstructor.AddParameterKey("InjectedObject_injectedValue");
                 resolverPoliciesDestination.Set<IDependencyResolverPolicy>(this.resolverPolicy, "InjectedObject_injectedValue");
 

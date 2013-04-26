@@ -58,6 +58,8 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>The element name.</returns>
         /// <exception cref="ArgumentException">If the member element is not currently registered
         /// with the section.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public static string GetMemberElementName(InjectionMemberElement memberElement)
         {
             Guard.ArgumentNotNull(memberElement, "memberElement");

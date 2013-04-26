@@ -28,7 +28,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private readonly NamedTypeBuildKey interceptorKey;
 
         /// <summary>
-        /// Construct a new <see cref="DefaultInterceptor"/> instance that,
+        /// Construt a new <see cref="DefaultInterceptor"/> instance that,
         /// when applied to a container, will register the given
         /// interceptor as the default one.
         /// </summary>

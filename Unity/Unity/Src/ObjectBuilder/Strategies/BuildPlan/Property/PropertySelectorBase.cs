@@ -11,8 +11,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
@@ -35,11 +37,18 @@ namespace Microsoft.Practices.ObjectBuilder2
         public virtual IEnumerable<SelectedProperty> SelectProperties(IBuilderContext context, IPolicyList resolverPolicyDestination)
         {
             Type t = context.BuildKey.Type;
-            foreach(PropertyInfo prop in t.GetProperties(BindingFlags.Public | BindingFlags.SetProperty | BindingFlags.Instance))
+
+            foreach (PropertyInfo prop in t.GetPropertiesHierarchical().Where(p => p.CanWrite))
             {
-                if(prop.GetIndexParameters().Length == 0 &&               // Ignore indexers
-                   prop.CanWrite &&                                      // Is writable
-                   prop.IsDefined(typeof(TResolutionAttribute), false))  // Marked with the attribute
+                var propertyMethod = prop.SetMethod ?? prop.GetMethod;
+                if (propertyMethod.IsStatic)
+                {
+                    // Skip static properties. In the previous implementation the reflection query took care of this.
+                    continue;
+                }
+
+                if (prop.GetIndexParameters().Length == 0 &&                // Ignore indexers
+                   prop.IsDefined(typeof(TResolutionAttribute), false))     // Marked with the attribute
                 {
                     yield return CreateSelectedProperty(context, resolverPolicyDestination, prop);
                 }

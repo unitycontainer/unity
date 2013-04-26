@@ -23,7 +23,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// An implementation of <see cref="IMethodReturn"/> that wraps the
     /// remoting call and return messages.
     /// </summary>
-    [SecurityCritical(SecurityCriticalScope.Everything)]
+    [SecurityCritical]
     [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
     class TransparentProxyMethodReturn : IMethodReturn
     {
@@ -75,6 +75,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <value>The output parameter collection.</value>
         public IParameterCollection Outputs
         {
+            [SecuritySafeCritical]
             get { return outputs; }
         }
 
@@ -85,7 +86,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <value>The return value.</value>
         public object ReturnValue
         {
+            [SecuritySafeCritical]
             get { return returnValue; }
+
+            [SecuritySafeCritical]
             set
             {
                 returnValue = value;
@@ -98,7 +102,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <value>The exception, or null if no exception was thrown.</value>
         public Exception Exception
         {
+            [SecuritySafeCritical]
             get { return exception; }
+            
+            [SecuritySafeCritical]
             set
             {
                 exception = value;
@@ -116,6 +123,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <value>The invocation context dictionary.</value>
         public IDictionary<string, object> InvocationContext
         {
+            [SecuritySafeCritical]
             get { return invocationContext; }
         }
 
@@ -124,6 +132,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// infrastructure based on the contents of this object.
         /// </summary>
         /// <returns>The <see cref="IMethodReturnMessage"/> instance.</returns>
+        [SecurityCritical]
         public IMethodReturnMessage ToMethodReturnMessage()
         {
             if (exception == null)

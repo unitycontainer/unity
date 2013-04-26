@@ -21,7 +21,7 @@ using System.Security;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
 [assembly: AssemblyProduct("Unity.Tests")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2011,2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -45,7 +45,5 @@ using System.Security;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-#if !SILVERLIGHT
-[assembly: AllowPartiallyTrustedCallers()]
-[assembly: SecurityRules(SecurityRuleSet.Level1)]
-#endif
+
+//[assembly: AllowPartiallyTrustedCallers()]

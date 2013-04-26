@@ -52,8 +52,12 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         /// <param name="resolverPolicyDestination">The <see cref='IPolicyList'/> to add any
         /// generated resolver objects into.</param>
         /// <returns>The chosen constructor.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+             Justification = "Validation done by Guard class")]
         public SelectedConstructor SelectConstructor(IBuilderContext context, IPolicyList resolverPolicyDestination)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(context, "context");
+
             SelectedConstructor result;
             Type typeToBuild = context.BuildKey.Type;
 
@@ -65,7 +69,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
             else
             {
                 Type[] closedCtorParameterTypes =
-                    ctorReflector.GetClosedParameterTypes(typeToBuild.GetGenericArguments());
+                    ctorReflector.GetClosedParameterTypes(typeToBuild.GenericTypeArguments);
                 result = new SelectedConstructor(typeToBuild.GetConstructor(closedCtorParameterTypes));
             }
 

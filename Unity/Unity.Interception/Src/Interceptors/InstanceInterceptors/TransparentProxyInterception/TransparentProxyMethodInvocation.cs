@@ -24,7 +24,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// remoting-based <see cref="IMethodCallMessage"/> in the PIAB call
     /// interface.
     /// </summary>
-    [SecurityCritical(SecurityCriticalScope.Everything)]
+    [SecurityCritical]
     [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
     public sealed class TransparentProxyMethodInvocation : IMethodInvocation
     {
@@ -42,8 +42,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="callMessage">Remoting call message object.</param>
         /// <param name="target">Ultimate target of the method call.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public TransparentProxyMethodInvocation(IMethodCallMessage callMessage, object target)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(callMessage, "callMessage");
+
             this.callMessage = callMessage;
             this.invocationContext = new Dictionary<string, object>();
             this.target = target;
@@ -59,6 +63,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <value>The input collection.</value>
         public IParameterCollection Inputs
         {
+            [SecuritySafeCritical]
             get { return inputParams; }
         }
 
@@ -68,6 +73,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <value>The arguments collection.</value>
         IParameterCollection IMethodInvocation.Arguments
         {
+            [SecuritySafeCritical]
             get { return allParams; }
         }
 
@@ -78,6 +84,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <value>The invocation context dictionary.</value>
         public IDictionary<string, object> InvocationContext
         {
+            [SecuritySafeCritical]
             get { return invocationContext; }
         }
 
@@ -87,6 +94,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <value>The target object.</value>
         public object Target
         {
+            [SecuritySafeCritical]
             get { return target; }
         }
 
@@ -96,6 +104,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <value>The target method base.</value>
         public MethodBase MethodBase
         {
+            [SecuritySafeCritical]
             get { return callMessage.MethodBase; }
         }
 
@@ -108,6 +117,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="outputs">All arguments passed or returned as out/byref to the method. 
         /// Note that this is the entire argument list, including in parameters.</param>
         /// <returns>New IMethodReturn object.</returns>
+        [SecuritySafeCritical]
         public IMethodReturn CreateMethodReturn(object returnValue, params object[] outputs)
         {
             return new TransparentProxyMethodReturn(callMessage, returnValue, outputs, invocationContext);
@@ -119,6 +129,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="ex">Exception to be set into the returned object.</param>
         /// <returns>New IMethodReturn object</returns>
+        [SecuritySafeCritical]
         public IMethodReturn CreateExceptionMethodReturn(Exception ex)
         {
             return new TransparentProxyMethodReturn(ex, callMessage, invocationContext);

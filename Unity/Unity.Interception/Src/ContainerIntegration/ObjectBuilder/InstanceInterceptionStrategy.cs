@@ -28,8 +28,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// phase and executes in reverse order from the PreBuildUp calls.
         /// </summary>
         /// <param name="context">Context of the build operation.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public override void PostBuildUp(IBuilderContext context)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(context, "context");
+
             // If it's already been intercepted, don't do it again.
             if (context.Existing is IInterceptingProxy) return;
 

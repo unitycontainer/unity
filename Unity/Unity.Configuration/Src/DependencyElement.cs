@@ -107,6 +107,8 @@ namespace Microsoft.Practices.Unity.Configuration
         /// directly in this method.</param>
         /// <param name="parameterType">Type of the </param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public override InjectionParameterValue GetInjectionParameterValue(IUnityContainer container, Type parameterType)
         {
             Guard.ArgumentNotNull(parameterType, "parameterType");

@@ -12,8 +12,11 @@
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Tests.TestDoubles;
 using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {

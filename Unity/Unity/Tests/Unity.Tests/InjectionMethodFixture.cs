@@ -10,7 +10,13 @@
 //===============================================================================
 
 using System;
+using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
+using System.Reflection;
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -28,30 +34,47 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.IsTrue(result.WasInjected);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]       
         public void CannotConfigureGenericInjectionMethod()
         {
-            new UnityContainer()
-                .RegisterType<OpenGenericInjectionMethod>(
-                new InjectionMethod("InjectMe"));
+            AssertExtensions.AssertException<InvalidOperationException>(() =>
+                {
+                    new UnityContainer()
+                        .RegisterType<OpenGenericInjectionMethod>(
+                        new InjectionMethod("InjectMe"));
+                });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void CannotConfigureMethodWithOutParams()
         {
-            new UnityContainer().RegisterType<OutParams>(
-                new InjectionMethod("InjectMe", 12));
+            AssertExtensions.AssertException<InvalidOperationException>(() =>
+                {
+                    new UnityContainer().RegisterType<OutParams>(
+                        new InjectionMethod("InjectMe", 12));
+                });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void CannotConfigureMethodWithRefParams()
         {
-            new UnityContainer()
-                .RegisterType<RefParams>(
-                new InjectionMethod("InjectMe", 15));
+            AssertExtensions.AssertException<InvalidOperationException>(() =>
+                {
+                    new UnityContainer()
+                        .RegisterType<RefParams>(
+                        new InjectionMethod("InjectMe", 15));
+                });
+        }
+
+        [TestMethod]
+        public void CanInvokeInheritedMethod()
+        {
+            IUnityContainer container = new UnityContainer()
+                          .RegisterType<InheritedClass>(
+                                  new InjectionMethod("InjectMe"));
+
+            InheritedClass result = container.Resolve<InheritedClass>();
+            Assert.IsTrue(result.WasInjected);
         }
 
         public class LegalInjectionMethod
@@ -86,6 +109,11 @@ namespace Microsoft.Practices.Unity.Tests
             {
                 x *= 2;
             }
+        }
+
+        public class InheritedClass : LegalInjectionMethod
+        {
+
         }
     }
 }

@@ -39,9 +39,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="interceptionRequest">Information about what will be injected.</param>
         /// <param name="policies">Current injection policies.</param>
         /// <param name="container">Unity container that can be used to resolve call handlers.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public PolicyInjectionBehavior(CurrentInterceptionRequest interceptionRequest, InjectionPolicy[] policies,
             IUnityContainer container)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(interceptionRequest, "interceptionRequest");
+
             var allPolicies = new PolicySet(policies);
             bool hasHandlers = false;
 
@@ -65,6 +69,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="getNext">Delegate to execute to get the next delegate in the handler
         /// chain.</param>
         /// <returns>Return value from the target.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public IMethodReturn Invoke(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext)
         {
             Guard.ArgumentNotNull(input, "input");

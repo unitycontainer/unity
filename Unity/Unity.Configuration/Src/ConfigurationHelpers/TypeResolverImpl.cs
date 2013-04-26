@@ -76,9 +76,13 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <param name="assemblies">Assembly names to search.</param>
         /// <param name="namespaces">Namespaces to search.</param>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public TypeResolverImpl(IEnumerable<KeyValuePair<string, string>> aliasesSequence,
             IEnumerable<string> namespaces, IEnumerable<string> assemblies)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(aliasesSequence, "aliasesSequence");
+
             aliases = new Dictionary<string, string>();
             foreach (var pair in aliasesSequence)
             {
@@ -255,10 +259,16 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         {
             foreach (var asm in assemblies)
             {
-                Type result = Type.GetType(MakeAssemblyQualifiedName(typeNameOrAlias, asm));
-                if (result != null)
+                try
                 {
-                    return result;
+                    Type result = Type.GetType(MakeAssemblyQualifiedName(typeNameOrAlias, asm));
+                    if (result != null)
+                    {
+                        return result;
+                    }
+                }
+                catch (FileLoadException)
+                {
                 }
             }
             return null;

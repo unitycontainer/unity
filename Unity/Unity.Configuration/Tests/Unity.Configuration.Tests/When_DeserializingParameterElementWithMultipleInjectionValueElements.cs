@@ -12,6 +12,7 @@
 using System.Configuration;
 using System.IO;
 using System.Xml;
+using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.Configuration.Tests
@@ -38,7 +39,6 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ConfigurationErrorsException))]
         public void Then_DeserializingMultipleInjectionValueChildrenThrows()
         {
             var elementXml = @"
@@ -51,11 +51,13 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var result = reader.MoveToContent();
             var element = new ParameterElement();
 
-            element.Deserialize(reader);
+            AssertExtensions.AssertException<ConfigurationErrorsException>(() =>
+                {
+                    element.Deserialize(reader);
+                });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ConfigurationErrorsException))]
         public void Then_DeserializingWithParametersAndValueChildrenThrows()
         {
             var elementXml = @"
@@ -66,8 +68,10 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var reader = new XmlTextReader(new StringReader(elementXml));
             var result = reader.MoveToContent();
             var element = new ParameterElement();
-
-            element.Deserialize(reader);
+            AssertExtensions.AssertException<ConfigurationErrorsException>(() =>
+            {
+                element.Deserialize(reader);
+            });
         }
     }
 
@@ -92,8 +96,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             Assert.AreEqual("northwind", ((ValueElement)element.Value).Value);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ConfigurationErrorsException))]
+        [TestMethod]      
         public void Then_DeserializingMultipleInjectionValueChildrenThrows()
         {
             var elementXml = @"
@@ -105,12 +108,13 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var reader = new XmlTextReader(new StringReader(elementXml));
             var result = reader.MoveToContent();
             var element = new PropertyElement();
-
-            element.Deserialize(reader);
+            AssertExtensions.AssertException<ConfigurationErrorsException>(() =>
+                {
+                    element.Deserialize(reader);
+                });
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ConfigurationErrorsException))]
         public void Then_DeserializingWithParametersAndValueChildrenThrows()
         {
             var elementXml = @"
@@ -121,8 +125,10 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var reader = new XmlTextReader(new StringReader(elementXml));
             var result = reader.MoveToContent();
             var element = new PropertyElement();
-
-            element.Deserialize(reader);
+            AssertExtensions.AssertException<ConfigurationErrorsException>(() =>
+                {
+                    element.Deserialize(reader);
+                });
         }
     }
 }

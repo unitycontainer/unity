@@ -12,6 +12,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Reflection;
 using Microsoft.Practices.Unity.Properties;
 using Microsoft.Practices.Unity.Utility;
 
@@ -35,12 +36,12 @@ namespace Microsoft.Practices.ObjectBuilder2
         public GenericTypeBuildKeyMappingPolicy(NamedTypeBuildKey destinationKey)
         {
             Guard.ArgumentNotNull(destinationKey, "destinationKey");
-            if(!destinationKey.Type.IsGenericTypeDefinition)
+            if (!destinationKey.Type.GetTypeInfo().IsGenericTypeDefinition)
             {
                 throw new ArgumentException(
                     string.Format(CultureInfo.CurrentCulture,
                                   Resources.MustHaveOpenGenericType,
-                                  destinationKey.Type.Name));
+                                  destinationKey.Type.GetTypeInfo().Name));
             }
             this.destinationKey = destinationKey;
         }
@@ -55,23 +56,29 @@ namespace Microsoft.Practices.ObjectBuilder2
         public NamedTypeBuildKey Map(NamedTypeBuildKey buildKey, IBuilderContext context)
         {
             Guard.ArgumentNotNull(buildKey, "buildKey");
-            Type originalType = buildKey.Type;
-            GuardSameNumberOfGenericArguments(originalType);
 
-            Type[] genericArguments = originalType.GetGenericArguments();
-            Type resultType = destinationKey.Type.MakeGenericType(genericArguments);
-            return new NamedTypeBuildKey(resultType, destinationKey.Name);
+            var originalTypeInfo = buildKey.Type.GetTypeInfo();
+            if (originalTypeInfo.IsGenericTypeDefinition)
+            {
+                // No need to perform a mapping - the source type is an open generic
+                return this.destinationKey;
+            }
+
+            this.GuardSameNumberOfGenericArguments(originalTypeInfo);
+            Type[] genericArguments = originalTypeInfo.GenericTypeArguments;
+            Type resultType = this.destinationKey.Type.MakeGenericType(genericArguments);
+            return new NamedTypeBuildKey(resultType, this.destinationKey.Name);
         }
 
-        private void GuardSameNumberOfGenericArguments(Type sourceType)
+        private void GuardSameNumberOfGenericArguments(TypeInfo sourceTypeInfo)
         {
-            if(sourceType.GetGenericArguments().Length != DestinationType.GetGenericArguments().Length)
+            if (sourceTypeInfo.GenericTypeArguments.Length != this.DestinationType.GetTypeInfo().GenericTypeParameters.Length)
             {
                 throw new ArgumentException(
                     string.Format(CultureInfo.CurrentCulture,
                                   Resources.MustHaveSameNumberOfGenericArguments,
-                                  sourceType.Name, DestinationType.Name),
-                    "sourceType");
+                                  sourceTypeInfo.Name, this.DestinationType.Name),
+                    "sourceTypeInfo");
             }
         }
 

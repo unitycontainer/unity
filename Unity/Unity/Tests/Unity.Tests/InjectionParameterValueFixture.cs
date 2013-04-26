@@ -15,7 +15,11 @@ using System.Linq;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -120,10 +124,12 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void CreatingInjectionParameterWithNullValueThrows()
         {
-            new InjectionParameter(null);
+            AssertExtensions.AssertException<ArgumentNullException>(() =>
+                {
+                    new InjectionParameter(null);
+                });
         }
 
         [TestMethod]

@@ -23,6 +23,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// Add the extensions to the section via the context.
         /// </summary>
         /// <param name="context">Context object that can be used to add elements and aliases.</param>
+        [System.Security.SecuritySafeCritical]
         public override void AddExtensions(SectionExtensionContext context)
         {
             AddAliases(context);
@@ -40,6 +41,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             context.AddElement<InterceptorsElement>("interceptors");
         }
 
+        [System.Security.SecurityCritical]
         private static void AddAliases(SectionExtensionContext context)
         {
             context.AddAlias<Interception>("Interception");

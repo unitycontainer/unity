@@ -13,8 +13,11 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -46,7 +49,7 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void CanResolveOptionalDependencyWhenConfiguredByAPI()
         {
-            IGuineaPig mockPig = new Mock<IGuineaPig>().Object;
+            IGuineaPig mockPig = new GuineaPigImpl();
 
             container.RegisterType<GuineaPig>(
                     new InjectionConstructor(new OptionalParameter<IGuineaPig>()))
@@ -60,7 +63,7 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void CanResolveOptionalDependenciesByNameWithAPI()
         {
-            IGuineaPig expected = new Mock<IGuineaPig>().Object;
+            IGuineaPig expected = new GuineaPigImpl();
 
             container.RegisterType<GuineaPig>(
                     new InjectionConstructor(new OptionalParameter(typeof(IGuineaPig), "named")))
@@ -86,7 +89,7 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void CanConfigureOptionalParameterToInjectionMethod()
         {
-            IGuineaPig expected = new Mock<IGuineaPig>().Object;
+            IGuineaPig expected = new GuineaPigImpl();
 
             container.RegisterType<GuineaPig>(
                     new InjectionConstructor(),

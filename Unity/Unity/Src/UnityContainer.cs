@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Properties;
@@ -97,12 +98,14 @@ namespace Microsoft.Practices.Unity
         public IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager, InjectionMember[] injectionMembers)
         {
             Guard.ArgumentNotNull(to, "to");
+            Guard.ArgumentNotNull(injectionMembers, "injectionMembers");
+
             if(string.IsNullOrEmpty(name))
             {
                 name = null;
             }
 
-            if (from != null && !from.IsGenericType && !to.IsGenericType)
+            if (from != null && !from.GetTypeInfo().IsGenericType && !to.GetTypeInfo().IsGenericType)
             {
                 Guard.TypeIsAssignable(from, to, "from");
             }
@@ -191,7 +194,7 @@ namespace Microsoft.Practices.Unity
         public IEnumerable<object> ResolveAll(Type t, params ResolverOverride[] resolverOverrides)
         {
             var names = GetRegisteredNames(t);
-            if(t.IsGenericType)
+            if (t.GetTypeInfo().IsGenericType)
             {
                 names = names.Concat(GetRegisteredNames(t.GetGenericTypeDefinition()));
             }
@@ -241,6 +244,7 @@ namespace Microsoft.Practices.Unity
         /// Run an existing object through the container, and clean it up.
         /// </summary>
         /// <param name="o">The object to tear down.</param>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         public void Teardown(object o)
         {
             IBuilderContext context = null;
@@ -338,8 +342,12 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         /// <param name="extension"><see cref="UnityContainerExtension"/> to add.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public IUnityContainer AddExtension(UnityContainerExtension extension)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(extensions, "extensions");
+
             extensions.Add(extension);
             extension.InitializeExtension(new ExtensionContextImpl(this));
             lock (cachedStrategiesLock)
@@ -360,7 +368,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>The requested extension's configuration interface, or null if not found.</returns>
         public object Configure(Type configurationInterface)
         {
-            return extensions.Where(ex => configurationInterface.IsAssignableFrom(ex.GetType())).FirstOrDefault();
+            return extensions.Where(ex => configurationInterface.GetTypeInfo().IsAssignableFrom(ex.GetType().GetTypeInfo())).FirstOrDefault();
         }
 
         /// <summary>
@@ -414,7 +422,8 @@ namespace Microsoft.Practices.Unity
         /// A child container shares the parent's configuration, but can be configured with different
         /// settings or lifetime.</remarks>
         /// <returns>The new child container.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope",
+            Justification = "Factory method that creates disposable object but does not own its lifetime.")]
         public IUnityContainer CreateChildContainer()
         {
             var child = new UnityContainer(this);
@@ -501,7 +510,7 @@ namespace Microsoft.Practices.Unity
                         existing);
                 context.AddResolverOverrides(resolverOverrides);
 
-                if(t.IsGenericTypeDefinition)
+                if (t.GetTypeInfo().IsGenericTypeDefinition)
                 {
                     throw new ArgumentException(
                         string.Format(CultureInfo.CurrentCulture,

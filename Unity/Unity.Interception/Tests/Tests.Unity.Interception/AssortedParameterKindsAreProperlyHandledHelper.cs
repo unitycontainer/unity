@@ -12,7 +12,6 @@
 using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 {
@@ -20,9 +19,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
     {
         public static void PerformTest(IInterceptingProxy proxy)
         {
-            Mock<IInterceptionBehavior> behavior = new Mock<IInterceptionBehavior>();
-            behavior.Setup(p => p.WillExecute).Returns(true);
-            behavior.Setup(p => p.GetRequiredInterfaces()).Returns(Type.EmptyTypes);
+            var behavior = new FakeInterceptionBehavior();
 
             int argumentsCount = 0;
             object[] argumentsValuesByIndex = null;
@@ -38,8 +35,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             object[] outputsValuesByName = null;
             object originalReturnValue = null;
 
-            behavior.Setup(p => p.Invoke(It.IsAny<IMethodInvocation>(), It.IsAny<GetNextInterceptionBehaviorDelegate>()))
-                .Returns((IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext) =>
+            behavior.InvokeFunc = (IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext) =>
                 {
                     argumentsCount = input.Arguments.Count;
                     argumentsValuesByIndex = Enumerable.Range(0, argumentsCount).Select(pi => input.Arguments[pi]).ToArray();
@@ -71,9 +67,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                     result.ReturnValue = 100;
 
                     return result;
-                });
+                };
 
-            proxy.AddInterceptionBehavior(behavior.Object);
+            proxy.AddInterceptionBehavior(behavior);
 
             int param2, param4;
             param4 = 4;

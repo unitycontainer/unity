@@ -11,7 +11,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
@@ -34,7 +36,10 @@ namespace Microsoft.Practices.ObjectBuilder2
         public virtual IEnumerable<SelectedMethod> SelectMethods(IBuilderContext context, IPolicyList resolverPolicyDestination)
         {
             Type t = context.BuildKey.Type;
-            foreach(MethodInfo method in t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy))
+            var candidateMethods = t.GetMethodsHierarchical()
+                                    .Where(m => m.IsStatic == false && m.IsPublic);
+
+            foreach (MethodInfo method in candidateMethods)
             {
                 if(method.IsDefined(typeof(TMarkerAttribute), false))
                 {

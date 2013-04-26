@@ -309,8 +309,12 @@ namespace Microsoft.Practices.Unity.Configuration
             /// </summary>
             /// <param name="tag">Tag name in the XML.</param>
             /// <param name="elementType">Type the tag maps to.</param>
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+                Justification = "Validation done by Guard class")]
             public override void AddElement(string tag, Type elementType)
             {
+                Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(elementType, "elementType");
+
                 if (typeof(ContainerConfiguringElement).IsAssignableFrom(elementType))
                 {
                     ExtensionElementMap.AddContainerConfiguringElement(prefix, tag, elementType);

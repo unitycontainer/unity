@@ -11,10 +11,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.Unity.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
@@ -32,8 +34,10 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="resolverPolicyDestination">The <see cref='IPolicyList'/> to add any
         /// generated resolver objects into.</param>
         /// <returns>The chosen constructor.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification="Validation done by Guard class")]
         public SelectedConstructor SelectConstructor(IBuilderContext context, IPolicyList resolverPolicyDestination)
         {
+            Guard.ArgumentNotNull(context, "context");
             Type typeToConstruct = context.BuildKey.Type;
             ConstructorInfo ctor = FindInjectionConstructor(typeToConstruct) ?? FindLongestConstructor(typeToConstruct);
             if (ctor != null)
@@ -70,12 +74,13 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private static ConstructorInfo FindInjectionConstructor(Type typeToConstruct)
         {
-            ConstructorInfo[] injectionConstructors = typeToConstruct.GetConstructors()
-                .Where(ctor => ctor.IsDefined(
-                    typeof (TInjectionConstructorMarkerAttribute),
-                    true))
-                .ToArray();
+            ReflectionHelper typeToConstructReflector = new ReflectionHelper(typeToConstruct);
 
+            ConstructorInfo[] injectionConstructors = typeToConstructReflector.InstanceConstructors
+                                                        .Where(ctor => ctor.IsDefined(
+                                                                                typeof(TInjectionConstructorMarkerAttribute),
+                                                                                true))
+                                                        .ToArray();
             switch(injectionConstructors.Length)
             {
                 case 0:
@@ -89,13 +94,15 @@ namespace Microsoft.Practices.ObjectBuilder2
                         string.Format(
                             CultureInfo.CurrentCulture,
                             Resources.MultipleInjectionConstructors,
-                            typeToConstruct.Name));
+                            typeToConstruct.GetTypeInfo().Name));
             }
         }
 
         private static ConstructorInfo FindLongestConstructor(Type typeToConstruct)
         {
-            ConstructorInfo[] constructors = typeToConstruct.GetConstructors();
+            ReflectionHelper typeToConstructReflector = new ReflectionHelper(typeToConstruct);
+
+            ConstructorInfo[] constructors = typeToConstructReflector.InstanceConstructors.ToArray();
             Array.Sort(constructors, new ConstructorLengthComparer());
 
             switch(constructors.Length)
@@ -114,7 +121,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                             string.Format(
                                 CultureInfo.CurrentCulture,
                                 Resources.AmbiguousInjectionConstructor,
-                                typeToConstruct.Name,
+                                typeToConstruct.GetTypeInfo().Name,
                                 paramLength));
                     }
                     return constructors[0];
@@ -133,8 +140,12 @@ namespace Microsoft.Practices.ObjectBuilder2
             ///
             ///<param name="y">The second object to compare.</param>
             ///<param name="x">The first object to compare.</param>
+            [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
             public int Compare(ConstructorInfo x, ConstructorInfo y)
             {
+                Guard.ArgumentNotNull(x, "x");
+                Guard.ArgumentNotNull(y, "y");
+
                 return y.GetParameters().Length - x.GetParameters().Length;
             }
         }

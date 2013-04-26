@@ -33,6 +33,10 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
             IEnumerable<InjectionParameterValue> parameterValues,
             SelectedMemberWithParameters result)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(policies, "policies");
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(parameterValues, "parameterValues");
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(result, "result");
+
             foreach(InjectionParameterValue parameterValue in parameterValues)
             {
                 string key = Guid.NewGuid().ToString();

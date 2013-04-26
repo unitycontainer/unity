@@ -19,7 +19,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// A class that wraps the outputs of a <see cref="IMethodCallMessage"/> into the
     /// <see cref="IParameterCollection"/> interface.
     /// </summary>
-    [SecurityCritical(SecurityCriticalScope.Everything)]
+    [SecurityCritical]
     [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
     class TransparentProxyOutputParameterCollection : ParameterCollection
     {

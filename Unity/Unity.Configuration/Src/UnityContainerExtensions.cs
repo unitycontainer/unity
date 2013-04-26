@@ -28,6 +28,8 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <param name="section">Configuration section with config information.</param>
         /// <param name="containerName">Named container.</param>
         /// <returns><paramref name="container"/>.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public static IUnityContainer LoadConfiguration(this IUnityContainer container,
             UnityConfigurationSection section, string containerName)
         {

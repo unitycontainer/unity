@@ -10,18 +10,13 @@
     <RootNamespace>Microsoft.Practices.Unity.Tests</RootNamespace>
     <AssemblyName>Unity.Tests</AssemblyName>
     <WarningLevel>4</WarningLevel>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
-    <FileUpgradeFlags>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids><FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <PublishUrl>http://localhost/Tests.Unity/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
@@ -36,6 +31,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,22 +40,22 @@
     <OutputPath>.\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
     <Optimize>true</Optimize>
     <OutputPath>.\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Moq, Version=3.1.416.3, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Lib\ThirdParty\Moq\Moq.dll</HintPath>
+    <Reference Include="System">
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -74,12 +70,16 @@
     <None Include="..\..\..\Common\GlobalAssemblyInfo.2010.cs">
       <Link>GlobalAssemblyInfo.2010.cs</Link>
     </None>
+    <Compile Include="AssemblyScanningFixture.cs" />
     <Compile Include="BuildPlanAndChildContainerFixture.cs" />
     <Compile Include="CodeGenBugFixture.cs" />
     <Compile Include="CodeplexIssuesFixture.cs" />
     <Compile Include="ConstructorWithOutParametersFixture.cs" />
     <Compile Include="ContainerControlledLifetimeThreadingFixture.cs" />
     <Compile Include="ContainerRegistrationsFixture.cs" />
+    <Compile Include="AssemblyScanningFixture.Desktop.cs" />
+    <Compile Include="RegistrationByConventionFixture.cs" />
+    <Compile Include="LazyResolveFixture.cs" />
     <Compile Include="OptionalGenericParameterFixture.cs" />
     <Compile Include="DeferredResolveFixture.cs" />
     <Compile Include="DependencyArrayAttributeFixture.cs" />
@@ -95,6 +95,8 @@
     <Compile Include="DisposableExtensionFixture.cs" />
     <Compile Include="InjectingArraysFixture.cs" />
     <Compile Include="MethodInjectionFixture.cs" />
+    <Compile Include="ExceptionSerializationFixture.Desktop.cs" />
+    <Compile Include="RegistrationByConventionHelpersFixture.cs" />
     <Compile Include="TestDoubles\MockContainerExtensionWithNonDefaultConstructor.cs" />
     <Compile Include="OptionalDependencyAPIConfigurationFixture.cs" />
     <Compile Include="OptionalDependencyAttributeFixture.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="TestObjects\ObjectWithInjectionConstructor.cs" />
     <Compile Include="TestObjects\ObjectWithLotsOfDependencies.cs" />
     <Compile Include="TestObjects\ObjectWithOneDependency.cs" />
+    <Compile Include="TestObjects\ObjectWithStaticAndInstanceProperties.cs" />
     <Compile Include="TestObjects\ObjectWithTwoConstructorDependencies.cs" />
     <Compile Include="UnityContainerFixture.cs" />
     <Compile Include="UnityContainerFixture.Desktop.cs" />
@@ -128,8 +131,21 @@
       <Project>{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}</Project>
       <Name>Unity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestAssemblies\MissingAssembly\MissingAssembly.csproj">
+      <Project>{d5986f12-55bb-47fc-8a96-e8e8bbf1278f}</Project>
+      <Name>MissingAssembly</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\TestAssemblies\NotReferencedTestNetAssembly\NotReferencedTestNetAssembly.csproj">
+      <Project>{9eb77c40-393c-497b-996b-8745a122f369}</Project>
+      <Name>NotReferencedTestNetAssembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestAssemblies\TestNetAssembly\TestNetAssembly.csproj">
+      <Project>{f877edf4-dc1f-4700-939d-8f425554c971}</Project>
+      <Name>TestNetAssembly</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestSupport.Unity\Unity.TestSupport.csproj">
-      <Project>{E979857E-CDE5-4D36-9AE8-8FFF4F75AE89}</Project>
+      <Project>{e979857e-cde5-4d36-9ae8-8fff4f75ae89}</Project>
       <Name>Unity.TestSupport</Name>
     </ProjectReference>
   </ItemGroup>
@@ -163,5 +179,14 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="NotADll.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if exist "$(OutDir)MissingAssembly.dll" del "$(OutDir)MissingAssembly.dll"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

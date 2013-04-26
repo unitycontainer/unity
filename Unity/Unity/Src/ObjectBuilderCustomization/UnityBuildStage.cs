@@ -10,6 +10,7 @@
 //===============================================================================
 
 
+using System.Diagnostics.CodeAnalysis;
 namespace Microsoft.Practices.Unity.ObjectBuilder
 {
     /// <summary>
@@ -38,6 +39,8 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         /// Fourth stage. Reflection over constructors, properties, etc. is
         /// performed here.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "PreCreation",
+            Justification = "Kept for backward compatibility with ObjectBuilder")]
         PreCreation,
 
         /// <summary>

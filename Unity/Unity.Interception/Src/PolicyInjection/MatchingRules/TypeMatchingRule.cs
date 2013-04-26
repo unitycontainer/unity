@@ -103,8 +103,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="t">Type to check.</param>
         /// <returns>True if it matches, false if it doesn't.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public bool Matches(Type t)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(t, "t");
+
             foreach (MatchingInfo match in matches)
             {
                 if (string.Compare(t.FullName, match.Match, Comparison(match.IgnoreCase)) == 0)

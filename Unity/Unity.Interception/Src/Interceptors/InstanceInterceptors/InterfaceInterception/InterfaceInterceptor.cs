@@ -99,6 +99,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="target">Object to create the proxy for.</param>
         /// <param name="additionalInterfaces">Additional interfaces the proxy must implement.</param>
         /// <returns>The proxy object.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public IInterceptingProxy CreateProxy(Type t, object target, params Type[] additionalInterfaces)
         {
             Guard.ArgumentNotNull(t, "t");

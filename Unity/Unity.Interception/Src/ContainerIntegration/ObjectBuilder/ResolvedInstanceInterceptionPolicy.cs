@@ -38,6 +38,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// Interceptor to use.
         /// </summary>
         /// <param name="context">Context for current build operation.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public IInstanceInterceptor GetInterceptor(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");

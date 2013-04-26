@@ -54,7 +54,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="strategyEnumerable">The strategies to add to the chain.</param>
         // FxCop suppression: validation is done by Guard class.
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
         public void AddRange(IEnumerable strategyEnumerable)
 		{
             Guard.ArgumentNotNull(strategyEnumerable, "strategyEnumerable");
@@ -81,6 +80,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <returns>The build up object</returns>
         public object ExecuteBuildUp(IBuilderContext context)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(context, "context");
+
             int i = 0;
             try
             {
@@ -118,6 +119,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="context">Context for the teardown process.</param>
         public void ExecuteTearDown(IBuilderContext context)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(context, "context");
+
             int i = 0;
 
             try

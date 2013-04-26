@@ -48,8 +48,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="member">Member to match.</param>
         /// <returns>true if member matches, false if it doesn't.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public bool Matches(MethodBase member)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(member, "member");
+
             ParameterInfo[] parametersInfo = member.GetParameters();
 
             foreach (ParameterTypeMatchingInfo matchInfo in matches)

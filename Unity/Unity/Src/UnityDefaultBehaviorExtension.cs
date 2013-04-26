@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System;
+using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Properties;
 
@@ -46,7 +47,7 @@ namespace Microsoft.Practices.Unity
             Context.RegisterNamedType(e.TypeFrom ?? e.TypeTo, e.Name);
             if (e.TypeFrom != null)
             {
-                if (e.TypeFrom.IsGenericTypeDefinition && e.TypeTo.IsGenericTypeDefinition)
+                if (e.TypeFrom.GetTypeInfo().IsGenericTypeDefinition && e.TypeTo.GetTypeInfo().IsGenericTypeDefinition)
                 {
                     Context.Policies.Set<IBuildKeyMappingPolicy>(
                         new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(e.TypeTo, e.Name)),
@@ -80,7 +81,7 @@ namespace Microsoft.Practices.Unity
             {
                 throw new InvalidOperationException(Resources.LifetimeManagerInUse);
             }
-            if (lifetimeType.IsGenericTypeDefinition)
+            if (lifetimeType.GetTypeInfo().IsGenericTypeDefinition)
             {
                 LifetimeManagerFactory factory =
                     new LifetimeManagerFactory(Context, lifetimeManager.GetType());

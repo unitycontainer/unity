@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System;
+using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Utility;
@@ -84,13 +85,13 @@ namespace Microsoft.Practices.Unity
         private IDependencyResolverPolicy CreateGenericResolverPolicy(Type typeToBuild, ReflectionHelper parameterReflector)
         {
             return new NamedTypeDependencyResolverPolicy(
-                parameterReflector.GetClosedParameterType(typeToBuild.GetGenericArguments()), 
+                parameterReflector.GetClosedParameterType(typeToBuild.GenericTypeArguments), 
                 name);
         }
 
         private IDependencyResolverPolicy CreateGenericArrayResolverPolicy(Type typeToBuild, ReflectionHelper parameterReflector)
         {
-            Type arrayType = parameterReflector.GetClosedParameterType(typeToBuild.GetGenericArguments());
+            Type arrayType = parameterReflector.GetClosedParameterType(typeToBuild.GenericTypeArguments);
             return new NamedTypeDependencyResolverPolicy(arrayType, name);
 
         }

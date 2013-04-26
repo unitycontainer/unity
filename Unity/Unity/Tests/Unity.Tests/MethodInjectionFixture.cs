@@ -10,7 +10,12 @@
 //===============================================================================
 
 using System;
+using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -65,13 +70,14 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ContainerThrowsWhenConfiguringStaticMethodForInjection()
         {
-            IUnityContainer container = new UnityContainer()
-                .RegisterType<GuineaPig>(
-                       new InjectionMethod("ShouldntBeCalled"));
-            Assert.Fail("Should not get here");
+            AssertExtensions.AssertException<InvalidOperationException>(() =>
+                {
+                    IUnityContainer container = new UnityContainer()
+                        .RegisterType<GuineaPig>(
+                               new InjectionMethod("ShouldntBeCalled"));
+                });
         }
 
         public class GuineaPig

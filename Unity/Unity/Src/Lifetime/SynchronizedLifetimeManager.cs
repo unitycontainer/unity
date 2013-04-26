@@ -9,7 +9,6 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using System;
 using System.Threading;
 using Microsoft.Practices.ObjectBuilder2;
 
@@ -104,13 +103,17 @@ namespace Microsoft.Practices.Unity
 
         private void TryExit()
         {
-            try
+            // Prevent first chance exception when abandoning a lock that has not been entered
+            if (Monitor.IsEntered(lockObj))
             {
-                Monitor.Exit(lockObj);
-            }
-            catch (SynchronizationLockException)
-            {
-                // Noop here - we don't hold the lock and that's ok.
+                try
+                {
+                    Monitor.Exit(lockObj);
+                }
+                catch (SynchronizationLockException)
+                {
+                    // Noop here - we don't hold the lock and that's ok.
+                }
             }
         }
     }

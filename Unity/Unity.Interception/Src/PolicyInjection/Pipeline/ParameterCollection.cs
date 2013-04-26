@@ -62,8 +62,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="isArgumentPartOfCollection">A <see cref="Predicate{ParameterInfo}"/> that indicates
         /// whether a particular parameter is part of the collection. Used to filter out only input
         /// parameters, for example.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public ParameterCollection(object[] arguments, ParameterInfo[] argumentInfo, Predicate<ParameterInfo> isArgumentPartOfCollection)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(arguments, "arguments");
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(isArgumentPartOfCollection, "isArgumentPartOfCollection");
+
             this.arguments = arguments;
             this.argumentInfo = new List<ArgumentInfo>();
             for (int argumentNumber = 0; argumentNumber < argumentInfo.Length; ++argumentNumber)

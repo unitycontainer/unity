@@ -89,6 +89,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <exception cref="ArgumentNullException">when <paramref name="additionalInterfaces"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
         /// <paramref name="interceptedType"/>.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public static object ThroughProxyWithAdditionalInterfaces(
             Type interceptedType,
             object target,
@@ -233,6 +235,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <exception cref="ArgumentNullException">when <paramref name="additionalInterfaces"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
         /// <paramref name="type"/>.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public static object NewInstanceWithAdditionalInterfaces(
             Type type,
             ITypeInterceptor interceptor,

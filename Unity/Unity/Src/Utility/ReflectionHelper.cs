@@ -12,6 +12,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Microsoft.Practices.Unity.Utility
 {
@@ -47,7 +49,7 @@ namespace Microsoft.Practices.Unity.Utility
         /// </summary>
         public bool IsGenericType
         {
-            get { return t.IsGenericType; }
+            get { return t.GetTypeInfo().IsGenericType; }
         }
 
         /// <summary>
@@ -55,7 +57,7 @@ namespace Microsoft.Practices.Unity.Utility
         /// </summary>
         public bool IsOpenGeneric
         {
-            get { return t.IsGenericType && t.ContainsGenericParameters; }
+            get { return t.GetTypeInfo().IsGenericType && t.GetTypeInfo().ContainsGenericParameters; }
         }
 
         /// <summary>
@@ -71,7 +73,7 @@ namespace Microsoft.Practices.Unity.Utility
         /// </summary>
         public bool IsGenericArray
         {
-            get { return IsArray && ArrayElementType.IsGenericParameter; }
+            get { return IsArray && ArrayElementType.GetTypeInfo().IsGenericParameter; }
         }
 
         /// <summary>
@@ -119,20 +121,25 @@ namespace Microsoft.Practices.Unity.Utility
         {
             Guard.ArgumentNotNull(genericArguments, "genericArguments");
 
+            // Prior version of the framework returned both generic type arguments and parameters
+            // through one mechanism, now they are broken out.  May want to consider different reflection
+            // helpers instead of this case statement.
+
             if (IsOpenGeneric)
             {
-                Type[] typeArgs = Type.GetGenericArguments();
+                var typeInfo = Type.GetTypeInfo();
+                Type[] typeArgs = typeInfo.IsGenericTypeDefinition ? typeInfo.GenericTypeParameters : typeInfo.GenericTypeArguments;
                 for (int i = 0; i < typeArgs.Length; ++i)
                 {
                     typeArgs[i] = genericArguments[typeArgs[i].GenericParameterPosition];
                 }
                 return Type.GetGenericTypeDefinition().MakeGenericType(typeArgs);
             }
-            if (Type.IsGenericParameter)
+            if (Type.GetTypeInfo().IsGenericParameter)
             {
                 return genericArguments[Type.GenericParameterPosition];
             }
-            if (IsArray && ArrayElementType.IsGenericParameter)
+            if (IsArray && ArrayElementType.GetTypeInfo().IsGenericParameter)
             {
                 int rank;
                 if ((rank = Type.GetArrayRank()) == 1)
@@ -159,13 +166,13 @@ namespace Microsoft.Practices.Unity.Utility
         /// is no matching name.</returns>
         public Type GetNamedGenericParameter(string parameterName)
         {
-            Type openType = Type.GetGenericTypeDefinition();
+            TypeInfo openType = Type.GetGenericTypeDefinition().GetTypeInfo();
             Type result = null;
             int index = -1;
 
-            foreach (Type genericArgumentType in openType.GetGenericArguments())
+            foreach (Type genericArgumentType in openType.GenericTypeParameters)
             {
-                if (genericArgumentType.Name == parameterName)
+                if (genericArgumentType.GetTypeInfo().Name == parameterName)
                 {
                     index = genericArgumentType.GenericParameterPosition;
                     break;
@@ -173,9 +180,24 @@ namespace Microsoft.Practices.Unity.Utility
             }
             if (index != -1)
             {
-                result = Type.GetGenericArguments()[index];
+                result = Type.GenericTypeArguments[index];
             }
             return result;
+        }
+
+        /// <summary>
+        /// Returns all the public constructors defined for the current reflected <see cref="Type"/>.
+        /// </summary>
+        /// <value>
+        /// An enumeration of <see cref="ConstructorInfo"/> ConstructorInfo objects representing all the public instance constructors defined for the 
+        /// current reflected <see cref="Type"/>, but not including the type initializer (static constructor).
+        /// </value>
+        public IEnumerable<ConstructorInfo> InstanceConstructors
+        {
+            get
+            {
+                return Type.GetTypeInfo().DeclaredConstructors.Where(c => c.IsStatic == false && c.IsPublic);
+            }
         }
     }
 }

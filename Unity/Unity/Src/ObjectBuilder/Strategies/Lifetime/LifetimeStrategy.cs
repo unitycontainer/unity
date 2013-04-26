@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System;
+using System.Reflection;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Utility;
@@ -73,7 +74,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         private static ILifetimePolicy GetLifetimePolicy(IBuilderContext context)
         {
             ILifetimePolicy policy = context.Policies.GetNoDefault<ILifetimePolicy>(context.BuildKey, false);
-            if(policy == null && context.BuildKey.Type.IsGenericType)
+            if (policy == null && context.BuildKey.Type.GetTypeInfo().IsGenericType)
             {
                 policy = GetLifetimePolicyForGenericType(context);
             }

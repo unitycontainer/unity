@@ -9,17 +9,12 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.Practices.Unity.InterceptionExtension</RootNamespace>
-    <AssemblyName>Microsoft.Practices.Unity.Interception</AssemblyName>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
-    <FileUpgradeFlags>
+    <AssemblyName>Microsoft.Practices.Unity.Interception</AssemblyName><FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -35,13 +30,17 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\bin\Desktop\Debug</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;CODE_ANALYSIS;CODE_ANALYSIS;CODE_ANALYSIS;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\bin\Desktop\Debug\Microsoft.Practices.Unity.Interception.xml</DocumentationFile>
@@ -49,7 +48,8 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRules>
     </CodeAnalysisRules>
-    <CodeAnalysisRuleSet>Migrated rules for Unity.Interception.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\Unity.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -64,11 +64,11 @@
     <CodeAnalysisRules>
     </CodeAnalysisRules>
     <CodeAnalysisRuleSet>Migrated rules for Unity.Interception (2).ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Lib\Desktop\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -185,8 +185,8 @@
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\VirtualMethodInvocation.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\InterceptingClassGeneration\VirtualMethodInvocationMethods.cs" />
     <Compile Include="Interceptors\TypeInterceptors\VirtualMethodInterception\VirtualMethodReturn.cs" />
-    <None Include="Migrated rules for Unity.Interception %282%29.ruleset" />
     <None Include="Migrated rules for Unity.Interception.ruleset" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Unity\Src\Unity.csproj">
@@ -219,6 +219,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -9,17 +9,12 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.Practices.Unity.TestSupport</RootNamespace>
-    <AssemblyName>Unity.TestSupport</AssemblyName>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
-    <FileUpgradeFlags>
+    <AssemblyName>Unity.TestSupport</AssemblyName><FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -45,7 +40,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -54,10 +50,13 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -67,12 +66,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WrappableObjects.cs" />
     <Compile Include="WrappableObjects.Desktop.cs" />
     <None Include="..\..\..\Common\GlobalAssemblyInfo.2010.cs">
       <Link>GlobalAssemblyInfo.2010.cs</Link>
     </None>
     <Compile Include="AdditionalInterfaceBehavior.cs" />
     <Compile Include="AlwaysMatchingRule.cs" />
+    <Compile Include="AssertExtensions.cs" />
     <Compile Include="Barrier.cs" />
     <Compile Include="CallCountHandler.cs" />
     <Compile Include="CallCountInterceptionBehavior.cs" />
@@ -80,10 +81,10 @@
     <Compile Include="Configuration\ConfigSerializer.cs" />
     <Compile Include="Configuration\ContainerConfiguringFixture.cs" />
     <Compile Include="Configuration\SectionLoadingFixture.cs" />
-    <Compile Include="EnumerableAssertionExtensions.cs" />
-    <Compile Include="GlobalCountInterceptionBehavior.cs" />
     <Compile Include="DelegateInterceptionBehavior.cs" />
+    <Compile Include="EnumerableAssertionExtensions.cs" />
     <Compile Include="GlobalCountCallHandler.cs" />
+    <Compile Include="GlobalCountInterceptionBehavior.cs" />
     <Compile Include="IAdditionalInterface.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="MockBuilderContext.cs" />
@@ -102,7 +103,7 @@
     <Compile Include="RegistrationsToAssertOn.cs" />
     <Compile Include="SessionLifetimeManager.cs" />
     <Compile Include="SpecialLogger.cs" />
-    <Compile Include="WrappableObjects.cs" />
+    <Compile Include="TypeReflectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Unity.Configuration\Src\Unity.Configuration.csproj">
@@ -110,7 +111,7 @@
       <Name>Unity.Configuration</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Unity.Interception\Src\Unity.Interception.csproj">
-      <Project>{F8186B23-B0E1-4646-B5F3-14357841E2BA}</Project>
+      <Project>{f8186b23-b0e1-4646-b5f3-14357841e2ba}</Project>
       <Name>Unity.Interception</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Src\Unity.csproj">

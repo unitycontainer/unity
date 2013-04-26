@@ -10,6 +10,7 @@
 //===============================================================================
 
 using System;
+using System.Reflection;
 using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity
@@ -47,7 +48,7 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         public override string ParameterTypeName
         {
-            get { return parameterReflector.Type.Name; }
+            get { return parameterReflector.Type.GetTypeInfo().Name; }
         }
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace Microsoft.Practices.Unity
                        parameterReflector.Type.GetGenericTypeDefinition();
             }
 
-            return t.IsAssignableFrom(parameterReflector.Type);
+            return t.GetTypeInfo().IsAssignableFrom(parameterReflector.Type.GetTypeInfo());
         }
     }
 }

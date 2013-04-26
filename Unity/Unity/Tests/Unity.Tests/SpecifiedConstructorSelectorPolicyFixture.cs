@@ -11,10 +11,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
+using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -27,7 +33,7 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void SelectConstructorWithNoParameters()
         {
-            ConstructorInfo ctor = typeof(ClassWithSimpleConstructor).GetConstructor(new Type[0]);
+            ConstructorInfo ctor = typeof(ClassWithSimpleConstructor).GetMatchingConstructor(new Type[0]);
 
             var policy = new SpecifiedConstructorSelectorPolicy(ctor, new InjectionParameterValue[0]);
             var builderContext = new BuilderContextMock(new NamedTypeBuildKey(typeof(ClassWithSimpleConstructor)));
@@ -42,7 +48,7 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void SelectConstructorWith2Parameters()
         {
-            ConstructorInfo ctor = typeof(ClassWithConstructorParameters).GetConstructor(Types(typeof(int), typeof(string)));
+            ConstructorInfo ctor = typeof(ClassWithConstructorParameters).GetMatchingConstructor(Types(typeof(int), typeof(string)));
 
             var policy = new SpecifiedConstructorSelectorPolicy(ctor,
                 new InjectionParameterValue[]
@@ -69,7 +75,7 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void CanSelectConcreteConstructorGivenGenericConstructor()
         {
-            ConstructorInfo ctor = typeof(LoggingCommand<>).GetConstructors()[0];
+            ConstructorInfo ctor = typeof(LoggingCommand<>).GetTypeInfo().DeclaredConstructors.ElementAt(0);
             var policy = new SpecifiedConstructorSelectorPolicy(
                 ctor,
                 new InjectionParameterValue[]
@@ -84,7 +90,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             SelectedConstructor result = policy.SelectConstructor(ctx, new PolicyList());
 
-            ConstructorInfo expectedCtor = typeof(LoggingCommand<User>).GetConstructor(Types(typeof(ICommand<User>)));
+            ConstructorInfo expectedCtor = typeof(LoggingCommand<User>).GetMatchingConstructor(Types(typeof(ICommand<User>)));
             Assert.AreSame(expectedCtor, result.Constructor);
         }
 

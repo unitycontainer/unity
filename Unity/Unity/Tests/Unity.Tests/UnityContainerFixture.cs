@@ -15,7 +15,11 @@ using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Tests.TestObjects;
 using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -97,6 +101,17 @@ namespace Microsoft.Practices.Unity.Tests
             IUnityContainer container = new UnityContainer();
 
             ObjectWithIndexer obj = container.Resolve<ObjectWithIndexer>();
+
+            obj.Validate();
+        }
+
+        [TestMethod]
+        public void ShouldSkipStaticProperties()
+        {
+            IUnityContainer container = new UnityContainer();
+            container.RegisterInstance<object>(this);
+
+            var obj = container.Resolve<ObjectWithStaticAndInstanceProperties>();
 
             obj.Validate();
         }
@@ -500,11 +515,14 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ResolutionFailedException))]
         public void ShouldThrowIfAttemptsToResolveUnregisteredInterface()
         {
             IUnityContainer container = new UnityContainer();
-            container.Resolve<ILogger>();
+
+            AssertExtensions.AssertException<ResolutionFailedException>(() =>
+                {
+                    container.Resolve<ILogger>();
+                });
         }
 
         [TestMethod]
@@ -532,23 +550,27 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void GetReasonableExceptionWhenRegisteringNullInstance()
         {
             IUnityContainer container = new UnityContainer();
-            container.RegisterInstance<SomeType>(null);
+            AssertExtensions.AssertException<ArgumentNullException>(() =>
+                {
+                    container.RegisterInstance<SomeType>(null);
+                });
 
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void RegisteringTheSameLifetimeManagerTwiceThrows()
         {
             LifetimeManager singleton = new ContainerControlledLifetimeManager();
 
-            new UnityContainer()
-                .RegisterType<ILogger, MockLogger>(singleton)
-                .RegisterType<ILogger, SpecialLogger>("special", singleton);
+            AssertExtensions.AssertException<InvalidOperationException>(() =>
+                {
+                    new UnityContainer()
+                        .RegisterType<ILogger, MockLogger>(singleton)
+                        .RegisterType<ILogger, SpecialLogger>("special", singleton);
+                });
         }
 
         [TestMethod]
@@ -633,37 +655,26 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ResolutionFailedException))]
         public void ResolvingOpenGenericGivesInnerInvalidOperationException()
         {
             IUnityContainer container = new UnityContainer()
-                .RegisterType(typeof (List<>), new InjectionConstructor(10));
-            try
-            {
-                container.Resolve(typeof (List<>));
-            }
-            catch (ResolutionFailedException e)
-            {
-                Assert.IsInstanceOfType(e.InnerException, typeof(ArgumentException));
-                throw;
-            }
-            
+                .RegisterType(typeof(List<>), new InjectionConstructor(10));
+
+            AssertExtensions.AssertException<ResolutionFailedException>(
+                () => { container.Resolve(typeof(List<>)); },
+                (e) => { Assert.IsInstanceOfType(e.InnerException, typeof(ArgumentException)); }
+            );
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ResolutionFailedException))]
         public void ResovingObjectWithPrivateSetterGivesUsefulException()
         {
             IUnityContainer container = new UnityContainer();
-            try
-            {
-                container.Resolve<ObjectWithPrivateSetter>();
-            }
-            catch (ResolutionFailedException e)
-            {
-                Assert.IsInstanceOfType(e.InnerException, typeof (InvalidOperationException));
-                throw;
-            }
+
+            AssertExtensions.AssertException<ResolutionFailedException>(
+                () => { container.Resolve<ObjectWithPrivateSetter>(); },
+                (e) => { Assert.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException)); }
+            );
         }
 
         [TestMethod]
@@ -731,7 +742,7 @@ namespace Microsoft.Practices.Unity.Tests
         {
             public TypeWithPrimitiveDependency(T dependency)
             {
-                
+
             }
         }
     }

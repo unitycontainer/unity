@@ -11,7 +11,11 @@
 
 using System;
 using System.Collections.Generic;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 using Microsoft.Practices.Unity.TestSupport;
 
 namespace Microsoft.Practices.Unity.Tests
@@ -107,15 +111,17 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void CreatingResolvedArrayParameterWithValuesOfNonCompatibleType()
         {
             ILogger logger2 = new SpecialLogger();
 
-            new ResolvedArrayParameter<ILogger>(
-                new ResolvedParameter<ILogger>("log1"),
-                typeof(int),
-                logger2);
+            AssertExtensions.AssertException<InvalidOperationException>(() =>
+                {
+                    new ResolvedArrayParameter<ILogger>(
+                        new ResolvedParameter<ILogger>("log1"),
+                        typeof(int),
+                        logger2);
+                });
         }
 
         [TestMethod]

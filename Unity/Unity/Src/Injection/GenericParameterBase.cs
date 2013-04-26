@@ -12,6 +12,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Properties;
 using Microsoft.Practices.Unity.Utility;
@@ -81,9 +82,9 @@ namespace Microsoft.Practices.Unity
             Guard.ArgumentNotNull(t, "t");
             if (!isArray)
             {
-                return t.IsGenericParameter && t.Name == genericParameterName;
+                return t.GetTypeInfo().IsGenericParameter && t.GetTypeInfo().Name == genericParameterName;
             }
-            return t.IsArray && t.GetElementType().IsGenericParameter && t.GetElementType().Name == genericParameterName;
+            return t.IsArray && t.GetElementType().GetTypeInfo().IsGenericParameter && t.GetElementType().GetTypeInfo().Name == genericParameterName;
         }
 
         /// <summary>
@@ -119,22 +120,22 @@ namespace Microsoft.Practices.Unity
 
         private void GuardTypeToBuildIsGeneric(Type typeToBuild)
         {
-            if (!typeToBuild.IsGenericType)
+            if (!typeToBuild.GetTypeInfo().IsGenericType)
             {
                 throw new InvalidOperationException(
                     string.Format(
                         CultureInfo.CurrentCulture,
                         Resources.NotAGenericType,
-                        typeToBuild.Name,
+                        typeToBuild.GetTypeInfo().Name,
                         genericParameterName));
             }
         }
 
         private void GuardTypeToBuildHasMatchingGenericParameter(Type typeToBuild)
         {
-            foreach (Type genericParam in typeToBuild.GetGenericTypeDefinition().GetGenericArguments())
+            foreach (Type genericParam in typeToBuild.GetGenericTypeDefinition().GetTypeInfo().GenericTypeParameters)
             {
-                if (genericParam.Name == genericParameterName)
+                if (genericParam.GetTypeInfo().Name == genericParameterName)
                 {
                     return;
                 }
@@ -144,7 +145,7 @@ namespace Microsoft.Practices.Unity
                 string.Format(
                     CultureInfo.CurrentCulture,
                     Resources.NoMatchingGenericArgument,
-                    typeToBuild.Name,
+                    typeToBuild.GetTypeInfo().Name,
                     genericParameterName));
         }
     }

@@ -60,7 +60,9 @@ namespace Microsoft.Practices.Unity
         private ConstructorInfo FindConstructor(Type typeToCreate)
         {
             var matcher = new ParameterMatcher(parameterValues);
-            foreach(ConstructorInfo ctor in typeToCreate.GetConstructors())
+            var typeToCreateReflector = new ReflectionHelper(typeToCreate);
+
+            foreach (ConstructorInfo ctor in typeToCreateReflector.InstanceConstructors)
             {
                 if(matcher.Matches(ctor.GetParameters()))
                 {

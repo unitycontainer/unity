@@ -34,6 +34,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <remarks>In this class, PreBuildUp is responsible for figuring out if the
         /// class is proxiable, and if so, replacing it with a proxy class.</remarks>
         /// <param name="context">Context of the build operation.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public override void PreBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
@@ -90,9 +92,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// PostBuildUp method is called when the chain has finished the PreBuildUp
         /// phase and executes in reverse order from the PreBuildUp calls.
         /// </summary>
-        /// <remarks>In this class, PostBuildUp checks to see if the object was proxiable,
+        /// <remarks>In this class, PostBuildUp checks to see if the object was proxyable,
         /// and if it was, wires up the handlers.</remarks>
         /// <param name="context">Context of the build operation.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public override void PostBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");

@@ -12,7 +12,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 using Microsoft.Practices.Unity.TestSupport;
 
 namespace Microsoft.Practices.Unity.Tests
@@ -95,13 +101,15 @@ namespace Microsoft.Practices.Unity.Tests
 
         // http://unity.codeplex.com/WorkItem/View.aspx?WorkItemId=6431
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void AccessViolationExceptionOnx64()
         {
             var container1 = new UnityContainer();
             container1.RegisterType<InnerX64Class>();
             // SomeProperty is static, this should throw here
-            container1.RegisterType<OuterX64Class>(new InjectionProperty("SomeProperty"));
+            AssertExtensions.AssertException<InvalidOperationException>(() =>
+            {
+                container1.RegisterType<OuterX64Class>(new InjectionProperty("SomeProperty"));
+            });
         }
 
         // http://unity.codeplex.com/WorkItem/View.aspx?WorkItemId=6491
@@ -149,14 +157,14 @@ namespace Microsoft.Practices.Unity.Tests
         public void ResolveAllResolvesOpenGeneric()
         {
             IUnityContainer container = new UnityContainer()
-                .RegisterType(typeof (ISomeInterface<>), typeof (MyTypeImplementingSomeInterface<>), "open")
+                .RegisterType(typeof(ISomeInterface<>), typeof(MyTypeImplementingSomeInterface<>), "open")
                 .RegisterType<ISomeInterface<string>, MyTypeImplementingSomeInterfaceOfString>("string");
 
             var results = container.ResolveAll<ISomeInterface<string>>().ToList();
 
             Assert.AreEqual(2, results.Count());
             results.Select(o => o.GetType())
-                .AssertContainsInAnyOrder(typeof (MyTypeImplementingSomeInterface<string>), typeof (MyTypeImplementingSomeInterfaceOfString));
+                .AssertContainsInAnyOrder(typeof(MyTypeImplementingSomeInterface<string>), typeof(MyTypeImplementingSomeInterfaceOfString));
         }
 
         // http://unity.codeplex.com/WorkItem/View.aspx?WorkItemId=6999
@@ -164,7 +172,7 @@ namespace Microsoft.Practices.Unity.Tests
         public void ContainerControlledOpenGenericInParentResolvesProperlyInChild()
         {
             IUnityContainer parentContainer = new UnityContainer()
-                .RegisterType(typeof (ISomeInterface<>), typeof (MyTypeImplementingSomeInterface<>), new ContainerControlledLifetimeManager());
+                .RegisterType(typeof(ISomeInterface<>), typeof(MyTypeImplementingSomeInterface<>), new ContainerControlledLifetimeManager());
 
             var childOneObject = parentContainer.CreateChildContainer().Resolve<ISomeInterface<string>>();
             var childTwoObject = parentContainer.CreateChildContainer().Resolve<ISomeInterface<string>>();
@@ -172,8 +180,50 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.AreSame(childOneObject, childTwoObject);
         }
 
+#if !SILVERLIGHT
+        // http://unity.codeplex.com/discussions/328841
+        [TestMethod]
+        public void MultipleResolvesAtTheSameTimeCauseConcurrencyException()
+        {
+            var container = new UnityContainer();
+            container.RegisterInstance<string>("a value");
+
+            const int threads = 40;
+            var barrier = new System.Threading.Barrier(threads);
+            var countdown = new CountdownEvent(threads);
+            var random = new Random();
+            var errors = false;
+
+            for (int i = 0; i < threads; i++)
+            {
+                Task.Factory.StartNew(
+                    wait =>
+                    {
+                        barrier.SignalAndWait();
+
+                        Task.Delay((int)wait).Wait();
+                        try
+                        {
+                            container.Resolve<ClassWithMultipleConstructorParameters>();
+                        }
+                        catch
+                        {
+                            errors = true;
+                        }
+
+                        countdown.Signal();
+                    },
+                    random.Next(0, 3),
+                    TaskCreationOptions.LongRunning);
+            }
+
+            countdown.Wait();
+            Assert.IsFalse(errors);
+        }
+#endif
+
         public interface IBasicInterface
-        { 
+        {
         }
 
         public class ClassWithDoubleConstructor : IBasicInterface
@@ -194,27 +244,27 @@ namespace Microsoft.Practices.Unity.Tests
 
         public interface ISomeInterface<T>
         {
-            
+
         }
 
         public class MyTypeImplementingSomeInterface<T> : ISomeInterface<T>
         {
-            
+
         }
 
         public class MyTypeImplementingSomeInterfaceOfString : ISomeInterface<string>
         {
-            
+
         }
 
         public class MockBasic : IBasicInterface
         {
-            
+
         }
 
         public class InnerX64Class
         {
-            
+
         }
 
         public class OuterX64Class
@@ -231,6 +281,14 @@ namespace Microsoft.Practices.Unity.Tests
             public MyClass(string name)
             {
                 Name = name;
+            }
+        }
+
+        public class ClassWithMultipleConstructorParameters
+        {
+            public ClassWithMultipleConstructorParameters(string parameterA, string parameterB, string parameterC, string parameterD)
+            {
+
             }
         }
     }

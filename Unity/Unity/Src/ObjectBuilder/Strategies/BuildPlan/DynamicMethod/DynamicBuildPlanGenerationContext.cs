@@ -10,201 +10,173 @@
 //===============================================================================
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
-using System.Reflection.Emit;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
-    /// This object tracks the current state of the build plan generation,
-    /// accumulates the IL, provides the preamble &amp; postamble for the dynamic
-    /// method, and tracks things like local variables in the generated IL
-    /// so that they can be reused across IL generation strategies.
+    /// 
     /// </summary>
     public class DynamicBuildPlanGenerationContext
     {
-        private readonly Type typeToBuild;
-        private readonly DynamicMethod buildMethod;
-        private readonly ILGenerator il;
-        private LocalBuilder existingObjectLocal;
-
-        private static readonly MethodInfo GetTypeFromHandle =
-            StaticReflection.GetMethodInfo(() => Type.GetTypeFromHandle(typeof (Type).TypeHandle));
-
-        private static readonly MethodInfo GetBuildKey =
-            StaticReflection.GetPropertyGetMethodInfo((IBuilderContext ctx) => ctx.BuildKey);
-
-        private static readonly MethodInfo GetExisting =
-            StaticReflection.GetPropertyGetMethodInfo((IBuilderContext ctx) => ctx.Existing);
-
-        private static readonly MethodInfo SetExisting =
-            StaticReflection.GetPropertySetMethodInfo((IBuilderContext ctx) => ctx.Existing);
+        private Type typeToBuild;
+        private ParameterExpression contextParameter;
+        private Queue<Expression> buildPlanExpressions;
 
         private static readonly MethodInfo ResolveDependency =
-            StaticReflection.GetMethodInfo((IDependencyResolverPolicy r) => r.Resolve(null));
+         StaticReflection.GetMethodInfo((IDependencyResolverPolicy r) => r.Resolve(null));
 
         private static readonly MethodInfo GetResolverMethod =
             StaticReflection.GetMethodInfo(() => GetResolver(null, null, null));
 
-        private static readonly MethodInfo ClearCurrentOperation =
-            StaticReflection.GetMethodInfo(() => DoClearCurrentOperation(null));
+        private static readonly MemberInfo getBuildContextExistingObjectProperty =
+            StaticReflection.GetMemberInfo((IBuilderContext c) => c.Existing);
 
         /// <summary>
-        /// Create a <see cref="DynamicBuildPlanGenerationContext"/> that is initialized
-        /// to handle creation of a dynamic method to build the given type.
+        /// 
         /// </summary>
-        /// <param name="typeToBuild">Type that we're trying to create a build plan for.</param>
-        /// <param name="builderMethodCreator">An <see cref="IDynamicBuilderMethodCreatorPolicy"/> object that actually
-        /// creates our <see cref="DynamicMethod"/> object.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done via guard class")]
-        public DynamicBuildPlanGenerationContext(Type typeToBuild, IDynamicBuilderMethodCreatorPolicy builderMethodCreator)
+        /// <param name="typeToBuild"></param>
+        public DynamicBuildPlanGenerationContext(Type typeToBuild)
         {
-            Guard.ArgumentNotNull(typeToBuild, "typeToBuild");
-            Guard.ArgumentNotNull(builderMethodCreator, "builderMethodCreator");
             this.typeToBuild = typeToBuild;
-            buildMethod = builderMethodCreator.CreateBuilderMethod(typeToBuild, BuildMethodName());
-            il = buildMethod.GetILGenerator();
-            CreatePreamble();
+            contextParameter = Expression.Parameter(typeof(IBuilderContext), "context");
+            buildPlanExpressions = new Queue<Expression>();
         }
 
         /// <summary>
-        /// The underlying <see cref="ILGenerator"/> that can be used to
-        /// emit IL into the generated dynamic method.
-        /// </summary>
-        public ILGenerator IL
-        {
-            get { return il; }
-        }
-
-        /// <summary>
-        /// The type we're currently creating the method to build.
+        /// The type that is to be built with the dynamic build plan.
         /// </summary>
         public Type TypeToBuild
         {
-            get { return typeToBuild; }
+            get { return this.typeToBuild; }
         }
 
         /// <summary>
-        /// Completes generation of the dynamic method and returns the
-        /// generated dynamic method delegate.
+        /// The context parameter represeting the <see cref="IBuilderContext"/> used when the build plan is executed.
         /// </summary>
-        /// <returns>The created <see cref="DynamicBuildPlanMethod"/></returns>
+        public ParameterExpression ContextParameter
+        {
+            get { return this.contextParameter; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="expression"></param>
+        public void AddToBuildPlan(Expression expression)
+        {
+            this.buildPlanExpressions.Enqueue(expression);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parameterKey"></param>
+        /// <param name="parameterType"></param>
+        /// <param name="setOperationExpression"></param>
+        /// <returns></returns>
+        public Expression CreateParameterExpression(string parameterKey, Type parameterType, Expression setOperationExpression)
+        {
+            // This intend of this is to create an parameter resolving expression block.  The following
+            // psuedo code will hopefully make it clearer as to what we're trying to accomplish (of course actual code
+            // trumps comments):
+            //  object priorOperation = context.CurrentOperation;
+            //  SetCurrentOperation
+            //  var resolver = GetResolver([context], [paramType], [key])
+            //  var dependencyResult = resolver.ResolveDependency([context]);   
+            //  context.CurrentOperation = priorOperation;
+            //  dependencyResult ; // return item from Block
+            
+            ParameterExpression savedOperationExpression = Expression.Parameter(typeof(object));
+            ParameterExpression resolvedObjectExpression = Expression.Parameter(parameterType);
+            return 
+                Expression.Block(
+                    new ParameterExpression[] { savedOperationExpression, resolvedObjectExpression },
+                    SaveCurrentOperationExpression(savedOperationExpression),
+                    setOperationExpression,
+                    Expression.Assign(
+                        resolvedObjectExpression, 
+                        GetResolveDependencyExpression(parameterType, parameterKey)),
+                    RestoreCurrentOperationExpression(savedOperationExpression),
+                    resolvedObjectExpression
+                );
+        }
+
+        internal Expression GetExistingObjectExpression()
+        {
+            return Expression.MakeMemberAccess(ContextParameter,
+                                                getBuildContextExistingObjectProperty);
+        }
+
+        internal Expression GetClearCurrentOperationExpression()
+        {
+            return Expression.Assign(
+                               Expression.Property(ContextParameter, typeof(IBuilderContext).GetTypeInfo().GetDeclaredProperty("CurrentOperation")),
+                               Expression.Constant(null));
+        }
+
+        internal Expression GetResolveDependencyExpression(Type dependencyType, string dependencyKey)
+        {
+            return Expression.Convert(
+                           Expression.Call(
+                               Expression.Call(null,
+                                               GetResolverMethod,
+                                               ContextParameter,
+                                               Expression.Constant(dependencyType, typeof(Type)),
+                                               Expression.Constant(dependencyKey, typeof(string))),
+                               ResolveDependency,
+                               ContextParameter),
+                           dependencyType);
+        }
+
         internal DynamicBuildPlanMethod GetBuildMethod()
         {
-            CreatePostamble();
-            return (DynamicBuildPlanMethod)buildMethod.CreateDelegate(typeof(DynamicBuildPlanMethod));
-        }
+            Func<IBuilderContext, object> planDelegate = 
+                (Func<IBuilderContext,object>)
+                Expression.Lambda(
+                    Expression.Block(
+                        buildPlanExpressions.Concat(new Expression[] { GetExistingObjectExpression() })), 
+                        ContextParameter)
+                .Compile();
 
-        #region IL Generation helper methods
-
-        /// <summary>
-        /// Emit the IL to put the build context on top of the IL stack.
-        /// </summary>
-        public void EmitLoadContext()
-        {
-            IL.Emit(OpCodes.Ldarg_0);
-        }
-
-        /// <summary>
-        /// Emit the IL to put the current build key on top of the IL stack.
-        /// </summary>
-        public void EmitLoadBuildKey()
-        {
-            EmitLoadContext();
-            IL.EmitCall(OpCodes.Callvirt, GetBuildKey, null);
-        }
-
-        /// <summary>
-        /// Emit the IL to put the current "existing" object on the top of the IL stack.
-        /// </summary>
-        public void EmitLoadExisting()
-        {
-            IL.Emit(OpCodes.Ldloc, existingObjectLocal);
-        }
-
-        /// <summary>
-        /// Emit the IL to make the top of the IL stack our current "existing" object.
-        /// </summary>
-        public void EmitStoreExisting()
-        {
-            IL.Emit(OpCodes.Stloc, existingObjectLocal);
-        }
-
-        /// <summary>
-        /// Emit the IL to load the given <see cref="Type"/> object onto the top of the IL stack.
-        /// </summary>
-        /// <param name="t">Type to load on the stack.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t",
-            Justification = "t is good enough - usage is pretty obvious")]
-        public void EmitLoadTypeOnStack(Type t)
-        {
-            IL.Emit(OpCodes.Ldtoken, t);
-            IL.EmitCall(OpCodes.Call, GetTypeFromHandle, null);
-        }
-
-        /// <summary>
-        /// Emit the IL needed to look up an <see cref="IDependencyResolverPolicy"/> and
-        /// call it to get a value.
-        /// </summary>
-        /// <param name="dependencyType">Type of the dependency to resolve.</param>
-        /// <param name="key">Key to look up the policy by.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation is done via Guard class.")]
-        public void EmitResolveDependency(Type dependencyType, string key)
-        {
-            Guard.ArgumentNotNull(dependencyType, "dependencyType");
-
-            EmitLoadContext();
-            EmitLoadTypeOnStack(dependencyType);
-            IL.Emit(OpCodes.Ldstr, key);
-            IL.EmitCall(OpCodes.Call, GetResolverMethod, null);
-            EmitLoadContext();
-            IL.EmitCall(OpCodes.Callvirt, ResolveDependency, null);
-            EmitCastOrUnbox(dependencyType);
-        }
-
-        /// <summary>
-        /// Emit the IL needed to clear the <see cref="IBuilderContext.CurrentOperation"/>.
-        /// </summary>
-        public void EmitClearCurrentOperation()
-        {
-            EmitLoadContext();
-            IL.EmitCall(OpCodes.Call, ClearCurrentOperation, null);
-        }
-
-        /// <summary>
-        /// Emit the IL needed to either cast the top of the stack to the target type
-        /// or unbox it, if it's a value type.
-        /// </summary>
-        /// <param name="targetType">Type to convert the top of the stack to.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unbox", Justification="Unbox is spelled correctly.")]
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "CastOr", Justification = "Its two words, not one.")]
-        public void EmitCastOrUnbox(Type targetType)
-        {
-            Guard.ArgumentNotNull(targetType, "targetType");
-            if(targetType.IsValueType)
+            return new DynamicBuildPlanMethod((context) =>
             {
-                IL.Emit(OpCodes.Unbox_Any, targetType);
-            }
-            else
-            {
-                IL.Emit(OpCodes.Castclass, targetType);
-            }
+                try
+                {
+                    context.Existing = planDelegate(context);
+                }
+                catch (TargetInvocationException e)
+                {
+                    throw e.InnerException;
+                }
+            });
         }
 
-        /// <summary>
-        /// A helper method used by the generated IL to clear the current operation in the build context.
-        /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class.")]
-        public static void DoClearCurrentOperation(IBuilderContext context)
+        private Expression RestoreCurrentOperationExpression(ParameterExpression savedOperationExpression)
         {
-            Guard.ArgumentNotNull(context, "context");
+            return Expression.Assign(
+                Expression.MakeMemberAccess(
+                    this.ContextParameter,
+                    typeof(IBuilderContext).GetTypeInfo().GetDeclaredProperty("CurrentOperation")),
+                    savedOperationExpression
+                    );
+        }
 
-            context.CurrentOperation = null;
+        private Expression SaveCurrentOperationExpression(ParameterExpression saveExpression)
+        {
+            return Expression.Assign(
+                saveExpression,
+                Expression.MakeMemberAccess(
+                    this.ContextParameter,
+                    typeof(IBuilderContext).GetTypeInfo().GetDeclaredProperty("CurrentOperation")));
         }
 
         /// <summary>
@@ -214,87 +186,13 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="dependencyType">Type of the dependency being resolved.</param>
         /// <param name="resolverKey">Key the resolver was stored under.</param>
         /// <returns>The found dependency resolver.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         public static IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType, string resolverKey)
         {
+            Guard.ArgumentNotNull(context, "context");
+            			
             var resolver = context.GetOverriddenResolver(dependencyType);
             return resolver ?? context.Policies.Get<IDependencyResolverPolicy>(resolverKey);
         }
-
-        /// <summary>
-        /// A reflection helper method to make it easier to grab a property getter
-        /// <see cref="MethodInfo"/> for the given property.
-        /// </summary>
-        /// <typeparam name="TImplementer">Type that implements the property we want.</typeparam>
-        /// <typeparam name="TProperty">Type of the property.</typeparam>
-        /// <param name="name">Name of the property.</param>
-        /// <returns>The property getter's <see cref="MethodInfo"/>.</returns>
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic",
-            Justification = "Making this static results in very ugly calling code and doesn't actually improve perf.")]
-        public MethodInfo GetPropertyGetter<TImplementer, TProperty>(string name)
-        {
-            return typeof(TImplementer).GetProperty(name, typeof(TProperty)).GetGetMethod();
-        }
-
-        /// <summary>
-        /// A reflection helper method that makes it easier to grab a <see cref="MethodInfo"/>
-        /// for a method.
-        /// </summary>
-        /// <typeparam name="TImplementer">Type that implements the method we want.</typeparam>
-        /// <param name="name">Name of the method.</param>
-        /// <param name="argumentTypes">Types of arguments to the method.</param>
-        /// <returns>The method's <see cref="MethodInfo"/>.</returns>
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic",
-           Justification = "Making this static results in very ugly calling code and doesn't actually improve perf.")]
-        public MethodInfo GetMethodInfo<TImplementer>(string name, params Type[] argumentTypes)
-        {
-            return typeof(TImplementer).GetMethod(name, argumentTypes);
-        }
-
-        #endregion
-
-        private string BuildMethodName()
-        {
-            return "BuildUp_" + typeToBuild.FullName;
-        }
-
-        private void CreatePreamble()
-        {
-            existingObjectLocal = il.DeclareLocal(typeToBuild);
-            EmitLoadContext();
-            il.EmitCall(OpCodes.Callvirt, GetExisting, null);
-            if(!typeToBuild.IsValueType)
-            {
-                il.Emit(OpCodes.Castclass, typeToBuild);
-                EmitStoreExisting();
-            }
-            else
-            {
-                Label existingIsNullLabel = il.DefineLabel();
-                Label doneLabel = il.DefineLabel();
-
-                il.Emit(OpCodes.Dup);
-                il.Emit(OpCodes.Ldnull);
-                il.Emit(OpCodes.Beq_S, existingIsNullLabel);
-                il.Emit(OpCodes.Unbox_Any, typeToBuild);
-                EmitStoreExisting();
-                il.Emit(OpCodes.Br_S, doneLabel);
-                il.MarkLabel(existingIsNullLabel);
-                il.Emit(OpCodes.Pop);
-                il.MarkLabel(doneLabel);
-            }
-        }
-
-        private void CreatePostamble()
-        {
-            EmitLoadContext();
-            il.Emit(OpCodes.Ldloc, existingObjectLocal);
-            if(typeToBuild.IsValueType)
-            {
-                il.Emit(OpCodes.Box, typeToBuild);
-            }
-            il.EmitCall(OpCodes.Callvirt, SetExisting, null);
-            il.Emit(OpCodes.Ret);
-        }
-
     }
 }

@@ -62,11 +62,11 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
                 else
                 {
                     Type[] closedMethodParameterTypes =
-                        methodReflector.GetClosedParameterTypes(typeToBuild.GetGenericArguments());
+                        methodReflector.GetClosedParameterTypes(typeToBuild.GetTypeInfo().GenericTypeArguments);
                     selectedMethod = new SelectedMethod(
-                        typeToBuild.GetMethod(method.First.Name, closedMethodParameterTypes));
-
+                        typeToBuild.GetMethodHierarchical(method.First.Name, closedMethodParameterTypes));
                 }
+
                 SpecifiedMemberSelectorHelper.AddParameterResolvers(
                         typeToBuild,
                         resolverPolicyDestination, 

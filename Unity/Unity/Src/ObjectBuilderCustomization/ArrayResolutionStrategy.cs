@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Linq;
 using Microsoft.Practices.ObjectBuilder2;
 using Guard = Microsoft.Practices.Unity.Utility.Guard;
 
@@ -25,8 +26,9 @@ namespace Microsoft.Practices.Unity
     public class ArrayResolutionStrategy : BuilderStrategy
     {
         private delegate object ArrayResolver(IBuilderContext context);
-        private static readonly MethodInfo genericResolveArrayMethod = typeof (ArrayResolutionStrategy)
-                .GetMethod("ResolveArray", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly);
+
+        private static readonly MethodInfo genericResolveArrayMethod = typeof(ArrayResolutionStrategy)
+                .GetTypeInfo().DeclaredMethods.First(m => m.Name == "ResolveArray" && m.IsPublic == false && m.IsStatic);
 
         /// <summary>
         /// Do the PreBuildUp stage of construction. This is where the actual work is performed.
@@ -44,7 +46,7 @@ namespace Microsoft.Practices.Unity
 
                 MethodInfo resolverMethod = genericResolveArrayMethod.MakeGenericMethod(elementType);
 
-                ArrayResolver resolver = (ArrayResolver) Delegate.CreateDelegate(typeof (ArrayResolver), resolverMethod);
+                ArrayResolver resolver = (ArrayResolver)resolverMethod.CreateDelegate(typeof(ArrayResolver));
 
                 context.Existing = resolver(context);
                 context.BuildComplete = true;

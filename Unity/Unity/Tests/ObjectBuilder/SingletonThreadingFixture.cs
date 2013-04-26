@@ -10,8 +10,13 @@
 //===============================================================================
 
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {
@@ -27,14 +32,13 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             BuilderOnThread threadResults1 = new BuilderOnThread(strategies, policies);
             BuilderOnThread threadResults2 = new BuilderOnThread(strategies, policies);
 
-            Thread thread1 = new Thread(threadResults1.Build);
-            Thread thread2 = new Thread(threadResults2.Build);
+            Task task1 = new Task(threadResults1.Build);
+            Task task2 = new Task(threadResults2.Build);
 
-            thread1.Start();
-            thread2.Start();
-
-            thread1.Join();
-            thread2.Join();
+            task1.Start();
+            task2.Start();
+            
+            Task.WaitAll(task1, task2);
 
             Assert.AreSame(threadResults1.Result, threadResults2.Result);
         }
@@ -82,10 +86,16 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
     class SleepingStrategy : BuilderStrategy
     {
         private int sleepTimeMS = 500;
+        private static object @lock = new object();
 
         public override void PreBuildUp(IBuilderContext context)
         {
-            Thread.Sleep(sleepTimeMS);
+            // Sleep
+            lock (@lock)
+            {
+                SpinWait.SpinUntil(()=>false, sleepTimeMS);
+            }
+
             sleepTimeMS = sleepTimeMS == 0 ? 500 : 0;
         }
     }

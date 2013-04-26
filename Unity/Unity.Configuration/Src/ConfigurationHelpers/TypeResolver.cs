@@ -28,8 +28,12 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// </summary>
         /// <param name="section">Configuration section containing the various
         /// type aliases, namespaces and assemblies.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public static void SetAliases(UnityConfigurationSection section)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(section, "section");
+
             impl = new TypeResolverImpl(
                 section.TypeAliases.Select(e => new KeyValuePair<string, string>(e.Alias, e.TypeName)),
                 section.Namespaces.Select(e => e.Name),

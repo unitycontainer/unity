@@ -12,6 +12,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Reflection;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
@@ -48,7 +49,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             return string.Format(CultureInfo.CurrentCulture,
                 GetDescriptionFormat(),
-                TypeBeingConstructed.Name, propertyName);
+                TypeBeingConstructed.GetTypeInfo().Name, propertyName);
         }
 
         /// <summary>

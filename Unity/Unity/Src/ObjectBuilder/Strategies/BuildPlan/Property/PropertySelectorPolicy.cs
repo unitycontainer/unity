@@ -29,8 +29,12 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="property">Property to create resolver for.</param>
         /// <returns>The resolver object.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", 
+            Justification = "Validation done by Guard class")]
         protected override IDependencyResolverPolicy CreateResolver(PropertyInfo property)
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(property, "property");
+            
             return new FixedTypeResolverPolicy(property.PropertyType);
         }
     }

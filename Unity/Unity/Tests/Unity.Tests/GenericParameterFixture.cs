@@ -11,7 +11,12 @@
 
 using System;
 using System.Reflection;
+using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -26,7 +31,7 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanCallNonGenericConstructorOnOpenGenericType()
         {
             IUnityContainer container = new UnityContainer()
-                .RegisterType(typeof (ClassWithOneGenericParameter<>),
+                .RegisterType(typeof(ClassWithOneGenericParameter<>),
                         new InjectionConstructor("Fiddle", new InjectionParameter<object>("someValue")));
 
             ClassWithOneGenericParameter<User> result = container.Resolve<ClassWithOneGenericParameter<User>>();
@@ -38,7 +43,7 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanCallConstructorTakingGenericParameter()
         {
             IUnityContainer container = new UnityContainer()
-                .RegisterType(typeof (ClassWithOneGenericParameter<>),
+                .RegisterType(typeof(ClassWithOneGenericParameter<>),
                     new InjectionConstructor(new GenericParameter("T")));
 
             Account a = new Account();
@@ -65,6 +70,37 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.AreSame(named, result.InjectedValue);
         }
 
+        [TestMethod]
+        public void ResolvingOpenGenericWithConstructorParameterAmbiguityThrows()
+        {
+            var container = new UnityContainer();
+            container.RegisterType(
+                typeof(GenericTypeWithMultipleGenericTypeParameters<,>),
+                new InjectionConstructor(new GenericParameter("T", "instance")));
+            container.RegisterInstance("instance", "the string");
+
+            AssertExtensions.AssertException<ResolutionFailedException>(
+                () => container.Resolve<GenericTypeWithMultipleGenericTypeParameters<string, string>>(),
+                e => { });
+        }
+
+        [TestMethod]
+        public void ResolvingOpenGenericWithMethodAmbiguityThrows()
+        {
+            var container = new UnityContainer();
+            container.RegisterType(
+                typeof(GenericTypeWithMultipleGenericTypeParameters<,>),
+                new InjectionMethod("Set", new GenericParameter("T", "instance")));
+            container.RegisterInstance("instance", "the string");
+
+            //// equivalent to doing the following, which would be rejected by the compiler
+            //new GenericTypeWithMultipleGenericTypeParameters<string, string>().Set(container.Resolve<string>("instance"));
+
+            AssertExtensions.AssertException<ResolutionFailedException>(
+                () => container.Resolve<GenericTypeWithMultipleGenericTypeParameters<string, string>>(),
+                e => { });
+        }
+
         // Our various test objects
         public class ClassWithOneGenericParameter<T>
         {
@@ -77,6 +113,48 @@ namespace Microsoft.Practices.Unity.Tests
             public ClassWithOneGenericParameter(T injectedValue)
             {
                 InjectedValue = injectedValue;
+            }
+        }
+
+        public class GenericTypeWithMultipleGenericTypeParameters<T, U>
+        {
+            private T theT;
+            private U theU;
+            public string value;
+
+            [InjectionConstructor]
+            public GenericTypeWithMultipleGenericTypeParameters()
+            {
+            }
+
+            public GenericTypeWithMultipleGenericTypeParameters(T theT)
+            {
+                this.theT = theT;
+            }
+
+            public GenericTypeWithMultipleGenericTypeParameters(U theU)
+            {
+                this.theU = theU;
+            }
+
+            public void Set(T theT)
+            {
+                this.theT = theT;
+            }
+
+            public void Set(U theU)
+            {
+                this.theU = theU;
+            }
+
+            public void SetAlt(T theT)
+            {
+                this.theT = theT;
+            }
+
+            public void SetAlt(string value)
+            {
+                this.value = value;
             }
         }
     }

@@ -12,7 +12,13 @@
 using System;
 using System.Reflection;
 using System.Collections.Generic;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
+using System.Linq;
+using Microsoft.Practices.Unity.TestSupport;
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -30,8 +36,8 @@ namespace Microsoft.Practices.Unity.Tests
         public void ConcreteGenericTypes_ReturnConstructorThatTakeGenericsInReflection()
         {
             Type t = typeof(LoggingCommand<User>);
-            ConstructorInfo ctor = t.GetConstructor(
-                new Type[] { typeof(ICommand<User>) });
+            ConstructorInfo ctor = t.GetTypeInfo().DeclaredConstructors.Where(
+                c => c.GetParameters()[0].ParameterType == typeof(ICommand<User>)).First();
 
             Assert.IsNotNull(ctor);
         }
@@ -40,7 +46,7 @@ namespace Microsoft.Practices.Unity.Tests
         public void OpenGenericTypes_GenericPropertiesAreReturnedByReflection()
         {
             Type t = typeof(LoggingCommand<>);
-            PropertyInfo[] props = t.GetProperties();
+            PropertyInfo[] props = t.GetTypeInfo().DeclaredProperties.ToArray();
             Assert.AreEqual(1, props.Length);
         }
 
@@ -52,25 +58,34 @@ namespace Microsoft.Practices.Unity.Tests
             Type openType = typeof(Pathological<,>);
             Type targetType = typeof(Pathological<User, Account>);
 
-            Assert.IsTrue(openType.ContainsGenericParameters);
-            Assert.IsFalse(targetType.ContainsGenericParameters);
+            Assert.IsTrue(openType.GetTypeInfo().ContainsGenericParameters);
+            Assert.IsFalse(targetType.GetTypeInfo().ContainsGenericParameters);
 
-            ConstructorInfo ctor = targetType.GetConstructor(new Type[] { typeof(ICommand<>), typeof(ICommand<>) });
+            ConstructorInfo ctor = targetType.GetTypeInfo().DeclaredConstructors
+                .Where(c => c.GetParameters().Count() == 2)
+                .Where(c => c.GetParameters()[0].ParameterType == typeof(ICommand<>) &&
+                    c.GetParameters()[0].ParameterType == typeof(ICommand<>))
+                .FirstOrDefault();
             Assert.IsNull(ctor);
+
             ConstructorInfo concreteCtor =
-                targetType.GetConstructor(new Type[] { typeof(ICommand<Account>), typeof(ICommand<User>) });
+                targetType.GetTypeInfo().DeclaredConstructors
+                .Where(c => c.GetParameters().Count() == 2)
+                .Where(c => c.GetParameters()[0].ParameterType == typeof(ICommand<Account>) &&
+                    c.GetParameters()[1].ParameterType == typeof(ICommand<User>))
+                .FirstOrDefault();
             Assert.IsNotNull(concreteCtor);
 
-            ConstructorInfo[] openCtors = openType.GetConstructors();
+            ConstructorInfo[] openCtors = openType.GetTypeInfo().DeclaredConstructors.ToArray();
             Assert.AreEqual(1, openCtors.Length);
 
             ParameterInfo[] ctorParams = openCtors[0].GetParameters();
             Assert.AreEqual(2, ctorParams.Length);
-            Assert.IsTrue(ctorParams[0].ParameterType.ContainsGenericParameters);
+            Assert.IsTrue(ctorParams[0].ParameterType.GetTypeInfo().ContainsGenericParameters);
             Assert.AreSame(typeof(ICommand<>), ctorParams[0].ParameterType.GetGenericTypeDefinition());
 
-            Type[] openTypeArgs = openType.GetGenericArguments();
-            Type[] ctorParamArgs = ctorParams[0].ParameterType.GetGenericArguments();
+            Type[] openTypeArgs = openType.GetTypeInfo().GenericTypeParameters;
+            Type[] ctorParamArgs = ctorParams[0].ParameterType.GenericTypeArguments;
             Assert.AreSame(openTypeArgs[1], ctorParamArgs[0]);
         }
 
@@ -79,15 +94,15 @@ namespace Microsoft.Practices.Unity.Tests
         {
             Type openType = typeof(Pathological<,>);
 
-            ConstructorInfo ctor = openType.GetConstructors()[0];
+            ConstructorInfo ctor = openType.GetTypeInfo().DeclaredConstructors.ElementAt(0);
             ParameterInfo param0 = ctor.GetParameters()[0];
 
             Assert.AreNotEqual(typeof(ICommand<>), param0.ParameterType);
             Assert.AreEqual(typeof(ICommand<>), param0.ParameterType.GetGenericTypeDefinition());
 
-            Assert.IsFalse(param0.ParameterType.IsGenericTypeDefinition);
-            Assert.IsTrue(param0.ParameterType.IsGenericType);
-            Assert.IsTrue(typeof(ICommand<>).IsGenericTypeDefinition);
+            Assert.IsFalse(param0.ParameterType.GetTypeInfo().IsGenericTypeDefinition);
+            Assert.IsTrue(param0.ParameterType.GetTypeInfo().IsGenericType);
+            Assert.IsTrue(typeof(ICommand<>).GetTypeInfo().IsGenericTypeDefinition);
             Assert.AreEqual(typeof(ICommand<>), typeof(ICommand<>).GetGenericTypeDefinition());
         }
 
@@ -95,12 +110,12 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanDistinguishOpenAndClosedGenerics()
         {
             Type closed = typeof(ICommand<Account>);
-            Assert.IsTrue(closed.IsGenericType);
-            Assert.IsFalse(closed.ContainsGenericParameters);
+            Assert.IsTrue(closed.GetTypeInfo().IsGenericType);
+            Assert.IsFalse(closed.GetTypeInfo().ContainsGenericParameters);
 
             Type open = typeof(ICommand<>);
-            Assert.IsTrue(open.IsGenericType);
-            Assert.IsTrue(open.ContainsGenericParameters);
+            Assert.IsTrue(open.GetTypeInfo().IsGenericType);
+            Assert.IsTrue(open.GetTypeInfo().ContainsGenericParameters);
 
         }
 
@@ -110,15 +125,15 @@ namespace Microsoft.Practices.Unity.Tests
             Type openType = typeof(Pathological<,>);
             Type closedType = typeof(Pathological<User, Account>);
 
-            ConstructorInfo openCtor = openType.GetConstructors()[0];
+            ConstructorInfo openCtor = openType.GetTypeInfo().DeclaredConstructors.ElementAt(0);
             Assert.AreSame(openCtor.DeclaringType, openType);
-            Type createdClosedType = openType.MakeGenericType(closedType.GetGenericArguments());
+            Type createdClosedType = openType.MakeGenericType(closedType.GenericTypeArguments);
 
             // Go through the parameter list of the open constructor and fill in the
             // type arguments for generic parameters based on the arguments used to
             // create the closed types.
 
-            Type[] closedTypeParams = closedType.GetGenericArguments();
+            Type[] closedTypeParams = closedType.GenericTypeArguments;
 
             List<Type> closedCtorParamTypes = new List<Type>();
 
@@ -127,7 +142,7 @@ namespace Microsoft.Practices.Unity.Tests
             {
                 closedCtorParamTypes.Add(ClosedTypeFromOpenParameter(openParam, closedTypeParams));
 
-                Type[] genericParameters = openParam.ParameterType.GetGenericArguments();
+                Type[] genericParameters = openParam.ParameterType.GenericTypeArguments;
                 foreach (Type gp in genericParameters)
                 {
                     parameterPositions.Add(gp.GenericParameterPosition);
@@ -137,13 +152,13 @@ namespace Microsoft.Practices.Unity.Tests
 
             CollectionAssert.AreEqual(new int[] { 1, 0 }, parameterPositions);
 
-            ConstructorInfo targetCtor = closedType.GetConstructor(closedCtorParamTypes.ToArray());
+            ConstructorInfo targetCtor = closedType.GetMatchingConstructor(closedCtorParamTypes.ToArray());
 
 
             Assert.AreSame(closedType, createdClosedType);
 
             ConstructorInfo closedCtor =
-                closedType.GetConstructor(Types(typeof(ICommand<Account>), typeof(ICommand<User>)));
+                closedType.GetMatchingConstructor(Types(typeof(ICommand<Account>), typeof(ICommand<User>)));
 
             Assert.AreSame(closedCtor, targetCtor);
 
@@ -152,20 +167,22 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void ConstructorHasGenericArguments()
         {
-            ConstructorInfo ctor = typeof(LoggingCommand<>).GetConstructors()[0];
+            ConstructorInfo ctor = typeof(LoggingCommand<>).GetTypeInfo().DeclaredConstructors.ElementAt(0);
             Assert.IsTrue(HasOpenGenericParameters(ctor));
         }
 
         [TestMethod]
         public void ConstructorDoesNotHaveGenericArguments()
         {
-            ConstructorInfo ctor = typeof(LoggingCommand<Account>).GetConstructor(Types(typeof(ICommand<Account>)));
+            ConstructorInfo ctor = typeof(LoggingCommand<Account>).GetMatchingConstructor(Types(typeof(ICommand<Account>)));
             Assert.IsFalse(HasOpenGenericParameters(ctor));
         }
 
+       
+
         private Type ClosedTypeFromOpenParameter(ParameterInfo openGenericParameter, Type[] typeParams)
         {
-            Type[] genericParameters = openGenericParameter.ParameterType.GetGenericArguments();
+            Type[] genericParameters = openGenericParameter.ParameterType.GenericTypeArguments;
             Type[] genericTypeParams = new Type[genericParameters.Length];
             for (int i = 0; i < genericParameters.Length; ++i)
             {
@@ -178,8 +195,8 @@ namespace Microsoft.Practices.Unity.Tests
         {
             foreach (ParameterInfo param in ctor.GetParameters())
             {
-                if (param.ParameterType.IsGenericType &&
-                    param.ParameterType.ContainsGenericParameters)
+                if (param.ParameterType.GetTypeInfo().IsGenericType &&
+                    param.ParameterType.GetTypeInfo().ContainsGenericParameters)
                 {
                     return true;
                 }

@@ -10,9 +10,14 @@
 //===============================================================================
 
 using System;
+using System.Reflection;
 using Microsoft.Practices.Unity.StaticFactory;
 using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -202,7 +207,7 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void CanRegisterFactoryFunctionThatReceivesTypeAndName()
         {
-            Func<IUnityContainer, Type, string, object> factory = (c, t, s) => s + t.Name;
+            Func<IUnityContainer, Type, string, object> factory = (c, t, s) => s + t.GetTypeInfo().Name;
             var container = new UnityContainer()
                 .RegisterType<string>("one", new InjectionFactory(factory))
                 .RegisterType<string>("two", new InjectionFactory(factory))

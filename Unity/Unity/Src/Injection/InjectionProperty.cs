@@ -13,6 +13,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+using System.Linq;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Properties;
@@ -67,7 +68,11 @@ namespace Microsoft.Practices.Unity
         public override void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
         {
             Guard.ArgumentNotNull(implementationType, "implementationType");
-            PropertyInfo propInfo = implementationType.GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            PropertyInfo propInfo =
+                implementationType.GetPropertiesHierarchical()
+                        .FirstOrDefault( p => p.Name == propertyName &&
+                                              !p.SetMethod.IsStatic);
+
             GuardPropertyExists(propInfo, implementationType, propertyName);
             GuardPropertyIsSettable(propInfo);
             GuardPropertyIsNotIndexer(propInfo);
@@ -110,7 +115,7 @@ namespace Microsoft.Practices.Unity
                     string.Format(
                         CultureInfo.CurrentCulture,
                         Resources.NoSuchProperty,
-                        typeToCreate.Name,
+                        typeToCreate.GetTypeInfo().Name,
                         propertyName));
             }
         }
@@ -153,7 +158,7 @@ namespace Microsoft.Practices.Unity
             {
                 if (args[i] is Type)
                 {
-                    args[i] = ((Type)args[i]).Name;
+                    args[i] = ((Type)args[i]).GetTypeInfo().Name;
                 }
             }
             return string.Format(CultureInfo.CurrentCulture, format, args);

@@ -11,8 +11,11 @@
 
 using System;
 using Microsoft.Practices.ObjectBuilder2;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -70,35 +73,148 @@ namespace Microsoft.Practices.Unity.Tests
             var expectedKey = NamedTypeBuildKey.Make<string>("expected");
             var notExpectedKey = NamedTypeBuildKey.Make<string>();
 
-            var mainContext = new Mock<IBuilderContext>();
-            mainContext.Setup(c => c.NewBuildUp(expectedKey)).Returns(expected);
-            mainContext.Setup(c => c.NewBuildUp(notExpectedKey)).Returns(notExpected);
+            var mainContext = new MockContext();
+            mainContext.NewBuildupCallback = (k) => {
+                if (k == expectedKey) return expected;
+                if (k == notExpectedKey) return notExpected;
+                return null;
+            };
 
             var resolver = new OptionalDependencyResolverPolicy(typeof(string), "expected");
 
-            object result = resolver.Resolve(mainContext.Object);
+            object result = resolver.Resolve(mainContext);
 
             Assert.AreSame(expected, result);
         }
 
-        #region Helper methods to get appropriate OB mock contexts
+        #region Helper methods and classes to get appropriate OB mock contexts
 
         IBuilderContext GetMockContextThatThrows()
         {
-            var mockContext = new Mock<IBuilderContext>();
-            mockContext.Setup(c => c.NewBuildUp(It.IsAny<NamedTypeBuildKey>()))
-                .Throws(new InvalidOperationException());
-            return mockContext.Object;
+            var mockContext = new MockContext();
+            mockContext.NewBuildupCallback = (c) => { throw new InvalidOperationException(); };
+            return mockContext;
         }
 
         IBuilderContext GetMockContextThatResolvesUnnamedStrings(string expected)
         {
-            var mockContext = new Mock<IBuilderContext>();
-            mockContext.Setup(c => c.NewBuildUp(It.IsAny<NamedTypeBuildKey>()))
-                .Returns(expected);
-            return mockContext.Object;
+            var mockContext = new MockContext();
+            mockContext.NewBuildupCallback = (c) => {
+                return expected;
+            };
+            return mockContext;
         }
 
+        public class MockContext : IBuilderContext
+        {
+
+            public Func<NamedTypeBuildKey, object> NewBuildupCallback;
+
+            public IStrategyChain Strategies
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public ILifetimeContainer Lifetime
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public NamedTypeBuildKey OriginalBuildKey
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public NamedTypeBuildKey BuildKey
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public IPolicyList PersistentPolicies
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public IPolicyList Policies
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public IRecoveryStack RecoveryStack
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public object Existing
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public bool BuildComplete
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public object CurrentOperation
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public IBuilderContext ChildContext
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public void AddResolverOverrides(System.Collections.Generic.IEnumerable<ResolverOverride> newOverrides)
+            {
+                throw new NotImplementedException();
+            }
+
+            public IDependencyResolverPolicy GetOverriddenResolver(Type dependencyType)
+            {
+                throw new NotImplementedException();
+            }
+
+            public object NewBuildUp(NamedTypeBuildKey newBuildKey)
+            {
+                return NewBuildupCallback(newBuildKey);
+            }
+
+            public object NewBuildUp(NamedTypeBuildKey newBuildKey, Action<IBuilderContext> childCustomizationBlock)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        
         #endregion
     }
 }

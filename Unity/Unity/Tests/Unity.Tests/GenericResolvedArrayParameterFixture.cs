@@ -11,7 +11,12 @@
 
 using System;
 using System.Reflection;
+using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -24,10 +29,10 @@ namespace Microsoft.Practices.Unity.Tests
             InjectionParameterValue parameterValue = new GenericResolvedArrayParameter("T");
 
             Type genericTypeT
-                = this.GetType().GetMethod("GetT", BindingFlags.Instance | BindingFlags.NonPublic)
+                = this.GetType().GetTypeInfo().GetDeclaredMethod("GetT")
                     .GetGenericArguments()[0];
             Type genericTypeU
-                = this.GetType().GetMethod("GetU", BindingFlags.Instance | BindingFlags.NonPublic)
+                = this.GetType().GetTypeInfo().GetDeclaredMethod("GetU")
                     .GetGenericArguments()[0];
 
             Assert.IsFalse(parameterValue.MatchesType(genericTypeT));
@@ -113,12 +118,14 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void AppropriateExceptionIsThrownWhenNoMatchingConstructorCanBeFound()
         {
-            new UnityContainer()
-                .RegisterType(typeof(ClassWithOneGenericParameter<>),
-                    new InjectionConstructor(new GenericResolvedArrayParameter("T")));
+            AssertExtensions.AssertException<InvalidOperationException>(() =>
+            {
+                new UnityContainer()
+                    .RegisterType(typeof(ClassWithOneGenericParameter<>),
+                        new InjectionConstructor(new GenericResolvedArrayParameter("T")));
+            });
         }
 
         private void GetT<T>() { }

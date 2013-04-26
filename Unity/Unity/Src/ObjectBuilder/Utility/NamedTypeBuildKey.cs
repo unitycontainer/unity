@@ -12,6 +12,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
@@ -44,7 +45,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         public NamedTypeBuildKey(Type type)
             : this(type, null)
         {
-            
+
         }
 
         /// <summary>
@@ -55,7 +56,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <returns>A new <see cref="NamedTypeBuildKey"/> instance.</returns>
         public static NamedTypeBuildKey Make<T>()
         {
-            return new NamedTypeBuildKey(typeof (T));
+            return new NamedTypeBuildKey(typeof(T));
         }
 
         /// <summary>
@@ -67,7 +68,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <returns>A new <see cref="NamedTypeBuildKey"/> instance initialized with the given type and name.</returns>
         public static NamedTypeBuildKey Make<T>(string name)
         {
-            return new NamedTypeBuildKey(typeof (T), name);
+            return new NamedTypeBuildKey(typeof(T), name);
         }
 
         /// <summary>
@@ -100,7 +101,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         public override bool Equals(object obj)
         {
             var other = obj as NamedTypeBuildKey;
-            if(other == null)
+            if (other == null)
             {
                 return false;
             }
@@ -126,22 +127,23 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="left">First of the two keys to compare.</param>
         /// <param name="right">Second of the two keys to compare.</param>
         /// <returns>True if the values of the keys are the same, else false.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Null is accounted for")]
         public static bool operator ==(NamedTypeBuildKey left, NamedTypeBuildKey right)
         {
             var leftIsNull = ReferenceEquals(left, null);
             var rightIsNull = ReferenceEquals(right, null);
-            if(leftIsNull && rightIsNull)
+            if (leftIsNull && rightIsNull)
             {
                 return true;
             }
-            if(leftIsNull || rightIsNull)
+            if (leftIsNull || rightIsNull)
             {
                 return false;
             }
 
             return left.type == right.type &&
                    string.Compare(left.name, right.name, StringComparison.Ordinal) == 0;
-            
+
         }
 
         /// <summary>
@@ -155,7 +157,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <returns>false if the values of the keys are the same, else true.</returns>
         public static bool operator !=(NamedTypeBuildKey left, NamedTypeBuildKey right)
         {
-            return !( left == right );
+            return !(left == right);
         }
 
         /// <summary>
@@ -179,9 +181,10 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// Construct a new <see cref="NamedTypeBuildKey{T}"/> that
         /// specifies the given type.
         /// </summary>
-        public NamedTypeBuildKey() : base(typeof(T), null)
+        public NamedTypeBuildKey()
+            : base(typeof(T), null)
         {
-            
+
         }
 
         /// <summary>
@@ -189,7 +192,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// specifies the given type and name.
         /// </summary>
         /// <param name="name">Name for the key.</param>
-        public NamedTypeBuildKey(string name) : base(typeof(T), name)
-        {}
+        public NamedTypeBuildKey(string name)
+            : base(typeof(T), name)
+        { }
     }
 }

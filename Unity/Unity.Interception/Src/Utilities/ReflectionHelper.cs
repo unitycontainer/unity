@@ -116,8 +116,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="member">The member to look at.</param>
         /// <param name="inherits">True to include attributes inherited from base classes.</param>
         /// <returns>Array of found attributes.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public static TAttribute[] GetAttributes<TAttribute>(MemberInfo member, bool inherits) where TAttribute : Attribute
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(member, "member");
+
             object[] attributesAsObjects = member.GetCustomAttributes(typeof(TAttribute), inherits);
             TAttribute[] attributes = new TAttribute[attributesAsObjects.Length];
             int index = 0;
@@ -138,9 +142,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="member">The member to look at.</param>
         /// <param name="inherits">true to include attributes inherited from base classes.</param>
         /// <returns>Array of found attributes.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public static TAttribute[] GetAllAttributes<TAttribute>(MemberInfo member, bool inherits)
             where TAttribute : Attribute
         {
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(member, "member");
+
             List<TAttribute> attributes = new List<TAttribute>();
 
             if (member.DeclaringType != null)

@@ -42,10 +42,10 @@ namespace Microsoft.Practices.Unity
 
             MethodInfo resolverMethodInfo
                 = typeof(ResolvedArrayWithElementsResolverPolicy)
-                    .GetMethod("DoResolve", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)
+                    .GetTypeInfo().GetDeclaredMethod("DoResolve")
                         .MakeGenericMethod(elementType);
 
-            this.resolver = (Resolver)Delegate.CreateDelegate(typeof(Resolver), resolverMethodInfo);
+            this.resolver = (Resolver)resolverMethodInfo.CreateDelegate(typeof(Resolver));
 
             this.elementPolicies = elementPolicies;
         }

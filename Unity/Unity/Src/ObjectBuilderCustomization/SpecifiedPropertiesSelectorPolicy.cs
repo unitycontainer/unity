@@ -60,7 +60,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
                 // for the current closed generic.
                 if (new ReflectionHelper(pair.First.DeclaringType).IsOpenGeneric)
                 {
-                    currentProperty = currentTypeReflector.Type.GetProperty(currentProperty.Name);
+                    currentProperty = currentTypeReflector.Type.GetTypeInfo().GetDeclaredProperty(currentProperty.Name);
                 }
                 
                 string key = Guid.NewGuid().ToString();

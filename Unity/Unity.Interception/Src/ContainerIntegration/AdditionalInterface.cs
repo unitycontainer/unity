@@ -34,6 +34,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">when <paramref name="additionalInterface"/> is not an interface.
         /// </exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public AdditionalInterface(Type additionalInterface)
         {
             Guard.ArgumentNotNull(additionalInterface, "additionalInterface");

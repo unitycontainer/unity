@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Unity" ToolsVersion="11.0">
+  <Include Path="globalizationrules.ruleset" Action="Default" />
+  <Include Path="minimumrecommendedrules.ruleset" Action="Default" />
+</RuleSet>

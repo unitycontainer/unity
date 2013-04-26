@@ -9,11 +9,13 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
-using System.Reflection.Emit;
 using Microsoft.Practices.Unity.Properties;
 using Microsoft.Practices.Unity.Utility;
 
@@ -38,10 +40,12 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// forward direction.
         /// </summary>
         /// <param name="context">Context of the build operation.</param>
-        // FxCop suppression: Validation is done by Guard class
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         public override void PreBuildUp(IBuilderContext context)
         {
-            var ilContext = (DynamicBuildPlanGenerationContext)(context.Existing);
+            Guard.ArgumentNotNull(context, "context");
+
+            var dynamicBuildContext = (DynamicBuildPlanGenerationContext)(context.Existing);
             
             IPolicyList resolverPolicyDestination;
             var selector = context.Policies.Get<IMethodSelectorPolicy>(context.BuildKey, out resolverPolicyDestination);
@@ -58,41 +62,44 @@ namespace Microsoft.Practices.ObjectBuilder2
                 GuardMethodHasNoOutParams(method.Method);
                 GuardMethodHasNoRefParams(method.Method);
 
-                ParameterInfo[] parameters = method.Method.GetParameters();
-
-                ilContext.EmitLoadExisting();
-
-                int i = 0;
-                foreach (string key in method.GetParameterKeys())
-                {
-                    // Set the current operation
-                    ilContext.IL.Emit(OpCodes.Ldstr, parameters[i].Name);
-                    ilContext.IL.Emit(OpCodes.Ldstr, signatureString);
-                    ilContext.EmitLoadContext();
-                    ilContext.IL.EmitCall(OpCodes.Call, setCurrentOperationToResolvingParameter, null);
-
-                    // Resolve the parameter
-                    ilContext.EmitResolveDependency(parameters[i].ParameterType, key);
-                    ++i;
-                }
-
-                // Set the current operation
-                ilContext.IL.Emit(OpCodes.Ldstr, signatureString);
-                ilContext.EmitLoadContext();
-                ilContext.IL.EmitCall(OpCodes.Call, setCurrentOperationToInvokingMethod, null);
-
-                // Invoke the injection method
-                ilContext.IL.EmitCall(OpCodes.Callvirt, method.Method, null);
-                if (method.Method.ReturnType != typeof(void))
-                {
-                    ilContext.IL.Emit(OpCodes.Pop);
-                }
+                dynamicBuildContext.AddToBuildPlan(
+                    Expression.Block(
+                        Expression.Call(null, setCurrentOperationToInvokingMethod, Expression.Constant(signatureString), dynamicBuildContext.ContextParameter),
+                        Expression.Call(
+                            Expression.Convert(
+                                dynamicBuildContext.GetExistingObjectExpression(),
+                                dynamicBuildContext.TypeToBuild
+                                ),
+                            method.Method,
+                            BuildMethodParameterExpressions(dynamicBuildContext, method, signatureString)))
+                        );
             }
 
             // Clear the current operation
             if (shouldClearOperation)
             {
-                ilContext.EmitClearCurrentOperation();
+                dynamicBuildContext.AddToBuildPlan(dynamicBuildContext.GetClearCurrentOperationExpression());
+            }
+        }
+
+       
+
+        private IEnumerable<Expression> BuildMethodParameterExpressions(DynamicBuildPlanGenerationContext context, SelectedMethod method, string methodSignature)
+        {
+            int i = 0;
+            var methodParameters = method.Method.GetParameters();
+
+            foreach (string parameterKey in method.GetParameterKeys())
+            {
+                yield return context.CreateParameterExpression(
+                                parameterKey,
+                                methodParameters[i].ParameterType,
+                                Expression.Call(null,
+                                    setCurrentOperationToResolvingParameter,
+                                    Expression.Constant(methodParameters[i].Name, typeof(string)),
+                                    Expression.Constant(methodSignature),
+                                    context.ContextParameter));
+                i++;
             }
         }
 
@@ -125,7 +132,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             throw new IllegalInjectionMethodException(
                 string.Format(CultureInfo.CurrentCulture,
                     format,
-                    method.DeclaringType.Name,
+                    method.DeclaringType.GetTypeInfo().Name,
                     method.Name));
 
         }

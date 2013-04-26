@@ -9,8 +9,11 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -31,7 +34,7 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void OptionalDependencyParameterIsResolvedIfRegisteredInContainer()
         {
-            ISomeInterface expectedSomeInterface = new Mock<ISomeInterface>().Object;
+            ISomeInterface expectedSomeInterface = new SomeInterfaceMock();
             IUnityContainer container = new UnityContainer()
                 .RegisterInstance<ISomeInterface>(expectedSomeInterface);
 
@@ -43,8 +46,8 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void OptionalDependencyParameterIsResolvedByName()
         {
-            ISomeInterface namedSomeInterface = new Mock<ISomeInterface>().Object;
-            ISomeInterface defaultSomeInterface = new Mock<ISomeInterface>().Object;
+            ISomeInterface namedSomeInterface = new SomeInterfaceMock();
+            ISomeInterface defaultSomeInterface = new SomeInterfaceMock();
 
             IUnityContainer container = new UnityContainer()
                 .RegisterInstance<ISomeInterface>(defaultSomeInterface)
@@ -68,7 +71,7 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void OptionalPropertiesAreInjectedWhenRegisteredInContainer()
         {
-            ISomeInterface expected = new Mock<ISomeInterface>().Object;
+            ISomeInterface expected = new SomeInterfaceMock();
             IUnityContainer container = new UnityContainer()
                 .RegisterInstance(expected);
 
@@ -80,8 +83,8 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void OptionalPropertiesAreInjectedByName()
         {
-            ISomeInterface namedSomeInterface = new Mock<ISomeInterface>().Object;
-            ISomeInterface defaultSomeInterface = new Mock<ISomeInterface>().Object;
+            ISomeInterface namedSomeInterface = new SomeInterfaceMock();
+            ISomeInterface defaultSomeInterface = new SomeInterfaceMock();
 
             IUnityContainer container = new UnityContainer()
                 .RegisterInstance<ISomeInterface>(defaultSomeInterface)
@@ -91,6 +94,9 @@ namespace Microsoft.Practices.Unity.Tests
 
             Assert.AreSame(namedSomeInterface, result.SomeInterface);
         }
+
+        public class SomeInterfaceMock : ISomeInterface
+        { }
 
         public interface ISomeInterface
         {

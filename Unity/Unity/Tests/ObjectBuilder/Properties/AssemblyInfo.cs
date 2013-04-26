@@ -22,7 +22,7 @@ using System.Security;
 [assembly : AssemblyConfiguration("")]
 [assembly : AssemblyCompany("Microsoft Corporation")]
 [assembly : AssemblyProduct("ObjectBuilder.Tests")]
-[assembly : AssemblyCopyright("Copyright © Microsoft Corporation 2011")]
+[assembly : AssemblyCopyright("Copyright © Microsoft Corporation 2011,2012")]
 [assembly : AssemblyTrademark("")]
 [assembly : AssemblyCulture("")]
 
@@ -48,8 +48,6 @@ using System.Security;
 
 [assembly : AssemblyVersion("1.0.0.0")]
 [assembly : AssemblyFileVersion("1.0.0.0")]
-
 #if !SILVERLIGHT
-[assembly: AllowPartiallyTrustedCallers]
-[assembly: SecurityRules(SecurityRuleSet.Level1)]
+//[assembly: AllowPartiallyTrustedCallers]
 #endif

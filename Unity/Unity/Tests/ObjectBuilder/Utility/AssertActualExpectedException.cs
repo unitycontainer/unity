@@ -12,7 +12,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {

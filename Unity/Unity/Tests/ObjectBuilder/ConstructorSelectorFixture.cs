@@ -11,10 +11,15 @@
 
 using System;
 using System.Reflection;
+using System.Linq;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
 using Microsoft.Practices.Unity.TestSupport;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {
@@ -96,7 +101,18 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
         private static ConstructorInfo GetConstructor<T>(params Type[] paramTypes)
         {
-            return typeof(T).GetConstructor(paramTypes);
+            return typeof(T).GetTypeInfo().DeclaredConstructors.First(c => ParameterTypesMatch(c.GetParameters(), paramTypes));
+        }
+
+        private static bool  ParameterTypesMatch(ParameterInfo[] parameters, Type[] paramTypesToMatch)
+        {
+            if (parameters.Length != paramTypesToMatch.Length) return false;
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                if (parameters[i].ParameterType != paramTypesToMatch[i]) return false;
+            }
+
+            return true;
         }
 
         private static MockBuilderContext GetContext<T>()

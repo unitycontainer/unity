@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.Utility;
 using Microsoft.Practices.Unity.Properties;
@@ -72,7 +73,7 @@ namespace Microsoft.Practices.Unity
                 return false;
 
             Type elementType = t.GetElementType();
-            return elementType.IsGenericParameter && elementType.Name == genericParameterName;
+            return elementType.GetTypeInfo().IsGenericParameter && elementType.GetTypeInfo().Name == genericParameterName;
         }
 
         /// <summary>
@@ -99,22 +100,22 @@ namespace Microsoft.Practices.Unity
 
         private void GuardTypeToBuildIsGeneric(Type typeToBuild)
         {
-            if (!typeToBuild.IsGenericType)
+            if (!typeToBuild.GetTypeInfo().IsGenericType)
             {
                 throw new InvalidOperationException(
                     string.Format(
                         CultureInfo.CurrentCulture,
                         Resources.NotAGenericType,
-                        typeToBuild.Name,
+                        typeToBuild.GetTypeInfo().Name,
                         genericParameterName));
             }
         }
 
         private void GuardTypeToBuildHasMatchingGenericParameter(Type typeToBuild)
         {
-            foreach (Type genericParam in typeToBuild.GetGenericTypeDefinition().GetGenericArguments())
+            foreach (Type genericParam in typeToBuild.GetGenericTypeDefinition().GetTypeInfo().GenericTypeParameters)
             {
-                if (genericParam.Name == genericParameterName)
+                if (genericParam.GetTypeInfo().Name == genericParameterName)
                 {
                     return;
                 }
@@ -124,7 +125,7 @@ namespace Microsoft.Practices.Unity
                 string.Format(
                     CultureInfo.CurrentCulture,
                     Resources.NoMatchingGenericArgument,
-                    typeToBuild.Name,
+                    typeToBuild.GetTypeInfo().Name,
                     genericParameterName));
         }
     }

@@ -10,18 +10,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.Practices.Unity.InterceptionExtension.Tests</RootNamespace>
     <AssemblyName>Unity.Interception.Tests</AssemblyName>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
-    <FileUpgradeFlags>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids><FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <PublishUrl>http://localhost/Tests.Unity.Interception/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
@@ -36,6 +31,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,6 +42,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -55,13 +52,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Moq, Version=3.1.416.3, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Lib\ThirdParty\Moq\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -90,6 +84,7 @@
     <Compile Include="InterfaceInterception\InterfaceInterceptorFixture.Desktop.cs" />
     <Compile Include="MatchingRuleSetFixture.cs" />
     <Compile Include="MatchingRules\AssemblyMatchingRuleFixture.cs" />
+    <None Include="MatchingRules\AssemblyMatchingRuleFixture.2010.cs" />
     <Compile Include="MatchingRules\CustomAttributeMatchingRuleFixture.cs" />
     <Compile Include="MatchingRules\GlobFixture.cs" />
     <Compile Include="MatchingRules\MemberNameMatchingRuleFixture.cs" />
@@ -103,6 +98,7 @@
     </Compile>
     <Compile Include="MatchingRules\TypeMatchingRuleFixture.cs" />
     <Compile Include="MethodSignatureFixture.cs" />
+    <Compile Include="FakeObjects\FakeInterceptionBehavior.cs" />
     <Compile Include="ObjectsUnderTest\CritialFakeDal.Desktop.cs" />
     <Compile Include="ObjectsUnderTest\CriticalFakeDal.cs" />
     <Compile Include="ObjectsUnderTest\ExceptionEatingHandler.cs" />
@@ -142,7 +138,6 @@
     <Compile Include="VirtualMethodInterception\VirtualMethodInterceptorFixture.Desktop.cs" />
     <Compile Include="VirtualMethodInterception\WireupHelper.cs" />
     <Compile Include="VirtualMethodInterception\VirtualMethodInterceptorFixture.cs" />
-    <None Include="MatchingRules\AssemblyMatchingRuleFixture.2010.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Src\Unity.Interception.csproj">

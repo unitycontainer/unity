@@ -1,0 +1,32 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Custom for Visual Studio
+*.bat text
+*.config text
+*.cmd text
+*.cs text
+*.csproj text
+*.licenseheader text
+*.nuspec text
+*.proj text
+*.ps1 text
+*.psm1 text
+*.resx text
+*.ruleset text
+*.sln text
+*.sql text
+*.targets text
+*.txt text
+
+# Standard to msysgit
+*.doc	 diff=astextplain
+*.DOC	 diff=astextplain
+*.docx diff=astextplain
+*.DOCX diff=astextplain
+*.dot  diff=astextplain
+*.DOT  diff=astextplain
+*.pdf  diff=astextplain
+*.PDF	 diff=astextplain
+*.rtf	 diff=astextplain
+*.RTF	 diff=astextplain

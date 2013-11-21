@@ -1,13 +1,4 @@
-﻿//===============================================================================
-// Microsoft patterns & practices
-// Unity Application Block
-//===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
-// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
-// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
-// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-// FITNESS FOR A PARTICULAR PURPOSE.
-//===============================================================================
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
 using System.Collections.Generic;
@@ -94,16 +85,16 @@ namespace Microsoft.Practices.ObjectBuilder2
             //  var dependencyResult = resolver.ResolveDependency([context]);   
             //  context.CurrentOperation = priorOperation;
             //  dependencyResult ; // return item from Block
-            
+
             ParameterExpression savedOperationExpression = Expression.Parameter(typeof(object));
             ParameterExpression resolvedObjectExpression = Expression.Parameter(parameterType);
-            return 
+            return
                 Expression.Block(
                     new ParameterExpression[] { savedOperationExpression, resolvedObjectExpression },
                     SaveCurrentOperationExpression(savedOperationExpression),
                     setOperationExpression,
                     Expression.Assign(
-                        resolvedObjectExpression, 
+                        resolvedObjectExpression,
                         GetResolveDependencyExpression(parameterType, parameterKey)),
                     RestoreCurrentOperationExpression(savedOperationExpression),
                     resolvedObjectExpression
@@ -139,11 +130,11 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         internal DynamicBuildPlanMethod GetBuildMethod()
         {
-            Func<IBuilderContext, object> planDelegate = 
-                (Func<IBuilderContext,object>)
+            Func<IBuilderContext, object> planDelegate =
+                (Func<IBuilderContext, object>)
                 Expression.Lambda(
                     Expression.Block(
-                        buildPlanExpressions.Concat(new Expression[] { GetExistingObjectExpression() })), 
+                        buildPlanExpressions.Concat(new Expression[] { GetExistingObjectExpression() })),
                         ContextParameter)
                 .Compile();
 
@@ -190,7 +181,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         public static IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType, string resolverKey)
         {
             Guard.ArgumentNotNull(context, "context");
-            			
+
             var resolver = context.GetOverriddenResolver(dependencyType);
             return resolver ?? context.Policies.Get<IDependencyResolverPolicy>(resolverKey);
         }

@@ -1,13 +1,4 @@
-﻿//===============================================================================
-// Microsoft patterns & practices
-// Unity Application Block
-//===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
-// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
-// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
-// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-// FITNESS FOR A PARTICULAR PURPOSE.
-//===============================================================================
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Practices.Unity.Utility;
@@ -24,8 +15,8 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// and <see cref="IBuilderAware.OnTearingDown"/>. This strategy is meant to be used from the
     /// <see cref="BuilderStage.PostInitialization"/> stage.
     /// </remarks>
-	public class BuilderAwareStrategy : BuilderStrategy
-	{
+    public class BuilderAwareStrategy : BuilderStrategy
+    {
         /// <summary>
         /// Called during the chain of responsibility for a build operation. The
         /// PreBuildUp method is called when the chain is being executed in the
@@ -57,10 +48,10 @@ namespace Microsoft.Practices.ObjectBuilder2
         public override void PreTearDown(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
-			IBuilderAware awareObject = context.Existing as IBuilderAware;
+            IBuilderAware awareObject = context.Existing as IBuilderAware;
 
-			if (awareObject != null)
-				awareObject.OnTearingDown();
+            if (awareObject != null)
+                awareObject.OnTearingDown();
         }
-	}
+    }
 }

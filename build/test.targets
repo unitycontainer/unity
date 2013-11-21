@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- This file builds the Enterprise Library Application Blocks  -->
+<!-- and runs the unit tests.                                    -->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+    DefaultTargets="RunTests"
+    ToolsVersion="4.0" >
+
+  <PropertyGroup>
+    <RepoRoot>$(MSBuildThisFileDirectory)..\</RepoRoot>
+    <SourceRoot>$(RepoRoot)Source\</SourceRoot>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    
+    <RunTests Condition=" '$(RunTests)' == '' ">true</RunTests>
+    <GetCoverageInformation>true</GetCoverageInformation>
+    <GetMstestCoverage>true</GetMstestCoverage>
+
+    <MinimumCoverageRequired Condition=" '$(MinimumCoverageRequired)' == '' ">60</MinimumCoverageRequired>
+  </PropertyGroup>
+
+  <!-- DevEnvDir: Provide a sensible default and add a trailing slash if necessary -->
+  <PropertyGroup>
+    <DevEnvDir Condition="$(DevEnvDir) == ''">C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\</DevEnvDir>
+    <DevEnvDir Condition="!HasTrailingSlash('$(DevEnvDir)')">$(DevEnvDir)\</DevEnvDir>
+
+    <TestRunner>$(DevEnvDir)CommonExtensions\Microsoft\TestWindow\vstest.console.exe</TestRunner>
+  </PropertyGroup>
+
+  <Target Name="RunTests" Condition=" '$(RunTests)' == 'true' "
+          DependsOnTargets="_CollectTestAssemblies;_RunTests">
+  </Target>
+
+  <Target Name="_RunTests" Condition=" '@(TestAssemblies)' != '' "
+          DependsOnTargets="_RunTestsWithoutCoverage;_RunTestsWithMstestCoverage;_RunTestsWithOpenCoverCoverage;_CheckCoverage">
+  </Target>
+
+  <Target Name="_CollectTestAssemblies">
+    <ItemGroup>
+      <TestAssemblies Include="$(SourceRoot)**\bin\$(Configuration)\*.Tests.*dll"/>
+      <TestAssemblies Remove="$(SourceRoot)**\bin\$(Configuration)\$(TestAssembliesToExclude)" Condition=" '$(TestAssembliesToExclude)' != '' "/>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_CheckTestRunner">
+    <Error Condition=" !Exists($(TestRunner)) "
+           Text="Test runner not found at the expected location $(TestRunner). Ensure the test runner is available in your Visual Studio install location."/>
+  </Target>
+
+  <Target Name="_RunTestsWithoutCoverage" DependsOnTargets="_CheckTestRunner;_CollectTestAssemblies" Condition=" ('$(RunTests)' == 'true') And ('$(GetCoverageInformation)' == 'false')">
+    <Exec Command="&quot;$(TestRunner)&quot; @(TestAssemblies->'&quot;%(Identity)&quot;', ' ') /logger:trx"
+          WorkingDirectory="$(SourceRoot)"
+          IgnoreStandardErrorWarningFormat="true"/>
+  </Target>
+
+  <Target Name="_RunTestsWithMstestCoverage" DependsOnTargets="_CheckTestRunner;_CollectTestAssemblies" Condition=" ('$(RunTests)' == 'true') And ('$(GetCoverageInformation)' == 'true') And ('$(GetMstestCoverage)' == 'true')">
+    <Exec Command="&quot;$(TestRunner)&quot; @(TestAssemblies->'&quot;%(Identity)&quot;', ' ') /logger:trx /Enablecodecoverage /InIsolation"
+          WorkingDirectory="$(SourceRoot)"
+          IgnoreStandardErrorWarningFormat="true"
+          ConsoleToMSBuild="true">
+      <Output TaskParameter="ExitCode" PropertyName="ExitCode" />
+      <Output TaskParameter="ConsoleOutput" ItemName="OutputOfExec" />
+    </Exec>
+
+    <ParseTestOutput CommandOutput="@(OutputOfExec)">
+      <Output TaskParameter="TrxFile" PropertyName="TrxFile"/>
+      <Output TaskParameter="CoverageFile" PropertyName="CoverageFile"/>
+    </ParseTestOutput>
+
+    <Message Text="Coverage: $(CoverageFile)"/>
+    <Message Text="Trx: $(TrxFile)"/>
+
+    <GetCoverageInformation CoverageFile="$(CoverageFile)" DevEnvDir="$(DevEnvDir)">
+      <Output TaskParameter="CoverageData" ItemName="CoverageData"/>
+    </GetCoverageInformation>
+
+    <Message Text="CoverageData: @(CoverageData) %(CoverageData.BlocksCovered) %(CoverageData.BlocksNotCovered) %(CoverageData.Coverage)"/>
+  </Target>
+
+  <Target Name="_RunTestsWithOpenCoverCoverage" DependsOnTargets="_CheckTestRunner;_CollectTestAssemblies" Condition=" ('$(RunTests)' == 'true') And ('$(GetCoverageInformation)' == 'true') And ('$(GetMstestCoverage)' == 'false')">
+
+    <PropertyGroup>
+      <CoverageOutputDir Condition=" '$(PackageOutputDir)' == '' ">$([System.IO.Path]::GetFullPath('$(RepoRoot)bin\$(Configuration)\coverage'))\</CoverageOutputDir>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <OpenCoverCommand>&quot;%(OpenCoverConsole.Fullpath)&quot;</OpenCoverCommand>
+      <OpenCoverCommand>$(OpenCoverCommand) -register:user -mergebyhash -returntargetcode</OpenCoverCommand>
+      <OpenCoverCommand>$(OpenCoverCommand) -filter:&quot;+[Microsoft.Practices.*]* -[Microsoft.Practices.*Tests]* -[Microsoft.Practices.*TestSupport]*&quot;</OpenCoverCommand>
+      <OpenCoverCommand>$(OpenCoverCommand) -output:&quot;$(CoverageOutputDir)OpenCoverResults.xml&quot;</OpenCoverCommand>
+      <OpenCoverCommand>$(OpenCoverCommand) -target:&quot;$(TestRunner)&quot;</OpenCoverCommand>
+      <OpenCoverCommand>$(OpenCoverCommand) -targetargs:&quot;@(TestAssemblies->'\&quot;%(Identity)\&quot;', ' ') /logger:trx&quot;</OpenCoverCommand>
+    </PropertyGroup>
+
+    <Delete Files="$(CoverageOutputDir)**\*.*"/>
+    <MakeDir Directories="$(CoverageOutputDir)" Condition="!Exists($(CoverageOutputDir))"/>
+
+    <!-- Cannot use the built-in msbuild task. Its output of "error messages" causes the task to fail, and the output parsing cannot be prevented. -->
+    <Exec Command="$(OpenCoverCommand)" IgnoreStandardErrorWarningFormat="true"/>
+    
+    <Message Text="Generating code coverage report..." Importance="High" />
+    <ReportGenerator ReportFiles="$(CoverageOutputDir)OpenCoverResults.xml"
+                     TargetDirectory="$(CoverageOutputDir)"
+                     ReportTypes="Html;XmlSummary" />
+
+    <GetOpenCoverCoverageInformation CoverageFile="$(CoverageOutputDir)Summary.xml">
+      <Output TaskParameter="CoverageData" ItemName="CoverageData"/>
+    </GetOpenCoverCoverageInformation>
+
+    <Message Text="Coverage data: @(CoverageData) %(CoverageData.Covered) %(CoverageData.Coverable) %(CoverageData.Coverage)"/>
+  </Target>
+
+  <Target Name="_CheckCoverage" Condition=" '@(CoverageData)' != '' ">
+
+    <ItemGroup>
+      <FilteredCoverageData Include="@(CoverageData)" Condition=" '%(CoverageData.Coverage)' &lt; '$(MinimumCoverageRequired)' "/>
+    </ItemGroup>
+
+    <Warning Condition=" '@(FilteredCoverageData)' != '' "
+            Text="Required coverage of $(MinimumCoverageRequired) not reached for%0A@(FilteredCoverageData->'%(Identity): %(Coverage)', '%0A')"/>
+  </Target>
+
+  <ItemGroup>
+    <OpenCoverMsBuild Include="packages\**\OpenCover.MSBuild.dll" />
+    <OpenCoverConsole Include="packages\**\OpenCover.Console.exe" />
+    <ReportGeneratorMsBuild Include="packages\**\ReportGenerator.exe" />
+  </ItemGroup>
+  <UsingTask TaskName="OpenCover.MSBuild.OpenCover" AssemblyFile="@(OpenCoverMsBuild)" />
+  <UsingTask TaskName="Palmmedia.ReportGenerator.MSBuild.ReportGenerator" AssemblyFile="@(ReportGeneratorMsBuild)" />
+
+  <UsingTask TaskName="ParseTestOutput" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <CommandOutput ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+      <TrxFile ParameterType="System.String" Output="true"/>
+      <CoverageFile ParameterType="System.String" Output="true"/>
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System.Core" />
+      <Using Namespace="System" />
+      <Using Namespace="System.Text.RegularExpressions" />
+      <Using Namespace="Microsoft.Build.Framework" />
+      <Using Namespace="Microsoft.Build.Utilities" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+            var trxRegex = new Regex(@"^Results File: (?<trx>[a-zA-Z]:\\.*\.trx)$");
+            var coverageRegex = new Regex(@"^(?<coverage>[a-zA-Z]:\\.*\.coverage)$");
+            
+            this.TrxFile = "";
+            this.CoverageFile = "";
+
+            try 
+            {
+              foreach (var item in this.CommandOutput)
+              {
+                //Log.LogMessage(item.ItemSpec);
+              
+                var trxMatch = trxRegex.Match(item.ItemSpec);
+                var coverageMatch = coverageRegex.Match(item.ItemSpec);
+                
+                if (trxMatch.Success)
+                {
+                  this.TrxFile = trxMatch.Groups["trx"].Value;
+                }
+               
+                if (coverageMatch.Success)
+                {
+                  this.CoverageFile = coverageMatch.Groups["coverage"].Value;
+                }
+              }
+            }
+            catch (Exception ex) 
+            {
+              Log.LogErrorFromException(ex);
+              return false;
+            }
+            ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <UsingTask TaskName="GetCoverageInformation" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <CoverageFile ParameterType="System.String" Required="true"/>
+      <DevEnvDir ParameterType="System.String" Required="true"/>
+      <CoverageData ParameterType="Microsoft.Build.Framework.ITaskItem[]" Output="true" />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System.Core" />
+      <Reference Include="System.Data" />
+      <Reference Include="System.Xml" />
+      <Reference Include="System.Data.DataSetExtensions" />
+      <Reference Include="Microsoft.CSharp"/>
+
+      <Using Namespace="System" />
+      <Using Namespace="System.Collections.Generic" />
+      <Using Namespace="System.Reflection"/>
+      <Using Namespace="Microsoft.Build.Framework" />
+      <Using Namespace="Microsoft.Build.Utilities" />
+
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+
+            try 
+            {
+              var coverageData = new List<ITaskItem>();
+
+              var coverageAssembly = Assembly.LoadFrom(System.IO.Path.Combine(DevEnvDir, @"PrivateAssemblies\Microsoft.VisualStudio.Coverage.Analysis.dll"));
+              var coverageInfoType = coverageAssembly.GetType("Microsoft.VisualStudio.Coverage.Analysis.CoverageInfo");
+
+              using (dynamic info = coverageInfoType.InvokeMember("CreateFromFile", BindingFlags.Static | BindingFlags.Public | BindingFlags.InvokeMethod, null, null, new object[] { CoverageFile }))
+              {
+                  var dataSet = info.BuildDataSet();
+
+                  foreach (var module in dataSet.Module)
+                  {
+                      if (module.ModuleName.IndexOf("test", StringComparison.Ordinal) == -1)
+                      {
+                          var item = new TaskItem(module.ModuleName);
+                          item.SetMetadata("BlocksCovered", module.BlocksCovered.ToString());
+                          item.SetMetadata("BlocksNotCovered", module.BlocksNotCovered.ToString());
+                          item.SetMetadata("Coverage", (100f * module.BlocksCovered / (float)(module.BlocksCovered + module.BlocksNotCovered)).ToString());
+
+                          coverageData.Add(item);
+                      }
+                  }
+              }
+
+              CoverageData = coverageData.ToArray();
+            }
+            catch (Exception ex) 
+            {
+              Log.LogErrorFromException(ex);
+              return false;
+            }
+            ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <UsingTask TaskName="GetOpenCoverCoverageInformation" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <CoverageFile ParameterType="System.String" Required="true"/>
+      <CoverageData ParameterType="Microsoft.Build.Framework.ITaskItem[]" Output="true" />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System.Core" />
+      <Reference Include="System.Xml" />
+      <Reference Include="System.Xml.Linq" />
+
+      <Using Namespace="System.Xml.Linq" />
+      <Using Namespace="System.Collections.Generic" />
+      <Using Namespace="Microsoft.Build.Framework" />
+      <Using Namespace="Microsoft.Build.Utilities" />
+
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+
+            try 
+            {
+              var coverageData = new List<ITaskItem>();
+
+              var summaryFile = XDocument.Load(this.CoverageFile);
+
+              foreach (var assembly in summaryFile.Descendants("Assembly"))
+              {
+                var item = new TaskItem(assembly.Attribute("name").Value);
+                item.SetMetadata("Covered", assembly.Attribute("coveredlines").Value);
+                item.SetMetadata("Coverable", assembly.Attribute("coverablelines").Value);
+                item.SetMetadata("Coverage", assembly.Attribute("coverage").Value);
+
+                coverageData.Add(item);
+              }
+
+              CoverageData = coverageData.ToArray();
+            }
+            catch (Exception ex) 
+            {
+              Log.LogErrorFromException(ex);
+              return false;
+            }
+            ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <Import Project="nuget.targets"/>
+</Project>

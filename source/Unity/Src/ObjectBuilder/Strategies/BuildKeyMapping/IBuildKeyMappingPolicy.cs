@@ -1,21 +1,12 @@
-﻿//===============================================================================
-// Microsoft patterns & practices
-// Unity Application Block
-//===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
-// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
-// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
-// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-// FITNESS FOR A PARTICULAR PURPOSE.
-//===============================================================================
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
     /// Represents a builder policy for mapping build keys.
     /// </summary>
-	public interface IBuildKeyMappingPolicy : IBuilderPolicy
-	{
+    public interface IBuildKeyMappingPolicy : IBuilderPolicy
+    {
         /// <summary>
         /// Maps the build key.
         /// </summary>
@@ -24,6 +15,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// if writing a more sophisticated mapping. This parameter can be null
         /// (called when getting container registrations).</param>
         /// <returns>The new build key.</returns>
-		NamedTypeBuildKey Map(NamedTypeBuildKey buildKey, IBuilderContext context);
-	}
+        NamedTypeBuildKey Map(NamedTypeBuildKey buildKey, IBuilderContext context);
+    }
 }

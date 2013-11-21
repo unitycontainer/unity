@@ -1,13 +1,4 @@
-﻿//===============================================================================
-// Microsoft patterns & practices
-// Unity Application Block
-//===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
-// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
-// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
-// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-// FITNESS FOR A PARTICULAR PURPOSE.
-//===============================================================================
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
 using System.Collections.Generic;
@@ -47,7 +38,9 @@ namespace Microsoft.Practices.Unity
 
             foreach (var file in await folder.GetFilesAsync().AsTask().ConfigureAwait(false))
             {
-                if (file.FileType == ".dll" || file.FileType == ".exe")
+                var fileType = Path.GetExtension(file.Name);
+
+                if (fileType == ".dll" || fileType == ".exe")
                 {
                     var name = new AssemblyName() { Name = Path.GetFileNameWithoutExtension(file.Name) };
                     Assembly assembly;

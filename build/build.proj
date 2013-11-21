@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0" >
+
+  <Import Project="build.targets"/>
+
+  <PropertyGroup>
+    <OutputRoot>$(SourceRoot)bin\Desktop\$(Configuration)\</OutputRoot>
+    <PackageOutputDir>$([System.IO.Path]::GetFullPath('$(SourceRoot)bin\Nuget\$(Configuration)'))</PackageOutputDir>
+    <CoverageOutputDir>$([System.IO.Path]::GetFullPath('$(SourceRoot)bin\Coverage\$(Configuration)'))\</CoverageOutputDir>
+    <BuildProperties>$(BuildProperties);AppxPackage=false</BuildProperties>
+  </PropertyGroup>
+
+</Project>

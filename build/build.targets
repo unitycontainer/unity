@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- This file builds the Enterprise Library Application Blocks  -->
+<!-- and runs the unit tests.                                    -->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+    DefaultTargets="Build"
+    ToolsVersion="4.0" >
+
+  <PropertyGroup>
+    <Configuration>Release</Configuration>
+    <Platform>Any CPU</Platform>
+
+    <AssemblyOriginatorKeyFile></AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
+    <DelaySign>false</DelaySign>
+
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    
+    <RepoRoot>$(MSBuildThisFileDirectory)..\</RepoRoot>
+    <SourceRoot Condition=" '$(SourceRoot)' == '' ">$(RepoRoot)Source\</SourceRoot>
+    <OutputRoot Condition=" '$(OutputRoot)' == '' ">$(RepoRoot)bin\$(Configuration)\</OutputRoot>
+  </PropertyGroup>
+
+  <!-- DevEnvDir: Provide a sensible default and add a trailing slash if necessary -->
+  <PropertyGroup>
+    <DevEnvDir Condition="$(DevEnvDir) == ''">C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\</DevEnvDir>
+    <DevEnvDir Condition="!HasTrailingSlash('$(DevEnvDir)')">$(DevEnvDir)\</DevEnvDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Solutions Include="$(SourceRoot)**\*.sln"/>
+  </ItemGroup>
+
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build"/>
+  
+  <Target Name="Build" DependsOnTargets="Compile;RunTests;BuildNugetPackages" />
+
+  <Target Name="Clean" DependsOnTargets="CleanProjects;CleanNugetPackages"/>
+
+  <Target Name="CleanProjects">
+    <MSBuild Projects="@(Solutions)" Properties="Configuration=$(Configuration);Platform=$(Platform);AssemblyOriginatorKeyFile=$(AssemblyOriginatorKeyFile);SignAssembly=$(SignAssembly);DelaySign=$(DelaySign);" Targets="Clean"/>
+  </Target>
+
+  <Target Name="Compile" DependsOnTargets="RestoreNugetPackages">
+    <PropertyGroup>
+      <BuildProperties>$(BuildProperties);Configuration=$(Configuration);Platform=$(Platform)</BuildProperties>
+      <BuildProperties>$(BuildProperties);AssemblyOriginatorKeyFile=$(AssemblyOriginatorKeyFile);SignAssembly=$(SignAssembly);DelaySign=$(DelaySign);</BuildProperties>
+      <BuildProperties>$(BuildProperties);RunCodeAnalysis=$(RunCodeAnalysis)</BuildProperties>
+    </PropertyGroup>
+    <MSBuild Projects="@(Solutions)" Properties="$(BuildProperties)"/>
+  </Target>
+
+  <Target Name="RunTests" DependsOnTargets="Compile">
+    <PropertyGroup>
+      <TestProperties>Configuration=$(Configuration)</TestProperties>
+      <TestProperties Condition=" '$(RunTests)' != '' ">$(TestProperties);RunTests=$(RunTests)</TestProperties>
+      <TestProperties Condition=" '$(DevEnvDir)' != '' ">$(TestProperties);DevEnvDir=$(DevEnvDir)</TestProperties>
+      <TestProperties Condition=" '$(TestAssembliesToExclude)' != '' ">$(TestProperties);TestAssembliesToExclude=$(TestAssembliesToExclude)</TestProperties>
+      <TestProperties Condition=" '$(MinimumCoverageRequired)' != '' ">$(TestProperties);MinimumCoverageRequired=$(MinimumCoverageRequired)</TestProperties>
+      <TestProperties Condition=" '$(GetCoverageInformation)' != '' ">$(TestProperties);GetCoverageInformation=$(GetCoverageInformation)</TestProperties>
+      <TestProperties Condition=" '$(GetMstestCoverage)' != '' ">$(TestProperties);GetMstestCoverage=$(GetMstestCoverage)</TestProperties>
+    </PropertyGroup>
+
+    <MSBuild Projects="test.targets" Targets="RunTests" Properties="$(TestProperties)"/>
+  </Target>
+  
+  <Import Project="nuget.targets"/>
+</Project>

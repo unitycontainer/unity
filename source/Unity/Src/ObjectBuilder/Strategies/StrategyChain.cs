@@ -1,13 +1,4 @@
-﻿//===============================================================================
-// Microsoft patterns & practices
-// Unity Application Block
-//===============================================================================
-// Copyright © Microsoft Corporation.  All rights reserved.
-// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
-// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
-// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-// FITNESS FOR A PARTICULAR PURPOSE.
-//===============================================================================
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
 using System.Collections;
@@ -23,31 +14,31 @@ namespace Microsoft.Practices.ObjectBuilder2
     // FxCop suppression: See IStrategyChain
     [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
     public class StrategyChain : IStrategyChain
-	{
-		readonly List<IBuilderStrategy> strategies = new List<IBuilderStrategy>();
+    {
+        readonly List<IBuilderStrategy> strategies = new List<IBuilderStrategy>();
 
         /// <summary>
         /// Initialzie a new instance of the <see cref="StrategyChain"/> class.
         /// </summary>
-		public StrategyChain() {}
+        public StrategyChain() {}
 
         /// <summary>
         /// Initialzie a new instance of the <see cref="StrategyChain"/> class with a colleciton of strategies.
         /// </summary>
         /// <param name="strategies">A collection of strategies to initialize the chain.</param>
-		public StrategyChain(IEnumerable strategies)
-		{
-			AddRange(strategies);
-		}
+        public StrategyChain(IEnumerable strategies)
+        {
+            AddRange(strategies);
+        }
 
         /// <summary>
         /// Adds a strategy to the chain.
         /// </summary>
         /// <param name="strategy">The strategy to add to the chain.</param>
-		public void Add(IBuilderStrategy strategy)
-		{
-			strategies.Add(strategy);
-		}
+        public void Add(IBuilderStrategy strategy)
+        {
+            strategies.Add(strategy);
+        }
 
         /// <summary>
         /// Adds strategies to the chain.
@@ -55,22 +46,22 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="strategyEnumerable">The strategies to add to the chain.</param>
         // FxCop suppression: validation is done by Guard class.
         public void AddRange(IEnumerable strategyEnumerable)
-		{
+        {
             Guard.ArgumentNotNull(strategyEnumerable, "strategyEnumerable");
-			foreach (IBuilderStrategy strategy in strategyEnumerable)
-				Add(strategy);
-		}
+            foreach (IBuilderStrategy strategy in strategyEnumerable)
+                Add(strategy);
+        }
 
         /// <summary>
         /// Reverse the order of the strategy chain.
         /// </summary>
         /// <returns>The reversed strategy chain.</returns>
-		public IStrategyChain Reverse()
-		{
-			List<IBuilderStrategy> reverseList = new List<IBuilderStrategy>(strategies);
-			reverseList.Reverse();
-			return new StrategyChain(reverseList);
-		}
+        public IStrategyChain Reverse()
+        {
+            List<IBuilderStrategy> reverseList = new List<IBuilderStrategy>(strategies);
+            reverseList.Reverse();
+            return new StrategyChain(reverseList);
+        }
 
 
         /// <summary>
@@ -180,5 +171,5 @@ namespace Microsoft.Practices.ObjectBuilder2
         }
 
         #endregion
-	}
+    }
 }

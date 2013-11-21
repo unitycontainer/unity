@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>Unity.AspNet.WebApi</id>
+    <version>$Microsoft_Practices_Unity_Mvc_Version$</version>
+    <title>Unity bootstrapper for ASP.NET Web API (PRE-RELEASE)</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft; patterns-and-practices</owners>
+    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <projectUrl>http://unity.codeplex.com</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Unity bootstrapper for ASP.NET Web API</description>
+    <summary>This is a Unity bootstrapper for ASP.NET Web API</summary>
+    <tags>Unity EntLib EntLib6 IoC DI container dependency injection inversion control aspnet webapi web api aspnetwebapi LOB futures OSS</tags>
+    <dependencies>
+      <dependency id="Unity" version="$Microsoft_Practices_Unity_Version$" />
+      <dependency id="WebActivatorEx" version="2.0" />
+      <dependency id="Microsoft.AspNet.WebApi.WebHost" version="4.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Unity.Mvc\Src\NuGet\UnityConfig.cs.pp" target="content\App_Start" />
+    <file src="Unity.WebApi\Src\NuGet\UnityWebApiActivator.cs.pp" target="content\App_Start" />
+  </files>
+</package>

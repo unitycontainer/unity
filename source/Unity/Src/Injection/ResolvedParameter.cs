@@ -65,6 +65,11 @@ namespace Microsoft.Practices.Unity
                 return CreateGenericResolverPolicy(typeToBuild, parameterReflector);
             }
 
+            if (typeToBuild.IsGenericType)
+            {
+                return CreateGenericResolverPolicy(typeToBuild, parameterReflector);
+            }
+
             return CreateResolverPolicy(parameterReflector.Type);
         }
 

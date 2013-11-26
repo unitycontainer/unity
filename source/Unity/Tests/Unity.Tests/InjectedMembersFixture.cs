@@ -99,6 +99,19 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
+        public void CanConfigureInjectionWithGenericProperty()
+        {
+            IUnityContainer container = new UnityContainer()
+                .RegisterInstance<int>(35)
+                .RegisterType(typeof(GenericGuineaPig<>),
+                    new InjectionProperty("GenericProperty"));
+
+            GenericGuineaPig<int> pig = container.Resolve<GenericGuineaPig<int>>();
+
+            Assert.AreEqual(35, pig.GenericProperty);
+        }
+
+        [TestMethod]
         public void CanConfigureContainerToDoMethodInjection()
         {
             string expectedString = "expected string";
@@ -198,6 +211,17 @@ namespace Microsoft.Practices.Unity.Tests
             public void InjectMeHerePlease(string s)
             {
                 S = s;
+            }
+        }
+
+        public class GenericGuineaPig<T>
+        {
+            public T G;
+
+            public T GenericProperty
+            {
+                get { return G; }
+                set { G = value; }
             }
         }
     }

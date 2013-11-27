@@ -60,12 +60,7 @@ namespace Microsoft.Practices.Unity
                 return CreateGenericArrayResolverPolicy(typeToBuild, parameterReflector);
             }
 
-            if (parameterReflector.IsOpenGeneric)
-            {
-                return CreateGenericResolverPolicy(typeToBuild, parameterReflector);
-            }
-
-            if (typeToBuild.IsGenericType)
+            if (parameterReflector.IsOpenGeneric || parameterReflector.Type.IsGenericParameter)
             {
                 return CreateGenericResolverPolicy(typeToBuild, parameterReflector);
             }

@@ -1,0 +1,1 @@
+Before running these tests build the solution files under ..\Source first. 

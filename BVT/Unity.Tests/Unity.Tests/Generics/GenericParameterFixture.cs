@@ -111,13 +111,14 @@ namespace Unity.Tests.Generics
             Assert.IsNull(o.PropT4);
         }
 
+
         /// <summary>
         /// Tests configuring injection for properties, ctors, methods that have generic types.
         /// 
         /// Formally tests GenericParameter
         /// </summary>
         [TestMethod]
-        public void Bug_18117_GenericParameter_CanSetDependencyPropertyFails()
+        public void Bug_18117_GenericParameter_CanSetDependencyPropertyWithoutExplicitValue()
         {
             UnityContainer uc = new UnityContainer();
 
@@ -127,8 +128,14 @@ namespace Unity.Tests.Generics
                     new InjectionConstructor(),
                     new InjectionProperty("PropT3"));
 
-            AssertHelper.ThrowsException<ResolutionFailedException>(
-                () => uc.Resolve<HaveManyGenericTypes<GenericA, GenericB, GenericC, GenericD>>());
+            HaveManyGenericTypes<GenericA, GenericB, GenericC, GenericD> o;
+            o = uc.Resolve<HaveManyGenericTypes<GenericA, GenericB, GenericC, GenericD>>();
+
+            Assert.IsNotNull(o);
+            Assert.IsNull(o.PropT1);
+            Assert.IsNull(o.PropT2);
+            Assert.IsNotNull(o.PropT3);
+            Assert.IsNull(o.PropT4);
         }
 
         /// <summary>

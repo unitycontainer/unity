@@ -55,8 +55,9 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
                 }
                 
                 string key = Guid.NewGuid().ToString();
-                resolverPolicyDestination.Set<IDependencyResolverPolicy>(pair.Second.GetResolverPolicy(typeToBuild), key);
-                yield return new SelectedProperty(currentProperty, key);
+                var resolver = pair.Second.GetResolverPolicy(typeToBuild);
+                resolverPolicyDestination.Set(resolver, key);
+                yield return new SelectedProperty(currentProperty, resolver);
             }
         }
     }

@@ -13,19 +13,19 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class SelectedProperty
     {
-        private PropertyInfo property;
-        private string key;
+        private readonly PropertyInfo property;
+        private readonly IDependencyResolverPolicy resolver;
 
         /// <summary>
         /// Create an instance of <see cref="SelectedProperty"/>
         /// with the given <see cref="PropertyInfo"/> and key.
         /// </summary>
         /// <param name="property">The property.</param>
-        /// <param name="key">Key to use to look up the resolver.</param>
-        public SelectedProperty(PropertyInfo property, string key)
+        /// <param name="resolver"></param>
+        public SelectedProperty(PropertyInfo property, IDependencyResolverPolicy resolver)
         {
             this.property = property;
-            this.key = key;
+            this.resolver = resolver;
         }
 
         /// <summary>
@@ -37,11 +37,11 @@ namespace Microsoft.Practices.ObjectBuilder2
         }
 
         /// <summary>
-        /// Key to look up this property's resolver.
+        /// IDependencyResolverPolicy for this property
         /// </summary>
-        public string Key
+        public IDependencyResolverPolicy Resolver
         {
-            get { return key; }
+            get { return resolver; }
         }
     }
 }

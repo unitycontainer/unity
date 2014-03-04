@@ -8,11 +8,13 @@ using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DependencyAttribute=Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.DependencyAttribute;
-using InjectionConstructorAttribute=Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
+using DependencyAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.DependencyAttribute;
+using InjectionConstructorAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {
+    using System.Linq;
+
     [TestClass]
     public class DynamicMethodPropertySetterFixture
     {
@@ -97,7 +99,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             {
                 Assert.AreSame(exception, e);
 
-                var operation = (ResolvingPropertyValueOperation) context.CurrentOperation;
+                var operation = (ResolvingPropertyValueOperation)context.CurrentOperation;
                 Assert.IsNotNull(operation);
                 Assert.AreSame(typeof(OnePropertyClass), operation.TypeBeingConstructed);
                 Assert.AreEqual("Key", operation.PropertyName);
@@ -123,7 +125,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             catch (Exception e)
             {
                 Assert.AreSame(OneExceptionThrowingPropertyClass.propertySetterException, e);
-                var operation = (SettingPropertyOperation) context.CurrentOperation;
+                var operation = (SettingPropertyOperation)context.CurrentOperation;
                 Assert.IsNotNull(operation);
 
                 Assert.AreSame(typeof(OneExceptionThrowingPropertyClass), operation.TypeBeingConstructed);
@@ -169,12 +171,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             public IEnumerable<SelectedProperty> SelectProperties(IBuilderContext context, IPolicyList resolverPolicyDestination)
             {
                 var key = Guid.NewGuid().ToString();
-                resolverPolicyDestination.Set<IDependencyResolverPolicy>(this.resolverPolicy, key);
-                yield return
-                    new SelectedProperty(
-                        typeof(T).GetProperties(
-                            BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)[0],
-                        key);
+                resolverPolicyDestination.Set(this.resolverPolicy, key);
+                const BindingFlags Filter = BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly;
+                var firstProperty = typeof(T).GetProperties(Filter).First();
+                yield return new SelectedProperty(firstProperty, this.resolverPolicy);
             }
         }
 

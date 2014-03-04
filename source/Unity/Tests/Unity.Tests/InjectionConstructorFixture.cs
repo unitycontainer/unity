@@ -32,7 +32,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             SelectedConstructor selected = selector.SelectConstructor(context, policies);
             Assert.AreEqual(typeof(GuineaPig).GetMatchingConstructor(new Type[0]), selected.Constructor);
-            Assert.AreEqual(0, selected.GetParameterKeys().Length);
+            Assert.AreEqual(0, selected.GetParameterResolvers().Length);
         }
 
         [TestMethod]
@@ -54,13 +54,13 @@ namespace Microsoft.Practices.Unity.Tests
                 new NamedTypeBuildKey(typeof(GuineaPig)));
 
             SelectedConstructor selected = selector.SelectConstructor(context, policies);
-            string[] keys = selected.GetParameterKeys();
+            var resolvers = selected.GetParameterResolvers();
 
             Assert.AreEqual(typeof(GuineaPig).GetMatchingConstructor(Sequence.Collect(typeof(string), typeof(int))), selected.Constructor);
-            Assert.AreEqual(2, keys.Length);
+            Assert.AreEqual(2, resolvers.Length);
 
-            Assert.AreEqual(expectedString, (string)ResolveValue(policies, keys[0]));
-            Assert.AreEqual(expectedInt, (int)ResolveValue(policies, keys[1]));
+            Assert.AreEqual(expectedString, (string)resolvers[0].Resolve(null));
+            Assert.AreEqual(expectedInt, (int)resolvers[1].Resolve(null));
         }
 
         [TestMethod]
@@ -77,12 +77,12 @@ namespace Microsoft.Practices.Unity.Tests
                 new NamedTypeBuildKey(typeof(GuineaPig)));
 
             SelectedConstructor selected = selector.SelectConstructor(context, policies);
-            string[] keys = selected.GetParameterKeys();
+            var resolvers = selected.GetParameterResolvers();
 
             Assert.AreEqual(typeof(GuineaPig).GetMatchingConstructor(Sequence.Collect(typeof(string), typeof(ILogger))), selected.Constructor);
-            Assert.AreEqual(2, keys.Length);
+            Assert.AreEqual(2, resolvers.Length);
 
-            var policy = context.Policies.Get<IDependencyResolverPolicy>(keys[1]);
+            var policy = resolvers[1];
             Assert.IsTrue(policy is NamedTypeDependencyResolverPolicy);
         }
 
@@ -92,10 +92,9 @@ namespace Microsoft.Practices.Unity.Tests
             InjectionConstructor ctor = new InjectionConstructor(typeof(double));
             var context = new MockBuilderContext();
 
-            AssertExtensions.AssertException<InvalidOperationException>(() =>
-                {
-                    ctor.AddPolicies(typeof(GuineaPig), context.PersistentPolicies);
-                });
+            AssertExtensions.AssertException<InvalidOperationException>(
+                () => ctor.AddPolicies(typeof(GuineaPig), context.PersistentPolicies)
+                );
         }
 
         private object ResolveValue(IPolicyList policies, string key)

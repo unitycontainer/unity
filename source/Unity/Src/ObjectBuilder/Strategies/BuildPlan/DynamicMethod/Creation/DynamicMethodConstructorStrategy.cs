@@ -169,10 +169,10 @@ namespace Microsoft.Practices.ObjectBuilder2
             int i = 0;
             var constructionParameters = selectedConstructor.Constructor.GetParameters();
 
-            foreach (string parameterKey in selectedConstructor.GetParameterKeys())
+            foreach (var parameterResolver in selectedConstructor.GetParameterResolvers())
             {
                 yield return buildContext.CreateParameterExpression(
-                                parameterKey,
+                                parameterResolver,
                                 constructionParameters[i].ParameterType,
                                 Expression.Call(null,
                                                 setCurrentOperationToResolvingParameter,

@@ -12,6 +12,8 @@ using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
+    using System.Runtime.CompilerServices;
+
     /// <summary>
     /// A <see cref="BuilderStrategy"/> that generates IL to call
     /// chosen methods (as specified by the current <see cref="IMethodSelectorPolicy"/>)
@@ -80,10 +82,10 @@ namespace Microsoft.Practices.ObjectBuilder2
             int i = 0;
             var methodParameters = method.Method.GetParameters();
 
-            foreach (string parameterKey in method.GetParameterKeys())
+            foreach (var parameterResolver in method.GetParameterResolvers())
             {
                 yield return context.CreateParameterExpression(
-                                parameterKey,
+                                parameterResolver,
                                 methodParameters[i].ParameterType,
                                 Expression.Call(null,
                                     setCurrentOperationToResolvingParameter,
@@ -92,6 +94,8 @@ namespace Microsoft.Practices.ObjectBuilder2
                                     context.ContextParameter));
                 i++;
             }
+
+            yield break;
         }
 
         private static void GuardMethodIsNotOpenGeneric(MethodInfo method)

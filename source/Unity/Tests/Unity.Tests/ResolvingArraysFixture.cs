@@ -208,10 +208,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             public SelectedConstructor SelectConstructor(IBuilderContext context, IPolicyList resolverPoliciesDestination)
             {
-                SelectedConstructor selectedConstructor
-                    = new SelectedConstructor(typeof(InjectedObject).GetMatchingConstructor(new Type[] { typeof(object) }));
-                selectedConstructor.AddParameterKey("InjectedObject_injectedValue");
-                resolverPoliciesDestination.Set<IDependencyResolverPolicy>(this.resolverPolicy, "InjectedObject_injectedValue");
+                var ctr = typeof(InjectedObject).GetMatchingConstructor(new[] { typeof(object) });
+                var selectedConstructor = new SelectedConstructor(ctr);
+                selectedConstructor.AddParameterResolver(this.resolverPolicy);
+                resolverPoliciesDestination.Set(this.resolverPolicy, "InjectedObject_injectedValue");
 
                 return selectedConstructor;
             }

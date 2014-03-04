@@ -41,16 +41,16 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private SelectedMethod CreateSelectedMethod(IBuilderContext context, IPolicyList resolverPolicyDestination, MethodInfo method)
         {
-            SelectedMethod result = new SelectedMethod(method);
+            var result = new SelectedMethod(method);
             foreach(ParameterInfo parameter in method.GetParameters())
             {
                 string key = Guid.NewGuid().ToString();
-                IDependencyResolverPolicy resolver = CreateResolver(parameter);
-                resolverPolicyDestination.Set<IDependencyResolverPolicy>(resolver, key);
+                var resolver = CreateResolver(parameter);
+                resolverPolicyDestination.Set(resolver, key);
                 DependencyResolverTrackerPolicy.TrackKey(context.PersistentPolicies,
                     context.BuildKey,
                     key);
-                result.AddParameterKey(key);
+                result.AddParameterResolver(resolver);
             }
             return result;
         }

@@ -31,8 +31,9 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
             foreach(InjectionParameterValue parameterValue in parameterValues)
             {
                 string key = Guid.NewGuid().ToString();
-                policies.Set<IDependencyResolverPolicy>(parameterValue.GetResolverPolicy(typeToBuild), key);
-                result.AddParameterKey(key);
+                var resolver = parameterValue.GetResolverPolicy(typeToBuild);
+                policies.Set(resolver, key);
+                result.AddParameterResolver(resolver);
             }
         }
     }

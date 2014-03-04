@@ -49,8 +49,9 @@ namespace Microsoft.Practices.ObjectBuilder2
         private SelectedProperty CreateSelectedProperty(IBuilderContext context, IPolicyList resolverPolicyDestination, PropertyInfo property)
         {
             string key = Guid.NewGuid().ToString();
-            SelectedProperty result = new SelectedProperty(property, key);
-            resolverPolicyDestination.Set<IDependencyResolverPolicy>(CreateResolver(property), key);
+            var resolver = CreateResolver(property);
+            var result = new SelectedProperty(property, resolver);
+            resolverPolicyDestination.Set(resolver, key);
             DependencyResolverTrackerPolicy.TrackKey(context.PersistentPolicies,
                 context.BuildKey,
                 key);

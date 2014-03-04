@@ -145,9 +145,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
                 SelectedConstructor newConstructor = new SelectedConstructor(newConstructorInfo);
 
-                foreach (string key in originalConstructor.GetParameterKeys())
+                foreach (var resolver in originalConstructor.GetParameterResolvers())
                 {
-                    newConstructor.AddParameterKey(key);
+                    newConstructor.AddParameterResolver(resolver);
                 }
 
                 return newConstructor;

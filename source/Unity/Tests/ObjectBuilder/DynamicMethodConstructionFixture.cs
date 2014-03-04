@@ -238,8 +238,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             {
                 var selectedConstructor = new SelectedConstructor(typeof(T).GetConstructor(new[] { typeof(object) }));
                 var key = Guid.NewGuid().ToString();
-                selectedConstructor.AddParameterKey(key);
-                resolverPoliciesDestination.Set<IDependencyResolverPolicy>(this.parameterResolverPolicy, key);
+                selectedConstructor.AddParameterResolver(this.parameterResolverPolicy);
+                resolverPoliciesDestination.Set(this.parameterResolverPolicy, key);
 
                 return selectedConstructor;
             }

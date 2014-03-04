@@ -30,37 +30,37 @@ namespace Microsoft.Practices.ObjectBuilder2
         public override void PreBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
-            DynamicBuildPlanGenerationContext dynamicBuildContext = (DynamicBuildPlanGenerationContext)(context.Existing);
+            var dynamicBuildContext = (DynamicBuildPlanGenerationContext)(context.Existing);
 
             IPolicyList resolverPolicyDestination;
-            IPropertySelectorPolicy selector = context.Policies.Get<IPropertySelectorPolicy>(context.BuildKey, out resolverPolicyDestination);
+            var selector = context.Policies.Get<IPropertySelectorPolicy>(context.BuildKey, out resolverPolicyDestination);
 
             bool shouldClearOperation = false;
 
-            foreach (SelectedProperty property in selector.SelectProperties(context, resolverPolicyDestination))
+            foreach (var property in selector.SelectProperties(context, resolverPolicyDestination))
             {
                 shouldClearOperation = true;
 
-                ParameterExpression resolvedObjectParameter = Expression.Parameter(property.Property.PropertyType);
+                var resolvedObjectParameter = Expression.Parameter(property.Property.PropertyType);
 
                 dynamicBuildContext.AddToBuildPlan(
                     Expression.Block(
-                        new ParameterExpression[] { resolvedObjectParameter },
+                        new[] { resolvedObjectParameter },
                         Expression.Call(
-                                    null, 
+                                    null,
                                     setCurrentOperationToResolvingPropertyValue,
                                     Expression.Constant(property.Property.Name),
                                     dynamicBuildContext.ContextParameter),
                         Expression.Assign(
                                 resolvedObjectParameter,
-                                dynamicBuildContext.GetResolveDependencyExpression(property.Property.PropertyType, property.Key)),
+                                dynamicBuildContext.GetResolveDependencyExpression(property.Property.PropertyType, property.Resolver)),
                         Expression.Call(
                                     null,
                                     setCurrentOperationToSettingProperty,
                                     Expression.Constant(property.Property.Name),
                                     dynamicBuildContext.ContextParameter),
                         Expression.Call(
-                            Expression.Convert(dynamicBuildContext.GetExistingObjectExpression(), dynamicBuildContext.TypeToBuild ),
+                            Expression.Convert(dynamicBuildContext.GetExistingObjectExpression(), dynamicBuildContext.TypeToBuild),
                             GetValidatedPropertySetter(property.Property),
                             resolvedObjectParameter)
                         ));

@@ -40,17 +40,17 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private SelectedConstructor CreateSelectedConstructor(IBuilderContext context, IPolicyList resolverPolicyDestination, ConstructorInfo ctor)
         {
-            SelectedConstructor result = new SelectedConstructor(ctor);
+            var result = new SelectedConstructor(ctor);
             
             foreach(ParameterInfo param in ctor.GetParameters())
             {
                 string key = Guid.NewGuid().ToString();
-                IDependencyResolverPolicy policy = CreateResolver(param);
-                resolverPolicyDestination.Set<IDependencyResolverPolicy>(policy, key);
+                var policy = CreateResolver(param);
+                resolverPolicyDestination.Set(policy, key);
                 DependencyResolverTrackerPolicy.TrackKey(resolverPolicyDestination,
                     context.BuildKey,
                     key);
-                result.AddParameterKey(key);
+                result.AddParameterResolver(policy);
             }
             return result;
         }

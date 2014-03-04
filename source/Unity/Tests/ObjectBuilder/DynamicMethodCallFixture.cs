@@ -31,7 +31,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IBuildPlanPolicy plan =
                 GetPlanCreator(context).CreatePlan(context, key);
 
-            ObjectWithInjectionMethod existing = new ObjectWithInjectionMethod();
+            var existing = new ObjectWithInjectionMethod();
 
             context.BuildKey = key;
             context.Existing = existing;
@@ -306,11 +306,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             public IEnumerable<SelectedMethod> SelectMethods(IBuilderContext context, IPolicyList resolverPolicyDestination)
             {
                 var key = Guid.NewGuid().ToString();
-                resolverPolicyDestination.Set<IDependencyResolverPolicy>(this.resolverPolicy, key);
+                resolverPolicyDestination.Set(this.resolverPolicy, key);
                 var method =
                     new SelectedMethod(
                         typeof(T).GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)[0]);
-                method.AddParameterKey(key);
+                method.AddParameterResolver(this.resolverPolicy);
 
                 yield return method;
             }

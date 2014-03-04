@@ -10,24 +10,15 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class SelectedMemberWithParameters
     {
-        private List<string> parameterKeys = new List<string>();
+        private readonly List<IDependencyResolverPolicy> parameterResolvers = new List<IDependencyResolverPolicy>();
 
-        /// <summary>
-        /// Add a new parameter key to this object. Keys are assumed
-        /// to be in the order of the parameters to the constructor.
-        /// </summary>
-        /// <param name="newKey">Key for the next parameter to look up.</param>
-        public void AddParameterKey(string newKey)
+        public void AddParameterResolver(IDependencyResolverPolicy newKey)
         {
-            parameterKeys.Add(newKey);
+            parameterResolvers.Add(newKey);
         }
-
-        /// <summary>
-        /// The set of keys for the constructor parameters.
-        /// </summary>
-        public string[] GetParameterKeys()
+        public IDependencyResolverPolicy[] GetParameterResolvers()
         {
-            return parameterKeys.ToArray();
+            return parameterResolvers.ToArray();
         }
     }
 }

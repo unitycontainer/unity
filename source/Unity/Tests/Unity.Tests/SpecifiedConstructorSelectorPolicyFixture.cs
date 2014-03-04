@@ -32,7 +32,7 @@ namespace Microsoft.Practices.Unity.Tests
             SelectedConstructor selectedCtor = policy.SelectConstructor(builderContext, new PolicyList());
 
             Assert.AreEqual(ctor, selectedCtor.Constructor);
-            Assert.AreEqual(0, selectedCtor.GetParameterKeys().Length);
+            Assert.AreEqual(0, selectedCtor.GetParameterResolvers().Length);
 
         }
 
@@ -53,13 +53,13 @@ namespace Microsoft.Practices.Unity.Tests
             SelectedConstructor selectedCtor = policy.SelectConstructor(builderContext, builderContext.PersistentPolicies);
 
             Assert.AreEqual(ctor, selectedCtor.Constructor);
-            Assert.AreEqual(2, selectedCtor.GetParameterKeys().Length);
+            Assert.AreEqual(2, selectedCtor.GetParameterResolvers().Length);
 
-            string[] keys = selectedCtor.GetParameterKeys();
-            Assert.AreEqual(2, keys.Length);
-            foreach (string key in keys)
+            var resolvers = selectedCtor.GetParameterResolvers();
+            Assert.AreEqual(2, resolvers.Length);
+            foreach (var resolverPolicy in resolvers)
             {
-                AssertPolicyIsCorrect(key, builderContext);
+                AssertPolicyIsCorrect(resolverPolicy);
             }
         }
 
@@ -85,9 +85,8 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.AreSame(expectedCtor, result.Constructor);
         }
 
-        private void AssertPolicyIsCorrect(string key, IBuilderContext context)
+        private static void AssertPolicyIsCorrect(IDependencyResolverPolicy policy)
         {
-            IDependencyResolverPolicy policy = context.PersistentPolicies.Get<IDependencyResolverPolicy>(key);
             Assert.IsNotNull(policy);
             Assert.IsInstanceOfType(policy, typeof(LiteralValueDependencyResolverPolicy));
         }

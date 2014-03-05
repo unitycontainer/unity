@@ -19,7 +19,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         readonly NamedTypeBuildKey originalBuildKey;
         private readonly IPolicyList persistentPolicies;
         readonly IPolicyList policies;
-        private readonly CompositeResolverOverride resolverOverrides = new CompositeResolverOverride();
+        private  CompositeResolverOverride resolverOverrides = new CompositeResolverOverride();
 
         /// <summary>
         /// Initialize a new instance of the <see cref="BuilderContext"/> class.
@@ -205,9 +205,12 @@ namespace Microsoft.Practices.ObjectBuilder2
         public object NewBuildUp(NamedTypeBuildKey newBuildKey)
         {
             this.ChildContext =
-                new BuilderContext(chain, lifetime, persistentPolicies, policies, newBuildKey, null);
+                new BuilderContext(chain, lifetime, persistentPolicies, policies, newBuildKey, null)
+                    {
+                        resolverOverrides = resolverOverrides
+                    };
 
-            ChildContext.AddResolverOverrides(Sequence.Collect(resolverOverrides));
+            //ChildContext.AddResolverOverrides(Sequence.Collect(resolverOverrides));
 
             object result = this.ChildContext.Strategies.ExecuteBuildUp(this.ChildContext);
 
@@ -232,9 +235,12 @@ namespace Microsoft.Practices.ObjectBuilder2
             Guard.ArgumentNotNull(childCustomizationBlock, "childCustomizationBlock");
 
             ChildContext =
-                new BuilderContext(chain, lifetime, persistentPolicies, policies, newBuildKey, null);
+                new BuilderContext(chain, lifetime, persistentPolicies, policies, newBuildKey, null)
+                {
+                    resolverOverrides = resolverOverrides
+                };
 
-            ChildContext.AddResolverOverrides(Sequence.Collect(resolverOverrides));
+            //ChildContext.AddResolverOverrides(Sequence.Collect(resolverOverrides));
 
             childCustomizationBlock(ChildContext);
 

@@ -12,10 +12,19 @@ namespace Microsoft.Practices.ObjectBuilder2
     {
         private readonly List<IDependencyResolverPolicy> parameterResolvers = new List<IDependencyResolverPolicy>();
 
+        /// <summary>
+        /// Adds the parameter resolver.
+        /// </summary>
+        /// <param name="newKey">The new key.</param>
         public void AddParameterResolver(IDependencyResolverPolicy newKey)
         {
             parameterResolvers.Add(newKey);
         }
+
+        /// <summary>
+        /// Gets the parameter resolvers.
+        /// </summary>
+        /// <returns></returns>
         public IDependencyResolverPolicy[] GetParameterResolvers()
         {
             return parameterResolvers.ToArray();

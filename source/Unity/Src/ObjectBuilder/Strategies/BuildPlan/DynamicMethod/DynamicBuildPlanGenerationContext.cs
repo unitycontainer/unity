@@ -182,6 +182,13 @@ namespace Microsoft.Practices.ObjectBuilder2
             return resolver ?? context.Policies.Get<IDependencyResolverPolicy>(resolverKey);
         }
 
+        /// <summary>
+        /// Helper method used by generated IL to look up a dependency resolver based on the given key.
+        /// </summary>
+        /// <param name="context">Current build context.</param>
+        /// <param name="dependencyType">Type of the dependency being resolved.</param>
+        /// <param name="resolver">The configured resolver.</param>
+        /// <returns>The found dependency resolver.</returns>
         public static IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType, IDependencyResolverPolicy resolver)
         {
             Guard.ArgumentNotNull(context, "context");

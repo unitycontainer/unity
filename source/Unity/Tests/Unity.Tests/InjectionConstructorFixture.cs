@@ -97,12 +97,6 @@ namespace Microsoft.Practices.Unity.Tests
                 );
         }
 
-        private object ResolveValue(IPolicyList policies, string key)
-        {
-            IDependencyResolverPolicy resolver = policies.Get<IDependencyResolverPolicy>(key);
-            return resolver.Resolve(null);
-        }
-
         private class GuineaPig
         {
             public GuineaPig()

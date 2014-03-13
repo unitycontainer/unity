@@ -25,7 +25,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="resolverPolicyDestination">The <see cref='IPolicyList'/> to add any
         /// generated resolver objects into.</param>
         /// <returns>The chosen constructor.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification="Validation done by Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         public SelectedConstructor SelectConstructor(IBuilderContext context, IPolicyList resolverPolicyDestination)
         {
             Guard.ArgumentNotNull(context, "context");
@@ -41,17 +41,12 @@ namespace Microsoft.Practices.ObjectBuilder2
         private SelectedConstructor CreateSelectedConstructor(IBuilderContext context, IPolicyList resolverPolicyDestination, ConstructorInfo ctor)
         {
             var result = new SelectedConstructor(ctor);
-            
-            foreach(ParameterInfo param in ctor.GetParameters())
+
+            foreach (ParameterInfo param in ctor.GetParameters())
             {
-                string key = Guid.NewGuid().ToString();
-                var policy = CreateResolver(param);
-                resolverPolicyDestination.Set(policy, key);
-                DependencyResolverTrackerPolicy.TrackKey(resolverPolicyDestination,
-                    context.BuildKey,
-                    key);
-                result.AddParameterResolver(policy);
+                result.AddParameterResolver(this.CreateResolver(param));
             }
+
             return result;
         }
 
@@ -72,7 +67,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                                                                                 typeof(TInjectionConstructorMarkerAttribute),
                                                                                 true))
                                                         .ToArray();
-            switch(injectionConstructors.Length)
+            switch (injectionConstructors.Length)
             {
                 case 0:
                     return null;
@@ -96,7 +91,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             ConstructorInfo[] constructors = typeToConstructReflector.InstanceConstructors.ToArray();
             Array.Sort(constructors, new ConstructorLengthComparer());
 
-            switch(constructors.Length)
+            switch (constructors.Length)
             {
                 case 0:
                     return null;
@@ -106,7 +101,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
                 default:
                     int paramLength = constructors[0].GetParameters().Length;
-                    if(constructors[1].GetParameters().Length == paramLength)
+                    if (constructors[1].GetParameters().Length == paramLength)
                     {
                         throw new InvalidOperationException(
                             string.Format(

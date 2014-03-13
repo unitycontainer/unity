@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -12,8 +11,6 @@ using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
-    using System.Runtime.CompilerServices;
-
     /// <summary>
     /// A <see cref="BuilderStrategy"/> that generates IL to call
     /// chosen methods (as specified by the current <see cref="IMethodSelectorPolicy"/>)
@@ -39,7 +36,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             Guard.ArgumentNotNull(context, "context");
 
             var dynamicBuildContext = (DynamicBuildPlanGenerationContext)(context.Existing);
-            
+
             IPolicyList resolverPolicyDestination;
             var selector = context.Policies.Get<IMethodSelectorPolicy>(context.BuildKey, out resolverPolicyDestination);
 
@@ -75,14 +72,14 @@ namespace Microsoft.Practices.ObjectBuilder2
             }
         }
 
-       
+
 
         private IEnumerable<Expression> BuildMethodParameterExpressions(DynamicBuildPlanGenerationContext context, SelectedMethod method, string methodSignature)
         {
             int i = 0;
             var methodParameters = method.Method.GetParameters();
 
-            foreach (var parameterResolver in method.GetParameterResolvers())
+            foreach (IDependencyResolverPolicy parameterResolver in method.GetParameterResolvers())
             {
                 yield return context.CreateParameterExpression(
                                 parameterResolver,
@@ -94,8 +91,6 @@ namespace Microsoft.Practices.ObjectBuilder2
                                     context.ContextParameter));
                 i++;
             }
-
-            yield break;
         }
 
         private static void GuardMethodIsNotOpenGeneric(MethodInfo method)

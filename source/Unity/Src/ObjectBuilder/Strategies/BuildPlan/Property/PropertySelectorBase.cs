@@ -48,14 +48,8 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private SelectedProperty CreateSelectedProperty(IBuilderContext context, IPolicyList resolverPolicyDestination, PropertyInfo property)
         {
-            string key = Guid.NewGuid().ToString();
-            var resolver = CreateResolver(property);
-            var result = new SelectedProperty(property, resolver);
-            resolverPolicyDestination.Set(resolver, key);
-            DependencyResolverTrackerPolicy.TrackKey(context.PersistentPolicies,
-                context.BuildKey,
-                key);
-            return result;
+            IDependencyResolverPolicy resolver = this.CreateResolver(property);
+            return new SelectedProperty(property, resolver);
         }
 
         /// <summary>

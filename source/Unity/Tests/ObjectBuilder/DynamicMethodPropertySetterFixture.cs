@@ -2,9 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
-using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,8 +13,6 @@ using InjectionConstructorAttribute = Microsoft.Practices.ObjectBuilder2.Tests.T
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {
-    using System.Linq;
-
     [TestClass]
     public class DynamicMethodPropertySetterFixture
     {
@@ -170,8 +168,6 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             public IEnumerable<SelectedProperty> SelectProperties(IBuilderContext context, IPolicyList resolverPolicyDestination)
             {
-                var key = Guid.NewGuid().ToString();
-                resolverPolicyDestination.Set(this.resolverPolicy, key);
                 const BindingFlags Filter = BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly;
                 var firstProperty = typeof(T).GetProperties(Filter).First();
                 yield return new SelectedProperty(firstProperty, this.resolverPolicy);

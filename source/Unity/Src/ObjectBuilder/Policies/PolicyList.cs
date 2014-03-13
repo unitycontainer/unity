@@ -14,12 +14,11 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class PolicyList : IPolicyList
     {
-        private static readonly PolicyKeyEqualityComparer Comparer = new PolicyKeyEqualityComparer();
         private readonly IPolicyList innerPolicyList;
         private readonly object lockObject = new object();
         // Does not need to be volatile. It is fine if a slightly out of date version of the current snapshot is read
         // as long as replacing a snapshot when adding or removing policies is thread safe
-        private Dictionary<PolicyKey, IBuilderPolicy> policies = new Dictionary<PolicyKey, IBuilderPolicy>(Comparer);
+        private Dictionary<PolicyKey, IBuilderPolicy> policies = new Dictionary<PolicyKey, IBuilderPolicy>(PolicyKeyEqualityComparer.Default);
 
         /// <summary>
         /// Initialize a new instance of a <see cref="PolicyList"/> class.
@@ -73,7 +72,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             lock (lockObject)
             {
-                this.policies = new Dictionary<PolicyKey, IBuilderPolicy>(Comparer);
+                this.policies = new Dictionary<PolicyKey, IBuilderPolicy>(PolicyKeyEqualityComparer.Default);
             }
         }
 
@@ -211,7 +210,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private Dictionary<PolicyKey, IBuilderPolicy> ClonePolicies()
         {
-            return new Dictionary<PolicyKey, IBuilderPolicy>(policies, Comparer);
+            return new Dictionary<PolicyKey, IBuilderPolicy>(policies, PolicyKeyEqualityComparer.Default);
         }
 
         private static bool TryGetType(object buildKey, out Type type)
@@ -338,15 +337,12 @@ namespace Microsoft.Practices.ObjectBuilder2
             {
                 return obj != null ? obj.GetHashCode() : 0;
             }
-
-            public bool Equals(PolicyKey other)
-            {
-                return this == other;
-            }
         }
 
         class PolicyKeyEqualityComparer : IEqualityComparer<PolicyKey>
         {
+            public static readonly PolicyKeyEqualityComparer Default = new PolicyKeyEqualityComparer();
+
             public bool Equals(PolicyKey x, PolicyKey y)
             {
                 return x.PolicyType == y.PolicyType &&

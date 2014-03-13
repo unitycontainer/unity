@@ -19,11 +19,11 @@ namespace Microsoft.Practices.ObjectBuilder2
         private readonly ParameterExpression contextParameter;
         private readonly Queue<Expression> buildPlanExpressions;
 
-        private static readonly MethodInfo GetResolveDependencyMethod =
+        private static readonly MethodInfo ResolveDependencyMethod =
             StaticReflection.GetMethodInfo((IDependencyResolverPolicy r) => r.Resolve(null));
 
         private static readonly MethodInfo GetResolverMethod =
-            StaticReflection.GetMethodInfo(() => GetResolver(null, null, null as IDependencyResolverPolicy));
+            StaticReflection.GetMethodInfo(() => GetResolver(null, null, (IDependencyResolverPolicy)null));
 
         private static readonly MemberInfo GetBuildContextExistingObjectProperty =
             StaticReflection.GetMemberInfo((IBuilderContext c) => c.Existing);
@@ -120,7 +120,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                                                ContextParameter,
                                                Expression.Constant(dependencyType, typeof(Type)),
                                                Expression.Constant(resolver, typeof(IDependencyResolverPolicy))),
-                               GetResolveDependencyMethod,
+                               ResolveDependencyMethod,
                                ContextParameter),
                            dependencyType);
         }
@@ -174,12 +174,10 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="resolverKey">Key the resolver was stored under.</param>
         /// <returns>The found dependency resolver.</returns>
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
+        [Obsolete("Resolvers are no longer stored as policies.")]
         public static IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType, string resolverKey)
         {
-            Guard.ArgumentNotNull(context, "context");
-
-            var resolver = context.GetOverriddenResolver(dependencyType);
-            return resolver ?? context.Policies.Get<IDependencyResolverPolicy>(resolverKey);
+            throw new NotSupportedException("This method is no longer used");
         }
 
         /// <summary>

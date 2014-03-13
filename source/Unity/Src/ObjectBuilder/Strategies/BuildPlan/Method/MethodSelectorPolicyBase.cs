@@ -32,7 +32,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
             foreach (MethodInfo method in candidateMethods)
             {
-                if(method.IsDefined(typeof(TMarkerAttribute), false))
+                if (method.IsDefined(typeof(TMarkerAttribute), false))
                 {
                     yield return CreateSelectedMethod(context, resolverPolicyDestination, method);
                 }
@@ -42,16 +42,11 @@ namespace Microsoft.Practices.ObjectBuilder2
         private SelectedMethod CreateSelectedMethod(IBuilderContext context, IPolicyList resolverPolicyDestination, MethodInfo method)
         {
             var result = new SelectedMethod(method);
-            foreach(ParameterInfo parameter in method.GetParameters())
+            foreach (ParameterInfo parameter in method.GetParameters())
             {
-                string key = Guid.NewGuid().ToString();
-                var resolver = CreateResolver(parameter);
-                resolverPolicyDestination.Set(resolver, key);
-                DependencyResolverTrackerPolicy.TrackKey(context.PersistentPolicies,
-                    context.BuildKey,
-                    key);
-                result.AddParameterResolver(resolver);
+                result.AddParameterResolver(this.CreateResolver(parameter));
             }
+
             return result;
         }
 

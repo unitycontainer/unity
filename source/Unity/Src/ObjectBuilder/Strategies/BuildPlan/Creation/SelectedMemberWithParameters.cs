@@ -6,25 +6,26 @@ namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
     /// Base class for return of selector policies that need
-    /// to keep track of a set of parameter keys.
+    /// to keep track of a set of parameter resolvers.
     /// </summary>
     public class SelectedMemberWithParameters
     {
         private readonly List<IDependencyResolverPolicy> parameterResolvers = new List<IDependencyResolverPolicy>();
 
         /// <summary>
-        /// Adds the parameter resolver.
+        /// Adds the parameter resolver. Resolvers are assumed
+        /// to be in the order of the parameters to the member.
         /// </summary>
-        /// <param name="newKey">The new key.</param>
-        public void AddParameterResolver(IDependencyResolverPolicy newKey)
+        /// <param name="newResolver">The new resolver.</param>
+        public void AddParameterResolver(IDependencyResolverPolicy newResolver)
         {
-            parameterResolvers.Add(newKey);
+            parameterResolvers.Add(newResolver);
         }
 
         /// <summary>
         /// Gets the parameter resolvers.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An array with the parameter resolvers.</returns>
         public IDependencyResolverPolicy[] GetParameterResolvers()
         {
             return parameterResolvers.ToArray();

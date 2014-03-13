@@ -15,7 +15,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
     /// </summary>
     public class SpecifiedPropertiesSelectorPolicy : IPropertySelectorPolicy
     {
-        private readonly List<Pair<PropertyInfo, InjectionParameterValue>> propertiesAndValues = 
+        private readonly List<Pair<PropertyInfo, InjectionParameterValue>> propertiesAndValues =
             new List<Pair<PropertyInfo, InjectionParameterValue>>();
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         {
             Type typeToBuild = context.BuildKey.Type;
             var currentTypeReflector = new ReflectionHelper(context.BuildKey.Type);
-            foreach(Pair<PropertyInfo, InjectionParameterValue> pair in propertiesAndValues)
+            foreach (Pair<PropertyInfo, InjectionParameterValue> pair in propertiesAndValues)
             {
                 PropertyInfo currentProperty = pair.First;
 
@@ -53,11 +53,8 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
                 {
                     currentProperty = currentTypeReflector.Type.GetTypeInfo().GetDeclaredProperty(currentProperty.Name);
                 }
-                
-                string key = Guid.NewGuid().ToString();
-                var resolver = pair.Second.GetResolverPolicy(typeToBuild);
-                resolverPolicyDestination.Set(resolver, key);
-                yield return new SelectedProperty(currentProperty, resolver);
+
+                yield return new SelectedProperty(currentProperty, pair.Second.GetResolverPolicy(typeToBuild));
             }
         }
     }

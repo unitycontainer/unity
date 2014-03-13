@@ -3,7 +3,7 @@
 namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
-    /// A <see cref="IBuilderPolicy"/> that is used at build plan execution time
+    /// A strategy that is used at build plan execution time
     /// to resolve a dependent value.
     /// </summary>
     public interface IDependencyResolverPolicy : IBuilderPolicy

@@ -19,7 +19,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         readonly NamedTypeBuildKey originalBuildKey;
         private readonly IPolicyList persistentPolicies;
         readonly IPolicyList policies;
-        private  CompositeResolverOverride resolverOverrides = new CompositeResolverOverride();
+        private CompositeResolverOverride resolverOverrides = new CompositeResolverOverride();
 
         /// <summary>
         /// Initialize a new instance of the <see cref="BuilderContext"/> class.
@@ -147,7 +147,6 @@ namespace Microsoft.Practices.ObjectBuilder2
             get { return policies; }
         }
 
-
         /// <summary>
         /// Gets the collection of <see cref="IRequiresRecovery"/> objects
         /// that need to execute in event of an exception.
@@ -207,10 +206,8 @@ namespace Microsoft.Practices.ObjectBuilder2
             this.ChildContext =
                 new BuilderContext(chain, lifetime, persistentPolicies, policies, newBuildKey, null)
                     {
-                        resolverOverrides = resolverOverrides
+                        resolverOverrides = this.resolverOverrides
                     };
-
-            //ChildContext.AddResolverOverrides(Sequence.Collect(resolverOverrides));
 
             object result = this.ChildContext.Strategies.ExecuteBuildUp(this.ChildContext);
 
@@ -237,10 +234,8 @@ namespace Microsoft.Practices.ObjectBuilder2
             ChildContext =
                 new BuilderContext(chain, lifetime, persistentPolicies, policies, newBuildKey, null)
                 {
-                    resolverOverrides = resolverOverrides
+                    resolverOverrides = this.resolverOverrides
                 };
-
-            //ChildContext.AddResolverOverrides(Sequence.Collect(resolverOverrides));
 
             childCustomizationBlock(ChildContext);
 

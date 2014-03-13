@@ -305,8 +305,6 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             public IEnumerable<SelectedMethod> SelectMethods(IBuilderContext context, IPolicyList resolverPolicyDestination)
             {
-                var key = Guid.NewGuid().ToString();
-                resolverPolicyDestination.Set(this.resolverPolicy, key);
                 var method =
                     new SelectedMethod(
                         typeof(T).GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)[0]);

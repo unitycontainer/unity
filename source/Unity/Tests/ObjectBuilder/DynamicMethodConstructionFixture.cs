@@ -237,9 +237,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             public SelectedConstructor SelectConstructor(IBuilderContext context, IPolicyList resolverPoliciesDestination)
             {
                 var selectedConstructor = new SelectedConstructor(typeof(T).GetConstructor(new[] { typeof(object) }));
-                var key = Guid.NewGuid().ToString();
                 selectedConstructor.AddParameterResolver(this.parameterResolverPolicy);
-                resolverPoliciesDestination.Set(this.parameterResolverPolicy, key);
 
                 return selectedConstructor;
             }

@@ -211,7 +211,6 @@ namespace Microsoft.Practices.Unity.Tests
                 var ctr = typeof(InjectedObject).GetMatchingConstructor(new[] { typeof(object) });
                 var selectedConstructor = new SelectedConstructor(ctr);
                 selectedConstructor.AddParameterResolver(this.resolverPolicy);
-                resolverPoliciesDestination.Set(this.resolverPolicy, "InjectedObject_injectedValue");
 
                 return selectedConstructor;
             }

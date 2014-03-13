@@ -28,11 +28,9 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(parameterValues, "parameterValues");
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(result, "result");
 
-            foreach(InjectionParameterValue parameterValue in parameterValues)
+            foreach (InjectionParameterValue parameterValue in parameterValues)
             {
-                string key = Guid.NewGuid().ToString();
                 var resolver = parameterValue.GetResolverPolicy(typeToBuild);
-                policies.Set(resolver, key);
                 result.AddParameterResolver(resolver);
             }
         }

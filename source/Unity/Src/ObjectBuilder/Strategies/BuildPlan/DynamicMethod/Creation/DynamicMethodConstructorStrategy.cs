@@ -2,17 +2,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Reflection;
-using System.Threading.Tasks;
-using Microsoft.Practices.ObjectBuilder2;
-using System.Globalization;
-using Microsoft.Practices.Unity.Properties;
-using System.Diagnostics.CodeAnalysis;
-using Microsoft.Practices.Unity.Utility;
 using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
@@ -169,7 +166,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             int i = 0;
             var constructionParameters = selectedConstructor.Constructor.GetParameters();
 
-            foreach (var parameterResolver in selectedConstructor.GetParameterResolvers())
+            foreach (IDependencyResolverPolicy parameterResolver in selectedConstructor.GetParameterResolvers())
             {
                 yield return buildContext.CreateParameterExpression(
                                 parameterResolver,

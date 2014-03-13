@@ -83,8 +83,11 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="buildKey">Build key.</param>
         public static void RemoveResolvers(IPolicyList policies, object buildKey)
         {
-            IDependencyResolverTrackerPolicy tracker = GetTracker(policies, buildKey);
-            tracker.RemoveResolvers(policies);
+            IDependencyResolverTrackerPolicy tracker = policies.Get<IDependencyResolverTrackerPolicy>(buildKey);
+            if (tracker != null)
+            {
+                tracker.RemoveResolvers(policies);
+            }
         }
     }
 }

@@ -309,13 +309,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             public IEnumerable<SelectedMethod> SelectMethods(IBuilderContext context, IPolicyList resolverPolicyDestination)
             {
-                var key = Guid.NewGuid().ToString();
-                resolverPolicyDestination.Set<IDependencyResolverPolicy>(this.resolverPolicy, key);
                 var method =
                     new SelectedMethod(
                         // .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)[0]
                         typeof(T).GetTypeInfo().DeclaredMethods.First(m => m.IsPublic && !m.IsStatic));
-                method.AddParameterKey(key);
+                method.AddParameterResolver(this.resolverPolicy);
 
                 yield return method;
             }

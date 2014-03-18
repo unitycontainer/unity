@@ -173,12 +173,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             public IEnumerable<SelectedProperty> SelectProperties(IBuilderContext context, IPolicyList resolverPolicyDestination)
             {
-                var key = Guid.NewGuid().ToString();
-                resolverPolicyDestination.Set<IDependencyResolverPolicy>(this.resolverPolicy, key);
                 yield return
                     new SelectedProperty(
                         typeof(T).GetTypeInfo().DeclaredProperties.First(),
-                        key);
+                        this.resolverPolicy);
             }
         }
 

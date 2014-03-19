@@ -2,6 +2,7 @@
 using Microsoft.Practices.Unity.WebApi;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof($rootnamespace$.App_Start.UnityWebApiActivator), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof($rootnamespace$.App_Start.UnityWebApiActivator), "Shutdown")]
 
 namespace $rootnamespace$.App_Start
 {
@@ -16,6 +17,13 @@ namespace $rootnamespace$.App_Start
             var resolver = new UnityDependencyResolver(UnityConfig.GetConfiguredContainer());
 
             GlobalConfiguration.Configuration.DependencyResolver = resolver;
+        }
+
+        /// <summary>Disposes the Unity container when the application is shut down.</summary>
+        public static void Shutdown()
+        {
+            var container = UnityConfig.GetConfiguredContainer();
+            container.Dispose();
         }
     }
 }

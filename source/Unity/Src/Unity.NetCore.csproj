@@ -13,7 +13,8 @@
     <AssemblyName>Microsoft.Practices.Unity.NetCore</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids></PropertyGroup>
+    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -64,6 +65,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.NetCore.tt</DependentUpon>
     </Compile>
+    <Compile Include="UnityServiceLocator.cs" />
     <Compile Include="Utility\TypeReflectionExtensions.cs">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -355,6 +357,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\packages\CommonServiceLocator.1.2\lib\portable-windows8+net40+sl5+windowsphone8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -366,6 +371,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.Unity.NetCore.config" />
     <None Include="Resources.NetCore.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Resources.NetCore.cs</LastGenOutput>

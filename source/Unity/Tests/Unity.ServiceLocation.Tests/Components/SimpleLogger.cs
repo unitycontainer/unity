@@ -8,7 +8,6 @@ namespace Microsoft.Practices.Unity.ServiceLocation.Tests.Components
     {
         public void Log(string msg)
         {
-            Console.WriteLine(msg);
         }
     }
 }

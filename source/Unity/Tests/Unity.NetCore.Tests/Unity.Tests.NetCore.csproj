@@ -13,7 +13,8 @@
     <AssemblyName>Microsoft.Practices.Unity.Tests.NetCore</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids><PackageCertificateThumbprint>3A7CCED917D4A560F94A1197A997AB6F80E0ED56</PackageCertificateThumbprint>
+    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateThumbprint>3A7CCED917D4A560F94A1197A997AB6F80E0ED56</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>Unity.Tests.NetCore_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
@@ -240,6 +241,21 @@
       <Link>Unity.Tests\DisposableExtensionFixture.cs</Link>
     </Compile>
     -->
+    <Compile Include="..\Unity.ServiceLocation.Tests\Components\AdvancedLogger.cs">
+      <Link>Unity.ServiceLocation.Tests\Components\AdvancedLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Unity.ServiceLocation.Tests\Components\ILogger.cs">
+      <Link>Unity.ServiceLocation.Tests\Components\ILogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Unity.ServiceLocation.Tests\Components\SimpleLogger.cs">
+      <Link>Unity.ServiceLocation.Tests\Components\SimpleLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Unity.ServiceLocation.Tests\ServiceLocatorFixture.cs">
+      <Link>Unity.ServiceLocation.Tests\ServiceLocatorFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\Unity.ServiceLocation.Tests\UnityServiceLocatorAdapterFixture.cs">
+      <Link>Unity.ServiceLocation.Tests\UnityServiceLocatorAdapterFixture.cs</Link>
+    </Compile>
     <Compile Include="..\Unity.Tests\AssemblyScanningFixture.cs">
       <Link>Unity.Tests\AssemblyScanningFixture.cs</Link>
     </Compile>
@@ -509,10 +525,14 @@
     <Compile Include="Unity.Tests\ContainerControlledLifetimeThreadingFixture.NetCore.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Unity.Tests.NetCore_TemporaryKey.pfx" />
     <Compile Include="Unity.Tests\AssemblyScanningFixture.NetCore.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\..\packages\CommonServiceLocator.1.2\lib\portable-windows8+net40+sl5+windowsphone8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="TestNetAssembly.NetCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\TestAssemblies\TestNetAssembly.NetCore\bin\$(Configuration)\TestNetAssembly.NetCore.dll</HintPath>

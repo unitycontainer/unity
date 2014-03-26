@@ -25,7 +25,8 @@
     <SilverlightAppEntry>Microsoft.Practices.Unity.Tests.App</SilverlightAppEntry>
     <ValidateXaml>false</ValidateXaml>
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
-    <ThrowErrorsInValidation>true</ThrowErrorsInValidation></PropertyGroup>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -76,6 +77,21 @@
     <Compile Include="..\Unity.NetCore.Tests\Unity.Tests\AssemblyScanningFixture.NetCore.cs">
       <Link>Unity.Tests\AssemblyScanningFixture.NetCore.cs</Link>
     </Compile>
+    <Compile Include="..\Unity.ServiceLocation.Tests\Components\AdvancedLogger.cs">
+      <Link>Unity.ServiceLocation.Tests\Components\AdvancedLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Unity.ServiceLocation.Tests\Components\ILogger.cs">
+      <Link>Unity.ServiceLocation.Tests\Components\ILogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Unity.ServiceLocation.Tests\Components\SimpleLogger.cs">
+      <Link>Unity.ServiceLocation.Tests\Components\SimpleLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Unity.ServiceLocation.Tests\ServiceLocatorFixture.cs">
+      <Link>Unity.ServiceLocation.Tests\ServiceLocatorFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\Unity.ServiceLocation.Tests\UnityServiceLocatorAdapterFixture.cs">
+      <Link>Unity.ServiceLocation.Tests\UnityServiceLocatorAdapterFixture.cs</Link>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -101,6 +117,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
@@ -541,6 +558,11 @@
     <Compile Include="..\Unity.NetCore.Tests\Unity.Tests\ContainerControlledLifetimeThreadingFixture.NetCore.cs">
       <Link>Unity.Tests\UnityHierarchyFixture.cs</Link>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\..\packages\CommonServiceLocator.1.2\lib\portable-windows8+net40+sl5+windowsphone8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

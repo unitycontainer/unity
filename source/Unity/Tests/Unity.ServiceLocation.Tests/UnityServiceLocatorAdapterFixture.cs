@@ -6,7 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.ServiceLocation.Tests.Components;
+#if NETFX_CORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Unity.ServiceLocation.Tests
 {

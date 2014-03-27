@@ -211,6 +211,42 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.IsFalse(errors);
         }
 
+        // https://unity.codeplex.com/workitem/8777
+        [TestMethod]
+        public void PerResolveLifetimeIsHonoredWhenResolvingArrays()
+        {
+            using (var container = new UnityContainer())
+            {
+                container.RegisterType<ClassWithDependency>("instance1");
+                container.RegisterType<ClassWithDependency>("instance2");
+                container.RegisterType<ClassWithPerResolveLifetime>(new PerResolveLifetimeManager());
+
+                var instances = container.ResolveAll<ClassWithDependency>();
+
+                Assert.AreEqual(2, instances.Count());
+                Assert.AreSame(instances.ElementAt(0).Dependency, instances.ElementAt(1).Dependency);
+            }
+        }
+
+        // https://unity.codeplex.com/workitem/8777
+        [TestMethod]
+        public void ResolverOverridesAreUsedWhenResolvingArrayElements()
+        {
+            using (var container = new UnityContainer())
+            {
+                var overrideInstance = new ClassWithPerResolveLifetime();
+                container.RegisterType<ClassWithDependency>("instance1");
+                container.RegisterType<ClassWithDependency>("instance2");
+
+                var instance = 
+                    container.Resolve<ClassWithDependencyOnArray>(new DependencyOverride<ClassWithPerResolveLifetime>(overrideInstance).OnType<ClassWithDependency>());
+
+                Assert.AreEqual(2, instance.Elements.Length);
+                Assert.AreSame(overrideInstance, instance.Elements[0].Dependency);
+                Assert.AreSame(overrideInstance, instance.Elements[1].Dependency);
+            }
+        }
+
         public interface IBasicInterface
         {
         }
@@ -279,6 +315,30 @@ namespace Microsoft.Practices.Unity.Tests
             {
 
             }
+        }
+
+        public class ClassWithDependency
+        {
+            public ClassWithDependency(ClassWithPerResolveLifetime dependency)
+            {
+                this.Dependency = dependency;
+            }
+
+            public ClassWithPerResolveLifetime Dependency { get; private set; }
+        }
+
+        public class ClassWithPerResolveLifetime
+        {
+        }
+
+        public class ClassWithDependencyOnArray
+        {
+            public ClassWithDependencyOnArray(ClassWithDependency[] elements)
+            {
+                this.Elements = elements;
+            }
+
+            public ClassWithDependency[] Elements { get; private set; }
         }
     }
 }

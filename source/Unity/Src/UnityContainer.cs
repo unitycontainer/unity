@@ -69,7 +69,7 @@ namespace Microsoft.Practices.Unity
             this.AddExtension(new UnityDefaultBehaviorExtension());
 
 #pragma warning disable 618
-            this.AddExtension( new InjectedMembers());
+            this.AddExtension(new InjectedMembers());
 #pragma warning restore 618
         }
 
@@ -91,7 +91,7 @@ namespace Microsoft.Practices.Unity
             Guard.ArgumentNotNull(to, "to");
             Guard.ArgumentNotNull(injectionMembers, "injectionMembers");
 
-            if(string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
             {
                 name = null;
             }
@@ -106,7 +106,7 @@ namespace Microsoft.Practices.Unity
             if (injectionMembers.Length > 0)
             {
                 ClearExistingBuildPlan(to, name);
-                foreach(var member in injectionMembers)
+                foreach (var member in injectionMembers)
                 {
                     member.AddPolicies(from, to, name, policies);
                 }
@@ -184,22 +184,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>Set of objects of type <paramref name="t"/>.</returns>
         public IEnumerable<object> ResolveAll(Type t, params ResolverOverride[] resolverOverrides)
         {
-            var names = GetRegisteredNames(t);
-            if (t.GetTypeInfo().IsGenericType)
-            {
-                names = names.Concat(GetRegisteredNames(t.GetGenericTypeDefinition()));
-            }
-            names = names.Distinct();
-
-            foreach (string name in names)
-            {
-                yield return Resolve(t, name, resolverOverrides);
-            }
-        }
-
-        private IEnumerable<string> GetRegisteredNames(Type t)
-        {
-            return registeredNames.GetKeys(t).Where(s => !string.IsNullOrEmpty(s));
+            return (IEnumerable<object>)this.Resolve(t.MakeArrayType(), resolverOverrides);
         }
 
         #endregion
@@ -551,6 +536,7 @@ namespace Microsoft.Practices.Unity
             strategies = new StagedStrategyChain<UnityBuildStage>(ParentStrategies);
             buildPlanStrategies = new StagedStrategyChain<UnityBuildStage>(ParentBuildPlanStrategies);
             policies = new PolicyList(ParentPolicies);
+            policies.Set<IRegisteredNamesPolicy>(new RegisteredNamesPolicy(registeredNames), null);
 
             cachedStrategies = null;
             cachedStrategiesLock = new object();
@@ -613,14 +599,14 @@ namespace Microsoft.Practices.Unity
 
         private void FillTypeRegistrationDictionary(IDictionary<Type, List<string>> typeRegistrations)
         {
-            if(parent != null)
+            if (parent != null)
             {
                 parent.FillTypeRegistrationDictionary(typeRegistrations);
             }
 
-            foreach(Type t in registeredNames.RegisteredTypes)
+            foreach (Type t in registeredNames.RegisteredTypes)
             {
-                if(!typeRegistrations.ContainsKey(t))
+                if (!typeRegistrations.ContainsKey(t))
                 {
                     typeRegistrations[t] = new List<string>();
                 }

@@ -77,6 +77,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObjectBuilderCustomization\IRegisteredNamesPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\RegisteredNamesPolicy.cs" />
     <Compile Include="RegistrationByConvention\DuplicateTypeMappingException.Desktop.cs" />
     <Compile Include="RegistrationByConvention\DuplicateTypeMappingException.cs" />
     <Compile Include="RegistrationByConvention\WithLifetime.cs" />

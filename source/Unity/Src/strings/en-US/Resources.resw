@@ -126,6 +126,12 @@
   <data name="BuildFailedException" xml:space="preserve">
     <value>The current build operation (build key {2}) failed: {3} (Strategy type {0}, index {1})</value>
   </data>
+  <data name="CannotConstructAbstractClass" xml:space="preserve">
+    <value>The current type, {0}, is an abstract class and cannot be constructed. Are you missing a type mapping?</value>
+  </data>
+  <data name="CannotConstructDelegate" xml:space="preserve">
+    <value>The current type, {0}, is delegate and cannot be constructed. Unity only supports resolving Func&lt;T&gt; and Func&lt;IEnumerable&lt;T&gt;&gt; by default.</value>
+  </data>
   <data name="CannotConstructInterface" xml:space="preserve">
     <value>The current type, {0}, is an interface and cannot be constructed. Are you missing a type mapping?</value>
   </data>

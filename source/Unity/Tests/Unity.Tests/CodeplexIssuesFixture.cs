@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
-using Microsoft.Practices.Unity.TestSupport;
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -209,6 +209,57 @@ namespace Microsoft.Practices.Unity.Tests
 
             countdown.Wait();
             Assert.IsFalse(errors);
+        }
+
+        // https://unity.codeplex.com/workitem/11899
+        [TestMethod]
+        public void ResolveDelegateThrowsExplicitException()
+        {
+            using (var container = new UnityContainer())
+            {
+                try
+                {
+                    var func = container.Resolve<Func<string, object>>();
+                }
+                catch (ResolutionFailedException e)
+                {
+                    Assert.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException));
+                }
+            }
+        }
+
+        // https://unity.codeplex.com/workitem/12745
+        [TestMethod]
+        public void ResolveInterfaceThrowsExplicitException()
+        {
+            using (var container = new UnityContainer())
+            {
+                try
+                {
+                    var func = container.Resolve<IComparable<object>>();
+                }
+                catch (ResolutionFailedException e)
+                {
+                    Assert.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException));
+                }
+            }
+        }
+
+        // https://unity.codeplex.com/workitem/12745
+        [TestMethod]
+        public void ResolveAbstractClassThrowsExplicitException()
+        {
+            using (var container = new UnityContainer())
+            {
+                try
+                {
+                    var func = container.Resolve<Type>();
+                }
+                catch (ResolutionFailedException e)
+                {
+                    Assert.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException));
+                }
+            }
         }
 
         public interface IBasicInterface

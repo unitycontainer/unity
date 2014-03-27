@@ -41,10 +41,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return resourceMan;
             }
         }
-
-        /// <summary>
-        /// The type {0} has multiple constructors of length {1}. Unable to disambig...
-        /// </summary>
+		
+		/// <summary>
+		/// The type {0} has multiple constructors of length {1}. Unable to disambig...
+		/// </summary>
         internal static string AmbiguousInjectionConstructor
         {
             get
@@ -52,10 +52,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("AmbiguousInjectionConstructor");
             }
         }
-
-        /// <summary>
-        /// The provided string argument must not be empty.
-        /// </summary>
+	
+		/// <summary>
+		/// The provided string argument must not be empty.
+		/// </summary>
         internal static string ArgumentMustNotBeEmpty
         {
             get
@@ -63,10 +63,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("ArgumentMustNotBeEmpty");
             }
         }
-
-        /// <summary>
-        /// The current build operation (build key {2}) failed: {3} (Strategy type {...
-        /// </summary>
+	
+		/// <summary>
+		/// The current build operation (build key {2}) failed: {3} (Strategy type {...
+		/// </summary>
         internal static string BuildFailedException
         {
             get
@@ -74,10 +74,32 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("BuildFailedException");
             }
         }
-
-        /// <summary>
-        /// The current type {0} is an interface and cannot be constructed. Are you ...
-        /// </summary>
+	
+		/// <summary>
+		/// The current type {0} is an abstract class and cannot be constructed. Are...
+		/// </summary>
+        internal static string CannotConstructAbstractClass
+        {
+            get
+            {
+                return ResourceManager.GetString("CannotConstructAbstractClass");
+            }
+        }
+	
+		/// <summary>
+		/// The current type {0} is delegate and cannot be constructed. Unity only s...
+		/// </summary>
+        internal static string CannotConstructDelegate
+        {
+            get
+            {
+                return ResourceManager.GetString("CannotConstructDelegate");
+            }
+        }
+	
+		/// <summary>
+		/// The current type {0} is an interface and cannot be constructed. Are you ...
+		/// </summary>
         internal static string CannotConstructInterface
         {
             get
@@ -85,10 +107,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("CannotConstructInterface");
             }
         }
-
-        /// <summary>
-        /// Cannot extract type from build key {0}.
-        /// </summary>
+	
+		/// <summary>
+		/// Cannot extract type from build key {0}.
+		/// </summary>
         internal static string CannotExtractTypeFromBuildKey
         {
             get
@@ -96,10 +118,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("CannotExtractTypeFromBuildKey");
             }
         }
-
-        /// <summary>
-        /// The method {0}.{1}({2}) is an open generic method. Open generic methods ...
-        /// </summary>
+	
+		/// <summary>
+		/// The method {0}.{1}({2}) is an open generic method. Open generic methods ...
+		/// </summary>
         internal static string CannotInjectGenericMethod
         {
             get
@@ -107,10 +129,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("CannotInjectGenericMethod");
             }
         }
-
-        /// <summary>
-        /// The property {0} on type {1} is an indexer. Indexed properties cannot be...
-        /// </summary>
+	
+		/// <summary>
+		/// The property {0} on type {1} is an indexer. Indexed properties cannot be...
+		/// </summary>
         internal static string CannotInjectIndexer
         {
             get
@@ -118,10 +140,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("CannotInjectIndexer");
             }
         }
-
-        /// <summary>
-        /// The method {1} on type {0} has an out parameter. Injection cannot be per...
-        /// </summary>
+	
+		/// <summary>
+		/// The method {1} on type {0} has an out parameter. Injection cannot be per...
+		/// </summary>
         internal static string CannotInjectMethodWithOutParam
         {
             get
@@ -129,10 +151,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("CannotInjectMethodWithOutParam");
             }
         }
-
-        /// <summary>
-        /// The method {0}.{1}({2}) has at least one out parameter. Methods with out...
-        /// </summary>
+	
+		/// <summary>
+		/// The method {0}.{1}({2}) has at least one out parameter. Methods with out...
+		/// </summary>
         internal static string CannotInjectMethodWithOutParams
         {
             get
@@ -140,10 +162,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("CannotInjectMethodWithOutParams");
             }
         }
-
-        /// <summary>
-        /// The method {0}.{1}({2}) has at least one ref parameter.Methods with ref ...
-        /// </summary>
+	
+		/// <summary>
+		/// The method {0}.{1}({2}) has at least one ref parameter.Methods with ref ...
+		/// </summary>
         internal static string CannotInjectMethodWithRefParams
         {
             get
@@ -151,10 +173,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("CannotInjectMethodWithRefParams");
             }
         }
-
-        /// <summary>
-        /// The method {1} on type {0} is marked for injection but it is an open gen...
-        /// </summary>
+	
+		/// <summary>
+		/// The method {1} on type {0} is marked for injection but it is an open gen...
+		/// </summary>
         internal static string CannotInjectOpenGenericMethod
         {
             get
@@ -162,10 +184,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("CannotInjectOpenGenericMethod");
             }
         }
-
-        /// <summary>
-        /// The method {0}.{1}({2}) is static. Static methods cannot be injected.
-        /// </summary>
+	
+		/// <summary>
+		/// The method {0}.{1}({2}) is static. Static methods cannot be injected.
+		/// </summary>
         internal static string CannotInjectStaticMethod
         {
             get
@@ -173,10 +195,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("CannotInjectStaticMethod");
             }
         }
-
-        /// <summary>
-        /// The type {0} is an open generic type. An open generic type cannot be res...
-        /// </summary>
+	
+		/// <summary>
+		/// The type {0} is an open generic type. An open generic type cannot be res...
+		/// </summary>
         internal static string CannotResolveOpenGenericType
         {
             get
@@ -184,10 +206,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("CannotResolveOpenGenericType");
             }
         }
-
-        /// <summary>
-        /// Resolving parameter &quot;{0}&quot; of constructor {1}
-        /// </summary>
+	
+		/// <summary>
+		/// Resolving parameter &quot;{0}&quot; of constructor {1}
+		/// </summary>
         internal static string ConstructorArgumentResolveOperation
         {
             get
@@ -195,10 +217,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("ConstructorArgumentResolveOperation");
             }
         }
-
-        /// <summary>
-        /// The parameter {0} could not be resolved when attempting to call construc...
-        /// </summary>
+	
+		/// <summary>
+		/// The parameter {0} could not be resolved when attempting to call construc...
+		/// </summary>
         internal static string ConstructorParameterResolutionFailed
         {
             get
@@ -206,10 +228,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("ConstructorParameterResolutionFailed");
             }
         }
-
-        /// <summary>
-        /// An attempt to override an existing mapping was detected for type {1} wit...
-        /// </summary>
+	
+		/// <summary>
+		/// An attempt to override an existing mapping was detected for type {1} wit...
+		/// </summary>
         internal static string DuplicateTypeMappingException
         {
             get
@@ -217,10 +239,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("DuplicateTypeMappingException");
             }
         }
-
-        /// <summary>
-        /// The set of assemblies contains a null element.
-        /// </summary>
+	
+		/// <summary>
+		/// The set of assemblies contains a null element.
+		/// </summary>
         internal static string ExceptionNullAssembly
         {
             get
@@ -228,10 +250,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("ExceptionNullAssembly");
             }
         }
-
-        /// <summary>
-        /// Parameter type inference does not work for null values. Indicate the par...
-        /// </summary>
+	
+		/// <summary>
+		/// Parameter type inference does not work for null values. Indicate the par...
+		/// </summary>
         internal static string ExceptionNullParameterValue
         {
             get
@@ -239,10 +261,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("ExceptionNullParameterValue");
             }
         }
-
-        /// <summary>
-        /// Calling constructor {0}
-        /// </summary>
+	
+		/// <summary>
+		/// Calling constructor {0}
+		/// </summary>
         internal static string InvokingConstructorOperation
         {
             get
@@ -250,10 +272,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("InvokingConstructorOperation");
             }
         }
-
-        /// <summary>
-        /// Calling method {0}.{1}
-        /// </summary>
+	
+		/// <summary>
+		/// Calling method {0}.{1}
+		/// </summary>
         internal static string InvokingMethodOperation
         {
             get
@@ -261,10 +283,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("InvokingMethodOperation");
             }
         }
-
-        /// <summary>
-        /// An item with the given key is already present in the dictionary.
-        /// </summary>
+	
+		/// <summary>
+		/// An item with the given key is already present in the dictionary.
+		/// </summary>
         internal static string KeyAlreadyPresent
         {
             get
@@ -272,10 +294,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("KeyAlreadyPresent");
             }
         }
-
-        /// <summary>
-        /// The lifetime manager is already registered. Lifetime managers cannot be ...
-        /// </summary>
+	
+		/// <summary>
+		/// The lifetime manager is already registered. Lifetime managers cannot be ...
+		/// </summary>
         internal static string LifetimeManagerInUse
         {
             get
@@ -283,10 +305,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("LifetimeManagerInUse");
             }
         }
-
-        /// <summary>
-        /// The override marker build plan policy has been invoked. This should neve...
-        /// </summary>
+	
+		/// <summary>
+		/// The override marker build plan policy has been invoked. This should neve...
+		/// </summary>
         internal static string MarkerBuildPlanInvoked
         {
             get
@@ -294,10 +316,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("MarkerBuildPlanInvoked");
             }
         }
-
-        /// <summary>
-        /// Resolving parameter &quot;{0}&quot; of method {1}.{2}
-        /// </summary>
+	
+		/// <summary>
+		/// Resolving parameter &quot;{0}&quot; of method {1}.{2}
+		/// </summary>
         internal static string MethodArgumentResolveOperation
         {
             get
@@ -305,10 +327,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("MethodArgumentResolveOperation");
             }
         }
-
-        /// <summary>
-        /// The value for parameter &quot;{1}&quot; of method {0} could not be resol...
-        /// </summary>
+	
+		/// <summary>
+		/// The value for parameter &quot;{1}&quot; of method {0} could not be resol...
+		/// </summary>
         internal static string MethodParameterResolutionFailed
         {
             get
@@ -316,10 +338,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("MethodParameterResolutionFailed");
             }
         }
-
-        /// <summary>
-        /// Could not resolve dependency for build key {0}.
-        /// </summary>
+	
+		/// <summary>
+		/// Could not resolve dependency for build key {0}.
+		/// </summary>
         internal static string MissingDependency
         {
             get
@@ -327,10 +349,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("MissingDependency");
             }
         }
-
-        /// <summary>
-        /// The type {0} has multiple constructors marked with the InjectionConstruc...
-        /// </summary>
+	
+		/// <summary>
+		/// The type {0} has multiple constructors marked with the InjectionConstruc...
+		/// </summary>
         internal static string MultipleInjectionConstructors
         {
             get
@@ -338,10 +360,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("MultipleInjectionConstructors");
             }
         }
-
-        /// <summary>
-        /// The supplied type {0} must be an open generic type.
-        /// </summary>
+	
+		/// <summary>
+		/// The supplied type {0} must be an open generic type.
+		/// </summary>
         internal static string MustHaveOpenGenericType
         {
             get
@@ -349,10 +371,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("MustHaveOpenGenericType");
             }
         }
-
-        /// <summary>
-        /// The supplied type {0} does not have the same number of generic arguments...
-        /// </summary>
+	
+		/// <summary>
+		/// The supplied type {0} does not have the same number of generic arguments...
+		/// </summary>
         internal static string MustHaveSameNumberOfGenericArguments
         {
             get
@@ -360,10 +382,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("MustHaveSameNumberOfGenericArguments");
             }
         }
-
-        /// <summary>
-        /// The type {0} does not have an accessible constructor.
-        /// </summary>
+	
+		/// <summary>
+		/// The type {0} does not have an accessible constructor.
+		/// </summary>
         internal static string NoConstructorFound
         {
             get
@@ -371,10 +393,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("NoConstructorFound");
             }
         }
-
-        /// <summary>
-        /// The type {0} does not have a generic argument named &quot;{1}&quot;
-        /// </summary>
+	
+		/// <summary>
+		/// The type {0} does not have a generic argument named &quot;{1}&quot;
+		/// </summary>
         internal static string NoMatchingGenericArgument
         {
             get
@@ -382,10 +404,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("NoMatchingGenericArgument");
             }
         }
-
-        /// <summary>
-        /// while resolving
-        /// </summary>
+	
+		/// <summary>
+		/// while resolving
+		/// </summary>
         internal static string NoOperationExceptionReason
         {
             get
@@ -393,10 +415,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("NoOperationExceptionReason");
             }
         }
-
-        /// <summary>
-        /// The type {0} does not have a constructor that takes the parameters ({1}).
-        /// </summary>
+	
+		/// <summary>
+		/// The type {0} does not have a constructor that takes the parameters ({1}).
+		/// </summary>
         internal static string NoSuchConstructor
         {
             get
@@ -404,10 +426,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("NoSuchConstructor");
             }
         }
-
-        /// <summary>
-        /// The type {0} does not have a public method named {1} that takes the para...
-        /// </summary>
+	
+		/// <summary>
+		/// The type {0} does not have a public method named {1} that takes the para...
+		/// </summary>
         internal static string NoSuchMethod
         {
             get
@@ -415,10 +437,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("NoSuchMethod");
             }
         }
-
-        /// <summary>
-        /// The type {0} does not contain an instance property named {1}.
-        /// </summary>
+	
+		/// <summary>
+		/// The type {0} does not contain an instance property named {1}.
+		/// </summary>
         internal static string NoSuchProperty
         {
             get
@@ -426,10 +448,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("NoSuchProperty");
             }
         }
-
-        /// <summary>
-        /// The type {0} is not a generic type and you are attempting to inject a ge...
-        /// </summary>
+	
+		/// <summary>
+		/// The type {0} is not a generic type and you are attempting to inject a ge...
+		/// </summary>
         internal static string NotAGenericType
         {
             get
@@ -437,10 +459,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("NotAGenericType");
             }
         }
-
-        /// <summary>
-        /// The type {0} is not an array type with rank 1 and you are attempting to ...
-        /// </summary>
+	
+		/// <summary>
+		/// The type {0} is not an array type with rank 1 and you are attempting to ...
+		/// </summary>
         internal static string NotAnArrayTypeWithRankOne
         {
             get
@@ -448,10 +470,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("NotAnArrayTypeWithRankOne");
             }
         }
-
-        /// <summary>
-        /// Optional dependencies must be reference types. The type {0} is a value t...
-        /// </summary>
+	
+		/// <summary>
+		/// Optional dependencies must be reference types. The type {0} is a value t...
+		/// </summary>
         internal static string OptionalDependenciesMustBeReferenceTypes
         {
             get
@@ -459,10 +481,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("OptionalDependenciesMustBeReferenceTypes");
             }
         }
-
-        /// <summary>
-        /// The property {0} on type {1} is not settable.
-        /// </summary>
+	
+		/// <summary>
+		/// The property {0} on type {1} is not settable.
+		/// </summary>
         internal static string PropertyNotSettable
         {
             get
@@ -470,10 +492,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("PropertyNotSettable");
             }
         }
-
-        /// <summary>
-        /// The property {0} on type {1} is of type {2} and cannot be injected with ...
-        /// </summary>
+	
+		/// <summary>
+		/// The property {0} on type {1} is of type {2} and cannot be injected with ...
+		/// </summary>
         internal static string PropertyTypeMismatch
         {
             get
@@ -481,10 +503,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("PropertyTypeMismatch");
             }
         }
-
-        /// <summary>
-        /// The value for the property &quot;{0}&quot; could not be resolved.
-        /// </summary>
+	
+		/// <summary>
+		/// The value for the property &quot;{0}&quot; could not be resolved.
+		/// </summary>
         internal static string PropertyValueResolutionFailed
         {
             get
@@ -492,10 +514,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("PropertyValueResolutionFailed");
             }
         }
-
-        /// <summary>
-        /// The provided string argument must not be empty.
-        /// </summary>
+	
+		/// <summary>
+		/// The provided string argument must not be empty.
+		/// </summary>
         internal static string ProvidedStringArgMustNotBeEmpty
         {
             get
@@ -503,10 +525,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("ProvidedStringArgMustNotBeEmpty");
             }
         }
-
-        /// <summary>
-        /// Resolution of the dependency failed type = &quot;{0}&quot; name = &quot;...
-        /// </summary>
+	
+		/// <summary>
+		/// Resolution of the dependency failed type = &quot;{0}&quot; name = &quot;...
+		/// </summary>
         internal static string ResolutionFailed
         {
             get
@@ -514,10 +536,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("ResolutionFailed");
             }
         }
-
-        /// <summary>
-        /// Resolving {0}{1}
-        /// </summary>
+	
+		/// <summary>
+		/// Resolving {0}{1}
+		/// </summary>
         internal static string ResolutionTraceDetail
         {
             get
@@ -525,10 +547,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("ResolutionTraceDetail");
             }
         }
-
-        /// <summary>
-        /// Resolving {0}{1} (mapped from {2} {3})
-        /// </summary>
+	
+		/// <summary>
+		/// Resolving {0}{1} (mapped from {2} {3})
+		/// </summary>
         internal static string ResolutionWithMappingTraceDetail
         {
             get
@@ -536,10 +558,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("ResolutionWithMappingTraceDetail");
             }
         }
-
-        /// <summary>
-        /// Resolving value for property {0}.{1}
-        /// </summary>
+	
+		/// <summary>
+		/// Resolving value for property {0}.{1}
+		/// </summary>
         internal static string ResolvingPropertyValueOperation
         {
             get
@@ -547,10 +569,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("ResolvingPropertyValueOperation");
             }
         }
-
-        /// <summary>
-        /// The constructor {1} selected for type {0} has ref or out parameters. Suc...
-        /// </summary>
+	
+		/// <summary>
+		/// The constructor {1} selected for type {0} has ref or out parameters. Suc...
+		/// </summary>
         internal static string SelectedConstructorHasRefParameters
         {
             get
@@ -558,10 +580,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("SelectedConstructorHasRefParameters");
             }
         }
-
-        /// <summary>
-        /// Setting value for property {0}.{1}
-        /// </summary>
+	
+		/// <summary>
+		/// Setting value for property {0}.{1}
+		/// </summary>
         internal static string SettingPropertyOperation
         {
             get
@@ -569,10 +591,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("SettingPropertyOperation");
             }
         }
-
-        /// <summary>
-        /// The type {0} cannot be constructed. You must configure the container to ...
-        /// </summary>
+	
+		/// <summary>
+		/// The type {0} cannot be constructed. You must configure the container to ...
+		/// </summary>
         internal static string TypeIsNotConstructable
         {
             get
@@ -580,10 +602,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("TypeIsNotConstructable");
             }
         }
-
-        /// <summary>
-        /// The type {1} cannot be assigned to variables of type {0}.
-        /// </summary>
+	
+		/// <summary>
+		/// The type {1} cannot be assigned to variables of type {0}.
+		/// </summary>
         internal static string TypesAreNotAssignable
         {
             get
@@ -591,10 +613,10 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("TypesAreNotAssignable");
             }
         }
-
-        /// <summary>
-        /// &lt;unknown&gt;
-        /// </summary>
+	
+		/// <summary>
+		/// &lt;unknown&gt;
+		/// </summary>
         internal static string UnknownType
         {
             get
@@ -602,6 +624,6 @@ namespace Microsoft.Practices.Unity.Properties
                 return ResourceManager.GetString("UnknownType");
             }
         }
-    }
+	}
 }
 

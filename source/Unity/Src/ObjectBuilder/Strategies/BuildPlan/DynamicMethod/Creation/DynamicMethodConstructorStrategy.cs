@@ -14,7 +14,6 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Practices.Unity.Utility;
 using Microsoft.Practices.Unity;
 
-
 namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
@@ -31,6 +30,12 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private static readonly MethodInfo throwForAttemptingToConstructInterface =
            StaticReflection.GetMethodInfo(() => ThrowForAttemptingToConstructInterface(null));
+
+        private static readonly MethodInfo throwForAttemptingToConstructAbstractClass =
+           StaticReflection.GetMethodInfo(() => ThrowForAttemptingToConstructAbstractClass(null));
+
+        private static readonly MethodInfo throwForAttemptingToConstructDelegate =
+           StaticReflection.GetMethodInfo(() => ThrowForAttemptingToConstructDelegate(null));
 
         private static readonly MethodInfo setCurrentOperationToResolvingParameter =
             StaticReflection.GetMethodInfo(() => SetCurrentOperationToResolvingParameter(null, null, null));
@@ -51,14 +56,9 @@ namespace Microsoft.Practices.ObjectBuilder2
         public override void PreBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
+
             DynamicBuildPlanGenerationContext buildContext =
                 (DynamicBuildPlanGenerationContext)context.Existing;
-            
-            IPolicyList resolverPolicyDestination; 
-            IConstructorSelectorPolicy selector =
-               context.Policies.Get<IConstructorSelectorPolicy>(context.BuildKey, out resolverPolicyDestination);
-
-            SelectedConstructor selectedCtor = selector.SelectConstructor(context, resolverPolicyDestination);
 
             GuardTypeIsNonPrimitive(context);
 
@@ -67,23 +67,48 @@ namespace Microsoft.Practices.ObjectBuilder2
                         Expression.Equal(
                             buildContext.GetExistingObjectExpression(),
                             Expression.Constant(null)),
-                            selectedCtor == null ?
-                                Expression.Call(null, throwForNullExistingObject, buildContext.ContextParameter):
-                                CreateInstanceBuildupExpression(buildContext, selectedCtor)));
+                            CreateInstanceBuildupExpression(buildContext, context)));
 
             buildContext.AddToBuildPlan(
                 Expression.Call(null, setPerBuildSingleton, buildContext.ContextParameter));
         }
 
-        internal Expression CreateInstanceBuildupExpression(DynamicBuildPlanGenerationContext buildContext, SelectedConstructor selectedConstructor)
+        internal Expression CreateInstanceBuildupExpression(DynamicBuildPlanGenerationContext buildContext, IBuilderContext context)
         {
-            IEnumerable<Expression> buildupSequence;
+            var targetTypeInfo = context.BuildKey.Type.GetTypeInfo();
+
+            if (targetTypeInfo.IsInterface)
+            {
+                return CreateThrowWithContext(buildContext, throwForAttemptingToConstructInterface);
+            }
+
+            if (targetTypeInfo.IsAbstract)
+            {
+                return CreateThrowWithContext(buildContext, throwForAttemptingToConstructAbstractClass);
+            }
+
+            if (targetTypeInfo.IsSubclassOf(typeof(Delegate)))
+            {
+                return CreateThrowWithContext(buildContext, throwForAttemptingToConstructDelegate);
+            }
+
+            IPolicyList resolverPolicyDestination;
+            IConstructorSelectorPolicy selector =
+                context.Policies.Get<IConstructorSelectorPolicy>(context.BuildKey, out resolverPolicyDestination);
+
+            SelectedConstructor selectedConstructor = selector.SelectConstructor(context, resolverPolicyDestination);
+
+            if (selectedConstructor == null)
+            {
+                return CreateThrowWithContext(buildContext, throwForNullExistingObject);
+            }
 
             string signature = CreateSignatureString(selectedConstructor.Constructor);
 
-            buildupSequence = IsInvalidConstructor(selectedConstructor)?
-                                CreateThrowForNullExistingObjectWithInvalidConstructorSequence(buildContext, signature) :
-                                CreateNewBuildupSequence(buildContext, selectedConstructor, signature);
+            if (IsInvalidConstructor(selectedConstructor))
+            {
+                return CreateThrowForNullExistingObjectWithInvalidConstructor(buildContext, signature);
+            }
 
             // psuedo-code:
             // throw if attempting interface
@@ -93,10 +118,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             //   context.Existing = new {objectType}({constructorparameter}...)
             //   clear current operation
             // }
-            return
-                Expression.Block(
-                   Expression.Call(null, throwForAttemptingToConstructInterface, buildContext.ContextParameter),
-                   Expression.Block(buildupSequence));
+            return Expression.Block(CreateNewBuildupSequence(buildContext, selectedConstructor, signature));
         }
 
         private static bool IsInvalidConstructor(SelectedConstructor selectedConstructor)
@@ -104,13 +126,21 @@ namespace Microsoft.Practices.ObjectBuilder2
             return selectedConstructor.Constructor.GetParameters().Any(pi => pi.ParameterType.IsByRef);
         }
 
-        private IEnumerable<Expression> CreateThrowForNullExistingObjectWithInvalidConstructorSequence(DynamicBuildPlanGenerationContext buildContext, string signature)
+        private Expression CreateThrowWithContext(DynamicBuildPlanGenerationContext buildContext, MethodInfo throwMethod)
         {
-            yield return Expression.Call(
-                                    null,
-                                    throwForNullExistingObjectWithInvalidConstructor,
-                                    buildContext.ContextParameter,
-                                    Expression.Constant(signature, typeof(string)));
+            return Expression.Call(
+                                null,
+                                throwMethod,
+                                buildContext.ContextParameter);
+        }
+
+        private Expression CreateThrowForNullExistingObjectWithInvalidConstructor(DynamicBuildPlanGenerationContext buildContext, string signature)
+        {
+            return Expression.Call(
+                                null,
+                                throwForNullExistingObjectWithInvalidConstructor,
+                                buildContext.ContextParameter,
+                                Expression.Constant(signature, typeof(string)));
         }
 
         private IEnumerable<Expression> CreateNewBuildupSequence(DynamicBuildPlanGenerationContext buildContext, SelectedConstructor selectedConstructor, string signature)
@@ -118,7 +148,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             var parameterExpressions = BuildConstructionParameterExpressions(buildContext, selectedConstructor, signature);
             var newItemExpression = Expression.Variable(selectedConstructor.Constructor.DeclaringType, "newItem");
 
-            
+
             yield return Expression.Call(null,
                                         setCurrentOperationToInvokingConstructor,
                                         Expression.Constant(signature),
@@ -173,7 +203,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             }
         }
 
-        
+
         /// <summary>
         /// Build up the string that will represent the constructor signature
         /// in any exception message.
@@ -257,14 +287,47 @@ namespace Microsoft.Practices.ObjectBuilder2
         public static void ThrowForAttemptingToConstructInterface(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
-            if (context.BuildKey.Type.GetTypeInfo().IsInterface)
-            {
-                throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentCulture,
-                        Resources.CannotConstructInterface,
-                        context.BuildKey.Type,
-                        context.BuildKey));
-            }
+            throw new InvalidOperationException(
+                string.Format(CultureInfo.CurrentCulture,
+                    Resources.CannotConstructInterface,
+                    context.BuildKey.Type,
+                    context.BuildKey));
+        }
+
+        /// <summary>
+        /// A helper method used by the generated IL to throw an exception if
+        /// no existing object is present, but the user is attempting to build
+        /// an abstract class (usually due to the lack of a type mapping).
+        /// </summary>
+        /// <param name="context">The <see cref="IBuilderContext"/> currently being
+        /// used for the build of this object.</param>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class.")]
+        public static void ThrowForAttemptingToConstructAbstractClass(IBuilderContext context)
+        {
+            Guard.ArgumentNotNull(context, "context");
+            throw new InvalidOperationException(
+                string.Format(CultureInfo.CurrentCulture,
+                    Resources.CannotConstructAbstractClass,
+                    context.BuildKey.Type,
+                    context.BuildKey));
+        }
+
+        /// <summary>
+        /// A helper method used by the generated IL to throw an exception if
+        /// no existing object is present, but the user is attempting to build
+        /// an delegate other than Func{T} or Func{IEnumerable{T}}.
+        /// </summary>
+        /// <param name="context">The <see cref="IBuilderContext"/> currently being
+        /// used for the build of this object.</param>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class.")]
+        public static void ThrowForAttemptingToConstructDelegate(IBuilderContext context)
+        {
+            Guard.ArgumentNotNull(context, "context");
+            throw new InvalidOperationException(
+                string.Format(CultureInfo.CurrentCulture,
+                    Resources.CannotConstructDelegate,
+                    context.BuildKey.Type,
+                    context.BuildKey));
         }
 
         /// <summary>

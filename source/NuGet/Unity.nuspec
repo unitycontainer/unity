@@ -28,6 +28,5 @@
     <file src="bin\WindowsPhone\$Configuration$\Microsoft.Practices.Unity.WindowsPhone.pdb" target="lib\wp8" />
     <file src="bin\WindowsPhone\$Configuration$\Microsoft.Practices.Unity.WindowsPhone.xml" target="lib\wp8" />
     <file src="UnityConfiguration30.xsd" target="" />
-    <file src="NuGet\tools\Unity\install.ps1" target="tools" />
   </files>
 </package>

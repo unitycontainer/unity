@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Microsoft.Practices.Unity.Mvc.Properties;
 
 namespace Microsoft.Practices.Unity.Mvc
 {
@@ -18,7 +19,7 @@ namespace Microsoft.Practices.Unity.Mvc
 
         internal static object GetValue(object lifetimeManagerKey)
         {
-            var dict = GetDictionary();
+            var dict = GetDictionary(HttpContext.Current);
 
             if (dict != null)
             {
@@ -35,7 +36,7 @@ namespace Microsoft.Practices.Unity.Mvc
 
         internal static void SetValue(object lifetimeManagerKey, object value)
         {
-            var dict = GetDictionary();
+            var dict = GetDictionary(HttpContext.Current);
 
             if (dict == null)
             {
@@ -66,7 +67,9 @@ namespace Microsoft.Practices.Unity.Mvc
 
         private void OnEndRequest(object sender, EventArgs e)
         {
-            var dict = GetDictionary();
+            var app = (HttpApplication)sender;
+
+            var dict = GetDictionary(app.Context);
 
             if (dict != null)
             {
@@ -77,12 +80,14 @@ namespace Microsoft.Practices.Unity.Mvc
             }
         }
 
-        private static Dictionary<object, object> GetDictionary()
+        private static Dictionary<object, object> GetDictionary(HttpContext context)
         {
-            if (HttpContext.Current == null)
-                throw new InvalidOperationException();
+            if (context == null)
+            {
+                throw new InvalidOperationException(Resources.ErrorHttpContextNotAvailable);
+            }
 
-            var dict = (Dictionary<object, object>)HttpContext.Current.Items[moduleKey];
+            var dict = (Dictionary<object, object>)context.Items[moduleKey];
 
             return dict;
         }

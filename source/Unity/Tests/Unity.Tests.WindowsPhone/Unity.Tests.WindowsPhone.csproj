@@ -74,9 +74,6 @@
     <CodeAnalysisRuleSet>..\..\..\Tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Unity.NetCore.Tests\Unity.Tests\AssemblyScanningFixture.NetCore.cs">
-      <Link>Unity.Tests\AssemblyScanningFixture.NetCore.cs</Link>
-    </Compile>
     <Compile Include="..\Unity.ServiceLocation.Tests\Components\AdvancedLogger.cs">
       <Link>Unity.ServiceLocation.Tests\Components\AdvancedLogger.cs</Link>
     </Compile>
@@ -91,6 +88,9 @@
     </Compile>
     <Compile Include="..\Unity.ServiceLocation.Tests\UnityServiceLocatorAdapterFixture.cs">
       <Link>Unity.ServiceLocation.Tests\UnityServiceLocatorAdapterFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\Unity.Tests\PerThreadLifetimeManagerFixture.cs">
+      <Link>Unity.Tests\PerThreadLifetimeManagerFixture.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -152,9 +152,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\Unity.WindowsPhone.csproj">
-      <Project>{A2A7F5A7-0F7F-4D29-939B-E7D2CB0AE21F}</Project>
-      <Name>Unity.WindowsPhone</Name>
+    <ProjectReference Include="..\..\Src\Unity.csproj">
+      <Project>{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}</Project>
+      <Name>Unity</Name>
     </ProjectReference>
     <ProjectReference Include="..\TestAssemblies\TestNetAssembly.WindowsPhone\TestNetAssembly.WindowsPhone.csproj">
       <Project>{4C459835-2E73-4266-AFED-F88F052F7337}</Project>
@@ -257,9 +257,6 @@
     </Compile>
     <Compile Include="..\TestSupport.Unity\AssertExtensions.cs">
       <Link>Unity.TestSupport\AssertExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\TestSupport.Unity\Barrier.cs">
-      <Link>Unity.TestSupport\Barrier.cs</Link>
     </Compile>
     <Compile Include="..\TestSupport.Unity\EnumerableAssertionExtensions.cs">
       <Link>Unity.TestSupport\EnumerableAssertionExtensions.cs</Link>

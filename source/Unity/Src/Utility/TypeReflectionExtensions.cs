@@ -36,7 +36,7 @@ namespace Microsoft.Practices.Unity.Utility
         {
             if (type == null) return Enumerable.Empty<MethodInfo>();
 
-            if (typeof(object).Equals(type))
+            if (type.Equals(typeof(object)))
                 return type.GetTypeInfo().DeclaredMethods.Where(m => !m.IsStatic);
 
             return type.GetTypeInfo().DeclaredMethods.Where(m => !m.IsStatic)
@@ -67,7 +67,7 @@ namespace Microsoft.Practices.Unity.Utility
         {
             if (type == null) return Enumerable.Empty<PropertyInfo>();
 
-            if (typeof(object).Equals(type))
+            if (type.Equals(typeof(object)))
                 return type.GetTypeInfo().DeclaredProperties;
 
             return type.GetTypeInfo().DeclaredProperties

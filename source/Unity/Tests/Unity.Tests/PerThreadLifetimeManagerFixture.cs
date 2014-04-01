@@ -3,7 +3,16 @@
 using System.Linq;
 using System.Threading;
 using Microsoft.Practices.ObjectBuilder2;
+#if NETFX_CORE
+#if !WINDOWS_PHONE
+using System;
+using System.Threading.Tasks;
+using Windows.System.Threading;
+#endif
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -80,11 +89,11 @@ namespace Microsoft.Practices.Unity.Tests
             object valueTwo = null;
             object ValueThree = null;
 
-            TestSupport.Barrier barrier = new TestSupport.Barrier(3);
+            var barrier = new Barrier(3);
             RunInParallel(
-                delegate { ltm.SetValue(one); barrier.Await(); valueOne = ltm.GetValue(); },
-                delegate { ltm.SetValue(three); barrier.Await(); ValueThree = ltm.GetValue(); },
-                delegate { ltm.SetValue(two); barrier.Await(); valueTwo = ltm.GetValue(); });
+                delegate { ltm.SetValue(one); barrier.SignalAndWait(); valueOne = ltm.GetValue(); },
+                delegate { ltm.SetValue(three); barrier.SignalAndWait(); ValueThree = ltm.GetValue(); },
+                delegate { ltm.SetValue(two); barrier.SignalAndWait(); valueTwo = ltm.GetValue(); });
 
             Assert.AreSame(one, valueOne);
             Assert.AreSame(two, valueTwo);
@@ -137,18 +146,18 @@ namespace Microsoft.Practices.Unity.Tests
 
             container.RegisterInstance(registered, manager);
 
-            TestSupport.Barrier barrier = new TestSupport.Barrier(2);
+            var barrier = new Barrier(2);
             RunInParallel(
                 delegate
                 {
                     result1A = container.Resolve<object>();
-                    barrier.Await();
+                    barrier.SignalAndWait();
                     result1B = container.Resolve<object>();
                 },
                 delegate
                 {
                     result2A = container.Resolve<object>();
-                    barrier.Await();
+                    barrier.SignalAndWait();
                     result2B = container.Resolve<object>();
                 });
             object result = container.Resolve<object>();
@@ -165,6 +174,23 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.AreSame(registered, result);
         }
 
+#if NETFX_CORE && !WINDOWS_PHONE
+        // Helper method to run a bunch of delegates, each on a separate thread.
+        // It runs them and then waits for them all to complete.
+        private static void RunInParallel(params System.Action[] actions)
+        {
+            var barrier = new Barrier(actions.Length);
+            var tasks = actions.Select(a =>
+                    ThreadPool.RunAsync(
+                        _ =>
+                        {
+                            barrier.SignalAndWait();
+                            a();
+                        }).AsTask()).ToArray();
+
+            Task.WaitAll(tasks);
+        }
+#else
         // Helper method to run a bunch of delegates, each on a separate thread.
         // It runs them and then waits for them all to complete.
         private static void RunInParallel(params ThreadStart[] actions)
@@ -182,5 +208,6 @@ namespace Microsoft.Practices.Unity.Tests
             // And wait for them all to finish
             threads.ForEach(t => t.Join());
         }
+#endif
     }
 }

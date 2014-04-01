@@ -3,13 +3,12 @@
 using System;
 using System.Reflection;
 using System.Security;
+
 [assembly: CLSCompliant(true)]
 [assembly: AssemblyProduct("Microsoft Unity Application Block")]
 [assembly: AssemblyCompany("Microsoft Corporation")]
 
-#if !SILVERLIGHT && !NETFX_CORE
 [assembly: SecurityTransparent]
-#endif
 
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]

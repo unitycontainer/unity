@@ -77,7 +77,6 @@
     <Compile Include="AdditionalInterfaceBehavior.cs" />
     <Compile Include="AlwaysMatchingRule.cs" />
     <Compile Include="AssertExtensions.cs" />
-    <Compile Include="Barrier.cs" />
     <Compile Include="CallCountHandler.cs" />
     <Compile Include="CallCountInterceptionBehavior.cs" />
     <Compile Include="Configuration\ConfigFileLoader.cs" />

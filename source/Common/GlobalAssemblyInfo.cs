@@ -3,6 +3,7 @@
 using System;
 using System.Reflection;
 using System.Security;
+
 [assembly: CLSCompliant(true)]
 [assembly: AssemblyProduct("Microsoft Unity Application Block")]
 [assembly: AssemblyCompany("Microsoft Corporation")]

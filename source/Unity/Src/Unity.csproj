@@ -5,7 +5,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}</ProjectGuid>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.Practices.Unity</RootNamespace>
@@ -15,7 +17,6 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -31,8 +32,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <ProjectGuid>{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}</ProjectGuid>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,7 +45,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\bin\Desktop\Debug\Microsoft.Practices.Unity.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRules>
     </CodeAnalysisRules>
     <CodeAnalysisRuleSet>..\..\Unity.ruleset</CodeAnalysisRuleSet>
@@ -66,31 +67,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\CommonServiceLocator.1.2\lib\portable-windows8+net40+sl5+windowsphone8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="ObjectBuilderCustomization\IRegisteredNamesPolicy.cs" />
     <Compile Include="ObjectBuilderCustomization\RegisteredNamesPolicy.cs" />
-    <Compile Include="RegistrationByConvention\DuplicateTypeMappingException.Desktop.cs" />
     <Compile Include="RegistrationByConvention\DuplicateTypeMappingException.cs" />
     <Compile Include="RegistrationByConvention\WithLifetime.cs" />
     <Compile Include="RegistrationByConvention\AllClasses.cs" />
-    <Compile Include="RegistrationByConvention\AllClasses.Desktop.cs" />
     <Compile Include="RegistrationByConvention\RegistrationConvention.cs" />
     <Compile Include="RegistrationByConvention\WithLifetime.Desktop.cs" />
     <Compile Include="RegistrationByConvention\WithName.cs" />
     <Compile Include="RegistrationByConvention\WithMappings.cs" />
     <Compile Include="RegistrationByConvention\UnityContainerRegistrationByConventionExtensions.cs" />
-    <Compile Include="GlobalAssemblyInfo.2010.cs" />
     <Compile Include="GlobalAssemblyInfo.cs" />
     <Compile Include="ObjectBuilder\Strategies\BuildPlan\Lazy\LazyDynamicMethodBuildPlanCreatorPolicy.cs" />
     <Compile Include="Utility\TypeReflectionExtensions.cs" />
@@ -126,9 +112,7 @@
     <Compile Include="StaticFactory\IStaticFactoryConfiguration.cs" />
     <Compile Include="ObjectBuilder\BuilderContext.cs" />
     <Compile Include="ObjectBuilder\Exceptions\DependencyMissingException.cs" />
-    <Compile Include="ObjectBuilder\Exceptions\DependencyMissingException.Desktop.cs" />
     <Compile Include="ObjectBuilder\Exceptions\IllegalInjectionMethodException.cs" />
-    <Compile Include="ObjectBuilder\Exceptions\IllegalInjectionMethodException.Desktop.cs" />
     <Compile Include="ObjectBuilder\IBuilderContext.cs" />
     <Compile Include="ObjectBuilder\IRecoveryStack.cs" />
     <Compile Include="ObjectBuilder\IRequiresRecovery.cs" />
@@ -190,7 +174,6 @@
     <Compile Include="ObjectBuilder\Strategies\StrategyChain.cs" />
     <Compile Include="ObjectBuilder\Utility\NamedTypeBuildKey.cs" />
     <Compile Include="ObjectBuilder\Utility\Sequence.cs" />
-    <Compile Include="ResolutionFailedException.Desktop.cs" />
     <Compile Include="StaticFactory\StaticFactoryExtension.cs" />
     <Compile Include="TypeBasedOverride.cs" />
     <Compile Include="UnityContainerExtensions.cs" />
@@ -255,9 +238,7 @@
     <None Include="..\..\Unity.licenseheader">
       <Link>Unity.licenseheader</Link>
     </None>
-    <None Include="Migrated rules for Unity %282%29.ruleset" />
-    <None Include="Migrated rules for Unity.ruleset" />
-    <None Include="packages.Unity.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -267,26 +248,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\packages\CommonServiceLocator.1.2\lib\portable-windows8+net40+sl5+windowsphone8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -156,7 +156,6 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Migrated rules for Unity.Configuration.ruleset" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

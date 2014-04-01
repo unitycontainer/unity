@@ -141,28 +141,28 @@ namespace Microsoft.Practices.Unity.Tests
 
 #if !NETFX_CORE
 
-        [TestMethod]
-        public void RegistersAllTypesWithHelperMethods()
-        {
-            var container = new UnityContainer();
-            container.RegisterTypes(AllClasses.FromLoadedAssemblies(), WithMappings.FromAllInterfaces, WithName.TypeName, WithLifetime.ContainerControlled, overwriteExistingMappings: true);
-            var registrations = container.Registrations.Where(r => r.MappedToType == typeof(MockLogger)).ToArray();
+        //[TestMethod]
+        //public void RegistersAllTypesWithHelperMethods()
+        //{
+        //    var container = new UnityContainer();
+        //    container.RegisterTypes(AllClasses.FromLoadedAssemblies(), WithMappings.FromAllInterfaces, WithName.TypeName, WithLifetime.ContainerControlled, overwriteExistingMappings: true);
+        //    var registrations = container.Registrations.Where(r => r.MappedToType == typeof(MockLogger)).ToArray();
 
-            Assert.AreEqual(2, registrations.Length);
+        //    Assert.AreEqual(2, registrations.Length);
 
-            var mappingRegistration = registrations.Single(r => r.RegisteredType == typeof(ILogger));
-            var implementationRegistration = registrations.Single(r => r.RegisteredType == typeof(MockLogger));
+        //    var mappingRegistration = registrations.Single(r => r.RegisteredType == typeof(ILogger));
+        //    var implementationRegistration = registrations.Single(r => r.RegisteredType == typeof(MockLogger));
 
-            Assert.AreSame(typeof(ILogger), mappingRegistration.RegisteredType);
-            Assert.AreSame(typeof(MockLogger), mappingRegistration.MappedToType);
-            Assert.AreEqual("MockLogger", mappingRegistration.Name);
-            Assert.IsInstanceOfType(mappingRegistration.LifetimeManager, typeof(ContainerControlledLifetimeManager));
+        //    Assert.AreSame(typeof(ILogger), mappingRegistration.RegisteredType);
+        //    Assert.AreSame(typeof(MockLogger), mappingRegistration.MappedToType);
+        //    Assert.AreEqual("MockLogger", mappingRegistration.Name);
+        //    Assert.IsInstanceOfType(mappingRegistration.LifetimeManager, typeof(ContainerControlledLifetimeManager));
 
-            Assert.AreSame(typeof(MockLogger), implementationRegistration.RegisteredType);
-            Assert.AreSame(typeof(MockLogger), implementationRegistration.MappedToType);
-            Assert.AreEqual("MockLogger", implementationRegistration.Name);
-            Assert.IsInstanceOfType(implementationRegistration.LifetimeManager, typeof(ContainerControlledLifetimeManager));
-        }
+        //    Assert.AreSame(typeof(MockLogger), implementationRegistration.RegisteredType);
+        //    Assert.AreSame(typeof(MockLogger), implementationRegistration.MappedToType);
+        //    Assert.AreEqual("MockLogger", implementationRegistration.Name);
+        //    Assert.IsInstanceOfType(implementationRegistration.LifetimeManager, typeof(ContainerControlledLifetimeManager));
+        //}
 #endif
 
         public void CanResolveTypeRegisteredWithAllInterfaces()

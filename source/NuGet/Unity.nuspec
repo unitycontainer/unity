@@ -9,24 +9,25 @@
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
     <projectUrl>http://unity.codeplex.com</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <dependencies>
+      <group targetFramework="win8">
+        <dependency id="CommonServiceLocator" version="1.2.0" />
+      </group>
+    </dependencies>
     <description>The Unity Application Block (Unity) is a lightweight extensible dependency injection container with support for constructor, property, and method call injection. It facilitates loosely-coupled design.</description>
     <summary>The Unity Application Block (Unity) is a lightweight extensible dependency injection container with support for constructor, property, and method call injection.</summary>
     <tags>Unity EntLib EntLib6 IoC DI container dependency injection inversion control LOB WinRT Win8 Windows8 NetCore WindowsStoreApps WindowsStore futures OSS</tags>
   </metadata>
   <files>
-    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.dll" target="lib\Net45" />
-    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.pdb" target="lib\Net45" />
-    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.xml" target="lib\Net45" />
-    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.Configuration.dll" target="lib\Net45" />
-    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.Configuration.pdb" target="lib\Net45" />
-    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.Configuration.xml" target="lib\Net45" />
-    <file src="bin\NetCore\$Configuration$\Microsoft.Practices.Unity.NetCore.dll" target="lib\NetCore45" />
-    <file src="bin\NetCore\$Configuration$\Microsoft.Practices.Unity.NetCore.pdb" target="lib\NetCore45" />
-    <file src="bin\NetCore\$Configuration$\Microsoft.Practices.Unity.NetCore.pri" target="lib\NetCore45" />
-    <file src="bin\NetCore\$Configuration$\Microsoft.Practices.Unity.NetCore.xml" target="lib\NetCore45" />
-    <file src="bin\WindowsPhone\$Configuration$\Microsoft.Practices.Unity.WindowsPhone.dll" target="lib\wp8" />
-    <file src="bin\WindowsPhone\$Configuration$\Microsoft.Practices.Unity.WindowsPhone.pdb" target="lib\wp8" />
-    <file src="bin\WindowsPhone\$Configuration$\Microsoft.Practices.Unity.WindowsPhone.xml" target="lib\wp8" />
+    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.dll" target="lib\portable-net45+wp80+win8" />
+    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.pdb" target="lib\portable-net45+wp80+win8" />
+    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.xml" target="lib\portable-net45+wp80+win8" />
+    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.dll" target="lib\net45" />
+    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.pdb" target="lib\net45" />
+    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.xml" target="lib\net45" />
+    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.Configuration.dll" target="lib\net45" />
+    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.Configuration.pdb" target="lib\net45" />
+    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.Configuration.xml" target="lib\net45" />
     <file src="UnityConfiguration30.xsd" target="" />
     <file src="NuGet\tools\Unity\install.ps1" target="tools" />
     <file src="Unity\Src\**\*.cs" target="src\Unity\Src" />

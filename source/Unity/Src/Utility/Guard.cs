@@ -79,11 +79,7 @@ namespace Microsoft.Practices.Unity.Utility
             if (assignmentTargetType == null) throw new ArgumentNullException("assignmentTargetType");
             if (assignmentInstance == null) throw new ArgumentNullException("assignmentInstance");
 
-#if NETFX_CORE
             if (!assignmentTargetType.GetTypeInfo().IsAssignableFrom(assignmentInstance.GetType().GetTypeInfo()))
-#else
-            if (!assignmentTargetType.IsInstanceOfType(assignmentInstance))            
-#endif            
             {
                 throw new ArgumentException(
                     string.Format(

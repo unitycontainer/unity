@@ -176,9 +176,6 @@
     <Compile Include="..\TestSupport.Unity\AssertExtensions.cs">
       <Link>Unity.TestSupport\AssertExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\TestSupport.Unity\Barrier.cs">
-      <Link>Unity.TestSupport\Barrier.cs</Link>
-    </Compile>
     <Compile Include="..\TestSupport.Unity\EnumerableAssertionExtensions.cs">
       <Link>Unity.TestSupport\EnumerableAssertionExtensions.cs</Link>
     </Compile>
@@ -390,6 +387,9 @@
     <Compile Include="..\Unity.Tests\PerResolveLifetimeFixture.cs">
       <Link>Unity.Tests\PerResolveLifetimeFixture.cs</Link>
     </Compile>
+    <Compile Include="..\Unity.Tests\PerThreadLifetimeManagerFixture.cs">
+      <Link>Unity.Tests\PerThreadLifetimeManagerFixture.cs</Link>
+    </Compile>
     <Compile Include="..\Unity.Tests\ReflectionHelperFixture.cs">
       <Link>Unity.Tests\ReflectionHelperFixture.cs</Link>
     </Compile>
@@ -516,18 +516,11 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\Unity.NetCore.csproj">
-      <Project>{c981d8e3-9a29-4dee-8e64-ed6db30a2d94}</Project>
-      <Name>Unity.NetCore</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Unity.Tests\ContainerControlledLifetimeThreadingFixture.NetCore.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Unity.Tests.NetCore_TemporaryKey.pfx" />
-    <Compile Include="Unity.Tests\AssemblyScanningFixture.NetCore.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Practices.ServiceLocation">
@@ -537,6 +530,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\TestAssemblies\TestNetAssembly.NetCore\bin\$(Configuration)\TestNetAssembly.NetCore.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Src\Unity.csproj">
+      <Project>{ee1f752c-1fab-41ad-ad63-857d0e62ab6b}</Project>
+      <Name>Unity</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

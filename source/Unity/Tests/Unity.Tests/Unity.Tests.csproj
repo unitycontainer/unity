@@ -80,7 +80,6 @@
     <Compile Include="ConstructorWithOutParametersFixture.cs" />
     <Compile Include="ContainerControlledLifetimeThreadingFixture.cs" />
     <Compile Include="ContainerRegistrationsFixture.cs" />
-    <Compile Include="AssemblyScanningFixture.Desktop.cs" />
     <Compile Include="RegistrationByConventionFixture.cs" />
     <Compile Include="LazyResolveFixture.cs" />
     <Compile Include="OptionalGenericParameterFixture.cs" />
@@ -98,7 +97,6 @@
     <Compile Include="DisposableExtensionFixture.cs" />
     <Compile Include="InjectingArraysFixture.cs" />
     <Compile Include="MethodInjectionFixture.cs" />
-    <Compile Include="ExceptionSerializationFixture.Desktop.cs" />
     <Compile Include="RegistrationByConventionHelpersFixture.cs" />
     <Compile Include="TestDoubles\MockContainerExtensionWithNonDefaultConstructor.cs" />
     <Compile Include="OptionalDependencyAPIConfigurationFixture.cs" />
@@ -125,7 +123,6 @@
     <Compile Include="TestObjects\ObjectWithStaticAndInstanceProperties.cs" />
     <Compile Include="TestObjects\ObjectWithTwoConstructorDependencies.cs" />
     <Compile Include="UnityContainerFixture.cs" />
-    <Compile Include="UnityContainerFixture.Desktop.cs" />
     <Compile Include="UnityExtensionFixture.cs" />
     <Compile Include="UnityHierarchyFixture.cs" />
   </ItemGroup>

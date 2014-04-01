@@ -16,6 +16,8 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class LifetimeStrategy : BuilderStrategy
     {
+        private readonly object genericLifetimeManagerLock = new object();
+
         /// <summary>
         /// Called during the chain of responsibility for a build operation. The
         /// PreBuildUp method is called when the chain is being executed in the
@@ -28,11 +30,11 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             Guard.ArgumentNotNull(context, "context");
 
-            if(context.Existing == null)
+            if (context.Existing == null)
             {
                 ILifetimePolicy lifetimePolicy = GetLifetimePolicy(context);
                 IRequiresRecovery recovery = lifetimePolicy as IRequiresRecovery;
-                if(recovery != null)
+                if (recovery != null)
                 {
                     context.RecoveryStack.Add(recovery);
                 }
@@ -62,7 +64,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             lifetimePolicy.SetValue(context.Existing);
         }
 
-        private static ILifetimePolicy GetLifetimePolicy(IBuilderContext context)
+        private ILifetimePolicy GetLifetimePolicy(IBuilderContext context)
         {
             ILifetimePolicy policy = context.Policies.GetNoDefault<ILifetimePolicy>(context.BuildKey, false);
             if (policy == null && context.BuildKey.Type.GetTypeInfo().IsGenericType)
@@ -70,15 +72,16 @@ namespace Microsoft.Practices.ObjectBuilder2
                 policy = GetLifetimePolicyForGenericType(context);
             }
 
-            if(policy == null)
+            if (policy == null)
             {
                 policy = new TransientLifetimeManager();
                 context.PersistentPolicies.Set<ILifetimePolicy>(policy, context.BuildKey);
             }
+
             return policy;
         }
 
-        private static ILifetimePolicy GetLifetimePolicyForGenericType(IBuilderContext context)
+        private ILifetimePolicy GetLifetimePolicyForGenericType(IBuilderContext context)
         {
             Type typeToBuild = context.BuildKey.Type;
             object openGenericBuildKey = new NamedTypeBuildKey(typeToBuild.GetGenericTypeDefinition(),
@@ -88,11 +91,26 @@ namespace Microsoft.Practices.ObjectBuilder2
             ILifetimeFactoryPolicy factoryPolicy =
                 context.Policies.Get<ILifetimeFactoryPolicy>(openGenericBuildKey, out factorySource);
 
-            if(factoryPolicy != null)
+            if (factoryPolicy != null)
             {
-                ILifetimePolicy lifetime = factoryPolicy.CreateLifetimePolicy();
-                factorySource.Set<ILifetimePolicy>(lifetime, context.BuildKey);
-                return lifetime;
+                // creating the lifetime policy can result in arbitrary code execution
+                // in particular it will likely result in a Resolve call, which could result in locking
+                // to avoid deadlocks the new lifetime policy is created outside the lock
+                // multiple instances might be created, but only one instance will be used
+                ILifetimePolicy newLifetime = factoryPolicy.CreateLifetimePolicy();
+
+                lock (this.genericLifetimeManagerLock)
+                {
+                    // check whether the policy for closed-generic has been added since first checked
+                    ILifetimePolicy lifetime = factorySource.GetNoDefault<ILifetimePolicy>(context.BuildKey, false);
+                    if (lifetime == null)
+                    {
+                        factorySource.Set<ILifetimePolicy>(newLifetime, context.BuildKey);
+                        lifetime = newLifetime;
+                    }
+
+                    return lifetime;
+                }
             }
 
             return null;

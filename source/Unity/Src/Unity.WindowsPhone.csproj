@@ -48,6 +48,8 @@
     <Compile Include="..\..\Common\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ObjectBuilderCustomization\IRegisteredNamesPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\RegisteredNamesPolicy.cs" />
     <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Creation\DynamicMethodConstructorStrategy.cs">
     </Compile>
     <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\DynamicBuildPlanGenerationContext.cs">

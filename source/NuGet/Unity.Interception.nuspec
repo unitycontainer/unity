@@ -25,5 +25,7 @@
     <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.Interception.Configuration.pdb" target="lib\Net45" />
     <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.Interception.Configuration.xml" target="lib\Net45" />
     <file src="NuGet\tools\Unity.Interception\install.ps1" target="tools" />
+    <file src="Unity.Interception\Src\**\*.cs" target="src\Unity.Interception\Src" />
+    <file src="Unity.Interception.Configuration\Src\**\*.cs" target="src\Unity.Interception.Configuration\Src" />
   </files>
 </package>

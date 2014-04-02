@@ -158,7 +158,56 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
             catch (InvalidOperationException)
             {
+            }
+        }
 
+        [TestMethod]
+        public void ResolvingANewInstanceOfADelegateTypeThrows()
+        {
+            MockBuilderContext context = GetContext();
+            var key = new NamedTypeBuildKey<Func<string, object>>();
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
+            context.BuildKey = key;
+
+            try
+            {
+                plan.BuildUp(context);
+                Assert.Fail("should have thrown");
+            }
+            catch (InvalidOperationException)
+            {
+            }
+        }
+
+        [TestMethod]
+        public void CanResolveAADelegateTypeIfInstanceExists()
+        {
+            MockBuilderContext context = GetContext();
+            var key = new NamedTypeBuildKey<Func<string, object>>();
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
+            context.BuildKey = key;
+            Func<string, object> existing = s => null;
+            context.Existing = existing;
+
+            plan.BuildUp(context);
+            Assert.AreSame(existing, context.Existing);
+        }
+
+        [TestMethod]
+        public void ResolvingANewInstanceOfAnInterfaceTypeThrows()
+        {
+            MockBuilderContext context = GetContext();
+            var key = new NamedTypeBuildKey<IComparable>();
+            IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
+            context.BuildKey = key;
+
+            try
+            {
+                plan.BuildUp(context);
+                Assert.Fail("should have thrown");
+            }
+            catch (InvalidOperationException)
+            {
             }
         }
 

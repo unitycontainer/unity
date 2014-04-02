@@ -68,14 +68,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Type interceptingType =
                 interceptor.CreateProxyType(typeToBuild, allAdditionalInterfaces);
 
-            IPolicyList selectorPolicyDestination;
-            var originalSelectorPolicy = context.Policies.Get<IConstructorSelectorPolicy>(context.BuildKey, out selectorPolicyDestination);
-
-            selectorPolicyDestination.Set<IConstructorSelectorPolicy>(
-                new DerivedTypeConstructorSelectorPolicy(
-                    interceptingType,
-                    originalSelectorPolicy),
-                context.BuildKey);
+            DerivedTypeConstructorSelectorPolicy.SetPolicyForInterceptingType(context, interceptingType);
         }
 
         /// <summary>
@@ -158,6 +151,30 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 }
 
                 return newConstructor;
+            }
+
+            public static void SetPolicyForInterceptingType(IBuilderContext context, Type interceptingType)
+            {
+                IPolicyList selectorPolicyDestination;
+                var currentSelectorPolicy = context.Policies.Get<IConstructorSelectorPolicy>(context.BuildKey, out selectorPolicyDestination);
+                var currentDerivedTypeSelectorPolicy = currentSelectorPolicy as DerivedTypeConstructorSelectorPolicy;
+
+                if (currentDerivedTypeSelectorPolicy == null)
+                {
+                    selectorPolicyDestination.Set<IConstructorSelectorPolicy>(
+                        new DerivedTypeConstructorSelectorPolicy(
+                            interceptingType,
+                            currentSelectorPolicy),
+                        context.BuildKey);
+                }
+                else if (currentDerivedTypeSelectorPolicy.interceptingType != interceptingType)
+                {
+                    selectorPolicyDestination.Set<IConstructorSelectorPolicy>(
+                        new DerivedTypeConstructorSelectorPolicy(
+                            interceptingType,
+                            currentDerivedTypeSelectorPolicy.originalConstructorSelectorPolicy),
+                        context.BuildKey);
+                }
             }
         }
     }

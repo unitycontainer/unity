@@ -258,7 +258,6 @@
     <None Include="Migrated rules for Unity %282%29.ruleset" />
     <None Include="Migrated rules for Unity.ruleset" />
     <None Include="packages.Unity.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

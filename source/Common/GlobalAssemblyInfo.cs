@@ -8,7 +8,7 @@ using System.Security;
 [assembly: AssemblyProduct("Microsoft Unity Application Block")]
 [assembly: AssemblyCompany("Microsoft Corporation")]
 
-#if !SILVERLIGHT && !NETFX_CORE
+#if !WINDOWS_PHONE && !NETFX_CORE
 [assembly: AllowPartiallyTrustedCallers]
 #endif
 

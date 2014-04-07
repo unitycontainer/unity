@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionAssertExtensions.cs" />
     <Compile Include="WrappableObjects.cs" />
     <Compile Include="WrappableObjects.Desktop.cs" />
     <None Include="..\..\..\Common\GlobalAssemblyInfo.2010.cs">

@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
+using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
@@ -70,7 +71,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             List<ICallHandler> expectedHandlers = new List<ICallHandler>(container.ResolveAll<ICallHandler>());
             List<ICallHandler> actualHandlers = new List<ICallHandler>(p.GetHandlersFor(member, container));
 
-            CollectionAssert.AreEqual(
+            CollectionAssertExtensions.AreEqual(
                 expectedHandlers,
                 actualHandlers,
                 new TypeComparer());
@@ -90,7 +91,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             List<ICallHandler> expectedHandlers = new List<ICallHandler>(container.ResolveAll<ICallHandler>());
             List<ICallHandler> actualHandlers = new List<ICallHandler>(p.GetHandlersFor(getMethod, container));
 
-            CollectionAssert.AreEqual(
+            CollectionAssertExtensions.AreEqual(
                 expectedHandlers,
                 actualHandlers,
                 new TypeComparer());
@@ -116,7 +117,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         private static MethodImplementationInfo GetMethodImplInfo<T>(string methodName)
         {
             return new MethodImplementationInfo(null,
-                typeof (T).GetMethod(methodName));
+                typeof(T).GetMethod(methodName));
         }
     }
 

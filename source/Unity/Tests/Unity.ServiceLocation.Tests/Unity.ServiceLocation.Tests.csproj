@@ -85,6 +85,10 @@
       <Project>{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}</Project>
       <Name>Unity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestSupport.Unity\Unity.TestSupport.csproj">
+      <Project>{e979857e-cde5-4d36-9ae8-8fff4f75ae89}</Project>
+      <Name>Unity.TestSupport</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

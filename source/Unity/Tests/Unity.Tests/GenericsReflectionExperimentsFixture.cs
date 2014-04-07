@@ -1,15 +1,20 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Reflection;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
-using System.Linq;
-using Microsoft.Practices.Unity.TestSupport;
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -141,7 +146,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             }
 
-            CollectionAssert.AreEqual(new int[] { 1, 0 }, parameterPositions);
+            CollectionAssertExtensions.AreEqual(new int[] { 1, 0 }, parameterPositions);
 
             ConstructorInfo targetCtor = closedType.GetMatchingConstructor(closedCtorParamTypes.ToArray());
 

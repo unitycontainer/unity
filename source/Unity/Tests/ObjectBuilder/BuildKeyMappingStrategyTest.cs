@@ -3,6 +3,11 @@
 using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -27,7 +32,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.BuildKey = new NamedTypeBuildKey<ITestType<int>>();
             context.Strategies.ExecuteBuildUp(context);
 
-            Assert.AreEqual<object>(new NamedTypeBuildKey(typeof(ConcreteType<int>)), spy.BuildKey);
+            Assert.AreEqual(new NamedTypeBuildKey(typeof(ConcreteType<int>)), spy.BuildKey);
         }
 
         [TestMethod]
@@ -45,8 +50,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.BuildKey = new NamedTypeBuildKey(typeof (ITestType<int>), "one");
             context.Strategies.ExecuteBuildUp(context);
 
-            Assert.IsInstanceOfType(spy.BuildKey, typeof (NamedTypeBuildKey));
-            Assert.AreEqual<object>(typeof(ConcreteType<int>), spy.BuildKey.Type);
+            AssertExtensions.IsInstanceOfType(spy.BuildKey, typeof (NamedTypeBuildKey));
+            Assert.AreEqual(typeof(ConcreteType<int>), spy.BuildKey.Type);
             Assert.AreEqual("two", spy.BuildKey.Name);
         }
 
@@ -81,7 +86,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.Existing = null;
             context.Strategies.ExecuteBuildUp(context);
 
-            Assert.IsInstanceOfType(spy.BuildKey, typeof (NamedTypeBuildKey));
+            AssertExtensions.IsInstanceOfType(spy.BuildKey, typeof (NamedTypeBuildKey));
             Assert.AreEqual(toKey, spy.BuildKey);
         }
 

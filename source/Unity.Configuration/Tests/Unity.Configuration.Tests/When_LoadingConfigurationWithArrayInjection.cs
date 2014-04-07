@@ -2,6 +2,7 @@
 
 using System.Linq;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
+using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,7 +14,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_LoadingConfigurationWithArrayInjection : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_LoadingConfigurationWithArrayInjection() : base("ArrayInjection")
+        public When_LoadingConfigurationWithArrayInjection()
+            : base("ArrayInjection")
         {
         }
 
@@ -22,14 +24,14 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         {
             var prop = GetArrayPropertyElement("specificElements");
 
-            Assert.IsInstanceOfType(prop.Value, typeof (ArrayElement));
+            Assert.IsInstanceOfType(prop.Value, typeof(ArrayElement));
         }
 
         [TestMethod]
         public void Then_ArrayPropertyHasTwoValuesThatWillBeInjected()
         {
             var prop = GetArrayPropertyElement("specificElements");
-            var arrayValue = (ArrayElement) prop.Value;
+            var arrayValue = (ArrayElement)prop.Value;
 
             Assert.AreEqual(2, arrayValue.Values.Count);
         }
@@ -38,7 +40,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         public void Then_ArrayPropertyValuesAreAllDependencies()
         {
             var prop = GetArrayPropertyElement("specificElements");
-            var arrayValue = (ArrayElement) prop.Value;
+            var arrayValue = (ArrayElement)prop.Value;
 
             Assert.IsTrue(arrayValue.Values.All(v => v is DependencyElement));
         }
@@ -49,7 +51,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var prop = GetArrayPropertyElement("specificElements");
             var arrayValue = (ArrayElement)prop.Value;
 
-            CollectionAssert.AreEqual(new[] {"main", "special"},
+            CollectionAssertExtensions.AreEqual(new[] { "main", "special" },
                 arrayValue.Values.Cast<DependencyElement>().Select(e => e.Name).ToList());
         }
 
@@ -62,8 +64,6 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             return registration.InjectionMembers.OfType<PropertyElement>()
                 .Where(pe => pe.Name == "Loggers")
                 .First();
-            
         }
-
     }
 }

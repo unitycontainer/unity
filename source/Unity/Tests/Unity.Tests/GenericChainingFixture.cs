@@ -3,8 +3,14 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -22,7 +28,7 @@ namespace Microsoft.Practices.Unity.Tests
             IUnityContainer container = new UnityContainer()
                 .RegisterType(typeof(ICommand<>), typeof(ConcreteCommand<>));
             ICommand<User> cmd = container.Resolve<ICommand<User>>();
-            Assert.IsInstanceOfType(cmd, typeof(ConcreteCommand<User>));
+            AssertExtensions.IsInstanceOfType(cmd, typeof(ConcreteCommand<User>));
         }
 
         [TestMethod]
@@ -45,7 +51,7 @@ namespace Microsoft.Practices.Unity.Tests
             LoggingCommand<User> logCmd = (LoggingCommand<User>)cmd;
 
             Assert.IsNotNull(logCmd.Inner);
-            Assert.IsInstanceOfType(logCmd.Inner, typeof(ConcreteCommand<User>));
+            AssertExtensions.IsInstanceOfType(logCmd.Inner, typeof(ConcreteCommand<User>));
         }
 
         [TestMethod]
@@ -60,7 +66,7 @@ namespace Microsoft.Practices.Unity.Tests
             LoggingCommand<User> logCmd = (LoggingCommand<User>)cmd;
 
             Assert.IsNotNull(logCmd.Inner);
-            Assert.IsInstanceOfType(logCmd.Inner, typeof(ConcreteCommand<User>));
+            AssertExtensions.IsInstanceOfType(logCmd.Inner, typeof(ConcreteCommand<User>));
         }
 
         [TestMethod]
@@ -112,11 +118,11 @@ namespace Microsoft.Practices.Unity.Tests
                 .RegisterType(typeof(ICommand<>), typeof(ConcreteCommand<>), "inner");
 
             ICommand<User> result = container.Resolve<ICommand<User>>();
-            Assert.IsInstanceOfType(result, typeof(LoggingCommand<User>));
+            AssertExtensions.IsInstanceOfType(result, typeof(LoggingCommand<User>));
 
             ICommand<Account> accountResult = container.Resolve<ICommand<Account>>();
 
-            Assert.IsInstanceOfType(accountResult, typeof(LoggingCommand<Account>));
+            AssertExtensions.IsInstanceOfType(accountResult, typeof(LoggingCommand<Account>));
 
         }
 
@@ -146,7 +152,7 @@ namespace Microsoft.Practices.Unity.Tests
             LoggingCommand<Account> actualResult = (LoggingCommand<Account>)result;
 
             Assert.IsNotNull(actualResult.Inner);
-            Assert.IsInstanceOfType(actualResult.inner, typeof(ConcreteCommand<Account>));
+            AssertExtensions.IsInstanceOfType(actualResult.inner, typeof(ConcreteCommand<Account>));
         }
 
         [TestMethod]
@@ -172,7 +178,7 @@ namespace Microsoft.Practices.Unity.Tests
             LoggingCommand<Nullable<Customer>> logCmd = (LoggingCommand<Nullable<Customer>>)cmd;
 
             Assert.IsNotNull(logCmd.Inner);
-            Assert.IsInstanceOfType(logCmd.Inner, typeof(ConcreteCommand<Nullable<Customer>>));
+            AssertExtensions.IsInstanceOfType(logCmd.Inner, typeof(ConcreteCommand<Nullable<Customer>>));
 
         }
 

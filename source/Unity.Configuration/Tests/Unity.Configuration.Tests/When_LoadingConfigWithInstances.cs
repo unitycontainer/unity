@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System.Linq;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
+using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,7 +13,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_LoadingConfigWithInstances : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_LoadingConfigWithInstances() : base("RegisteringInstances")
+        public When_LoadingConfigWithInstances()
+            : base("RegisteringInstances")
         {
         }
 
@@ -35,11 +36,12 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
                     new[] {"forward", "23", "int", ""}
                 };
 
-            for(int index = 0; index < expected.Length; ++index)
+            for (int index = 0; index < expected.Length; ++index)
             {
                 var instance = Section.Containers.Default.Instances[index];
-                CollectionAssert.AreEqual(expected[index],
-                    new string[] {instance.Name, instance.Value, instance.TypeName, instance.TypeConverterTypeName},
+                CollectionAssertExtensions.AreEqual(
+                    expected[index],
+                    new string[] { instance.Name, instance.Value, instance.TypeName, instance.TypeConverterTypeName },
                     string.Format("Element at index {0} does not match", index));
             }
         }

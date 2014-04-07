@@ -9,6 +9,11 @@ using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -88,7 +93,7 @@ namespace Microsoft.Practices.Unity.Tests
         private static void AssertPolicyIsCorrect(IDependencyResolverPolicy policy)
         {
             Assert.IsNotNull(policy);
-            Assert.IsInstanceOfType(policy, typeof(LiteralValueDependencyResolverPolicy));
+            AssertExtensions.IsInstanceOfType(policy, typeof(LiteralValueDependencyResolverPolicy));
         }
 
         private Type[] Types(params Type[] types)

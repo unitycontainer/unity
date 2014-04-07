@@ -6,6 +6,11 @@ using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -75,8 +80,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             Assert.IsNotNull(stringLifetime);
             Assert.IsNotNull(intLifetime);
-            Assert.IsInstanceOfType(stringLifetime, typeof(RecoverableLifetime));
-            Assert.IsInstanceOfType(intLifetime, typeof(RecoverableLifetime));
+            AssertExtensions.IsInstanceOfType(stringLifetime, typeof(RecoverableLifetime));
+            AssertExtensions.IsInstanceOfType(intLifetime, typeof(RecoverableLifetime));
             Assert.AreNotSame(stringLifetime, intLifetime);
         }
         

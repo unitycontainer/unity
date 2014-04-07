@@ -5,6 +5,11 @@ using System.Collections.Generic;
 using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -36,7 +41,7 @@ namespace Microsoft.Practices.Unity.Tests
             var resolver = container.Resolve<Func<ILogger>>();
             var logger = resolver();
 
-            Assert.IsInstanceOfType(logger, typeof (MockLogger));
+            AssertExtensions.IsInstanceOfType(logger, typeof (MockLogger));
         }
 
         [TestMethod]
@@ -48,7 +53,7 @@ namespace Microsoft.Practices.Unity.Tests
             var result = container.Resolve<ObjectThatGetsAResolver>();
 
             Assert.IsNotNull(result.LoggerResolver);
-            Assert.IsInstanceOfType(result.LoggerResolver(), typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(result.LoggerResolver(), typeof(MockLogger));
         }
 
         [TestMethod]
@@ -76,7 +81,7 @@ namespace Microsoft.Practices.Unity.Tests
             var result = resolver();
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(SpecialLogger));
+            AssertExtensions.IsInstanceOfType(result, typeof(SpecialLogger));
         }
 
         [TestMethod]

@@ -5,6 +5,11 @@ using System.Collections.Generic;
 using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -46,7 +51,7 @@ namespace Microsoft.Practices.Unity.Tests
             var lazy = container.Resolve<Lazy<ILogger>>();
             var logger = lazy.Value;
 
-            Assert.IsInstanceOfType(logger, typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(logger, typeof(MockLogger));
         }
 
         [TestMethod]
@@ -58,7 +63,7 @@ namespace Microsoft.Practices.Unity.Tests
             var result = container.Resolve<ObjectThatGetsALazy>();
 
             Assert.IsNotNull(result.LoggerLazy);
-            Assert.IsInstanceOfType(result.LoggerLazy.Value, typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(result.LoggerLazy.Value, typeof(MockLogger));
         }
 
         [TestMethod]
@@ -87,7 +92,7 @@ namespace Microsoft.Practices.Unity.Tests
             var result = lazy.Value;
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(SpecialLogger));
+            AssertExtensions.IsInstanceOfType(result, typeof(SpecialLogger));
         }
 
         [TestMethod]
@@ -112,7 +117,7 @@ namespace Microsoft.Practices.Unity.Tests
             var lazy1 = container.Resolve<Lazy<ILogger>>();
             var lazy2 = container.Resolve<Lazy<string>>();
 
-            Assert.IsInstanceOfType(lazy1.Value, typeof(ILogger));
+            AssertExtensions.IsInstanceOfType(lazy1.Value, typeof(ILogger));
             Assert.AreEqual("the instance", lazy2.Value);
         }
 
@@ -128,8 +133,8 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.IsNotNull(result.LoggerLazy1);
             Assert.IsNotNull(result.LoggerLazy2);
             Assert.AreSame(result.LoggerLazy1, result.LoggerLazy2);
-            Assert.IsInstanceOfType(result.LoggerLazy1.Value, typeof(MockLogger));
-            Assert.IsInstanceOfType(result.LoggerLazy2.Value, typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(result.LoggerLazy1.Value, typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(result.LoggerLazy2.Value, typeof(MockLogger));
             Assert.AreSame(result.LoggerLazy1.Value, result.LoggerLazy2.Value);
 
             Assert.AreNotSame(result.LoggerLazy1.Value, container.Resolve<Lazy<ILogger>>().Value);

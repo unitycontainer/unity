@@ -5,6 +5,8 @@ using System.Reflection;
 
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -33,6 +35,11 @@ namespace Microsoft.Practices.Unity.TestSupport
             }
         }
 
-
+        public static void IsInstanceOfType(object value, Type expectedType)
+        {
+            Assert.IsNotNull(value, "value should not be null");
+            Assert.IsNotNull(value, "expectedType should not be null");
+            Assert.IsTrue(expectedType.GetTypeInfo().IsAssignableFrom(value.GetType().GetTypeInfo()));
+        }
     }
 }

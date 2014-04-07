@@ -6,6 +6,11 @@ using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -35,7 +40,7 @@ namespace Microsoft.Practices.Unity.Tests
             List<object> results = new List<object>(container.ResolveAll<object>());
 
             Assert.IsNotNull(results);
-            CollectionAssert.AreEqual(new object[0], results);
+            CollectionAssertExtensions.AreEqual(new object[0], results);
         }
 
         [TestMethod]
@@ -51,7 +56,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             List<object> results = new List<object>(container.ResolveAll<object>());
 
-            CollectionAssert.AreEqual(new object[] { o1, o2 }, results);
+            CollectionAssertExtensions.AreEqual(new object[] { o1, o2 }, results);
         }
 
         [TestMethod]
@@ -66,7 +71,7 @@ namespace Microsoft.Practices.Unity.Tests
                 .RegisterInstance<ILogger>("o2", o2);
 
             List<ILogger> results = new List<ILogger>(container.ResolveAll<ILogger>());
-            CollectionAssert.AreEqual(new ILogger[] {o1, o2}, results);
+            CollectionAssertExtensions.AreEqual(new ILogger[] {o1, o2}, results);
         }
 
         [TestMethod]

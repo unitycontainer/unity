@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System;
 using System.Linq;
+using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
@@ -71,19 +71,19 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Assert.AreEqual(84, param4);
 
             Assert.AreEqual(5, argumentsCount);
-            CollectionAssert.AreEqual(new[] { 1, 0, 3, 4, 5 }, argumentsValuesByIndex);
-            CollectionAssert.AreEqual(new[] { "param1", "param2", "param3", "param4", "param5" }, argumentsNames);
-            CollectionAssert.AreEqual(new[] { 1, 0, 3, 4, 5 }, argumentsValuesByName);
+            CollectionAssertExtensions.AreEqual(new[] { 1, 0, 3, 4, 5 }, argumentsValuesByIndex);
+            CollectionAssertExtensions.AreEqual(new[] { "param1", "param2", "param3", "param4", "param5" }, argumentsNames);
+            CollectionAssertExtensions.AreEqual(new[] { 1, 0, 3, 4, 5 }, argumentsValuesByName);
 
             Assert.AreEqual(4, inputsCount);
-            CollectionAssert.AreEqual(new[] { 1, 3, 4, 5 }, inputsValuesByIndex);
-            CollectionAssert.AreEqual(new[] { "param1", "param3", "param4", "param5" }, inputsNames);
-            CollectionAssert.AreEqual(new[] { 1, 3, 4, 5 }, inputsValuesByName);
+            CollectionAssertExtensions.AreEqual(new[] { 1, 3, 4, 5 }, inputsValuesByIndex);
+            CollectionAssertExtensions.AreEqual(new[] { "param1", "param3", "param4", "param5" }, inputsNames);
+            CollectionAssertExtensions.AreEqual(new[] { 1, 3, 4, 5 }, inputsValuesByName);
 
             Assert.AreEqual(2, outputsCount);
-            CollectionAssert.AreEqual(new[] { 25, 39 }, outputsValuesByIndex);
-            CollectionAssert.AreEqual(new[] { "param2", "param4" }, outputsNames);
-            CollectionAssert.AreEqual(new[] { 25, 39 }, outputsValuesByName);
+            CollectionAssertExtensions.AreEqual(new[] { 25, 39 }, outputsValuesByIndex);
+            CollectionAssertExtensions.AreEqual(new[] { "param2", "param4" }, outputsNames);
+            CollectionAssertExtensions.AreEqual(new[] { 25, 39 }, outputsValuesByName);
 
             Assert.AreEqual(11 + 25 + 13 + 39 + 15, originalReturnValue);
         }

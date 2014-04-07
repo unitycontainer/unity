@@ -8,6 +8,11 @@ using Microsoft.Practices.Unity.Tests.TestObjects;
 using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -56,7 +61,7 @@ namespace Microsoft.Practices.Unity.Tests
             ILogger logger = container.Resolve<ILogger>();
 
             Assert.IsNotNull(logger);
-            Assert.IsInstanceOfType(logger, typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(logger, typeof(MockLogger));
         }
 
         [TestMethod]
@@ -72,8 +77,8 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.IsNotNull(defaultLogger);
             Assert.IsNotNull(specialLogger);
 
-            Assert.IsInstanceOfType(defaultLogger, typeof(MockLogger));
-            Assert.IsInstanceOfType(specialLogger, typeof(SpecialLogger));
+            AssertExtensions.IsInstanceOfType(defaultLogger, typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(specialLogger, typeof(SpecialLogger));
         }
 
         [TestMethod]
@@ -128,7 +133,7 @@ namespace Microsoft.Practices.Unity.Tests
             object logger = container.Resolve(typeof(ILogger));
 
             Assert.IsNotNull(logger);
-            Assert.IsInstanceOfType(logger, typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(logger, typeof(MockLogger));
         }
 
         [TestMethod]
@@ -144,8 +149,8 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.IsNotNull(defaultLogger);
             Assert.IsNotNull(specialLogger);
 
-            Assert.IsInstanceOfType(defaultLogger, typeof(MockLogger));
-            Assert.IsInstanceOfType(specialLogger, typeof(SpecialLogger));
+            AssertExtensions.IsInstanceOfType(defaultLogger, typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(specialLogger, typeof(SpecialLogger));
         }
 
         [TestMethod]
@@ -167,7 +172,7 @@ namespace Microsoft.Practices.Unity.Tests
             ILogger logger1 = container.Resolve<ILogger>();
             ILogger logger2 = container.Resolve<ILogger>();
 
-            Assert.IsInstanceOfType(logger1, typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(logger1, typeof(MockLogger));
             Assert.AreSame(logger1, logger2);
         }
 
@@ -254,10 +259,10 @@ namespace Microsoft.Practices.Unity.Tests
             ObjectUsingLogger o = new ObjectUsingLogger();
             object result = container.BuildUp(o);
 
-            Assert.IsInstanceOfType(result, typeof(ObjectUsingLogger));
+            AssertExtensions.IsInstanceOfType(result, typeof(ObjectUsingLogger));
             Assert.AreSame(o, result);
             Assert.IsNotNull(o.Logger);
-            Assert.IsInstanceOfType(o.Logger, typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(o.Logger, typeof(MockLogger));
         }
 
         [TestMethod]
@@ -434,9 +439,9 @@ namespace Microsoft.Practices.Unity.Tests
                 container.ResolveAll<ILogger>());
 
             Assert.AreEqual(3, loggers.Count);
-            Assert.IsInstanceOfType(loggers[0], typeof(MockLogger));
-            Assert.IsInstanceOfType(loggers[1], typeof(SpecialLogger));
-            Assert.IsInstanceOfType(loggers[2], typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(loggers[0], typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(loggers[1], typeof(SpecialLogger));
+            AssertExtensions.IsInstanceOfType(loggers[2], typeof(MockLogger));
         }
 
         [TestMethod]
@@ -449,7 +454,7 @@ namespace Microsoft.Practices.Unity.Tests
             List<ILogger> loggers = new List<ILogger>(
                 container.ResolveAll<ILogger>());
             Assert.AreEqual(1, loggers.Count);
-            Assert.IsInstanceOfType(loggers[0], typeof(SpecialLogger));
+            AssertExtensions.IsInstanceOfType(loggers[0], typeof(SpecialLogger));
         }
 
         [TestMethod]
@@ -465,9 +470,9 @@ namespace Microsoft.Practices.Unity.Tests
                 container.ResolveAll(typeof(ILogger)));
 
             Assert.AreEqual(3, loggers.Count);
-            Assert.IsInstanceOfType(loggers[0], typeof(MockLogger));
-            Assert.IsInstanceOfType(loggers[1], typeof(SpecialLogger));
-            Assert.IsInstanceOfType(loggers[2], typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(loggers[0], typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(loggers[1], typeof(SpecialLogger));
+            AssertExtensions.IsInstanceOfType(loggers[2], typeof(MockLogger));
         }
 
         [TestMethod]
@@ -484,8 +489,8 @@ namespace Microsoft.Practices.Unity.Tests
                 container.ResolveAll<ILogger>());
 
             Assert.AreEqual(3, loggers.Count);
-            Assert.IsInstanceOfType(loggers[0], typeof(MockLogger));
-            Assert.IsInstanceOfType(loggers[1], typeof(SpecialLogger));
+            AssertExtensions.IsInstanceOfType(loggers[0], typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(loggers[1], typeof(SpecialLogger));
             Assert.AreSame(l, loggers[2]);
         }
 
@@ -589,8 +594,8 @@ namespace Microsoft.Practices.Unity.Tests
             IRepository<string> generalResult = container.Resolve<IRepository<string>>();
             IRepository<SomeType> specializedResult = container.Resolve<IRepository<SomeType>>();
 
-            Assert.IsInstanceOfType(generalResult, typeof(MockRespository<string>));
-            Assert.IsInstanceOfType(specializedResult, typeof(SomeTypRepository));
+            AssertExtensions.IsInstanceOfType(generalResult, typeof(MockRespository<string>));
+            AssertExtensions.IsInstanceOfType(specializedResult, typeof(SomeTypRepository));
         }
 
         [TestMethod]
@@ -653,7 +658,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             AssertExtensions.AssertException<ResolutionFailedException>(
                 () => { container.Resolve(typeof(List<>)); },
-                (e) => { Assert.IsInstanceOfType(e.InnerException, typeof(ArgumentException)); }
+                (e) => { AssertExtensions.IsInstanceOfType(e.InnerException, typeof(ArgumentException)); }
             );
         }
 
@@ -664,7 +669,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             AssertExtensions.AssertException<ResolutionFailedException>(
                 () => { container.Resolve<ObjectWithPrivateSetter>(); },
-                (e) => { Assert.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException)); }
+                (e) => { AssertExtensions.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException)); }
             );
         }
 
@@ -697,7 +702,7 @@ namespace Microsoft.Practices.Unity.Tests
             }
             catch (ResolutionFailedException e)
             {
-                Assert.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException));
+                AssertExtensions.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException));
                 return;
             }
             Assert.Fail("Expected exception did not occur");

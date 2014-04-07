@@ -74,6 +74,9 @@
     <CodeAnalysisRuleSet>..\..\..\Tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\TestSupport.Unity\CollectionAssertExtensions.cs">
+      <Link>Unity.TestSupport\CollectionAssertExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Unity.NetCore.Tests\Unity.Tests\AssemblyScanningFixture.NetCore.cs">
       <Link>Unity.Tests\AssemblyScanningFixture.NetCore.cs</Link>
     </Compile>

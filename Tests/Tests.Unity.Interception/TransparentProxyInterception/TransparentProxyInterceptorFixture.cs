@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxyInterception
@@ -16,7 +17,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         {
             List<MethodImplementationInfo> methods = GetMethods<SingleInterceptableMethod>();
 
-            CollectionAssert.AreEquivalent(GetOnlyImplementations(typeof(SingleInterceptableMethod), "MyMethod"),
+            CollectionAssertExtensions.AreEquivalent(GetOnlyImplementations(typeof(SingleInterceptableMethod), "MyMethod"),
                 methods);
         }
 
@@ -25,7 +26,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         {
             List<MethodImplementationInfo> methods = GetMethods<InheritsSingleMethodAndAdds>();
 
-            CollectionAssert.AreEquivalent(
+            CollectionAssertExtensions.AreEquivalent(
                 GetOnlyImplementations(typeof(InheritsSingleMethodAndAdds), "MyMethod", "AnotherMethod", "StillMoreMethod"),
                 methods);
         }
@@ -39,7 +40,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
 
             List<MethodImplementationInfo> expected = GetExpectedMethodImplementations(typeof(IMyOperations), typeof(Operations));
 
-            CollectionAssert.AreEquivalent(expected, methods);
+            CollectionAssertExtensions.AreEquivalent(expected, methods);
         }
 
         [TestMethod]
@@ -47,7 +48,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         {
             List<MethodImplementationInfo> methods = GetMethods<Incoherent>();
 
-            CollectionAssert.AreEquivalent(
+            CollectionAssertExtensions.AreEquivalent(
                 GetExpectedMethodImplementations(typeof(IMyOperations), typeof(Incoherent))
                     .Concat(GetExpectedMethodImplementations(typeof(ImTiredOfInterfaces), typeof(Incoherent))).ToList(),
                 methods);
@@ -58,7 +59,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         {
             List<MethodImplementationInfo> methods = GetMethods<Marked>();
 
-            CollectionAssert.AreEquivalent(
+            CollectionAssertExtensions.AreEquivalent(
                 GetExpectedMethodImplementations(typeof(IMyOperations), typeof(Marked)),
                 methods);
         }
@@ -68,7 +69,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         {
             List<MethodImplementationInfo> methods = GetMethods<HasProperties>();
 
-            CollectionAssert.AreEquivalent(
+            CollectionAssertExtensions.AreEquivalent(
                 GetOnlyImplementations(typeof(HasProperties), "get_SettableProp", "set_SettableProp", "get_GetOnly"),
                 methods);
         }
@@ -78,7 +79,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         {
             List<MethodImplementationInfo> methods = GetMethods<PropThroughInterface>();
 
-            CollectionAssert.AreEquivalent(
+            CollectionAssertExtensions.AreEquivalent(
                 GetExpectedMethodImplementations(typeof(IHasProperties), typeof(PropThroughInterface)),
                 methods);
         }
@@ -91,7 +92,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
             var expected = GetExpectedMethodImplementations(typeof(IHasProperties), typeof(MBROWithPropThroughInterface))
                 .Concat(GetOnlyImplementations(typeof(MBROWithPropThroughInterface), "get_Gettable"));
 
-            CollectionAssert.AreEquivalent(expected.ToList(), methods);
+            CollectionAssertExtensions.AreEquivalent(expected.ToList(), methods);
         }
 
         [TestMethod]
@@ -101,7 +102,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
 
             var expected = GetExpectedMethodImplementations(typeof(IMyOperations), typeof(ExplicitImplementation))
                 .Concat(GetOnlyImplementations(typeof(ExplicitImplementation), "AClassMethod"));
-            CollectionAssert.AreEquivalent(expected.ToList(), methods);
+            CollectionAssertExtensions.AreEquivalent(expected.ToList(), methods);
         }
 
         [TestMethod]

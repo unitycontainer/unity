@@ -2,6 +2,7 @@
 
 using System.Linq;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
+using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -26,7 +27,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
 
         public void Then_ContainersArePresentInFileOrder()
         {
-            CollectionAssert.AreEqual(new[] {"", "two"},
+            CollectionAssertExtensions.AreEqual(new[] { "", "two" },
                 Section.Containers.Select(c => c.Name).ToList());
         }
     }

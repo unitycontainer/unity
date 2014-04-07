@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Text;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
+using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -16,7 +15,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_LoadingConfigWithOldTypeMappingSyntax : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_LoadingConfigWithOldTypeMappingSyntax() : base("OldTypeMappingSyntax")
+        public When_LoadingConfigWithOldTypeMappingSyntax()
+            : base("OldTypeMappingSyntax")
         {
         }
 
@@ -54,7 +54,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
 
         private void AssertRegistrationsAreSame(Func<RegisterElement, string> selector, params string[] expectedStrings)
         {
-            CollectionAssert.AreEqual(expectedStrings, container.Registrations.Select(selector).ToList());
+            CollectionAssertExtensions.AreEqual(expectedStrings, container.Registrations.Select(selector).ToList());
         }
     }
 }

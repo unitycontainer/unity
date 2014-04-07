@@ -516,6 +516,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Unity.Tests\AssemblyScanningFixture.NetCore.cs" />
     <Compile Include="Unity.Tests\ContainerControlledLifetimeThreadingFixture.NetCore.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -532,6 +533,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Src\RegistrationByConvention\Unity.RegistrationByConvention.NetCore.csproj">
+      <Project>{858426d0-79ab-4928-95b9-a1e1725d31d3}</Project>
+      <Name>Unity.RegistrationByConvention.NetCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Src\Unity.csproj">
       <Project>{ee1f752c-1fab-41ad-ad63-857d0e62ab6b}</Project>
       <Name>Unity</Name>

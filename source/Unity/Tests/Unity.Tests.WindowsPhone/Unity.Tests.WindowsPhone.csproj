@@ -74,6 +74,9 @@
     <CodeAnalysisRuleSet>..\..\..\Tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Unity.NetCore.Tests\Unity.Tests\AssemblyScanningFixture.NetCore.cs">
+      <Link>Unity.Tests\AssemblyScanningFixture.NetCore.cs</Link>
+    </Compile>
     <Compile Include="..\Unity.ServiceLocation.Tests\Components\AdvancedLogger.cs">
       <Link>Unity.ServiceLocation.Tests\Components\AdvancedLogger.cs</Link>
     </Compile>
@@ -152,6 +155,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Src\RegistrationByConvention\Unity.RegistrationByConvention.WindowsPhone.csproj">
+      <Project>{119A2045-4C28-48FF-A828-D7F711B844F2}</Project>
+      <Name>Unity.RegistrationByConvention.WindowsPhone</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Src\Unity.csproj">
       <Project>{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}</Project>
       <Name>Unity</Name>

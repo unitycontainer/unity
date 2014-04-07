@@ -215,24 +215,6 @@ namespace Microsoft.Practices.Unity.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An attempt to override an existing mapping was detected for type {1} with name &quot;{0}&quot;, currently mapped to type {2}, to type {3}..
-        /// </summary>
-        internal static string DuplicateTypeMappingException {
-            get {
-                return ResourceManager.GetString("DuplicateTypeMappingException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The set of assemblies contains a null element..
-        /// </summary>
-        internal static string ExceptionNullAssembly {
-            get {
-                return ResourceManager.GetString("ExceptionNullAssembly", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Parameter type inference does not work for null values. Indicate the parameter type explicitly using a properly configured instance of the InjectionParameter or InjectionParameter&lt;T&gt; classes..
         /// </summary>
         internal static string ExceptionNullParameterValue {

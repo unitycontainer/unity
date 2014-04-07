@@ -74,6 +74,7 @@
       <Link>GlobalAssemblyInfo.2010.cs</Link>
     </None>
     <Compile Include="AssemblyScanningFixture.cs" />
+    <Compile Include="AssemblyScanningFixture.Desktop.cs" />
     <Compile Include="BuildPlanAndChildContainerFixture.cs" />
     <Compile Include="CodeGenBugFixture.cs" />
     <Compile Include="CodeplexIssuesFixture.cs" />
@@ -127,6 +128,10 @@
     <Compile Include="UnityHierarchyFixture.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Src\RegistrationByConvention\Unity.RegistrationByConvention.csproj">
+      <Project>{10cff71b-a9d4-44d2-b5cb-b363e5e15976}</Project>
+      <Name>Unity.RegistrationByConvention</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Src\Unity.csproj">
       <Project>{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}</Project>
       <Name>Unity</Name>

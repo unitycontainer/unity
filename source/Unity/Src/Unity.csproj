@@ -69,14 +69,6 @@
   <ItemGroup>
     <Compile Include="ObjectBuilderCustomization\IRegisteredNamesPolicy.cs" />
     <Compile Include="ObjectBuilderCustomization\RegisteredNamesPolicy.cs" />
-    <Compile Include="RegistrationByConvention\DuplicateTypeMappingException.cs" />
-    <Compile Include="RegistrationByConvention\WithLifetime.cs" />
-    <Compile Include="RegistrationByConvention\AllClasses.cs" />
-    <Compile Include="RegistrationByConvention\RegistrationConvention.cs" />
-    <Compile Include="RegistrationByConvention\WithLifetime.Desktop.cs" />
-    <Compile Include="RegistrationByConvention\WithName.cs" />
-    <Compile Include="RegistrationByConvention\WithMappings.cs" />
-    <Compile Include="RegistrationByConvention\UnityContainerRegistrationByConventionExtensions.cs" />
     <Compile Include="GlobalAssemblyInfo.cs" />
     <Compile Include="ObjectBuilder\Strategies\BuildPlan\Lazy\LazyDynamicMethodBuildPlanCreatorPolicy.cs" />
     <Compile Include="Utility\TypeReflectionExtensions.cs" />

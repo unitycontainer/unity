@@ -12,18 +12,18 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// Represents a chain of responsibility for builder strategies.
     /// </summary>
     // FxCop suppression: See IStrategyChain
-    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "See IStrategyChain")]
     public class StrategyChain : IStrategyChain
     {
-        readonly List<IBuilderStrategy> strategies = new List<IBuilderStrategy>();
+        private readonly List<IBuilderStrategy> strategies = new List<IBuilderStrategy>();
 
         /// <summary>
-        /// Initialzie a new instance of the <see cref="StrategyChain"/> class.
+        /// Initialize a new instance of the <see cref="StrategyChain"/> class.
         /// </summary>
-        public StrategyChain() {}
+        public StrategyChain() { }
 
         /// <summary>
-        /// Initialzie a new instance of the <see cref="StrategyChain"/> class with a colleciton of strategies.
+        /// Initialize a new instance of the <see cref="StrategyChain"/> class with a collection of strategies.
         /// </summary>
         /// <param name="strategies">A collection of strategies to initialize the chain.</param>
         public StrategyChain(IEnumerable strategies)
@@ -48,8 +48,11 @@ namespace Microsoft.Practices.ObjectBuilder2
         public void AddRange(IEnumerable strategyEnumerable)
         {
             Guard.ArgumentNotNull(strategyEnumerable, "strategyEnumerable");
+
             foreach (IBuilderStrategy strategy in strategyEnumerable)
+            {
                 Add(strategy);
+            }
         }
 
         /// <summary>
@@ -63,7 +66,6 @@ namespace Microsoft.Practices.ObjectBuilder2
             return new StrategyChain(reverseList);
         }
 
-
         /// <summary>
         /// Execute this strategy chain against the given context to build up.
         /// </summary>
@@ -76,27 +78,27 @@ namespace Microsoft.Practices.ObjectBuilder2
             int i = 0;
             try
             {
-                for(; i < strategies.Count; ++i)
+                for (; i < strategies.Count; ++i)
                 {
-                    if(context.BuildComplete)
+                    if (context.BuildComplete)
                     {
                         break;
                     }
                     strategies[i].PreBuildUp(context);
                 }
 
-                if(context.BuildComplete)
+                if (context.BuildComplete)
                 {
                     --i; // skip shortcutting strategy's post
                 }
 
-                for(--i; i >= 0; --i)
+                for (--i; i >= 0; --i)
                 {
                     strategies[i].PostBuildUp(context);
                 }
                 return context.Existing;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 context.RecoveryStack.ExecuteRecovery();
                 throw;
@@ -131,7 +133,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                     strategies[i].PostTearDown(context);
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 context.RecoveryStack.ExecuteRecovery();
                 throw;
@@ -140,14 +142,13 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         #region IEnumerable<IBuilderStrategy> Members
 
-        ///<summary>
-        ///Returns an enumerator that iterates through the collection.
-        ///</summary>
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
         ///
-        ///<returns>
-        ///A <see cref="T:System.Collections.Generic.IEnumerator`1"></see> that can be used to iterate through the collection.
-        ///</returns>
-        ///<filterpriority>1</filterpriority>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"></see> that can be used to iterate through the collection.
+        /// </returns>
         IEnumerator<IBuilderStrategy> IEnumerable<IBuilderStrategy>.GetEnumerator()
         {
             return strategies.GetEnumerator();
@@ -157,14 +158,13 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         #region IEnumerable Members
 
-        ///<summary>
-        ///Returns an enumerator that iterates through a collection.
-        ///</summary>
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
         ///
-        ///<returns>
-        ///An <see cref="T:System.Collections.IEnumerator"></see> object that can be used to iterate through the collection.
-        ///</returns>
-        ///<filterpriority>2</filterpriority>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator"></see> object that can be used to iterate through the collection.
+        /// </returns>
         public IEnumerator GetEnumerator()
         {
             return strategies.GetEnumerator();

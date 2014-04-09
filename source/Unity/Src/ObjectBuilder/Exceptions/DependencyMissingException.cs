@@ -22,7 +22,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// Initializes a new instance of the <see cref="DependencyMissingException"/> class with the given message.
         /// </summary>
         /// <param name="message">Some random message.</param>
-        public DependencyMissingException(string message) : base(message)
+        public DependencyMissingException(string message)
+            : base(message)
         {
         }
 
@@ -32,8 +33,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="message">Some random message</param>
         /// <param name="innerException">Inner exception.</param>
-
-        public DependencyMissingException(string message, Exception innerException) : base(message, innerException)
+        public DependencyMissingException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
 
@@ -42,7 +43,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="buildKey">The build key of the object begin built.</param>
         public DependencyMissingException(object buildKey)
-            : base(string.Format(CultureInfo.CurrentCulture, 
+            : base(string.Format(CultureInfo.CurrentCulture,
                 Resources.MissingDependency,
                 buildKey))
         {

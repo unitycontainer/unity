@@ -20,7 +20,8 @@ namespace Microsoft.Practices.Unity
         /// <param name="typeTo">Type to map to.</param>
         /// <param name="name">Name for the registration.</param>
         /// <param name="lifetimeManager"><see cref="LifetimeManager"/> to manage instances.</param>
-        public RegisterEventArgs(Type typeFrom, Type typeTo, string name, LifetimeManager lifetimeManager) : base(name)
+        public RegisterEventArgs(Type typeFrom, Type typeTo, string name, LifetimeManager lifetimeManager)
+            : base(name)
         {
             this.typeFrom = typeFrom;
             this.typeTo = typeTo;
@@ -32,8 +33,8 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         public Type TypeFrom
         {
-            get { return typeFrom; }
-            set { typeFrom = value; }
+            get { return this.typeFrom; }
+            set { this.typeFrom = value; }
         }
 
         /// <summary>
@@ -41,8 +42,8 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         public Type TypeTo
         {
-            get { return typeTo; }
-            set { typeTo = value; }
+            get { return this.typeTo; }
+            set { this.typeTo = value; }
         }
 
         /// <summary>

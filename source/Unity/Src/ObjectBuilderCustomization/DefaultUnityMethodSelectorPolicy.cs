@@ -29,7 +29,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
                 .OfType<DependencyResolutionAttribute>()
                 .ToList();
 
-            if(attributes.Count > 0)
+            if (attributes.Count > 0)
             {
                 return attributes[0].CreateResolver(parameter.ParameterType);
             }

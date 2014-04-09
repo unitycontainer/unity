@@ -49,7 +49,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <remarks>Existing object is an instance of <see cref="DynamicBuildPlanGenerationContext"/>.</remarks>
         /// <param name="context">The context for the operation.</param>
         // FxCop suppression: Validation is done by Guard class
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation is done by Guard class")]
         public override void PreBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
@@ -145,12 +145,10 @@ namespace Microsoft.Practices.ObjectBuilder2
             var parameterExpressions = BuildConstructionParameterExpressions(buildContext, selectedConstructor, signature);
             var newItemExpression = Expression.Variable(selectedConstructor.Constructor.DeclaringType, "newItem");
 
-
             yield return Expression.Call(null,
                                         setCurrentOperationToInvokingConstructor,
                                         Expression.Constant(signature),
-                                        buildContext.ContextParameter
-                                        );
+                                        buildContext.ContextParameter);
 
             yield return Expression.Assign(
                             buildContext.GetExistingObjectExpression(),
@@ -175,9 +173,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                                                 setCurrentOperationToResolvingParameter,
                                                 Expression.Constant(constructionParameters[i].Name, typeof(string)),
                                                 Expression.Constant(constructorSignature),
-                                                buildContext.ContextParameter
-                                                )
-                                );
+                                                buildContext.ContextParameter));
                 i++;
             }
         }
@@ -199,7 +195,6 @@ namespace Microsoft.Practices.ObjectBuilder2
                 context.Policies.Set<ILifetimePolicy>(perBuildLifetime, context.BuildKey);
             }
         }
-
 
         /// <summary>
         /// Build up the string that will represent the constructor signature
@@ -228,7 +223,6 @@ namespace Microsoft.Practices.ObjectBuilder2
                 "{0}({1})",
                 typeName,
                 string.Join(", ", parameterDescriptions));
-
         }
 
         // Verify the type we're trying to build is actually constructable -

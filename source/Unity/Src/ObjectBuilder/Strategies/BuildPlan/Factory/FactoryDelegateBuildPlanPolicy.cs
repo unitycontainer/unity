@@ -5,7 +5,7 @@ using Microsoft.Practices.Unity;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
-    class FactoryDelegateBuildPlanPolicy : IBuildPlanPolicy
+    internal class FactoryDelegateBuildPlanPolicy : IBuildPlanPolicy
     {
         private readonly Func<IUnityContainer, Type, string, object> factory;
 
@@ -24,7 +24,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(context, "context");
 
-            if(context.Existing == null)
+            if (context.Existing == null)
             {
                 var currentContainer = context.NewBuildUp<IUnityContainer>();
                 context.Existing = factory(currentContainer, context.BuildKey.Type, context.BuildKey.Name);

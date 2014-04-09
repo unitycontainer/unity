@@ -40,7 +40,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         /// <returns>Sequence of methods to call.</returns>
         public IEnumerable<SelectedMethod> SelectMethods(IBuilderContext context, IPolicyList resolverPolicyDestination)
         {
-            foreach(Pair<MethodInfo, IEnumerable<InjectionParameterValue>> method in methods)
+            foreach (Pair<MethodInfo, IEnumerable<InjectionParameterValue>> method in methods)
             {
                 Type typeToBuild = context.BuildKey.Type;
                 SelectedMethod selectedMethod;
@@ -60,7 +60,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
 
                 SpecifiedMemberSelectorHelper.AddParameterResolvers(
                         typeToBuild,
-                        resolverPolicyDestination, 
+                        resolverPolicyDestination,
                         method.Second,
                         selectedMethod);
                 yield return selectedMethod;

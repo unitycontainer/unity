@@ -46,64 +46,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyDefiningType", "Ass
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyDefiningInterface", "AssemblyDefiningInterface\AssemblyDefiningInterface.csproj", "{62BC77C5-C26B-40F4-BC5F-DA96563D0F77}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.RegistrationByConvention", "..\..\source\Unity\Src\RegistrationByConvention\Unity.RegistrationByConvention.csproj", "{10CFF71B-A9D4-44D2-B5CB-B363E5E15976}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 9
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://entlib.visualstudio.com/defaultcollection
-		SccProjectUniqueName0 = AssemblyWithUnityInterface\\AssemblyWithUnityInterface.csproj
-		SccProjectTopLevelParentUniqueName0 = Unity.Tests.sln
-		SccProjectName0 = AssemblyWithUnityInterface
-		SccAuxPath0 = https://entlib.visualstudio.com/defaultcollection
-		SccLocalPath0 = AssemblyWithUnityInterface
-		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName1 = RegistrationByConventionAssembly1\\RegistrationByConventionAssembly1.csproj
-		SccProjectTopLevelParentUniqueName1 = Unity.Tests.sln
-		SccProjectName1 = RegistrationByConventionAssembly1
-		SccAuxPath1 = https://entlib.visualstudio.com/defaultcollection
-		SccLocalPath1 = RegistrationByConventionAssembly1
-		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName2 = RegistrationByConventionAssembly2\\RegistrationByConventionAssembly2.csproj
-		SccProjectTopLevelParentUniqueName2 = Unity.Tests.sln
-		SccProjectName2 = RegistrationByConventionAssembly2
-		SccAuxPath2 = https://entlib.visualstudio.com/defaultcollection
-		SccLocalPath2 = RegistrationByConventionAssembly2
-		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName3 = MetadatatokenCollisionAssembly\\MetadatatokenCollisionAssembly.csproj
-		SccProjectName3 = MetadatatokenCollisionAssembly
-		SccAuxPath3 = https://entlib.visualstudio.com/defaultcollection
-		SccLocalPath3 = MetadatatokenCollisionAssembly
-		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName4 = Unity.Tests\\Unity.Tests.csproj
-		SccProjectName4 = Unity.Tests
-		SccAuxPath4 = https://entlib.visualstudio.com/defaultcollection
-		SccLocalPath4 = Unity.Tests
-		SccProvider4 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName5 = SecurityCriticalAssembly\\SecurityCriticalAssembly.csproj
-		SccProjectTopLevelParentUniqueName5 = Unity.Tests.sln
-		SccProjectName5 = SecurityCriticalAssembly
-		SccAuxPath5 = https://entlib.visualstudio.com/defaultcollection
-		SccLocalPath5 = SecurityCriticalAssembly
-		SccProvider5 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName6 = AssemblyToLoad\\AssemblyToLoad.csproj
-		SccProjectTopLevelParentUniqueName6 = Unity.Tests.sln
-		SccProjectName6 = AssemblyToLoad
-		SccAuxPath6 = https://entlib.visualstudio.com/defaultcollection
-		SccLocalPath6 = AssemblyToLoad
-		SccProvider6 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName7 = AssemblyDefiningType\\AssemblyDefiningType.csproj
-		SccProjectTopLevelParentUniqueName7 = Unity.Tests.sln
-		SccProjectName7 = AssemblyDefiningType
-		SccAuxPath7 = https://entlib.visualstudio.com/defaultcollection
-		SccLocalPath7 = AssemblyDefiningType
-		SccProvider7 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName8 = AssemblyDefiningInterface\\AssemblyDefiningInterface.csproj
-		SccProjectTopLevelParentUniqueName8 = Unity.Tests.sln
-		SccProjectName8 = AssemblyDefiningInterface
-		SccAuxPath8 = https://entlib.visualstudio.com/defaultcollection
-		SccLocalPath8 = AssemblyDefiningInterface
-		SccProvider8 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Unity.Tests.vsmdi
 	EndGlobalSection
@@ -164,6 +109,10 @@ Global
 		{62BC77C5-C26B-40F4-BC5F-DA96563D0F77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62BC77C5-C26B-40F4-BC5F-DA96563D0F77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62BC77C5-C26B-40F4-BC5F-DA96563D0F77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10CFF71B-A9D4-44D2-B5CB-B363E5E15976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10CFF71B-A9D4-44D2-B5CB-B363E5E15976}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10CFF71B-A9D4-44D2-B5CB-B363E5E15976}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10CFF71B-A9D4-44D2-B5CB-B363E5E15976}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -173,6 +122,7 @@ Global
 		{AEF45ED2-3E7F-4AA5-9001-A4D1BAC12EBE} = {110031F5-7301-4096-9B81-F30B9FD5EE48}
 		{F8186B23-B0E1-4646-B5F3-14357841E2BA} = {110031F5-7301-4096-9B81-F30B9FD5EE48}
 		{80F7399F-B221-465F-97C9-4B9FC0E2F67F} = {110031F5-7301-4096-9B81-F30B9FD5EE48}
+		{10CFF71B-A9D4-44D2-B5CB-B363E5E15976} = {110031F5-7301-4096-9B81-F30B9FD5EE48}
 		{245E3E58-9562-410B-952E-07FE8E235039} = {8582222C-159C-4458-A73D-972E708CA7F7}
 		{49D2273B-478F-4263-A1C6-5EB2D7AAD75D} = {8582222C-159C-4458-A73D-972E708CA7F7}
 		{E87E5930-6007-49A5-BAF2-F4BF0B34A9DF} = {8582222C-159C-4458-A73D-972E708CA7F7}

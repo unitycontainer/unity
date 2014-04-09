@@ -18,8 +18,8 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         protected override void Initialize()
         {
-            Context.Registering += OnRegister;
-            Context.RegisteringInstance += OnRegisterInstance;
+            Context.Registering += this.OnRegister;
+            Context.RegisteringInstance += this.OnRegisterInstance;
 
             Container.RegisterInstance(Container, new ContainerLifetimeManager());
         }
@@ -29,8 +29,8 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         public override void Remove()
         {
-            Context.Registering -= OnRegister;
-            Context.RegisteringInstance -= OnRegisterInstance;
+            Context.Registering -= this.OnRegister;
+            Context.RegisteringInstance -= this.OnRegisterInstance;
         }
 
         private void OnRegister(object sender, RegisterEventArgs e)
@@ -53,14 +53,14 @@ namespace Microsoft.Practices.Unity
             }
             if (e.LifetimeManager != null)
             {
-                SetLifetimeManager(e.TypeTo, e.Name, e.LifetimeManager);
+                this.SetLifetimeManager(e.TypeTo, e.Name, e.LifetimeManager);
             }
         }
 
         private void OnRegisterInstance(object sender, RegisterInstanceEventArgs e)
         {
             Context.RegisterNamedType(e.RegisteredType, e.Name);
-            SetLifetimeManager(e.RegisteredType, e.Name, e.LifetimeManager);
+            this.SetLifetimeManager(e.RegisteredType, e.Name, e.LifetimeManager);
             NamedTypeBuildKey identityKey = new NamedTypeBuildKey(e.RegisteredType, e.Name);
             Context.Policies.Set<IBuildKeyMappingPolicy>(new BuildKeyMappingPolicy(identityKey), identityKey);
             e.LifetimeManager.SetValue(e.Instance);
@@ -98,12 +98,12 @@ namespace Microsoft.Practices.Unity
 
             public override object GetValue()
             {
-                return value;
+                return this.value;
             }
 
             public override void SetValue(object newValue)
             {
-                value = newValue;
+                this.value = newValue;
             }
 
             public override void RemoveValue()

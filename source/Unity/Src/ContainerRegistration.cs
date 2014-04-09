@@ -15,7 +15,7 @@ namespace Microsoft.Practices.Unity
 
         internal ContainerRegistration(Type registeredType, string name, IPolicyList policies)
         {
-            buildKey = new NamedTypeBuildKey(registeredType, name);
+            this.buildKey = new NamedTypeBuildKey(registeredType, name);
             MappedToType = GetMappedType(policies);
             LifetimeManagerType = GetLifetimeManagerType(policies);
             LifetimeManager = GetLifetimeManager(policies);
@@ -25,7 +25,7 @@ namespace Microsoft.Practices.Unity
         /// The type that was passed to the <see cref="IUnityContainer.RegisterType"/> method
         /// as the "from" type, or the only type if type mapping wasn't done.
         /// </summary>
-        public Type RegisteredType { get { return buildKey.Type; } }
+        public Type RegisteredType { get { return this.buildKey.Type; } }
 
         /// <summary>
         /// The type that this registration is mapped to. If no type mapping was done, the
@@ -36,7 +36,7 @@ namespace Microsoft.Practices.Unity
         /// <summary>
         /// Name the type was registered under. Null for default registration.
         /// </summary>
-        public string Name { get { return buildKey.Name; } }
+        public string Name { get { return this.buildKey.Name; } }
 
         /// <summary>
         /// The registered lifetime manager instance.
@@ -52,20 +52,20 @@ namespace Microsoft.Practices.Unity
 
         private Type GetMappedType(IPolicyList policies)
         {
-            var mappingPolicy = policies.Get<IBuildKeyMappingPolicy>(buildKey);
+            var mappingPolicy = policies.Get<IBuildKeyMappingPolicy>(this.buildKey);
             if (mappingPolicy != null)
             {
-                return mappingPolicy.Map(buildKey, null).Type;
+                return mappingPolicy.Map(this.buildKey, null).Type;
             }
-            return buildKey.Type;
+            return this.buildKey.Type;
         }
 
         private Type GetLifetimeManagerType(IPolicyList policies)
         {
             var key = new NamedTypeBuildKey(MappedToType, Name);
             var lifetime = policies.Get<ILifetimePolicy>(key);
-            
-            if(lifetime != null)
+
+            if (lifetime != null)
             {
                 return lifetime.GetType();
             }
@@ -74,13 +74,13 @@ namespace Microsoft.Practices.Unity
             {
                 var genericKey = new NamedTypeBuildKey(MappedToType.GetGenericTypeDefinition(), Name);
                 var lifetimeFactory = policies.Get<ILifetimeFactoryPolicy>(genericKey);
-                if(lifetimeFactory != null)
+                if (lifetimeFactory != null)
                 {
                     return lifetimeFactory.LifetimeType;
                 }
             }
 
-            return typeof (TransientLifetimeManager);
+            return typeof(TransientLifetimeManager);
         }
 
         private LifetimeManager GetLifetimeManager(IPolicyList policies)

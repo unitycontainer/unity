@@ -16,7 +16,7 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     /// <exception cref="InvalidOperationException">Thrown when the constructor to choose is ambiguous.</exception>
     /// <typeparam name="TInjectionConstructorMarkerAttribute">Attribute used to mark the constructor to call.</typeparam>
-    public class ConstructorSelectorPolicy<TInjectionConstructorMarkerAttribute> : ConstructorSelectorPolicyBase<TInjectionConstructorMarkerAttribute> 
+    public class ConstructorSelectorPolicy<TInjectionConstructorMarkerAttribute> : ConstructorSelectorPolicyBase<TInjectionConstructorMarkerAttribute>
         where TInjectionConstructorMarkerAttribute : Attribute
     {
         /// <summary>
@@ -25,7 +25,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="parameter">Parameter to create the resolver for.</param>
         /// <returns>The resolver object.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification="Validation done by Guard class")] 
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         protected override IDependencyResolverPolicy CreateResolver(ParameterInfo parameter)
         {
             Guard.ArgumentNotNull(parameter, "parameter");

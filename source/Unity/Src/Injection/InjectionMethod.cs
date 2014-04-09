@@ -44,7 +44,7 @@ namespace Microsoft.Practices.Unity
         public override void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
         {
             MethodInfo methodInfo = FindMethod(implementationType);
-            ValidateMethodCanBeInjected(methodInfo, implementationType);
+            this.ValidateMethodCanBeInjected(methodInfo, implementationType);
 
             SpecifiedMethodsSelectorPolicy selector =
                 GetSelectorPolicy(policies, implementationType, name);
@@ -96,7 +96,7 @@ namespace Microsoft.Practices.Unity
         {
             if (info == null)
             {
-                ThrowIllegalInjectionMethod(Resources.NoSuchMethod, typeToCreate);
+                this.ThrowIllegalInjectionMethod(Resources.NoSuchMethod, typeToCreate);
             }
         }
 
@@ -104,7 +104,7 @@ namespace Microsoft.Practices.Unity
         {
             if (info.IsStatic)
             {
-                ThrowIllegalInjectionMethod(Resources.CannotInjectStaticMethod, typeToCreate);
+                this.ThrowIllegalInjectionMethod(Resources.CannotInjectStaticMethod, typeToCreate);
             }
         }
 
@@ -112,7 +112,7 @@ namespace Microsoft.Practices.Unity
         {
             if (info.IsGenericMethodDefinition)
             {
-                ThrowIllegalInjectionMethod(Resources.CannotInjectGenericMethod, typeToCreate);
+                this.ThrowIllegalInjectionMethod(Resources.CannotInjectGenericMethod, typeToCreate);
             }
         }
 
@@ -120,7 +120,7 @@ namespace Microsoft.Practices.Unity
         {
             if (info.GetParameters().Any(param => param.IsOut))
             {
-                ThrowIllegalInjectionMethod(Resources.CannotInjectMethodWithOutParams, typeToCreate);
+                this.ThrowIllegalInjectionMethod(Resources.CannotInjectMethodWithOutParams, typeToCreate);
             }
         }
 
@@ -128,7 +128,7 @@ namespace Microsoft.Practices.Unity
         {
             if (info.GetParameters().Any(param => param.ParameterType.IsByRef))
             {
-                ThrowIllegalInjectionMethod(Resources.CannotInjectMethodWithRefParams, typeToCreate);
+                this.ThrowIllegalInjectionMethod(Resources.CannotInjectMethodWithRefParams, typeToCreate);
             }
         }
 

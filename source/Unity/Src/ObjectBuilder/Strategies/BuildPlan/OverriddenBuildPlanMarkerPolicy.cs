@@ -6,7 +6,7 @@ using Microsoft.Practices.Unity.Properties;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
-    class OverriddenBuildPlanMarkerPolicy : IBuildPlanPolicy
+    internal class OverriddenBuildPlanMarkerPolicy : IBuildPlanPolicy
     {
         /// <summary>
         /// Creates an instance of this build plan's type, or fills

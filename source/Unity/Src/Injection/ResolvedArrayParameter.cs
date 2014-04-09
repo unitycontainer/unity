@@ -47,7 +47,7 @@ namespace Microsoft.Practices.Unity
             Guard.ArgumentNotNull(elementValues, "elementValues");
 
             this.elementType = elementType;
-            this.elementValues.AddRange(ToParameters(elementValues));
+            this.elementValues.AddRange(InjectionParameterValue.ToParameters(elementValues));
             foreach (InjectionParameterValue pv in this.elementValues)
             {
                 if (!pv.MatchesType(elementType))

@@ -58,11 +58,9 @@ namespace Microsoft.Practices.ObjectBuilder2
                         Expression.Call(
                             Expression.Convert(
                                 dynamicBuildContext.GetExistingObjectExpression(),
-                                dynamicBuildContext.TypeToBuild
-                                ),
+                                dynamicBuildContext.TypeToBuild),
                             method.Method,
-                            BuildMethodParameterExpressions(dynamicBuildContext, method, signatureString)))
-                        );
+                            BuildMethodParameterExpressions(dynamicBuildContext, method, signatureString))));
             }
 
             // Clear the current operation
@@ -71,8 +69,6 @@ namespace Microsoft.Practices.ObjectBuilder2
                 dynamicBuildContext.AddToBuildPlan(dynamicBuildContext.GetClearCurrentOperationExpression());
             }
         }
-
-
 
         private IEnumerable<Expression> BuildMethodParameterExpressions(DynamicBuildPlanGenerationContext context, SelectedMethod method, string methodSignature)
         {
@@ -124,7 +120,6 @@ namespace Microsoft.Practices.ObjectBuilder2
                     format,
                     method.DeclaringType.GetTypeInfo().Name,
                     method.Name));
-
         }
 
         /// <summary>

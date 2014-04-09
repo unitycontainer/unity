@@ -51,7 +51,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             }
         }
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GenericParameterMapper"/> class.
         /// </summary>

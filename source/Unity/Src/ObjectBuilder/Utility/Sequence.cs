@@ -39,9 +39,9 @@ namespace Microsoft.Practices.ObjectBuilder2
             var enum1 = sequence1.GetEnumerator();
             var enum2 = sequence2.GetEnumerator();
 
-            while(enum1.MoveNext())
+            while (enum1.MoveNext())
             {
-                if(enum2.MoveNext())
+                if (enum2.MoveNext())
                 {
                     yield return new Pair<TFirstSequenceElement, TSecondSequenceElement>(enum1.Current, enum2.Current);
                 }

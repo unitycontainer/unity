@@ -15,11 +15,11 @@ namespace Microsoft.Practices.Unity
         private readonly string propertyName;
         private readonly InjectionParameterValue propertyValue;
 
-        ///<summary>
+        /// <summary>
         /// Create an instance of <see cref="PropertyOverride"/>.
-        ///</summary>
-        ///<param name="propertyName">The property name.</param>
-        ///<param name="propertyValue">Value to use for the property.</param>
+        /// </summary>
+        /// <param name="propertyName">The property name.</param>
+        /// <param name="propertyValue">Value to use for the property.</param>
         public PropertyOverride(string propertyName, object propertyValue)
         {
             this.propertyName = propertyName;
@@ -39,9 +39,9 @@ namespace Microsoft.Practices.Unity
             var currentOperation = context.CurrentOperation as ResolvingPropertyValueOperation;
 
             if (currentOperation != null
-                && currentOperation.PropertyName == propertyName)
+                && currentOperation.PropertyName == this.propertyName)
             {
-                return propertyValue.GetResolverPolicy(dependencyType);
+                return this.propertyValue.GetResolverPolicy(dependencyType);
             }
             return null;
         }

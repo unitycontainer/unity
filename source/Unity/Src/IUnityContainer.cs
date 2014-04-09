@@ -6,7 +6,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.Practices.Unity
 {
-
     /// <summary>
     /// Interface defining the behavior of the Unity dependency injection container.
     /// </summary>
@@ -126,7 +125,7 @@ namespace Microsoft.Practices.Unity
         /// <para>
         /// This method removes all extensions from the container, including the default ones
         /// that implement the out-of-the-box behavior. After this method, if you want to use
-        /// the container again you will need to either readd the default extensions or replace
+        /// the container again you will need to either read the default extensions or replace
         /// them with your own.
         /// </para>
         /// <para>

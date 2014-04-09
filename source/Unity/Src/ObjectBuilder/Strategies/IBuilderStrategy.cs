@@ -20,7 +20,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// forward direction.
         /// </summary>
         /// <param name="context">Context of the build operation.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", 
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly",
             Justification = "Kept for backward compatibility with ObjectBuilder")]
         void PreBuildUp(IBuilderContext context);
 

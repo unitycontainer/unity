@@ -31,10 +31,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             return parameterResolvers.ToArray();
         }
     }
-}
 
-namespace Microsoft.Practices.ObjectBuilder2
-{
     /// <summary>
     /// Base class for return values from selector policies that
     /// return a memberinfo of some sort plus a list of parameter

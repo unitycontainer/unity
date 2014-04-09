@@ -44,24 +44,24 @@ namespace Microsoft.Practices.Unity
         {
             ConstructorInfo ctor = FindConstructor(implementationType);
             policies.Set<IConstructorSelectorPolicy>(
-                new SpecifiedConstructorSelectorPolicy(ctor, parameterValues.ToArray()),
+                new SpecifiedConstructorSelectorPolicy(ctor, this.parameterValues.ToArray()),
                 new NamedTypeBuildKey(implementationType, name));
         }
 
         private ConstructorInfo FindConstructor(Type typeToCreate)
         {
-            var matcher = new ParameterMatcher(parameterValues);
+            var matcher = new ParameterMatcher(this.parameterValues);
             var typeToCreateReflector = new ReflectionHelper(typeToCreate);
 
             foreach (ConstructorInfo ctor in typeToCreateReflector.InstanceConstructors)
             {
-                if(matcher.Matches(ctor.GetParameters()))
+                if (matcher.Matches(ctor.GetParameters()))
                 {
                     return ctor;
                 }
             }
 
-            string signature = string.Join(", ", parameterValues.Select(p => p.ParameterTypeName).ToArray());
+            string signature = string.Join(", ", this.parameterValues.Select(p => p.ParameterTypeName).ToArray());
 
             throw new InvalidOperationException(
                 string.Format(CultureInfo.CurrentCulture,

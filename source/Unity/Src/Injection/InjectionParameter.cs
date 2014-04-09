@@ -57,7 +57,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>The <see cref="IDependencyResolverPolicy"/>.</returns>
         public override IDependencyResolverPolicy GetResolverPolicy(Type typeToBuild)
         {
-            return new LiteralValueDependencyResolverPolicy(parameterValue);
+            return new LiteralValueDependencyResolverPolicy(this.parameterValue);
         }
     }
 
@@ -75,7 +75,6 @@ namespace Microsoft.Practices.Unity
         public InjectionParameter(TParameter parameterValue)
             : base(typeof(TParameter), parameterValue)
         {
-
         }
     }
 }

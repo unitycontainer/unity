@@ -226,7 +226,6 @@ namespace Microsoft.Practices.Unity
             return container.RegisterType(from, to, name, null, injectionMembers);
         }
 
-
         /// <summary>
         /// Register a type mapping with the container, where the created instances will use
         /// the given <see cref="LifetimeManager"/>.
@@ -590,7 +589,7 @@ namespace Microsoft.Practices.Unity
         /// but you still want properties and other injection performed.
         /// </para></remarks>
         /// <typeparam name="T"><see cref="Type"/> of object to perform injection on.</typeparam>
-        /// <param name="container">Conatiner to resolve through.</param>
+        /// <param name="container">Container to resolve through.</param>
         /// <param name="existing">Instance to build up.</param>
         /// <param name="name">name to use when looking up the typemappings and other configurations.</param>
         /// <param name="resolverOverrides">Any overrides for the Buildup.</param>
@@ -675,13 +674,13 @@ namespace Microsoft.Practices.Unity
 
         #region Introspection Helpers
 
-        ///<summary>
+        /// <summary>
         /// Check if a particular type has been registered with the container with
         /// the default name.
-        ///</summary>
-        ///<param name="container">Container to inspect.</param>
-        ///<param name="typeToCheck">Type to check registration for.</param>
-        ///<returns>True if this type has been registered, false if not.</returns>
+        /// </summary>
+        /// <param name="container">Container to inspect.</param>
+        /// <param name="typeToCheck">Type to check registration for.</param>
+        /// <returns>True if this type has been registered, false if not.</returns>
         public static bool IsRegistered(this IUnityContainer container, Type typeToCheck)
         {
             Guard.ArgumentNotNull(container, "container");
@@ -731,8 +730,6 @@ namespace Microsoft.Practices.Unity
             Guard.ArgumentNotNull(container, "container");
             return container.IsRegistered(typeof(T), nameToCheck);
         }
-
-
 
         #endregion
 

@@ -17,9 +17,7 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         protected override void Initialize()
         {
-            //
             // Main strategy chain
-            //
             Context.Strategies.AddNew<BuildKeyMappingStrategy>(UnityBuildStage.TypeMapping);
             Context.Strategies.AddNew<HierarchicalLifetimeStrategy>(UnityBuildStage.Lifetime);
             Context.Strategies.AddNew<LifetimeStrategy>(UnityBuildStage.Lifetime);
@@ -27,18 +25,15 @@ namespace Microsoft.Practices.Unity
             Context.Strategies.AddNew<ArrayResolutionStrategy>(UnityBuildStage.Creation);
             Context.Strategies.AddNew<BuildPlanStrategy>(UnityBuildStage.Creation);
 
-            //
             // Build plan strategy chain
-            //
             Context.BuildPlanStrategies.AddNew<DynamicMethodConstructorStrategy>(
                 UnityBuildStage.Creation);
             Context.BuildPlanStrategies.AddNew<DynamicMethodPropertySetterStrategy>(
                 UnityBuildStage.Initialization);
             Context.BuildPlanStrategies.AddNew<DynamicMethodCallStrategy>(
                 UnityBuildStage.Initialization);
-            //
+
             // Policies - mostly used by the build plan strategies
-            //
             Context.Policies.SetDefault<IConstructorSelectorPolicy>(
                 new DefaultUnityConstructorSelectorPolicy());
             Context.Policies.SetDefault<IPropertySelectorPolicy>(

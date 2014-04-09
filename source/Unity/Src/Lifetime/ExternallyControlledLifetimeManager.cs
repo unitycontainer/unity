@@ -18,7 +18,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>the object desired, or null if no such object is currently stored.</returns>
         public override object GetValue()
         {
-            return value.Target;
+            return this.value.Target;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity
         /// <param name="newValue">The object being stored.</param>
         public override void SetValue(object newValue)
         {
-            value = new WeakReference(newValue);
+            this.value = new WeakReference(newValue);
         }
 
         /// <summary>

@@ -27,14 +27,14 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             Guard.ArgumentNotNull(sequence, "sequence");
 
-            foreach(var item in sequence)
+            foreach (var item in sequence)
             {
                 action(item);
             }
         }
 
         /// <summary>
-        /// Create a single string from a sequenc of items, separated by the provided <paramref name="separator"/>,
+        /// Create a single string from a sequence of items, separated by the provided <paramref name="separator"/>,
         /// and with the conversion to string done by the given <paramref name="converter"/>.
         /// </summary>
         /// <remarks>This method does basically the same thing as <see cref="string.Join(string,string[])"/>,
@@ -60,7 +60,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         }
 
         /// <summary>
-        /// Create a single string from a sequenc of items, separated by the provided <paramref name="separator"/>,
+        /// Create a single string from a sequence of items, separated by the provided <paramref name="separator"/>,
         /// and with the conversion to string done by the item's <see cref='object.ToString'/> method.
         /// </summary>
         /// <remarks>This method does basically the same thing as <see cref="string.Join(string,string[])"/>,

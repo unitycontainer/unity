@@ -48,7 +48,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         }
 
         /// <summary>
-        /// The context parameter represeting the <see cref="IBuilderContext"/> used when the build plan is executed.
+        /// The context parameter representing the <see cref="IBuilderContext"/> used when the build plan is executed.
         /// </summary>
         public ParameterExpression ContextParameter
         {
@@ -94,8 +94,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                         resolvedObjectExpression,
                         GetResolveDependencyExpression(parameterType, resolver)),
                     RestoreCurrentOperationExpression(savedOperationExpression),
-                    resolvedObjectExpression
-                );
+                    resolvedObjectExpression);
         }
 
         internal Expression GetExistingObjectExpression()
@@ -153,8 +152,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                 Expression.MakeMemberAccess(
                     this.ContextParameter,
                     typeof(IBuilderContext).GetTypeInfo().GetDeclaredProperty("CurrentOperation")),
-                    savedOperationExpression
-                    );
+                    savedOperationExpression);
         }
 
         private Expression SaveCurrentOperationExpression(ParameterExpression saveExpression)

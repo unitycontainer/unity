@@ -28,7 +28,7 @@ namespace Microsoft.Practices.Unity
         public OptionalDependencyResolverPolicy(Type type, string name)
         {
             Guard.ArgumentNotNull(type, "type");
-            if(type.GetTypeInfo().IsValueType)
+            if (type.GetTypeInfo().IsValueType)
             {
                 throw new ArgumentException(
                     string.Format(CultureInfo.CurrentCulture,
@@ -48,7 +48,6 @@ namespace Microsoft.Practices.Unity
         public OptionalDependencyResolverPolicy(Type type)
             : this(type, null)
         {
-
         }
 
         /// <summary>

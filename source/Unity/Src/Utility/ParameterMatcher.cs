@@ -36,11 +36,11 @@ namespace Microsoft.Practices.Unity.Utility
         public virtual bool Matches(IEnumerable<Type> candidate)
         {
             List<Type> candidateTypes = new List<Type>(candidate);
-            if(parametersToMatch.Count == candidateTypes.Count)
+            if (parametersToMatch.Count == candidateTypes.Count)
             {
-                for(int i = 0; i < parametersToMatch.Count; ++i)
+                for (int i = 0; i < parametersToMatch.Count; ++i)
                 {
-                    if(!parametersToMatch[i].MatchesType(candidateTypes[i]))
+                    if (!parametersToMatch[i].MatchesType(candidateTypes[i]))
                     {
                         return false;
                     }

@@ -42,9 +42,9 @@ namespace Microsoft.Practices.Unity
             var currentOperation = context.CurrentOperation as ConstructorArgumentResolveOperation;
 
             if (currentOperation != null &&
-                currentOperation.ParameterName == parameterName)
+                currentOperation.ParameterName == this.parameterName)
             {
-                return parameterValue.GetResolverPolicy(dependencyType);
+                return this.parameterValue.GetResolverPolicy(dependencyType);
             }
 
             return null;

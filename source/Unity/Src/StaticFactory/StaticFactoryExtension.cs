@@ -45,7 +45,7 @@ namespace Microsoft.Practices.Unity.StaticFactory
         public IStaticFactoryConfiguration RegisterFactory<TTypeToBuild>(
             Func<IUnityContainer, object> factoryMethod)
         {
-            return RegisterFactory<TTypeToBuild>(null, factoryMethod);
+            return this.RegisterFactory<TTypeToBuild>(null, factoryMethod);
         }
     }
 }

@@ -11,5 +11,5 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     // FxCop suppression: No
     [SuppressMessage("Microsoft.Design", "CA1040:AvoidEmptyInterfaces")]
-    public interface IBuilderPolicy {}
+    public interface IBuilderPolicy { }
 }

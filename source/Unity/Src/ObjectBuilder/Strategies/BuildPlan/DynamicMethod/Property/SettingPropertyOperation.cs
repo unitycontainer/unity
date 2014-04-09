@@ -17,7 +17,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="typeBeingConstructed">Type property is on.</param>
         /// <param name="propertyName">Name of property being set.</param>
-        public SettingPropertyOperation(Type typeBeingConstructed, string propertyName) : base(typeBeingConstructed, propertyName)
+        public SettingPropertyOperation(Type typeBeingConstructed, string propertyName)
+            : base(typeBeingConstructed, propertyName)
         {
         }
 

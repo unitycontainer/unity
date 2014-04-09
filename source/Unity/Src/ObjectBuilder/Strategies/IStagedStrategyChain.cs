@@ -3,8 +3,7 @@
 namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
-    /// This interface defines a standard method to convert any 
-    /// <see cref="StagedStrategyChain{TStageEnum}"/> regardless
+    /// This interface defines a standard method to convert any <see cref="StagedStrategyChain{TStageEnum}"/> regardless
     /// of the stage enum into a regular, flat strategy chain.
     /// </summary>
     public interface IStagedStrategyChain

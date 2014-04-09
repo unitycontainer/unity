@@ -51,7 +51,6 @@ namespace Microsoft.Practices.Unity.Utility
                 {
                     yield return param.ParameterType;
                 }
-
             }
         }
 

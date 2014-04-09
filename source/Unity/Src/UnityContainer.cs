@@ -135,7 +135,7 @@ namespace Microsoft.Practices.Unity
         /// <para>If true, the container will take over the lifetime of the instance,
         /// calling Dispose on it (if it's <see cref="IDisposable"/>) when the container is Disposed.</para>
         /// <para>
-        ///  If false, container will not maintain a strong reference to <paramref name="instance"/>. User is reponsible
+        ///  If false, container will not maintain a strong reference to <paramref name="instance"/>. User is responsible
         /// for disposing instance, and for keeping the instance from being garbage collected.</para></param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
         public IUnityContainer RegisterInstance(Type t, string name, object instance, LifetimeManager lifetime)
@@ -207,7 +207,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>The resulting object. By default, this will be <paramref name="existing"/>, but
         /// container extensions may add things like automatic proxy creation which would
         /// cause this to return a different object (but still type compatible with <paramref name="t"/>).</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Guard class is doing validation")]
         // FxCop warning suppressed: false positive, Guard class is doing validation
         public object BuildUp(Type t, object existing, string name, params ResolverOverride[] resolverOverrides)
         {
@@ -354,7 +354,7 @@ namespace Microsoft.Practices.Unity
         /// <para>
         /// This method removes all extensions from the container, including the default ones
         /// that implement the out-of-the-box behavior. After this method, if you want to use
-        /// the container again you will need to either readd the default extensions or replace
+        /// the container again you will need to either read the default extensions or replace
         /// them with your own.
         /// </para>
         /// <para>
@@ -595,7 +595,6 @@ namespace Microsoft.Practices.Unity
             DependencyResolverTrackerPolicy.RemoveResolvers(policies, buildKey);
             policies.Set<IBuildPlanPolicy>(new OverriddenBuildPlanMarkerPolicy(), buildKey);
         }
-
 
         private void FillTypeRegistrationDictionary(IDictionary<Type, List<string>> typeRegistrations)
         {

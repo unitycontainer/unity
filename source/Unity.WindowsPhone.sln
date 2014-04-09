@@ -109,8 +109,8 @@ Global
 		{119A2045-4C28-48FF-A828-D7F711B844F2}.Release|ARM.Build.0 = Release|Any CPU
 		{119A2045-4C28-48FF-A828-D7F711B844F2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{119A2045-4C28-48FF-A828-D7F711B844F2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{119A2045-4C28-48FF-A828-D7F711B844F2}.Release|x86.ActiveCfg = Release|x86
-		{119A2045-4C28-48FF-A828-D7F711B844F2}.Release|x86.Build.0 = Release|x86
+		{119A2045-4C28-48FF-A828-D7F711B844F2}.Release|x86.ActiveCfg = Release|Any CPU
+		{119A2045-4C28-48FF-A828-D7F711B844F2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

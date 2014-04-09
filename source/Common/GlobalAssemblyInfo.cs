@@ -21,6 +21,6 @@ using System.Security;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("3.0.0.0")]
-[assembly: AssemblyFileVersion("3.0.1311.0")]
-[assembly: AssemblyInformationalVersion("3.0.1311-prerelease")]
+[assembly: AssemblyVersion("3.5.0.0")]
+[assembly: AssemblyFileVersion("3.5.1404.0")]
+[assembly: AssemblyInformationalVersion("3.5.1404-prerelease")]

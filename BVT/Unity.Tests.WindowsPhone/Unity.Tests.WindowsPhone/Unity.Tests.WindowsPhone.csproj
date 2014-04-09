@@ -539,9 +539,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\source\Unity\Src\Unity.WindowsPhone.csproj">
-      <Project>{A2A7F5A7-0F7F-4D29-939B-E7D2CB0AE21F}</Project>
-      <Name>Unity.WindowsPhone</Name>
+    <ProjectReference Include="..\..\..\source\Unity\Src\RegistrationByConvention\Unity.RegistrationByConvention.WindowsPhone.csproj">
+      <Project>{119A2045-4C28-48FF-A828-D7F711B844F2}</Project>
+      <Name>Unity.RegistrationByConvention.WindowsPhone</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\source\Unity\Src\Unity.csproj">
+      <Project>{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}</Project>
+      <Name>Unity</Name>
     </ProjectReference>
     <ProjectReference Include="..\AssemblyDefiningInterface\AssemblyDefiningInterface.csproj">
       <Project>{4849AF04-9581-4CA0-B89C-2C87A0952EEB}</Project>

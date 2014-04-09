@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 using System.Text;
 using Microsoft.Practices.Unity.Properties;
-using System.Reflection;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
@@ -40,7 +40,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             return string.Format(CultureInfo.CurrentCulture,
                 Resources.MethodArgumentResolveOperation,
-                parameterName, TypeBeingConstructed.GetTypeInfo().Name, methodSignature);
+                this.parameterName, TypeBeingConstructed.GetTypeInfo().Name, methodSignature);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         public string ParameterName
         {
-            get { return parameterName; }
+            get { return this.parameterName; }
         }
     }
 }

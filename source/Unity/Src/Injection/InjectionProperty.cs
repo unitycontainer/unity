@@ -3,8 +3,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.Properties;
@@ -50,7 +50,7 @@ namespace Microsoft.Practices.Unity
         /// Add policies to the <paramref name="policies"/> to configure the
         /// container to call this constructor with the appropriate parameter values.
         /// </summary>
-        /// <param name="serviceType">Interface being registered, ignored in this implemenation.</param>
+        /// <param name="serviceType">Interface being registered, ignored in this implementation.</param>
         /// <param name="implementationType">Type to register.</param>
         /// <param name="name">Name used to resolve the type object.</param>
         /// <param name="policies">Policy list to add policies to.</param>
@@ -61,28 +61,28 @@ namespace Microsoft.Practices.Unity
             Guard.ArgumentNotNull(implementationType, "implementationType");
             PropertyInfo propInfo =
                 implementationType.GetPropertiesHierarchical()
-                        .FirstOrDefault( p => p.Name == propertyName &&
+                        .FirstOrDefault(p => p.Name == this.propertyName &&
                                               !p.SetMethod.IsStatic);
 
-            GuardPropertyExists(propInfo, implementationType, propertyName);
+            GuardPropertyExists(propInfo, implementationType, this.propertyName);
             GuardPropertyIsSettable(propInfo);
             GuardPropertyIsNotIndexer(propInfo);
             InitializeParameterValue(propInfo);
-            GuardPropertyValueIsCompatible(propInfo, parameterValue);
+            GuardPropertyValueIsCompatible(propInfo, this.parameterValue);
 
             SpecifiedPropertiesSelectorPolicy selector =
                 GetSelectorPolicy(policies, implementationType, name);
 
-            selector.AddPropertyAndValue(propInfo, parameterValue);
+            selector.AddPropertyAndValue(propInfo, this.parameterValue);
         }
 
         private InjectionParameterValue InitializeParameterValue(PropertyInfo propInfo)
         {
-            if (parameterValue == null)
+            if (this.parameterValue == null)
             {
-                parameterValue = new ResolvedParameter(propInfo.PropertyType);
+                this.parameterValue = new ResolvedParameter(propInfo.PropertyType);
             }
-            return parameterValue;
+            return this.parameterValue;
         }
 
         private static SpecifiedPropertiesSelectorPolicy GetSelectorPolicy(IPolicyList policies, Type typeToInject, string name)
@@ -130,6 +130,7 @@ namespace Microsoft.Practices.Unity
                         property.Name, property.DeclaringType));
             }
         }
+
         private static void GuardPropertyValueIsCompatible(PropertyInfo property, InjectionParameterValue value)
         {
             if (!value.MatchesType(property.PropertyType))

@@ -19,7 +19,7 @@ namespace Microsoft.Practices.Unity
         /// <param name="policies">Policy list to add policies to.</param>
         public void AddPolicies(Type typeToCreate, IPolicyList policies)
         {
-            AddPolicies(null, typeToCreate, null, policies);
+            this.AddPolicies(null, typeToCreate, null, policies);
         }
 
         /// <summary>

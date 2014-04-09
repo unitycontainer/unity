@@ -45,9 +45,9 @@ namespace Microsoft.Practices.Unity
         /// Resolve the value for a dependency.
         /// </summary>
         /// <param name="context">Current build context.</param>
-        /// <returns>An array pupulated with the results of resolving the resolver policies.</returns>
+        /// <returns>An array populated with the results of resolving the resolver policies.</returns>
         // FxCop suppression: Validation is done by Guard class
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation is done by Guard class.")]
         public object Resolve(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");

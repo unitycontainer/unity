@@ -27,16 +27,16 @@ namespace Microsoft.Practices.Unity
         /// <param name="newOverride">item to add.</param>
         public void Add(ResolverOverride newOverride)
         {
-            overrides.Add(newOverride);
+            this.overrides.Add(newOverride);
         }
 
         /// <summary>
-        /// Add a setof <see cref="ResolverOverride"/>s to the collection.
+        /// Add a set of <see cref="ResolverOverride"/>s to the collection.
         /// </summary>
         /// <param name="newOverrides">items to add.</param>
         public void AddRange(IEnumerable<ResolverOverride> newOverrides)
         {
-            overrides.AddRange(newOverrides);
+            this.overrides.AddRange(newOverrides);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Microsoft.Practices.Unity
         /// <filterpriority>1</filterpriority>
         public IEnumerator<ResolverOverride> GetEnumerator()
         {
-            return overrides.GetEnumerator();
+            return this.overrides.GetEnumerator();
         }
 
         /// <summary>
@@ -74,10 +74,10 @@ namespace Microsoft.Practices.Unity
         {
             // Walk backwards over the resolvers, this way newer resolvers can replace
             // older ones.
-            for (int index = overrides.Count() - 1; index >= 0; --index)
+            for (int index = this.overrides.Count() - 1; index >= 0; --index)
             {
-                var resolver = overrides[index].GetResolver(context, dependencyType);
-                if(resolver != null)
+                var resolver = this.overrides[index].GetResolver(context, dependencyType);
+                if (resolver != null)
                 {
                     return resolver;
                 }

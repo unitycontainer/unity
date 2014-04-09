@@ -29,7 +29,7 @@ namespace Microsoft.Practices.Unity
         /// <param name="value">Value - the value to be returned by the override.</param>
         public void Add(TKey key, TValue value)
         {
-            overrides.Add(MakeOverride(key, value));
+            this.overrides.Add(MakeOverride(key, value));
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>a <see cref="IDependencyResolverPolicy"/> object if this override applies, null if not.</returns>
         public override IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType)
         {
-            return overrides.GetResolver(context, dependencyType);
+            return this.overrides.GetResolver(context, dependencyType);
         }
 
         /// <summary>
@@ -65,9 +65,9 @@ namespace Microsoft.Practices.Unity
         /// <filterpriority>1</filterpriority>
         public IEnumerator<TOverride> GetEnumerator()
         {
-            foreach(var o in overrides)
+            foreach (var o in this.overrides)
             {
-                yield return (TOverride) o;
+                yield return (TOverride)o;
             }
         }
 
@@ -79,6 +79,5 @@ namespace Microsoft.Practices.Unity
         /// <param name="value">Value to store in the resolver.</param>
         /// <returns>The created <see cref="ResolverOverride"/>.</returns>
         protected abstract TOverride MakeOverride(TKey key, TValue value);
-
     }
 }

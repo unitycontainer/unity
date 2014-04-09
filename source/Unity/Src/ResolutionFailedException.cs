@@ -18,7 +18,8 @@ namespace Microsoft.Practices.Unity
     // FxCop suppression: The standard constructors don't make sense for this exception,
     // as calling them will leave out the information that makes the exception useful
     // in the first place.
-    [SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors")]
+    [SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors",
+                Justification = "The standard constructors don't make sense for this exception, as calling them will leave out the information that makes the exception useful in the first place.")]
     public partial class ResolutionFailedException : Exception
     {
         private string typeRequested;
@@ -51,7 +52,7 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         public string TypeRequested
         {
-            get { return typeRequested; }
+            get { return this.typeRequested; }
         }
 
         /// <summary>
@@ -59,7 +60,7 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         public string NameRequested
         {
-            get { return nameRequested; }
+            get { return this.nameRequested; }
         }
 
         partial void RegisterSerializationHandler();

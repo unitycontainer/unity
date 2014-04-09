@@ -10,18 +10,17 @@ using Microsoft.Practices.Unity.Utility;
 namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
-    /// Build plan for <see cref="Func{TResult}"/> that will
-    /// return a func that will resolve the requested type
+    /// Build plan for <see cref="Func{TResult}"/> that will return a Func that will resolve the requested type
     /// through this container later.
     /// </summary>
-    class DeferredResolveBuildPlanPolicy : IBuildPlanPolicy
+    internal class DeferredResolveBuildPlanPolicy : IBuildPlanPolicy
     {
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification="Validation done by Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         public void BuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
 
-            if(context.Existing == null)
+            if (context.Existing == null)
             {
                 var currentContainer = context.NewBuildUp<IUnityContainer>();
 
@@ -30,7 +29,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
                 Delegate resolveMethod;
 
-                if(IsResolvingIEnumerable(typeToBuild))
+                if (IsResolvingIEnumerable(typeToBuild))
                 {
                     resolveMethod = CreateResolveAllResolver(currentContainer, typeToBuild);
                 }
@@ -53,14 +52,14 @@ namespace Microsoft.Practices.ObjectBuilder2
         private static bool IsResolvingIEnumerable(Type typeToBuild)
         {
             return typeToBuild.GetTypeInfo().IsGenericType &&
-                typeToBuild.GetGenericTypeDefinition() == typeof (IEnumerable<>);
+                typeToBuild.GetGenericTypeDefinition() == typeof(IEnumerable<>);
         }
 
         private static Delegate CreateResolver(IUnityContainer currentContainer, Type typeToBuild,
             string nameToBuild)
         {
-            Type trampolineType = typeof (ResolveTrampoline<>).MakeGenericType(typeToBuild);
-            Type delegateType = typeof (Func<>).MakeGenericType(typeToBuild);
+            Type trampolineType = typeof(ResolveTrampoline<>).MakeGenericType(typeToBuild);
+            Type delegateType = typeof(Func<>).MakeGenericType(typeToBuild);
             MethodInfo resolveMethod = trampolineType.GetTypeInfo().GetDeclaredMethod("Resolve");
 
             object trampoline = Activator.CreateInstance(trampolineType, currentContainer, nameToBuild);
@@ -71,8 +70,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             Type typeToBuild = GetTypeToBuild(enumerableType);
 
-            Type trampolineType = typeof (ResolveAllTrampoline<>).MakeGenericType(typeToBuild);
-            Type delegateType = typeof (Func<>).MakeGenericType(enumerableType);
+            Type trampolineType = typeof(ResolveAllTrampoline<>).MakeGenericType(typeToBuild);
+            Type delegateType = typeof(Func<>).MakeGenericType(enumerableType);
             MethodInfo resolveAllMethod = trampolineType.GetTypeInfo().GetDeclaredMethod("ResolveAll");
 
             object trampoline = Activator.CreateInstance(trampolineType, currentContainer);
@@ -110,6 +109,5 @@ namespace Microsoft.Practices.ObjectBuilder2
                 return container.ResolveAll<TItem>();
             }
         }
-
     }
 }

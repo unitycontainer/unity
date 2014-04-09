@@ -4,7 +4,7 @@ using System;
 
 namespace Microsoft.Practices.Unity
 {
-    partial class WithLifetime
+    public partial class WithLifetime
     {
         /// <summary>
         /// Returns a <see cref="PerThreadLifetimeManager"/>.

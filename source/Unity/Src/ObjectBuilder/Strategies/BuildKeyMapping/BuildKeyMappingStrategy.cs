@@ -2,6 +2,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Practices.Unity.Utility;
+
 namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>

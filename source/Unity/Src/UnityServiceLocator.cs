@@ -31,7 +31,7 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         /// <filterpriority>2</filterpriority>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1816:CallGCSuppressFinalizeCorrectly",
-            Justification="Object is not finalizable, no reason to call SuppressFinalize")]
+            Justification = "Object is not finalizable, no reason to call SuppressFinalize")]
         public void Dispose()
         {
             if (container != null)
@@ -51,7 +51,11 @@ namespace Microsoft.Practices.Unity
         /// </returns>
         protected override object DoGetInstance(Type serviceType, string key)
         {
-            if (container == null) throw new ObjectDisposedException("container");
+            if (container == null)
+            {
+                throw new ObjectDisposedException("container");
+            }
+
             return container.Resolve(serviceType, key);
         }
 
@@ -65,7 +69,11 @@ namespace Microsoft.Practices.Unity
         /// </returns>
         protected override IEnumerable<object> DoGetAllInstances(Type serviceType)
         {
-            if (container == null) throw new ObjectDisposedException("container");
+            if (container == null)
+            {
+                throw new ObjectDisposedException("container");
+            }
+
             return container.ResolveAll(serviceType);
         }
     }

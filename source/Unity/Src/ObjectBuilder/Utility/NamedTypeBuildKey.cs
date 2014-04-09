@@ -36,7 +36,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         public NamedTypeBuildKey(Type type)
             : this(type, null)
         {
-
         }
 
         /// <summary>
@@ -134,7 +133,6 @@ namespace Microsoft.Practices.ObjectBuilder2
 
             return left.type == right.type &&
                    string.Compare(left.name, right.name, StringComparison.Ordinal) == 0;
-
         }
 
         /// <summary>
@@ -175,7 +173,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         public NamedTypeBuildKey()
             : base(typeof(T), null)
         {
-
         }
 
         /// <summary>
@@ -185,6 +182,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="name">Name for the key.</param>
         public NamedTypeBuildKey(string name)
             : base(typeof(T), name)
-        { }
+        {
+        }
     }
 }

@@ -32,13 +32,13 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
             // Resolve all DependencyAttributes on this parameter, if any
             var attrs = parameter.GetCustomAttributes(false).OfType<DependencyResolutionAttribute>().ToList();
 
-            if(attrs.Count > 0)
+            if (attrs.Count > 0)
             {
                 // Since this attribute is defined with MultipleUse = false, the compiler will
                 // enforce at most one. So we don't need to check for more.
                 return attrs[0].CreateResolver(parameter.ParameterType);
             }
-            
+
             // No attribute, just go back to the container for the default for that type.
             return new NamedTypeDependencyResolverPolicy(parameter.ParameterType, null);
         }

@@ -20,21 +20,21 @@ namespace Microsoft.Practices.Unity
             Justification = "Lifetime manager aligns with lifetime of container and is disposed when container is disposed.")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class")]
-        public override void PreBuildUp(IBuilderContext context) 
+        public override void PreBuildUp(IBuilderContext context)
         {
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(context, "context");
 
             IPolicyList lifetimePolicySource;
 
             var activeLifetime = context.PersistentPolicies.Get<ILifetimePolicy>(context.BuildKey, out lifetimePolicySource);
-            if (activeLifetime is HierarchicalLifetimeManager && !ReferenceEquals(lifetimePolicySource, context.PersistentPolicies))         
+            if (activeLifetime is HierarchicalLifetimeManager && !object.ReferenceEquals(lifetimePolicySource, context.PersistentPolicies))
             {
                 // came from parent, add a new Hierarchical lifetime manager locally   
                 var newLifetime = new HierarchicalLifetimeManager { InUse = true };
                 context.PersistentPolicies.Set<ILifetimePolicy>(newLifetime, context.BuildKey);
                 // Add to the lifetime container - we know this one is disposable
                 context.Lifetime.Add(newLifetime);
-            } 
+            }
         }
     }
 }

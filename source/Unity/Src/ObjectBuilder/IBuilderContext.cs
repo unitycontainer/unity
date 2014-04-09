@@ -106,7 +106,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="dependencyType">Type of the dependency.</param>
         /// <returns>Resolver to use, or null if no override matches for the current operation.</returns>
         IDependencyResolverPolicy GetOverriddenResolver(Type dependencyType);
-        
+
         /// <summary>
         /// A convenience method to do a new buildup operation on an existing context.
         /// </summary>
@@ -161,7 +161,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         public static TResult NewBuildUp<TResult>(this IBuilderContext context, string name)
         {
             Guard.ArgumentNotNull(context, "context");
-            return (TResult) context.NewBuildUp(NamedTypeBuildKey.Make<TResult>(name));
+            return (TResult)context.NewBuildUp(NamedTypeBuildKey.Make<TResult>(name));
         }
 
         /// <summary>

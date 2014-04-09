@@ -2,8 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.Unity.Utility;
 
@@ -38,8 +38,9 @@ namespace Microsoft.Practices.ObjectBuilder2
                     continue;
                 }
 
-                if (prop.GetIndexParameters().Length == 0 &&                // Ignore indexers
-                   prop.IsDefined(typeof(TResolutionAttribute), false))     // Marked with the attribute
+                // Ignore indexers and return properties marked with the attribute
+                if (prop.GetIndexParameters().Length == 0 &&
+                   prop.IsDefined(typeof(TResolutionAttribute), false))
                 {
                     yield return CreateSelectedProperty(context, resolverPolicyDestination, prop);
                 }

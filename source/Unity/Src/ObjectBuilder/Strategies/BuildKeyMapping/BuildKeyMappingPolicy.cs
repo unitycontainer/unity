@@ -7,7 +7,7 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class BuildKeyMappingPolicy : IBuildKeyMappingPolicy
     {
-        readonly NamedTypeBuildKey newBuildKey;
+        private readonly NamedTypeBuildKey newBuildKey;
 
         /// <summary>
         /// Initialize a new instance of the <see cref="BuildKeyMappingPolicy"/> with the new build key.

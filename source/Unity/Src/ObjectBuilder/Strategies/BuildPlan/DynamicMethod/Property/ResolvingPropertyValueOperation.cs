@@ -16,7 +16,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.
         /// </summary>
-        public ResolvingPropertyValueOperation(Type typeBeingConstructed, string propertyName) : base(typeBeingConstructed, propertyName)
+        public ResolvingPropertyValueOperation(Type typeBeingConstructed, string propertyName)
+            : base(typeBeingConstructed, propertyName)
         {
         }
 

@@ -24,7 +24,6 @@ namespace Microsoft.Practices.Unity
         public OptionalDependencyAttribute()
             : this(null)
         {
-
         }
 
         /// <summary>

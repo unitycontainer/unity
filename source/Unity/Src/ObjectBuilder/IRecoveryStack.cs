@@ -10,7 +10,8 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     // FxCop suppression: The name ends in stack becuase the semantics are a stack,
     // and we want that to be obvious to users.
-    [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
+    [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix",
+        Justification = "The name ends in stack becuase the semantics are a stack, and we want that to be obvious to users")]
     public interface IRecoveryStack
     {
         /// <summary>

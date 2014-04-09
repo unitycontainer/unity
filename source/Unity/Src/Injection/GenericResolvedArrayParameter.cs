@@ -6,8 +6,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.Utility;
 using Microsoft.Practices.Unity.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity
 {
@@ -33,7 +33,7 @@ namespace Microsoft.Practices.Unity
             Guard.ArgumentNotNull(genericParameterName, "genericParameterName");
 
             this.genericParameterName = genericParameterName;
-            this.elementValues.AddRange(ToParameters(elementValues));
+            this.elementValues.AddRange(InjectionParameterValue.ToParameters(elementValues));
         }
 
         /// <summary>
@@ -61,7 +61,9 @@ namespace Microsoft.Practices.Unity
             Guard.ArgumentNotNull(t, "t");
 
             if (!t.IsArray || t.GetArrayRank() != 1)
+            {
                 return false;
+            }
 
             Type elementType = t.GetElementType();
             return elementType.GetTypeInfo().IsGenericParameter && elementType.GetTypeInfo().Name == genericParameterName;

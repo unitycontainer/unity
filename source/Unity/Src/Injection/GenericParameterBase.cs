@@ -40,7 +40,7 @@ namespace Microsoft.Practices.Unity
             Guard.ArgumentNotNull(genericParameterName, "genericParameterName");
             if (genericParameterName.EndsWith("[]", StringComparison.Ordinal) || genericParameterName.EndsWith("()", StringComparison.Ordinal))
             {
-                this.genericParameterName = genericParameterName.Replace("[]", "").Replace("()", "");
+                this.genericParameterName = genericParameterName.Replace("[]", String.Empty).Replace("()", String.Empty);
                 this.isArray = true;
             }
             else

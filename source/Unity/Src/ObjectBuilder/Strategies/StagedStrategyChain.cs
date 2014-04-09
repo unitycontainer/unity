@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 
 namespace Microsoft.Practices.ObjectBuilder2
@@ -14,9 +14,9 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// <typeparam name="TStageEnum">The stage enumeration to partition the strategies.</typeparam>
     public class StagedStrategyChain<TStageEnum> : IStagedStrategyChain
     {
-        readonly StagedStrategyChain<TStageEnum> innerChain;
-        readonly object lockObject = new object();
-        readonly List<IBuilderStrategy>[] stages;
+        private readonly StagedStrategyChain<TStageEnum> innerChain;
+        private readonly object lockObject = new object();
+        private readonly List<IBuilderStrategy>[] stages;
 
         /// <summary>
         /// Initialize a new instance of the <see cref="StagedStrategyChain{TStageEnum}"/> class.
@@ -25,13 +25,11 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             stages = new List<IBuilderStrategy>[NumberOfEnumValues()];
 
-            for(int i = 0; i < stages.Length; ++i)
+            for (int i = 0; i < stages.Length; ++i)
             {
                 stages[i] = new List<IBuilderStrategy>();
             }
         }
-
-
 
         /// <summary>
         /// Initialize a new instance of the <see cref="StagedStrategyChain{TStageEnum}"/> class with an inner strategy chain to use when building.
@@ -48,13 +46,15 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="strategy">The strategy to add to the chain.</param>
         /// <param name="stage">The stage to add the strategy.</param>
-        [SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", 
+        [SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider",
             Justification = "We're converting an enum to an int, no need for globalization here.")]
         public void Add(IBuilderStrategy strategy,
                         TStageEnum stage)
         {
             lock (lockObject)
+            {
                 stages[Convert.ToInt32(stage)].Add(strategy);
+            }
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// Clear the current strategy chain list.
         /// </summary>
         /// <remarks>
-        /// This will not clear the inner strategy chain if this instane was created with one.
+        /// This will not clear the inner strategy chain if this instance was created with one.
         /// </remarks>
         public void Clear()
         {
@@ -110,17 +110,17 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             lock (lockObject)
             {
-                if(innerChain != null)
+                if (innerChain != null)
                 {
                     innerChain.FillStrategyChain(chain, index);
                 }
                 chain.AddRange(stages[index]);
             }
         }
-        
+
         private static int NumberOfEnumValues()
         {
-            return typeof(TStageEnum).GetTypeInfo().DeclaredFields.Where(f => f.IsPublic &&  f.IsStatic).Count();
+            return typeof(TStageEnum).GetTypeInfo().DeclaredFields.Where(f => f.IsPublic && f.IsStatic).Count();
         }
     }
 }

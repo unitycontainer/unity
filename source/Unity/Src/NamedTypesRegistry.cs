@@ -6,9 +6,10 @@ using System.Linq;
 
 namespace Microsoft.Practices.Unity
 {
-    // A helper class to manage the names that get
-    // registered in the container
-    class NamedTypesRegistry
+    /// <summary>
+    /// A helper class to manage the names that get registered in the container  
+    /// </summary>
+    internal class NamedTypesRegistry
     {
         private readonly Dictionary<Type, List<string>> registeredKeys;
         private readonly NamedTypesRegistry parent;
@@ -16,7 +17,6 @@ namespace Microsoft.Practices.Unity
         public NamedTypesRegistry()
             : this(null)
         {
-            
         }
 
         public NamedTypesRegistry(NamedTypesRegistry parent)
@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity
 
         public void RegisterType(Type t, string name)
         {
-            if(!registeredKeys.ContainsKey(t))
+            if (!registeredKeys.ContainsKey(t))
             {
                 registeredKeys[t] = new List<string>();
             }
@@ -40,12 +40,12 @@ namespace Microsoft.Practices.Unity
         {
             var keys = Enumerable.Empty<string>();
 
-            if(parent != null)
+            if (parent != null)
             {
                 keys = keys.Concat(parent.GetKeys(t));
             }
 
-            if(registeredKeys.ContainsKey(t))
+            if (registeredKeys.ContainsKey(t))
             {
                 keys = keys.Concat(registeredKeys[t]);
             }

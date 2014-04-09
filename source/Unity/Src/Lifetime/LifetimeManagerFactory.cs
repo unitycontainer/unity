@@ -33,10 +33,10 @@ namespace Microsoft.Practices.Unity
         /// <returns>The new instance.</returns>
         public ILifetimePolicy CreateLifetimePolicy()
         {
-            var lifetime = (LifetimeManager)containerContext.Container.Resolve(LifetimeType);
-            if(lifetime is IDisposable)
+            var lifetime = (LifetimeManager)this.containerContext.Container.Resolve(LifetimeType);
+            if (lifetime is IDisposable)
             {
-                containerContext.Lifetime.Add(lifetime);
+                this.containerContext.Lifetime.Add(lifetime);
             }
             lifetime.InUse = true;
             return lifetime;

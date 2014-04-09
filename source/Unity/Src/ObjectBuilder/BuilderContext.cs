@@ -13,12 +13,12 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class BuilderContext : IBuilderContext
     {
-        readonly IStrategyChain chain;
-        readonly ILifetimeContainer lifetime;
+        private readonly IStrategyChain chain;
+        private readonly ILifetimeContainer lifetime;
         private readonly IRecoveryStack recoveryStack = new RecoveryStack();
-        readonly NamedTypeBuildKey originalBuildKey;
+        private readonly NamedTypeBuildKey originalBuildKey;
         private readonly IPolicyList persistentPolicies;
-        readonly IPolicyList policies;
+        private readonly IPolicyList policies;
         private CompositeResolverOverride resolverOverrides;
         private bool ownsOverrides;
 
@@ -113,7 +113,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </returns>
         public IStrategyChain Strategies
         {
-            get { return chain; }
+            get { return this.chain; }
         }
 
         /// <summary>
@@ -242,7 +242,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         public object NewBuildUp(NamedTypeBuildKey newBuildKey)
         {
             this.ChildContext =
-                new BuilderContext(chain, lifetime, persistentPolicies, policies, newBuildKey, this.resolverOverrides);
+                new BuilderContext(this.chain, lifetime, persistentPolicies, policies, newBuildKey, this.resolverOverrides);
 
             object result = this.ChildContext.Strategies.ExecuteBuildUp(this.ChildContext);
 
@@ -267,7 +267,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             Guard.ArgumentNotNull(childCustomizationBlock, "childCustomizationBlock");
 
             this.ChildContext =
-                new BuilderContext(chain, lifetime, persistentPolicies, policies, newBuildKey, this.resolverOverrides);
+                new BuilderContext(this.chain, lifetime, persistentPolicies, policies, newBuildKey, this.resolverOverrides);
 
             childCustomizationBlock(this.ChildContext);
 

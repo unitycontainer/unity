@@ -34,13 +34,18 @@ namespace Microsoft.Practices.Unity.Utility
         /// <returns>An enumerable of the <see cref="MethodInfo"/> objects.</returns>
         public static IEnumerable<MethodInfo> GetMethodsHierarchical(this Type type)
         {
-            if (type == null) return Enumerable.Empty<MethodInfo>();
+            if (type == null)
+            {
+                return Enumerable.Empty<MethodInfo>();
+            }
 
             if (type.Equals(typeof(object)))
+            {
                 return type.GetTypeInfo().DeclaredMethods.Where(m => !m.IsStatic);
+            }
 
             return type.GetTypeInfo().DeclaredMethods.Where(m => !m.IsStatic)
-                                                .Concat(GetMethodsHierarchical(type.GetTypeInfo().BaseType));
+                    .Concat(GetMethodsHierarchical(type.GetTypeInfo().BaseType));
         }
 
         /// <summary>
@@ -55,7 +60,6 @@ namespace Microsoft.Practices.Unity.Utility
             return type.GetMethodsHierarchical().Single(
                     m => m.Name.Equals(methodName) &&
                         ParametersMatch(m.GetParameters(), closedParameters));
-
         }
 
         /// <summary>
@@ -65,10 +69,15 @@ namespace Microsoft.Practices.Unity.Utility
         /// <returns>An enumerable of the <see cref="PropertyInfo"/> objects.</returns>
         public static IEnumerable<PropertyInfo> GetPropertiesHierarchical(this Type type)
         {
-            if (type == null) return Enumerable.Empty<PropertyInfo>();
+            if (type == null)
+            {
+                return Enumerable.Empty<PropertyInfo>();
+            }
 
             if (type.Equals(typeof(object)))
+            {
                 return type.GetTypeInfo().DeclaredProperties;
+            }
 
             return type.GetTypeInfo().DeclaredProperties
                                       .Concat(GetPropertiesHierarchical(type.GetTypeInfo().BaseType));
@@ -85,12 +94,17 @@ namespace Microsoft.Practices.Unity.Utility
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(parameters, "parameters");
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(closedConstructorParameterTypes, "closedConstructorParameterTypes");
 
-            if (parameters.Length != closedConstructorParameterTypes.Length) return false;
+            if (parameters.Length != closedConstructorParameterTypes.Length)
+            {
+                return false;
+            }
 
             for (int i = 0; i < parameters.Length; i++)
             {
                 if (!parameters[i].ParameterType.Equals(closedConstructorParameterTypes[i]))
+                {
                     return false;
+                }
             }
 
             return true;

@@ -10,7 +10,8 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     // FxCop suppression: This class is only IEnumerable for testing support.
     // Renaming it to StrategyCollection implies more than it really should.
-    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix",
+        Justification = "This class is only IEnumerable for testing support. Renaming it to StrategyCollection implies more than it really should.")]
     public interface IStrategyChain : IEnumerable<IBuilderStrategy>
     {
         /// <summary>
@@ -37,6 +38,5 @@ namespace Microsoft.Practices.ObjectBuilder2
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "TearDown",
             Justification = "Back compat with ObjectBuilder")]
         void ExecuteTearDown(IBuilderContext context);
-
     }
 }

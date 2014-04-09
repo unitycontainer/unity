@@ -28,7 +28,8 @@ namespace Microsoft.Practices.Unity
         /// <param name="name">Name to register under, null if default registration.</param>
         /// <param name="lifetimeManager"><see cref="LifetimeManager"/> object that handles how
         /// the instance will be owned.</param>
-        public RegisterInstanceEventArgs(Type registeredType, object instance, string name, LifetimeManager lifetimeManager) : base(name)
+        public RegisterInstanceEventArgs(Type registeredType, object instance, string name, LifetimeManager lifetimeManager)
+            : base(name)
         {
             this.registeredType = registeredType;
             this.instance = instance;
@@ -43,8 +44,8 @@ namespace Microsoft.Practices.Unity
         /// </value>
         public Type RegisteredType
         {
-            get { return registeredType; }
-            set { registeredType = value; }
+            get { return this.registeredType; }
+            set { this.registeredType = value; }
         }
 
         /// <summary>

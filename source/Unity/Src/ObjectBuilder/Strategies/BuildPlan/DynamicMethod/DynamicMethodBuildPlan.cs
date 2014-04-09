@@ -18,7 +18,7 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class DynamicMethodBuildPlan : IBuildPlanPolicy
     {
-        DynamicBuildPlanMethod buildMethod;
+        private DynamicBuildPlanMethod buildMethod;
 
         /// <summary>
         /// 

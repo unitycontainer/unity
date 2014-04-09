@@ -7,7 +7,7 @@ namespace Microsoft.Practices.Unity.Utility
 {
     /// <summary>
     /// Another reflection helper class that has extra methods
-    /// for dealing with ParameterInfos.
+    /// for dealing with ParameterInfo.
     /// </summary>
     public class ParameterReflectionHelper : ReflectionHelper
     {

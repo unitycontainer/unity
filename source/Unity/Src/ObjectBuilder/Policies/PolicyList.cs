@@ -8,7 +8,6 @@ using Microsoft.Practices.Unity.Properties;
 
 namespace Microsoft.Practices.ObjectBuilder2
 {
-
     /// <summary>
     /// A custom collection wrapper over <see cref="IBuilderPolicy"/> objects.
     /// </summary>
@@ -59,7 +58,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             lock (lockObject)
             {
-                Dictionary<PolicyKey, IBuilderPolicy> newPolicies = ClonePolicies();
+                Dictionary<PolicyKey, IBuilderPolicy> newPolicies = this.ClonePolicies();
                 newPolicies.Remove(new PolicyKey(policyInterface, buildKey));
                 this.policies = newPolicies;
             }
@@ -82,7 +81,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="policyInterface">The type the policy was registered as.</param>
         public void ClearDefault(Type policyInterface)
         {
-            Clear(policyInterface, null);
+            this.Clear(policyInterface, null);
         }
 
         /// <summary>
@@ -90,7 +89,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="policyInterface">The interface the policy is registered under.</param>
         /// <param name="buildKey">The key the policy applies.</param>
-        /// <param name="localOnly">true if the policy searches local only; otherwise false to seach up the parent chain.</param>
+        /// <param name="localOnly">true if the policy searches local only; otherwise false to search up the parent chain.</param>
         /// <param name="containingPolicyList">The policy list in the chain that the searched for policy was found in, null if the policy was
         /// not found.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
@@ -173,7 +172,9 @@ namespace Microsoft.Practices.ObjectBuilder2
             }
 
             if (localOnly)
+            {
                 return null;
+            }
 
             return innerPolicyList.GetNoDefault(policyInterface, buildKey, false, out containingPolicyList);
         }
@@ -190,7 +191,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             lock (lockObject)
             {
-                Dictionary<PolicyKey, IBuilderPolicy> newPolicies = ClonePolicies();
+                Dictionary<PolicyKey, IBuilderPolicy> newPolicies = this.ClonePolicies();
                 newPolicies[new PolicyKey(policyInterface, buildKey)] = policy;
                 this.policies = newPolicies;
             }
@@ -221,7 +222,9 @@ namespace Microsoft.Practices.ObjectBuilder2
             {
                 var basedBuildKey = buildKey as NamedTypeBuildKey;
                 if (basedBuildKey != null)
+                {
                     type = basedBuildKey.Type;
+                }
             }
 
             return type != null;
@@ -249,7 +252,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                 "buildKey");
         }
 
-        class NullPolicyList : IPolicyList
+        private class NullPolicyList : IPolicyList
         {
             public void Clear(Type policyInterface,
                               object buildKey)
@@ -293,7 +296,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             }
         }
 
-        struct PolicyKey
+        private struct PolicyKey
         {
 #pragma warning disable 219
             public readonly object BuildKey;
@@ -304,7 +307,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                              object buildKey)
             {
                 PolicyType = policyType;
-                BuildKey = buildKey;
+                this.BuildKey = buildKey;
             }
 
             public override bool Equals(object obj)
@@ -318,8 +321,8 @@ namespace Microsoft.Practices.ObjectBuilder2
 
             public override int GetHashCode()
             {
-                return (SafeGetHashCode(PolicyType)) * 37 +
-                       SafeGetHashCode(BuildKey);
+                return ((SafeGetHashCode(this.PolicyType)) * 37) +
+                         SafeGetHashCode(this.BuildKey);
             }
 
             public static bool operator ==(PolicyKey left, PolicyKey right)
@@ -339,7 +342,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             }
         }
 
-        class PolicyKeyEqualityComparer : IEqualityComparer<PolicyKey>
+        private class PolicyKeyEqualityComparer : IEqualityComparer<PolicyKey>
         {
             public static readonly PolicyKeyEqualityComparer Default = new PolicyKeyEqualityComparer();
 

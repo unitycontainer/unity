@@ -19,7 +19,7 @@ namespace Microsoft.Practices.ObjectBuilder2
     [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
     public class LifetimeContainer : ILifetimeContainer
     {
-        readonly List<object> items = new List<object>();
+        private readonly List<object> items = new List<object>();
 
         /// <summary>
         /// Gets the number of references in the lifetime container
@@ -29,7 +29,13 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </value>
         public int Count
         {
-            get { lock(items) { return items.Count;} } 
+            get
+            {
+                lock (items)
+                {
+                    return items.Count;
+                }
+            }
         }
 
         /// <summary>
@@ -72,7 +78,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         }
 
         /// <summary>
-        /// Releases the managed resources used by the DbDataReader and optionally releases the unmanaged resources. 
+        /// Releases the resources used by the <see cref="LifetimeContainer"/>. 
         /// </summary>
         /// <param name="disposing">
         /// true to release managed and unmanaged resources; false to release only unmanaged resources.
@@ -91,11 +97,12 @@ namespace Microsoft.Practices.ObjectBuilder2
                         var d = o as IDisposable;
 
                         if (d != null)
+                        {
                             d.Dispose();
+                        }
                     }
 
                     items.Clear();
-                    
                 }
             }
         }
@@ -132,7 +139,9 @@ namespace Microsoft.Practices.ObjectBuilder2
             lock (items)
             {
                 if (!items.Contains(item))
+                {
                     return;
+                }
 
                 items.Remove(item);
             }

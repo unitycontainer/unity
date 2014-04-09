@@ -46,8 +46,8 @@ namespace Microsoft.Practices.Unity
             Guard.ArgumentNotNull(context, "context");
 
             var operation = context.CurrentOperation as BuildOperation;
-            if(operation != null
-                && operation.TypeBeingConstructed == targetType)
+            if (operation != null
+                && operation.TypeBeingConstructed == this.targetType)
             {
                 return innerOverride.GetResolver(context, dependencyType);
             }
@@ -66,10 +66,9 @@ namespace Microsoft.Practices.Unity
         /// Create an instance of <see cref="TypeBasedOverride{T}"/>.
         /// </summary>
         /// <param name="innerOverride">Inner override to check after type matches.</param>
-        public TypeBasedOverride(ResolverOverride innerOverride) 
+        public TypeBasedOverride(ResolverOverride innerOverride)
             : base(typeof(T), innerOverride)
         {
-            
         }
     }
 }

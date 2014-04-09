@@ -9,7 +9,7 @@ using System.Security;
 
 namespace Microsoft.Practices.Unity
 {
-    partial class AllClasses
+    public partial class AllClasses
     {
         /// <summary>
         /// Returns all visible, non-abstract classes from all assemblies that are loaded in the current application domain.

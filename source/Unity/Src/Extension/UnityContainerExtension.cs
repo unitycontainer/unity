@@ -12,21 +12,23 @@ namespace Microsoft.Practices.Unity
     {
         private IUnityContainer container;
         private ExtensionContext context;
+
         /// <summary>
         /// The container calls this method when the extension is added.
         /// </summary>
         /// <param name="context">A <see cref="ExtensionContext"/> instance that gives the
         /// extension access to the internals of the container.</param>
         // FxCop suppression: Names are the same deliberately, as the property gets set from the parameter.
-        [SuppressMessage("Microsoft.Maintainability", "CA1500:VariableNamesShouldNotMatchFieldNames", MessageId = "context")]
+        [SuppressMessage("Microsoft.Maintainability", "CA1500:VariableNamesShouldNotMatchFieldNames", MessageId = "context",
+                         Justification = "Names are the same deliberately, as the property gets set from the parameter")]
         public void InitializeExtension(ExtensionContext context)
         {
-            if(context == null)
+            if (context == null)
             {
                 throw new ArgumentNullException("context");
             }
 
-            container = context.Container;
+            this.container = context.Container;
             this.context = context;
             Initialize();
         }
@@ -37,7 +39,7 @@ namespace Microsoft.Practices.Unity
         /// <value>The <see cref="UnityContainer"/> that this extension has been added to.</value>
         public IUnityContainer Container
         {
-            get { return container; }
+            get { return this.container; }
         }
 
         /// <summary>

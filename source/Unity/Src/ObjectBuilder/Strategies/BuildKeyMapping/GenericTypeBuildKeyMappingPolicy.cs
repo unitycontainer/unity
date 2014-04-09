@@ -23,7 +23,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="destinationKey">Build key to map to. This must be or contain an open generic type.</param>
         // FxCop suppression: Validation is done by Guard class
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation is done by Guard class")]
         public GenericTypeBuildKeyMappingPolicy(NamedTypeBuildKey destinationKey)
         {
             Guard.ArgumentNotNull(destinationKey, "destinationKey");

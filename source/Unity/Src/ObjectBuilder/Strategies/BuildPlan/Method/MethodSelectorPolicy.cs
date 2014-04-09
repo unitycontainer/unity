@@ -12,7 +12,7 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     /// <typeparam name="TMarkerAttribute">Type of attribute used to mark methods
     /// to inject.</typeparam>
-    public class MethodSelectorPolicy<TMarkerAttribute> : MethodSelectorPolicyBase<TMarkerAttribute> 
+    public class MethodSelectorPolicy<TMarkerAttribute> : MethodSelectorPolicyBase<TMarkerAttribute>
         where TMarkerAttribute : Attribute
     {
         /// <summary>
@@ -21,7 +21,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="parameter">Parameter to create the resolver for.</param>
         /// <returns>The resolver object.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class")]
         protected override IDependencyResolverPolicy CreateResolver(ParameterInfo parameter)
         {

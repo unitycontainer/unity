@@ -10,7 +10,7 @@ using Microsoft.Practices.Unity.Utility;
 namespace Microsoft.Practices.Unity.ObjectBuilder
 {
     /// <summary>
-    /// An implemnetation of <see cref="IPropertySelectorPolicy"/> which returns
+    /// An implementation of <see cref="IPropertySelectorPolicy"/> which returns
     /// the set of specific properties that the selector was configured with.
     /// </summary>
     public class SpecifiedPropertiesSelectorPolicy : IPropertySelectorPolicy

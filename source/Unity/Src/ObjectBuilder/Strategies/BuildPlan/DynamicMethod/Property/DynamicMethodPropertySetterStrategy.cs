@@ -62,8 +62,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                         Expression.Call(
                             Expression.Convert(dynamicBuildContext.GetExistingObjectExpression(), dynamicBuildContext.TypeToBuild),
                             GetValidatedPropertySetter(property.Property),
-                            resolvedObjectParameter)
-                        ));
+                            resolvedObjectParameter)));
             }
 
             // Clear the current operation
@@ -78,13 +77,12 @@ namespace Microsoft.Practices.ObjectBuilder2
             //todo: Added a check for private to meet original expectations; we could consider opening this up for 
             //      private property injection.
             var setter = property.SetMethod;
-            if(setter == null || setter.IsPrivate)
+            if (setter == null || setter.IsPrivate)
             {
                 throw new InvalidOperationException(
                     string.Format(CultureInfo.CurrentCulture,
                         Resources.PropertyNotSettable,
-                        property.Name, property.DeclaringType.FullName)
-                    );
+                        property.Name, property.DeclaringType.FullName));
             }
             return setter;
         }

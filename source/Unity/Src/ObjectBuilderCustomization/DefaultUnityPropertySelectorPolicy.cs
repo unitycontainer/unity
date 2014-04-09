@@ -26,7 +26,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(property, "property");
 
             var attributes =
-                property.GetCustomAttributes(typeof (DependencyResolutionAttribute), false)
+                property.GetCustomAttributes(typeof(DependencyResolutionAttribute), false)
                 .OfType<DependencyResolutionAttribute>()
                 .ToList();
 

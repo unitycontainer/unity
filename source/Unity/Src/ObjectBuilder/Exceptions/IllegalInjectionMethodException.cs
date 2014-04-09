@@ -23,7 +23,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// Construct a <see cref="IllegalInjectionMethodException"/> with the given message
         /// </summary>
         /// <param name="message">Message to return.</param>
-        public IllegalInjectionMethodException(string message) : base(message)
+        public IllegalInjectionMethodException(string message)
+            : base(message)
         {
         }
 
@@ -33,7 +34,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="message">Message to return.</param>
         /// <param name="innerException">Inner exception</param>
-        public IllegalInjectionMethodException(string message, Exception innerException) : base(message, innerException)
+        public IllegalInjectionMethodException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
     }

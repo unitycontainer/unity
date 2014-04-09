@@ -19,7 +19,7 @@ namespace Microsoft.Practices.Unity
         /// This may be an actual type name or a generic argument name.
         /// </summary>
         public abstract string ParameterTypeName
-        { 
+        {
             get;
         }
 

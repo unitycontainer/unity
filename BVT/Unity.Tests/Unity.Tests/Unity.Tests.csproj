@@ -11,10 +11,6 @@
     <AssemblyName>Unity.Tests</AssemblyName>
     <WarningLevel>4</WarningLevel>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -73,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertHelper.cs" />
-    <Compile Include="BuildFailedExceptionFixture.cs" />
     <Compile Include="ChildContainer\ChildContainerFixture.cs" />
     <Compile Include="ChildContainer\ITestContainer.cs" />
     <Compile Include="ChildContainer\ChildContainerInterfaceChangeFixture.cs" />
@@ -96,7 +91,6 @@
     <Compile Include="CollectionSupport\CollectionSupportTestClassWithDependencyTypeConstructor.cs" />
     <Compile Include="CollectionSupport\ConfigurationCollectionSupportTestClass.cs" />
     <Compile Include="CollectionSupport\ConfigurationCollectionSupportTestClassGeneric.cs" />
-    <Compile Include="COM\GivenComFixture.cs" />
     <Compile Include="ConfigInjectionFixture.cs" />
     <Compile Include="ContainerDefaultContentFixture.cs" />
     <Compile Include="ContainerRegisterStubs.cs" />
@@ -372,6 +366,10 @@
     <ProjectReference Include="..\..\..\source\Unity.Interception\Src\Unity.Interception.csproj">
       <Project>{f8186b23-b0e1-4646-b5f3-14357841e2ba}</Project>
       <Name>Unity.Interception</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\source\Unity\Src\RegistrationByConvention\Unity.RegistrationByConvention.csproj">
+      <Project>{10cff71b-a9d4-44d2-b5cb-b363e5e15976}</Project>
+      <Name>Unity.RegistrationByConvention</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\source\Unity\Src\Unity.csproj">
       <Project>{ee1f752c-1fab-41ad-ad63-857d0e62ab6b}</Project>

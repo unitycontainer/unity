@@ -8,7 +8,7 @@ namespace Microsoft.Practices.Unity
 {
     [SuppressMessage("Microsoft.Usage", "CA2240:ImplementISerializableCorrectly", Justification = "Implementing serialization with the new transparent approach")]
     [Serializable]
-    partial class DuplicateTypeMappingException
+    public partial class DuplicateTypeMappingException
     {
         #region Serialization Support
 

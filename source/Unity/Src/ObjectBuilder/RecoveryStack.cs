@@ -23,12 +23,11 @@ namespace Microsoft.Practices.ObjectBuilder2
         public void Add(IRequiresRecovery recovery)
         {
             Guard.ArgumentNotNull(recovery, "recovery");
-            lock(lockObj)
+            lock (lockObj)
             {
                 recoveries.Push(recovery);
             }
         }
-
 
         /// <summary>
         /// Return the number of recovery objects currently in the stack.
@@ -51,7 +50,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         public void ExecuteRecovery()
         {
-            while(recoveries.Count > 0)
+            while (recoveries.Count > 0)
             {
                 recoveries.Pop().Recover();
             }

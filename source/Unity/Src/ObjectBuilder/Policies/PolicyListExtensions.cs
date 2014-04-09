@@ -114,7 +114,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <typeparam name="TPolicyInterface">The interface the policy is registered under.</typeparam>
         /// <param name="policies"><see cref="IPolicyList"/> to search.</param>
         /// <param name="buildKey">The key the policy applies.</param>
-        /// <param name="localOnly">true if the policy searches local only; otherwise false to seach up the parent chain.</param>
+        /// <param name="localOnly">true if the policy searches local only; otherwise false to search up the parent chain.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
             Justification = "Back compat with ObjectBuilder")]
@@ -131,7 +131,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <typeparam name="TPolicyInterface">The interface the policy is registered under.</typeparam>
         /// <param name="policies"><see cref="IPolicyList"/> to search.</param>
         /// <param name="buildKey">The key the policy applies.</param>
-        /// <param name="localOnly">true if the policy searches local only; otherwise false to seach up the parent chain.</param>
+        /// <param name="localOnly">true if the policy searches local only; otherwise false to search up the parent chain.</param>
         /// <param name="containingPolicyList">The policy list that actually contains the returned policy.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
         [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#")]
@@ -153,7 +153,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="policies"><see cref="IPolicyList"/> to search.</param>
         /// <param name="policyInterface">The interface the policy is registered under.</param>
         /// <param name="buildKey">The key the policy applies.</param>
-        /// <param name="localOnly">true if the policy searches local only; otherwise false to seach up the parent chain.</param>
+        /// <param name="localOnly">true if the policy searches local only; otherwise false to search up the parent chain.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static IBuilderPolicy Get(this IPolicyList policies, Type policyInterface,
@@ -172,7 +172,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <typeparam name="TPolicyInterface">The interface the policy is registered under.</typeparam>
         /// <param name="policies"><see cref="IPolicyList"/> to search.</param>
         /// <param name="buildKey">The key the policy applies.</param>
-        /// <param name="localOnly">true if the policy searches local only; otherwise false to seach up the parent chain.</param>
+        /// <param name="localOnly">true if the policy searches local only; otherwise false to search up the parent chain.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
         public static TPolicyInterface GetNoDefault<TPolicyInterface>(this IPolicyList policies, object buildKey,
             bool localOnly)
@@ -187,7 +187,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <typeparam name="TPolicyInterface">The interface the policy is registered under.</typeparam>
         /// <param name="policies"><see cref="IPolicyList"/> to search.</param>
         /// <param name="buildKey">The key the policy applies.</param>
-        /// <param name="localOnly">true if the policy searches local only; otherwise false to seach up the parent chain.</param>
+        /// <param name="localOnly">true if the policy searches local only; otherwise false to search up the parent chain.</param>
         /// <param name="containingPolicyList">The policy list that actually contains the returned policy.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
         [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#")]
@@ -207,7 +207,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="policies"><see cref="IPolicyList"/> to search.</param>
         /// <param name="policyInterface">The interface the policy is registered under.</param>
         /// <param name="buildKey">The key the policy applies.</param>
-        /// <param name="localOnly">true if the policy searches local only; otherwise false to seach up the parent chain.</param>
+        /// <param name="localOnly">true if the policy searches local only; otherwise false to search up the parent chain.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
         public static IBuilderPolicy GetNoDefault(this IPolicyList policies, Type policyInterface,
                                            object buildKey,
@@ -234,7 +234,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             Guard.ArgumentNotNull(policies, "policies");
 
-            policies.Set(typeof (TPolicyInterface), policy, buildKey);
+            policies.Set(typeof(TPolicyInterface), policy, buildKey);
         }
 
         /// <summary>
@@ -244,15 +244,14 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <typeparam name="TPolicyInterface">The interface to register the policy under.</typeparam>
         /// <param name="policies"><see cref="IPolicyList"/> to add the policy to.</param>
         /// <param name="policy">The default policy to be registered.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class")]
         public static void SetDefault<TPolicyInterface>(this IPolicyList policies, TPolicyInterface policy)
             where TPolicyInterface : IBuilderPolicy
         {
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(policies, "policies");
 
-            policies.SetDefault(typeof (TPolicyInterface), policy);            
+            policies.SetDefault(typeof(TPolicyInterface), policy);
         }
     }
 }
-

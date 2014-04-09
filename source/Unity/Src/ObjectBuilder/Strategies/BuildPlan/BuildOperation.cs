@@ -18,9 +18,9 @@ namespace Microsoft.Practices.ObjectBuilder2
             TypeBeingConstructed = typeBeingConstructed;
         }
 
-        ///<summary>
+        /// <summary>
         /// The type that's currently being built.
-        ///</summary>
+        /// </summary>
         public Type TypeBeingConstructed { get; private set; }
     }
 }

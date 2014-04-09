@@ -34,7 +34,7 @@ namespace Microsoft.Practices.Unity
         public override object GetValue()
         {
             Monitor.Enter(lockObj);
-            object result = SynchronizedGetValue();
+            object result = this.SynchronizedGetValue();
             if (result != null)
             {
                 Monitor.Exit(lockObj);
@@ -59,8 +59,8 @@ namespace Microsoft.Practices.Unity
         /// <see cref="SynchronizedLifetimeManager.GetValue"/>.</remarks>
         public override void SetValue(object newValue)
         {
-            SynchronizedSetValue(newValue);
-            TryExit();
+            this.SynchronizedSetValue(newValue);
+            this.TryExit();
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Microsoft.Practices.Unity
         /// </remarks>
         public void Recover()
         {
-            TryExit();
+            this.TryExit();
         }
 
         private void TryExit()

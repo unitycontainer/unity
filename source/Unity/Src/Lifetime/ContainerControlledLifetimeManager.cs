@@ -22,7 +22,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>the object desired, or null if no such object is currently stored.</returns>
         protected override object SynchronizedGetValue()
         {
-            return value;
+            return this.value;
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Microsoft.Practices.Unity
         /// <param name="newValue">The object being stored.</param>
         protected override void SynchronizedSetValue(object newValue)
         {
-            value = newValue;
+            this.value = newValue;
         }
 
         /// <summary>
@@ -42,10 +42,9 @@ namespace Microsoft.Practices.Unity
             Dispose();
         }
 
-        ///<summary>
-        ///Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        ///</summary>
-        ///<filterpriority>2</filterpriority>
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
@@ -57,16 +56,17 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         /// <param name="disposing">Always true, since we don't have a finalizer.</param>
         // FxCop suppression: This method is only here to avoid the other IDisposable warning.
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "disposing")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "disposing",
+                         Justification = "This method is only here to avoid the other IDisposable warning")]
         protected virtual void Dispose(bool disposing)
         {
-            if (value != null)
+            if (this.value != null)
             {
-                if (value is IDisposable)
+                if (this.value is IDisposable)
                 {
-                    ((IDisposable) value).Dispose();
+                    ((IDisposable)this.value).Dispose();
                 }
-                value = null;
+                this.value = null;
             }
         }
     }

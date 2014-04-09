@@ -29,7 +29,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         public string PropertyName
         {
-            get { return propertyName; }
+            get { return this.propertyName; }
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             return string.Format(CultureInfo.CurrentCulture,
                 GetDescriptionFormat(),
-                TypeBeingConstructed.GetTypeInfo().Name, propertyName);
+                TypeBeingConstructed.GetTypeInfo().Name, this.propertyName);
         }
 
         /// <summary>

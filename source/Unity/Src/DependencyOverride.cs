@@ -38,7 +38,7 @@ namespace Microsoft.Practices.Unity
         public override IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType)
         {
             IDependencyResolverPolicy result = null;
-            if (dependencyType == typeToConstruct)
+            if (dependencyType == this.typeToConstruct)
             {
                 result = dependencyValue.GetResolverPolicy(dependencyType);
             }
@@ -58,7 +58,7 @@ namespace Microsoft.Practices.Unity
         /// override the given dependency, and pass the given value.
         /// </summary>
         public DependencyOverride(object dependencyValue)
-            : base(typeof (T), dependencyValue)
+            : base(typeof(T), dependencyValue)
         {
         }
     }

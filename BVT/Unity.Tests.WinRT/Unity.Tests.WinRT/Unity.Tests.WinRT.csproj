@@ -544,9 +544,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\source\Unity\Src\Unity.NetCore.csproj">
-      <Project>{c981d8e3-9a29-4dee-8e64-ed6db30a2d94}</Project>
-      <Name>Unity.NetCore</Name>
+    <ProjectReference Include="..\..\..\source\Unity\Src\RegistrationByConvention\Unity.RegistrationByConvention.NetCore.csproj">
+      <Project>{858426d0-79ab-4928-95b9-a1e1725d31d3}</Project>
+      <Name>Unity.RegistrationByConvention.NetCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\source\Unity\Src\Unity.csproj">
+      <Project>{ee1f752c-1fab-41ad-ad63-857d0e62ab6b}</Project>
+      <Name>Unity</Name>
     </ProjectReference>
     <ProjectReference Include="..\AssemblyDefiningType\AssemblyDefiningType.csproj">
       <Project>{62a746c8-a305-4a8c-abca-da68817f006d}</Project>

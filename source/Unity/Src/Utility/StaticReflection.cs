@@ -67,7 +67,10 @@ namespace Microsoft.Practices.Unity.Utility
             var property = GetPropertyInfo<T, TProperty>(expression);
 
             var getMethod = property.GetMethod;
-            if (getMethod == null) throw new InvalidOperationException("Invalid expression form passed");
+            if (getMethod == null)
+            {
+                throw new InvalidOperationException("Invalid expression form passed");
+            }
 
             return getMethod;
         }
@@ -89,7 +92,10 @@ namespace Microsoft.Practices.Unity.Utility
             var property = GetPropertyInfo<T, TProperty>(expression);
 
             var setMethod = property.SetMethod;
-            if (setMethod == null) throw new InvalidOperationException("Invalid expression form passed");
+            if (setMethod == null)
+            {
+                throw new InvalidOperationException("Invalid expression form passed");
+            }
 
             return setMethod;
         }
@@ -97,10 +103,16 @@ namespace Microsoft.Practices.Unity.Utility
         private static PropertyInfo GetPropertyInfo<T, TProperty>(LambdaExpression lambda)
         {
             var body = lambda.Body as MemberExpression;
-            if (body == null) throw new InvalidOperationException("Invalid expression form passed");
+            if (body == null)
+            {
+                throw new InvalidOperationException("Invalid expression form passed");
+            }
 
             var property = body.Member as PropertyInfo;
-            if (property == null) throw new InvalidOperationException("Invalid expression form passed");
+            if (property == null)
+            {
+                throw new InvalidOperationException("Invalid expression form passed");
+            }
 
             return property;
         }
@@ -116,18 +128,23 @@ namespace Microsoft.Practices.Unity.Utility
             Justification = "Validation done by Guard class")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
             Justification = "Expressions require nested generics")]
-        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "As designed for setting usage expectations")]        
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "As designed for setting usage expectations")]
         public static MemberInfo GetMemberInfo<T, TProperty>(Expression<Func<T, TProperty>> expression)
         {
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(expression, "expression");
 
             var body = expression.Body as MemberExpression;
-            if (body == null) throw new InvalidOperationException("invalid expression form passed");
+            if (body == null)
+            {
+                throw new InvalidOperationException("invalid expression form passed");
+            }
+            var member = body.Member as MemberInfo;
+            if (member == null)
+            {
+                throw new InvalidOperationException("Invalid expression form passed");
+            }
 
-            var member = body.Member as MemberInfo ;
-            if (member == null) throw new InvalidOperationException("Invalid expression form passed");
             return member;
-            
         }
 
         /// <summary>
@@ -147,7 +164,10 @@ namespace Microsoft.Practices.Unity.Utility
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(expression, "expression");
 
             var body = expression.Body as NewExpression;
-            if (body == null) throw new InvalidOperationException("Invalid expression form passed");
+            if (body == null)
+            {
+                throw new InvalidOperationException("Invalid expression form passed");
+            }
 
             return body.Constructor;
         }

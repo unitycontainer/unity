@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
 
         internal override string Key
         {
-            get { return "key:" + TypeName + ":" + Name; }
+            get { return "key:" + this.TypeName + ":" + this.Name; }
         }
 
         internal override string ElementName
@@ -45,7 +45,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         public override void SerializeContent(XmlWriter writer)
         {
             base.SerializeContent(writer);
-            writer.WriteAttributeIfNotEmpty(NamePropertyName, Name);
+            writer.WriteAttributeIfNotEmpty(NamePropertyName, this.Name);
         }
 
         /// <summary>
@@ -59,15 +59,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             if (typeInterceptor != null)
             {
                 container.Configure<Interception>().SetInterceptorFor(
-                    ResolvedType, Name,
+                    this.ResolvedType, this.Name,
                     typeInterceptor);
             }
             else
             {
                 container.Configure<Interception>().SetInterceptorFor(
-                    ResolvedType, Name,
+                    this.ResolvedType, this.Name,
                     (IInstanceInterceptor)interceptor);
-
             }
         }
     }

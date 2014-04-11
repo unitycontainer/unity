@@ -13,8 +13,7 @@ using Microsoft.Practices.Unity.Utility;
 namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
 {
     /// <summary>
-    /// Configuration elmement for specifying 
-    /// interception behaviors for a type.
+    /// Configuration element for specifying interception behaviors for a type.
     /// </summary>
     public class InterceptionBehaviorElement : InjectionMemberElement
     {
@@ -28,7 +27,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(TypeNamePropertyName)]
         public string TypeName
         {
-            get { return (string) base[TypeNamePropertyName]; }
+            get { return (string)base[TypeNamePropertyName]; }
             set { base[TypeNamePropertyName] = value; }
         }
 
@@ -38,7 +37,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(NamePropertyName)]
         public string Name
         {
-            get { return (string) base[NamePropertyName]; }
+            get { return (string)base[NamePropertyName]; }
             set { base[NamePropertyName] = value; }
         }
 
@@ -49,27 +48,26 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(IsDefaultForTypePropertyName, IsRequired = false, DefaultValue = false)]
         public bool IsDefaultForType
         {
-            get { return (bool) base[IsDefaultForTypePropertyName]; }
+            get { return (bool)base[IsDefaultForTypePropertyName]; }
             set { base[IsDefaultForTypePropertyName] = value; }
         }
-
 
         /// <summary>
         /// Reads XML from the configuration file.
         /// </summary>
-        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> that reads from the configuration file.
-        ///                 </param><param name="serializeCollectionKey">true to serialize only the collection key properties; otherwise, false.
-        ///                 </param><exception cref="T:System.Configuration.ConfigurationErrorsException">The element to read is locked.
-        ///                     - or -
-        ///                     An attribute of the current node is not recognized.
-        ///                     - or -
-        ///                     The lock status of the current node cannot be determined.  
-        ///                 </exception>
+        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> that reads from the configuration file.</param>
+        /// <param name="serializeCollectionKey">true to serialize only the collection key properties; otherwise, false.</param>
+        /// <exception cref="T:System.Configuration.ConfigurationErrorsException">The element to read is locked.
+        /// - or -
+        /// An attribute of the current node is not recognized.
+        /// - or -
+        /// The lock status of the current node cannot be determined.  
+        /// </exception>
         protected override void DeserializeElement(XmlReader reader, bool serializeCollectionKey)
         {
             base.DeserializeElement(reader, serializeCollectionKey);
 
-            GuardHasRequiredAttributes();
+            this.GuardHasRequiredAttributes();
         }
 
         /// <summary>
@@ -79,11 +77,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         {
             get
             {
-                if(string.IsNullOrEmpty(TypeName))
+                if (string.IsNullOrEmpty(this.TypeName))
                 {
-                    return "interceptionBehavior:IInterceptionBehavior:" + Name;
+                    return "interceptionBehavior:IInterceptionBehavior:" + this.Name;
                 }
-                return "interceptionBehavior:" + TypeName + ":" + Name;
+                return "interceptionBehavior:" + this.TypeName + ":" + this.Name;
             }
         }
 
@@ -99,11 +97,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         public override void SerializeContent(XmlWriter writer)
         {
             Guard.ArgumentNotNull(writer, "writer");
-            writer.WriteAttributeIfNotEmpty(NamePropertyName, Name);
-            writer.WriteAttributeIfNotEmpty(TypeNamePropertyName, TypeName);
-            if(IsDefaultForType)
+            writer.WriteAttributeIfNotEmpty(NamePropertyName, this.Name);
+            writer.WriteAttributeIfNotEmpty(TypeNamePropertyName, this.TypeName);
+            if (this.IsDefaultForType)
             {
-                writer.WriteAttributeString(IsDefaultForTypePropertyName, IsDefaultForType.ToString());
+                writer.WriteAttributeString(IsDefaultForTypePropertyName, this.IsDefaultForType.ToString());
             }
         }
 
@@ -119,20 +117,20 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// applied to the container registration.</returns>
         public override IEnumerable<InjectionMember> GetInjectionMembers(IUnityContainer container, Type fromType, Type toType, string name)
         {
-            Type behaviorType = TypeResolver.ResolveTypeWithDefault(TypeName, typeof (IInterceptionBehavior));
-            GuardBehaviorType(behaviorType);
+            Type behaviorType = TypeResolver.ResolveTypeWithDefault(this.TypeName, typeof(IInterceptionBehavior));
+            this.GuardBehaviorType(behaviorType);
 
-            if(IsDefaultForType)
+            if (this.IsDefaultForType)
             {
-                return new[] {new DefaultInterceptionBehavior(behaviorType, Name)};
+                return new[] { new DefaultInterceptionBehavior(behaviorType, this.Name) };
             }
-            return new[] {new InterceptionBehavior(behaviorType, Name)};
+            return new[] { new InterceptionBehavior(behaviorType, this.Name) };
         }
 
         private void GuardHasRequiredAttributes()
         {
-            if(string.IsNullOrEmpty(TypeName) &&
-                string.IsNullOrEmpty(Name))
+            if (string.IsNullOrEmpty(this.TypeName) &&
+                string.IsNullOrEmpty(this.Name))
             {
                 throw new ConfigurationErrorsException(Resources.MustHaveAtLeastOneBehaviorAttribute);
             }
@@ -140,12 +138,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
 
         private void GuardBehaviorType(Type resolvedType)
         {
-            if(!typeof(IInterceptionBehavior).IsAssignableFrom(resolvedType))
+            if (!typeof(IInterceptionBehavior).IsAssignableFrom(resolvedType))
             {
                 throw new InvalidOperationException(
                     string.Format(CultureInfo.CurrentCulture,
                         Resources.ExceptionResolvedTypeNotCompatible,
-                        TypeName, resolvedType.FullName, typeof (IInterceptionBehavior).FullName));
+                        this.TypeName, resolvedType.FullName, typeof(IInterceptionBehavior).FullName));
             }
         }
     }

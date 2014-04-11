@@ -15,11 +15,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         private const string MatchingRulesPropertyName = "matchingRules";
         private const string NamePropertyName = "name";
 
-        private static readonly UnknownElementHandlerMap<PolicyElement> unknownElementHandlerMap =
+        private static readonly UnknownElementHandlerMap<PolicyElement> UnknownElementHandlerMap =
             new UnknownElementHandlerMap<PolicyElement>
                 {
-                    {"matchingRule", (pe, xr) => pe.ReadUnwrappedElement(xr, pe.MatchingRules)},
-                    {"callHandler", (pe, xr) => pe.ReadUnwrappedElement(xr, pe.CallHandlers)}
+                    { "matchingRule", (pe, xr) => pe.ReadUnwrappedElement(xr, pe.MatchingRules) },
+                    { "callHandler", (pe, xr) => pe.ReadUnwrappedElement(xr, pe.CallHandlers) }
                 };
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(NamePropertyName, IsRequired = true)]
         public string Name
         {
-            get { return (string) base[NamePropertyName]; }
+            get { return (string)base[NamePropertyName]; }
             set { base[NamePropertyName] = value; }
         }
 
@@ -38,7 +38,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(MatchingRulesPropertyName)]
         public MatchingRuleElementCollection MatchingRules
         {
-            get { return (MatchingRuleElementCollection) base[MatchingRulesPropertyName]; }
+            get { return (MatchingRuleElementCollection)base[MatchingRulesPropertyName]; }
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(CallHandlersPropertyName)]
         public CallHandlerElementCollection CallHandlers
         {
-            get { return (CallHandlerElementCollection) base[CallHandlersPropertyName]; }
+            get { return (CallHandlerElementCollection)base[CallHandlersPropertyName]; }
         }
 
         /// <summary>
@@ -56,25 +56,25 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// <returns>
         /// true when an unknown element is encountered while deserializing; otherwise, false.
         /// </returns>
-        /// <param name="elementName">The name of the unknown subelement.
-        ///                 </param><param name="reader">The <see cref="T:System.Xml.XmlReader"/> being used for deserialization.
-        ///                 </param><exception cref="T:System.Configuration.ConfigurationErrorsException">The element identified by <paramref name="elementName"/> is locked.
-        ///                     - or -
-        ///                     One or more of the element's attributes is locked.
-        ///                     - or -
-        ///                 <paramref name="elementName"/> is unrecognized, or the element has an unrecognized attribute.
-        ///                     - or -
-        ///                     The element has a Boolean attribute with an invalid value.
-        ///                     - or -
-        ///                     An attempt was made to deserialize a property more than once.
-        ///                     - or -
-        ///                     An attempt was made to deserialize a property that is not a valid member of the element.
-        ///                     - or -
-        ///                     The element cannot contain a CDATA or text element.
-        ///                 </exception>
+        /// <param name="elementName">The name of the unknown subelement.</param>
+        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> being used for deserialization.</param>
+        /// <exception cref="T:System.Configuration.ConfigurationErrorsException">The element identified by <paramref name="elementName"/> is locked.
+        /// - or -
+        /// One or more of the element's attributes is locked.
+        /// - or -
+        /// <paramref name="elementName"/> is unrecognized, or the element has an unrecognized attribute.
+        /// - or -
+        /// The element has a Boolean attribute with an invalid value.
+        /// - or -
+        /// An attempt was made to deserialize a property more than once.
+        /// - or -
+        /// An attempt was made to deserialize a property that is not a valid member of the element.
+        /// - or -
+        /// The element cannot contain a CDATA or text element.
+        /// </exception>
         protected override bool OnDeserializeUnrecognizedElement(string elementName, XmlReader reader)
         {
-            return unknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
+            return UnknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
                 base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
@@ -91,12 +91,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         {
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(writer, "writer");
 
-            writer.WriteAttributeString(NamePropertyName, Name);
-            foreach(var matchingRuleElement in MatchingRules)
+            writer.WriteAttributeString(NamePropertyName, this.Name);
+            foreach (var matchingRuleElement in this.MatchingRules)
             {
                 writer.WriteElement("matchingRule", matchingRuleElement.SerializeContent);
             }
-            foreach(var callHandlerElement in CallHandlers)
+            foreach (var callHandlerElement in this.CallHandlers)
             {
                 writer.WriteElement("callHandler", callHandlerElement.SerializeContent);
             }
@@ -104,13 +104,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
 
         internal void ConfigureContainer(IUnityContainer container)
         {
-            PolicyDefinition policyDefinition = container.Configure<Interception>().AddPolicy(Name);
-            foreach(var matchingRuleElement in MatchingRules)
+            PolicyDefinition policyDefinition = container.Configure<Interception>().AddPolicy(this.Name);
+            foreach (var matchingRuleElement in this.MatchingRules)
             {
                 matchingRuleElement.Configure(container, policyDefinition);
             }
 
-            foreach(var callHandlerElement in CallHandlers)
+            foreach (var callHandlerElement in this.CallHandlers)
             {
                 callHandlerElement.Configure(container, policyDefinition);
             }

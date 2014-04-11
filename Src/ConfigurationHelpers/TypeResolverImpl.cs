@@ -21,7 +21,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         private readonly List<string> namespaces;
         private readonly List<string> assemblies;
 
-        private static readonly Dictionary<string, Type> defaultAliases = new Dictionary<string, Type>
+        private static readonly Dictionary<string, Type> DefaultAliases = new Dictionary<string, Type>
             {
                 { "sbyte", typeof(sbyte) },
                 { "short", typeof(short) },
@@ -56,12 +56,11 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
                 { "resolve", typeof(PerResolveLifetimeManager) },
                 { "perresolve", typeof(PerResolveLifetimeManager) },
                 { "PerResolveLifetimeManager", typeof(PerResolveLifetimeManager) },
-
             };
 
         /// <summary>
         /// Construct a new <see cref="TypeResolverImpl"/> that uses the given
-        /// sequence of alias, typename pairs to resolve types.
+        /// sequence of alias, type name pairs to resolve types.
         /// </summary>
         /// <param name="aliasesSequence">Type aliases from the configuration file.</param>
         /// <param name="assemblies">Assembly names to search.</param>
@@ -87,7 +86,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         }
 
         /// <summary>
-        /// Resolves a type alias or type fullname to a concrete type.
+        /// Resolves a type alias or type FullName to a concrete type.
         /// </summary>
         /// <param name="typeNameOrAlias">Alias or name to resolve.</param>
         /// <param name="throwIfResolveFails">if true and the alias does not
@@ -161,8 +160,8 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         private static Type ResolveDefaultAlias(string typeNameOrAlias)
         {
             Type mappedType;
-            if (defaultAliases.TryGetValue(typeNameOrAlias, out mappedType) ||
-                defaultAliases.TryGetValue(RemoveGenericWart(typeNameOrAlias), out mappedType))
+            if (DefaultAliases.TryGetValue(typeNameOrAlias, out mappedType) ||
+                DefaultAliases.TryGetValue(RemoveGenericWart(typeNameOrAlias), out mappedType))
             {
                 return mappedType;
             }
@@ -196,7 +195,10 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
             if (parseResult != null && parseResult.IsGenericType)
             {
                 result = ResolveTypeInternal(parseResult.FullName);
-                if (result == null) return null;
+                if (result == null)
+                {
+                    return null;
+                }
 
                 var genericParams = new List<Type>(parseResult.NumGenericParameters);
                 bool isOpenGeneric = (parseResult.GenericParameters[0] == null);
@@ -218,14 +220,12 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
                         result = result.MakeGenericType(genericParams.ToArray());
                     }
                 }
-
             }
             return result;
         }
 
         private Type SearchAssembliesAndNamespaces(string typeNameOrAlias)
         {
-
             foreach (var asm in assemblies)
             {
                 foreach (var ns in namespaces)

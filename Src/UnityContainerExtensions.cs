@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
+using System;
 using System.Configuration;
 using Microsoft.Practices.Unity.Utility;
 
@@ -41,7 +42,7 @@ namespace Microsoft.Practices.Unity.Configuration
         public static IUnityContainer LoadConfiguration(this IUnityContainer container, string containerName)
         {
             Guard.ArgumentNotNull(container, "container");
-            var section = (UnityConfigurationSection) ConfigurationManager.GetSection("unity");
+            var section = (UnityConfigurationSection)ConfigurationManager.GetSection("unity");
             return container.LoadConfiguration(section, containerName);
         }
 
@@ -53,8 +54,8 @@ namespace Microsoft.Practices.Unity.Configuration
         public static IUnityContainer LoadConfiguration(this IUnityContainer container)
         {
             Guard.ArgumentNotNull(container, "container");
-            var section = (UnityConfigurationSection) ConfigurationManager.GetSection("unity");
-            return container.LoadConfiguration(section, "");
+            var section = (UnityConfigurationSection)ConfigurationManager.GetSection("unity");
+            return container.LoadConfiguration(section, String.Empty);
         }
 
         /// <summary>
@@ -67,7 +68,7 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             Guard.ArgumentNotNull(container, "container");
             Guard.ArgumentNotNull(section, "section");
-            return container.LoadConfiguration(section, "");
+            return container.LoadConfiguration(section, String.Empty);
         }
     }
 }

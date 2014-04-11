@@ -13,7 +13,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
     {
         /// <summary>
         /// A helper method to make it more foolproof to write elements. This takes care of writing the
-        /// start and end elment tags, and takes a nested closure with the code to write the content of
+        /// start and end element tags, and takes a nested closure with the code to write the content of
         /// the tag. That way the caller doesn't need to worry about the details of getting the start
         /// and end tags correct.
         /// </summary>
@@ -51,7 +51,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         public static XmlWriter WriteAttributeIfNotEmpty(this XmlWriter writer, string attributeName, string attributeValue)
         {
             Guard.ArgumentNotNull(writer, "writer");
-            if(!string.IsNullOrEmpty(attributeValue))
+            if (!string.IsNullOrEmpty(attributeValue))
             {
                 writer.WriteAttributeString(attributeName, attributeValue);
             }

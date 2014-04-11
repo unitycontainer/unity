@@ -21,15 +21,15 @@ namespace Microsoft.Practices.Unity.Configuration
         private const string NamePropertyName = "name";
         private const string TypeNamePropertyName = "type";
 
-        private ParameterValueElement valueElement;
         private readonly ValueElementHelper valueElementHelper;
+        private ParameterValueElement valueElement;
 
         /// <summary>
         /// Construct a new instance of <see cref="ParameterElement"/>.
         /// </summary>
         public ParameterElement()
         {
-            valueElementHelper = new ValueElementHelper(this);
+            this.valueElementHelper = new ValueElementHelper(this);
         }
 
         /// <summary>
@@ -66,8 +66,8 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <see cref="OnDeserializeUnrecognizedElement"/>.</remarks>
         public ParameterValueElement Value
         {
-            get { return ValueElementHelper.GetValue(valueElement); }
-            set { valueElement = value; }
+            get { return ValueElementHelper.GetValue(this.valueElement); }
+            set { this.valueElement = value; }
         }
 
         ParameterValueElement IValueProvidingElement.Value
@@ -87,7 +87,7 @@ namespace Microsoft.Practices.Unity.Configuration
             {
                 return string.Format(CultureInfo.CurrentCulture,
                     Resources.DestinationNameFormat,
-                    Resources.Parameter, Name);
+                    Resources.Parameter, this.Name);
             }
         }
 
@@ -105,16 +105,16 @@ namespace Microsoft.Practices.Unity.Configuration
             Guard.ArgumentNotNull(parameterType, "parameterType");
 
             Type requiredType = parameterType;
-            if (!string.IsNullOrEmpty(TypeName))
+            if (!string.IsNullOrEmpty(this.TypeName))
             {
                 Debug.Assert(
                     !parameterType.IsGenericParameter,
                     "parameterType shouldn't be a generic parameter if TypeName is not null, because the " +
                     "TypeName is used to match the method parameter when present.");
 
-                requiredType = TypeResolver.ResolveType(TypeName);
+                requiredType = TypeResolver.ResolveType(this.TypeName);
             }
-            return Value.GetInjectionParameterValue(container, requiredType);
+            return this.Value.GetInjectionParameterValue(container, requiredType);
         }
 
         /// <summary>
@@ -128,30 +128,36 @@ namespace Microsoft.Practices.Unity.Configuration
         public bool Matches(ParameterInfo parameterInfo)
         {
             Guard.ArgumentNotNull(parameterInfo, "parameterInfo");
-            if (Name != parameterInfo.Name) return false;
-            if (!string.IsNullOrEmpty(TypeName))
+
+            if (this.Name != parameterInfo.Name)
             {
-                Type parameterElementType = TypeResolver.ResolveType(TypeName);
+                return false;
+            }
+
+            if (!string.IsNullOrEmpty(this.TypeName))
+            {
+                Type parameterElementType = TypeResolver.ResolveType(this.TypeName);
                 return parameterElementType == parameterInfo.ParameterType;
             }
+
             return true;
         }
 
         /// <summary>
         /// Reads XML from the configuration file.
         /// </summary>
-        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> that reads from the configuration file.
-        ///                 </param><param name="serializeCollectionKey">true to serialize only the collection key properties; otherwise, false.
-        ///                 </param><exception cref="T:System.Configuration.ConfigurationErrorsException">The element to read is locked.
-        ///                     - or -
-        ///                     An attribute of the current node is not recognized.
-        ///                     - or -
-        ///                     The lock status of the current node cannot be determined.  
-        ///                 </exception>
+        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> that reads from the configuration file.</param>
+        /// <param name="serializeCollectionKey">true to serialize only the collection key properties; otherwise, false.</param>
+        /// <exception cref="T:System.Configuration.ConfigurationErrorsException">The element to read is locked.
+        /// - or -
+        /// An attribute of the current node is not recognized.
+        /// - or -
+        /// The lock status of the current node cannot be determined.  
+        /// </exception>
         protected override void DeserializeElement(XmlReader reader, bool serializeCollectionKey)
         {
             base.DeserializeElement(reader, serializeCollectionKey);
-            valueElementHelper.CompleteValueElement(reader);
+            this.valueElementHelper.CompleteValueElement(reader);
         }
 
         /// <summary>
@@ -160,15 +166,16 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>
         /// true when an unknown attribute is encountered while deserializing; otherwise, false.
         /// </returns>
-        /// <param name="name">The name of the unrecognized attribute.
-        ///                 </param><param name="value">The value of the unrecognized attribute.
-        ///                 </param>
+        /// <param name="name">The name of the unrecognized attribute.</param>
+        /// <param name="value">The value of the unrecognized attribute.</param>
         protected override bool OnDeserializeUnrecognizedAttribute(string name, string value)
         {
             // Noop - we can read this for back compat, but it's now ignored.
             if (name == "genericParameterName")
+            {
                 return true;
-            return valueElementHelper.DeserializeUnrecognizedAttribute(name, value);
+            }
+            return this.valueElementHelper.DeserializeUnrecognizedAttribute(name, value);
         }
 
         /// <summary>
@@ -177,25 +184,25 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>
         /// true when an unknown element is encountered while deserializing; otherwise, false.
         /// </returns>
-        /// <param name="elementName">The name of the unknown subelement.
-        ///                 </param><param name="reader">The <see cref="T:System.Xml.XmlReader"/> being used for deserialization.
-        ///                 </param><exception cref="T:System.Configuration.ConfigurationErrorsException">The element identified by <paramref name="elementName"/> is locked.
-        ///                     - or -
-        ///                     One or more of the element's attributes is locked.
-        ///                     - or -
-        ///                 <paramref name="elementName"/> is unrecognized, or the element has an unrecognized attribute.
-        ///                     - or -
-        ///                     The element has a Boolean attribute with an invalid value.
-        ///                     - or -
-        ///                     An attempt was made to deserialize a property more than once.
-        ///                     - or -
-        ///                     An attempt was made to deserialize a property that is not a valid member of the element.
-        ///                     - or -
-        ///                     The element cannot contain a CDATA or text element.
-        ///                 </exception>
+        /// <param name="elementName">The name of the unknown subelement.</param>
+        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> being used for deserialization.</param>
+        /// <exception cref="T:System.Configuration.ConfigurationErrorsException">The element identified by <paramref name="elementName"/> is locked.
+        /// - or -
+        /// One or more of the element's attributes is locked.
+        /// - or -
+        /// <paramref name="elementName"/> is unrecognized, or the element has an unrecognized attribute.
+        /// - or -
+        /// The element has a Boolean attribute with an invalid value.
+        /// - or -
+        /// An attempt was made to deserialize a property more than once.
+        /// - or -
+        /// An attempt was made to deserialize a property that is not a valid member of the element.
+        /// - or -
+        /// The element cannot contain a CDATA or text element.
+        /// </exception>
         protected override bool OnDeserializeUnrecognizedElement(string elementName, XmlReader reader)
         {
-            return valueElementHelper.DeserializeUnknownElement(elementName, reader) ||
+            return this.valueElementHelper.DeserializeUnknownElement(elementName, reader) ||
                 base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
@@ -211,9 +218,9 @@ namespace Microsoft.Practices.Unity.Configuration
         public override void SerializeContent(XmlWriter writer)
         {
             Guard.ArgumentNotNull(writer, "writer");
-            writer.WriteAttributeString(NamePropertyName, Name);
-            writer.WriteAttributeIfNotEmpty(TypeNamePropertyName, TypeName);
-            ValueElementHelper.SerializeParameterValueElement(writer, Value, false);
+            writer.WriteAttributeString(ParameterElement.NamePropertyName, this.Name);
+            writer.WriteAttributeIfNotEmpty(ParameterElement.TypeNamePropertyName, this.TypeName);
+            ValueElementHelper.SerializeParameterValueElement(writer, this.Value, false);
         }
     }
 }

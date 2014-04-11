@@ -51,12 +51,11 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <param name="writer">Writer to send XML content to.</param>
         public override void SerializeContent(XmlWriter writer)
         {
-            writer.WriteAttributeIfNotEmpty(TypeNamePropertyName, TypeName);
-            foreach (var valueElement in Values)
+            writer.WriteAttributeIfNotEmpty(TypeNamePropertyName, this.TypeName);
+            foreach (var valueElement in this.Values)
             {
                 ValueElementHelper.SerializeParameterValueElement(writer, valueElement, true);
             }
-
         }
 
         /// <summary>
@@ -70,11 +69,11 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns></returns>
         public override InjectionParameterValue GetInjectionParameterValue(IUnityContainer container, Type parameterType)
         {
-            GuardTypeIsAnArray(parameterType);
+            this.GuardTypeIsAnArray(parameterType);
 
-            Type elementType = GetElementType(parameterType);
+            Type elementType = this.GetElementType(parameterType);
 
-            var values = Values.Select(v => v.GetInjectionParameterValue(container, elementType));
+            var values = this.Values.Select(v => v.GetInjectionParameterValue(container, elementType));
 
             if (elementType.IsGenericParameter)
             {
@@ -85,7 +84,7 @@ namespace Microsoft.Practices.Unity.Configuration
 
         private void GuardTypeIsAnArray(Type externalParameterType)
         {
-            if (string.IsNullOrEmpty(TypeName))
+            if (string.IsNullOrEmpty(this.TypeName))
             {
                 if (!externalParameterType.IsArray)
                 {
@@ -97,7 +96,7 @@ namespace Microsoft.Practices.Unity.Configuration
 
         private Type GetElementType(Type parameterType)
         {
-            return TypeResolver.ResolveTypeWithDefault(TypeName, null) ?? parameterType.GetElementType();
+            return TypeResolver.ResolveTypeWithDefault(this.TypeName, null) ?? parameterType.GetElementType();
         }
     }
 }

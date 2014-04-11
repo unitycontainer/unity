@@ -8,8 +8,8 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.Configuration.Properties;
 using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Microsoft.Practices.Unity.Configuration.Properties;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -19,14 +19,14 @@ namespace Microsoft.Practices.Unity.Configuration
     public class ConstructorElement : InjectionMemberElement
     {
         private const string ParametersPropertyName = "";
-        
+
         /// <summary>
         /// The parameters of the constructor to call.
         /// </summary>
         [ConfigurationProperty(ParametersPropertyName, IsDefaultCollection = true)]
         public ParameterElementCollection Parameters
         {
-            get { return (ParameterElementCollection) base[ParametersPropertyName]; }
+            get { return (ParameterElementCollection)base[ParametersPropertyName]; }
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <param name="writer">Writer to send XML content to.</param>
         public override void SerializeContent(XmlWriter writer)
         {
-            foreach(var param in Parameters)
+            foreach (var param in this.Parameters)
             {
                 writer.WriteElement("param", param.SerializeContent);
             }
@@ -77,26 +77,28 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             var typeToConstruct = toType;
 
-            var constructorToCall = FindConstructorInfo(typeToConstruct);
+            var constructorToCall = this.FindConstructorInfo(typeToConstruct);
 
-            GuardIsMatchingConstructor(typeToConstruct, constructorToCall);
-            
-            return new [] { MakeInjectionMember(container, constructorToCall) };
+            this.GuardIsMatchingConstructor(typeToConstruct, constructorToCall);
+
+            return new[] { this.MakeInjectionMember(container, constructorToCall) };
         }
-
 
         private ConstructorInfo FindConstructorInfo(Type typeToConstruct)
         {
-            return typeToConstruct.GetConstructors().Where(ConstructorMatches).FirstOrDefault();
+            return typeToConstruct.GetConstructors().Where(this.ConstructorMatches).FirstOrDefault();
         }
 
         private bool ConstructorMatches(ConstructorInfo candiateConstructor)
         {
             var constructorParams = candiateConstructor.GetParameters();
-            
-            if(constructorParams.Length != Parameters.Count) return false;
 
-            return Sequence.Zip(Parameters, constructorParams).All(pair => pair.First.Matches(pair.Second));
+            if (constructorParams.Length != this.Parameters.Count)
+            {
+                return false;
+            }
+
+            return Sequence.Zip(this.Parameters, constructorParams).All(pair => pair.First.Matches(pair.Second));
         }
 
         private InjectionMember MakeInjectionMember(IUnityContainer container, ConstructorInfo constructorToCall)
@@ -104,9 +106,9 @@ namespace Microsoft.Practices.Unity.Configuration
             var values = new List<InjectionParameterValue>();
             var parameterInfos = constructorToCall.GetParameters();
 
-            for(int i = 0; i < parameterInfos.Length; ++i)
+            for (int i = 0; i < parameterInfos.Length; ++i)
             {
-                values.Add(Parameters[i].GetParameterValue(container, parameterInfos[i].ParameterType));
+                values.Add(this.Parameters[i].GetParameterValue(container, parameterInfos[i].ParameterType));
             }
 
             return new InjectionConstructor(values.ToArray());
@@ -114,9 +116,9 @@ namespace Microsoft.Practices.Unity.Configuration
 
         private void GuardIsMatchingConstructor(Type typeToConstruct, ConstructorInfo ctor)
         {
-            if(ctor == null)
+            if (ctor == null)
             {
-                string parameterNames = string.Join(", ", Parameters.Select(p => p.Name).ToArray());
+                string parameterNames = string.Join(", ", this.Parameters.Select(p => p.Name).ToArray());
 
                 throw new InvalidOperationException(
                     string.Format(CultureInfo.CurrentCulture, Resources.NoMatchingConstructor,

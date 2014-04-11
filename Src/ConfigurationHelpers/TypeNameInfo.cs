@@ -43,15 +43,15 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
             get
             {
                 string name = Name;
-                if(IsGenericType)
+                if (IsGenericType)
                 {
                     name += '`' + NumGenericParameters.ToString(CultureInfo.InvariantCulture);
                 }
-                if(!string.IsNullOrEmpty(Namespace))
+                if (!string.IsNullOrEmpty(Namespace))
                 {
                     name = Namespace + '.' + name;
                 }
-                if(!string.IsNullOrEmpty(AssemblyName))
+                if (!string.IsNullOrEmpty(AssemblyName))
                 {
                     name = name + ", " + AssemblyName;
                 }

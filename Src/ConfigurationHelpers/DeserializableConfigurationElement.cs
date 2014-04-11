@@ -20,7 +20,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <param name="reader">Contains the XML to initialize from.</param>
         public virtual void Deserialize(XmlReader reader)
         {
-            DeserializeElement(reader, false);
+            this.DeserializeElement(reader, false);
         }
 
         /// <summary>
@@ -32,7 +32,6 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <param name="writer">Writer to send XML content to.</param>
         public virtual void SerializeContent(XmlWriter writer)
         {
-            
         }
     }
 }

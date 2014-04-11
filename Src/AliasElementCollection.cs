@@ -12,10 +12,10 @@ namespace Microsoft.Practices.Unity.Configuration
     [ConfigurationCollection(typeof(AliasElement))]
     public class AliasElementCollection : DeserializableConfigurationElementCollection<AliasElement>
     {
-        private static readonly UnknownElementHandlerMap<AliasElementCollection> unknownElementHandlerMap
+        private static readonly UnknownElementHandlerMap<AliasElementCollection> UnknownElementHandlerMap
             = new UnknownElementHandlerMap<AliasElementCollection>
                 {
-                    { "typeAlias", (aec, xr) => aec.ReadUnwrappedElement(xr, aec)}
+                    { "typeAlias", (aec, xr) => aec.ReadUnwrappedElement(xr, aec) }
                 };
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             get
             {
-                var element = (AliasElement) BaseGet(alias);
+                var element = (AliasElement)BaseGet(alias);
                 if (element != null)
                 {
                     return element.TypeName;
@@ -36,11 +36,11 @@ namespace Microsoft.Practices.Unity.Configuration
             }
             set
             {
-                if (BaseGet(alias) != null)
+                if (this.BaseGet(alias) != null)
                 {
-                    BaseRemove(alias);
+                    this.BaseRemove(alias);
                 }
-                BaseAdd(new AliasElement {Alias = alias, TypeName = value}, true);
+                this.BaseAdd(new AliasElement { Alias = alias, TypeName = value }, true);
             }
         }
 
@@ -50,14 +50,13 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>
         /// true if the unrecognized element was deserialized successfully; otherwise, false. The default is false.
         /// </returns>
-        /// <param name="elementName">The name of the unrecognized element. 
-        ///                 </param><param name="reader">An input stream that reads XML from the configuration file. 
-        ///                 </param><exception cref="T:System.Configuration.ConfigurationErrorsException">The element specified in <paramref name="elementName"/> is the &lt;clear&gt; element.
-        ///                 </exception><exception cref="T:System.ArgumentException"><paramref name="elementName"/> starts with the reserved prefix "config" or "lock".
-        ///                 </exception>
+        /// <param name="elementName">The name of the unrecognized element.</param>
+        /// <param name="reader">An input stream that reads XML from the configuration file.</param>
+        /// <exception cref="T:System.Configuration.ConfigurationErrorsException">The element specified in <paramref name="elementName"/> is the &lt;clear&gt; element.</exception>
+        /// <exception cref="T:System.ArgumentException"><paramref name="elementName"/> starts with the reserved prefix "config" or "lock".</exception>
         protected override bool OnDeserializeUnrecognizedElement(string elementName, XmlReader reader)
         {
-            return unknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
+            return UnknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
                 base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
@@ -67,11 +66,10 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>
         /// An <see cref="T:System.Object"/> that acts as the key for the specified <see cref="T:System.Configuration.ConfigurationElement"/>.
         /// </returns>
-        /// <param name="element">The <see cref="T:System.Configuration.ConfigurationElement"/> to return the key for. 
-        ///                 </param>
+        /// <param name="element">The <see cref="T:System.Configuration.ConfigurationElement"/> to return the key for. </param>
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((AliasElement) element).Alias;
+            return ((AliasElement)element).Alias;
         }
     }
 }

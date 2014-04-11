@@ -25,7 +25,6 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         public DependencyElement()
         {
-
         }
 
         /// <summary>
@@ -37,8 +36,8 @@ namespace Microsoft.Practices.Unity.Configuration
         /// initialize this object with.</param>
         public DependencyElement(IDictionary<string, string> attributeValues)
         {
-            SetIfPresent(attributeValues, "dependencyName", value => Name = value);
-            SetIfPresent(attributeValues, "dependencyType", value => TypeName = value);
+            SetIfPresent(attributeValues, "dependencyName", value => this.Name = value);
+            SetIfPresent(attributeValues, "dependencyType", value => this.TypeName = value);
         }
 
         /// <summary>
@@ -72,21 +71,20 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <param name="writer">Writer to send XML content to.</param>
         void IAttributeOnlyElement.SerializeContent(XmlWriter writer)
         {
-            writer.WriteAttributeIfNotEmpty("dependencyName", Name)
-                .WriteAttributeIfNotEmpty("dependencyType", TypeName);
+            writer.WriteAttributeIfNotEmpty("dependencyName", this.Name)
+                .WriteAttributeIfNotEmpty("dependencyType", this.TypeName);
         }
 
-
-        ///<summary>
+        /// <summary>
         /// Write the contents of this element to the given <see cref="XmlWriter"/>. This
         /// method always outputs an explicit &lt;dependency&gt; tag, instead of providing
         /// attributes to the parent method.
-        ///</summary>
-        ///<param name="writer">Writer to send XML content to.</param>
+        /// </summary>
+        /// <param name="writer">Writer to send XML content to.</param>
         public override void SerializeContent(XmlWriter writer)
         {
-            writer.WriteAttributeIfNotEmpty(NamePropertyName, Name)
-                .WriteAttributeIfNotEmpty(TypeNamePropertyName, TypeName);
+            writer.WriteAttributeIfNotEmpty(NamePropertyName, this.Name)
+                .WriteAttributeIfNotEmpty(TypeNamePropertyName, this.TypeName);
         }
 
         /// <summary>
@@ -104,7 +102,7 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             Guard.ArgumentNotNull(parameterType, "parameterType");
 
-            string dependencyName = Name;
+            string dependencyName = this.Name;
             if (string.IsNullOrEmpty(dependencyName))
             {
                 dependencyName = null;
@@ -125,7 +123,7 @@ namespace Microsoft.Practices.Unity.Configuration
                 return new GenericParameter(parameterType.Name, dependencyName);
             }
 
-            return new ResolvedParameter(TypeResolver.ResolveTypeWithDefault(TypeName, parameterType), dependencyName);
+            return new ResolvedParameter(TypeResolver.ResolveTypeWithDefault(this.TypeName, parameterType), dependencyName);
         }
 
         private static void SetIfPresent(IDictionary<string, string> attributeValues, string key, Action<string> setter)

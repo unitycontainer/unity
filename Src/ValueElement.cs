@@ -37,11 +37,11 @@ namespace Microsoft.Practices.Unity.Configuration
         /// contain the values to initialize properties to.</param>
         public ValueElement(IDictionary<string, string> propertyValues)
         {
-            GuardPropertyValueIsPresent(propertyValues, "value");
-            Value = propertyValues["value"];
+            ParameterValueElement.GuardPropertyValueIsPresent(propertyValues, "value");
+            this.Value = propertyValues["value"];
             if (propertyValues.ContainsKey("typeConverter"))
             {
-                TypeConverterTypeName = propertyValues["typeConverter"];
+                this.TypeConverterTypeName = propertyValues["typeConverter"];
             }
         }
 
@@ -77,16 +77,16 @@ namespace Microsoft.Practices.Unity.Configuration
             this.SerializeContent(writer);
         }
 
-        ///<summary>
+        /// <summary>
         /// Write the contents of this element to the given <see cref="XmlWriter"/>. This
         /// method always outputs an explicit &lt;dependency&gt; tag, instead of providing
         /// attributes to the parent method.
-        ///</summary>
-        ///<param name="writer">Writer to send XML content to.</param>
+        /// </summary>
+        /// <param name="writer">Writer to send XML content to.</param>
         public override void SerializeContent(XmlWriter writer)
         {
-            writer.WriteAttributeIfNotEmpty(ValuePropertyName, Value)
-                .WriteAttributeIfNotEmpty(TypeConverterTypeNamePropertyName, TypeConverterTypeName);
+            writer.WriteAttributeIfNotEmpty(ValuePropertyName, this.Value)
+                .WriteAttributeIfNotEmpty(TypeConverterTypeNamePropertyName, this.TypeConverterTypeName);
         }
 
         /// <summary>
@@ -100,10 +100,10 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>The required <see cref="InjectionParameterValue"/> object.</returns>
         public override InjectionParameterValue GetInjectionParameterValue(IUnityContainer container, Type parameterType)
         {
-            CheckNonGeneric(parameterType);
+            this.CheckNonGeneric(parameterType);
 
-            var converter = GetTypeConverter(parameterType);
-            return new InjectionParameter(parameterType, converter.ConvertFromInvariantString(Value));
+            var converter = this.GetTypeConverter(parameterType);
+            return new InjectionParameter(parameterType, converter.ConvertFromInvariantString(this.Value));
         }
 
         private void CheckNonGeneric(Type parameterType)
@@ -143,9 +143,9 @@ namespace Microsoft.Practices.Unity.Configuration
 
         private TypeConverter GetTypeConverter(Type parameterType)
         {
-            if (!string.IsNullOrEmpty(TypeConverterTypeName))
+            if (!string.IsNullOrEmpty(this.TypeConverterTypeName))
             {
-                Type converterType = TypeResolver.ResolveType(TypeConverterTypeName);
+                Type converterType = TypeResolver.ResolveType(this.TypeConverterTypeName);
                 return (TypeConverter)Activator.CreateInstance(converterType);
             }
             return TypeDescriptor.GetConverter(parameterType);

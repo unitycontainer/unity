@@ -12,8 +12,8 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
     /// </summary>
     /// <typeparam name="TElement">Type of configuration element contained in 
     /// the collection.</typeparam>
-    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", 
-        Justification = "This is a base class, name is reasonable")] 
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix",
+        Justification = "This is a base class, name is reasonable")]
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Deserializable",
         Justification = "It is spelled correctly")]
     public abstract class DeserializableConfigurationElementCollectionBase<TElement> :
@@ -28,14 +28,14 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <returns>The item at the given index.</returns>
         public TElement this[int index]
         {
-            get { return GetElement(index); }
+            get { return this.GetElement(index); }
             set
             {
-                if (GetElement(index) != null)
+                if (this.GetElement(index) != null)
                 {
-                    BaseRemoveAt(index);
+                    this.BaseRemoveAt(index);
                 }
-                BaseAdd(index, value);
+                this.BaseAdd(index, value);
             }
         }
 
@@ -46,7 +46,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <returns>Item at that index or null if not present.</returns>
         protected virtual TElement GetElement(int index)
         {
-            return (TElement) BaseGet(index);
+            return (TElement)BaseGet(index);
         }
 
         /// <summary>
@@ -56,9 +56,8 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <returns>Item with that key or null if not present.</returns>
         protected virtual TElement GetElement(object key)
         {
-            return (TElement) BaseGet(key);
+            return (TElement)BaseGet(key);
         }
-
 
         #region IDeserializableElement Members
 
@@ -68,7 +67,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <param name="reader">Contains the XML to initialize from.</param>
         public virtual void Deserialize(XmlReader reader)
         {
-            DeserializeElement(reader, false);
+            this.DeserializeElement(reader, false);
         }
 
         #endregion
@@ -84,7 +83,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <filterpriority>1</filterpriority>
         public new IEnumerator<TElement> GetEnumerator()
         {
-            for (int index = 0; index < Count; ++index)
+            for (int index = 0; index < this.Count; ++index)
             {
                 yield return this[index];
             }
@@ -98,7 +97,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <param name="element">Element to add.</param>
         public void Add(TElement element)
         {
-            BaseAdd(element);
+            this.BaseAdd(element);
         }
 
         /// <summary>
@@ -107,7 +106,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <param name="index">The index of the item to remove.</param>
         public void RemoveAt(int index)
         {
-            BaseRemoveAt(index);
+            this.BaseRemoveAt(index);
         }
 
         /// <summary>
@@ -115,7 +114,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// </summary>
         public void Clear()
         {
-            BaseClear();
+            this.BaseClear();
         }
 
         /// <summary>
@@ -129,7 +128,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <param name="elementName">Name of tag to generate.</param>
         public void SerializeElementContents(XmlWriter writer, string elementName)
         {
-            foreach(TElement element in this)
+            foreach (TElement element in this)
             {
                 writer.WriteElement(elementName, element.SerializeContent);
             }

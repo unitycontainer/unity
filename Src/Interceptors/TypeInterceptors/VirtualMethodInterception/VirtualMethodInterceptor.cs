@@ -16,9 +16,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     public class VirtualMethodInterceptor : ITypeInterceptor
     {
-        private static readonly Dictionary<GeneratedTypeKey, Type> derivedClasses =
+        private static readonly Dictionary<GeneratedTypeKey, Type> DerivedClasses =
             new Dictionary<GeneratedTypeKey, Type>(new GeneratedTypeKey.GeneratedTypeKeyComparer());
-
 
         /// <summary>
         /// Can this interceptor generate a proxy for the given type?
@@ -67,19 +66,19 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 }
             }
 
-            foreach(Type itf in implementationType.GetInterfaces())
+            foreach (Type itf in implementationType.GetInterfaces())
             {
                 var mapping = implementationType.GetInterfaceMap(itf);
-                for(int i = 0; i < mapping.InterfaceMethods.Length; ++i)
+                for (int i = 0; i < mapping.InterfaceMethods.Length; ++i)
                 {
-                    if(interceptableMethodsToInterfaceMap.ContainsKey(mapping.TargetMethods[i]))
+                    if (interceptableMethodsToInterfaceMap.ContainsKey(mapping.TargetMethods[i]))
                     {
                         interceptableMethodsToInterfaceMap[mapping.TargetMethods[i]] = mapping.InterfaceMethods[i];
                     }
                 }
             }
 
-            foreach(var kvp in interceptableMethodsToInterfaceMap)
+            foreach (var kvp in interceptableMethodsToInterfaceMap)
             {
                 yield return new MethodImplementationInfo(kvp.Value, kvp.Key);
             }
@@ -116,14 +115,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             }
 
             GeneratedTypeKey key = new GeneratedTypeKey(typeToDerive, additionalInterfaces);
-            lock (derivedClasses)
+            lock (DerivedClasses)
             {
-                if (!derivedClasses.TryGetValue(key, out interceptorType))
+                if (!DerivedClasses.TryGetValue(key, out interceptorType))
                 {
                     InterceptingClassGenerator generator =
                         new InterceptingClassGenerator(typeToDerive, additionalInterfaces);
                     interceptorType = generator.GenerateType();
-                    derivedClasses[key] = interceptorType;
+                    DerivedClasses[key] = interceptorType;
                 }
             }
 

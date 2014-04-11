@@ -40,7 +40,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Guard.ArgumentNotNull(interceptorType, "interceptorType");
             Guard.TypeIsAssignable(typeof(IInterceptor), interceptorType, "interceptorType");
 
-            buildKey = new NamedTypeBuildKey(interceptorType, name);
+            this.buildKey = new NamedTypeBuildKey(interceptorType, name);
         }
 
         /// <summary>
@@ -51,7 +51,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public Interceptor(Type interceptorType)
             : this(interceptorType, null)
         {
-            
         }
 
         /// <summary>
@@ -65,15 +64,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public override void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
         {
             var key = new NamedTypeBuildKey(implementationType, name);
-            if(IsInstanceInterceptor)
+            if (this.IsInstanceInterceptor)
             {
-                var policy = CreateInstanceInterceptionPolicy();
+                var policy = this.CreateInstanceInterceptionPolicy();
                 policies.Set<IInstanceInterceptionPolicy>(policy, key);
                 policies.Clear<ITypeInterceptionPolicy>(key);
             }
             else
             {
-                var policy = CreateTypeInterceptionPolicy();
+                var policy = this.CreateTypeInterceptionPolicy();
                 policies.Set<ITypeInterceptionPolicy>(policy, key);
                 policies.Clear<IInstanceInterceptionPolicy>(key);
             }
@@ -83,30 +82,30 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             get
             {
-                if(interceptor != null)
+                if (this.interceptor != null)
                 {
-                    return interceptor is IInstanceInterceptor;
+                    return this.interceptor is IInstanceInterceptor;
                 }
-                return typeof (IInstanceInterceptor).IsAssignableFrom(buildKey.Type);
+                return typeof(IInstanceInterceptor).IsAssignableFrom(this.buildKey.Type);
             }
         }
 
         private IInstanceInterceptionPolicy CreateInstanceInterceptionPolicy()
         {
-            if(interceptor != null)
+            if (this.interceptor != null)
             {
-                return new FixedInstanceInterceptionPolicy((IInstanceInterceptor)interceptor);
+                return new FixedInstanceInterceptionPolicy((IInstanceInterceptor)this.interceptor);
             }
-            return new ResolvedInstanceInterceptionPolicy(buildKey);
+            return new ResolvedInstanceInterceptionPolicy(this.buildKey);
         }
 
         private ITypeInterceptionPolicy CreateTypeInterceptionPolicy()
         {
-            if(interceptor != null)
+            if (this.interceptor != null)
             {
-                return new FixedTypeInterceptionPolicy((ITypeInterceptor) interceptor);
+                return new FixedTypeInterceptionPolicy((ITypeInterceptor)this.interceptor);
             }
-            return new ResolvedTypeInterceptionPolicy(buildKey);
+            return new ResolvedTypeInterceptionPolicy(this.buildKey);
         }
     }
 
@@ -122,9 +121,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// Initialize an instance of <see cref="Interceptor{TInterceptor}"/> that will
         /// resolve the given interceptor type.
         /// </summary>
-        public Interceptor() : base(typeof(TInterceptor))
+        public Interceptor()
+            : base(typeof(TInterceptor))
         {
-            
         }
 
         /// <summary>
@@ -132,9 +131,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// resolve the given interceptor type and name.
         /// </summary>
         /// <param name="name">Name that will be used to resolve the interceptor.</param>
-        public Interceptor(string name) : base(typeof(TInterceptor), name)
+        public Interceptor(string name)
+            : base(typeof(TInterceptor), name)
         {
-            
         }
     }
 }

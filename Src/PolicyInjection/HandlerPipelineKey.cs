@@ -68,7 +68,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             return left.module == right.module &&
                    left.methodMetadataToken == right.methodMetadataToken;
-
         }
 
         /// <summary>

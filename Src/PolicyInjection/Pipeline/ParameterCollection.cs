@@ -168,18 +168,17 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             return
                 argumentInfo.Exists(
-                    delegate(ArgumentInfo info) 
-                    { 
+                    delegate(ArgumentInfo info)
+                    {
                         var argument = arguments[info.Index];
 
-                        if(argument == null)
+                        if (argument == null)
                         {
                             return value == null;
                         }
 
-                        return argument.Equals(value); 
-                    }
-                );
+                        return argument.Equals(value);
+                    });
         }
 
         /// <summary>
@@ -203,8 +202,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 delegate(ArgumentInfo info)
                 {
                     return arguments[info.Index].Equals(value);
-                }
-                );
+                });
         }
 
         /// <summary>
@@ -269,8 +267,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 {
                     array.SetValue(arguments[info.Index], destIndex);
                     ++destIndex;
-                }
-                );
+                });
         }
 
         /// <summary>

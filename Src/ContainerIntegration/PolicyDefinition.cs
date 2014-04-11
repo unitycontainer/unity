@@ -507,8 +507,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 UpdateHandlerNames);
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", 
-            Justification="Consistency with other overloads")]
+        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic",
+            Justification = "Consistency with other overloads")]
         private PolicyDefinition AddElement<T>(string name, UpdateElements update)
         {
             Guard.ArgumentNotNull(name, "name");

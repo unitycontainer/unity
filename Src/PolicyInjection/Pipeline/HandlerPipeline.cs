@@ -67,7 +67,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                                           }
                                       });
             return result;
-
         }
     }
 }

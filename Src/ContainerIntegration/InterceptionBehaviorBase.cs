@@ -23,7 +23,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         protected InterceptionBehaviorBase(IInterceptionBehavior interceptionBehavior)
         {
             Guard.ArgumentNotNull(interceptionBehavior, "interceptionBehavior");
-            explicitBehavior = interceptionBehavior;
+            this.explicitBehavior = interceptionBehavior;
         }
 
         /// <summary>
@@ -35,8 +35,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         protected InterceptionBehaviorBase(Type behaviorType, string name)
         {
             Guard.ArgumentNotNull(behaviorType, "behaviorType");
-            Guard.TypeIsAssignable(typeof (IInterceptionBehavior), behaviorType, "behaviorType");
-            behaviorKey = new NamedTypeBuildKey(behaviorType, name);    
+            Guard.TypeIsAssignable(typeof(IInterceptionBehavior), behaviorType, "behaviorType");
+            this.behaviorKey = new NamedTypeBuildKey(behaviorType, name);
         }
 
         /// <summary>
@@ -47,7 +47,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         protected InterceptionBehaviorBase(Type behaviorType)
             : this(behaviorType, null)
         {
-            
         }
 
         /// <summary>
@@ -60,34 +59,34 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="policies">Policy list to add policies to.</param>
         public override void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
         {
-            if(explicitBehavior != null)
+            if (this.explicitBehavior != null)
             {
-                AddExplicitBehaviorPolicies(implementationType, name, policies);
+                this.AddExplicitBehaviorPolicies(implementationType, name, policies);
             }
             else
             {
-                AddKeyedPolicies(implementationType, name, policies);
+                this.AddKeyedPolicies(implementationType, name, policies);
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification="Lifetime container is managed by the container.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Lifetime container is managed by the container.")]
         private void AddExplicitBehaviorPolicies(Type implementationType, string name, IPolicyList policies)
         {
             var lifetimeManager = new ContainerControlledLifetimeManager();
-            lifetimeManager.SetValue(explicitBehavior);
+            lifetimeManager.SetValue(this.explicitBehavior);
             var behaviorName = Guid.NewGuid().ToString();
-            var newBehaviorKey = new NamedTypeBuildKey(explicitBehavior.GetType(), behaviorName);
+            var newBehaviorKey = new NamedTypeBuildKey(this.explicitBehavior.GetType(), behaviorName);
 
             policies.Set<ILifetimePolicy>(lifetimeManager, newBehaviorKey);
 
-            InterceptionBehaviorsPolicy behaviorsPolicy = GetBehaviorsPolicy(policies, implementationType, name);
+            InterceptionBehaviorsPolicy behaviorsPolicy = this.GetBehaviorsPolicy(policies, implementationType, name);
             behaviorsPolicy.AddBehaviorKey(newBehaviorKey);
         }
 
         private void AddKeyedPolicies(Type implementationType, string name, IPolicyList policies)
         {
-            var behaviorsPolicy = GetBehaviorsPolicy(policies, implementationType, name);
-            behaviorsPolicy.AddBehaviorKey(behaviorKey);
+            var behaviorsPolicy = this.GetBehaviorsPolicy(policies, implementationType, name);
+            behaviorsPolicy.AddBehaviorKey(this.behaviorKey);
         }
 
         /// <summary>

@@ -16,13 +16,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     public class InterfaceMethodOverride
     {
-        private static MethodInfo BuildAdditionalInterfaceNonImplementedExceptionMethod =
+        private static readonly MethodInfo BuildAdditionalInterfaceNonImplementedExceptionMethod =
             StaticReflection.GetMethodInfo(() => InterfaceMethodOverride.BuildAdditionalInterfaceNonImplementedException());
 
-        private const MethodAttributes implicitImplementationAttributes =
+        private const MethodAttributes ImplicitImplementationAttributes =
             MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.Final
             | MethodAttributes.HideBySig | MethodAttributes.NewSlot;
-        private const MethodAttributes explicitImplementationAttributes =
+        private const MethodAttributes ExplicitImplementationAttributes =
             MethodAttributes.Private | MethodAttributes.Virtual | MethodAttributes.Final
             | MethodAttributes.HideBySig | MethodAttributes.NewSlot;
 
@@ -69,7 +69,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 overrideCount.ToString(CultureInfo.InvariantCulture);
         }
 
-        private static readonly OpCode[] loadArgsOpcodes = {
+        private static readonly OpCode[] LoadArgsOpcodes = 
+        {
             OpCodes.Ldarg_1,
             OpCodes.Ldarg_2,
             OpCodes.Ldarg_3
@@ -77,9 +78,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
         private static void EmitLoadArgument(ILGenerator il, int argumentNumber)
         {
-            if (argumentNumber < loadArgsOpcodes.Length)
+            if (argumentNumber < LoadArgsOpcodes.Length)
             {
-                il.Emit(loadArgsOpcodes[argumentNumber]);
+                il.Emit(LoadArgsOpcodes[argumentNumber]);
             }
             else
             {
@@ -87,7 +88,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             }
         }
 
-        private static readonly OpCode[] loadConstOpCodes = {
+        private static readonly OpCode[] LoadConstOpCodes = 
+        {
             OpCodes.Ldc_I4_0,
             OpCodes.Ldc_I4_1,
             OpCodes.Ldc_I4_2,
@@ -101,9 +103,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
         private static void EmitLoadConstant(ILGenerator il, int i)
         {
-            if (i < loadConstOpCodes.Length)
+            if (i < LoadConstOpCodes.Length)
             {
-                il.Emit(loadConstOpCodes[i]);
+                il.Emit(LoadConstOpCodes[i]);
             }
             else
             {
@@ -156,8 +158,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             if (this.targetField != null)
             {
-                #region forwarding implementation
-
+                // forwarding implementation
                 Label done = il.DefineLabel();
                 LocalBuilder ex = il.DeclareLocal(typeof(Exception));
 
@@ -274,19 +275,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 il.MarkLabel(done);
                 il.Emit(OpCodes.Ldloc, retval);
                 il.Emit(OpCodes.Ret);
-
-                #endregion
             }
             else
             {
-                #region exception-throwing implementation
-
+                // exception-throwing implementation
                 il.Emit(OpCodes.Ldarg_1);
                 il.EmitCall(OpCodes.Call, BuildAdditionalInterfaceNonImplementedExceptionMethod, null);
                 il.EmitCall(OpCodes.Callvirt, IMethodInvocationMethods.CreateExceptionMethodReturn, null);
                 il.Emit(OpCodes.Ret);
-
-                #endregion
             }
             return methodBuilder;
         }
@@ -301,7 +297,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             MethodBuilder methodBuilder =
                 typeBuilder.DefineMethod(
                     methodName,
-                    this.explicitImplementation ? explicitImplementationAttributes : implicitImplementationAttributes);
+                    this.explicitImplementation ? ExplicitImplementationAttributes : ImplicitImplementationAttributes);
 
             var paramMapper = new MethodOverrideParameterMapper(methodToOverride);
             paramMapper.SetupParameters(methodBuilder, this.targetInterfaceParameterMapper);

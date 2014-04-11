@@ -24,7 +24,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>true if all contained rules match, false if any fail.</returns>
         public bool Matches(MethodBase member)
         {
-            if (Count == 0)
+            if (this.Count == 0)
             {
                 return false;
             }

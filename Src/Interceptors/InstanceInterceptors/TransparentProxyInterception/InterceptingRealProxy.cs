@@ -16,11 +16,11 @@ using Microsoft.Practices.Unity.Utility;
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
     /// <summary>
-    /// This class provides the remoting-based interception mechanism. It is
+    /// This class provides the remoting based interception mechanism. It is
     /// invoked by a call on the corresponding TransparentProxy
     /// object. It routes calls through the handlers as appropriate.
     /// </summary>
-    [SecurityCritical()]
+    [SecurityCritical]
     [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
     public class InterceptingRealProxy : RealProxy, IRemotingTypeInfo, IInterceptingProxy
     {
@@ -47,7 +47,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Guard.ArgumentNotNull(target, "target");
             this.target = target;
             this.additionalInterfaces = CheckAdditionalInterfaces(additionalInterfaces);
-            typeName = target.GetType().FullName;
+            this.typeName = target.GetType().FullName;
         }
 
         private static ReadOnlyCollection<Type> CheckAdditionalInterfaces(Type[] interfaces)
@@ -61,7 +61,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <value>The target object.</value>
         public object Target
         {
-            get { return target; }
+            get { return this.target; }
         }
 
         #region IInterceptingProxy Members
@@ -82,17 +82,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
         #region IRemotingTypeInfo Members
 
-        ///<summary>
-        ///Checks whether the proxy that represents the specified object type can be cast to the type represented by the <see cref="T:System.Runtime.Remoting.IRemotingTypeInfo"></see> interface.
-        ///</summary>
-        ///
-        ///<returns>
-        ///true if cast will succeed; otherwise, false.
-        ///</returns>
-        ///
-        ///<param name="fromType">The type to cast to. </param>
-        ///<param name="o">The object for which to check casting. </param>
-        ///<exception cref="T:System.Security.SecurityException">The immediate caller makes the call through a reference to the interface and does not have infrastructure permission. </exception>
+        /// <summary>
+        /// Checks whether the proxy that represents the specified object type can be cast to the type represented by the <see cref="T:System.Runtime.Remoting.IRemotingTypeInfo"></see> interface.
+        /// </summary>
+        /// <returns>
+        /// true if cast will succeed; otherwise, false.
+        /// </returns>
+        /// <param name="fromType">The type to cast to. </param>
+        /// <param name="o">The object for which to check casting. </param>
+        /// <exception cref="T:System.Security.SecurityException">The immediate caller makes the call through a reference to the interface and does not have infrastructure permission. </exception>
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class.")]
         [SecurityCritical]
@@ -111,7 +109,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 return true;
             }
 
-            foreach (Type @interface in additionalInterfaces)
+            foreach (Type @interface in this.additionalInterfaces)
             {
                 if (fromType.IsAssignableFrom(@interface))
                 {
@@ -122,22 +120,20 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             return false;
         }
 
-        ///<summary>
-        ///Gets or sets the fully qualified type name of the server object in a <see cref="T:System.Runtime.Remoting.ObjRef"></see>.
-        ///</summary>
-        ///
-        ///<value>
-        ///The fully qualified type name of the server object in a <see cref="T:System.Runtime.Remoting.ObjRef"></see>.
-        ///</value>
-        ///
-        ///<exception cref="T:System.Security.SecurityException">The immediate caller makes the call through a reference to the interface and does not have infrastructure permission. </exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="Infrastructure" /></PermissionSet>
+        /// <summary>
+        /// Gets or sets the fully qualified type name of the server object in a <see cref="T:System.Runtime.Remoting.ObjRef"></see>.
+        /// </summary>
+        /// <value>
+        /// The fully qualified type name of the server object in a <see cref="T:System.Runtime.Remoting.ObjRef"></see>.
+        /// </value>
+        /// <exception cref="T:System.Security.SecurityException">The immediate caller makes the call through a reference to the interface and does not have infrastructure permission. </exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="Infrastructure" /></PermissionSet>
         public string TypeName
-        {            
+        {
             [SecurityCritical]
-            get { return typeName; }
+            get { return this.typeName; }
 
             [SecurityCritical]
-            set { typeName = value; }
+            set { this.typeName = value; }
         }
 
         #endregion
@@ -163,20 +159,20 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             if (callMessage.MethodBase.DeclaringType == typeof(IInterceptingProxy))
             {
-                return HandleInterceptingProxyMethod(callMessage);
+                return this.HandleInterceptingProxyMethod(callMessage);
             }
 
-            TransparentProxyMethodInvocation invocation = new TransparentProxyMethodInvocation(callMessage, target);
+            TransparentProxyMethodInvocation invocation = new TransparentProxyMethodInvocation(callMessage, this.target);
             IMethodReturn result =
                 this.interceptorsPipeline.Invoke(
                     invocation,
                     delegate(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext)
                     {
-                        if (callMessage.MethodBase.DeclaringType.IsAssignableFrom(target.GetType()))
+                        if (callMessage.MethodBase.DeclaringType.IsAssignableFrom(this.target.GetType()))
                         {
                             try
                             {
-                                object returnValue = callMessage.MethodBase.Invoke(target, invocation.Arguments);
+                                object returnValue = callMessage.MethodBase.Invoke(this.target, invocation.Arguments);
                                 return input.CreateMethodReturn(returnValue, invocation.Arguments);
                             }
                             catch (TargetInvocationException ex)
@@ -201,7 +197,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             switch (callMessage.MethodName)
             {
                 case "AddInterceptionBehavior":
-                    return ExecuteAddInterceptionBehavior(callMessage);
+                    return this.ExecuteAddInterceptionBehavior(callMessage);
             }
             throw new InvalidOperationException();
         }
@@ -209,7 +205,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private IMessage ExecuteAddInterceptionBehavior(IMethodCallMessage callMessage)
         {
             IInterceptionBehavior interceptor = (IInterceptionBehavior)callMessage.InArgs[0];
-            AddInterceptionBehavior(interceptor);
+            this.AddInterceptionBehavior(interceptor);
             return new ReturnMessage(null, new object[0], 0, callMessage.LogicalCallContext, callMessage);
         }
     }

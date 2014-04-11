@@ -11,7 +11,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// matches available in the file system (*.cs, for example). The Glob
     /// class implements this string matching.
     /// </summary>
-    /// <remarks>Glob supports the following metacharacters:
+    /// <remarks>Glob supports the following meta-characters:
     ///     * - match zero or more characters
     ///     ? - match any one character
     /// [abc] - match one character if it's in the characters inside the brackets.

@@ -15,7 +15,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private readonly Dictionary<HandlerPipelineKey, HandlerPipeline> pipelines =
             new Dictionary<HandlerPipelineKey, HandlerPipeline>();
 
-        private static readonly HandlerPipeline emptyPipeline = new HandlerPipeline();
+        private static readonly HandlerPipeline EmptyPipeline = new HandlerPipeline();
 
         /// <summary>
         /// Retrieve the pipeline associated with the requested <paramref name="method"/>.
@@ -26,8 +26,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public HandlerPipeline GetPipeline(MethodBase method)
         {
             HandlerPipelineKey key = HandlerPipelineKey.ForMethod(method);
-            HandlerPipeline pipeline = emptyPipeline;
-            if(pipelines.ContainsKey(key))
+            HandlerPipeline pipeline = EmptyPipeline;
+            if (pipelines.ContainsKey(key))
             {
                 pipeline = pipelines[key];
             }
@@ -58,7 +58,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(method, "method");
 
             var pipeline = CreatePipeline(method.ImplementationMethodInfo, handlers);
-            if(method.InterfaceMethodInfo != null)
+            if (method.InterfaceMethodInfo != null)
             {
                 pipelines[HandlerPipelineKey.ForMethod(method.InterfaceMethodInfo)] = pipeline;
             }
@@ -83,7 +83,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             var basePipeline = CreatePipeline(method.GetBaseDefinition(), handlers);
             pipelines[key] = basePipeline;
             return basePipeline;
-            
         }
     }
 }

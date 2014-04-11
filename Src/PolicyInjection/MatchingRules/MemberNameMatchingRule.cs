@@ -45,7 +45,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public MemberNameMatchingRule(IEnumerable<string> namesToMatch)
             : this(namesToMatch, false)
         {
-
         }
 
         /// <summary>

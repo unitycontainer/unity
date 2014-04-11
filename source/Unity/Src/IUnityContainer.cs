@@ -84,7 +84,7 @@ namespace Microsoft.Practices.Unity
         /// </para></remarks>
         /// <param name="t"><see cref="Type"/> of object to perform injection on.</param>
         /// <param name="existing">Instance to build up.</param>
-        /// <param name="name">name to use when looking up the typemappings and other configurations.</param>
+        /// <param name="name">name to use when looking up the TypeMappings and other configurations.</param>
         /// <param name="resolverOverrides">Any overrides for the resolve calls.</param>
         /// <returns>The resulting object. By default, this will be <paramref name="existing"/>, but
         /// container extensions may add things like automatic proxy creation which would

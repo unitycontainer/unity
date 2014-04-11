@@ -12,7 +12,7 @@ namespace Microsoft.Practices.Unity.Configuration
     /// <summary>
     /// Collection element for <see cref="ContainerElement"/>s.
     /// </summary>
-    [ConfigurationCollection(typeof(ContainerElement), AddItemName="container")]
+    [ConfigurationCollection(typeof(ContainerElement), AddItemName = "container")]
     public class ContainerElementCollection : DeserializableConfigurationElementCollection<ContainerElement>
     {
         internal UnityConfigurationSection ContainingSection { get; set; }
@@ -24,7 +24,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>The stored container or null if not in the collection.</returns>
         public new ContainerElement this[string name]
         {
-            get { return GetElement(name); }
+            get { return this.GetElement(name); }
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         public ContainerElement Default
         {
-            get { return GetElement(string.Empty); }
+            get { return this.GetElement(string.Empty); }
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>Item at that index or null if not present.</returns>
         protected override ContainerElement GetElement(int index)
         {
-            return PrepareElement(base.GetElement(index));
+            return this.PrepareElement(base.GetElement(index));
         }
 
         /// <summary>
@@ -52,14 +52,14 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>Item with that key or null if not present.</returns>
         protected override ContainerElement GetElement(object key)
         {
-            return PrepareElement(base.GetElement(key));
+            return this.PrepareElement(base.GetElement(key));
         }
 
         private ContainerElement PrepareElement(ContainerElement element)
         {
-            if(element != null)
+            if (element != null)
             {
-                element.ContainingSection = ContainingSection;
+                element.ContainingSection = this.ContainingSection;
             }
             return element;
         }
@@ -70,8 +70,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>
         /// An <see cref="T:System.Object"/> that acts as the key for the specified <see cref="T:System.Configuration.ConfigurationElement"/>.
         /// </returns>
-        /// <param name="element">The <see cref="T:System.Configuration.ConfigurationElement"/> to return the key for. 
-        ///                 </param>
+        /// <param name="element">The <see cref="T:System.Configuration.ConfigurationElement"/> to return the key for. </param>
         protected override object GetElementKey(ConfigurationElement element)
         {
             return ((ContainerElement)element).Name;

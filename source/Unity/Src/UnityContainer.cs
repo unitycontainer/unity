@@ -30,9 +30,9 @@ namespace Microsoft.Practices.Unity
         private IStrategyChain cachedStrategies;
         private object cachedStrategiesLock;
 
-        private event EventHandler<RegisterEventArgs> registering;
-        private event EventHandler<RegisterInstanceEventArgs> registeringInstance;
-        private event EventHandler<ChildContainerCreatedEventArgs> childContainerCreated;
+        private event EventHandler<RegisterEventArgs> Registering;
+        private event EventHandler<RegisterInstanceEventArgs> RegisteringInstance;
+        private event EventHandler<ChildContainerCreatedEventArgs> ChildContainerCreated;
 
         /// <summary>
         /// Create a default <see cref="UnityContainer"/>.
@@ -61,9 +61,9 @@ namespace Microsoft.Practices.Unity
             InitializeBuilderState();
             // Put a noop at the beginning of each of our events so we don't have to worry
             // about nulls
-            registering += delegate { };
-            registeringInstance += delegate { };
-            childContainerCreated += delegate { };
+            Registering += delegate { };
+            RegisteringInstance += delegate { };
+            ChildContainerCreated += delegate { };
 
             // Every container gets the default behavior
             this.AddExtension(new UnityDefaultBehaviorExtension());
@@ -101,7 +101,7 @@ namespace Microsoft.Practices.Unity
                 Guard.TypeIsAssignable(from, to, "from");
             }
 
-            registering(this, new RegisterEventArgs(from, to, name, lifetimeManager));
+            Registering(this, new RegisterEventArgs(from, to, name, lifetimeManager));
 
             if (injectionMembers.Length > 0)
             {
@@ -143,7 +143,7 @@ namespace Microsoft.Practices.Unity
             Guard.ArgumentNotNull(instance, "instance");
             Guard.ArgumentNotNull(lifetime, "lifetime");
             Guard.InstanceIsAssignable(t, instance, "instance");
-            registeringInstance(this,
+            RegisteringInstance(this,
                                 new RegisterInstanceEventArgs(t,
                                                               instance,
                                                               name,
@@ -262,38 +262,38 @@ namespace Microsoft.Practices.Unity
 
             public override IUnityContainer Container
             {
-                get { return container; }
+                get { return this.container; }
             }
 
             public override StagedStrategyChain<UnityBuildStage> Strategies
             {
-                get { return container.strategies; }
+                get { return this.container.strategies; }
             }
 
             public override StagedStrategyChain<UnityBuildStage> BuildPlanStrategies
             {
-                get { return container.buildPlanStrategies; }
+                get { return this.container.buildPlanStrategies; }
             }
 
             public override IPolicyList Policies
             {
-                get { return container.policies; }
+                get { return this.container.policies; }
             }
 
             public override ILifetimeContainer Lifetime
             {
-                get { return container.lifetimeContainer; }
+                get { return this.container.lifetimeContainer; }
             }
 
             public override void RegisterNamedType(Type t, string name)
             {
-                container.registeredNames.RegisterType(t, name);
+                this.container.registeredNames.RegisterType(t, name);
             }
 
             public override event EventHandler<RegisterEventArgs> Registering
             {
-                add { container.registering += value; }
-                remove { container.registering -= value; }
+                add { this.container.Registering += value; }
+                remove { this.container.Registering -= value; }
             }
 
             /// <summary>
@@ -302,14 +302,14 @@ namespace Microsoft.Practices.Unity
             /// </summary>
             public override event EventHandler<RegisterInstanceEventArgs> RegisteringInstance
             {
-                add { container.registeringInstance += value; }
-                remove { container.registeringInstance -= value; }
+                add { this.container.RegisteringInstance += value; }
+                remove { this.container.RegisteringInstance -= value; }
             }
 
             public override event EventHandler<ChildContainerCreatedEventArgs> ChildContainerCreated
             {
-                add { container.childContainerCreated += value; }
-                remove { container.childContainerCreated -= value; }
+                add { this.container.ChildContainerCreated += value; }
+                remove { this.container.ChildContainerCreated -= value; }
             }
         }
 
@@ -404,7 +404,7 @@ namespace Microsoft.Practices.Unity
         {
             var child = new UnityContainer(this);
             var childContext = new ExtensionContextImpl(child);
-            childContainerCreated(this, new ChildContainerCreatedEventArgs(childContext));
+            ChildContainerCreated(this, new ChildContainerCreatedEventArgs(childContext));
             return child;
         }
 

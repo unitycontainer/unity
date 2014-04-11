@@ -13,11 +13,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// and pulls out shadowed methods, only returning the ones that
     /// are actually accessible to be overridden.
     /// </summary>
-    class MethodSorter : IEnumerable<MethodInfo>
+    internal class MethodSorter : IEnumerable<MethodInfo>
     {
-        readonly Dictionary<string, List<MethodInfo>> methodsByName = new Dictionary<string, List<MethodInfo>>();
+        private readonly Dictionary<string, List<MethodInfo>> methodsByName = new Dictionary<string, List<MethodInfo>>();
         private readonly Type declaringType;
-        
+
         public MethodSorter(Type declaringType, IEnumerable<MethodInfo> methodsToSort)
         {
             this.declaringType = declaringType;
@@ -44,7 +44,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                         yield return method;
                     }
                 }
-            }            
+            }
         }
 
         /// <summary>
@@ -61,7 +61,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 }
                 methodsByName[method.Name].Add(method);
             }
-            
         }
 
         /// <summary>
@@ -83,9 +82,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             {
                 yield return SelectMostDerivedOverload(overload);
             }
-
         }
-        
+
         /// <summary>
         /// Take a semi-randomly ordered set of methods on a type and
         /// sort them into groups by name and by parameter list.
@@ -208,6 +206,5 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             return string.Compare(left.ParameterType.FullName, right.ParameterType.FullName,
                 StringComparison.OrdinalIgnoreCase);
         }
-
     }
 }

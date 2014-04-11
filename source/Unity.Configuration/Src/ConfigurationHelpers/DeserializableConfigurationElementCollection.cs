@@ -6,7 +6,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
 {
     /// <summary>
     /// Specialization of <see cref="DeserializableConfigurationElementCollectionBase{TElement}"/>
-    /// that provides a canned implmentation of <see cref="ConfigurationElementCollection.CreateNewElement()"/>.
+    /// that provides a canned implementation of <see cref="ConfigurationElementCollection.CreateNewElement()"/>.
     /// </summary>
     /// <typeparam name="TElement">Type of configuration element in the collection.</typeparam>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Deserializable",

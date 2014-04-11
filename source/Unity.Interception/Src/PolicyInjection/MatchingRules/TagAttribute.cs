@@ -28,7 +28,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <value>the tag.</value>
         public string Tag
         {
-            get { return tag; }
+            get { return this.tag; }
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         public override string ParameterTypeName
         {
-            get { return genericParameterName + "[]"; }
+            get { return this.genericParameterName + "[]"; }
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Microsoft.Practices.Unity
             }
 
             Type elementType = t.GetElementType();
-            return elementType.GetTypeInfo().IsGenericParameter && elementType.GetTypeInfo().Name == genericParameterName;
+            return elementType.GetTypeInfo().IsGenericParameter && elementType.GetTypeInfo().Name == this.genericParameterName;
         }
 
         /// <summary>
@@ -78,13 +78,13 @@ namespace Microsoft.Practices.Unity
         /// <returns>The <see cref="IDependencyResolverPolicy"/>.</returns>
         public override IDependencyResolverPolicy GetResolverPolicy(Type typeToBuild)
         {
-            GuardTypeToBuildIsGeneric(typeToBuild);
-            GuardTypeToBuildHasMatchingGenericParameter(typeToBuild);
+            this.GuardTypeToBuildIsGeneric(typeToBuild);
+            this.GuardTypeToBuildHasMatchingGenericParameter(typeToBuild);
 
-            Type typeToResolve = new ReflectionHelper(typeToBuild).GetNamedGenericParameter(genericParameterName);
+            Type typeToResolve = new ReflectionHelper(typeToBuild).GetNamedGenericParameter(this.genericParameterName);
 
             var resolverPolicies = new List<IDependencyResolverPolicy>();
-            foreach (InjectionParameterValue pv in elementValues)
+            foreach (InjectionParameterValue pv in this.elementValues)
             {
                 resolverPolicies.Add(pv.GetResolverPolicy(typeToBuild));
             }
@@ -100,7 +100,7 @@ namespace Microsoft.Practices.Unity
                         CultureInfo.CurrentCulture,
                         Resources.NotAGenericType,
                         typeToBuild.GetTypeInfo().Name,
-                        genericParameterName));
+                        this.genericParameterName));
             }
         }
 
@@ -108,7 +108,7 @@ namespace Microsoft.Practices.Unity
         {
             foreach (Type genericParam in typeToBuild.GetGenericTypeDefinition().GetTypeInfo().GenericTypeParameters)
             {
-                if (genericParam.GetTypeInfo().Name == genericParameterName)
+                if (genericParam.GetTypeInfo().Name == this.genericParameterName)
                 {
                     return;
                 }
@@ -119,7 +119,7 @@ namespace Microsoft.Practices.Unity
                     CultureInfo.CurrentCulture,
                     Resources.NoMatchingGenericArgument,
                     typeToBuild.GetTypeInfo().Name,
-                    genericParameterName));
+                    this.genericParameterName));
         }
     }
 }

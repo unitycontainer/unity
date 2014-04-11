@@ -28,7 +28,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(TypeNamePropertyName, IsRequired = true)]
         public string TypeName
         {
-            get { return (string) base[TypeNamePropertyName]; }
+            get { return (string)base[TypeNamePropertyName]; }
             set { base[TypeNamePropertyName] = value; }
         }
 
@@ -37,7 +37,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// </summary>
         public override string Key
         {
-            get { return "addInterface: " + TypeName; }
+            get { return "addInterface: " + this.TypeName; }
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         public override void SerializeContent(XmlWriter writer)
         {
             Guard.ArgumentNotNull(writer, "writer");
-            writer.WriteAttributeString(TypeNamePropertyName, TypeName);
+            writer.WriteAttributeString(TypeNamePropertyName, this.TypeName);
         }
 
         /// <summary>
@@ -67,8 +67,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// applied to the container registration.</returns>
         public override IEnumerable<InjectionMember> GetInjectionMembers(IUnityContainer container, Type fromType, Type toType, string name)
         {
-            Type interfaceType = TypeResolver.ResolveType(TypeName);
-            return new[] {new AdditionalInterface(interfaceType)};
+            Type interfaceType = TypeResolver.ResolveType(this.TypeName);
+            return new[] { new AdditionalInterface(interfaceType) };
         }
     }
 }

@@ -20,17 +20,17 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         protected ExtensionConfigurationElement()
         {
-            extensionConfigurationNumber = Interlocked.Increment(ref extensionConfigurationCount);
+            this.extensionConfigurationNumber = Interlocked.Increment(ref extensionConfigurationCount);
         }
 
         /// <summary>
         /// Unique key generated for use in the collection class.
         /// </summary>
-        public string Key { get { return string.Format(CultureInfo.InvariantCulture, "extensionConfig:{0}", extensionConfigurationNumber); } }
+        public string Key { get { return string.Format(CultureInfo.InvariantCulture, "extensionConfig:{0}", this.extensionConfigurationNumber); } }
 
         internal void Configure(IUnityContainer container)
         {
-            ConfigureContainer(container);
+            this.ConfigureContainer(container);
         }
 
         /// <summary>

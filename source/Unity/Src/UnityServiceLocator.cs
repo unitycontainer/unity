@@ -34,10 +34,10 @@ namespace Microsoft.Practices.Unity
             Justification = "Object is not finalizable, no reason to call SuppressFinalize")]
         public void Dispose()
         {
-            if (container != null)
+            if (this.container != null)
             {
-                container.Dispose();
-                container = null;
+                this.container.Dispose();
+                this.container = null;
             }
         }
 
@@ -51,12 +51,12 @@ namespace Microsoft.Practices.Unity
         /// </returns>
         protected override object DoGetInstance(Type serviceType, string key)
         {
-            if (container == null)
+            if (this.container == null)
             {
                 throw new ObjectDisposedException("container");
             }
 
-            return container.Resolve(serviceType, key);
+            return this.container.Resolve(serviceType, key);
         }
 
         /// <summary>
@@ -69,12 +69,12 @@ namespace Microsoft.Practices.Unity
         /// </returns>
         protected override IEnumerable<object> DoGetAllInstances(Type serviceType)
         {
-            if (container == null)
+            if (this.container == null)
             {
                 throw new ObjectDisposedException("container");
             }
 
-            return container.ResolveAll(serviceType);
+            return this.container.ResolveAll(serviceType);
         }
     }
 }

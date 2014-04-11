@@ -17,10 +17,10 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class DynamicMethodPropertySetterStrategy : BuilderStrategy
     {
-        private static readonly MethodInfo setCurrentOperationToResolvingPropertyValue =
+        private static readonly MethodInfo SetCurrentOperationToResolvingPropertyValueMethod =
             StaticReflection.GetMethodInfo(() => SetCurrentOperationToResolvingPropertyValue(null, null));
 
-        private static readonly MethodInfo setCurrentOperationToSettingProperty =
+        private static readonly MethodInfo SetCurrentOperationToSettingPropertyMethod =
             StaticReflection.GetMethodInfo(() => SetCurrentOperationToSettingProperty(null, null));
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                         new[] { resolvedObjectParameter },
                         Expression.Call(
                                     null,
-                                    setCurrentOperationToResolvingPropertyValue,
+                                    SetCurrentOperationToResolvingPropertyValueMethod,
                                     Expression.Constant(property.Property.Name),
                                     dynamicBuildContext.ContextParameter),
                         Expression.Assign(
@@ -56,7 +56,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                                 dynamicBuildContext.GetResolveDependencyExpression(property.Property.PropertyType, property.Resolver)),
                         Expression.Call(
                                     null,
-                                    setCurrentOperationToSettingProperty,
+                                    SetCurrentOperationToSettingPropertyMethod,
                                     Expression.Constant(property.Property.Name),
                                     dynamicBuildContext.ContextParameter),
                         Expression.Call(

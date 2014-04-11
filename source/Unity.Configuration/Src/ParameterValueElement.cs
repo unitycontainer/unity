@@ -24,14 +24,14 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         protected ParameterValueElement()
         {
-            valueNumber = Interlocked.Increment(ref valueElementCount);
+            this.valueNumber = Interlocked.Increment(ref valueElementCount);
         }
 
         /// <summary>
         /// Return a unique string that can be used to identify this object. Used
         /// by the configuration collection support.
         /// </summary>
-        public string Key { get { return string.Format(CultureInfo.InvariantCulture, "value:{0}", valueNumber); } }
+        public string Key { get { return string.Format(CultureInfo.InvariantCulture, "value:{0}", this.valueNumber); } }
 
         /// <summary>
         /// Generate an <see cref="InjectionParameterValue"/> object
@@ -57,7 +57,7 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(propertyValues, "propertyValues");
 
-            if(!propertyValues.ContainsKey(requiredProperty) ||
+            if (!propertyValues.ContainsKey(requiredProperty) ||
                 string.IsNullOrEmpty(propertyValues[requiredProperty]))
             {
                 throw new ConfigurationErrorsException(

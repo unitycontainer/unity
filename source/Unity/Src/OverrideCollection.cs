@@ -29,7 +29,7 @@ namespace Microsoft.Practices.Unity
         /// <param name="value">Value - the value to be returned by the override.</param>
         public void Add(TKey key, TValue value)
         {
-            this.overrides.Add(MakeOverride(key, value));
+            this.overrides.Add(this.MakeOverride(key, value));
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Microsoft.Practices.Unity
         /// <filterpriority>2</filterpriority>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
         }
 
         /// <summary>

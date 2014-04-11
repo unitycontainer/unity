@@ -49,7 +49,7 @@ namespace Microsoft.Practices.Unity
             if (operation != null
                 && operation.TypeBeingConstructed == this.targetType)
             {
-                return innerOverride.GetResolver(context, dependencyType);
+                return this.innerOverride.GetResolver(context, dependencyType);
             }
             return null;
         }

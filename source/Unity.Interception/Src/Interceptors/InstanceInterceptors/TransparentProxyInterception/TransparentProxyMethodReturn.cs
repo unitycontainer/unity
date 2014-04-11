@@ -16,7 +16,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     [SecurityCritical]
     [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
-    class TransparentProxyMethodReturn : IMethodReturn
+    internal class TransparentProxyMethodReturn : IMethodReturn
     {
         private readonly IMethodCallMessage callMessage;
         private readonly ParameterCollection outputs;

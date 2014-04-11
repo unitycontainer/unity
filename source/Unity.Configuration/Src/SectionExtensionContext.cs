@@ -31,7 +31,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         public void AddAlias<TAliased>(string alias)
         {
-            AddAlias(alias, typeof (TAliased));
+            AddAlias(alias, typeof(TAliased));
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Microsoft.Practices.Unity.Configuration
         public void AddElement<TElement>(string tag)
             where TElement : DeserializableConfigurationElement
         {
-            AddElement(tag, typeof (TElement));
+            AddElement(tag, typeof(TElement));
         }
     }
 }

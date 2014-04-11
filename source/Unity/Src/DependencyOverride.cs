@@ -40,7 +40,7 @@ namespace Microsoft.Practices.Unity
             IDependencyResolverPolicy result = null;
             if (dependencyType == this.typeToConstruct)
             {
-                result = dependencyValue.GetResolverPolicy(dependencyType);
+                result = this.dependencyValue.GetResolverPolicy(dependencyType);
             }
             return result;
         }

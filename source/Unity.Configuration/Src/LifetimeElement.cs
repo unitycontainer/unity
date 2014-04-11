@@ -24,7 +24,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(TypeNamePropertyName, IsRequired = true, DefaultValue = "")]
         public string TypeName
         {
-            get { return (string) base[TypeNamePropertyName]; }
+            get { return (string)base[TypeNamePropertyName]; }
             set { base[TypeNamePropertyName] = value; }
         }
 
@@ -34,7 +34,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(ValuePropertyName, IsRequired = false)]
         public string Value
         {
-            get { return (string) base[ValuePropertyName]; }
+            get { return (string)base[ValuePropertyName]; }
             set { base[ValuePropertyName] = value; }
         }
 
@@ -45,7 +45,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(TypeConverterTypeNamePropertyName, IsRequired = false)]
         public string TypeConverterTypeName
         {
-            get { return (string) base[TypeConverterTypeNamePropertyName]; }
+            get { return (string)base[TypeConverterTypeNamePropertyName]; }
             set { base[TypeConverterTypeNamePropertyName] = value; }
         }
 
@@ -56,12 +56,12 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>A <see cref="LifetimeManager"/> instance.</returns>
         public LifetimeManager CreateLifetimeManager()
         {
-            TypeConverter converter = GetTypeConverter();
+            TypeConverter converter = this.GetTypeConverter();
             if (converter == null)
             {
-                return (LifetimeManager) Activator.CreateInstance(GetLifetimeType());
+                return (LifetimeManager)Activator.CreateInstance(this.GetLifetimeType());
             }
-            return (LifetimeManager) converter.ConvertFrom(Value);
+            return (LifetimeManager)converter.ConvertFrom(this.Value);
         }
 
         /// <summary>
@@ -77,36 +77,36 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             Guard.ArgumentNotNull(writer, "writer");
 
-            writer.WriteAttributeString(TypeNamePropertyName, TypeName);
-            if(!string.IsNullOrEmpty(Value))
+            writer.WriteAttributeString(TypeNamePropertyName, this.TypeName);
+            if (!string.IsNullOrEmpty(this.Value))
             {
-                writer.WriteAttributeString(ValuePropertyName, Value);
+                writer.WriteAttributeString(ValuePropertyName, this.Value);
             }
-            if(!string.IsNullOrEmpty(TypeConverterTypeName))
+            if (!string.IsNullOrEmpty(this.TypeConverterTypeName))
             {
-                writer.WriteAttributeString(TypeConverterTypeNamePropertyName, TypeConverterTypeName);
+                writer.WriteAttributeString(TypeConverterTypeNamePropertyName, this.TypeConverterTypeName);
             }
         }
 
         private Type GetLifetimeType()
         {
-            return TypeResolver.ResolveTypeWithDefault(TypeName,
-                typeof (TransientLifetimeManager));
+            return TypeResolver.ResolveTypeWithDefault(this.TypeName,
+                typeof(TransientLifetimeManager));
         }
 
         private TypeConverter GetTypeConverter()
         {
-            if (string.IsNullOrEmpty(Value) && string.IsNullOrEmpty(TypeConverterTypeName))
+            if (string.IsNullOrEmpty(this.Value) && string.IsNullOrEmpty(this.TypeConverterTypeName))
             {
                 return null;
             }
 
-            if (!string.IsNullOrEmpty(TypeConverterTypeName))
+            if (!string.IsNullOrEmpty(this.TypeConverterTypeName))
             {
-                Type converterType = TypeResolver.ResolveType(TypeConverterTypeName);
-                return (TypeConverter) Activator.CreateInstance(converterType);
+                Type converterType = TypeResolver.ResolveType(this.TypeConverterTypeName);
+                return (TypeConverter)Activator.CreateInstance(converterType);
             }
-            return TypeDescriptor.GetConverter(GetLifetimeType());
+            return TypeDescriptor.GetConverter(this.GetLifetimeType());
         }
     }
 }

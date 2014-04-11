@@ -49,8 +49,8 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <param name="writer">Writer to send XML content to.</param>
         public override void SerializeContent(XmlWriter writer)
         {
-            writer.WriteAttributeIfNotEmpty(NamePropertyName, Name)
-                .WriteAttributeIfNotEmpty(TypeNamePropertyName, TypeName);
+            writer.WriteAttributeIfNotEmpty(OptionalElement.NamePropertyName, this.Name)
+                .WriteAttributeIfNotEmpty(OptionalElement.TypeNamePropertyName, this.TypeName);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             Guard.ArgumentNotNull(parameterType, "parameterType");
 
-            string dependencyName = Name;
+            string dependencyName = this.Name;
             if (string.IsNullOrEmpty(dependencyName))
             {
                 dependencyName = null;
@@ -89,7 +89,7 @@ namespace Microsoft.Practices.Unity.Configuration
                 return new OptionalGenericParameter(parameterType.Name, dependencyName);
             }
 
-            return new OptionalParameter(TypeResolver.ResolveTypeWithDefault(TypeName, parameterType), dependencyName);
+            return new OptionalParameter(TypeResolver.ResolveTypeWithDefault(this.TypeName, parameterType), dependencyName);
         }
     }
 }

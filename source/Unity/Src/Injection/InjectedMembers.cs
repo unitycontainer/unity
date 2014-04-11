@@ -31,7 +31,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>This extension object.</returns>
         public InjectedMembers ConfigureInjectionFor<TTypeToInject>(params InjectionMember[] injectionMembers)
         {
-            return ConfigureInjectionFor(typeof(TTypeToInject), null, injectionMembers);
+            return this.ConfigureInjectionFor(typeof(TTypeToInject), null, injectionMembers);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>This extension object.</returns>
         public InjectedMembers ConfigureInjectionFor<TTypeToInject>(string name, params InjectionMember[] injectionMembers)
         {
-            return ConfigureInjectionFor(typeof(TTypeToInject), name, injectionMembers);
+            return this.ConfigureInjectionFor(typeof(TTypeToInject), name, injectionMembers);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>This extension object.</returns>
         public InjectedMembers ConfigureInjectionFor(Type typeToInject, params InjectionMember[] injectionMembers)
         {
-            return ConfigureInjectionFor(null, typeToInject, null, injectionMembers);
+            return this.ConfigureInjectionFor(null, typeToInject, null, injectionMembers);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>This extension object.</returns>
         public InjectedMembers ConfigureInjectionFor(Type typeToInject, string name, params InjectionMember[] injectionMembers)
         {
-            return ConfigureInjectionFor(null, typeToInject, name, injectionMembers);
+            return this.ConfigureInjectionFor(null, typeToInject, name, injectionMembers);
         }
 
         /// <summary>

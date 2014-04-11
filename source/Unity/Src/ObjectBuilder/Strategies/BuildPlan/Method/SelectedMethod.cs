@@ -27,7 +27,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         public MethodInfo Method
         {
-            get { return MemberInfo; }
+            get { return this.MemberInfo; }
         }
     }
 }

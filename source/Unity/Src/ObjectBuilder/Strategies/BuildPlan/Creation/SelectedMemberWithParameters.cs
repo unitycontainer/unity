@@ -34,7 +34,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
     /// <summary>
     /// Base class for return values from selector policies that
-    /// return a memberinfo of some sort plus a list of parameter
+    /// return a MemberInfo of some sort plus a list of parameter
     /// keys to look up the parameter resolvers.
     /// </summary>
     public class SelectedMemberWithParameters<TMemberInfoType> : SelectedMemberWithParameters
@@ -56,7 +56,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         protected TMemberInfoType MemberInfo
         {
-            get { return memberInfo; }
+            get { return this.memberInfo; }
         }
     }
 }

@@ -20,9 +20,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="propertyName">Name of the property. Name comparison is case sensitive. Wildcards are allowed.</param>
         public PropertyMatchingRule(string propertyName)
-            : this( propertyName, PropertyMatchingOption.GetOrSet, false)
+            : this(propertyName, PropertyMatchingOption.GetOrSet, false)
         {
-            
         }
 
         /// <summary>
@@ -44,7 +43,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="option">Match the getter, setter, or both.</param>
         /// <param name="ignoreCase">If false, name comparison is case sensitive. If true, name comparison is case insensitive.</param>
         public PropertyMatchingRule(string propertyName, PropertyMatchingOption option, bool ignoreCase)
-            : this( new PropertyMatchingInfo[] { new PropertyMatchingInfo(propertyName, option, ignoreCase)})
+            : this(new PropertyMatchingInfo[] { new PropertyMatchingInfo(propertyName, option, ignoreCase) })
         {
         }
 
@@ -60,17 +59,17 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(matches, "matches");
 
-            foreach(PropertyMatchingInfo match in matches)
+            foreach (PropertyMatchingInfo match in matches)
             {
-                if(match.Option != PropertyMatchingOption.Set)
+                if (match.Option != PropertyMatchingOption.Set)
                 {
                     patterns.Add(new Glob("get_" + match.Match, !match.IgnoreCase));
                 }
 
-                if(match.Option != PropertyMatchingOption.Get)
+                if (match.Option != PropertyMatchingOption.Get)
                 {
                     patterns.Add(new Glob("set_" + match.Match, !match.IgnoreCase));
-                }                
+                }
             }
         }
 
@@ -87,12 +86,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             return
                 member.IsSpecialName &&
-                    ( patterns.Exists(
+                    (patterns.Exists(
                         delegate(Glob pattern)
                         {
-                             return pattern.IsMatch(member.Name);
-                        }) 
-                    );
+                            return pattern.IsMatch(member.Name);
+                        }));
         }
     }
 
@@ -106,10 +104,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// Match the property getter method.
         /// </summary>
         Get,
+
         /// <summary>
         /// Match the property setter method.
         /// </summary>
         Set,
+
         /// <summary>
         /// Match either the getter or setter method.
         /// </summary>
@@ -128,7 +128,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// of the given property name, and does a case-sensitive comparison.
         /// </summary>
         /// <param name="match">Property name to match.</param>
-        public PropertyMatchingInfo(string match) : this( match, PropertyMatchingOption.GetOrSet, false)
+        public PropertyMatchingInfo(string match)
+            : this(match, PropertyMatchingOption.GetOrSet, false)
         {
         }
 
@@ -138,7 +139,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="match">Property name to match.</param>
         /// <param name="option"><see cref="PropertyMatchingOption"/> specifying which methods of the property to match.</param>
-        public PropertyMatchingInfo(string match, PropertyMatchingOption option) : this(match, option, false)
+        public PropertyMatchingInfo(string match, PropertyMatchingOption option)
+            : this(match, option, false)
         {
         }
 
@@ -150,7 +152,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="option"><see cref="PropertyMatchingOption"/> specifying which methods of the property to match.</param>
         /// <param name="ignoreCase">If false, name comparison is case sensitive. If true, name comparison is case insensitive.</param>
         public PropertyMatchingInfo(string match, PropertyMatchingOption option, bool ignoreCase)
-            : base( match, ignoreCase)
+            : base(match, ignoreCase)
         {
             this.option = option;
         }
@@ -161,8 +163,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <value>Specifies which methods of the property to match.</value>
         public PropertyMatchingOption Option
         {
-            get { return option; }
-            set { option = value; }
+            get { return this.option; }
+            set { this.option = value; }
         }
     }
 }

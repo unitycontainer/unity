@@ -17,7 +17,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     public class MethodOverride
     {
-        private static MethodInfo BuildAbstractMethodInvokedExceptionMethod =
+        private static readonly MethodInfo BuildAbstractMethodInvokedExceptionMethod =
             StaticReflection.GetMethodInfo(() => MethodOverride.BuildAbstractMethodInvokedException());
 
         private readonly TypeBuilder typeBuilder;
@@ -78,7 +78,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 overrideCount.ToString(CultureInfo.InvariantCulture);
         }
 
-        private static readonly OpCode[] loadArgsOpcodes = {
+        private static readonly OpCode[] LoadArgsOpcodes = 
+        {
             OpCodes.Ldarg_1,
             OpCodes.Ldarg_2,
             OpCodes.Ldarg_3
@@ -86,9 +87,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
         private static void EmitLoadArgument(ILGenerator il, int argumentNumber)
         {
-            if (argumentNumber < loadArgsOpcodes.Length)
+            if (argumentNumber < LoadArgsOpcodes.Length)
             {
-                il.Emit(loadArgsOpcodes[argumentNumber]);
+                il.Emit(LoadArgsOpcodes[argumentNumber]);
             }
             else
             {
@@ -96,7 +97,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             }
         }
 
-        private static readonly OpCode[] loadConstOpCodes = {
+        private static readonly OpCode[] LoadConstOpCodes = 
+        {
             OpCodes.Ldc_I4_0,
             OpCodes.Ldc_I4_1,
             OpCodes.Ldc_I4_2,
@@ -110,9 +112,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
         private static void EmitLoadConstant(ILGenerator il, int i)
         {
-            if (i < loadConstOpCodes.Length)
+            if (i < LoadConstOpCodes.Length)
             {
-                il.Emit(loadConstOpCodes[i]);
+                il.Emit(LoadConstOpCodes[i]);
             }
             else
             {
@@ -289,14 +291,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             }
             else
             {
-                #region exception-throwing implementation
-
+                // exception-throwing implementation
                 il.Emit(OpCodes.Ldarg_1);
                 il.EmitCall(OpCodes.Call, BuildAbstractMethodInvokedExceptionMethod, null);
                 il.EmitCall(OpCodes.Callvirt, IMethodInvocationMethods.CreateExceptionMethodReturn, null);
                 il.Emit(OpCodes.Ret);
-
-                #endregion
             }
 
             return methodBuilder;

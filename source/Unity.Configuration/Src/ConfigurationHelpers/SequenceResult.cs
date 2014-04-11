@@ -15,7 +15,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
 
         public SequenceResult(ParseResult result)
         {
-            resultData = (IList<ParseResult>) result.ResultData;
+            resultData = (IList<ParseResult>)result.ResultData;
         }
 
         #region IList<ParseResult> Members
@@ -47,9 +47,8 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <summary>
         /// Adds an item to the <see cref="T:System.Collections.Generic.ICollection`1"/>.
         /// </summary>
-        /// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"/>.
-        ///                 </param><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
-        ///                 </exception>
+        /// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param>
+        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.</exception>
         public void Add(ParseResult item)
         {
             resultData.Add(item);
@@ -58,8 +57,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <summary>
         /// Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1"/>.
         /// </summary>
-        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only. 
-        ///                 </exception>
+        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only. </exception>
         public void Clear()
         {
             resultData.Clear();
@@ -71,8 +69,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <returns>
         /// true if <paramref name="item"/> is found in the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, false.
         /// </returns>
-        /// <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
-        ///                 </param>
+        /// <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param>
         public bool Contains(ParseResult item)
         {
             return resultData.Contains(item);
@@ -81,16 +78,16 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <summary>
         /// Copies the elements of the sequence to an <see cref="T:System.Array"/>, starting at a particular <see cref="T:System.Array"/> index.
         /// </summary>
-        /// <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the elements copied from this sequence. The <see cref="T:System.Array"/> must have zero-based indexing.
-        ///                 </param><param name="arrayIndex">The zero-based index in <paramref name="array"/> at which copying begins.
-        ///                 </param><exception cref="T:System.ArgumentNullException"><paramref name="array"/> is null.
-        ///                 </exception><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="arrayIndex"/> is less than 0.
-        ///                 </exception><exception cref="T:System.ArgumentException"><paramref name="array"/> is multidimensional.
-        ///                     -or-
-        ///                 <paramref name="arrayIndex"/> is equal to or greater than the length of <paramref name="array"/>.
-        ///                     -or-
-        ///                     The number of elements in the source is greater than the available space from <paramref name="arrayIndex"/> to the end of the destination <paramref name="array"/>.
-        ///                 </exception>
+        /// <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the elements copied from this sequence. The <see cref="T:System.Array"/> must have zero-based indexing.</param>
+        /// <param name="arrayIndex">The zero-based index in <paramref name="array"/> at which copying begins.</param>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="array"/> is null.</exception>
+        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="arrayIndex"/> is less than 0.</exception>
+        /// <exception cref="T:System.ArgumentException"><paramref name="array"/> is multidimensional.
+        /// -or-
+        /// <paramref name="arrayIndex"/> is equal to or greater than the length of <paramref name="array"/>.
+        /// -or-
+        /// The number of elements in the source is greater than the available space from <paramref name="arrayIndex"/> to the end of the destination <paramref name="array"/>.
+        /// </exception>
         public void CopyTo(ParseResult[] array, int arrayIndex)
         {
             resultData.CopyTo(array, arrayIndex);
@@ -102,9 +99,8 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <returns>
         /// true if <paramref name="item"/> was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, false. This method also returns false if <paramref name="item"/> is not found in the original <see cref="T:System.Collections.Generic.ICollection`1"/>.
         /// </returns>
-        /// <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1"/>.
-        ///                 </param><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
-        ///                 </exception>
+        /// <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param>
+        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.</exception>
         public bool Remove(ParseResult item)
         {
             return resultData.Remove(item);
@@ -138,8 +134,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <returns>
         /// The index of <paramref name="item"/> if found in the list; otherwise, -1.
         /// </returns>
-        /// <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.IList`1"/>.
-        ///                 </param>
+        /// <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.IList`1"/>.</param>
         public int IndexOf(ParseResult item)
         {
             return resultData.IndexOf(item);
@@ -148,11 +143,10 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <summary>
         /// Inserts an item to the <see cref="T:System.Collections.Generic.IList`1"/> at the specified index.
         /// </summary>
-        /// <param name="index">The zero-based index at which <paramref name="item"/> should be inserted.
-        ///                 </param><param name="item">The object to insert into the <see cref="T:System.Collections.Generic.IList`1"/>.
-        ///                 </param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"/>.
-        ///                 </exception><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IList`1"/> is read-only.
-        ///                 </exception>
+        /// <param name="index">The zero-based index at which <paramref name="item"/> should be inserted.</param>
+        /// <param name="item">The object to insert into the <see cref="T:System.Collections.Generic.IList`1"/>.</param>
+        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"/>.</exception>
+        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IList`1"/> is read-only.</exception>
         public void Insert(int index, ParseResult item)
         {
             resultData.Insert(index, item);
@@ -161,10 +155,9 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <summary>
         /// Removes the <see cref="T:System.Collections.Generic.IList`1"/> item at the specified index.
         /// </summary>
-        /// <param name="index">The zero-based index of the item to remove.
-        ///                 </param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"/>.
-        ///                 </exception><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IList`1"/> is read-only.
-        ///                 </exception>
+        /// <param name="index">The zero-based index of the item to remove.</param>
+        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"/>.</exception>
+        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IList`1"/> is read-only.</exception>
         public void RemoveAt(int index)
         {
             resultData.RemoveAt(index);
@@ -176,10 +169,9 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <returns>
         /// The element at the specified index.
         /// </returns>
-        /// <param name="index">The zero-based index of the element to get or set.
-        ///                 </param><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"/>.
-        ///                 </exception><exception cref="T:System.NotSupportedException">The property is set and the <see cref="T:System.Collections.Generic.IList`1"/> is read-only.
-        ///                 </exception>
+        /// <param name="index">The zero-based index of the element to get or set.</param>
+        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is not a valid index in the <see cref="T:System.Collections.Generic.IList`1"/>.</exception>
+        /// <exception cref="T:System.NotSupportedException">The property is set and the <see cref="T:System.Collections.Generic.IList`1"/> is read-only.</exception>
         public ParseResult this[int index]
         {
             get { return resultData[index]; }

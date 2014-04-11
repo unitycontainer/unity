@@ -17,6 +17,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
     public abstract class InterceptorRegistrationElement : DeserializableConfigurationElement
     {
         private const string TypeNamePropertyName = "type";
+        
         /// <summary>
         /// Type name that this interceptor will be registered for.
         /// </summary>
@@ -49,7 +50,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         public override void SerializeContent(System.Xml.XmlWriter writer)
         {
             Guard.ArgumentNotNull(writer, "writer");
-            writer.WriteAttributeString(TypeNamePropertyName, TypeName);
+            writer.WriteAttributeString(TypeNamePropertyName, this.TypeName);
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// <returns>The type object.</returns>
         protected Type ResolvedType
         {
-            get { return TypeResolver.ResolveType(TypeName); }
+            get { return TypeResolver.ResolveType(this.TypeName); }
         }
     }
 }

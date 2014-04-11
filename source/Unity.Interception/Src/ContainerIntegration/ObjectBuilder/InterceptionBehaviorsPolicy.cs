@@ -41,11 +41,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             var interceptionRequest = new CurrentInterceptionRequest(interceptor, typeToIntercept, implementationType);
 
-            foreach(var key in BehaviorKeys)
+            foreach (var key in BehaviorKeys)
             {
                 var behavior = (IInterceptionBehavior)context.NewBuildUp(key,
                     childContext => childContext.AddResolverOverrides(
-                        new DependencyOverride<CurrentInterceptionRequest>(interceptionRequest) ) );
+                        new DependencyOverride<CurrentInterceptionRequest>(interceptionRequest)));
                 yield return behavior;
             }
         }

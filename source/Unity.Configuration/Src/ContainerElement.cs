@@ -4,8 +4,8 @@ using System;
 using System.Configuration;
 using System.Linq;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
 
 namespace Microsoft.Practices.Unity.Configuration
 {
@@ -20,12 +20,12 @@ namespace Microsoft.Practices.Unity.Configuration
         private const string InstancesPropertyName = "instances";
         private const string ExtensionsPropertyName = "extensions";
 
-        private static readonly UnknownElementHandlerMap<ContainerElement> unknownElementHandlerMap =
+        private static readonly UnknownElementHandlerMap<ContainerElement> UnknownElementHandlerMap =
             new UnknownElementHandlerMap<ContainerElement>
                 {
-                    {"types", (ce, xr) => ce.Registrations.Deserialize(xr) },
-                    {"extension", (ce, xr) => ce.ReadUnwrappedElement(xr, ce.Extensions) },
-                    {"instance", (ce, xr) => ce.ReadUnwrappedElement(xr, ce.Instances) }
+                    { "types", (ce, xr) => ce.Registrations.Deserialize(xr) },
+                    { "extension", (ce, xr) => ce.ReadUnwrappedElement(xr, ce.Extensions) },
+                    { "instance", (ce, xr) => ce.ReadUnwrappedElement(xr, ce.Instances) }
                 };
 
         private readonly ContainerConfiguringElementCollection configuringElements = new ContainerConfiguringElementCollection();
@@ -38,17 +38,17 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(NamePropertyName, IsKey = true, DefaultValue = "")]
         public string Name
         {
-            get { return (string) base[NamePropertyName]; }
+            get { return (string)base[NamePropertyName]; }
             set { base[NamePropertyName] = value; }
         }
 
         /// <summary>
         /// The type registrations in this container.
         /// </summary>
-        [ConfigurationProperty(RegistrationsPropertyName, IsDefaultCollection =  true)]
+        [ConfigurationProperty(RegistrationsPropertyName, IsDefaultCollection = true)]
         public RegisterElementCollection Registrations
         {
-            get { return (RegisterElementCollection) base[RegistrationsPropertyName]; }
+            get { return (RegisterElementCollection)base[RegistrationsPropertyName]; }
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(InstancesPropertyName)]
         public InstanceElementCollection Instances
         {
-            get { return (InstanceElementCollection) base[InstancesPropertyName]; }
+            get { return (InstanceElementCollection)base[InstancesPropertyName]; }
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(ExtensionsPropertyName)]
         public ContainerExtensionElementCollection Extensions
         {
-            get { return (ContainerExtensionElementCollection) base[ExtensionsPropertyName]; }
+            get { return (ContainerExtensionElementCollection)base[ExtensionsPropertyName]; }
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// the actual property to show up as a nested element in the configuration.</remarks>
         public ContainerConfiguringElementCollection ConfiguringElements
         {
-            get { return configuringElements; }
+            get { return this.configuringElements; }
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [Obsolete("Use the UnityConfigurationSection.Configure(container, name) method instead")]
         public void Configure(IUnityContainer container)
         {
-            ContainingSection.Configure(container, Name);
+            this.ContainingSection.Configure(container, this.Name);
         }
 
         /// <summary>
@@ -98,10 +98,10 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <param name="container">Container to configure.</param>
         internal void ConfigureContainer(IUnityContainer container)
         {
-            Extensions.Cast<ContainerConfiguringElement>()
-                .Concat(Registrations.Cast<ContainerConfiguringElement>())
-                .Concat(Instances.Cast<ContainerConfiguringElement>())
-                .Concat(ConfiguringElements)
+            this.Extensions.Cast<ContainerConfiguringElement>()
+                .Concat(this.Registrations.Cast<ContainerConfiguringElement>())
+                .Concat(this.Instances.Cast<ContainerConfiguringElement>())
+                .Concat(this.ConfiguringElements)
                 .ForEach(element => element.ConfigureContainerInternal(container));
         }
 
@@ -111,26 +111,26 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>
         /// true when an unknown element is encountered while deserializing; otherwise, false.
         /// </returns>
-        /// <param name="elementName">The name of the unknown subelement.
-        ///                 </param><param name="reader">The <see cref="T:System.Xml.XmlReader"/> being used for deserialization.
-        ///                 </param><exception cref="T:System.Configuration.ConfigurationErrorsException">The element identified by <paramref name="elementName"/> is locked.
-        ///                     - or -
-        ///                     One or more of the element's attributes is locked.
-        ///                     - or -
-        ///                 <paramref name="elementName"/> is unrecognized, or the element has an unrecognized attribute.
-        ///                     - or -
-        ///                     The element has a Boolean attribute with an invalid value.
-        ///                     - or -
-        ///                     An attempt was made to deserialize a property more than once.
-        ///                     - or -
-        ///                     An attempt was made to deserialize a property that is not a valid member of the element.
-        ///                     - or -
-        ///                     The element cannot contain a CDATA or text element.
-        ///                 </exception>
+        /// <param name="elementName">The name of the unknown subelement.</param>
+        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> being used for deserialization.</param>
+        /// <exception cref="T:System.Configuration.ConfigurationErrorsException">The element identified by <paramref name="elementName"/> is locked.
+        /// - or -
+        /// One or more of the element's attributes is locked.
+        /// - or -
+        /// <paramref name="elementName"/> is unrecognized, or the element has an unrecognized attribute.
+        /// - or -
+        /// The element has a Boolean attribute with an invalid value.
+        /// - or -
+        /// An attempt was made to deserialize a property more than once.
+        /// - or -
+        /// An attempt was made to deserialize a property that is not a valid member of the element.
+        /// - or -
+        /// The element cannot contain a CDATA or text element.
+        /// </exception>
         protected override bool OnDeserializeUnrecognizedElement(string elementName, XmlReader reader)
         {
-            return unknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
-                DeserializeContainerConfiguringElement(elementName, reader) ||
+            return UnknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
+                this.DeserializeContainerConfiguringElement(elementName, reader) ||
                 base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
@@ -143,20 +143,20 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <param name="writer">Writer to send XML content to.</param>
         public override void SerializeContent(XmlWriter writer)
         {
-            writer.WriteAttributeIfNotEmpty(NamePropertyName, Name);
+            writer.WriteAttributeIfNotEmpty(ContainerElement.NamePropertyName, this.Name);
 
-            Extensions.SerializeElementContents(writer, "extension");
-            Registrations.SerializeElementContents(writer, "register");
-            Instances.SerializeElementContents(writer, "instance");
-            SerializeContainerConfiguringElements(writer);
+            this.Extensions.SerializeElementContents(writer, "extension");
+            this.Registrations.SerializeElementContents(writer, "register");
+            this.Instances.SerializeElementContents(writer, "instance");
+            this.SerializeContainerConfiguringElements(writer);
         }
 
         private bool DeserializeContainerConfiguringElement(string elementName, XmlReader reader)
         {
             Type elementType = ExtensionElementMap.GetContainerConfiguringElementType(elementName);
-            if(elementType != null)
+            if (elementType != null)
             {
-                this.ReadElementByType(reader, elementType, ConfiguringElements);
+                this.ReadElementByType(reader, elementType, this.ConfiguringElements);
                 return true;
             }
             return false;
@@ -164,7 +164,7 @@ namespace Microsoft.Practices.Unity.Configuration
 
         private void SerializeContainerConfiguringElements(XmlWriter writer)
         {
-            foreach(var element in ConfiguringElements)
+            foreach (var element in this.ConfiguringElements)
             {
                 string tag = ExtensionElementMap.GetTagForExtensionElement(element);
                 writer.WriteElement(tag, element.SerializeContent);

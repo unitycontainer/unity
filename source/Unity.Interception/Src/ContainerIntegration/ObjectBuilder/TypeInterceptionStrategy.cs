@@ -14,7 +14,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// a <see cref="ITypeInterceptionPolicy"/> for the current build key, or the current
     /// build type. If present, it substitutes types so that that proxy class gets
     /// built up instead. On the way back, it hooks up the appropriate handlers.
-    ///  </summary>
+    /// </summary>
     public class TypeInterceptionStrategy : BuilderStrategy
     {
         /// <summary>
@@ -23,7 +23,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// forward direction.
         /// </summary>
         /// <remarks>In this class, PreBuildUp is responsible for figuring out if the
-        /// class is proxiable, and if so, replacing it with a proxy class.</remarks>
+        /// class is proxyable, and if so, replacing it with a proxy class.</remarks>
         /// <param name="context">Context of the build operation.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class")]
@@ -31,15 +31,24 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             Guard.ArgumentNotNull(context, "context");
 
-            if (context.Existing != null) return;
+            if (context.Existing != null)
+            {
+                return;
+            }
 
             Type typeToBuild = context.BuildKey.Type;
 
             var interceptionPolicy = FindInterceptionPolicy<ITypeInterceptionPolicy>(context);
-            if (interceptionPolicy == null) return;
+            if (interceptionPolicy == null)
+            {
+                return;
+            }
 
             var interceptor = interceptionPolicy.GetInterceptor(context);
-            if (!interceptor.CanIntercept(typeToBuild)) return;
+            if (!interceptor.CanIntercept(typeToBuild))
+            {
+                return;
+            }
 
             var interceptionBehaviorsPolicy = FindInterceptionPolicy<IInterceptionBehaviorsPolicy>(context);
 
@@ -86,11 +95,17 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Guard.ArgumentNotNull(context, "context");
 
             IInterceptingProxy proxy = context.Existing as IInterceptingProxy;
-            if (proxy == null) return;
+            if (proxy == null)
+            {
+                return;
+            }
 
             EffectiveInterceptionBehaviorsPolicy effectiveInterceptionBehaviorsPolicy =
                 context.Policies.Get<EffectiveInterceptionBehaviorsPolicy>(context.BuildKey, true);
-            if (effectiveInterceptionBehaviorsPolicy == null) return;
+            if (effectiveInterceptionBehaviorsPolicy == null)
+            {
+                return;
+            }
 
             foreach (var interceptionBehavior in effectiveInterceptionBehaviorsPolicy.Behaviors)
             {

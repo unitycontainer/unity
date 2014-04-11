@@ -19,28 +19,28 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class DynamicMethodConstructorStrategy : BuilderStrategy
     {
-        private static readonly MethodInfo throwForNullExistingObject =
+        private static readonly MethodInfo ThrowForNullExistingObjectMethod =
           StaticReflection.GetMethodInfo(() => ThrowForNullExistingObject(null));
 
-        private static readonly MethodInfo throwForNullExistingObjectWithInvalidConstructor =
+        private static readonly MethodInfo ThrowForNullExistingObjectWithInvalidConstructorMethod =
             StaticReflection.GetMethodInfo(() => ThrowForNullExistingObjectWithInvalidConstructor(null, null));
 
-        private static readonly MethodInfo throwForAttemptingToConstructInterface =
+        private static readonly MethodInfo ThrowForAttemptingToConstructInterfaceMethod =
            StaticReflection.GetMethodInfo(() => ThrowForAttemptingToConstructInterface(null));
 
-        private static readonly MethodInfo throwForAttemptingToConstructAbstractClass =
+        private static readonly MethodInfo ThrowForAttemptingToConstructAbstractClassMethod =
            StaticReflection.GetMethodInfo(() => ThrowForAttemptingToConstructAbstractClass(null));
 
-        private static readonly MethodInfo throwForAttemptingToConstructDelegate =
+        private static readonly MethodInfo ThrowForAttemptingToConstructDelegateMethod =
            StaticReflection.GetMethodInfo(() => ThrowForAttemptingToConstructDelegate(null));
 
-        private static readonly MethodInfo setCurrentOperationToResolvingParameter =
+        private static readonly MethodInfo SetCurrentOperationToResolvingParameterMethod =
             StaticReflection.GetMethodInfo(() => SetCurrentOperationToResolvingParameter(null, null, null));
 
-        private static readonly MethodInfo setCurrentOperationToInvokingConstructor =
+        private static readonly MethodInfo SetCurrentOperationToInvokingConstructorMethod =
             StaticReflection.GetMethodInfo(() => SetCurrentOperationToInvokingConstructor(null, null));
 
-        private static readonly MethodInfo setPerBuildSingleton =
+        private static readonly MethodInfo SetPerBuildSingletonMethod =
             StaticReflection.GetMethodInfo(() => SetPerBuildSingleton(null));
 
         /// <summary>
@@ -64,10 +64,10 @@ namespace Microsoft.Practices.ObjectBuilder2
                         Expression.Equal(
                             buildContext.GetExistingObjectExpression(),
                             Expression.Constant(null)),
-                            CreateInstanceBuildupExpression(buildContext, context)));
+                            this.CreateInstanceBuildupExpression(buildContext, context)));
 
             buildContext.AddToBuildPlan(
-                Expression.Call(null, setPerBuildSingleton, buildContext.ContextParameter));
+                Expression.Call(null, SetPerBuildSingletonMethod, buildContext.ContextParameter));
         }
 
         internal Expression CreateInstanceBuildupExpression(DynamicBuildPlanGenerationContext buildContext, IBuilderContext context)
@@ -76,17 +76,17 @@ namespace Microsoft.Practices.ObjectBuilder2
 
             if (targetTypeInfo.IsInterface)
             {
-                return CreateThrowWithContext(buildContext, throwForAttemptingToConstructInterface);
+                return this.CreateThrowWithContext(buildContext, ThrowForAttemptingToConstructInterfaceMethod);
             }
 
             if (targetTypeInfo.IsAbstract)
             {
-                return CreateThrowWithContext(buildContext, throwForAttemptingToConstructAbstractClass);
+                return this.CreateThrowWithContext(buildContext, ThrowForAttemptingToConstructAbstractClassMethod);
             }
 
             if (targetTypeInfo.IsSubclassOf(typeof(Delegate)))
             {
-                return CreateThrowWithContext(buildContext, throwForAttemptingToConstructDelegate);
+                return this.CreateThrowWithContext(buildContext, ThrowForAttemptingToConstructDelegateMethod);
             }
 
             IPolicyList resolverPolicyDestination;
@@ -97,14 +97,14 @@ namespace Microsoft.Practices.ObjectBuilder2
 
             if (selectedConstructor == null)
             {
-                return CreateThrowWithContext(buildContext, throwForNullExistingObject);
+                return this.CreateThrowWithContext(buildContext, ThrowForNullExistingObjectMethod);
             }
 
-            string signature = CreateSignatureString(selectedConstructor.Constructor);
+            string signature = DynamicMethodConstructorStrategy.CreateSignatureString(selectedConstructor.Constructor);
 
             if (IsInvalidConstructor(selectedConstructor))
             {
-                return CreateThrowForNullExistingObjectWithInvalidConstructor(buildContext, signature);
+                return this.CreateThrowForNullExistingObjectWithInvalidConstructor(buildContext, signature);
             }
 
             // psuedo-code:
@@ -115,7 +115,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             //   context.Existing = new {objectType}({constructorparameter}...)
             //   clear current operation
             // }
-            return Expression.Block(CreateNewBuildupSequence(buildContext, selectedConstructor, signature));
+            return Expression.Block(this.CreateNewBuildupSequence(buildContext, selectedConstructor, signature));
         }
 
         private static bool IsInvalidConstructor(SelectedConstructor selectedConstructor)
@@ -135,18 +135,18 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             return Expression.Call(
                                 null,
-                                throwForNullExistingObjectWithInvalidConstructor,
+                                ThrowForNullExistingObjectWithInvalidConstructorMethod,
                                 buildContext.ContextParameter,
                                 Expression.Constant(signature, typeof(string)));
         }
 
         private IEnumerable<Expression> CreateNewBuildupSequence(DynamicBuildPlanGenerationContext buildContext, SelectedConstructor selectedConstructor, string signature)
         {
-            var parameterExpressions = BuildConstructionParameterExpressions(buildContext, selectedConstructor, signature);
+            var parameterExpressions = this.BuildConstructionParameterExpressions(buildContext, selectedConstructor, signature);
             var newItemExpression = Expression.Variable(selectedConstructor.Constructor.DeclaringType, "newItem");
 
             yield return Expression.Call(null,
-                                        setCurrentOperationToInvokingConstructor,
+                                        SetCurrentOperationToInvokingConstructorMethod,
                                         Expression.Constant(signature),
                                         buildContext.ContextParameter);
 
@@ -170,7 +170,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                                 parameterResolver,
                                 constructionParameters[i].ParameterType,
                                 Expression.Call(null,
-                                                setCurrentOperationToResolvingParameter,
+                                                SetCurrentOperationToResolvingParameterMethod,
                                                 Expression.Constant(constructionParameters[i].Name, typeof(string)),
                                                 Expression.Constant(constructorSignature),
                                                 buildContext.ContextParameter));

@@ -12,7 +12,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 {
     /// <summary>
     /// An implementation of <see cref="IMethodInvocation"/> that wraps the
-    /// remoting-based <see cref="IMethodCallMessage"/> in the PIAB call
+    /// remoting based <see cref="IMethodCallMessage"/> in the PIAB call
     /// interface.
     /// </summary>
     [SecurityCritical]
@@ -129,7 +129,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <summary>
         /// Gets the collection of arguments being passed to the target.
         /// </summary>
-        /// <remarks>This method exists becuase the underlying remoting call message
+        /// <remarks>This method exists because the underlying remoting call message
         /// does not let handlers change the arguments.</remarks>
         /// <value>Array containing the arguments to the target.</value>
         internal object[] Arguments

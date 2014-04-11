@@ -67,7 +67,7 @@ namespace Microsoft.Practices.Unity
             GuardPropertyExists(propInfo, implementationType, this.propertyName);
             GuardPropertyIsSettable(propInfo);
             GuardPropertyIsNotIndexer(propInfo);
-            InitializeParameterValue(propInfo);
+            this.InitializeParameterValue(propInfo);
             GuardPropertyValueIsCompatible(propInfo, this.parameterValue);
 
             SpecifiedPropertiesSelectorPolicy selector =

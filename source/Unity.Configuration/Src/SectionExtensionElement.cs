@@ -31,7 +31,7 @@ namespace Microsoft.Practices.Unity.Configuration
             set
             {
                 base[TypeNamePropertyName] = value;
-                extensionObject = null;
+                this.extensionObject = null;
             }
         }
 
@@ -53,29 +53,29 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             get
             {
-                if (extensionObject == null)
+                if (this.extensionObject == null)
                 {
-                    extensionObject = (SectionExtension)Activator.CreateInstance(GetExtensionObjectType());
+                    this.extensionObject = (SectionExtension)Activator.CreateInstance(this.GetExtensionObjectType());
                 }
-                return extensionObject;
+                return this.extensionObject;
             }
         }
 
         /// <summary>
         /// Reads XML from the configuration file.
         /// </summary>
-        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> that reads from the configuration file.
-        ///                 </param><param name="serializeCollectionKey">true to serialize only the collection key properties; otherwise, false.
-        ///                 </param><exception cref="T:System.Configuration.ConfigurationErrorsException">The element to read is locked.
-        ///                     - or -
-        ///                     An attribute of the current node is not recognized.
-        ///                     - or -
-        ///                     The lock status of the current node cannot be determined.  
-        ///                 </exception>
+        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> that reads from the configuration file.</param>
+        /// <param name="serializeCollectionKey">true to serialize only the collection key properties; otherwise, false.</param>
+        /// <exception cref="T:System.Configuration.ConfigurationErrorsException">The element to read is locked.
+        /// - or -
+        /// An attribute of the current node is not recognized.
+        /// - or -
+        /// The lock status of the current node cannot be determined.  
+        /// </exception>
         protected override void DeserializeElement(XmlReader reader, bool serializeCollectionKey)
         {
             base.DeserializeElement(reader, serializeCollectionKey);
-            GetExtensionObjectType();
+            this.GetExtensionObjectType();
         }
 
         /// <summary>
@@ -90,10 +90,10 @@ namespace Microsoft.Practices.Unity.Configuration
         public override void SerializeContent(XmlWriter writer)
         {
             Guard.ArgumentNotNull(writer, "writer");
-            writer.WriteAttributeString(TypeNamePropertyName, TypeName);
-            if (!string.IsNullOrEmpty(Prefix))
+            writer.WriteAttributeString(SectionExtensionElement.TypeNamePropertyName, this.TypeName);
+            if (!string.IsNullOrEmpty(this.Prefix))
             {
-                writer.WriteAttributeString(PrefixPropertyName, Prefix);
+                writer.WriteAttributeString(SectionExtensionElement.PrefixPropertyName, this.Prefix);
             }
         }
 
@@ -102,20 +102,20 @@ namespace Microsoft.Practices.Unity.Configuration
             if (extensionType == null)
             {
                 throw new ConfigurationErrorsException(string.Format(CultureInfo.CurrentCulture,
-                    Resources.ExtensionTypeNotFound, TypeName));
+                    Resources.ExtensionTypeNotFound, this.TypeName));
             }
 
             if (!typeof(SectionExtension).IsAssignableFrom(extensionType))
             {
                 throw new ConfigurationErrorsException(string.Format(CultureInfo.CurrentCulture,
-                    Resources.ExtensionTypeNotValid, TypeName));
+                    Resources.ExtensionTypeNotValid, this.TypeName));
             }
         }
 
         private Type GetExtensionObjectType()
         {
-            Type extensionType = TypeResolver.ResolveType(TypeName);
-            GuardIsValidExtensionType(extensionType);
+            Type extensionType = TypeResolver.ResolveType(this.TypeName);
+            this.GuardIsValidExtensionType(extensionType);
             return extensionType;
         }
     }

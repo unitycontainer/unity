@@ -51,7 +51,7 @@ namespace Microsoft.Practices.Unity
             Guard.ArgumentNotNull(implementationType, "implementationType");
             Guard.ArgumentNotNull(policies, "policies");
 
-            var policy = new FactoryDelegateBuildPlanPolicy(factoryFunc);
+            var policy = new FactoryDelegateBuildPlanPolicy(this.factoryFunc);
             policies.Set<IBuildPlanPolicy>(policy,
                 new NamedTypeBuildKey(implementationType, name));
         }

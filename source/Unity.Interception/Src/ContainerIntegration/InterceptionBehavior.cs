@@ -17,7 +17,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <see cref="IInterceptionBehavior"/>.
         /// </summary>
         /// <param name="interceptionBehavior">The interception behavior to use.</param>
-        public InterceptionBehavior(IInterceptionBehavior interceptionBehavior) : base(interceptionBehavior)
+        public InterceptionBehavior(IInterceptionBehavior interceptionBehavior)
+            : base(interceptionBehavior)
         {
         }
 
@@ -40,7 +41,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public InterceptionBehavior(Type behaviorType)
             : base(behaviorType)
         {
-            
         }
 
         /// <summary>

@@ -21,7 +21,7 @@ namespace Microsoft.Practices.Unity
             Context.Registering += this.OnRegister;
             Context.RegisteringInstance += this.OnRegisterInstance;
 
-            Container.RegisterInstance(Container, new ContainerLifetimeManager());
+            this.Container.RegisterInstance(this.Container, new ContainerLifetimeManager());
         }
 
         /// <summary>

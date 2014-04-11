@@ -1,6 +1,33 @@
 <StyleCopSettings Version="105">
   <GlobalSettings>
     <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+    <CollectionProperty Name="RecognizedWords">
+      <Value>arg</Value>
+      <Value>byref</Value>
+      <Value>Combinator</Value>
+      <Value>combinators</Value>
+      <Value>deserializing</Value>
+      <Value>enum</Value>
+      <Value>finalizer</Value>
+      <Value>Func</Value>
+      <Value>Fx</Value>
+      <Value>FxCop</Value>
+      <Value>Intelli</Value>
+      <Value>IntelliSense</Value>
+      <Value>LINQ</Value>
+      <Value>MemberInfo</Value>
+      <Value>MVC</Value>
+      <Value>noop</Value>
+      <Value>ordinally</Value>
+      <Value>params</Value>
+      <Value>proxied</Value>
+      <Value>proxyable</Value>
+      <Value>remoting</Value>
+      <Value>ruleset</Value>
+      <Value>stateful</Value>
+      <Value>subelement</Value>
+      <Value>TypeMappings</Value>
+    </CollectionProperty>
   </GlobalSettings>
   <Parsers>
     <Parser ParserId="StyleCop.CSharp.CsParser">

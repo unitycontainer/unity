@@ -51,8 +51,8 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         public LifetimeManager LifetimeManager
         {
-            get { return lifetimeManager; }
-            set { lifetimeManager = value; }
+            get { return this.lifetimeManager; }
+            set { this.lifetimeManager = value; }
         }
     }
 }

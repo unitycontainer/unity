@@ -15,7 +15,7 @@ namespace Microsoft.Practices.Unity.Mvc
     /// </summary>
     public class UnityPerRequestHttpModule : IHttpModule
     {
-        private static readonly object moduleKey = new object();
+        private static readonly object ModuleKey = new object();
 
         internal static object GetValue(object lifetimeManagerKey)
         {
@@ -42,7 +42,7 @@ namespace Microsoft.Practices.Unity.Mvc
             {
                 dict = new Dictionary<object, object>();
 
-                HttpContext.Current.Items[moduleKey] = dict;
+                HttpContext.Current.Items[ModuleKey] = dict;
             }
 
             dict[lifetimeManagerKey] = value;
@@ -87,7 +87,7 @@ namespace Microsoft.Practices.Unity.Mvc
                 throw new InvalidOperationException(Resources.ErrorHttpContextNotAvailable);
             }
 
-            var dict = (Dictionary<object, object>)context.Items[moduleKey];
+            var dict = (Dictionary<object, object>)context.Items[ModuleKey];
 
             return dict;
         }

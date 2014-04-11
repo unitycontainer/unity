@@ -48,7 +48,7 @@ namespace Microsoft.Practices.Unity
         /// <filterpriority>2</filterpriority>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
         }
 
         /// <summary>

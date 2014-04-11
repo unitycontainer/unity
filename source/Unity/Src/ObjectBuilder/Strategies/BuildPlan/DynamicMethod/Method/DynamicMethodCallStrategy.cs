@@ -18,10 +18,10 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class DynamicMethodCallStrategy : BuilderStrategy
     {
-        private static readonly MethodInfo setCurrentOperationToResolvingParameter =
+        private static readonly MethodInfo SetCurrentOperationToResolvingParameterMethod =
             StaticReflection.GetMethodInfo(() => SetCurrentOperationToResolvingParameter(null, null, null));
 
-        private static readonly MethodInfo setCurrentOperationToInvokingMethod =
+        private static readonly MethodInfo SetCurrentOperationToInvokingMethodInfo =
             StaticReflection.GetMethodInfo(() => SetCurrentOperationToInvokingMethod(null, null));
 
         /// <summary>
@@ -54,13 +54,13 @@ namespace Microsoft.Practices.ObjectBuilder2
 
                 dynamicBuildContext.AddToBuildPlan(
                     Expression.Block(
-                        Expression.Call(null, setCurrentOperationToInvokingMethod, Expression.Constant(signatureString), dynamicBuildContext.ContextParameter),
+                        Expression.Call(null, SetCurrentOperationToInvokingMethodInfo, Expression.Constant(signatureString), dynamicBuildContext.ContextParameter),
                         Expression.Call(
                             Expression.Convert(
                                 dynamicBuildContext.GetExistingObjectExpression(),
                                 dynamicBuildContext.TypeToBuild),
                             method.Method,
-                            BuildMethodParameterExpressions(dynamicBuildContext, method, signatureString))));
+                            this.BuildMethodParameterExpressions(dynamicBuildContext, method, signatureString))));
             }
 
             // Clear the current operation
@@ -81,7 +81,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                                 parameterResolver,
                                 methodParameters[i].ParameterType,
                                 Expression.Call(null,
-                                    setCurrentOperationToResolvingParameter,
+                                    SetCurrentOperationToResolvingParameterMethod,
                                     Expression.Constant(methodParameters[i].Name, typeof(string)),
                                     Expression.Constant(methodSignature),
                                     context.ContextParameter));

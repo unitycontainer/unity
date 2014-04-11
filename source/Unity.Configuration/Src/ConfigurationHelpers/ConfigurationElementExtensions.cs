@@ -65,9 +65,9 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
             Guard.ArgumentNotNull(reader, "reader");
             Guard.ArgumentNotNull(elementType, "elementType");
             Guard.ArgumentNotNull(elementCollection, "elementCollection");
-            Guard.TypeIsAssignable(typeof (TElementType), elementType, "elementType");
+            Guard.TypeIsAssignable(typeof(TElementType), elementType, "elementType");
 
-            var element = (TElementType) Activator.CreateInstance(elementType);
+            var element = (TElementType)Activator.CreateInstance(elementType);
             element.Deserialize(reader);
             elementCollection.Add(element);
             return element;

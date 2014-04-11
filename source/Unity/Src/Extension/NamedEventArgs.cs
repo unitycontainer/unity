@@ -30,11 +30,11 @@ namespace Microsoft.Practices.Unity
         /// <summary>
         /// The name.
         /// </summary>
-        /// <value>Name used for this event arg object.</value>
+        /// <value>Name used for this EventArg object.</value>
         public virtual string Name
         {
-            get { return name; }
-            set { name = value; }
+            get { return this.name; }
+            set { this.name = value; }
         }
     }
 }

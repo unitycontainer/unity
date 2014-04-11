@@ -22,7 +22,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         private const string ValuePropertyName = "value";
         private const string TypeConverterTypeNamePropertyName = "typeConverter";
 
-        private static readonly UnknownElementHandlerMap<InterceptorsInterceptorElement> unknownElementHandlerMap =
+        private static readonly UnknownElementHandlerMap<InterceptorsInterceptorElement> UnknownElementHandlerMap =
             new UnknownElementHandlerMap<InterceptorsInterceptorElement>
             {
                 { "default", (iie, xr) => iie.ReadElementByType(xr, typeof(DefaultElement), iie.Registrations) },
@@ -35,7 +35,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(TypeNamePropertyName, IsRequired = true, IsKey = true)]
         public string TypeName
         {
-            get { return (string) base[TypeNamePropertyName]; }
+            get { return (string)base[TypeNamePropertyName]; }
             set { base[TypeNamePropertyName] = value; }
         }
 
@@ -54,7 +54,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(ValuePropertyName, IsRequired = false)]
         public string Value
         {
-            get { return (string) base[ValuePropertyName]; }
+            get { return (string)base[ValuePropertyName]; }
             set { base[ValuePropertyName] = value; }
         }
 
@@ -64,7 +64,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(TypeConverterTypeNamePropertyName, IsRequired = false)]
         public string TypeConverterTypeName
         {
-            get { return (string) base[TypeConverterTypeNamePropertyName]; }
+            get { return (string)base[TypeConverterTypeNamePropertyName]; }
             set { base[TypeConverterTypeNamePropertyName] = value; }
         }
 
@@ -81,11 +81,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         {
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(writer, "writer");
 
-            writer.WriteAttributeString(TypeNamePropertyName, TypeName);
-            writer.WriteAttributeIfNotEmpty(ValuePropertyName, Value);
-            writer.WriteAttributeIfNotEmpty(TypeConverterTypeNamePropertyName, TypeConverterTypeName);
+            writer.WriteAttributeString(TypeNamePropertyName, this.TypeName);
+            writer.WriteAttributeIfNotEmpty(ValuePropertyName, this.Value);
+            writer.WriteAttributeIfNotEmpty(TypeConverterTypeNamePropertyName, this.TypeConverterTypeName);
 
-            foreach(var registration in Registrations)
+            foreach (var registration in this.Registrations)
             {
                 writer.WriteElement(registration.ElementName, registration.SerializeContent);
             }
@@ -93,9 +93,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
 
         internal void ConfigureContainer(IUnityContainer container)
         {
-            var interceptor = CreateInterceptor();
+            var interceptor = this.CreateInterceptor();
 
-            foreach(var registration in Registrations)
+            foreach (var registration in this.Registrations)
             {
                 registration.RegisterInterceptor(container, interceptor);
             }
@@ -107,72 +107,72 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// <returns>
         /// true when an unknown element is encountered while deserializing; otherwise, false.
         /// </returns>
-        /// <param name="elementName">The name of the unknown subelement.
-        ///                 </param><param name="reader">The <see cref="T:System.Xml.XmlReader"/> being used for deserialization.
-        ///                 </param><exception cref="T:System.Configuration.ConfigurationErrorsException">The element identified by <paramref name="elementName"/> is locked.
-        ///                     - or -
-        ///                     One or more of the element's attributes is locked.
-        ///                     - or -
-        ///                 <paramref name="elementName"/> is unrecognized, or the element has an unrecognized attribute.
-        ///                     - or -
-        ///                     The element has a Boolean attribute with an invalid value.
-        ///                     - or -
-        ///                     An attempt was made to deserialize a property more than once.
-        ///                     - or -
-        ///                     An attempt was made to deserialize a property that is not a valid member of the element.
-        ///                     - or -
-        ///                     The element cannot contain a CDATA or text element.
-        ///                 </exception>
+        /// <param name="elementName">The name of the unknown subelement.</param>
+        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> being used for deserialization.</param>
+        /// <exception cref="T:System.Configuration.ConfigurationErrorsException">The element identified by <paramref name="elementName"/> is locked.
+        /// - or -
+        /// One or more of the element's attributes is locked.
+        /// - or -
+        /// <paramref name="elementName"/> is unrecognized, or the element has an unrecognized attribute.
+        /// - or -
+        /// The element has a Boolean attribute with an invalid value.
+        /// - or -
+        /// An attempt was made to deserialize a property more than once.
+        /// - or -
+        /// An attempt was made to deserialize a property that is not a valid member of the element.
+        /// - or -
+        /// The element cannot contain a CDATA or text element.
+        /// </exception>
         protected override bool OnDeserializeUnrecognizedElement(string elementName, XmlReader reader)
         {
-            return unknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
+            return UnknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
             base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
         private void GuardIsValidInterceptorType(Type type)
         {
-            GuardTypesCompatible<IInterceptor>(type);
+            this.GuardTypesCompatible<IInterceptor>(type);
         }
 
         private void GuardIsValidTypeConverterType(Type type)
         {
-            GuardTypesCompatible<TypeConverter>(type);
+            this.GuardTypesCompatible<TypeConverter>(type);
         }
 
         private void GuardTypesCompatible<TTargetType>(Type type)
         {
-            if(!typeof(TTargetType).IsAssignableFrom(type))
+            if (!typeof(TTargetType).IsAssignableFrom(type))
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture,
                     Resources.ExceptionResolvedTypeNotCompatible,
-                    TypeName, type.FullName, typeof(TTargetType).FullName));
+                    this.TypeName, type.FullName, typeof(TTargetType).FullName));
             }
         }
 
         private IInterceptor CreateInterceptor()
         {
-            if(!string.IsNullOrEmpty(TypeConverterTypeName))
+            if (!string.IsNullOrEmpty(this.TypeConverterTypeName))
             {
-                return CreateInterceptorWithTypeConverter();
+                return this.CreateInterceptorWithTypeConverter();
             }
-            return CreateInterceptorWithNew();
+            return this.CreateInterceptorWithNew();
         }
 
         private IInterceptor CreateInterceptorWithNew()
         {
-            Type interceptorType = TypeResolver.ResolveType(TypeName);
-            GuardIsValidInterceptorType(interceptorType);
+            Type interceptorType = TypeResolver.ResolveType(this.TypeName);
+            this.GuardIsValidInterceptorType(interceptorType);
 
             return (IInterceptor)Activator.CreateInstance(interceptorType);
         }
 
         private IInterceptor CreateInterceptorWithTypeConverter()
         {
-            Type converterType = TypeResolver.ResolveType(TypeConverterTypeName);
-            GuardIsValidTypeConverterType(converterType);
+            Type converterType = TypeResolver.ResolveType(this.TypeConverterTypeName);
+            this.GuardIsValidTypeConverterType(converterType);
 
-            var converter = (TypeConverter) Activator.CreateInstance(converterType);
-            return (IInterceptor) converter.ConvertFromInvariantString(Value);
+            var converter = (TypeConverter)Activator.CreateInstance(converterType);
+            return (IInterceptor)converter.ConvertFromInvariantString(this.Value);
         }
     }
 }

@@ -76,11 +76,11 @@ namespace Microsoft.Practices.Unity
             Guard.ArgumentNotNull(typeToBuild, "typeToBuild");
 
             List<IDependencyResolverPolicy> resolverPolicies = new List<IDependencyResolverPolicy>();
-            foreach (InjectionParameterValue pv in elementValues)
+            foreach (InjectionParameterValue pv in this.elementValues)
             {
-                resolverPolicies.Add(pv.GetResolverPolicy(elementType));
+                resolverPolicies.Add(pv.GetResolverPolicy(this.elementType));
             }
-            return new ResolvedArrayWithElementsResolverPolicy(elementType, resolverPolicies.ToArray());
+            return new ResolvedArrayWithElementsResolverPolicy(this.elementType, resolverPolicies.ToArray());
         }
 
         private static Type GetArrayType(Type elementType)

@@ -57,15 +57,15 @@ namespace Microsoft.Practices.Unity
 
             if (parameterReflector.IsGenericArray)
             {
-                return CreateGenericArrayResolverPolicy(typeToBuild, parameterReflector);
+                return this.CreateGenericArrayResolverPolicy(typeToBuild, parameterReflector);
             }
 
             if (parameterReflector.IsOpenGeneric || parameterReflector.Type.IsGenericParameter)
             {
-                return CreateGenericResolverPolicy(typeToBuild, parameterReflector);
+                return this.CreateGenericResolverPolicy(typeToBuild, parameterReflector);
             }
 
-            return CreateResolverPolicy(parameterReflector.Type);
+            return this.CreateResolverPolicy(parameterReflector.Type);
         }
 
         private IDependencyResolverPolicy CreateResolverPolicy(Type typeToResolve)
@@ -77,13 +77,13 @@ namespace Microsoft.Practices.Unity
         {
             return new NamedTypeDependencyResolverPolicy(
                 parameterReflector.GetClosedParameterType(typeToBuild.GenericTypeArguments),
-                name);
+                this.name);
         }
 
         private IDependencyResolverPolicy CreateGenericArrayResolverPolicy(Type typeToBuild, ReflectionHelper parameterReflector)
         {
             Type arrayType = parameterReflector.GetClosedParameterType(typeToBuild.GenericTypeArguments);
-            return new NamedTypeDependencyResolverPolicy(arrayType, name);
+            return new NamedTypeDependencyResolverPolicy(arrayType, this.name);
         }
     }
 

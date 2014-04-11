@@ -14,7 +14,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     public class InterfaceInterceptor : IInstanceInterceptor
     {
-        private static readonly Dictionary<GeneratedTypeKey, Type> interceptorClasses =
+        private static readonly Dictionary<GeneratedTypeKey, Type> InterceptorClasses =
             new Dictionary<GeneratedTypeKey, Type>(new GeneratedTypeKey.GeneratedTypeKeyComparer());
 
         #region IInstanceInterceptor Members
@@ -108,14 +108,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             }
 
             GeneratedTypeKey key = new GeneratedTypeKey(typeToProxy, additionalInterfaces);
-            lock (interceptorClasses)
+            lock (InterceptorClasses)
             {
-                if (!interceptorClasses.TryGetValue(key, out interceptorType))
+                if (!InterceptorClasses.TryGetValue(key, out interceptorType))
                 {
                     InterfaceInterceptorClassGenerator generator =
                         new InterfaceInterceptorClassGenerator(typeToProxy, additionalInterfaces);
                     interceptorType = generator.CreateProxyType();
-                    interceptorClasses[key] = interceptorType;
+                    InterceptorClasses[key] = interceptorType;
                 }
             }
 

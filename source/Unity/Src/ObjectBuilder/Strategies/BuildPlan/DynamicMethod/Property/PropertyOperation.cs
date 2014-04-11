@@ -39,7 +39,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         public override string ToString()
         {
             return string.Format(CultureInfo.CurrentCulture,
-                GetDescriptionFormat(),
+                this.GetDescriptionFormat(),
                 TypeBeingConstructed.GetTypeInfo().Name, this.propertyName);
         }
 

@@ -366,7 +366,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 });
         }
 
-
         [TestMethod]
         public void CanInterceptAbstractClassWithVirtualMethodInterceptor()
         {

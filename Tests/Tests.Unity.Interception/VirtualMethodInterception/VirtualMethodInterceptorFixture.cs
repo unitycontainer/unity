@@ -28,7 +28,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         {
             VirtualMethodInterceptor interceptor = new VirtualMethodInterceptor();
             Assert.IsFalse(interceptor.CanIntercept(typeof(CantOverride)));
-
         }
 
         [TestMethod]
@@ -121,7 +120,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             SetPipeline(manager, instance, "add_MyEvent", addHandler);
             SetPipeline(manager, instance, "FireMyEvent", fireHandler);
 
-
             bool raised = false;
             instance.MyEvent += delegate { raised = true; };
 
@@ -132,7 +130,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
             Assert.AreEqual(2, fireHandler.CallCount);
             Assert.AreEqual(1, addHandler.CallCount);
-
         }
 
         [TestMethod]
@@ -305,40 +302,30 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             MethodInfo targetMethod = instance.GetType().BaseType.GetMethod(methodName);
             IInterceptingProxy proxy = (IInterceptingProxy)instance;
             manager.SetPipeline(targetMethod, pipeline);
-
         }
-
-
-
-
-
-
 
         //[TestMethod]
         //public void CanInterceptGenericInterfaceWithInterfaceConstraint()
         //{
         //    var target = new ConstrainedImpl();
-
+        //
         //    bool behaviorWasCalled = false;
-
+        //
         //    var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
         //    {
         //        behaviorWasCalled = true;
         //        return getNext()(inputs, getNext);
         //    });
-
+        //
         //    var proxy = Intercept.ThroughProxy<IConstrainedInterface<IBaseInterface>>(
         //        target, new InterfaceInterceptor(),
         //        new[] { behavior });
-
+        //
         //    proxy.SomeMethod();
-
+        //
         //    Assert.IsTrue(behaviorWasCalled);
-
+        //
         //}
-
-
-
 
         [TestMethod]
         public void CanInterceptNonGenericMethodOnNonGenericInterface()
@@ -414,8 +401,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             Assert.AreSame(typeof(IEnumerable), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
             Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
         }
-
-
 
         [TestMethod]
         public void CanInterceptNonGenericMethodOnGenericInterface()
@@ -517,8 +502,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
         }
 
-
-
         [TestMethod]
         public void CanInterceptNonGenericMethodOnGenericInterfaceWithConstraint()
         {
@@ -619,7 +602,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
         }
 
-
         public class NonGenericClass
         {
             public virtual string NonGenericMethod(IEnumerable param1, string param2)
@@ -687,12 +669,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             }
         }
 
-
-
         [TestMethod]
         public void CanInterceptConstrainedInheritedInterfaceMethod()
         {
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -724,11 +704,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         {
         }
 
-
         [TestMethod]
         public void CanInterceptConstrainedInheritedInterfaceMethod2()
         {
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -778,8 +757,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
         public class DerivedType : BaseType { }
 
-
-
         [TestMethod]
         public void CanInterceptConstrainedInheritedInterfaceMethod3()
         {
@@ -796,7 +773,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
                     new VirtualMethodInterceptor(),
                     new[] { behavior });
 
-
             invocation = null;
 
             instance.Test<HashSet<BaseType>, List<Guid>>(new ISet<BaseType>[0], new List<Guid>());
@@ -807,7 +783,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             Assert.AreSame(typeof(ISet<BaseType>[]), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
             Assert.AreSame(typeof(List<Guid>), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
 
-
             invocation = null;
 
             instance.CompareTo((object)this);
@@ -816,7 +791,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             Assert.AreSame(typeof(int), ((MethodInfo)invocation.MethodBase).ReturnType);
             Assert.AreEqual(1, invocation.MethodBase.GetParameters().Count());
             Assert.AreSame(typeof(object), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
-
 
             invocation = null;
 
@@ -827,7 +801,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             Assert.AreEqual(1, invocation.MethodBase.GetParameters().Count());
             Assert.AreSame(typeof(Guid), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
         }
-
 
         public class ClassA1<TA1, TB1> : IComparable<TB1>
         {
@@ -869,7 +842,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
                     new VirtualMethodInterceptor(),
                     new[] { behavior });
 
-
             invocation = null;
 
             instance.Test<List<DerivedType>>();
@@ -891,9 +863,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         }
     }
 
-    // Some test classes for interception
-
-
     public partial class DerivedTypeCreator
     {
         public void CreateType(Type baseType)
@@ -904,7 +873,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
     public class ClassWithNonDefaultCtor
     {
-        string arg;
+        private string arg;
+        
         public ClassWithNonDefaultCtor(string arg)
         {
             this.arg = arg;
@@ -920,7 +890,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
     {
         public void CannotOverrideMe()
         {
-
         }
     }
 
@@ -955,7 +924,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
         public string Name
         {
-            get { return name; }
+            get { return this.name; }
         }
     }
 

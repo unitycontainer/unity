@@ -23,8 +23,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// given type.
         /// </summary>
         /// <param name="type">The type to match.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class.")]
+        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            //Justification = "Validation done by Guard class.")]
         public TypeMatchingRule(Type type)
             : this(SafeGetTypeName(type), false)
         {
@@ -73,8 +73,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="member">Member to match.</param>
         /// <returns>True if match, false if not.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class.")]
+        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            //Justification = "Validation done by Guard class.")]
         public bool Matches(MethodBase member)
         {
             Guard.ArgumentNotNull(member, "member");
@@ -93,7 +93,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <remarks>Matches may be on the namespace-qualified type name or just the type name.</remarks>
         /// <param name="t">Type to check.</param>
         /// <returns>True if it matches, false if it doesn't.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
+        //[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class")]
         public bool Matches(Type t)

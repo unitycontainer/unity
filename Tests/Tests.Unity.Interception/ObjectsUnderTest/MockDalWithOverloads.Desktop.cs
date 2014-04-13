@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
 {
-    partial class MockDalWithOverloads : MarshalByRefObject
+    internal partial class MockDalWithOverloads : MarshalByRefObject
     {
     }
 }

@@ -21,7 +21,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
             //    return member == matchType;
             //}
 
-            return ( member.DeclaringType == matchType );
+            return (member.DeclaringType == matchType);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             container.RegisterType<Wrappable>(
                 new Interceptor<VirtualMethodInterceptor>(),
                 new InterceptionBehavior<PolicyInjectionBehavior>());
-            
+
             Wrappable wrappable = container.Resolve<Wrappable>();
             wrappable.Method2();
 
@@ -184,8 +184,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Assert.AreEqual(1, GlobalCountCallHandler.Calls["CanCreateWrappedObjectOverInterface"]);
         }
 
-
-
         [TestMethod]
         public void InstanceInterceptionDoesNotReturnProxyWhenNoHandlerAreConfigured()
         {
@@ -264,10 +262,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
         public class DerivedInterceptable : BaseInterceptable
         {
-            //public override void Method()
-            //{
-            //}
         }
-
     }
 }

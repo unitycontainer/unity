@@ -259,7 +259,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.TransparaentProxyInter
         {
             public void Something()
             {
-
             }
         }
 
@@ -269,7 +268,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.TransparaentProxyInter
 
             public void TriggerIt()
             {
-                SomeEvent(this, new EventArgs());
+                this.SomeEvent(this, new EventArgs());
             }
         }
 
@@ -309,6 +308,5 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.TransparaentProxyInter
 
             #endregion
         }
-
     }
 }

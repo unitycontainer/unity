@@ -9,12 +9,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
     [TestClass]
     public class PropertyMatchingRuleFixture
     {
-        MethodInfo getMyProperty;
-        MethodInfo setMyProperty;
-        MethodInfo getMyOtherProperty;
-        MethodInfo setNotAProperty;
-        MethodInfo getACompletelyDifferentProperty;
-        MethodInfo setACompletelyDifferentProperty;
+        private MethodInfo getMyProperty;
+        private MethodInfo setMyProperty;
+        private MethodInfo getMyOtherProperty;
+        private MethodInfo setNotAProperty;
+        private MethodInfo getACompletelyDifferentProperty;
+        private MethodInfo setACompletelyDifferentProperty;
 
         [TestInitialize]
         public void Setup()
@@ -90,7 +90,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
         }
     }
 
-    class PropertyTarget
+    internal class PropertyTarget
     {
         public double ACompletelyDifferentProperty
         {
@@ -109,8 +109,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
             set { }
         }
 
-        public void NotAProperty() {}
+        public void NotAProperty() { }
 
-        public void set_NotAProperty(string value) {}
+        public void SetNotAProperty(string value) { }
     }
 }

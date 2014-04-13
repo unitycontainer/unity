@@ -3,10 +3,6 @@
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
-{
-}
-
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxyInterception
 {
     [TestClass]

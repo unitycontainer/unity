@@ -8,7 +8,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
     [TestClass]
     public partial class AssemblyMatchingRuleFixture
     {
-        MethodBase objectToStringMethod;
+        private MethodBase objectToStringMethod;
 
         [TestInitialize]
         public void TestInitialize()
@@ -29,6 +29,5 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
             AssemblyMatchingRule matchingRule = new AssemblyMatchingRule("mscorlib, Version=1.2.3.4, Culture=neutral, PublicKeyToken=b77a5c561934e089");
             Assert.IsFalse(matchingRule.Matches(objectToStringMethod));
         }
-
     }
 }

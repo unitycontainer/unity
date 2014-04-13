@@ -13,27 +13,28 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_LoadingSectionWithProperties : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_LoadingSectionWithProperties() : base("InjectingProperties")
+        public When_LoadingSectionWithProperties()
+            : base("InjectingProperties")
         {
         }
 
         [TestMethod]
         public void Then_RegistrationHasOnePropertyElement()
         {
-            var registration = (from reg in Section.Containers.Default.Registrations
-                where reg.TypeName == "ObjectWithTwoProperties" && reg.Name == "singleProperty"
-                select reg).First();
+            var registration = (from reg in section.Containers.Default.Registrations
+                                where reg.TypeName == "ObjectWithTwoProperties" && reg.Name == "singleProperty"
+                                select reg).First();
 
             Assert.AreEqual(1, registration.InjectionMembers.Count);
-            Assert.IsInstanceOfType(registration.InjectionMembers[0], typeof (PropertyElement));
+            Assert.IsInstanceOfType(registration.InjectionMembers[0], typeof(PropertyElement));
         }
 
         [TestMethod]
         public void Then_RegistrationHasTwoPropertyElements()
         {
-            var registration = (from reg in Section.Containers.Default.Registrations
-                where reg.TypeName == "ObjectWithTwoProperties" && reg.Name == "twoProperties"
-                select reg).First();
+            var registration = (from reg in section.Containers.Default.Registrations
+                                where reg.TypeName == "ObjectWithTwoProperties" && reg.Name == "twoProperties"
+                                select reg).First();
 
             Assert.AreEqual(2, registration.InjectionMembers.Count);
             Assert.IsTrue(registration.InjectionMembers.All(im => im is PropertyElement));
@@ -42,11 +43,11 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_PropertyNamesAreProperlyDeserialized()
         {
-            var registration = (from reg in Section.Containers.Default.Registrations
+            var registration = (from reg in section.Containers.Default.Registrations
                                 where reg.TypeName == "ObjectWithTwoProperties" && reg.Name == "twoProperties"
                                 select reg).First();
 
-            CollectionAssert.AreEqual(new string[] {"Obj1", "Obj2"},
+            CollectionAssert.AreEqual(new string[] { "Obj1", "Obj2" },
                 registration.InjectionMembers.OfType<PropertyElement>().Select(pe => pe.Name).ToList());
         }
     }

@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,7 +16,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerWithInstances : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_ConfiguringContainerWithInstances() : base("RegisteringInstances")
+        public When_ConfiguringContainerWithInstances()
+            : base("RegisteringInstances")
         {
         }
 
@@ -25,37 +26,37 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         protected override void Arrange()
         {
             base.Arrange();
-            container = new UnityContainer();
+            this.container = new UnityContainer();
         }
 
         protected override void Act()
         {
             base.Act();
-            Section.Configure(container);
+            this.section.Configure(this.container);
         }
 
         [TestMethod]
         public void Then_DefaultStringInstanceIsRegistered()
         {
-            Assert.AreEqual("AdventureWorks", container.Resolve<string>());
+            Assert.AreEqual("AdventureWorks", this.container.Resolve<string>());
         }
 
         [TestMethod]
         public void Then_DefaultIntInstanceIsRegistered()
         {
-            Assert.AreEqual(42, container.Resolve<int>());
+            Assert.AreEqual(42, this.container.Resolve<int>());
         }
 
         [TestMethod]
         public void Then_NamedIntIsRegistered()
         {
-            Assert.AreEqual(23, container.Resolve<int>("forward"));
+            Assert.AreEqual(23, this.container.Resolve<int>("forward"));
         }
 
         [TestMethod]
         public void Then_InstanceUsingTypeConverterIsCreatedProperly()
         {
-            Assert.AreEqual(-23, container.Resolve<int>("negated"));
+            Assert.AreEqual(-23, this.container.Resolve<int>("negated"));
         }
     }
 }

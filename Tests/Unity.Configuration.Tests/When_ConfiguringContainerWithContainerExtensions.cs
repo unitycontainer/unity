@@ -13,7 +13,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerWithContainerExtensions : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_ConfiguringContainerWithContainerExtensions() : base("ContainerExtensions")
+        public When_ConfiguringContainerWithContainerExtensions()
+            : base("ContainerExtensions")
         {
         }
 
@@ -22,19 +23,19 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         protected override void Arrange()
         {
             base.Arrange();
-            container = new UnityContainer();
+            this.container = new UnityContainer();
         }
 
         protected override void Act()
         {
             base.Act();
-            Section.Configure(container);
+            this.section.Configure(this.container);
         }
 
         [TestMethod]
         public void Then_ContainerHasExtensionAdded()
         {
-            Assert.IsNotNull(container.Configure<MockContainerExtension>());
+            Assert.IsNotNull(this.container.Configure<MockContainerExtension>());
         }
     }
 }

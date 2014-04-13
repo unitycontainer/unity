@@ -87,7 +87,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             Assert.AreEqual("northwind", ((ValueElement)element.Value).Value);
         }
 
-        [TestMethod]      
+        [TestMethod]
         public void Then_DeserializingMultipleInjectionValueChildrenThrows()
         {
             var elementXml = @"

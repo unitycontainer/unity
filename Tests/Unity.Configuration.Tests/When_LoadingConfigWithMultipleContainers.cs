@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,33 +16,34 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_LoadingConfigWithMultipleContainers : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_LoadingConfigWithMultipleContainers() : base("SingleSectionMultipleNamedContainers")
+        public When_LoadingConfigWithMultipleContainers()
+            : base("SingleSectionMultipleNamedContainers")
         {
         }
 
         [TestMethod]
         public void Then_ExpectedNumberOfContainersArePresent()
         {
-            Assert.AreEqual(2, Section.Containers.Count);
+            Assert.AreEqual(2, section.Containers.Count);
         }
 
         [TestMethod]
         public void Then_FirstContainerNameIsCorrect()
         {
-            Assert.AreEqual("one", Section.Containers[0].Name);
+            Assert.AreEqual("one", section.Containers[0].Name);
         }
 
         [TestMethod]
         public void Then_SecondContainerNameIsCorrect()
         {
-            Assert.AreEqual("two", Section.Containers[1].Name);
+            Assert.AreEqual("two", section.Containers[1].Name);
         }
 
         [TestMethod]
         public void Then_EnumeratingContainersHappensInOrderOfConfigFile()
         {
             CollectionAssert.AreEqual(new[] { "one", "two" },
-                Section.Containers.Select(c => c.Name).ToList());
+                section.Containers.Select(c => c.Name).ToList());
         }
     }
 }

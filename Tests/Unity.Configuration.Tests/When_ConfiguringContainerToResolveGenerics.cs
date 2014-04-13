@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.Configuration.Tests.TestObjects;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
@@ -17,14 +17,15 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerToResolveGenerics : ContainerConfiguringFixture<ConfigFileLocator>
     {
-        public When_ConfiguringContainerToResolveGenerics() : base("InjectingGenerics", "")
+        public When_ConfiguringContainerToResolveGenerics()
+            : base("InjectingGenerics", String.Empty)
         {
         }
 
         [TestMethod]
         public void Then_GenericParameterAsStringIsProperlySubstituted()
         {
-            Container.RegisterType(typeof (GenericObjectWithConstructorDependency<>), "manual",
+            Container.RegisterType(typeof(GenericObjectWithConstructorDependency<>), "manual",
                 new InjectionConstructor(new GenericParameter("T")));
             var manualResult = Container.Resolve<GenericObjectWithConstructorDependency<string>>("manual");
 
@@ -38,7 +39,5 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var resultForInt = Container.Resolve<GenericObjectWithConstructorDependency<int>>("basic");
             Assert.AreEqual(Container.Resolve<int>(), resultForInt.Value);
         }
-
-
     }
 }

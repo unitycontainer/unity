@@ -2,11 +2,10 @@
 
 namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects
 {
-    class ObjectWithOverloads
+    internal class ObjectWithOverloads
     {
         public int FirstOverloadCalls;
         public int SecondOverloadCalls;
-
 
         public void CallMe(int param)
         {

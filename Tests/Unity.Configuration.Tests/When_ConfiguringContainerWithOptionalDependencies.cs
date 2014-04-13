@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
+using System;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
@@ -13,7 +14,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerWithOptionalDependencies : ContainerConfiguringFixture<ConfigFileLocator>
     {
-        public When_ConfiguringContainerWithOptionalDependencies() : base("OptionalDependency", "")
+        public When_ConfiguringContainerWithOptionalDependencies()
+            : base("OptionalDependency", String.Empty)
         {
         }
 
@@ -30,6 +32,5 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var result = Container.Resolve<ObjectUsingLogger>("dependencyNotRegistered");
             Assert.IsNull(result.Logger);
         }
-
     }
 }

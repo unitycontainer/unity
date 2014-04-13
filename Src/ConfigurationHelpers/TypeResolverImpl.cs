@@ -13,8 +13,8 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
     /// A helper class that implements the actual logic for resolving a shorthand
     /// type name (alias or raw type name) into an actual type object.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
-    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Impl")]
+    //[SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
+    //[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Impl")]
     public class TypeResolverImpl
     {
         private readonly Dictionary<string, string> aliases;
@@ -65,7 +65,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <param name="aliasesSequence">Type aliases from the configuration file.</param>
         /// <param name="assemblies">Assembly names to search.</param>
         /// <param name="namespaces">Namespaces to search.</param>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+        //[SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class")]
         public TypeResolverImpl(IEnumerable<KeyValuePair<string, string>> aliasesSequence,

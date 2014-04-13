@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects.MyGenericTypes
 {
-    class MidsizeVanItem : IItem
+    internal class MidsizeVanItem : IItem
     {
         public MidsizeVanItem(string name, int maxCapacity)
         {

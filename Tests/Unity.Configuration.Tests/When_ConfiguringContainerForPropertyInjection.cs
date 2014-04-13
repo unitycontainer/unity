@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
+using System;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
@@ -13,7 +14,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerForPropertyInjection : ContainerConfiguringFixture<ConfigFileLocator>
     {
-        public When_ConfiguringContainerForPropertyInjection() : base("InjectingProperties", "")
+        public When_ConfiguringContainerForPropertyInjection()
+            : base("InjectingProperties", String.Empty)
         {
         }
 
@@ -33,9 +35,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var result = Container.Resolve<ObjectWithTwoProperties>("twoProperties");
 
             Assert.AreSame(expected, result.Obj1);
-            
         }
-        
+
         [TestMethod]
         public void Then_InjectedPropertyIsProperType()
         {
@@ -50,7 +51,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var expected = Container.Resolve<object>("special");
             var result = Container.Resolve<ObjectWithTwoProperties>("injectingDifferentType");
 
-            Assert.IsInstanceOfType(result.Obj1, typeof (SpecialLogger));
+            Assert.IsInstanceOfType(result.Obj1, typeof(SpecialLogger));
             Assert.AreSame(expected, result.Obj2);
         }
     }

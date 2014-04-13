@@ -4,7 +4,7 @@ using Microsoft.Practices.Unity.TestSupport;
 
 namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects
 {
-    class ArrayDependencyObject
+    internal class ArrayDependencyObject
     {
         public ILogger[] Loggers { get; set; }
 

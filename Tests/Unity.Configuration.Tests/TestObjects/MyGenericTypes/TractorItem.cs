@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects.MyGenericTypes
 {
-    class TractorItem : IItem
+    internal class TractorItem : IItem
     {
         public TractorItem(string name, int maxTrailerTons)
         {

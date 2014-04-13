@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects
 {
-    class SeventeenValueElement : ParameterValueElement
+    internal class SeventeenValueElement : ParameterValueElement
     {
         /// <summary>
         /// Generate an <see cref="InjectionParameterValue"/> object

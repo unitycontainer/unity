@@ -61,7 +61,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             CollectionAssert.AreEquivalent(expected, methods);
         }
 
-
         [TestMethod]
         public void InterceptorIncludesMethodsFromBaseInterfaceForInterceptableType()
         {
@@ -123,7 +122,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             intercepted.TargetMethod();
 
             Assert.AreEqual(3, interceptionBehavior.CallCount);
-
         }
 
         [TestMethod]
@@ -344,7 +342,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
                 yield return new MethodImplementationInfo(
                     interfaceType.GetMethod(name),
                     implementationType.GetMethod(name));
-
             }
         }
 
@@ -352,7 +349,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         {
             public void TargetMethod()
             {
-
             }
         }
 
@@ -372,7 +368,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             }
         }
 
-        class ImplementsInterfaceOne : IInterfaceOne
+        private class ImplementsInterfaceOne : IInterfaceOne
         {
             public bool TargetMethodCalled;
 
@@ -387,7 +383,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             void DoSomething(out int a, ref string s);
         }
 
-        class ImplementsHaveSomeRefsAndOuts : IHaveSomeRefsAndOuts
+        private class ImplementsHaveSomeRefsAndOuts : IHaveSomeRefsAndOuts
         {
             public void DoSomething(out int a, ref string s)
             {
@@ -408,7 +404,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
 
             public string Name
             {
-                get { return name; }
+                get { return this.name; }
             }
         }
 
@@ -416,13 +412,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         {
             string AMethod(int x);
 
-
             int IntProperty { get; set; }
             [Sample("A name")]
             string Name { get; set; }
         }
 
-        class HasSomeProperties : IHaveSomeProperties
+        private class HasSomeProperties : IHaveSomeProperties
         {
             private int intValue;
             private string stringValue;
@@ -445,7 +440,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             }
         }
 
-        class MyDal : IDal
+        private class MyDal : IDal
         {
             private double balance;
 
@@ -927,7 +922,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             //}
         }
 
-
 #if false
         /// <summary>
         /// Test class used to reverse engineer required generated code.
@@ -1030,18 +1024,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             proxy.SomeMethod();
 
             Assert.IsTrue(behaviorWasCalled);
-
         }
-
-
-
 
         [TestMethod]
         public void CanInterceptNonGenericMethodOnNonGenericInterface()
         {
             var target = new NonGenericClass();
 
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -1069,7 +1059,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         {
             var target = new NonGenericClass();
 
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -1097,7 +1087,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         {
             var target = new NonGenericClass();
 
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -1120,14 +1110,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
         }
 
-
-
         [TestMethod]
         public void CanInterceptNonGenericMethodOnGenericInterface()
         {
             var target = new GenericClass<IEnumerable>();
 
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -1155,7 +1143,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         {
             var target = new GenericClass<IEnumerable>();
 
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -1183,7 +1171,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         {
             var target = new GenericClass<int>();
 
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -1212,7 +1200,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         {
             var target = new GenericClass<IEnumerable>();
 
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -1240,7 +1228,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         {
             var target = new GenericClass<IEnumerable>();
 
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -1263,14 +1251,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
         }
 
-
-
         [TestMethod]
         public void CanInterceptNonGenericMethodOnGenericInterfaceWithConstraint()
         {
             var target = new GenericClassWithConstraint<IEnumerable>();
 
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -1298,7 +1284,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         {
             var target = new GenericClassWithConstraint<IEnumerable>();
 
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -1326,7 +1312,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         {
             var target = new GenericClassWithConstraint<IEnumerable>();
 
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -1354,7 +1340,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         {
             var target = new GenericClassWithConstraint<IEnumerable>();
 
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -1376,7 +1362,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             Assert.AreSame(typeof(IEnumerable), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
             Assert.AreSame(typeof(string), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
         }
-
 
         public interface INonGenericInterface
         {
@@ -1489,7 +1474,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         {
             var target = new DerivedNonGenericClass();
 
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -1531,13 +1516,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         {
         }
 
-
         [TestMethod]
         public void CanInterceptConstrainedInheritedInterfaceMethod2()
         {
             var target = new Class3<ICollection<string>>();
 
-            IMethodInvocation invocation = null; ;
+            IMethodInvocation invocation = null;
 
             var behavior = new DelegateInterceptionBehavior((inputs, getNext) =>
             {
@@ -1596,8 +1580,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
 
         public class DerivedType : BaseType { }
 
-
-
         [TestMethod]
         public void CanInterceptConstrainedInheritedInterfaceMethod3()
         {
@@ -1617,7 +1599,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
                     new InterfaceInterceptor(),
                     new[] { behavior });
 
-
             invocation = null;
 
             proxy.Test<HashSet<BaseType>, List<Guid>>(new ISet<BaseType>[0], new List<Guid>());
@@ -1628,7 +1609,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             Assert.AreSame(typeof(ISet<BaseType>[]), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
             Assert.AreSame(typeof(List<Guid>), invocation.MethodBase.GetParameters().ElementAt(1).ParameterType);
 
-
             invocation = null;
 
             proxy.CompareTo((object)this);
@@ -1637,7 +1617,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             Assert.AreSame(typeof(int), ((MethodInfo)invocation.MethodBase).ReturnType);
             Assert.AreEqual(1, invocation.MethodBase.GetParameters().Count());
             Assert.AreSame(typeof(object), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
-
 
             invocation = null;
 
@@ -1648,7 +1627,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
             Assert.AreEqual(1, invocation.MethodBase.GetParameters().Count());
             Assert.AreSame(typeof(Guid), invocation.MethodBase.GetParameters().ElementAt(0).ParameterType);
         }
-
 
         public interface IInterfaceA1<TA1, TB1> : IComparable<TB1>
         {

@@ -13,23 +13,24 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_LoadingConfigurationWithArrayInjection : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_LoadingConfigurationWithArrayInjection() : base("ArrayInjection")
+        public When_LoadingConfigurationWithArrayInjection()
+            : base("ArrayInjection")
         {
         }
 
         [TestMethod]
         public void Then_ArrayPropertyHasArrayElementAsValue()
         {
-            var prop = GetArrayPropertyElement("specificElements");
+            var prop = this.GetArrayPropertyElement("specificElements");
 
-            Assert.IsInstanceOfType(prop.Value, typeof (ArrayElement));
+            Assert.IsInstanceOfType(prop.Value, typeof(ArrayElement));
         }
 
         [TestMethod]
         public void Then_ArrayPropertyHasTwoValuesThatWillBeInjected()
         {
-            var prop = GetArrayPropertyElement("specificElements");
-            var arrayValue = (ArrayElement) prop.Value;
+            var prop = this.GetArrayPropertyElement("specificElements");
+            var arrayValue = (ArrayElement)prop.Value;
 
             Assert.AreEqual(2, arrayValue.Values.Count);
         }
@@ -37,8 +38,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_ArrayPropertyValuesAreAllDependencies()
         {
-            var prop = GetArrayPropertyElement("specificElements");
-            var arrayValue = (ArrayElement) prop.Value;
+            var prop = this.GetArrayPropertyElement("specificElements");
+            var arrayValue = (ArrayElement)prop.Value;
 
             Assert.IsTrue(arrayValue.Values.All(v => v is DependencyElement));
         }
@@ -46,24 +47,22 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_ArrayPropertyValuesHaveExpectedNames()
         {
-            var prop = GetArrayPropertyElement("specificElements");
+            var prop = this.GetArrayPropertyElement("specificElements");
             var arrayValue = (ArrayElement)prop.Value;
 
-            CollectionAssert.AreEqual(new[] {"main", "special"},
+            CollectionAssert.AreEqual(new[] { "main", "special" },
                 arrayValue.Values.Cast<DependencyElement>().Select(e => e.Name).ToList());
         }
 
         private PropertyElement GetArrayPropertyElement(string registrationName)
         {
-            var registration = Section.Containers.Default.Registrations
+            var registration = section.Containers.Default.Registrations
                 .Where(r => r.TypeName == "ArrayDependencyObject" && r.Name == registrationName)
                 .First();
 
             return registration.InjectionMembers.OfType<PropertyElement>()
                 .Where(pe => pe.Name == "Loggers")
                 .First();
-            
         }
-
     }
 }

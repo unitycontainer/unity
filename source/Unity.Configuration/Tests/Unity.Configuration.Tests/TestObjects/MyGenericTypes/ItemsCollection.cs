@@ -26,6 +26,5 @@ namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects.MyGenericTyp
         { }
 
         public T[] Items { get; set; }
-
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests.TestObjects
 {
-    class ObjectWithAmbiguousMarkedConstructor
+    internal class ObjectWithAmbiguousMarkedConstructor
     {
         public ObjectWithAmbiguousMarkedConstructor()
         {
@@ -17,7 +17,6 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests.TestObjects
         [InjectionConstructor]
         public ObjectWithAmbiguousMarkedConstructor(string first, string second, int third)
         {
-            
-        }    
+        }
     }
 }

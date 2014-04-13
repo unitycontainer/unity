@@ -2,7 +2,7 @@
 
 namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects
 {
-    class ContainerConfigElementTwo : ContainerConfiguringElement
+    internal class ContainerConfigElementTwo : ContainerConfiguringElement
     {
         public static bool ConfigureWasCalled;
 

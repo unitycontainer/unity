@@ -23,14 +23,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
         private IUnityContainer GetConfiguredContainer(string containerName)
         {
             IUnityContainer container = new UnityContainer();
-            Section.Configure(container, containerName);
+            section.Configure(container, containerName);
             return container;
         }
 
         [TestMethod]
         public void Then_CanConfigureAnEmptyPolicy()
         {
-            IUnityContainer container = GetConfiguredContainer("oneEmptyPolicy");
+            IUnityContainer container = this.GetConfiguredContainer("oneEmptyPolicy");
 
             var policies = new List<InjectionPolicy>(container.ResolveAll<InjectionPolicy>());
 
@@ -43,7 +43,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
         [TestMethod]
         public void Then_MatchingRuleInPolicyIsConfigured()
         {
-            IUnityContainer container = GetConfiguredContainer("policyWithGivenRulesAndHandlersTypes");
+            IUnityContainer container = this.GetConfiguredContainer("policyWithGivenRulesAndHandlersTypes");
 
             GlobalCountCallHandler.Calls.Clear();
 
@@ -61,7 +61,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
         public void Then_RulesAndHandlersCanBeConfiguredExternalToPolicy()
         {
             IUnityContainer container
-                = GetConfiguredContainer("policyWithExternallyConfiguredRulesAndHandlers");
+                = this.GetConfiguredContainer("policyWithExternallyConfiguredRulesAndHandlers");
 
             GlobalCountCallHandler.Calls.Clear();
 
@@ -80,7 +80,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
         public void Then_RulesAndHandlersCanHaveInjectionConfiguredInPolicyElement()
         {
             IUnityContainer container
-                = GetConfiguredContainer("policyWithInjectedRulesAndHandlers");
+                = this.GetConfiguredContainer("policyWithInjectedRulesAndHandlers");
 
             GlobalCountCallHandler.Calls.Clear();
 
@@ -100,7 +100,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
         public void CanSetUpAPolicyWithLifetimeManagedInjectedRulesAndHandlers()
         {
             IUnityContainer container
-                = GetConfiguredContainer("policyWithLifetimeManagedInjectedRulesAndHandlers");
+                = this.GetConfiguredContainer("policyWithLifetimeManagedInjectedRulesAndHandlers");
 
             GlobalCountCallHandler.Calls.Clear();
 
@@ -139,7 +139,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
         public void Then_RulesAndHandlersInDifferentPoliciesCanHaveTheSameName()
         {
             IUnityContainer container
-                = GetConfiguredContainer("policyWithDuplicateRuleAndHandlerNames");
+                = this.GetConfiguredContainer("policyWithDuplicateRuleAndHandlerNames");
 
             GlobalCountCallHandler.Calls.Clear();
 

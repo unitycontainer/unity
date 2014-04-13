@@ -66,8 +66,8 @@ namespace Microsoft.Practices.Unity
         /// <param name="t">Type to check.</param>
         /// <returns>True if this parameter value is compatible with type <paramref name="t"/>,
         /// false if not.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
+        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            //Justification = "Validation done by Guard class")]
         public override bool MatchesType(Type t)
         {
             Guard.ArgumentNotNull(t, "t");
@@ -105,8 +105,8 @@ namespace Microsoft.Practices.Unity
         /// <param name="typeToResolve">The actual type to resolve.</param>
         /// <param name="resolutionKey">The resolution key.</param>
         /// <returns>The <see cref="IDependencyResolverPolicy"/>.</returns>
-        [SuppressMessage("Microsoft.Maintainability", "CA1500:VariableNamesShouldNotMatchFieldNames", MessageId = "resolutionKey",
-            Justification = "protected method parameter collides with private field - not an issue.")]
+        //[SuppressMessage("Microsoft.Maintainability", "CA1500:VariableNamesShouldNotMatchFieldNames", MessageId = "resolutionKey",
+            //Justification = "protected method parameter collides with private field - not an issue.")]
         protected abstract IDependencyResolverPolicy DoGetResolverPolicy(Type typeToResolve, string resolutionKey);
 
         private void GuardTypeToBuildIsGeneric(Type typeToBuild)

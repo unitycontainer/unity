@@ -9,7 +9,7 @@ namespace Microsoft.Practices.Unity.TestSupport
 {
     public class AdditionalInterfaceBehavior : IInterceptionBehavior
     {
-        private static readonly MethodInfo DoNothingMethod = typeof (IAdditionalInterface).GetMethod("DoNothing");
+        private static readonly MethodInfo DoNothingMethod = typeof(IAdditionalInterface).GetMethod("DoNothing");
         private bool implicitlyAddInterface = true;
 
         public AdditionalInterfaceBehavior()
@@ -30,7 +30,7 @@ namespace Microsoft.Practices.Unity.TestSupport
         /// <returns>Return value from the target.</returns>
         public IMethodReturn Invoke(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext)
         {
-            if(input.MethodBase == DoNothingMethod)
+            if (input.MethodBase == DoNothingMethod)
             {
                 return ExecuteDoNothing(input);
             }
@@ -49,8 +49,10 @@ namespace Microsoft.Practices.Unity.TestSupport
         /// <returns>The required interfaces.</returns>
         public IEnumerable<Type> GetRequiredInterfaces()
         {
-            if(implicitlyAddInterface)
-                return new[] {typeof (IAdditionalInterface)};
+            if (implicitlyAddInterface)
+            {
+                return new[] { typeof(IAdditionalInterface) };
+            }
             return Type.EmptyTypes;
         }
 

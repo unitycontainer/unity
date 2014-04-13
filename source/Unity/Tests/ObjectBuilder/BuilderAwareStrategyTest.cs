@@ -23,9 +23,9 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.ExecuteBuildUp(new NamedTypeBuildKey<Aware>(), obj);
 
-            Assert.IsTrue(obj.OnBuiltUp__Called);
-            Assert.IsFalse(obj.OnTearingDown__Called);
-            Assert.AreEqual(new NamedTypeBuildKey<Aware>(), obj.OnBuiltUp_BuildKey);
+            Assert.IsTrue(obj.OnBuiltUpWasCalled);
+            Assert.IsFalse(obj.OnTearingDownWasCalled);
+            Assert.AreEqual(new NamedTypeBuildKey<Aware>(), obj.OnBuiltUpBuildKey);
         }
 
         [TestMethod]
@@ -39,8 +39,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.ExecuteBuildUp(new NamedTypeBuildKey<Aware>(), obj);
 
-            Assert.IsTrue(obj.OnBuiltUp__Called);
-            Assert.IsFalse(obj.OnTearingDown__Called);
+            Assert.IsTrue(obj.OnBuiltUpWasCalled);
+            Assert.IsFalse(obj.OnTearingDownWasCalled);
         }
 
         [TestMethod]
@@ -54,8 +54,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.ExecuteBuildUp(new NamedTypeBuildKey<Ignorant>(), obj);
 
-            Assert.IsFalse(obj.OnBuiltUp__Called);
-            Assert.IsFalse(obj.OnTearingDown__Called);
+            Assert.IsFalse(obj.OnBuiltUpWasCalled);
+            Assert.IsFalse(obj.OnTearingDownWasCalled);
         }
 
         [TestMethod]
@@ -69,8 +69,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.ExecuteTearDown(obj);
 
-            Assert.IsFalse(obj.OnBuiltUp__Called);
-            Assert.IsTrue(obj.OnTearingDown__Called);
+            Assert.IsFalse(obj.OnBuiltUpWasCalled);
+            Assert.IsTrue(obj.OnTearingDownWasCalled);
         }
 
         [TestMethod]
@@ -84,27 +84,27 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.ExecuteTearDown(obj);
 
-            Assert.IsFalse(obj.OnBuiltUp__Called);
-            Assert.IsFalse(obj.OnTearingDown__Called);
+            Assert.IsFalse(obj.OnBuiltUpWasCalled);
+            Assert.IsFalse(obj.OnTearingDownWasCalled);
         }
 
-        class Aware : Ignorant, IBuilderAware {}
+        private class Aware : Ignorant, IBuilderAware { }
 
-        class Ignorant
+        private class Ignorant
         {
-            public bool OnBuiltUp__Called;
-            public NamedTypeBuildKey OnBuiltUp_BuildKey;
-            public bool OnTearingDown__Called;
+            public bool OnBuiltUpWasCalled;
+            public NamedTypeBuildKey OnBuiltUpBuildKey;
+            public bool OnTearingDownWasCalled;
 
             public void OnBuiltUp(NamedTypeBuildKey buildKey)
             {
-                OnBuiltUp__Called = true;
-                OnBuiltUp_BuildKey = buildKey;
+                OnBuiltUpWasCalled = true;
+                OnBuiltUpBuildKey = buildKey;
             }
 
             public void OnTearingDown()
             {
-                OnTearingDown__Called = true;
+                OnTearingDownWasCalled = true;
             }
         }
     }

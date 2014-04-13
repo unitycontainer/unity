@@ -30,7 +30,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
         public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
         {
             string key = (string)input.Inputs[0];
-            if( key == shortcutKey )
+            if (key == shortcutKey)
             {
                 IMethodReturn result = input.CreateMethodReturn(-1);
                 return result;

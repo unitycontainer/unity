@@ -11,16 +11,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {
-    class AssertActualExpectedException : AssertFailedException
+    internal class AssertActualExpectedException : AssertFailedException
     {
-        readonly string actual;
-        readonly string differencePosition = "";
-        readonly string expected;
+        private readonly string actual;
+        private readonly string differencePosition = String.Empty;
+        private readonly string expected;
 
         public AssertActualExpectedException(object actual,
                                              object expected,
                                              string userMessage)
-            : this(actual, expected, userMessage, false) {}
+            : this(actual, expected, userMessage, false) { }
 
         public AssertActualExpectedException(object actual,
                                              object expected,
@@ -45,15 +45,17 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
                         bool expectedHasNext = enumeratorExpected.MoveNext();
 
                         if (!actualHasNext || !expectedHasNext)
+                        {
                             break;
-
-                        if (!Equals(enumeratorActual.Current, enumeratorExpected.Current))
+                        }
+                        if (!Object.Equals(enumeratorActual.Current, enumeratorExpected.Current))
+                        {
                             break;
-
+                        }
                         position++;
                     }
 
-                    differencePosition = "Position: First difference is at position " + position + Environment.NewLine;
+                    this.differencePosition = "Position: First difference is at position " + position + Environment.NewLine;
                 }
             }
 
@@ -63,12 +65,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
         public string Actual
         {
-            get { return actual; }
+            get { return this.actual; }
         }
 
         public string Expected
         {
-            get { return expected; }
+            get { return this.expected; }
         }
 
         public override string Message
@@ -77,28 +79,30 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             {
                 return string.Format("{0}{4}{1}Expected: {2}{4}Actual:   {3}",
                                      base.Message,
-                                     differencePosition,
-                                     FormatMultiLine(Expected ?? "(null)"),
-                                     FormatMultiLine(Actual ?? "(null)"),
+                                     this.differencePosition,
+                                     FormatMultiLine(this.Expected ?? "(null)"),
+                                     FormatMultiLine(this.Actual ?? "(null)"),
                                      Environment.NewLine);
             }
         }
 
-        static string ConvertToString(object value)
+        private static string ConvertToString(object value)
         {
             Array valueArray = value as Array;
             if (valueArray == null)
+            {
                 return value.ToString();
-
+            }
             List<string> valueStrings = new List<string>();
 
             foreach (object valueObject in valueArray)
+            {
                 valueStrings.Add(valueObject.ToString());
-
+            }
             return value.GetType().FullName + " { " + String.Join(", ", valueStrings.ToArray()) + " }";
         }
 
-        static string FormatMultiLine(string value)
+        private static string FormatMultiLine(string value)
         {
             return value.Replace(Environment.NewLine, Environment.NewLine + "          ");
         }

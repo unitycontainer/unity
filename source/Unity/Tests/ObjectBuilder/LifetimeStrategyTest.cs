@@ -60,7 +60,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void LifetimeStrategyUsesFactoryToGetLifetimePolicyForGenericType()
         {
             MockBuilderContext context = CreateContext();
-            var openKey = new NamedTypeBuildKey(typeof (YetAnotherDummyInterfaceImplementation<>));
+            var openKey = new NamedTypeBuildKey(typeof(YetAnotherDummyInterfaceImplementation<>));
             context.PersistentPolicies.Set<ILifetimeFactoryPolicy>(
                 new LifetimeFactoryPolicy<RecoverableLifetime>(), openKey);
 
@@ -79,7 +79,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             Assert.IsInstanceOfType(intLifetime, typeof(RecoverableLifetime));
             Assert.AreNotSame(stringLifetime, intLifetime);
         }
-        
+
         private MockBuilderContext CreateContext()
         {
             MockBuilderContext context = new MockBuilderContext();
@@ -113,15 +113,13 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
         public interface IWhyDoWeNeedSoManyInterfaces<T>
         {
-            
         }
 
         public class YetAnotherDummyInterfaceImplementation<T> : IWhyDoWeNeedSoManyInterfaces<T>
         {
-            
         }
 
-        class LifetimeFactoryPolicy<T> : ILifetimeFactoryPolicy 
+        private class LifetimeFactoryPolicy<T> : ILifetimeFactoryPolicy
             where T : ILifetimePolicy, new()
         {
             public ILifetimePolicy CreateLifetimePolicy()
@@ -134,7 +132,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             /// </summary>
             public Type LifetimeType
             {
-                get { return typeof (T); }
+                get { return typeof(T); }
             }
         }
     }

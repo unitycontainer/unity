@@ -14,7 +14,7 @@ namespace Microsoft.Practices.Unity
     /// This class isn't really a collection, it just implements IEnumerable
     /// so that we get use of the nice C# collection initializer syntax.
     /// </remarks>
-    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Not really a collection, only implements IEnumerable to get convenient initialization syntax.")]
+    //[SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Not really a collection, only implements IEnumerable to get convenient initialization syntax.")]
     public class DependencyOverrides : OverrideCollection<DependencyOverride, Type, object>
     {
         /// <summary>

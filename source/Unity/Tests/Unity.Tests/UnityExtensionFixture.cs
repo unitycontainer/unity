@@ -157,7 +157,7 @@ namespace Microsoft.Practices.Unity.Tests
         {
             IUnityContainer container = new UnityContainer();
             container.AddNewExtension<ContainerExtensionWithNonDefaultConstructor>();
-            var extension = container.Configure(typeof (ContainerExtensionWithNonDefaultConstructor));
+            var extension = container.Configure(typeof(ContainerExtensionWithNonDefaultConstructor));
             Assert.IsNotNull(extension);
         }
     }

@@ -15,8 +15,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// and if found maps the build key for the current operation.
         /// </summary>
         /// <param name="context">The context for the operation.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
+        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            //Justification = "Validation done by Guard class")]
         public override void PreBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");

@@ -13,6 +13,5 @@ namespace Microsoft.Practices.Unity.TestSupport
 
     public partial class WrappableWithProperty : MarshalByRefObject
     {
-
-    }    
+    }
 }

@@ -206,8 +206,8 @@ namespace Microsoft.Practices.Unity.Configuration
                 throw ElementTypeNotFound(elementType);
             }
 
-            [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly",
-                Justification = "Factory method to create exception for callers.")]
+            //[SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly",
+                //Justification = "Factory method to create exception for callers.")]
             private static Exception ElementTypeNotFound(Type elementType)
             {
                 return new ArgumentException(

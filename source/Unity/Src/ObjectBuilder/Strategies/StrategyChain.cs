@@ -12,7 +12,7 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// Represents a chain of responsibility for builder strategies.
     /// </summary>
     // FxCop suppression: See IStrategyChain
-    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "See IStrategyChain")]
+    //[SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "See IStrategyChain")]
     public class StrategyChain : IStrategyChain
     {
         private readonly List<IBuilderStrategy> strategies = new List<IBuilderStrategy>();

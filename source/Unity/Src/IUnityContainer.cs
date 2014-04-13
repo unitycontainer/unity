@@ -22,7 +22,7 @@ namespace Microsoft.Practices.Unity
         /// of the returned instance.</param>
         /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "To")]
+        //[SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "To")]
         IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager,
                                               params InjectionMember[] injectionMembers);
 
@@ -42,7 +42,7 @@ namespace Microsoft.Practices.Unity
         /// <param name="lifetime">
         /// <see cref="LifetimeManager"/> object that controls how this instance will be managed by the container.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
+        //[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
         IUnityContainer RegisterInstance(Type t, string name, object instance, LifetimeManager lifetime);
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Microsoft.Practices.Unity
         /// <param name="name">Name of the object to retrieve.</param>
         /// <param name="resolverOverrides">Any overrides for the resolve call.</param>
         /// <returns>The retrieved object.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
+        //[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
         object Resolve(Type t, string name, params ResolverOverride[] resolverOverrides);
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Microsoft.Practices.Unity
         /// <param name="t">The type requested.</param>
         /// <param name="resolverOverrides">Any overrides for the resolve calls.</param>
         /// <returns>Set of objects of type <paramref name="t"/>.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
+        //[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
         IEnumerable<object> ResolveAll(Type t, params ResolverOverride[] resolverOverrides);
 
         /// <summary>
@@ -89,15 +89,15 @@ namespace Microsoft.Practices.Unity
         /// <returns>The resulting object. By default, this will be <paramref name="existing"/>, but
         /// container extensions may add things like automatic proxy creation which would
         /// cause this to return a different object (but still type compatible with <paramref name="t"/>).</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
+        //[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
+        //[SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
         object BuildUp(Type t, object existing, string name, params ResolverOverride[] resolverOverrides);
 
         /// <summary>
         /// Run an existing object through the container, and clean it up.
         /// </summary>
         /// <param name="o">The object to tear down.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "o")]
+        //[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "o")]
         void Teardown(object o);
 
         /// <summary>

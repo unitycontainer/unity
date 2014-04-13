@@ -4,17 +4,15 @@ using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests.TestObjects
 {
-    class ObjectWithMarkedConstructor
+    internal class ObjectWithMarkedConstructor
     {
         public ObjectWithMarkedConstructor(int notTheInjectionConstructor)
         {
-            
         }
 
         [InjectionConstructor]
         public ObjectWithMarkedConstructor(string theInjectionConstructor)
         {
-            
         }
     }
 }

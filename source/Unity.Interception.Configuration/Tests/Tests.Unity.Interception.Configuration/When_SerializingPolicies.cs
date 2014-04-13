@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
@@ -58,7 +58,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
         {
             var loadedConfig = SerializeAndLoadConfig("MatchingRules.config", CreateConfigWithMatchingRules);
 
-            var interception = (InterceptionElement) loadedConfig.Containers.Default.ConfiguringElements[0];
+            var interception = (InterceptionElement)loadedConfig.Containers.Default.ConfiguringElements[0];
             interception.Policies[0].MatchingRules.Select(mr => mr.Name)
                 .AssertContainsExactly("NameOnly", "NameAndType", "RuleWithLifetime", "RuleWithElements");
         }
@@ -69,7 +69,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
             var loadedConfig = SerializeAndLoadConfig("MatchingRules.config", CreateConfigWithMatchingRules);
             var interception = (InterceptionElement)loadedConfig.Containers.Default.ConfiguringElements[0];
             interception.Policies[0].MatchingRules.Select(mr => mr.TypeName)
-                .AssertContainsExactly("", "AlwaysMatchingRule", "AlwaysMatchingRule", "AlwaysMatchingRule");
+                .AssertContainsExactly(String.Empty, "AlwaysMatchingRule", "AlwaysMatchingRule", "AlwaysMatchingRule");
         }
 
         [TestMethod]
@@ -119,7 +119,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
             var interception = (InterceptionElement)loadedConfig.Containers.Default.ConfiguringElements[0];
 
             interception.Policies[0].CallHandlers.Select(ch => ch.TypeName)
-                .AssertContainsExactly("", "DoMoreRule", "DoSomethingRule", "CallCountHandler");
+                .AssertContainsExactly(String.Empty, "DoMoreRule", "DoSomethingRule", "CallCountHandler");
         }
 
         [TestMethod]
@@ -151,11 +151,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
 
             Assert.AreEqual("MyProp", injectionMembers.OfType<PropertyElement>().First().Name);
         }
-    
+
         private static void CreateConfigWithMatchingRules(ContainerElement c)
         {
             var interceptionElement = new InterceptionElement();
-            var policy = new PolicyElement() {Name = "PolicyOne"};
+            var policy = new PolicyElement() { Name = "PolicyOne" };
             policy.MatchingRules.Add(new MatchingRuleElement()
             {
                 Name = "NameOnly"
@@ -183,7 +183,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
                 TypeName = "AlwaysMatchingRule"
             };
             ruleWithMembers.Injection.Add(new ConstructorElement());
-            ruleWithMembers.Injection.Add(new PropertyElement() { Name = "MyProp" } );
+            ruleWithMembers.Injection.Add(new PropertyElement() { Name = "MyProp" });
 
             policy.MatchingRules.Add(ruleWithMembers);
 
@@ -196,7 +196,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
         {
             var interceptionElement = new InterceptionElement();
             var policy = new PolicyElement() { Name = "PolicyOne" };
-            policy.MatchingRules.Add(new MatchingRuleElement() { Name =  "All", TypeName = "AlwaysMatchingRule" });
+            policy.MatchingRules.Add(new MatchingRuleElement() { Name = "All", TypeName = "AlwaysMatchingRule" });
 
             policy.CallHandlers.Add(new CallHandlerElement()
             {

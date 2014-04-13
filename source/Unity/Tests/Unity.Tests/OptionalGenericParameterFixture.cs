@@ -55,7 +55,6 @@ namespace Microsoft.Practices.Unity.Tests
             Account named = new Account();
             container.RegisterInstance<Account>("named", named);
 
-
             ClassWithOneGenericParameter<Account> result = container.Resolve<ClassWithOneGenericParameter<Account>>();
             Assert.AreSame(named, result.InjectedValue);
         }

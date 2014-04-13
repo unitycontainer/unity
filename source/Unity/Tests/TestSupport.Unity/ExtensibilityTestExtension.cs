@@ -19,18 +19,17 @@ namespace Microsoft.Practices.Unity.TestSupport
 
         protected override void Initialize()
         {
-            
         }
 
         public IConfigOne SetText(string text)
         {
-            ConfigOneText = text;
+            this.ConfigOneText = text;
             return this;
         }
 
         public IConfigTwo SetMessage(string text)
         {
-            ConfigTwoText = text;
+            this.ConfigTwoText = text;
             return this;
         }
     }

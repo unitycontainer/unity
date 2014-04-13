@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
 {
-    class CritialFakeDal : MarshalByRefObject
+    internal class CritialFakeDal : MarshalByRefObject
     {
     }
 }

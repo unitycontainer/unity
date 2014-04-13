@@ -12,7 +12,7 @@ namespace Microsoft.Practices.Unity.WebIntegation.Tests
     public class WebApiUnityDependencyResolverFixture
     {
         [TestMethod]
-        public void when_resolving_then_returns_registered_instance()
+        public void When_resolving_then_returns_registered_instance()
         {
             using (var container = new UnityContainer())
             {
@@ -26,7 +26,7 @@ namespace Microsoft.Practices.Unity.WebIntegation.Tests
         }
 
         [TestMethod]
-        public void when_resolving_multiple_then_returns_all_registered_instances()
+        public void When_resolving_multiple_then_returns_all_registered_instances()
         {
             using (var container = new UnityContainer())
             {
@@ -42,7 +42,7 @@ namespace Microsoft.Practices.Unity.WebIntegation.Tests
         }
 
         [TestMethod]
-        public void when_resolving_unregistered_type_then_returns_null()
+        public void When_resolving_unregistered_type_then_returns_null()
         {
             using (var container = new UnityContainer())
             {
@@ -54,7 +54,7 @@ namespace Microsoft.Practices.Unity.WebIntegation.Tests
         }
 
         [TestMethod]
-        public void when_resolving_concrete_controller_inside_scope_then_returns_injected_instance()
+        public void When_resolving_concrete_controller_inside_scope_then_returns_injected_instance()
         {
             using (var container = new UnityContainer())
             {
@@ -71,7 +71,7 @@ namespace Microsoft.Practices.Unity.WebIntegation.Tests
         }
 
         [TestMethod]
-        public void when_resolving_controller_inside_scope_with_unregistered_dependencies_then_throws()
+        public void When_resolving_controller_inside_scope_with_unregistered_dependencies_then_throws()
         {
             using (var container = new UnityContainer())
             {
@@ -86,7 +86,7 @@ namespace Microsoft.Practices.Unity.WebIntegation.Tests
         }
 
         [TestMethod]
-        public void when_resolving_unregistered_type_inside_scope_then_throws()
+        public void When_resolving_unregistered_type_inside_scope_then_throws()
         {
             using (var container = new UnityContainer())
             {
@@ -101,7 +101,7 @@ namespace Microsoft.Practices.Unity.WebIntegation.Tests
         }
 
         [TestMethod]
-        public void when_disposing_resolver_then_disposes_container()
+        public void When_disposing_resolver_then_disposes_container()
         {
             using (var container = new UnityContainer())
             {
@@ -115,7 +115,7 @@ namespace Microsoft.Practices.Unity.WebIntegation.Tests
         }
 
         [TestMethod]
-        public void when_disposing_scope_then_does_not_dispose_container()
+        public void When_disposing_scope_then_does_not_dispose_container()
         {
             using (var container = new UnityContainer())
             {
@@ -132,7 +132,7 @@ namespace Microsoft.Practices.Unity.WebIntegation.Tests
         }
 
         [TestMethod]
-        public void when_resolving_type_with_container_controlled_lifetime_then_returns_same_instance_every_time()
+        public void When_resolving_type_with_container_controlled_lifetime_then_returns_same_instance_every_time()
         {
             using (var container = new UnityContainer())
             {
@@ -161,7 +161,7 @@ namespace Microsoft.Practices.Unity.WebIntegation.Tests
         }
 
         [TestMethod]
-        public void when_resolving_type_with_hierarchical_lifetime_then_returns_same_instance_every_time()
+        public void When_resolving_type_with_hierarchical_lifetime_then_returns_same_instance_every_time()
         {
             using (var container = new UnityContainer())
             {

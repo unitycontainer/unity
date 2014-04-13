@@ -178,13 +178,13 @@ namespace Microsoft.Practices.Unity.Tests
             var container = new UnityContainer();
             container.RegisterInstance<string>("a value");
 
-            const int threads = 40;
-            var barrier = new System.Threading.Barrier(threads);
-            var countdown = new CountdownEvent(threads);
+            const int Threads = 40;
+            var barrier = new System.Threading.Barrier(Threads);
+            var countdown = new CountdownEvent(Threads);
             var random = new Random();
             var errors = false;
 
-            for (int i = 0; i < threads; i++)
+            for (int i = 0; i < Threads; i++)
             {
                 Task.Factory.StartNew(
                     wait =>
@@ -289,7 +289,7 @@ namespace Microsoft.Practices.Unity.Tests
                 container.RegisterType<ClassWithDependency>("instance1");
                 container.RegisterType<ClassWithDependency>("instance2");
 
-                var instance = 
+                var instance =
                     container.Resolve<ClassWithDependencyOnArray>(new DependencyOverride<ClassWithPerResolveLifetime>(overrideInstance).OnType<ClassWithDependency>());
 
                 Assert.AreEqual(2, instance.Elements.Length);
@@ -304,7 +304,7 @@ namespace Microsoft.Practices.Unity.Tests
 
         public class ClassWithDoubleConstructor : IBasicInterface
         {
-            private string myString = "";
+            private string myString = String.Empty;
 
             [InjectionConstructor]
             public ClassWithDoubleConstructor()
@@ -320,27 +320,22 @@ namespace Microsoft.Practices.Unity.Tests
 
         public interface ISomeInterface<T>
         {
-
         }
 
         public class MyTypeImplementingSomeInterface<T> : ISomeInterface<T>
         {
-
         }
 
         public class MyTypeImplementingSomeInterfaceOfString : ISomeInterface<string>
         {
-
         }
 
         public class MockBasic : IBasicInterface
         {
-
         }
 
         public class InnerX64Class
         {
-
         }
 
         public class OuterX64Class
@@ -364,7 +359,6 @@ namespace Microsoft.Practices.Unity.Tests
         {
             public ClassWithMultipleConstructorParameters(string parameterA, string parameterB, string parameterC, string parameterD)
             {
-
             }
         }
 

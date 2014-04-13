@@ -207,7 +207,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>The resulting object. By default, this will be <paramref name="existing"/>, but
         /// container extensions may add things like automatic proxy creation which would
         /// cause this to return a different object (but still type compatible with <paramref name="t"/>).</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Guard class is doing validation")]
+        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Guard class is doing validation")]
         // FxCop warning suppressed: false positive, Guard class is doing validation
         public object BuildUp(Type t, object existing, string name, params ResolverOverride[] resolverOverrides)
         {
@@ -220,7 +220,7 @@ namespace Microsoft.Practices.Unity
         /// Run an existing object through the container, and clean it up.
         /// </summary>
         /// <param name="o">The object to tear down.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
+        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         public void Teardown(object o)
         {
             IBuilderContext context = null;

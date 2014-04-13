@@ -28,10 +28,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             TypeWithArrayConstructorParameter resolved = container.Resolve<TypeWithArrayConstructorParameter>();
 
-            Assert.IsNotNull(resolved.loggers);
-            Assert.AreEqual(2, resolved.loggers.Length);
-            Assert.AreSame(o1, resolved.loggers[0]);
-            Assert.AreSame(o2, resolved.loggers[1]);
+            Assert.IsNotNull(resolved.Loggers);
+            Assert.AreEqual(2, resolved.Loggers.Length);
+            Assert.AreSame(o1, resolved.Loggers[0]);
+            Assert.AreSame(o2, resolved.Loggers[1]);
         }
 
         [TestMethod]
@@ -67,10 +67,10 @@ namespace Microsoft.Practices.Unity.Tests
             GenericTypeWithArrayConstructorParameter<ILogger> resolved
                 = container.Resolve<GenericTypeWithArrayConstructorParameter<ILogger>>();
 
-            Assert.IsNotNull(resolved.values);
-            Assert.AreEqual(2, resolved.values.Length);
-            Assert.AreSame(o1, resolved.values[0]);
-            Assert.AreSame(o2, resolved.values[1]);
+            Assert.IsNotNull(resolved.Values);
+            Assert.AreEqual(2, resolved.Values.Length);
+            Assert.AreSame(o1, resolved.Values[0]);
+            Assert.AreSame(o2, resolved.Values[1]);
         }
 
         [TestMethod]
@@ -90,21 +90,21 @@ namespace Microsoft.Practices.Unity.Tests
 
         public class TypeWithArrayConstructorParameter
         {
-            public readonly ILogger[] loggers;
+            public readonly ILogger[] Loggers;
 
             public TypeWithArrayConstructorParameter(ILogger[] loggers)
             {
-                this.loggers = loggers;
+                this.Loggers = loggers;
             }
         }
 
         public class GenericTypeWithArrayConstructorParameter<T>
         {
-            public readonly T[] values;
+            public readonly T[] Values;
 
             public GenericTypeWithArrayConstructorParameter(T[] values)
             {
-                this.values = values;
+                this.Values = values;
             }
         }
 

@@ -17,7 +17,7 @@ namespace Microsoft.Practices.Unity.TestSupport
 
         public void HasLifetime<TLifetime>() where TLifetime : LifetimeManager
         {
-            Assert.IsTrue(Registrations.All(r => r.LifetimeManagerType == typeof (TLifetime)));
+            Assert.IsTrue(Registrations.All(r => r.LifetimeManagerType == typeof(TLifetime)));
         }
     }
 }

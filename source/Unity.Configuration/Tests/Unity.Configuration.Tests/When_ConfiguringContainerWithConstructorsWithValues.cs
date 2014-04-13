@@ -14,7 +14,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerWithConstructorsWithValues : ContainerConfiguringFixture<ConfigFileLocator>
     {
-        public When_ConfiguringContainerWithConstructorsWithValues() : base("VariousConstructors", "constructorWithValue")
+        public When_ConfiguringContainerWithConstructorsWithValues()
+            : base("VariousConstructors", "constructorWithValue")
         {
         }
 
@@ -71,7 +72,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         {
             var result = Container.Resolve<ObjectTakingScalars>("injectIntWithTypeConverterAttribute");
 
-            Assert.AreEqual(-35, result.IntValue);            
+            Assert.AreEqual(-35, result.IntValue);
         }
     }
 }

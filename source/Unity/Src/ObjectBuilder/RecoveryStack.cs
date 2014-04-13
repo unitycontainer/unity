@@ -9,7 +9,7 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// <summary>
     /// An implementation of <see cref="IRecoveryStack"/>.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
+    //[SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix")]
     public class RecoveryStack : IRecoveryStack
     {
         private Stack<IRequiresRecovery> recoveries = new Stack<IRequiresRecovery>();

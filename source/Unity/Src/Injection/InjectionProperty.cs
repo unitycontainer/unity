@@ -54,8 +54,8 @@ namespace Microsoft.Practices.Unity
         /// <param name="implementationType">Type to register.</param>
         /// <param name="name">Name used to resolve the type object.</param>
         /// <param name="policies">Policy list to add policies to.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation is done via Guard class")]
+        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            //Justification = "Validation is done via Guard class")]
         public override void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
         {
             Guard.ArgumentNotNull(implementationType, "implementationType");

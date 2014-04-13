@@ -47,7 +47,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         {
             IPropertySelectorPolicy selector = new PropertySelectorPolicy<DependencyAttribute>();
             IBuilderContext context = GetContext(t);
-            var properties =  new List<SelectedProperty>(selector.SelectProperties(context, context.PersistentPolicies));
+            var properties = new List<SelectedProperty>(selector.SelectProperties(context, context.PersistentPolicies));
             return properties.Select(sp => sp.Property).ToList();
         }
 
@@ -59,7 +59,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         }
     }
 
-    class ClassWithProperties
+    internal class ClassWithProperties
     {
         private string two;
         private string three;
@@ -84,7 +84,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         }
     }
 
-    class ClassWithIndexer
+    internal class ClassWithIndexer
     {
         private string key;
 

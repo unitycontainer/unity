@@ -87,17 +87,32 @@ namespace Microsoft.Practices.Unity.Tests
 
             object valueOne = null;
             object valueTwo = null;
-            object ValueThree = null;
+            object valueThree = null;
 
             var barrier = new Barrier(3);
             RunInParallel(
-                delegate { ltm.SetValue(one); barrier.SignalAndWait(); valueOne = ltm.GetValue(); },
-                delegate { ltm.SetValue(three); barrier.SignalAndWait(); ValueThree = ltm.GetValue(); },
-                delegate { ltm.SetValue(two); barrier.SignalAndWait(); valueTwo = ltm.GetValue(); });
+                delegate 
+                { 
+                    ltm.SetValue(one); 
+                    barrier.SignalAndWait(); 
+                    valueOne = ltm.GetValue(); 
+                },
+                delegate 
+                { 
+                    ltm.SetValue(three); 
+                    barrier.SignalAndWait(); 
+                    valueThree = ltm.GetValue(); 
+                },
+                delegate 
+                { 
+                    ltm.SetValue(two); 
+                    barrier.SignalAndWait(); 
+                    valueTwo = ltm.GetValue(); 
+                });
 
             Assert.AreSame(one, valueOne);
             Assert.AreSame(two, valueTwo);
-            Assert.AreSame(three, ValueThree);
+            Assert.AreSame(three, valueThree);
         }
 
         [TestMethod]

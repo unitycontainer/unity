@@ -2,7 +2,7 @@
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests.TestObjects
 {
-    class ObjectWithAmbiguousConstructors
+    internal class ObjectWithAmbiguousConstructors
     {
         public ObjectWithAmbiguousConstructors()
         {
@@ -14,7 +14,6 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests.TestObjects
 
         public ObjectWithAmbiguousConstructors(string first, string second, int third)
         {
-            
         }
     }
 }

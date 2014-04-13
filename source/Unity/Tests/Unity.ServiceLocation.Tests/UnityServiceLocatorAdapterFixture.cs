@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.ServiceLocation.Tests.Components;
 #if NETFX_CORE
@@ -24,8 +24,8 @@ namespace Unity.ServiceLocation.Tests
         {
             IUnityContainer container = new UnityContainer()
                 .RegisterType<ILogger, AdvancedLogger>()
-                .RegisterType<ILogger, SimpleLogger>(typeof (SimpleLogger).FullName)
-                .RegisterType<ILogger, AdvancedLogger>(typeof (AdvancedLogger).FullName);
+                .RegisterType<ILogger, SimpleLogger>(typeof(SimpleLogger).FullName)
+                .RegisterType<ILogger, AdvancedLogger>(typeof(AdvancedLogger).FullName);
 
             return new UnityServiceLocator(container);
         }
@@ -33,7 +33,7 @@ namespace Unity.ServiceLocation.Tests
         [TestInitialize]
         public void Setup()
         {
-            locator = CreateServiceLocator();
+            this.locator = this.CreateServiceLocator();
         }
 
         [TestMethod]
@@ -107,7 +107,7 @@ namespace Unity.ServiceLocation.Tests
         {
             Assert.AreSame(
                 locator.GetInstance<ILogger>().GetType(),
-                locator.GetInstance<ILogger>("").GetType());
+                locator.GetInstance<ILogger>(String.Empty).GetType());
         }
     }
 }

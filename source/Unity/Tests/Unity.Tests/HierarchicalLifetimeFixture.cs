@@ -12,47 +12,47 @@ namespace Microsoft.Practices.Unity.Tests
     [TestClass]
     public class WhenUsingHierarchicalLifetimeWithChildContainers
     {
-        private IUnityContainer child1; 
-        private IUnityContainer child2; 
+        private IUnityContainer child1;
+        private IUnityContainer child2;
         private IUnityContainer parentContainer;
-        
-        [TestInitialize] 
+
+        [TestInitialize]
         public void Setup()
         {
             parentContainer = new UnityContainer();
-            child1 = parentContainer.CreateChildContainer(); 
+            child1 = parentContainer.CreateChildContainer();
             child2 = parentContainer.CreateChildContainer();
             parentContainer.RegisterType<TestClass>(new HierarchicalLifetimeManager());
-        } 
-        
-        [TestMethod]    
+        }
+
+        [TestMethod]
         public void ThenResolvingInParentActsLikeContainerControlledLifetime()
         {
             var o1 = parentContainer.Resolve<TestClass>();
             var o2 = parentContainer.Resolve<TestClass>();
             Assert.AreSame(o1, o2);
-        } 
-        
-        [TestMethod]  
+        }
+
+        [TestMethod]
         public void ThenParentAndChildResolveDifferentInstances()
         {
-            var o1 = parentContainer.Resolve<TestClass>(); 
-            var o2 = child1.Resolve<TestClass>(); 
+            var o1 = parentContainer.Resolve<TestClass>();
+            var o2 = child1.Resolve<TestClass>();
             Assert.AreNotSame(o1, o2);
-        } 
-        
-        [TestMethod]        
+        }
+
+        [TestMethod]
         public void ThenChildResolvesTheSameInstance()
         {
-            var o1 = child1.Resolve<TestClass>(); 
+            var o1 = child1.Resolve<TestClass>();
             var o2 = child1.Resolve<TestClass>();
             Assert.AreSame(o1, o2);
-        } 
-        
-        [TestMethod]        
+        }
+
+        [TestMethod]
         public void ThenSiblingContainersResolveDifferentInstances()
         {
-            var o1 = child1.Resolve<TestClass>(); 
+            var o1 = child1.Resolve<TestClass>();
             var o2 = child2.Resolve<TestClass>();
             Assert.AreNotSame(o1, o2);
         }

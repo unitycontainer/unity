@@ -4,7 +4,7 @@ using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests.TestObjects
 {
-    class OptionalLogger
+    internal class OptionalLogger
     {
         private string logFile;
 

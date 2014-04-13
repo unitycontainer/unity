@@ -46,10 +46,11 @@ namespace Microsoft.Practices.Unity.Tests
             IUnityContainer container = new UnityContainer()
                 .AddNewExtension<StaticFactoryExtension>()
                 .Configure<IStaticFactoryConfiguration>()
-                    .RegisterFactory<MockLogger>( c => {
-                            factoryWasCalled = true;
-                            return new MockLogger();
-                        })
+                    .RegisterFactory<MockLogger>(c =>
+                    {
+                        factoryWasCalled = true;
+                        return new MockLogger();
+                    })
                     .Container
                 .RegisterType<ILogger, MockLogger>();
 
@@ -57,8 +58,6 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.IsInstanceOfType(logger, typeof(MockLogger));
             Assert.IsTrue(factoryWasCalled);
         }
-
-
 
         [TestMethod]
         public void CanUseContainerToResolveFactoryParameters()
@@ -70,12 +69,13 @@ namespace Microsoft.Practices.Unity.Tests
 
             container.AddNewExtension<StaticFactoryExtension>()
                 .Configure<IStaticFactoryConfiguration>()
-                    .RegisterFactory<MockDatabase>(c => {
-                            Assert.AreSame(container, c);
-                            factoryWasCalled = true;
-                            string cs = c.Resolve<string>("connectionString");
-                            return MockDatabase.Create(cs);
-                        })
+                    .RegisterFactory<MockDatabase>(c =>
+                    {
+                        Assert.AreSame(container, c);
+                        factoryWasCalled = true;
+                        string cs = c.Resolve<string>("connectionString");
+                        return MockDatabase.Create(cs);
+                    })
                     .Container
                 .RegisterInstance<string>("connectionString", connectionString);
 
@@ -98,12 +98,12 @@ namespace Microsoft.Practices.Unity.Tests
                 .Configure<StaticFactoryExtension>()
                 .RegisterFactory<MockDatabase>(
                 c =>
-                    {
-                        Assert.AreSame(child, c);
-                        return MockDatabase.Create("connectionString");
-                    });
+                {
+                    Assert.AreSame(child, c);
+                    return MockDatabase.Create("connectionString");
+                });
 
-             var db = child.Resolve<MockDatabase>();
+            var db = child.Resolve<MockDatabase>();
         }
 
         [TestMethod]
@@ -121,7 +121,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             ILogger logger = container.Resolve<ILogger>();
             Assert.IsInstanceOfType(logger, typeof(MockLogger));
-            Assert.IsTrue(factoryWasCalled);            
+            Assert.IsTrue(factoryWasCalled);
         }
 
         [TestMethod]
@@ -158,11 +158,12 @@ namespace Microsoft.Practices.Unity.Tests
             IUnityContainer child = parent.CreateChildContainer();
 
             parent.RegisterType<MockDatabase>(
-                new InjectionFactory(c => {
-                        factoryWasCalled = true;
-                        Assert.AreSame(child, c);
-                        return MockDatabase.Create("connectionString");
-                    }));
+                new InjectionFactory(c =>
+                {
+                    factoryWasCalled = true;
+                    Assert.AreSame(child, c);
+                    return MockDatabase.Create("connectionString");
+                }));
 
             child.Resolve<MockDatabase>();
             Assert.IsTrue(factoryWasCalled);
@@ -175,7 +176,7 @@ namespace Microsoft.Practices.Unity.Tests
                 .AddNewExtension<StaticFactoryExtension>()
                 .Configure<StaticFactoryExtension>()
                     .RegisterFactory<string>("one", c => "this")
-                    .RegisterFactory<string>("two", c => "that" )
+                    .RegisterFactory<string>("two", c => "that")
                     .RegisterFactory<string>("three", c => "the other")
                 .Container;
 

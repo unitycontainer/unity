@@ -12,7 +12,7 @@ namespace Microsoft.Practices.Unity.WebIntegation.Tests
     public class MvcUnityFilterAttributeFilterProviderFixture
     {
         [TestMethod]
-        public void when_getting_action_attributes_then_builds_up_instance()
+        public void When_getting_action_attributes_then_builds_up_instance()
         {
             using (var container = new UnityContainer())
             {
@@ -40,7 +40,7 @@ namespace Microsoft.Practices.Unity.WebIntegation.Tests
         }
 
         [TestMethod]
-        public void when_getting_controller_attributes_then_builds_up_instance()
+        public void When_getting_controller_attributes_then_builds_up_instance()
         {
             using (var container = new UnityContainer())
             {

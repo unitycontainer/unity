@@ -70,12 +70,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             object dummy;
             object dummy2;
             var inputsCollection =
-                new ParameterCollection(new object[] {"one", "two", "three", "four"},
+                new ParameterCollection(new object[] { "one", "two", "three", "four" },
                     StaticReflection.GetMethodInfo(() => MethodWithOuts(out dummy, null, out dummy2, null)).GetParameters(),
                     pi => !pi.IsOut);
 
             Assert.AreEqual(2, inputsCollection.Count);
-            CollectionAssert.AreEqual(new object[] {"two", "four"}, inputsCollection);
+            CollectionAssert.AreEqual(new object[] { "two", "four" }, inputsCollection);
             Assert.AreEqual("two", inputsCollection["param2"]);
             Assert.AreEqual("four", inputsCollection["param4"]);
         }
@@ -103,8 +103,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                     StaticReflection.GetMethodInfo(() => TestMethod(null, null, null, null, null)).GetParameters(),
                     p => true);
 
-            Assert.IsTrue(new [] {"param1", "param2", "param3", "param4", "param5"}.All(collection.ContainsParameter));
-            Assert.IsTrue(new[] {"someOtherParam", "notThisOneEither"}.All(p => !collection.ContainsParameter(p)));
+            Assert.IsTrue(new[] { "param1", "param2", "param3", "param4", "param5" }.All(collection.ContainsParameter));
+            Assert.IsTrue(new[] { "someOtherParam", "notThisOneEither" }.All(p => !collection.ContainsParameter(p)));
         }
 
         public static void TestMethod(object param1, object param2, object param3, object param4, object param5)

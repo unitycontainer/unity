@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
 {
-    class PostCallCountHandler : ICallHandler
+    internal class PostCallCountHandler : ICallHandler
     {
         private int order;
         private int callsCompleted = 0;

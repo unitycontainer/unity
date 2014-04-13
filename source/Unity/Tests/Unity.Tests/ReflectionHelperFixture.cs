@@ -4,14 +4,13 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.Practices.Unity.Utility;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
-
-using Microsoft.Practices.Unity.TestSupport;
 
 namespace Microsoft.Practices.Unity.Tests
 {

@@ -15,7 +15,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects
 
         public TestInjectionMemberElement()
         {
-            index = Interlocked.Increment(ref numElements);
+            this.index = Interlocked.Increment(ref numElements);
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects
         /// </summary>
         public override string Key
         {
-            get { return "TestInjectionMemberElement: " + index.ToString(); }
+            get { return "TestInjectionMemberElement: " + this.index.ToString(); }
         }
 
         /// <summary>

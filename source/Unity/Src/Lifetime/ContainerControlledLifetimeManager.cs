@@ -55,8 +55,8 @@ namespace Microsoft.Practices.Unity
         /// Standard Dispose pattern implementation. Not needed, but it keeps FxCop happy.
         /// </summary>
         /// <param name="disposing">Always true, since we don't have a finalizer.</param>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "disposing",
-                         Justification = "This method is only here to avoid the other IDisposable warning")]
+        //[SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "disposing",
+                         //Justification = "This method is only here to avoid the other IDisposable warning")]
         protected virtual void Dispose(bool disposing)
         {
             if (this.value != null)

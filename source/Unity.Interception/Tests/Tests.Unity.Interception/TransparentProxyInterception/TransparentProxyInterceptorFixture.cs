@@ -123,7 +123,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
             return new List<MethodImplementationInfo>(new TransparentProxyInterceptor().GetInterceptableMethods(typeof(T), typeof(T)));
         }
 
-        static List<MethodImplementationInfo> GetExpectedMethodImplementations(Type interfaceType, Type implementationType)
+        private static List<MethodImplementationInfo> GetExpectedMethodImplementations(Type interfaceType, Type implementationType)
         {
             InterfaceMapping mapping = implementationType.GetInterfaceMap(interfaceType);
             List<MethodImplementationInfo> results = new List<MethodImplementationInfo>(mapping.InterfaceMethods.Length);
@@ -135,7 +135,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
             return results;
         }
 
-        static List<MethodImplementationInfo> GetOnlyImplementations(Type implementationType, params string[] methodNames)
+        private static List<MethodImplementationInfo> GetOnlyImplementations(Type implementationType, params string[] methodNames)
         {
             return
                 methodNames.Select(
@@ -154,12 +154,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         }
     }
 
-    class SingleInterceptableMethod : MarshalByRefObject
+    internal class SingleInterceptableMethod : MarshalByRefObject
     {
         public void MyMethod() { }
     }
 
-    class InheritsSingleMethodAndAdds : SingleInterceptableMethod
+    internal class InheritsSingleMethodAndAdds : SingleInterceptableMethod
     {
         public void AnotherMethod()
         {
@@ -167,27 +167,25 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
 
         public void StillMoreMethod()
         {
-
         }
     }
 
-    interface IMyOperations
+    internal interface IMyOperations
     {
         void Add();
         void Multiply();
     }
 
-    interface ImTiredOfInterfaces
+    internal interface ImTiredOfInterfaces
     {
         void YaddaYadda();
     }
 
-    interface IMarkerInterface
+    internal interface IMarkerInterface
     {
-
     }
 
-    class Operations : IMyOperations
+    internal class Operations : IMyOperations
     {
         public void Add()
         {
@@ -199,11 +197,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
 
         public void NotAnInterfaceMethod()
         {
-
         }
     }
 
-    class Incoherent : IMyOperations, ImTiredOfInterfaces
+    internal class Incoherent : IMyOperations, ImTiredOfInterfaces
     {
         public void Add()
         {
@@ -221,7 +218,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         }
     }
 
-    class Marked : IMyOperations, IMarkerInterface
+    internal class Marked : IMyOperations, IMarkerInterface
     {
         public void Add()
         {
@@ -234,7 +231,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         }
     }
 
-    class HasProperties : MarshalByRefObject
+    internal class HasProperties : MarshalByRefObject
     {
         public string SettableProp
         {
@@ -248,12 +245,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         }
     }
 
-    interface IHasProperties
+    internal interface IHasProperties
     {
         string StringProp { get; set; }
     }
 
-    class PropThroughInterface : IHasProperties
+    internal class PropThroughInterface : IHasProperties
     {
         public string StringProp
         {
@@ -262,7 +259,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         }
     }
 
-    class MBROWithPropThroughInterface : MarshalByRefObject, IHasProperties
+    internal class MBROWithPropThroughInterface : MarshalByRefObject, IHasProperties
     {
         public string StringProp
         {
@@ -276,7 +273,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
         }
     }
 
-    class ExplicitImplementation : MarshalByRefObject, IMyOperations
+    internal class ExplicitImplementation : MarshalByRefObject, IMyOperations
     {
         void IMyOperations.Add()
         {
@@ -290,7 +287,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.TransparentProxy
 
         public void AClassMethod()
         {
-
         }
     }
 }

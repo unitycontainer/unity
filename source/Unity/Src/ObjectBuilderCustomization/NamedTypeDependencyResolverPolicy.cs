@@ -35,7 +35,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         /// <param name="context">Current build context.</param>
         /// <returns>The value for the dependency.</returns>
         // FxCop suppression: Validation is done by Guard class
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation is done by Guard class.")]
+        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation is done by Guard class.")]
         public object Resolve(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
@@ -45,7 +45,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         /// <summary>
         /// The type that this resolver resolves.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods")]
+        //[SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods")]
         public Type Type
         {
             get { return type; }

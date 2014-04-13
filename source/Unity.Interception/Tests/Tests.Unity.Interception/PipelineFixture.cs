@@ -13,8 +13,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
     [TestClass]
     public class PipelineFixture
     {
-        CallCountHandler callCountHandler;
-        StringReturnRewriteHandler returnHandler;
+        private CallCountHandler callCountHandler;
+        private StringReturnRewriteHandler returnHandler;
 
         [TestMethod]
         public void ShouldBeCreatable()
@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         {
             IUnityContainer container = GetContainer();
             PolicySet policies = GetPolicies(container);
-            HandlerPipeline pipeline 
+            HandlerPipeline pipeline
                 = new HandlerPipeline(policies.GetHandlersFor(GetTargetMemberInfo(), container));
         }
 
@@ -36,7 +36,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         {
             IUnityContainer container = GetContainer();
             PolicySet policies = GetPolicies(container);
-            HandlerPipeline pipeline 
+            HandlerPipeline pipeline
                 = new HandlerPipeline(policies.GetHandlersFor(GetTargetMemberInfo(), container));
 
             IMethodReturn result = pipeline.Invoke(
@@ -56,7 +56,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             return string.Format("i = {0}", i);
         }
 
-        PolicySet GetPolicies(IUnityContainer container)
+        private PolicySet GetPolicies(IUnityContainer container)
         {
             RuleDrivenPolicy p
                 = new RuleDrivenPolicy(
@@ -67,7 +67,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             return new PolicySet(p);
         }
 
-        IUnityContainer GetContainer()
+        private IUnityContainer GetContainer()
         {
             callCountHandler = new CallCountHandler();
             returnHandler = new StringReturnRewriteHandler("REWRITE");
@@ -80,29 +80,29 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             return container;
         }
 
-        MethodImplementationInfo GetTargetMemberInfo()
+        private MethodImplementationInfo GetTargetMemberInfo()
         {
-            return 
-                new MethodImplementationInfo( null, (MethodInfo)(GetType().GetMember("MyTargetMethod")[0]));
+            return
+                new MethodImplementationInfo(null, (MethodInfo)(GetType().GetMember("MyTargetMethod")[0]));
         }
 
-        IMethodInvocation MakeCallMessage()
+        private IMethodInvocation MakeCallMessage()
         {
             IMethodInvocation invocation = new VirtualMethodInvocation(this, GetTargetMemberInfo().ImplementationMethodInfo, 15);
             return invocation;
         }
 
-        IMethodReturn MakeReturnMessage(IMethodInvocation input)
+        private IMethodReturn MakeReturnMessage(IMethodInvocation input)
         {
             IMethodReturn result = input.CreateMethodReturn(MyTargetMethod((int)input.Inputs[0]));
             return result;
         }
     }
 
-    class StringReturnRewriteHandler : ICallHandler
+    internal class StringReturnRewriteHandler : ICallHandler
     {
-        int order = 0;
-        string valueToRewriteTo;
+        private int order = 0;
+        private string valueToRewriteTo;
 
         public StringReturnRewriteHandler(string valueToRewriteTo)
         {

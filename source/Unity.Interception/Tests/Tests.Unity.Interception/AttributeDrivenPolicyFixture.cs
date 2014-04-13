@@ -11,22 +11,22 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
     [TestClass]
     public class AttributeDrivenPolicyFixture
     {
-        MethodImplementationInfo nothingSpecialMethod;
-        MethodImplementationInfo doSomethingMethod;
-        MethodImplementationInfo getCriticalInfoMethod;
-        MethodImplementationInfo mustBeFastMethod;
-        MethodImplementationInfo getNameMethod;
-        MethodImplementationInfo hasAttributeMethod;
-        MethodImplementationInfo doesntHaveAttributeMethod;
-        MethodImplementationInfo aNewMethod;
-        MethodImplementationInfo getNewNameMethod;
+        private MethodImplementationInfo nothingSpecialMethod;
+        private MethodImplementationInfo doSomethingMethod;
+        private MethodImplementationInfo getCriticalInfoMethod;
+        private MethodImplementationInfo mustBeFastMethod;
+        private MethodImplementationInfo getNameMethod;
+        private MethodImplementationInfo hasAttributeMethod;
+        private MethodImplementationInfo doesntHaveAttributeMethod;
+        private MethodImplementationInfo newMethod;
+        private MethodImplementationInfo getNewNameMethod;
 
-        MethodImplementationInfo getItemMethod;
-        MethodImplementationInfo setItemMethod;
-        MethodImplementationInfo getItemIntMethod;
-        MethodImplementationInfo setItemIntMethod;
-        MethodImplementationInfo getItemStringMethod;
-        MethodImplementationInfo setItemStringMethod;
+        private MethodImplementationInfo getItemMethod;
+        private MethodImplementationInfo setItemMethod;
+        private MethodImplementationInfo getItemIntMethod;
+        private MethodImplementationInfo setItemIntMethod;
+        private MethodImplementationInfo getItemStringMethod;
+        private MethodImplementationInfo setItemStringMethod;
 
         [TestInitialize]
         public void Setup()
@@ -38,7 +38,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             getNameMethod = new MethodImplementationInfo(null, typeof(AttributeTestTarget).GetProperty("Name").GetGetMethod());
             hasAttributeMethod = MakeMethodImpl<SecondAttributeTestTarget>("HasAttribute");
             doesntHaveAttributeMethod = MakeMethodImpl<SecondAttributeTestTarget>("DoesntHaveAttribute");
-            aNewMethod = MakeMethodImpl<DerivedAttributeTestTarget>("ANewMethod");
+            newMethod = MakeMethodImpl<DerivedAttributeTestTarget>("ANewMethod");
             getNewNameMethod = new MethodImplementationInfo(null, StaticReflection.GetPropertyGetMethodInfo((DerivedAttributeTestTarget t) => t.Name));
 
             getItemMethod = new MethodImplementationInfo(null, StaticReflection.GetPropertyGetMethodInfo((DerivedAttributeTestTarget t) => t.Item));
@@ -79,7 +79,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public void ShouldMatchInheritedHandlerAttributes()
         {
             IMatchingRule rule = new AttributeDrivenPolicyMatchingRule();
-            Assert.IsTrue(rule.Matches(aNewMethod.ImplementationMethodInfo));
+            Assert.IsTrue(rule.Matches(newMethod.ImplementationMethodInfo));
         }
 
         [TestMethod]
@@ -166,7 +166,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Assert.AreSame(typeof(CallHandler1), handlers[1].GetType());
         }
 
-
         [TestMethod]
         public void ShouldApplyHandlersToGetterIfAttributesAreOnItemProperty()
         {
@@ -188,7 +187,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Assert.AreSame(typeof(CallHandler2), handlers[0].GetType());
             Assert.AreSame(typeof(CallHandler3), handlers[1].GetType());
         }
-
 
         [TestMethod]
         public void ShouldApplyHandlersToGetterIfAttributesAreOnIndexedItemProperty()
@@ -234,13 +232,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Assert.AreSame(typeof(CallHandler3), handlers[1].GetType());
         }
 
-
         [TestMethod]
         public void ShouldInheritHandlersFromBaseClass()
         {
             AttributeDrivenPolicy policy = new AttributeDrivenPolicy();
             List<ICallHandler> handlers
-                = new List<ICallHandler>(policy.GetHandlersFor(aNewMethod, new UnityContainer()));
+                = new List<ICallHandler>(policy.GetHandlersFor(newMethod, new UnityContainer()));
             Assert.AreEqual(1, handlers.Count);
             Assert.AreSame(typeof(CallHandler2), handlers[0].GetType());
         }
@@ -260,7 +257,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
     }
 
     [CallHandler2]//(Categories = new string[] { "one", "two" }, Priority = 34)]
-    class AttributeTestTarget
+    internal class AttributeTestTarget
     {
         [CallHandler3]
         public string Name
@@ -290,13 +287,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         }
 
         [CallHandler1]
-        public object this[int ignored] { get { return null; } set { ;} }
+        public object this[int ignored] { get { return null; } set { } }
 
         [CallHandler3]
-        public object this[string ignored, double ignored2] { get { return null; } set { ;} }
+        public object this[string ignored, double ignored2] { get { return null; } set { } }
     }
 
-    class SecondAttributeTestTarget
+    internal class SecondAttributeTestTarget
     {
         public void DoesntHaveAttribute() { }
 
@@ -304,7 +301,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public void HasAttribute() { }
     }
 
-    class DerivedAttributeTestTarget : AttributeTestTarget
+    internal class DerivedAttributeTestTarget : AttributeTestTarget
     {
         public void ANewMethod() { }
 

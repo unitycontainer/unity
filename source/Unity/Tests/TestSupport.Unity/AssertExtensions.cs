@@ -32,7 +32,5 @@ namespace Microsoft.Practices.Unity.TestSupport
                 callback(e);
             }
         }
-
-
     }
 }

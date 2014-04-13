@@ -8,7 +8,7 @@ namespace Microsoft.Practices.Unity.Tests.TestDoubles
     /// A sample policy that gets used by the SpyStrategy
     /// if present to mark execution.
     /// </summary>
-    class SpyPolicy : IBuilderPolicy
+    internal class SpyPolicy : IBuilderPolicy
     {
         private bool wasSpiedOn;
 

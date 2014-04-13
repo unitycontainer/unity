@@ -67,13 +67,13 @@ namespace Microsoft.Practices.Unity.Tests
             var container = new UnityContainer();
 
             var result = container.Resolve<SimpleTestObject>(
-                new ParameterOverrides {
+                new ParameterOverrides 
+                {
                     { "y", ExpectedValue * 2 },
-                    { "x", ExpectedValue } }.OnType<SimpleTestObject>()
-                );
+                    { "x", ExpectedValue } 
+                }.OnType<SimpleTestObject>());
 
             Assert.AreEqual(ExpectedValue, result.X);
-
         }
 
         [TestMethod]
@@ -91,7 +91,6 @@ namespace Microsoft.Practices.Unity.Tests
 
             Assert.AreSame(overrideValue, result.TestObject);
             Assert.AreSame(overrideValue, result.OtherTestObject);
-
         }
 
         [TestMethod]

@@ -14,7 +14,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerWithLifetimes : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_ConfiguringContainerWithLifetimes() : base("Lifetimes")
+        public When_ConfiguringContainerWithLifetimes()
+            : base("Lifetimes")
         {
         }
 
@@ -23,14 +24,14 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         protected override void Arrange()
         {
             base.Arrange();
-            container = new UnityContainer();
+            this.container = new UnityContainer();
         }
 
         protected override void Act()
         {
             base.Act();
 
-            Section.Configure(container);
+            this.section.Configure(this.container);
         }
 
         [TestMethod]
@@ -78,18 +79,17 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         private RegistrationsToAssertOn AssertRegistration<TRegisterType>(string registeredName)
         {
             return new RegistrationsToAssertOn(
-                container.Registrations
-                    .Where(r => r.RegisteredType == typeof (TRegisterType) && r.Name == registeredName));
+                this.container.Registrations
+                    .Where(r => r.RegisteredType == typeof(TRegisterType) && r.Name == registeredName));
         }
     }
 
-    internal  static partial class RegistrationsToAssertOnExtensions
+    internal static partial class RegistrationsToAssertOnExtensions
     {
         public static void LifetimeHasSessionKey(this RegistrationsToAssertOn r, string sessionKey)
         {
             Assert.IsTrue(
-                r.Registrations.All(reg => ((SessionLifetimeManager) reg.LifetimeManager).SessionKey == sessionKey));
-
+                r.Registrations.All(reg => ((SessionLifetimeManager)reg.LifetimeManager).SessionKey == sessionKey));
         }
     }
 }

@@ -23,8 +23,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// forward direction.
         /// </summary>
         /// <param name="context">Context of the build operation.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation is done by Guard class")]
+        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            //Justification = "Validation is done by Guard class")]
         public override void PreBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
@@ -42,8 +42,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// forward direction.
         /// </summary>
         /// <param name="context">Context of the teardown operation.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation is done by Guard class")]
+        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            //Justification = "Validation is done by Guard class")]
         public override void PreTearDown(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");

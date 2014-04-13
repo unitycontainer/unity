@@ -86,7 +86,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             }
         }
 
-
         [TestMethod]
         public void CanCreateWrappedObjectIfInterceptionPolicyIsSet()
         {
@@ -157,7 +156,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 .RegisterType<Wrappable>(
                     new Interceptor<TransparentProxyInterceptor>(),
                     new InterceptionBehavior<PolicyInjectionBehavior>());
-
 
             Wrappable wrappable = container.BuildUp<Wrappable>(new Wrappable());
             wrappable.Method2();
@@ -405,11 +403,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Assert.AreEqual(1, GlobalCountCallHandler.Calls["child"]);
         }
 
-
-
         public partial class BaseInterceptable : MarshalByRefObject
         {
         }
-
     }
 }

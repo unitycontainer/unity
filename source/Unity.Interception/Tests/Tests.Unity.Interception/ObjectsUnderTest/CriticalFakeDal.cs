@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
 {
     [ApplyNoPolicies]
-    partial class CriticalFakeDal
+    internal partial class CriticalFakeDal
     {
         private bool throwException;
         private double balance = 0.0;
@@ -27,7 +27,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
         public int DoSomething(string x)
         {
             if (throwException)
+            {
                 throw new InvalidOperationException("Catastrophic");
+            }
             return 42;
         }
 

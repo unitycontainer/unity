@@ -16,10 +16,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         [TestMethod]
         public void CanMapGenericTypeToNewGenericType()
         {
-            var original = new NamedTypeBuildKey(typeof (IList<int>));
-            var expected = new NamedTypeBuildKey(typeof (List<int>));
+            var original = new NamedTypeBuildKey(typeof(IList<int>));
+            var expected = new NamedTypeBuildKey(typeof(List<int>));
 
-            IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof (List<>)));
+            IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof(List<>)));
 
             var result = policy.Map(original, null);
             Assert.AreEqual(expected, result);
@@ -28,20 +28,20 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         [TestMethod]
         public void CanMapGenericTypeFromNamedTypeBuildKey()
         {
-            NamedTypeBuildKey original = new NamedTypeBuildKey(typeof (IList<string>), "test");
-            IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof (List<>), "test"));
+            NamedTypeBuildKey original = new NamedTypeBuildKey(typeof(IList<string>), "test");
+            IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof(List<>), "test"));
 
             NamedTypeBuildKey result = policy.Map(original, null);
 
-            Assert.AreEqual(typeof (List<string>), result.Type);
+            Assert.AreEqual(typeof(List<string>), result.Type);
             Assert.AreEqual(original.Name, result.Name);
         }
 
         [TestMethod]
         public void PolicyThrowsIfWrongNumberOfGenericParameters()
         {
-            var original = new NamedTypeBuildKey(typeof (IList<string>));
-            IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof (Dictionary<,>)));
+            var original = new NamedTypeBuildKey(typeof(IList<string>));
+            IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof(Dictionary<,>)));
             try
             {
                 policy.Map(original, null);
@@ -56,18 +56,17 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         [TestMethod]
         public void PolicyThrowsIfInputIsNotAGeneric()
         {
-            IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof (List<>)));
+            IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof(List<>)));
 
             try
             {
                 policy.Map(new NamedTypeBuildKey<int>(), null);
                 Assert.Fail("Expected Exception");
             }
-            catch(ArgumentException)
+            catch (ArgumentException)
             {
                 // expected
             }
         }
-
     }
 }

@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,14 +16,15 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_LoadingConfigWithLifetimes : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_LoadingConfigWithLifetimes() : base("Lifetimes")
+        public When_LoadingConfigWithLifetimes()
+            : base("Lifetimes")
         {
         }
 
         [TestMethod]
         public void Then_ILoggerHasSingletonLifetime()
         {
-            var registration = Section.Containers.Default.Registrations.Where(
+            var registration = section.Containers.Default.Registrations.Where(
                 r => r.TypeName == "ILogger" && r.Name == string.Empty).First();
 
             Assert.AreEqual("singleton", registration.Lifetime.TypeName);
@@ -32,7 +33,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_TypeConverterInformationIsProperlyDeserialized()
         {
-            var lifetime = Section.Containers.Default.Registrations
+            var lifetime = section.Containers.Default.Registrations
                 .Where(r => r.TypeName == "ILogger" && r.Name == "reverseSession")
                 .First()
                 .Lifetime;

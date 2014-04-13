@@ -59,7 +59,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="property">Property to create resolver for.</param>
         /// <returns>The resolver object.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Property")]
+        //[SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Property")]
         protected abstract IDependencyResolverPolicy CreateResolver(PropertyInfo property);
     }
 }

@@ -58,9 +58,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             plan.BuildUp(context);
 
             Assert.IsNotNull(context.Existing);
-            Assert.IsInstanceOfType(context.Existing, typeof (PrivateClassWithoutExplicitConstructor));
+            Assert.IsInstanceOfType(context.Existing, typeof(PrivateClassWithoutExplicitConstructor));
         }
-
 
         private static MockBuilderContext GetContext()
         {

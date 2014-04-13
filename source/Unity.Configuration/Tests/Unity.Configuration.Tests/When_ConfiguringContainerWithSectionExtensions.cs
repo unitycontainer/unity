@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
+using System;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.Configuration.Tests.TestObjects;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
@@ -13,7 +14,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerWithSectionExtensions : ContainerConfiguringFixture<ConfigFileLocator>
     {
-        public When_ConfiguringContainerWithSectionExtensions() : base("SectionExtensions", "")
+        public When_ConfiguringContainerWithSectionExtensions()
+            : base("SectionExtensions", String.Empty)
         {
         }
 
@@ -32,7 +34,5 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
 
             Assert.AreEqual(17, result.IntValue);
         }
-
-
     }
 }

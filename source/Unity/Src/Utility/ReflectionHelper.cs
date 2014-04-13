@@ -29,7 +29,7 @@ namespace Microsoft.Practices.Unity.Utility
         /// <summary>
         /// The <see cref="Type"/> object we're reflecting over.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods")]
+        //[SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods")]
         public Type Type
         {
             get { return t; }
@@ -82,8 +82,8 @@ namespace Microsoft.Practices.Unity.Utility
         /// </summary>
         /// <param name="method">The method to check.</param>
         /// <returns>True if any of the parameters are open generics. False if not.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done via Guard class")]
+        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            //Justification = "Validation done via Guard class")]
         public static bool MethodHasOpenGenericParameters(MethodBase method)
         {
             Guard.ArgumentNotNull(method, "method");

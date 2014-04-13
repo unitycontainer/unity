@@ -7,9 +7,8 @@ using System.Text;
 
 namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects.MyGenericTypes
 {
-    class DiggerItem : IItem
+    internal class DiggerItem : IItem
     {
-
         public DiggerItem(string name, int bucketWidth)
         {
             this.ItemName = name;

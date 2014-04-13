@@ -12,7 +12,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_LoadingConfigurationWithContainerExtensions : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_LoadingConfigurationWithContainerExtensions() : base("ContainerExtensions")
+        public When_LoadingConfigurationWithContainerExtensions()
+            : base("ContainerExtensions")
         {
         }
 
@@ -22,35 +23,34 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         protected override void Act()
         {
             base.Act();
-            defaultContainer = Section.Containers.Default;
-            newSchemaContainer = Section.Containers["newSchema"];
+            this.defaultContainer = this.section.Containers.Default;
+            this.newSchemaContainer = this.section.Containers["newSchema"];
         }
 
         [TestMethod]
         public void Then_ContainerElementContainsOneExtension()
         {
-            Assert.AreEqual(1, defaultContainer.Extensions.Count);
+            Assert.AreEqual(1, this.defaultContainer.Extensions.Count);
         }
 
         [TestMethod]
         public void Then_ExtensionElementHasExpectedType()
         {
             Assert.AreEqual("MockContainerExtension",
-                defaultContainer.Extensions[0].TypeName);
+               this.defaultContainer.Extensions[0].TypeName);
         }
 
         [TestMethod]
         public void Then_NewSchemaContainerContainsOneExtension()
         {
-            Assert.AreEqual(1, newSchemaContainer.Extensions.Count);
-            
+            Assert.AreEqual(1, this.newSchemaContainer.Extensions.Count);
         }
 
         [TestMethod]
         public void Then_NewSchemaContainerExtensionElementHasExpectedType()
         {
             Assert.AreEqual("MockContainerExtension",
-                newSchemaContainer.Extensions[0].TypeName);
+                this.newSchemaContainer.Extensions[0].TypeName);
         }
     }
 }

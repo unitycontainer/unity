@@ -28,7 +28,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
         /// <param name="ctor">The constructor to call.</param>
         /// <param name="parameterValues">Set of <see cref="InjectionParameterValue"/> objects
         /// that describes how to obtain the values for the constructor parameters.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "ctor")]
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "ctor")]
         public SpecifiedConstructorSelectorPolicy(ConstructorInfo ctor, InjectionParameterValue[] parameterValues)
         {
             this.ctor = ctor;

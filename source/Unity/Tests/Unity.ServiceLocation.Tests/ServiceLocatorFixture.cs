@@ -77,8 +77,7 @@ namespace Unity.ServiceLocation.Tests
         {
             Assert.AreEqual(
                 locator.GetInstance<ILogger>(typeof(AdvancedLogger).FullName).GetType(),
-                locator.GetInstance(typeof(ILogger), typeof(AdvancedLogger).FullName).GetType()
-                );
+                locator.GetInstance(typeof(ILogger), typeof(AdvancedLogger).FullName).GetType());
         }
 
         public void Overload_GetInstance_NoName_And_NullName()
@@ -115,10 +114,10 @@ namespace Unity.ServiceLocation.Tests
             catch (Exception ex)
             {
                 Assert.Fail("Expected exception {0}, but instead exception {1} was thrown",
-                    typeof (TException).Name,
+                    typeof(TException).Name,
                     ex.GetType().Name);
             }
-            Assert.Fail("Expected exception {0}, no exception thrown", typeof (TException).Name);
+            Assert.Fail("Expected exception {0}, no exception thrown", typeof(TException).Name);
         }
     }
 }

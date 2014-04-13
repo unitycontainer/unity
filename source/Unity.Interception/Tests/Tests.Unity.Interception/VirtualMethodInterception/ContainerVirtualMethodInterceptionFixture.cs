@@ -51,7 +51,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
                         .AddMatchingRule<MemberNameMatchingRule>(new InjectionConstructor("MethodTwo"))
                         .AddCallHandler("h2")
                 .Interception.Container;
-            
+
             Interceptee target = container.Resolve<Interceptee>();
 
             int oneCount = 0;
@@ -203,7 +203,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         {
             var container = new UnityContainer()
                 .AddNewExtension<Interception>()
-                .RegisterType(typeof (GenericTypeWithGenericMethodsAndConstraints<>),
+                .RegisterType(typeof(GenericTypeWithGenericMethodsAndConstraints<>),
                     new Interceptor<VirtualMethodInterceptor>());
 
             var result = container.Resolve<GenericTypeWithGenericMethodsAndConstraints<ClassWithVirtualProperty>>();
@@ -252,7 +252,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
                 .AddMatchingRule<MemberNameMatchingRule>(new InjectionConstructor("MethodTwo"))
                 .AddCallHandler("h2");
             return container;
-
         }
 
         private IUnityContainer ConfigureInterceptionWithRegisterType(IUnityContainer container)
@@ -287,7 +286,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
     public class SubjectOne
     {
-
     }
 
     public class SubjectTwo
@@ -317,13 +315,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
         public new virtual void TestMethod5(int bb)
         {
-
         }
     }
 
     public abstract class NewVirtualOverrideTestClassBase
     {
-
         public virtual bool TestMethod1()
         {
             return false;
@@ -343,7 +339,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
         public virtual void TestMethod5(int a)
         {
-
         }
     }
 
@@ -429,5 +424,4 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             where T6 : IMatchingRule
         { }
     }
-
 }

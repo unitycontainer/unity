@@ -13,7 +13,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
     [TestClass]
     public class StagedStrategyChainTest
     {
-        static void AssertOrder(IStrategyChain chain,
+        private static void AssertOrder(IStrategyChain chain,
                                 params FakeStrategy[] strategies)
         {
             List<IBuilderStrategy> strategiesInChain = new List<IBuilderStrategy>(chain);
@@ -73,13 +73,13 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             AssertOrder(chain, innerStrategy, outerStrategy, superStrategy);
         }
 
-        enum FakeStage
+        private enum FakeStage
         {
             Stage1,
             Stage2,
         }
 
-        class FakeStrategy : IBuilderStrategy
+        private class FakeStrategy : IBuilderStrategy
         {
             public void PreBuildUp(IBuilderContext context)
             {

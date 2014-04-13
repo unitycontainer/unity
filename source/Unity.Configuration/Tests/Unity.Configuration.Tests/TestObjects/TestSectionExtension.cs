@@ -2,7 +2,7 @@
 
 namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects
 {
-    class TestSectionExtension : SectionExtension
+    internal class TestSectionExtension : SectionExtension
     {
         public static int NumberOfCalls;
 

@@ -10,8 +10,8 @@ namespace Microsoft.Practices.Unity.TestSupport
 {
     public class NaiveINotifyPropertyChangedInterceptionBehavior : IInterceptionBehavior
     {
-        private PropertyChangedEventHandler handler;
         private readonly object handlerLock = new object();
+        private PropertyChangedEventHandler handler;
 
         public IMethodReturn Invoke(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext)
         {

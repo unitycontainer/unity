@@ -31,7 +31,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             var view = container.Resolve<IView>();
 
-            var realPresenter = (MockPresenter) view.Presenter;
+            var realPresenter = (MockPresenter)view.Presenter;
             Assert.AreSame(view, realPresenter.View);
         }
 

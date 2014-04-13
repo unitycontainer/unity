@@ -10,7 +10,7 @@ namespace Microsoft.Practices.Unity.Tests.TestDoubles
     /// A simple extension that puts the supplied strategy into the
     /// chain at the indicated stage.
     /// </summary>
-    class SpyExtension : UnityContainerExtension
+    internal class SpyExtension : UnityContainerExtension
     {
         private IBuilderStrategy strategy;
         private UnityBuildStage stage;
@@ -33,8 +33,8 @@ namespace Microsoft.Practices.Unity.Tests.TestDoubles
 
         protected override void Initialize()
         {
-            Context.Strategies.Add(strategy, stage);
-            Context.Policies.SetDefault(policyType, policy);
+            Context.Strategies.Add(this.strategy, this.stage);
+            Context.Policies.SetDefault(this.policyType, this.policy);
         }
     }
 }

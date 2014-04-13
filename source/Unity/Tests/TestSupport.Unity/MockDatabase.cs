@@ -9,7 +9,7 @@ namespace Microsoft.Practices.Unity.TestSupport
 
         public MockDatabase()
         {
-            defaultConstructorCalled = true;    
+            defaultConstructorCalled = true;
         }
 
         public MockDatabase(string connectionString)

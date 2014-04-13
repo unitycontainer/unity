@@ -301,8 +301,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             return methodBuilder;
         }
 
-        [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling",
-            Justification = "Possibly agree with this, but requires more deliberate refactoring")]
+        //[SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling",
+            //Justification = "Possibly agree with this, but requires more deliberate refactoring")]
         private MethodBuilder CreateMethodOverride(MethodBuilder delegateMethod)
         {
             MethodAttributes attrs =

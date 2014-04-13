@@ -21,7 +21,7 @@ namespace Microsoft.Practices.Unity.Tests
             var ctor = new InjectionConstructor();
             var context = new MockBuilderContext
                 {
-                    BuildKey = new NamedTypeBuildKey(typeof (GuineaPig))
+                    BuildKey = new NamedTypeBuildKey(typeof(GuineaPig))
                 };
             IPolicyList policies = context.PersistentPolicies;
 
@@ -44,7 +44,7 @@ namespace Microsoft.Practices.Unity.Tests
             var ctor = new InjectionConstructor(expectedString, expectedInt);
             var context = new MockBuilderContext
                 {
-                    BuildKey = new NamedTypeBuildKey(typeof (GuineaPig))
+                    BuildKey = new NamedTypeBuildKey(typeof(GuineaPig))
                 };
             IPolicyList policies = context.PersistentPolicies;
 
@@ -93,42 +93,34 @@ namespace Microsoft.Practices.Unity.Tests
             var context = new MockBuilderContext();
 
             AssertExtensions.AssertException<InvalidOperationException>(
-                () => ctor.AddPolicies(typeof(GuineaPig), context.PersistentPolicies)
-                );
+                () => ctor.AddPolicies(typeof(GuineaPig), context.PersistentPolicies));
         }
 
         private class GuineaPig
         {
             public GuineaPig()
             {
-
             }
 
             public GuineaPig(int i)
             {
-
             }
 
             public GuineaPig(string s)
             {
-
             }
 
             public GuineaPig(int i, string s)
             {
-                
             }
 
             public GuineaPig(string s, int i)
             {
-                
             }
 
             public GuineaPig(string s, ILogger logger)
             {
-                
             }
         }
-
     }
 }

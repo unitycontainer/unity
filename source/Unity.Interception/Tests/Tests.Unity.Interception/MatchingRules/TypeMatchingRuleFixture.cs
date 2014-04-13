@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
-
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+[module: SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1403:FileMayOnlyContainASingleNamespace", Justification = "Test needs multiple namespaces so keep the namespaces and test together")]
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
 {
@@ -85,20 +87,20 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
         }
     }
 
-    class MyType1
+    internal class MyType1
     {
         public void TargetMethod() { }
     }
 
     namespace ANestedNamespace
     {
-        class MyType1 : IInterfaceOne
+        internal class MyType1 : IInterfaceOne
         {
             public void TargetMethod() { }
         }
     }
 
-    class MyType2 : IAnotherInterface
+    internal class MyType2 : IAnotherInterface
     {
         public void ADifferentTargetMethod() { }
 
@@ -110,7 +112,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
         void TargetMethod();
     }
 
-    interface IAnotherInterface
+    internal interface IAnotherInterface
     {
         void ADifferentTargetMethod();
     }

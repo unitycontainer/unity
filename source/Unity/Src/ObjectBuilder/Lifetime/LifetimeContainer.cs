@@ -16,7 +16,7 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// container which implement IDisposable are also disposed.
     /// </remarks>
     // FxCop suppression: No
-    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
+    //[SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
     public class LifetimeContainer : ILifetimeContainer
     {
         private readonly List<object> items = new List<object>();

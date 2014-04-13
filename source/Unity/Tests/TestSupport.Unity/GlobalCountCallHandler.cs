@@ -10,7 +10,7 @@ namespace Microsoft.Practices.Unity.TestSupport
     public class GlobalCountCallHandler : ICallHandler
     {
         public static Dictionary<string, int> Calls = new Dictionary<string, int>();
-        string callHandlerName;
+        private string callHandlerName;
         private int order = 0;
 
         [InjectionConstructor]
@@ -22,10 +22,10 @@ namespace Microsoft.Practices.Unity.TestSupport
         public GlobalCountCallHandler(string callHandlerName)
         {
             this.callHandlerName = callHandlerName;
-
         }
 
         #region ICallHandler Members
+
         /// <summary>
         /// Gets or sets the order in which the handler will be executed
         /// </summary>
@@ -59,16 +59,15 @@ namespace Microsoft.Practices.Unity.TestSupport
     {
         public override ICallHandler CreateHandler(IUnityContainer ignored)
         {
-            return new GlobalCountCallHandler(handlerName);
+            return new GlobalCountCallHandler(this.handlerName);
         }
 
         private string handlerName;
 
         public string HandlerName
         {
-            get { return handlerName; }
-            set { handlerName = value; }
+            get { return this.handlerName; }
+            set { this.handlerName = value; }
         }
-
     }
 }

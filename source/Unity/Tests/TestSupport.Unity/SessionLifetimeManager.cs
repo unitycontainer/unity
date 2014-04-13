@@ -21,23 +21,21 @@ namespace Microsoft.Practices.Unity.TestSupport
 
         public string SessionKey
         {
-            get { return sessionKey; }
+            get { return this.sessionKey; }
         }
 
         public override object GetValue()
         {
-            LastUsedSessionKey = sessionKey;
+            LastUsedSessionKey = this.sessionKey;
             return null;
         }
 
         public override void SetValue(object newValue)
         {
-            
         }
 
         public override void RemoveValue()
         {
-            
         }
     }
 
@@ -62,7 +60,7 @@ namespace Microsoft.Practices.Unity.TestSupport
         public override object ConvertTo(
             ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
-            return ( (SessionLifetimeManager)value ).SessionKey;
+            return ((SessionLifetimeManager)value).SessionKey;
         }
     }
 
@@ -81,22 +79,20 @@ namespace Microsoft.Practices.Unity.TestSupport
         public override object ConvertFrom(
             ITypeDescriptorContext context, CultureInfo culture, object value)
         {
-            string key = Reverse( (string)value );
+            string key = Reverse((string)value);
             return new SessionLifetimeManager(key);
-
         }
 
-        public override object ConvertTo(
-            ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
-            string key = Reverse(( (SessionLifetimeManager)value ).SessionKey);
+            string key = Reverse(((SessionLifetimeManager)value).SessionKey);
             return key;
         }
 
         private static string Reverse(IEnumerable<char> s)
         {
             var chars = new Stack<char>(s);
-            return chars.JoinStrings("");
+            return chars.JoinStrings(String.Empty);
         }
     }
 }

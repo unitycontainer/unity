@@ -111,7 +111,6 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.AreEqual("test", registration.Name);
         }
 
-
         [TestMethod]
         public void RegistrationsInParentContainerAppearInChild()
         {

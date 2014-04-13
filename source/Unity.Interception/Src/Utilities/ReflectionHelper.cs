@@ -21,8 +21,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="method">MethodBase for the property's get or set method.</param>
         /// <returns>PropertyInfo for the property, or null if method is not part of a property.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class.")]
+        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            //Justification = "Validation done by Guard class.")]
         public static PropertyInfo GetPropertyFromMethod(MethodBase method)
         {
             Guard.ArgumentNotNull(method, "method");
@@ -42,8 +42,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="method">MethodBase for the property's get or set method.</param>
         /// <returns>PropertyInfo for the property, or null if method is not part of a property.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class.")]
+        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            //Justification = "Validation done by Guard class.")]
         public static PropertyInfo GetPropertyFromMethod(MethodInfo method)
         {
             Guard.ArgumentNotNull(method, "method");

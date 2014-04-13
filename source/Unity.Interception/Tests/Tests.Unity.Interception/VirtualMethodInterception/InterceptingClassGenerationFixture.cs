@@ -154,7 +154,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
             Assert.AreEqual(42, result);
             Assert.AreEqual(1, handler.CallsCompleted);
-
         }
 
         [TestMethod]
@@ -209,7 +208,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             Assert.AreEqual(5 + 1, plusOne);
             Assert.AreEqual(5 * 2, timesTwo);
             Assert.AreEqual(1, handler.CallsCompleted);
-
         }
 
         [TestMethod]
@@ -220,7 +218,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
             int result = instance.MakeAValue(12);
 
-            Assert.AreEqual(12 * 37 + 12 / 2, result);
+            Assert.AreEqual((12 * 37) + (12 / 2), result);
             Assert.AreEqual(1, handler.CallsCompleted);
         }
 
@@ -285,7 +283,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
             Assert.AreEqual("731", result);
             Assert.AreEqual(1, handler.CallsCompleted);
-
         }
 
         [TestMethod]
@@ -321,7 +318,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         {
             public virtual int MakeAValue(int source)
             {
-                return source * 37 + source / 2;
+                return (source * 37) + (source / 2);
             }
         }
 
@@ -329,7 +326,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         {
             public virtual void Something()
             {
-
             }
         }
 
@@ -479,11 +475,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
                     }));
 
             ((InterfaceImplementingMainType)instance).DoSomething();
-            ((InterfaceImplementingMainType)instance).DoSomething("");
+            ((InterfaceImplementingMainType)instance).DoSomething(String.Empty);
             ((IDoSomething)instance).DoSomething();
-            ((IDoSomething)instance).DoSomething("");
+            ((IDoSomething)instance).DoSomething(String.Empty);
             ((IDeriveFromIDoSomething)instance).DoSomething();
-            ((IDeriveFromIDoSomething)instance).DoSomething("");
+            ((IDeriveFromIDoSomething)instance).DoSomething(String.Empty);
             ((IDeriveFromIDoSomething)instance).DoSomethingElse();
 
             Assert.AreEqual(4, interceptedMethods.Count);
@@ -695,39 +691,37 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         }
     }
 
-    //
     // This class isn't actually used, it was a template we used to decompile the
     // IL and figure out what code to generate.
-    //
     public class Wrapper : ClassWithDefaultCtor, IInterceptingProxy
     {
         private readonly InterceptionBehaviorPipeline pipeline = new InterceptionBehaviorPipeline();
 
-        private static readonly MethodBase methodOne = typeof(ClassWithDefaultCtor).GetMethod("MethodOne");
-        private static readonly MethodBase calculateAnswer = typeof(ClassWithDefaultCtor).GetMethod("CalculateAnswer");
-        private static readonly MethodBase addUp = typeof(ClassWithDefaultCtor).GetMethod("AddUp");
-        private static readonly MethodBase methodWithRefParameters = typeof(ClassWithDefaultCtor).GetMethod("MethodWithRefParameters");
-        private static readonly MethodBase outParams = typeof(ClassWithDefaultCtor).GetMethod("OutParams");
+        private static readonly MethodBase MethodOneMethod = typeof(ClassWithDefaultCtor).GetMethod("MethodOne");
+        private static readonly MethodBase CalculateAnswerMethod = typeof(ClassWithDefaultCtor).GetMethod("CalculateAnswer");
+        private static readonly MethodBase AddUpMethod = typeof(ClassWithDefaultCtor).GetMethod("AddUp");
+        private static readonly MethodBase MethodWithRefParametersMethod = typeof(ClassWithDefaultCtor).GetMethod("MethodWithRefParameters");
+        private static readonly MethodBase OutParamsMethod = typeof(ClassWithDefaultCtor).GetMethod("OutParams");
 
-        private static readonly MethodBase methodWithGenericReturnType = typeof (ClassWithDefaultCtor).GetMethods()
+        private static readonly MethodBase MethodWithGenericReturnTypeMethod = typeof(ClassWithDefaultCtor).GetMethods()
             .Where(m => m.Name == "MethodWithGenericReturnType").First();
 
         public override T MethodWithGenericReturnType<T>(T item)
         {
-            var input = new VirtualMethodInvocation(this, methodWithGenericReturnType, item);
-            IMethodReturn result = pipeline.Invoke(input, MethodWithGenericReturnType_Delegate<T>);
-            if(result.Exception != null)
+            var input = new VirtualMethodInvocation(this, Wrapper.MethodWithGenericReturnTypeMethod, item);
+            IMethodReturn result = this.pipeline.Invoke(input, this.MethodWithGenericReturnType_Delegate<T>);
+            if (result.Exception != null)
             {
                 throw result.Exception;
             }
-            return (T) result.ReturnValue;
+            return (T)result.ReturnValue;
         }
 
         private IMethodReturn MethodWithGenericReturnType_Delegate<T>(IMethodInvocation inputs, GetNextInterceptionBehaviorDelegate getNext)
         {
             try
             {
-                T result = base.MethodWithGenericReturnType((T) inputs.Arguments[0]);
+                T result = base.MethodWithGenericReturnType((T)inputs.Arguments[0]);
                 return inputs.CreateMethodReturn(result, inputs.Arguments);
             }
             catch (Exception ex)
@@ -736,14 +730,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             }
         }
 
-
         /// <summary>
         /// Adds a <see cref="IInterceptionBehavior"/> to the proxy.
         /// </summary>
         /// <param name="interceptor">The <see cref="IInterceptionBehavior"/> to add.</param>
         public void AddInterceptionBehavior(IInterceptionBehavior interceptor)
         {
-            pipeline.Add(interceptor);
+            this.pipeline.Add(interceptor);
         }
     }
 
@@ -796,7 +789,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         {
             char[] chars = obj.ToString().ToCharArray();
             Array.Reverse(chars);
-            return chars.JoinStrings("");
+            return chars.JoinStrings(String.Empty);
         }
     }
 
@@ -805,6 +798,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
         private InterceptionBehaviorPipeline pipeline = new InterceptionBehaviorPipeline();
         private MethodBase reverse = typeof(InterceptingGenericClass<T>).GetMethod("Reverse");
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1100:DoNotPrefixCallsWithBaseUnlessLocalImplementationExists", Justification = "Point of the test is to call base class and Reverse is overridden and virtual.")]
         private string BaseReverse<TITem>(TITem obj)
         {
             return base.Reverse(obj);
@@ -812,7 +806,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
         public void AddInterceptionBehavior(IInterceptionBehavior interceptor)
         {
-            pipeline.Add(interceptor);
+            this.pipeline.Add(interceptor);
         }
 
         public IEnumerable<MethodImplementationInfo> GetInterceptableMethods()
@@ -826,7 +820,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
             {
                 string baseResult = BaseReverse((TItem)input.Arguments[0]);
                 return input.CreateMethodReturn(baseResult);
-
             }
             catch (Exception ex)
             {
@@ -836,8 +829,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
         public override string Reverse<TItem>(TItem obj)
         {
-            VirtualMethodInvocation inputs = new VirtualMethodInvocation(this, reverse, obj);
-            IMethodReturn result = pipeline.Invoke(inputs, Reverse_DelegateImpl<TItem>);
+            VirtualMethodInvocation inputs = new VirtualMethodInvocation(this, this.reverse, obj);
+            IMethodReturn result = this.pipeline.Invoke(inputs, this.Reverse_DelegateImpl<TItem>);
             if (result.Exception != null)
             {
                 throw result.Exception;
@@ -953,7 +946,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
     {
         public int GetProperty() { return Property; }
         public void SetProperty(int value) { Property = value; }
-        int propertyValue;
+        private int propertyValue;
+        
         protected virtual int Property
         {
             private get { return propertyValue; }
@@ -965,7 +959,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
     {
         public int GetProperty() { return Property; }
         public void SetProperty(int value) { Property = value; }
-        int propertyValue;
+        private int propertyValue;
+        
         public virtual int Property
         {
             get { return propertyValue; }

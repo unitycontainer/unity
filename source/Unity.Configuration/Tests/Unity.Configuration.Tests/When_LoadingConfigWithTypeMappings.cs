@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,7 +16,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_LoadingConfigWithTypeMappings : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_LoadingConfigWithTypeMappings() : base("BasicTypeMapping")
+        public When_LoadingConfigWithTypeMappings()
+            : base("BasicTypeMapping")
         {
         }
 
@@ -25,36 +26,36 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         protected override void Arrange()
         {
             base.Arrange();
-            container = Section.Containers.Default;
+            this.container = this.section.Containers.Default;
         }
 
         [TestMethod]
         public void Then_RegistrationsArePresentInContainer()
         {
-            Assert.AreEqual(2, container.Registrations.Count);
+            Assert.AreEqual(2, this.container.Registrations.Count);
         }
 
         [TestMethod]
         public void Then_TypesAreAsGivenInFile()
         {
-            AssertRegistrationsAreSame(r => r.TypeName, "ILogger", "ILogger");
+            this.AssertRegistrationsAreSame(r => r.TypeName, "ILogger", "ILogger");
         }
 
         [TestMethod]
         public void Then_MappedNamesAreAsGivenInFile()
         {
-            AssertRegistrationsAreSame(r => r.Name, "", "special");    
+            this.AssertRegistrationsAreSame(r => r.Name, String.Empty, "special");
         }
 
         [TestMethod]
         public void Then_MappedToTypesAreAsGivenInFile()
         {
-            AssertRegistrationsAreSame(r => r.MapToName, "MockLogger", "SpecialLogger");
+            this.AssertRegistrationsAreSame(r => r.MapToName, "MockLogger", "SpecialLogger");
         }
 
-        private void AssertRegistrationsAreSame(Func<RegisterElement, string> selector, params string [] expectedStrings)
+        private void AssertRegistrationsAreSame(Func<RegisterElement, string> selector, params string[] expectedStrings)
         {
-            CollectionAssert.AreEqual(expectedStrings, container.Registrations.Select(selector).ToList());
+            CollectionAssert.AreEqual(expectedStrings, this.container.Registrations.Select(selector).ToList());
         }
     }
 }

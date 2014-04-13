@@ -71,12 +71,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
         #region Helper factories
 
-        MethodBase GetTargetMethodInfo(string methodName)
+        private MethodBase GetTargetMethodInfo(string methodName)
         {
             return (MethodBase)(typeof(InvocationTarget).GetMember(methodName)[0]);
         }
 
-        IMethodInvocation GetInvocation(MethodBase methodInfo,
+        private IMethodInvocation GetInvocation(MethodBase methodInfo,
                                         InvocationTarget target)
         {
             IMethodCallMessage remotingMessage = new FakeMethodCallMessage(methodInfo, new object[] { 1, "two" });

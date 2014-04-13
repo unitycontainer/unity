@@ -116,13 +116,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         private static MethodImplementationInfo GetMethodImplInfo<T>(string methodName)
         {
             return new MethodImplementationInfo(null,
-                typeof (T).GetMethod(methodName));
+                typeof(T).GetMethod(methodName));
         }
     }
 
     public class Handler1 : ICallHandler
     {
-        int order = 0;
+        private int order = 0;
 
         /// <summary>
         /// Gets or sets the order in which the handler will be executed
@@ -142,7 +142,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
     public class Handler2 : ICallHandler
     {
-        int order = 0;
+        private int order = 0;
 
         /// <summary>
         /// Gets or sets the order in which the handler will be executed
@@ -162,7 +162,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
     public class Handler3 : ICallHandler
     {
-        int order = 0;
+        private int order = 0;
 
         /// <summary>
         /// Gets or sets the order in which the handler will be executed
@@ -195,8 +195,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public int Compare(object x, object y)
         {
             if (x.GetType() == y.GetType())
+            {
                 return 0;
-
+            }
             return -1;
         }
     }

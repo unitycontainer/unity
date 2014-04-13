@@ -3,13 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using Microsoft.Practices.Unity.Configuration;
 using Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
 {
@@ -19,13 +17,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
     [TestClass]
     public class When_LoadingContainersThatConfigureInterception : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_LoadingContainersThatConfigureInterception() : base("InterceptionInjectionMembers")
+        public When_LoadingContainersThatConfigureInterception()
+            : base("InterceptionInjectionMembers")
         {
         }
 
         private IEnumerable<RegisterElement> GetRegistration(string containerName, Func<RegisterElement, bool> predicate)
         {
-            var containerElement = Section.Containers[containerName];
+            var containerElement = section.Containers[containerName];
             return containerElement.Registrations.Where(predicate);
         }
 
@@ -37,7 +36,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
         [TestMethod]
         public void Then_InterceptionElementIsPresentInRegistrationInjectionMembers()
         {
-            var registration = GetRegistration("configuringInterceptorThroughConfigurationFile",
+            var registration = this.GetRegistration("configuringInterceptorThroughConfigurationFile",
                 IsInterceptableType).First();
 
             registration.InjectionMembers.OfType<InterceptorElement>()
@@ -48,7 +47,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
         [TestMethod]
         public void Then_ExtraInterfacesCanBeAddedInConfig()
         {
-            var registration = GetRegistration(
+            var registration = this.GetRegistration(
                 "configuringAdditionalInterfaceThroughConfigurationFile",
                 IsInterceptableType).First();
 
@@ -60,7 +59,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
         [TestMethod]
         public void Then_BehaviorsCanBeAddedInConfig()
         {
-            var registration = GetRegistration(
+            var registration = this.GetRegistration(
                 "configuringInterceptionBehaviorWithTypeThroughConfigurationFile",
                 IsInterceptableType).First();
 
@@ -72,7 +71,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
         [TestMethod]
         public void Then_MultipleBehaviorsCanBeAddedInConfig()
         {
-            var registration = GetRegistration("multipleBehaviorsOnOneRegistration",
+            var registration = this.GetRegistration("multipleBehaviorsOnOneRegistration",
                 IsInterceptableType).First();
 
             registration.InjectionMembers.OfType<InterceptionBehaviorElement>()

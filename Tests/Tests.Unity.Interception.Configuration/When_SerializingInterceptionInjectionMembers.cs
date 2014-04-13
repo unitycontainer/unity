@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.Practices.Unity.Configuration;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Practices.Unity.TestSupport;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
 {
@@ -50,7 +50,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
             });
 
             var firstInterceptor =
-                (InterceptorElement) loadedSection.Containers.Default.Registrations[0].InjectionMembers[0];
+                (InterceptorElement)loadedSection.Containers.Default.Registrations[0].InjectionMembers[0];
             Assert.IsFalse(firstInterceptor.IsDefaultForType);
             Assert.AreEqual("interceptor", firstInterceptor.Name);
             Assert.AreEqual("NoSuchInterceptor", firstInterceptor.TypeName);
@@ -115,7 +115,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
             injectionMembers.Select(m => m.TypeName)
                 .AssertContainsExactly("SomeBehavior", "SomeOtherBehavior");
             injectionMembers.Select(m => m.Name)
-                .AssertContainsExactly("", "NamedBehavior");
+                .AssertContainsExactly(String.Empty, "NamedBehavior");
         }
     }
 }

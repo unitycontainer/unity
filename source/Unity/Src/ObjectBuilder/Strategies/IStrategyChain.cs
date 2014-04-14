@@ -25,7 +25,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="context">Context for the build process.</param>
         /// <returns>The build up object</returns>
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp",
-            Justification = "Backwards compatability with ObjectBuilder")]
+            Justification = "Backwards compatibility with ObjectBuilder")]
         object ExecuteBuildUp(IBuilderContext context);
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="context">Context for the teardown process.</param>
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "TearDown",
-            Justification = "Backwards compatability with ObjectBuilder")]
+            Justification = "Backwards compatibility with ObjectBuilder")]
         void ExecuteTearDown(IBuilderContext context);
     }
 }

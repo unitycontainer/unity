@@ -39,9 +39,9 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// not found.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
-            Justification = "Backwards compatability with ObjectBuilder")]
+            Justification = "Backwards compatibility with ObjectBuilder")]
         [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#",
-            Justification = "Backwards compatability with ObjectBuilder")]
+            Justification = "Backwards compatibility with ObjectBuilder")]
         IBuilderPolicy Get(Type policyInterface,
             object buildKey,
             bool localOnly,
@@ -57,7 +57,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// not found.</param>
         /// <returns>The policy in the list if present; returns null otherwise.</returns>
         [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#",
-            Justification = "Backwards compatability with ObjectBuilder")]
+            Justification = "Backwards compatibility with ObjectBuilder")]
         IBuilderPolicy GetNoDefault(Type policyInterface, object buildKey, bool localOnly,
             out IPolicyList containingPolicyList);
 
@@ -68,7 +68,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="policy">The policy to be registered.</param>
         /// <param name="buildKey">The key the policy applies.</param>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Set",
-            Justification = "Backwards compatability with ObjectBuilder")]
+            Justification = "Backwards compatibility with ObjectBuilder")]
         void Set(Type policyInterface,
                  IBuilderPolicy policy,
                  object buildKey);

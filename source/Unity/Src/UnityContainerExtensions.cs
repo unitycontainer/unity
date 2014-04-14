@@ -628,7 +628,7 @@ namespace Microsoft.Practices.Unity
         /// cause this to return a different object (but still type compatible with <paramref name="t"/>).</returns>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t", Justification = "Parameter name is meaningful enough in context")]
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp",
-            Justification = "Backwards compatability with ObjectBuilder")]
+            Justification = "Backwards compatibility with ObjectBuilder")]
         public static object BuildUp(this IUnityContainer container, Type t, object existing, params ResolverOverride[] resolverOverrides)
         {
             Guard.ArgumentNotNull(container, "container");

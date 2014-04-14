@@ -12,10 +12,9 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
     /// </summary>
     /// <typeparam name="TElement">Type of configuration element contained in 
     /// the collection.</typeparam>
-    //[SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix",
-        //Justification = "This is a base class, name is reasonable")]
-    //[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Deserializable",
-        //Justification = "It is spelled correctly")]
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "This is a base class, name is reasonable")]
+    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Deserializable",
+        Justification = "It is spelled correctly")]
     public abstract class DeserializableConfigurationElementCollectionBase<TElement> :
         ConfigurationElementCollection,
         IEnumerable<TElement>

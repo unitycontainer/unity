@@ -32,8 +32,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="context">Current build context.</param>
         /// <returns>The value for the dependency.</returns>
         // FxCop suppression: Validation is done via Guard class
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-                         //Justification = "Validation is done via Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+                         Justification = "Validation is done via Guard class")]
         public object Resolve(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");

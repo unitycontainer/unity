@@ -30,6 +30,8 @@ namespace Microsoft.Practices.Unity
         /// <param name="mappedFromType">The source type for the mapping.</param>
         /// <param name="currentMappedToType">The type currently mapped.</param>
         /// <param name="newMappedToType">The new type to map.</param>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public DuplicateTypeMappingException(string name, Type mappedFromType, Type currentMappedToType, Type newMappedToType)
             : base(CreateMessage(name, mappedFromType, currentMappedToType, newMappedToType))
         {

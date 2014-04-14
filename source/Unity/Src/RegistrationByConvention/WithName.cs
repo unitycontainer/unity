@@ -16,6 +16,8 @@ namespace Microsoft.Practices.Unity
         /// <param name="type">The type.</param>
         /// <returns>The type name.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Need to match signature Func<Type, string>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+          Justification = "Validation done by Guard class")]
         public static string TypeName(Type type)
         {
             Guard.ArgumentNotNull(type, "type");

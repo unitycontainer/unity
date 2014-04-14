@@ -7,8 +7,7 @@ namespace Microsoft.Practices.Unity
     /// <summary>
     /// Base interface for all extension configuration interfaces.
     /// </summary>
-    //[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Configurator",
-       // Justification = "Configurator IS spelled correctly")]
+    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Configurator", Justification = "Configurator IS spelled correctly")]
     public interface IUnityContainerExtensionConfigurator
     {
         /// <summary>

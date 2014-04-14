@@ -63,7 +63,7 @@ namespace Microsoft.Practices.Unity
         /// If <paramref name="skipOnError"/> is <see langword="true"/>, all exceptions thrown while getting types from the assemblies are ignored, and the types 
         /// that can be retrieved are returned; otherwise, the original exception is thrown.
         /// </remarks>
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed", Justification = "Simplify API")]
         public static IEnumerable<Type> FromAssemblies(IEnumerable<Assembly> assemblies, bool skipOnError = true)
         {
             Guard.ArgumentNotNull(assemblies, "assemblies");

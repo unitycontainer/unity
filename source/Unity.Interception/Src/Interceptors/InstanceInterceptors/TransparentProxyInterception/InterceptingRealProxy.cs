@@ -36,8 +36,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="target">Target object to intercept calls to.</param>
         /// <param name="classToProxy">Type to return as the type being proxied.</param>
         /// <param name="additionalInterfaces">Additional interfaces the proxy must implement.</param>
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            //Justification = "Validation done by Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public InterceptingRealProxy(
             object target,
             Type classToProxy,
@@ -91,8 +91,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="fromType">The type to cast to. </param>
         /// <param name="o">The object for which to check casting. </param>
         /// <exception cref="T:System.Security.SecurityException">The immediate caller makes the call through a reference to the interface and does not have infrastructure permission. </exception>
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            //Justification = "Validation done by Guard class.")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class.")]
         [SecurityCritical]
         public bool CanCastTo(Type fromType, object o)
         {
@@ -149,7 +149,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// about the method call.</param>
         /// <returns>An <see cref="TransparentProxyMethodReturn"/> object contains the
         /// information about the target method's return value.</returns>
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         [SecurityCritical]
         public override IMessage Invoke(IMessage msg)
         {

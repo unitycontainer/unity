@@ -24,8 +24,8 @@ namespace Microsoft.Practices.Unity
         /// Do the PreBuildUp stage of construction. This is where the actual work is performed.
         /// </summary>
         /// <param name="context">Current build context.</param>
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            //Justification = "Validation done by Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public override void PreBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");

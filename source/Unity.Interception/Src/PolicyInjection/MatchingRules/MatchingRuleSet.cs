@@ -12,7 +12,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// is a collection of other matching rules. All the contained
     /// rules much match for the set to match.
     /// </summary>
-    //[SuppressMessage("Microsoft.Naming", "CA1710", Justification = "Using alternative suffix 'Set'.")]
+    [SuppressMessage("Microsoft.Naming", "CA1710", Justification = "Using alternative suffix 'Set'.")]
     public class MatchingRuleSet : List<IMatchingRule>, IMatchingRule
     {
         /// <summary>

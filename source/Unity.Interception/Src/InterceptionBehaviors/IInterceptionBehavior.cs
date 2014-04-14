@@ -24,7 +24,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// Returns the interfaces required by the behavior for the objects it intercepts.
         /// </summary>
         /// <returns>The required interfaces.</returns>
-        //[SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Could require computations")]
         IEnumerable<Type> GetRequiredInterfaces();
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// <param name="input">Inputs to the current method call.</param>
     /// <param name="getNext">Delegate to get the next interceptor in the chain.</param>
     /// <returns>Return from the next method in the chain.</returns>
-    //[SuppressMessage("Microsoft.Naming", "CA1711", Justification = "A delegate is indeed required.")]
+    [SuppressMessage("Microsoft.Naming", "CA1711", Justification = "A delegate is indeed required.")]
     public delegate IMethodReturn InvokeInterceptionBehaviorDelegate(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext);
 
     /// <summary>
@@ -52,6 +52,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// the chain.
     /// </summary>
     /// <returns>Next delegate in the interceptor chain to call.</returns>
-    //[SuppressMessage("Microsoft.Naming", "CA1711", Justification = "A delegate is indeed required.")]
+    [SuppressMessage("Microsoft.Naming", "CA1711", Justification = "A delegate is indeed required.")]
     public delegate InvokeInterceptionBehaviorDelegate GetNextInterceptionBehaviorDelegate();
 }

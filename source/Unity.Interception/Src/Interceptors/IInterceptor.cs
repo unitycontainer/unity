@@ -16,7 +16,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="t">Type to check.</param>
         /// <returns>True if interception is possible, false if not.</returns>
-        //[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t", Justification = "Parameter name is meaningful enough in context")]
         bool CanIntercept(Type t);
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// was created (typically an interface).</param>
         /// <param name="implementationType">The concrete type of the implementing object.</param>
         /// <returns>Sequence of <see cref="MethodImplementationInfo"/> objects.</returns>
-        //[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Interceptable")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Interceptable", Justification = "Interceptable is valid in this context")]
         IEnumerable<MethodImplementationInfo> GetInterceptableMethods(Type interceptedType, Type implementationType);
     }
 }

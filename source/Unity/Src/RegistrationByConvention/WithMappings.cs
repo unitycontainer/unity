@@ -32,6 +32,8 @@ namespace Microsoft.Practices.Unity
         /// <param name="implementationType">The type to register.</param>
         /// <returns>An enumeration with the first interface matching the name of <paramref name="implementationType"/> (for example, if type is MyType, a matching interface is IMyType),
         /// or an empty enumeration if no such interface is found.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+          Justification = "Validation done by Guard class")]
         public static IEnumerable<Type> FromMatchingInterface(Type implementationType)
         {
             Guard.ArgumentNotNull(implementationType, "implementationType");

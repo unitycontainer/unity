@@ -16,7 +16,7 @@ namespace Microsoft.Practices.Unity
     /// <typeparam name="TOverride">Concrete type of the <see cref="ResolverOverride"/> this class collects.</typeparam>
     /// <typeparam name="TKey">Key used to create the underlying override object.</typeparam>
     /// <typeparam name="TValue">Value that the override returns.</typeparam>
-    //[SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "Considered, it's fine.")]
+    [SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "Considered, it's fine.")]
     public abstract class OverrideCollection<TOverride, TKey, TValue> : ResolverOverride, IEnumerable<TOverride>
         where TOverride : ResolverOverride
     {

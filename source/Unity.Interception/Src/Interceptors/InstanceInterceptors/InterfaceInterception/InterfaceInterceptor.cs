@@ -24,8 +24,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="t">Type to check.</param>
         /// <returns>True if interception is possible, false if not.</returns>
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            //Justification = "Validation done via Guard class.")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done via Guard class.")]
         public bool CanIntercept(Type t)
         {
             Guard.ArgumentNotNull(t, "t");
@@ -40,8 +40,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// was created (typically an interface).</param>
         /// <param name="implementationType">The concrete type of the implementing object.</param>
         /// <returns>Sequence of <see cref="MethodInfo"/> objects.</returns>
-        //[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Interceptable",
-            //Justification = "Spelling is fine")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Interceptable",
+            Justification = "Spelling is fine")]
         public IEnumerable<MethodImplementationInfo> GetInterceptableMethods(
             Type interceptedType,
             Type implementationType)

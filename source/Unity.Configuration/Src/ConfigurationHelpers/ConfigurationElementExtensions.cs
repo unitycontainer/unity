@@ -25,10 +25,10 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <param name="reader">Xml reader containing state to deserialize from.</param>
         /// <param name="elementCollection">Collection to store the created element into.</param>
         /// <returns>The created element.</returns>
-        //[SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "baseElement",
-            //Justification = "Made this an extension method to get nice usage syntax.")]
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            //Justification = "Validation done by Guard class")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "baseElement",
+            Justification = "Made this an extension method to get nice usage syntax.")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public static TElementType ReadUnwrappedElement<TElementType>(this ConfigurationElement baseElement,
             XmlReader reader, DeserializableConfigurationElementCollectionBase<TElementType> elementCollection)
             where TElementType : DeserializableConfigurationElement, new()
@@ -54,10 +54,10 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <param name="elementType">Runtime type of element to create.</param>
         /// <param name="elementCollection">Collection to store the created element into.</param>
         /// <returns>The created element.</returns>
-        //[SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "baseElement",
-            //Justification = "Made this an extension method to get nice usage syntax.")]
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            //Justification = "Validation done by Guard class")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "baseElement",
+            Justification = "Made this an extension method to get nice usage syntax.")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public static TElementType ReadElementByType<TElementType>(this ConfigurationElement baseElement,
             XmlReader reader, Type elementType, DeserializableConfigurationElementCollectionBase<TElementType> elementCollection)
             where TElementType : DeserializableConfigurationElement

@@ -29,8 +29,8 @@ namespace Microsoft.Practices.Unity
         /// <param name="t">Type to check.</param>
         /// <returns>True if this parameter value is compatible with type <paramref name="t"/>,
         /// false if not.</returns>
-        //[SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t",
-            //Justification = "Parameter is meaningful enough in context")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t",
+            Justification = "Parameter is meaningful enough in context")]
         public abstract bool MatchesType(Type t);
 
         /// <summary>

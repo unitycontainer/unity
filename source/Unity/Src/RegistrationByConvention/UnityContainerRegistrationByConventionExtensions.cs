@@ -30,8 +30,9 @@ namespace Microsoft.Practices.Unity
         /// The container that this method was called on.
         /// </returns>
         /// <exception cref="ArgumentException">A new registration would overwrite an existing mapping and <paramref name="overwriteExistingMappings"/> is <see langword="false"/>.</exception>
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")]
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed", Justification = "Simplify API")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "API is easier to use with nested generics")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         public static IUnityContainer RegisterTypes(
             this IUnityContainer container,
             IEnumerable<Type> types,
@@ -98,7 +99,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>
         /// The container that this method was called on.
         /// </returns>
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed", Justification = "Simplify API")]
         public static IUnityContainer RegisterTypes(this IUnityContainer container, RegistrationConvention convention, bool overwriteExistingMappings = false)
         {
             container.RegisterTypes(convention.GetTypes(), convention.GetFromTypes(), convention.GetName(), convention.GetLifetimeManager(), convention.GetInjectionMembers(), overwriteExistingMappings);

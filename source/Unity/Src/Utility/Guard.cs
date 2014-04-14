@@ -87,10 +87,6 @@ namespace Microsoft.Practices.Unity.Utility
         /// <param name="assignmentTargetType">The argument type that will be assigned to.</param>
         /// <param name="assignmentInstance">The instance that will be assigned.</param>
         /// <param name="argumentName">Argument name.</param>
-        //[SuppressMessage(
-            //"Microsoft.Design",
-            //"CA1031:DoNotCatchGeneralExceptionTypes",
-            //Justification = "GetType() invoked for diagnostics purposes")]
         public static void InstanceIsAssignable(Type assignmentTargetType, object assignmentInstance, string argumentName)
         {
             if (assignmentTargetType == null)
@@ -115,8 +111,8 @@ namespace Microsoft.Practices.Unity.Utility
             }
         }
 
-        //[SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
-            //Justification = "Need to use exception as flow control here, no other choice")]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
+            Justification = "Need to use exception as flow control here, no other choice")]
         private static string GetTypeName(object assignmentInstance)
         {
             string assignmentInstanceType;

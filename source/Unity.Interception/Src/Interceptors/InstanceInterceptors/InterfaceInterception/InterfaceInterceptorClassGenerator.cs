@@ -29,8 +29,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private FieldBuilder typeToProxyField;
         private TypeBuilder typeBuilder;
 
-        //[SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline",
-            //Justification = "Need to use constructor so we can place attribute on it.")]
+        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline",
+            Justification = "Need to use constructor so we can place attribute on it.")]
         static InterfaceInterceptorClassGenerator()
         {
             AssemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(

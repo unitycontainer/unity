@@ -9,7 +9,7 @@ namespace Microsoft.Practices.Unity
     /// specify multiple parameter overrides in one shot rather than having
     /// to construct multiple objects.
     /// </summary>
-    //[SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Not really a collection, only implements IEnumerable to get convenient initialization syntax.")]
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Not really a collection, only implements IEnumerable to get convenient initialization syntax.")]
     public class ParameterOverrides : OverrideCollection<ParameterOverride, string, object>
     {
         /// <summary>

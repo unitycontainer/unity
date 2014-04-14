@@ -54,8 +54,8 @@ namespace Microsoft.Practices.Unity
         /// <remarks>A type is considered compatible if it is an array type of rank one
         /// and its element type is a generic type parameter with a name matching this generic
         /// parameter name configured for the receiver.</remarks>
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            //Justification = "Validation done by Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public override bool MatchesType(Type t)
         {
             Guard.ArgumentNotNull(t, "t");

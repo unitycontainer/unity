@@ -18,7 +18,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <typeparam name="TPolicyInterface">The type the policy was registered as.</typeparam>
         /// <param name="policies"><see cref="IPolicyList"/> to remove the policy from.</param>
         /// <param name="buildKey">The key the policy applies.</param>
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static void Clear<TPolicyInterface>(this IPolicyList policies, object buildKey)
             where TPolicyInterface : IBuilderPolicy
         {
@@ -31,7 +31,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <typeparam name="TPolicyInterface">The type the policy was registered as.</typeparam>
         /// <param name="policies"><see cref="IPolicyList"/> to remove the policy from.</param>
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static void ClearDefault<TPolicyInterface>(this IPolicyList policies)
             where TPolicyInterface : IBuilderPolicy
         {
@@ -46,8 +46,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="policies"><see cref="IPolicyList"/> to search.</param>
         /// <param name="buildKey">The key the policy applies.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
-        //[SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
-            //Justification = "Back compat with ObjectBuilder")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
+            Justification = "Backwards compatability with ObjectBuilder")]
         public static TPolicyInterface Get<TPolicyInterface>(this IPolicyList policies, object buildKey)
             where TPolicyInterface : IBuilderPolicy
         {
@@ -62,10 +62,11 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="buildKey">The key the policy applies.</param>
         /// <param name="containingPolicyList">The policy list that actually contains the returned policy.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
-        //[SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "2#")]
-        //[SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
-            //Justification = "Back compat with ObjectBuilder")]
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "2#",
+            Justification = "Backwards compatability with ObjectBuilder")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
+            Justification = "Backwards compatability with ObjectBuilder")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static TPolicyInterface Get<TPolicyInterface>(this IPolicyList policies, object buildKey, out IPolicyList containingPolicyList)
             where TPolicyInterface : IBuilderPolicy
         {
@@ -81,8 +82,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="policyInterface">The interface the policy is registered under.</param>
         /// <param name="buildKey">The key the policy applies.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
-        //[SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
-            //Justification = "Back compat with ObjectBuilder")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
+            Justification = "Back compat with ObjectBuilder")]
         public static IBuilderPolicy Get(this IPolicyList policies, Type policyInterface,
             object buildKey)
         {
@@ -97,10 +98,11 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="buildKey">The key the policy applies.</param>
         /// <param name="containingPolicyList">The policy list that actually contains the returned policy.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
-        //[SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#")]
-        //[SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
-            //Justification = "Back compat with ObjectBuilder")]
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#",
+            Justification = "Returning the builder policy and populating the policy list")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
+            Justification = "Backwards compatability with ObjectBuilder")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static IBuilderPolicy Get(this IPolicyList policies, Type policyInterface,
             object buildKey, out IPolicyList containingPolicyList)
         {
@@ -116,8 +118,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="buildKey">The key the policy applies.</param>
         /// <param name="localOnly">true if the policy searches local only; otherwise false to search up the parent chain.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
-        //[SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
-            //Justification = "Back compat with ObjectBuilder")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
+            Justification = "Backwards compatability with ObjectBuilder")]
         public static TPolicyInterface Get<TPolicyInterface>(this IPolicyList policies, object buildKey,
             bool localOnly)
             where TPolicyInterface : IBuilderPolicy
@@ -134,10 +136,11 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="localOnly">true if the policy searches local only; otherwise false to search up the parent chain.</param>
         /// <param name="containingPolicyList">The policy list that actually contains the returned policy.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
-        //[SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#")]
-        //[SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
-            //Justification = "Back compat with ObjectBuilder")]
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#",
+            Justification = "Returning the builder policy and populating the policy list")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
+            Justification = "Backwards compatability with ObjectBuilder")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static TPolicyInterface Get<TPolicyInterface>(this IPolicyList policies, object buildKey,
             bool localOnly, out IPolicyList containingPolicyList)
             where TPolicyInterface : IBuilderPolicy
@@ -155,7 +158,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="buildKey">The key the policy applies.</param>
         /// <param name="localOnly">true if the policy searches local only; otherwise false to search up the parent chain.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static IBuilderPolicy Get(this IPolicyList policies, Type policyInterface,
                                   object buildKey,
                                   bool localOnly)
@@ -190,8 +193,9 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="localOnly">true if the policy searches local only; otherwise false to search up the parent chain.</param>
         /// <param name="containingPolicyList">The policy list that actually contains the returned policy.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
-        //[SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#")]
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#",
+            Justification = "Returning the builder policy and populating the policy list")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static TPolicyInterface GetNoDefault<TPolicyInterface>(this IPolicyList policies, object buildKey,
             bool localOnly, out IPolicyList containingPolicyList)
             where TPolicyInterface : IBuilderPolicy
@@ -209,6 +213,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="buildKey">The key the policy applies.</param>
         /// <param name="localOnly">true if the policy searches local only; otherwise false to search up the parent chain.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static IBuilderPolicy GetNoDefault(this IPolicyList policies, Type policyInterface,
                                            object buildKey,
                                            bool localOnly)
@@ -226,8 +231,9 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="policies"><see cref="IPolicyList"/> to add the policy to.</param>
         /// <param name="policy">The policy to be registered.</param>
         /// <param name="buildKey">The key the policy applies.</param>
-        //[SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Set",
-            //Justification = "Back compat with ObjectBuilder")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Set",
+            Justification = "Backwards compatability with ObjectBuilder")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static void Set<TPolicyInterface>(this IPolicyList policies, TPolicyInterface policy,
             object buildKey)
             where TPolicyInterface : IBuilderPolicy

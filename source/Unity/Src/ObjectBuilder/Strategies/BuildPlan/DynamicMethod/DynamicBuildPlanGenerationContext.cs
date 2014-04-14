@@ -171,8 +171,9 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="dependencyType">Type of the dependency being resolved.</param>
         /// <param name="resolverKey">Key the resolver was stored under.</param>
         /// <returns>The found dependency resolver.</returns>
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         [Obsolete("Resolvers are no longer stored as policies.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "context", Justification = "Method is obsolete")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "resolverKey", Justification = "Method is obsolete")]
         public static IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType, string resolverKey)
         {
             throw new NotSupportedException("This method is no longer used");

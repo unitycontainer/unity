@@ -23,7 +23,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
             getMyProperty = propTarget.GetProperty("MyProperty").GetGetMethod();
             setMyProperty = propTarget.GetProperty("MyProperty").GetSetMethod();
             getMyOtherProperty = propTarget.GetProperty("MyOtherProperty").GetGetMethod();
-            setNotAProperty = propTarget.GetMethod("set_NotAProperty");
+            setNotAProperty = propTarget.GetMethod("SetNotAProperty");
             getACompletelyDifferentProperty =
                 propTarget.GetProperty("ACompletelyDifferentProperty").GetGetMethod();
             setACompletelyDifferentProperty =

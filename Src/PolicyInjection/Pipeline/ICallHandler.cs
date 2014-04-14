@@ -33,7 +33,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// <param name="input">Inputs to the current method call.</param>
     /// <param name="getNext">Delegate to get the next handler in the chain.</param>
     /// <returns>Return from the next method in the chain.</returns>
-    //[SuppressMessage("Microsoft.Naming", "CA1711", Justification = "A delegate is indeed required.")]
+    [SuppressMessage("Microsoft.Naming", "CA1711", Justification = "A delegate is indeed required.")]
     public delegate IMethodReturn InvokeHandlerDelegate(IMethodInvocation input, GetNextHandlerDelegate getNext);
 
     /// <summary>
@@ -42,6 +42,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// the chain.
     /// </summary>
     /// <returns>Next delegate in the handler chain to call.</returns>
-    //[SuppressMessage("Microsoft.Naming", "CA1711", Justification = "A delegate is indeed required.")]
+    [SuppressMessage("Microsoft.Naming", "CA1711", Justification = "A delegate is indeed required.")]
     public delegate InvokeHandlerDelegate GetNextHandlerDelegate();
 }

@@ -53,7 +53,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="s">String to check.</param>
         /// <returns>True if it matches, false if it doesn't.</returns>
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "s")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "s", Justification = "Parameter name is meaningful enough in context")]
         public bool IsMatch(string s)
         {
             return pattern.IsMatch(s);

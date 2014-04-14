@@ -22,8 +22,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="attributeType">Attribute to match.</param>
         /// <param name="inherited">If true, checks the base class for attributes as well.</param>
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            //Justification = "Validation done by Guard class.")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class.")]
         public CustomAttributeMatchingRule(Type attributeType, bool inherited)
         {
             Guard.ArgumentNotNull(attributeType, "attributeType");
@@ -41,8 +41,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="member">Member to check.</param>
         /// <returns>true if it matches, false if not.</returns>
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            //Justification = "Validation done by Guard class.")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class.")]
         public bool Matches(MethodBase member)
         {
             Guard.ArgumentNotNull(member, "member");

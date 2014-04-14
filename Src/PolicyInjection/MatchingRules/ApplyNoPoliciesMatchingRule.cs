@@ -20,8 +20,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// on it, or a containing type doesn't have the attribute.</remarks>
         /// <param name="member">Member to check.</param>
         /// <returns>True if the rule matches, false if it doesn't.</returns>
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            //Justification = "Validation done by Guard class.")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class.")]
         public bool Matches(MethodBase member)
         {
             Guard.ArgumentNotNull(member, "member");

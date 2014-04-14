@@ -51,8 +51,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </remarks>
         /// <param name="member">Member to check.</param>
         /// <returns>true if <paramref name="member"/> is in a matching assembly, false if not.</returns>
-        //[SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", 
-            //Justification = "Validation done by Guard class.")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class.")]
         public bool Matches(MethodBase member)
         {
             Guard.ArgumentNotNull(member, "member");

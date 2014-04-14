@@ -13,8 +13,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// An implementation of <see cref="IParameterCollection"/> that wraps a provided array
     /// containing the argument values.
     /// </summary>
-    //[SuppressMessage("Microsoft.Design", "CA1035", Justification = "Not a general purpose collection")]
-    //[SuppressMessage("Microsoft.Design", "CA1039", Justification = "Not a general purpose collection")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1035:ICollectionImplementationsHaveStronglyTypedMembers",
+        Justification = "Not a general purpose collection")]   
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1039:ListsAreStronglyTyped", 
+        Justification = "Not a general purpose collection")]
     public class ParameterCollection : IParameterCollection
     {
         /// <summary>

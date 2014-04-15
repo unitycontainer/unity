@@ -123,7 +123,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             return selectedConstructor.Constructor.GetParameters().Any(pi => pi.ParameterType.IsByRef);
         }
 
-        private Expression CreateThrowWithContext(DynamicBuildPlanGenerationContext buildContext, MethodInfo throwMethod)
+        private static Expression CreateThrowWithContext(DynamicBuildPlanGenerationContext buildContext, MethodInfo throwMethod)
         {
             return Expression.Call(
                                 null,
@@ -131,7 +131,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                                 buildContext.ContextParameter);
         }
 
-        private Expression CreateThrowForNullExistingObjectWithInvalidConstructor(DynamicBuildPlanGenerationContext buildContext, string signature)
+        private static Expression CreateThrowForNullExistingObjectWithInvalidConstructor(DynamicBuildPlanGenerationContext buildContext, string signature)
         {
             return Expression.Call(
                                 null,

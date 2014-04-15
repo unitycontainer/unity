@@ -34,12 +34,12 @@ namespace Microsoft.Practices.ObjectBuilder2
             {
                 if (method.IsDefined(typeof(TMarkerAttribute), false))
                 {
-                    yield return CreateSelectedMethod(context, resolverPolicyDestination, method);
+                    yield return CreateSelectedMethod(method);
                 }
             }
         }
 
-        private SelectedMethod CreateSelectedMethod(IBuilderContext context, IPolicyList resolverPolicyDestination, MethodInfo method)
+        private SelectedMethod CreateSelectedMethod(MethodInfo method)
         {
             var result = new SelectedMethod(method);
             foreach (ParameterInfo parameter in method.GetParameters())

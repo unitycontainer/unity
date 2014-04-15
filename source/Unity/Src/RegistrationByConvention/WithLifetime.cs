@@ -85,6 +85,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>
         /// A lifetime manager.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "type", Justification = "Need to match signature Func<Type, string>")]
         public static LifetimeManager Custom<T>(Type type)
             where T : LifetimeManager, new()

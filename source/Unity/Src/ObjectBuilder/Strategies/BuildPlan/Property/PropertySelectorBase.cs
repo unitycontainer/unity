@@ -42,12 +42,12 @@ namespace Microsoft.Practices.ObjectBuilder2
                 if (prop.GetIndexParameters().Length == 0 &&
                    prop.IsDefined(typeof(TResolutionAttribute), false))
                 {
-                    yield return CreateSelectedProperty(context, resolverPolicyDestination, prop);
+                    yield return CreateSelectedProperty(prop);
                 }
             }
         }
 
-        private SelectedProperty CreateSelectedProperty(IBuilderContext context, IPolicyList resolverPolicyDestination, PropertyInfo property)
+        private SelectedProperty CreateSelectedProperty(PropertyInfo property)
         {
             IDependencyResolverPolicy resolver = this.CreateResolver(property);
             return new SelectedProperty(property, resolver);

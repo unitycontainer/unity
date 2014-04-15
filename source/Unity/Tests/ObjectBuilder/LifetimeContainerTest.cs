@@ -3,6 +3,11 @@
 using System;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -12,6 +17,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
     [TestClass]
     public class LifetimeContainerTest
     {
+        [TestInitialize]
+        public void Setup()
+        {
+            DisposeOrderCounter.ResetCount();
+        }
+
         [TestMethod]
         public void CanDetermineIfLifetimeContainerContainsObject()
         {
@@ -129,6 +140,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         {
             static int count = 0;
             public int DisposePosition;
+
+            public static void ResetCount()
+            {
+                count = 0;
+            }
 
             public void Dispose()
             {

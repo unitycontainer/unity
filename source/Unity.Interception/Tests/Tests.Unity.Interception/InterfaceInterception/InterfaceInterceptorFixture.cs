@@ -41,7 +41,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
                 new MethodImplementationInfo(typeof(IInterfaceOne).GetMethod("TargetMethod"),
                     typeof(ImplementationOne).GetMethod("TargetMethod"))).ToList();
 
-            CollectionAssert.AreEquivalent(expected, methods);
+            CollectionAssertExtensions.AreEquivalent(expected, methods);
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
                         typeof(InterfaceBase).GetMethod("Method3")))
                 .ToList();
 
-            CollectionAssert.AreEquivalent(expected, methods);
+            CollectionAssertExtensions.AreEquivalent(expected, methods);
         }
 
 
@@ -76,7 +76,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
                         typeof(WrappableThroughInterface).GetMethod("Method3")))
                 .ToList();
 
-            CollectionAssert.AreEquivalent(expected, methods);
+            CollectionAssertExtensions.AreEquivalent(expected, methods);
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
                 GetExpectedMethods<IGenericOne<string>, GenericImplementationOne<string>>("DoSomething")
                 .ToList();
 
-            CollectionAssert.AreEquivalent(expected, methods);
+            CollectionAssertExtensions.AreEquivalent(expected, methods);
         }
 
         [TestMethod]

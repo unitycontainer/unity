@@ -6,6 +6,11 @@ using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -107,7 +112,7 @@ namespace Microsoft.Practices.Unity.Tests
             var resolver = overrider.GetResolver(context, typeof(int));
 
             Assert.IsNotNull(resolver);
-            Assert.IsInstanceOfType(resolver, typeof(LiteralValueDependencyResolverPolicy));
+            AssertExtensions.IsInstanceOfType(resolver, typeof(LiteralValueDependencyResolverPolicy));
 
             var result = (int)resolver.Resolve(context);
             Assert.AreEqual(42, result);
@@ -123,7 +128,7 @@ namespace Microsoft.Practices.Unity.Tests
             var result = container.Resolve<ObjectTakingASomething>(
                 new ParameterOverride("something", new ResolvedParameter<ISomething>("other")));
 
-            Assert.IsInstanceOfType(result.MySomething, typeof(Something2));
+            AssertExtensions.IsInstanceOfType(result.MySomething, typeof(Something2));
         }
 
         [TestMethod]
@@ -140,7 +145,7 @@ namespace Microsoft.Practices.Unity.Tests
                 new PropertyOverride("MySomething", new ResolvedParameter<ISomething>("other")).OnType<ObjectTakingASomething>());
 
             Assert.IsNotNull(result.MySomething);
-            Assert.IsInstanceOfType(result.MySomething, typeof(Something2));
+            AssertExtensions.IsInstanceOfType(result.MySomething, typeof(Something2));
         }
 
         [TestMethod]
@@ -157,7 +162,7 @@ namespace Microsoft.Practices.Unity.Tests
                 new PropertyOverride("MySomething", new ResolvedParameter<ISomething>("other")).OnType<ObjectThatDependsOnSimpleObject>());
 
             Assert.IsNotNull(result.MySomething);
-            Assert.IsInstanceOfType(result.MySomething, typeof(Something1));
+            AssertExtensions.IsInstanceOfType(result.MySomething, typeof(Something1));
         }
 
         [TestMethod]

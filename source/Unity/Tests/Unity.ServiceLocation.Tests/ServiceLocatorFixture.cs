@@ -7,6 +7,8 @@ using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity.ServiceLocation.Tests.Components;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -38,13 +40,13 @@ namespace Unity.ServiceLocation.Tests
         public void GetNamedInstance()
         {
             ILogger instance = locator.GetInstance<ILogger>(typeof(AdvancedLogger).FullName);
-            Assert.IsInstanceOfType(instance, typeof(AdvancedLogger));
+            Microsoft.Practices.Unity.TestSupport.AssertExtensions.IsInstanceOfType(instance, typeof(AdvancedLogger));
         }
 
         public void GetNamedInstance2()
         {
             ILogger instance = locator.GetInstance<ILogger>(typeof(SimpleLogger).FullName);
-            Assert.IsInstanceOfType(instance, typeof(SimpleLogger));
+            Microsoft.Practices.Unity.TestSupport.AssertExtensions.IsInstanceOfType(instance, typeof(SimpleLogger));
         }
 
         public void GetUnknownInstance2()
@@ -115,10 +117,10 @@ namespace Unity.ServiceLocation.Tests
             catch (Exception ex)
             {
                 Assert.Fail("Expected exception {0}, but instead exception {1} was thrown",
-                    typeof (TException).Name,
+                    typeof(TException).Name,
                     ex.GetType().Name);
             }
-            Assert.Fail("Expected exception {0}, no exception thrown", typeof (TException).Name);
+            Assert.Fail("Expected exception {0}, no exception thrown", typeof(TException).Name);
         }
     }
 }

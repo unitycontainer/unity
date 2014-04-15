@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -15,12 +17,12 @@ namespace Microsoft.Practices.Unity.TestSupport
     {
         public static void AssertContainsExactly<TItem>(this IEnumerable<TItem> items, params TItem[] expected)
         {
-            CollectionAssert.AreEqual(expected, items.ToArray());
+            CollectionAssertExtensions.AreEqual(expected, items.ToArray());
         }
 
         public static void AssertContainsInAnyOrder<TItem>(this IEnumerable<TItem> items, params TItem[] expected)
         {
-            CollectionAssert.AreEquivalent(expected, items.ToArray());
+            CollectionAssertExtensions.AreEquivalent(expected, items.ToArray());
         }
 
         public static void AssertTrueForAll<TItem>(this IEnumerable<TItem> items, Func<TItem, bool> predicate)

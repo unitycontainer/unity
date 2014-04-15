@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -76,7 +81,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             IBasicInterface result = child.Resolve<IBasicInterface>();
 
-            Assert.IsInstanceOfType(result, typeof(MockBasic));
+            AssertExtensions.IsInstanceOfType(result, typeof(MockBasic));
         }
 
         // http://www.codeplex.com/unity/Thread/View.aspx?ThreadId=30292
@@ -223,7 +228,7 @@ namespace Microsoft.Practices.Unity.Tests
                 }
                 catch (ResolutionFailedException e)
                 {
-                    Assert.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException));
+                    AssertExtensions.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException));
                 }
             }
         }
@@ -240,7 +245,7 @@ namespace Microsoft.Practices.Unity.Tests
                 }
                 catch (ResolutionFailedException e)
                 {
-                    Assert.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException));
+                    AssertExtensions.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException));
                 }
             }
         }
@@ -257,7 +262,7 @@ namespace Microsoft.Practices.Unity.Tests
                 }
                 catch (ResolutionFailedException e)
                 {
-                    Assert.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException));
+                    AssertExtensions.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException));
                 }
             }
         }

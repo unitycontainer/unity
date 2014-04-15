@@ -6,6 +6,11 @@ using Microsoft.Practices.Unity.Tests.TestObjects;
 using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -28,7 +33,7 @@ namespace Microsoft.Practices.Unity.Tests
             ILogger logger = child.Resolve<ILogger>();
 
             Assert.IsNotNull(logger);
-            Assert.IsInstanceOfType(logger, typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(logger, typeof(MockLogger));
         }
 
         [TestMethod]
@@ -41,7 +46,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             ILogger l = child.Resolve<ILogger>("special");
 
-            Assert.IsInstanceOfType(l, typeof(SpecialLogger));
+            AssertExtensions.IsInstanceOfType(l, typeof(SpecialLogger));
         }
 
         [TestMethod]
@@ -56,7 +61,7 @@ namespace Microsoft.Practices.Unity.Tests
                 .RegisterInstance<string>("fbkm", databases[2]);
 
             List<string> dbs = new List<string>(child.ResolveAll<string>());
-            CollectionAssert.AreEquivalent(databases, dbs);
+            CollectionAssertExtensions.AreEquivalent(databases, dbs);
         }
 
         [TestMethod]
@@ -70,8 +75,8 @@ namespace Microsoft.Practices.Unity.Tests
             ILogger parentLogger = parent.Resolve<ILogger>();
             ILogger childLogger = child.Resolve<ILogger>();
 
-            Assert.IsInstanceOfType(parentLogger, typeof(MockLogger));
-            Assert.IsInstanceOfType(childLogger, typeof(SpecialLogger));
+            AssertExtensions.IsInstanceOfType(parentLogger, typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(childLogger, typeof(SpecialLogger));
         }
 
         [TestMethod]
@@ -85,8 +90,8 @@ namespace Microsoft.Practices.Unity.Tests
             parent.RegisterType<ILogger, SpecialLogger>();
             ILogger second = child.Resolve<ILogger>();
 
-            Assert.IsInstanceOfType(first, typeof(MockLogger));
-            Assert.IsInstanceOfType(second, typeof(SpecialLogger));
+            AssertExtensions.IsInstanceOfType(first, typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(second, typeof(SpecialLogger));
         }
 
         [TestMethod]

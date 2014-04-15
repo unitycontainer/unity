@@ -4,6 +4,11 @@ using System;
 using System.Collections.Generic;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -72,8 +77,8 @@ namespace Microsoft.Practices.Unity.Tests
             TypeWithArrayConstructorParameter result = container.Resolve<TypeWithArrayConstructorParameter>();
 
             Assert.AreEqual(3, result.loggers.Length);
-            Assert.IsInstanceOfType(result.loggers[0], typeof (SpecialLogger));
-            Assert.IsInstanceOfType(result.loggers[1], typeof (MockLogger));
+            AssertExtensions.IsInstanceOfType(result.loggers[0], typeof (SpecialLogger));
+            AssertExtensions.IsInstanceOfType(result.loggers[1], typeof (MockLogger));
             Assert.AreSame(logger2, result.loggers[2]);
         }
 
@@ -96,8 +101,8 @@ namespace Microsoft.Practices.Unity.Tests
             TypeWithArrayConstructorParameter result = container.Resolve<TypeWithArrayConstructorParameter>();
 
             Assert.AreEqual(3, result.loggers.Length);
-            Assert.IsInstanceOfType(result.loggers[0], typeof(SpecialLogger));
-            Assert.IsInstanceOfType(result.loggers[1], typeof(MockLogger));
+            AssertExtensions.IsInstanceOfType(result.loggers[0], typeof(SpecialLogger));
+            AssertExtensions.IsInstanceOfType(result.loggers[1], typeof(MockLogger));
             Assert.AreSame(logger2, result.loggers[2]);
         }
 
@@ -125,7 +130,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             TypeWithArrayConstructorParameter result = container.Resolve<TypeWithArrayConstructorParameter>();
 
-            CollectionAssert.AreEqual(expected, result.loggers);
+            CollectionAssertExtensions.AreEqual(expected, result.loggers);
         }
 
         [TestMethod]

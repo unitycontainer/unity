@@ -8,6 +8,11 @@ using Microsoft.Practices.Unity.ObjectBuilder;
 using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -50,7 +55,7 @@ namespace Microsoft.Practices.Unity.Tests
             ResolvedParameter parameter = new ResolvedParameter<ILogger>();
             IDependencyResolverPolicy resolver = parameter.GetResolverPolicy(expectedType);
 
-            Assert.IsInstanceOfType(resolver, typeof(NamedTypeDependencyResolverPolicy));
+            AssertExtensions.IsInstanceOfType(resolver, typeof(NamedTypeDependencyResolverPolicy));
             Assert.AreEqual(expectedType, ((NamedTypeDependencyResolverPolicy)resolver).Type);
             Assert.IsNull(((NamedTypeDependencyResolverPolicy)resolver).Name);
         }
@@ -64,7 +69,7 @@ namespace Microsoft.Practices.Unity.Tests
             ResolvedParameter parameter = new ResolvedParameter(expectedType, name);
             IDependencyResolverPolicy resolver = parameter.GetResolverPolicy(expectedType);
 
-            Assert.IsInstanceOfType(resolver, typeof(NamedTypeDependencyResolverPolicy));
+            AssertExtensions.IsInstanceOfType(resolver, typeof(NamedTypeDependencyResolverPolicy));
             Assert.AreEqual(expectedType, ((NamedTypeDependencyResolverPolicy)resolver).Type);
             Assert.AreEqual(name, ((NamedTypeDependencyResolverPolicy)resolver).Name);
         }
@@ -75,7 +80,7 @@ namespace Microsoft.Practices.Unity.Tests
             List<InjectionParameterValue> values = GetParameterValues(typeof(int));
 
             Assert.AreEqual(1, values.Count);
-            Assert.IsInstanceOfType(values[0], typeof(ResolvedParameter));
+            AssertExtensions.IsInstanceOfType(values[0], typeof(ResolvedParameter));
         }
 
         [TestMethod]
@@ -98,9 +103,9 @@ namespace Microsoft.Practices.Unity.Tests
                 15, typeof(string), 22.5);
 
             Assert.AreEqual(3, values.Count);
-            Assert.IsInstanceOfType(values[0], typeof(InjectionParameter));
-            Assert.IsInstanceOfType(values[1], typeof(ResolvedParameter));
-            Assert.IsInstanceOfType(values[2], typeof(InjectionParameter));
+            AssertExtensions.IsInstanceOfType(values[0], typeof(InjectionParameter));
+            AssertExtensions.IsInstanceOfType(values[1], typeof(ResolvedParameter));
+            AssertExtensions.IsInstanceOfType(values[2], typeof(InjectionParameter));
         }
 
         [TestMethod]
@@ -137,7 +142,7 @@ namespace Microsoft.Practices.Unity.Tests
             object result = resolver.Resolve(null);
 
             Assert.AreEqual(expectedType, parameter.ParameterType);
-            Assert.IsInstanceOfType(resolver, typeof(LiteralValueDependencyResolverPolicy));
+            AssertExtensions.IsInstanceOfType(resolver, typeof(LiteralValueDependencyResolverPolicy));
             Assert.AreEqual(expectedValue, result);
         }
 

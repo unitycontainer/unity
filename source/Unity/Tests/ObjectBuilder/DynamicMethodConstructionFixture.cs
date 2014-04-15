@@ -5,9 +5,14 @@ using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.TestSupport;
-#if NETFX_CORE
 using Microsoft.Practices.Unity.Utility;
+#if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -29,7 +34,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             object result = context.Existing;
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(NullLogger));
+            AssertExtensions.IsInstanceOfType(result, typeof(NullLogger));
         }
 
         [TestMethod]

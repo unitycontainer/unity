@@ -176,6 +176,9 @@
     <Compile Include="..\TestSupport.Unity\AssertExtensions.cs">
       <Link>Unity.TestSupport\AssertExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\TestSupport.Unity\CollectionAssertExtensions.cs">
+      <Link>Unity.TestSupport\CollectionAssertExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\TestSupport.Unity\EnumerableAssertionExtensions.cs">
       <Link>Unity.TestSupport\EnumerableAssertionExtensions.cs</Link>
     </Compile>

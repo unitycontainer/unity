@@ -5,6 +5,11 @@ using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
 using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif __IOS__
+using NUnit.Framework;
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -58,7 +63,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             plan.BuildUp(context);
 
             Assert.IsNotNull(context.Existing);
-            Assert.IsInstanceOfType(context.Existing, typeof (PrivateClassWithoutExplicitConstructor));
+            AssertExtensions.IsInstanceOfType(context.Existing, typeof (PrivateClassWithoutExplicitConstructor));
         }
 
 

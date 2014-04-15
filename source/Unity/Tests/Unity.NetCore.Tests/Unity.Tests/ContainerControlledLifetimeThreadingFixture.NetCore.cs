@@ -29,7 +29,7 @@ namespace Microsoft.Practices.Unity.Tests
             {
                 result1 = container.Resolve<object>();
             });
-            
+
             Task task2 = new Task(delegate()
             {
                 result2 = container.Resolve<object>();
@@ -62,7 +62,7 @@ namespace Microsoft.Practices.Unity.Tests
                     {
                         result1 = container.Resolve<object>();
                     }
-                    catch(ResolutionFailedException)
+                    catch (ResolutionFailedException)
                     {
                     }
                 });
@@ -74,10 +74,8 @@ namespace Microsoft.Practices.Unity.Tests
                     thread2Finished = true;
                 });
 
-
             task1.Start();
             task1.Wait();
-            
 
             // Thread1 threw an exception. However, lock should be correctly freed.
             // Run thread2, and if it finished, we're ok.
@@ -113,7 +111,6 @@ namespace Microsoft.Practices.Unity.Tests
         private class ThrowingStrategy : BuilderStrategy
         {
             private bool shouldThrow = true;
-
 
             public override void PreBuildUp(IBuilderContext context)
             {

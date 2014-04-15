@@ -1,18 +1,30 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System.Linq;
-using System.Threading;
-using Microsoft.Practices.ObjectBuilder2;
+// Duplicate using statements to avoid ordering using warning SA1210. 
+// module SuppressMessage not working for integrated build but was working for manual StyleCop invocation
 #if NETFX_CORE
 #if !WINDOWS_PHONE
 using System;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using Windows.System.Threading;
-#endif
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Windows.System.Threading;
 #else
+using System.Linq;
+using System.Threading;
+using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#endif
+#else
+using System.Linq;
+using System.Threading;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
+
+[module: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1210:UsingDirectivesMustBeOrderedAlphabeticallyByNamespace", Justification = "Sorting would be messy due to #ifdef", Target = "PerThreadLifetimeManagerFixture", Scope = "Type")]
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -91,23 +103,23 @@ namespace Microsoft.Practices.Unity.Tests
 
             var barrier = new Barrier(3);
             RunInParallel(
-                delegate 
-                { 
-                    ltm.SetValue(one); 
-                    barrier.SignalAndWait(); 
-                    valueOne = ltm.GetValue(); 
+                delegate
+                {
+                    ltm.SetValue(one);
+                    barrier.SignalAndWait();
+                    valueOne = ltm.GetValue();
                 },
-                delegate 
-                { 
-                    ltm.SetValue(three); 
-                    barrier.SignalAndWait(); 
-                    valueThree = ltm.GetValue(); 
+                delegate
+                {
+                    ltm.SetValue(three);
+                    barrier.SignalAndWait();
+                    valueThree = ltm.GetValue();
                 },
-                delegate 
-                { 
-                    ltm.SetValue(two); 
-                    barrier.SignalAndWait(); 
-                    valueTwo = ltm.GetValue(); 
+                delegate
+                {
+                    ltm.SetValue(two);
+                    barrier.SignalAndWait();
+                    valueTwo = ltm.GetValue();
                 });
 
             Assert.AreSame(one, valueOne);

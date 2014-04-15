@@ -54,7 +54,6 @@ namespace Microsoft.Practices.Unity.Tests
                 // and consume battery power when the user is not using the phone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
-
         }
 
         // Code to execute when the application is launching (eg, from Start)
@@ -110,7 +109,9 @@ namespace Microsoft.Practices.Unity.Tests
         private void InitializePhoneApplication()
         {
             if (phoneApplicationInitialized)
+            {
                 return;
+            }
 
             // Create the frame but don't set it as RootVisual yet; this allows the splash
             // screen to remain active until the application is ready to render.
@@ -132,7 +133,9 @@ namespace Microsoft.Practices.Unity.Tests
         {
             // Set the root visual to allow the application to render
             if (RootVisual != RootFrame)
+            {
                 RootVisual = RootFrame;
+            }
 
             // Remove this handler since it is no longer needed
             RootFrame.Navigated -= CompleteInitializePhoneApplication;
@@ -143,7 +146,9 @@ namespace Microsoft.Practices.Unity.Tests
             // If the app has received a 'reset' navigation, then we need to check
             // on the next navigation to see if the page stack should be reset
             if (e.NavigationMode == NavigationMode.Reset)
+            {
                 RootFrame.Navigated += ClearBackStackAfterReset;
+            }
         }
 
         private void ClearBackStackAfterReset(object sender, NavigationEventArgs e)
@@ -153,12 +158,14 @@ namespace Microsoft.Practices.Unity.Tests
 
             // Only clear the stack for 'new' (forward) and 'refresh' navigations
             if (e.NavigationMode != NavigationMode.New && e.NavigationMode != NavigationMode.Refresh)
+            {
                 return;
+            }
 
             // For UI consistency, clear the entire page stack
             while (RootFrame.RemoveBackEntry() != null)
             {
-                ; // do nothing
+                // do nothing
             }
         }
 
@@ -180,7 +187,6 @@ namespace Microsoft.Practices.Unity.Tests
         //     ResourceFlowDirection's value should be "RightToLeft"
         //
         // For more info on localizing Windows Phone apps see http://go.microsoft.com/fwlink/?LinkId=262072.
-        //
         private void InitializeLanguage()
         {
             try

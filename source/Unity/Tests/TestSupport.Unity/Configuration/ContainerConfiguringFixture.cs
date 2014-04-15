@@ -23,13 +23,13 @@ namespace Microsoft.Practices.Unity.TestSupport.Configuration
         protected override void Arrange()
         {
             base.Arrange();
-            Container = new UnityContainer();
+            this.Container = new UnityContainer();
         }
 
         protected override void Act()
         {
             base.Act();
-            Section.Configure(Container, containerName);
+            this.section.Configure(this.Container, this.containerName);
         }
     }
 }

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Practices.Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -12,7 +13,6 @@ using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
-using Microsoft.Practices.Unity.TestSupport;
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -34,10 +34,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             TypeWithArrayConstructorParameter resolved = container.Resolve<TypeWithArrayConstructorParameter>();
 
-            Assert.IsNotNull(resolved.loggers);
-            Assert.AreEqual(2, resolved.loggers.Length);
-            Assert.AreSame(o1, resolved.loggers[0]);
-            Assert.AreSame(o2, resolved.loggers[1]);
+            Assert.IsNotNull(resolved.Loggers);
+            Assert.AreEqual(2, resolved.Loggers.Length);
+            Assert.AreSame(o1, resolved.Loggers[0]);
+            Assert.AreSame(o2, resolved.Loggers[1]);
         }
 
         [TestMethod]
@@ -53,10 +53,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             TypeWithArrayConstructorParameter resolved = container.Resolve<TypeWithArrayConstructorParameter>();
 
-            Assert.IsNotNull(resolved.loggers);
-            Assert.AreEqual(2, resolved.loggers.Length);
-            Assert.AreSame(o1, resolved.loggers[0]);
-            Assert.AreSame(o2, resolved.loggers[1]);
+            Assert.IsNotNull(resolved.Loggers);
+            Assert.AreEqual(2, resolved.Loggers.Length);
+            Assert.AreSame(o1, resolved.Loggers[0]);
+            Assert.AreSame(o2, resolved.Loggers[1]);
         }
 
         [TestMethod]
@@ -69,17 +69,17 @@ namespace Microsoft.Practices.Unity.Tests
                 new InjectionConstructor(
                     new ResolvedArrayParameter<ILogger>(
                         new ResolvedParameter<ILogger>("log1"),
-                        typeof (ILogger),
+                        typeof(ILogger),
                         logger2)))
                 .RegisterType<ILogger, MockLogger>()
                 .RegisterType<ILogger, SpecialLogger>("log1");
 
             TypeWithArrayConstructorParameter result = container.Resolve<TypeWithArrayConstructorParameter>();
 
-            Assert.AreEqual(3, result.loggers.Length);
-            AssertExtensions.IsInstanceOfType(result.loggers[0], typeof (SpecialLogger));
-            AssertExtensions.IsInstanceOfType(result.loggers[1], typeof (MockLogger));
-            Assert.AreSame(logger2, result.loggers[2]);
+            Assert.AreEqual(3, result.Loggers.Length);
+            AssertExtensions.IsInstanceOfType(result.Loggers[0], typeof(SpecialLogger));
+            AssertExtensions.IsInstanceOfType(result.Loggers[1], typeof(MockLogger));
+            Assert.AreSame(logger2, result.Loggers[2]);
         }
 
         [TestMethod]
@@ -100,10 +100,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             TypeWithArrayConstructorParameter result = container.Resolve<TypeWithArrayConstructorParameter>();
 
-            Assert.AreEqual(3, result.loggers.Length);
-            AssertExtensions.IsInstanceOfType(result.loggers[0], typeof(SpecialLogger));
-            AssertExtensions.IsInstanceOfType(result.loggers[1], typeof(MockLogger));
-            Assert.AreSame(logger2, result.loggers[2]);
+            Assert.AreEqual(3, result.Loggers.Length);
+            AssertExtensions.IsInstanceOfType(result.Loggers[0], typeof(SpecialLogger));
+            AssertExtensions.IsInstanceOfType(result.Loggers[1], typeof(MockLogger));
+            Assert.AreSame(logger2, result.Loggers[2]);
         }
 
         [TestMethod]
@@ -123,14 +123,14 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void ContainerAutomaticallyResolvesAllWhenInjectingArrays()
         {
-            ILogger[] expected = new ILogger[] {new MockLogger(), new SpecialLogger()};
+            ILogger[] expected = new ILogger[] { new MockLogger(), new SpecialLogger() };
             IUnityContainer container = new UnityContainer()
                 .RegisterInstance("one", expected[0])
                 .RegisterInstance("two", expected[1]);
 
             TypeWithArrayConstructorParameter result = container.Resolve<TypeWithArrayConstructorParameter>();
 
-            CollectionAssertExtensions.AreEqual(expected, result.loggers);
+            CollectionAssertExtensions.AreEqual(expected, result.Loggers);
         }
 
         [TestMethod]
@@ -140,7 +140,7 @@ namespace Microsoft.Practices.Unity.Tests
             IUnityContainer container = new UnityContainer()
                 .RegisterInstance("one", expected[0])
                 .RegisterInstance("two", expected[1])
-                .RegisterType(typeof (GenericTypeWithArrayProperty<>),
+                .RegisterType(typeof(GenericTypeWithArrayProperty<>),
                     new InjectionProperty("Prop"));
 
             var result = container.Resolve<GenericTypeWithArrayProperty<ILogger>>();
@@ -149,11 +149,11 @@ namespace Microsoft.Practices.Unity.Tests
 
         public class TypeWithArrayConstructorParameter
         {
-            public readonly ILogger[] loggers;
+            public readonly ILogger[] Loggers;
 
             public TypeWithArrayConstructorParameter(ILogger[] loggers)
             {
-                this.loggers = loggers;
+                this.Loggers = loggers;
             }
         }
 

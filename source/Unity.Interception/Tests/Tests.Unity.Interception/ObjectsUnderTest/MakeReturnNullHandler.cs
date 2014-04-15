@@ -2,7 +2,7 @@
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
 {
-    public class MakeReturnNullHandler: ICallHandler
+    public class MakeReturnNullHandler : ICallHandler
     {
         private int order = 0;
 

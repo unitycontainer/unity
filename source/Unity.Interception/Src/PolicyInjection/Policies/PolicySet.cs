@@ -20,7 +20,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="policies">Policies to put into the policy set.</param>
         public PolicySet(params InjectionPolicy[] policies)
         {
-            AddRange(policies);
+            this.AddRange(policies);
         }
 
         /// <summary>

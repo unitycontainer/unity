@@ -21,7 +21,6 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         public AliasElement()
         {
-            
         }
 
         /// <summary>
@@ -35,9 +34,9 @@ namespace Microsoft.Practices.Unity.Configuration
         public AliasElement(string alias, Type targetType)
         {
             Guard.ArgumentNotNull(targetType, "targetType");
-            
-            Alias = alias;
-            TypeName = targetType.AssemblyQualifiedName;
+
+            this.Alias = alias;
+            this.TypeName = targetType.AssemblyQualifiedName;
         }
 
         /// <summary>
@@ -46,7 +45,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(AliasPropertyName, IsRequired = true, IsKey = true)]
         public string Alias
         {
-            get { return (string) base[AliasPropertyName]; }
+            get { return (string)base[AliasPropertyName]; }
             set { base[AliasPropertyName] = value; }
         }
 
@@ -56,7 +55,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(TypeNamePropertyName, IsRequired = true)]
         public string TypeName
         {
-            get { return (string) base[TypeNamePropertyName]; }
+            get { return (string)base[TypeNamePropertyName]; }
             set { base[TypeNamePropertyName] = value; }
         }
 
@@ -72,8 +71,8 @@ namespace Microsoft.Practices.Unity.Configuration
         public override void SerializeContent(XmlWriter writer)
         {
             Guard.ArgumentNotNull(writer, "writer");
-            writer.WriteAttributeString(AliasPropertyName, Alias);
-            writer.WriteAttributeString(TypeNamePropertyName, TypeName);
+            writer.WriteAttributeString(AliasPropertyName, this.Alias);
+            writer.WriteAttributeString(TypeNamePropertyName, this.TypeName);
         }
     }
 }

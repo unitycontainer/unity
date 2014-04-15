@@ -37,7 +37,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
         public int DoSomething(string x)
         {
             if (throwException)
+            {
                 throw new InvalidOperationException("Catastrophic");
+            }
             return 42;
         }
 
@@ -53,12 +55,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
 
         #endregion
 
-
         #region IMonitor Members
 
         public void Log(string message)
         {
-
         }
 
         #endregion

@@ -10,7 +10,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
     {
         public void Deposit(double amount)
         {
-            
         }
 
         #region IDal Members

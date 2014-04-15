@@ -34,7 +34,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         {
             var behaviorElement = new InterceptionBehaviorElement
                 {
-                    TypeName = typeof (PolicyInjectionBehavior).AssemblyQualifiedName
+                    TypeName = typeof(PolicyInjectionBehavior).AssemblyQualifiedName
                 };
 
             return behaviorElement.GetInjectionMembers(container, fromType, toType, name);

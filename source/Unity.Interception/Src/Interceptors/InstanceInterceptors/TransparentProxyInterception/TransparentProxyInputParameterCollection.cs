@@ -14,7 +14,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     [SecurityCritical]
     [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
-    class TransparentProxyInputParameterCollection : ParameterCollection
+    internal class TransparentProxyInputParameterCollection : ParameterCollection
     {
         /// <summary>
         /// Constructs a new <see cref="TransparentProxyInputParameterCollection"/> that wraps the

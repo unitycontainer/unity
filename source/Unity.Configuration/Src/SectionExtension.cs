@@ -4,7 +4,7 @@ namespace Microsoft.Practices.Unity.Configuration
 {
     /// <summary>
     /// Base class for Unity configuration section extensions.
-    /// Derived classes are used to add custom elments and aliases
+    /// Derived classes are used to add custom elements and aliases
     /// into the configuration section being loaded.
     /// </summary>
     public abstract class SectionExtension

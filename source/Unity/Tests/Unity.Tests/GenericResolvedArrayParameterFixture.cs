@@ -129,7 +129,7 @@ namespace Microsoft.Practices.Unity.Tests
 
         public class ClassWithOneArrayGenericParameter<T>
         {
-            public T[] injectedValue;
+            private T[] injectedValue;
             public readonly bool DefaultConstructorCalled;
 
             public ClassWithOneArrayGenericParameter()

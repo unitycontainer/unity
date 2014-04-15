@@ -44,7 +44,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             return new DynamicMethodBuildPlan(generatorContext.GetBuildMethod());
         }
 
-        private IBuilderContext GetContext(IBuilderContext originalContext, NamedTypeBuildKey buildKey, DynamicBuildPlanGenerationContext ilContext)
+        private IBuilderContext GetContext(IBuilderContext originalContext, NamedTypeBuildKey buildKey, DynamicBuildPlanGenerationContext generatorContext)
         {
             return new BuilderContext(
                 strategies.MakeStrategyChain(),
@@ -52,7 +52,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                 originalContext.PersistentPolicies,
                 originalContext.Policies,
                 buildKey,
-                ilContext);
+                generatorContext);
         }
     }
 }

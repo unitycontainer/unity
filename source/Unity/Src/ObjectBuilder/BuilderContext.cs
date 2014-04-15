@@ -237,8 +237,6 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="newBuildKey">Key to use to build up.</param>
         /// <returns>Created object.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp",
-            Justification = "Kept for backward compatibility with ObjectBuilder")]
         public object NewBuildUp(NamedTypeBuildKey newBuildKey)
         {
             this.ChildContext =

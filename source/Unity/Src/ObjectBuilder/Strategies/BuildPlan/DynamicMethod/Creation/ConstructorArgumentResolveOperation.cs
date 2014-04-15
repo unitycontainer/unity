@@ -39,7 +39,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         {
             return string.Format(CultureInfo.CurrentCulture,
                 Resources.ConstructorArgumentResolveOperation,
-                this.parameterName, constructorSignature);
+                this.parameterName, this.constructorSignature);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         public string ConstructorSignature
         {
-            get { return constructorSignature; }
+            get { return this.constructorSignature; }
         }
 
         /// <summary>

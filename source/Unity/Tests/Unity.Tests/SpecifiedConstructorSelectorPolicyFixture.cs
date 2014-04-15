@@ -38,7 +38,6 @@ namespace Microsoft.Practices.Unity.Tests
 
             Assert.AreEqual(ctor, selectedCtor.Constructor);
             Assert.AreEqual(0, selectedCtor.GetParameterResolvers().Length);
-
         }
 
         [TestMethod]
@@ -76,12 +75,12 @@ namespace Microsoft.Practices.Unity.Tests
                 ctor,
                 new InjectionParameterValue[]
                 {
-                    new ResolvedParameter(typeof (ICommand<>), "concrete")
+                    new ResolvedParameter(typeof(ICommand<>), "concrete")
                 });
 
             var ctx = new BuilderContextMock
                 {
-                    BuildKey = new NamedTypeBuildKey(typeof (LoggingCommand<User>))
+                    BuildKey = new NamedTypeBuildKey(typeof(LoggingCommand<User>))
                 };
 
             SelectedConstructor result = policy.SelectConstructor(ctx, new PolicyList());
@@ -101,10 +100,8 @@ namespace Microsoft.Practices.Unity.Tests
             return types;
         }
 
-
         private class ClassWithSimpleConstructor
         {
-
         }
 
         private class ClassWithConstructorParameters
@@ -114,11 +111,9 @@ namespace Microsoft.Practices.Unity.Tests
             }
         }
 
-
         private class BuilderContextMock : IBuilderContext
         {
             private readonly IPolicyList persistentPolicies = new PolicyList();
-
 
             public BuilderContextMock()
             {
@@ -205,6 +200,5 @@ namespace Microsoft.Practices.Unity.Tests
                 throw new NotImplementedException();
             }
         }
-
     }
 }

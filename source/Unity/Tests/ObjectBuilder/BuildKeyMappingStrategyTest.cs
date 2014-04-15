@@ -17,13 +17,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
     [TestClass]
     public class BuildKeyMappingStrategyTest
     {
-
         [TestMethod]
         public void CanMapGenericsWithIdenticalGenericParameters()
         {
             MockBuilderContext context = new MockBuilderContext();
             context.Policies.Set<IBuildKeyMappingPolicy>(new GenericTypeBuildKeyMappingPolicy(
-                new NamedTypeBuildKey(typeof(ConcreteType<>))), 
+                new NamedTypeBuildKey(typeof(ConcreteType<>))),
                 new NamedTypeBuildKey(typeof(ITestType<>)));
             BuildKeyMappingStrategy strategy = new BuildKeyMappingStrategy();
             context.Strategies.Add(strategy);
@@ -47,10 +46,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.Strategies.Add(strategy);
             SpyStrategy spy = new SpyStrategy();
             context.Strategies.Add(spy);
-            context.BuildKey = new NamedTypeBuildKey(typeof (ITestType<int>), "one");
+            context.BuildKey = new NamedTypeBuildKey(typeof(ITestType<int>), "one");
             context.Strategies.ExecuteBuildUp(context);
 
-            AssertExtensions.IsInstanceOfType(spy.BuildKey, typeof (NamedTypeBuildKey));
+            AssertExtensions.IsInstanceOfType(spy.BuildKey, typeof(NamedTypeBuildKey));
             Assert.AreEqual(typeof(ConcreteType<int>), spy.BuildKey.Type);
             Assert.AreEqual("two", spy.BuildKey.Name);
         }
@@ -75,8 +74,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public void MappingStrategyActuallyReturnsTheBuildKeyThePolicySpecifies()
         {
             MockBuilderContext context = new MockBuilderContext();
-            NamedTypeBuildKey fromKey = new NamedTypeBuildKey(typeof (ConcreteType), "id");
-            NamedTypeBuildKey toKey = new NamedTypeBuildKey(typeof (ITestType), "id");
+            NamedTypeBuildKey fromKey = new NamedTypeBuildKey(typeof(ConcreteType), "id");
+            NamedTypeBuildKey toKey = new NamedTypeBuildKey(typeof(ITestType), "id");
             context.Policies.Set<IBuildKeyMappingPolicy>(new BuildKeyMappingPolicy(toKey), fromKey);
             BuildKeyMappingStrategy strategy = new BuildKeyMappingStrategy();
             context.Strategies.Add(strategy);
@@ -86,25 +85,25 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.Existing = null;
             context.Strategies.ExecuteBuildUp(context);
 
-            AssertExtensions.IsInstanceOfType(spy.BuildKey, typeof (NamedTypeBuildKey));
+            AssertExtensions.IsInstanceOfType(spy.BuildKey, typeof(NamedTypeBuildKey));
             Assert.AreEqual(toKey, spy.BuildKey);
         }
 
-        class ConcreteType : ITestType {}
+        private class ConcreteType : ITestType { }
 
-        class ConcreteType<T> : ITestType<T> {}
+        private class ConcreteType<T> : ITestType<T> { }
 
-        interface ITestType {}
+        private interface ITestType { }
 
-        interface ITestType<T> {}
+        private interface ITestType<T> { }
 
-        class SpyStrategy : BuilderStrategy
+        private class SpyStrategy : BuilderStrategy
         {
             public NamedTypeBuildKey BuildKey;
 
             public override void PreBuildUp(IBuilderContext context)
             {
-                BuildKey = context.BuildKey;
+                this.BuildKey = context.BuildKey;
             }
         }
     }

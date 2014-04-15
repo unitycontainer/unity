@@ -2,21 +2,18 @@
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests.TestObjects
 {
-    class ObjectWithMultipleConstructors
+    internal class ObjectWithMultipleConstructors
     {
         public ObjectWithMultipleConstructors()
         {
-            
         }
 
         public ObjectWithMultipleConstructors(int first, string second)
         {
-
         }
 
         public ObjectWithMultipleConstructors(int first)
         {
-            
         }
     }
 }

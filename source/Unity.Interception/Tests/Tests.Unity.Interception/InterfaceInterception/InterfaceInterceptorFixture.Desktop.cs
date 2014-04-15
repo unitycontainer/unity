@@ -47,8 +47,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
 
         private class MyProxy : RealProxy
         {
-            Type t;
-            object impl;
+            private Type t;
+            private object impl;
+
             public MyProxy(Type t, object impl)
                 : base(t)
             {
@@ -63,15 +64,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
                 {
                     if (method.MethodName == "GetType")
                     {
-                        return new ReturnMessage(t, new object[0], 0, method.LogicalCallContext, method);
+                        return new ReturnMessage(this.t, new object[0], 0, method.LogicalCallContext, method);
                     }
-                    object result = method.MethodBase.Invoke(impl, method.InArgs);
+                    object result = method.MethodBase.Invoke(this.impl, method.InArgs);
                     return new ReturnMessage(result, new object[0], 0, method.LogicalCallContext, method);
                 }
 
                 return null;
             }
         }
-
     }
 }

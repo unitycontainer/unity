@@ -35,8 +35,8 @@ namespace Microsoft.Practices.Unity.Tests
         public void ConfiguringConstructorThatTakesOpenGenericTypeDoesNotThrow()
         {
             IUnityContainer container = new UnityContainer()
-                .RegisterType(typeof (LoggingCommand<>),
-                    new InjectionConstructor(new ResolvedParameter(typeof (ICommand<>), "concrete")));
+                .RegisterType(typeof(LoggingCommand<>),
+                    new InjectionConstructor(new ResolvedParameter(typeof(ICommand<>), "concrete")));
         }
 
         [TestMethod]
@@ -123,7 +123,6 @@ namespace Microsoft.Practices.Unity.Tests
             ICommand<Account> accountResult = container.Resolve<ICommand<Account>>();
 
             AssertExtensions.IsInstanceOfType(accountResult, typeof(LoggingCommand<Account>));
-
         }
 
         [TestMethod]
@@ -152,7 +151,7 @@ namespace Microsoft.Practices.Unity.Tests
             LoggingCommand<Account> actualResult = (LoggingCommand<Account>)result;
 
             Assert.IsNotNull(actualResult.Inner);
-            AssertExtensions.IsInstanceOfType(actualResult.inner, typeof(ConcreteCommand<Account>));
+            AssertExtensions.IsInstanceOfType(actualResult.Inner, typeof(ConcreteCommand<Account>));
         }
 
         [TestMethod]
@@ -174,19 +173,18 @@ namespace Microsoft.Practices.Unity.Tests
                 new InjectionConstructor(new ResolvedParameter(typeof(ICommand<>), "concrete")))
                 .RegisterType(typeof(ICommand<>), typeof(ConcreteCommand<>), "concrete");
 
-            ICommand<Nullable<Customer>> cmd = container.Resolve<ICommand<Nullable<Customer>>>();
-            LoggingCommand<Nullable<Customer>> logCmd = (LoggingCommand<Nullable<Customer>>)cmd;
+            var cmd = container.Resolve<ICommand<Customer?>>();
+            var logCmd = (LoggingCommand<Customer?>)cmd;
 
             Assert.IsNotNull(logCmd.Inner);
-            AssertExtensions.IsInstanceOfType(logCmd.Inner, typeof(ConcreteCommand<Nullable<Customer>>));
-
+            AssertExtensions.IsInstanceOfType(logCmd.Inner, typeof(ConcreteCommand<Customer?>));
         }
 
         [TestMethod]
         public void ContainerControlledOpenGenericsAreDisposed()
         {
             var container = new UnityContainer()
-                .RegisterType(typeof (ICommand<>), typeof (DisposableCommand<>),
+                .RegisterType(typeof(ICommand<>), typeof(DisposableCommand<>),
                               new ContainerControlledLifetimeManager());
 
             var accountCommand = container.Resolve<ICommand<Account>>();
@@ -194,10 +192,9 @@ namespace Microsoft.Practices.Unity.Tests
 
             container.Dispose();
 
-            Assert.IsTrue(((DisposableCommand<Account>) accountCommand).Disposed);
+            Assert.IsTrue(((DisposableCommand<Account>)accountCommand).Disposed);
             Assert.IsTrue(((DisposableCommand<User>)userCommand).Disposed);
         }
-
     }
 
     // Our generic interface 
@@ -218,7 +215,6 @@ namespace Microsoft.Practices.Unity.Tests
 
         public void ChainedExecute(ICommand<T> inner)
         {
-
         }
 
         public object NonGenericProperty
@@ -231,11 +227,10 @@ namespace Microsoft.Practices.Unity.Tests
     // And a decorator implementation that wraps an Inner ICommand<>
     public class LoggingCommand<T> : ICommand<T>
     {
-        public ICommand<T> inner;
+        private ICommand<T> inner;
 
         public bool ChainedExecuteWasCalled = false;
         public bool WasInjected = false;
-
 
         public LoggingCommand(ICommand<T> inner)
         {
@@ -244,7 +239,6 @@ namespace Microsoft.Practices.Unity.Tests
 
         public LoggingCommand()
         {
-
         }
 
         public ICommand<T> Inner
@@ -277,12 +271,10 @@ namespace Microsoft.Practices.Unity.Tests
 
         public void Execute(T data)
         {
-            
         }
 
         public void ChainedExecute(ICommand<T> inner)
         {
-            
         }
 
         public void Dispose()
@@ -310,18 +302,15 @@ namespace Microsoft.Practices.Unity.Tests
     {
         public void DoSomething(string message)
         {
-
         }
     }
 
     public class Account
     {
-
     }
 
     // Value type used for testing nesting
     public struct Customer
     {
-        
     }
 }

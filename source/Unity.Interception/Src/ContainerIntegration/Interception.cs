@@ -72,7 +72,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>This extension object.</returns>
         public Interception SetInterceptorFor(Type typeToIntercept, ITypeInterceptor interceptor)
         {
-            return SetInterceptorFor(typeToIntercept, null, interceptor);
+            return this.SetInterceptorFor(typeToIntercept, null, interceptor);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public Interception SetInterceptorFor<T>(string name, ITypeInterceptor interceptor)
         {
-            return SetInterceptorFor(typeof(T), name, interceptor);
+            return this.SetInterceptorFor(typeof(T), name, interceptor);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public Interception SetInterceptorFor<T>(ITypeInterceptor interceptor)
         {
-            return SetInterceptorFor(typeof(T), null, interceptor);
+            return this.SetInterceptorFor(typeof(T), null, interceptor);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public Interception SetDefaultInterceptorFor<TTypeToIntercept>(ITypeInterceptor interceptor)
         {
-            return SetDefaultInterceptorFor(typeof(TTypeToIntercept), interceptor);
+            return this.SetDefaultInterceptorFor(typeof(TTypeToIntercept), interceptor);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>This extension object.</returns>
         public Interception SetInterceptorFor(Type typeToIntercept, IInstanceInterceptor interceptor)
         {
-            return SetInterceptorFor(typeToIntercept, null, interceptor);
+            return this.SetInterceptorFor(typeToIntercept, null, interceptor);
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public Interception SetInterceptorFor<T>(string name, IInstanceInterceptor interceptor)
         {
-            return SetInterceptorFor(typeof(T), name, interceptor);
+            return this.SetInterceptorFor(typeof(T), name, interceptor);
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public Interception SetInterceptorFor<T>(IInstanceInterceptor interceptor)
         {
-            return SetInterceptorFor(typeof(T), null, interceptor);
+            return this.SetInterceptorFor(typeof(T), null, interceptor);
         }
 
         /// <summary>
@@ -227,7 +227,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public Interception SetDefaultInterceptorFor<TTypeToIntercept>(IInstanceInterceptor interceptor)
         {
-            return SetDefaultInterceptorFor(typeof(TTypeToIntercept), interceptor);
+            return this.SetDefaultInterceptorFor(typeof(TTypeToIntercept), interceptor);
         }
 
         private static void GuardTypeInterceptable(Type typeToIntercept, IInterceptor interceptor)

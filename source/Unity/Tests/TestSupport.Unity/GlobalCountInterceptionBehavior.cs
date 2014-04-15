@@ -9,7 +9,7 @@ namespace Microsoft.Practices.Unity.TestSupport
     public class GlobalCountInterceptionBehavior : IInterceptionBehavior
     {
         public static Dictionary<string, int> Calls = new Dictionary<string, int>();
-        string callHandlerName;
+        private string callHandlerName;
 
         [InjectionConstructor]
         public GlobalCountInterceptionBehavior()

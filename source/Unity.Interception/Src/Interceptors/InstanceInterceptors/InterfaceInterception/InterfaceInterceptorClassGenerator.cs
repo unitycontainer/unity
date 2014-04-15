@@ -19,10 +19,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     public partial class InterfaceInterceptorClassGenerator
     {
+        private static readonly AssemblyBuilder AssemblyBuilder;
         private readonly Type typeToIntercept;
-        private GenericParameterMapper mainInterfaceMapper;
         private readonly IEnumerable<Type> additionalInterfaces;
-        private static readonly AssemblyBuilder assemblyBuilder;
+        private GenericParameterMapper mainInterfaceMapper;
 
         private FieldBuilder proxyInterceptionPipelineField;
         private FieldBuilder targetField;
@@ -33,15 +33,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Need to use constructor so we can place attribute on it.")]
         static InterfaceInterceptorClassGenerator()
         {
-            assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
+            AssemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
                 new AssemblyName("Unity_ILEmit_InterfaceProxies"),
 #if DEBUG_SAVE_GENERATED_ASSEMBLY
-                AssemblyBuilderAccess.RunAndSave
+                AssemblyBuilderAccess.RunAndSave);
 #else
-                AssemblyBuilderAccess.Run
+                AssemblyBuilderAccess.Run);
 #endif
-                );
-
         }
 
         /// <summary>
@@ -177,7 +175,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             typeToProxyField = typeBuilder.DefineField("typeToProxy", typeof(Type), FieldAttributes.Private);
         }
 
-
         private string CreateTypeName()
         {
             return "DynamicModule.ns.Wrapped_" + typeToIntercept.Name + "_" + Guid.NewGuid().ToString("N");
@@ -185,7 +182,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
         private GenericParameterMapper DefineGenericArguments()
         {
-            if (!typeToIntercept.IsGenericType) return GenericParameterMapper.DefaultMapper;
+            if (!typeToIntercept.IsGenericType)
+            {
+                return GenericParameterMapper.DefaultMapper;
+            }
 
             Type[] genericArguments = typeToIntercept.GetGenericArguments();
 

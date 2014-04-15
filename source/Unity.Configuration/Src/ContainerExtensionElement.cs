@@ -21,7 +21,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(TypeNamePropertyName, IsRequired = true)]
         public string TypeName
         {
-            get { return (string) base[TypeNamePropertyName]; }
+            get { return (string)base[TypeNamePropertyName]; }
             set { base[TypeNamePropertyName] = value; }
         }
 
@@ -35,7 +35,7 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(container, "container");
 
-            var extensionType = GetExtensionType();
+            var extensionType = this.GetExtensionType();
             var extension = (UnityContainerExtension)container.Resolve(extensionType);
             container.AddExtension(extension);
         }
@@ -52,12 +52,12 @@ namespace Microsoft.Practices.Unity.Configuration
         public override void SerializeContent(System.Xml.XmlWriter writer)
         {
             Guard.ArgumentNotNull(writer, "writer");
-            writer.WriteAttributeString(TypeNamePropertyName, TypeName);
+            writer.WriteAttributeString(TypeNamePropertyName, this.TypeName);
         }
 
         private Type GetExtensionType()
         {
-            return TypeResolver.ResolveType(TypeName, true);
+            return TypeResolver.ResolveType(this.TypeName, true);
         }
     }
 }

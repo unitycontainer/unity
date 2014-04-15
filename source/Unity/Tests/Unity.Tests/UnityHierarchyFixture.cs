@@ -101,7 +101,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             UnityContainer parent = new UnityContainer();
             IUnityContainer child = parent.CreateChildContainer()
-                .RegisterType<object>(new InjectionFactory(c => 
+                .RegisterType<object>(new InjectionFactory(c =>
                 {
                     factoryWasCalled = true;
                     return new object();

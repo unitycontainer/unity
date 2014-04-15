@@ -40,9 +40,9 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         {
             Container.RegisterType(typeof(ItemsCollection<>), "More",
                 new InjectionConstructor("MyGenericCollection", new ResolvedParameter(typeof(IGenericService<>))),
-                new InjectionProperty("Items", 
+                new InjectionProperty("Items",
                     new GenericResolvedArrayParameter("T",
-                        new GenericParameter("T", "Xray"), 
+                        new GenericParameter("T", "Xray"),
                         new GenericParameter("T", "Common"),
                         new GenericParameter("T", "Tractor"))));
 
@@ -99,11 +99,11 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerWithDependencyElementForGenericPropertyArrayWithTypeSet : ContainerConfiguringFixture<ConfigFileLocator>
     {
+        private InvalidOperationException exception;
+
         public When_ConfiguringContainerWithDependencyElementForGenericPropertyArrayWithTypeSet()
             : base("Generics", "dependency with type")
         { }
-
-        InvalidOperationException exception;
 
         protected override void Act()
         {
@@ -127,11 +127,11 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerWithParameterWithValueElement : ContainerConfiguringFixture<ConfigFileLocator>
     {
+        private InvalidOperationException exception;
+
         public When_ConfiguringContainerWithParameterWithValueElement()
             : base("Generics", "property with value")
         { }
-
-        InvalidOperationException exception;
 
         protected override void Act()
         {
@@ -155,11 +155,11 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerWithGenericArrayPropertyWithValueElement : ContainerConfiguringFixture<ConfigFileLocator>
     {
+        private InvalidOperationException exception;
+        
         public When_ConfiguringContainerWithGenericArrayPropertyWithValueElement()
             : base("Generics", "generic array property with value")
         { }
-
-        InvalidOperationException exception;
 
         protected override void Act()
         {
@@ -183,11 +183,11 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerWithChainedGenericParameterWithValueElement : ContainerConfiguringFixture<ConfigFileLocator>
     {
+        private InvalidOperationException exception;
+        
         public When_ConfiguringContainerWithChainedGenericParameterWithValueElement()
             : base("Generics", "chained generic parameter with value")
         { }
-
-        InvalidOperationException exception;
 
         protected override void Act()
         {
@@ -211,11 +211,11 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerWithDependencyElementForArrayWithTypeSet : ContainerConfiguringFixture<ConfigFileLocator>
     {
+        private InvalidOperationException exception;
+
         public When_ConfiguringContainerWithDependencyElementForArrayWithTypeSet()
             : base("Generics", "generic array property with dependency with type")
         { }
-
-        InvalidOperationException exception;
 
         protected override void Act()
         {
@@ -239,11 +239,11 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerWithArrayElementForChainedGenericParameter : ContainerConfiguringFixture<ConfigFileLocator>
     {
+        private InvalidOperationException exception;
+        
         public When_ConfiguringContainerWithArrayElementForChainedGenericParameter()
             : base("Generics", "chained generic parameter with array")
         { }
-
-        InvalidOperationException exception;
 
         protected override void Act()
         {

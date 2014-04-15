@@ -9,12 +9,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
     [TestClass]
     public class ParameterTypeMatchingRuleFixture
     {
-        MethodInfo targetMethodString;
-        MethodInfo targetMethodInt;
-        MethodInfo returnsAString;
-        MethodInfo targetMethodIntString;
-        MethodInfo targetMethodStringInt;
-        MethodInfo targetWithOutParams;
+        private MethodInfo targetMethodString;
+        private MethodInfo targetMethodInt;
+        private MethodInfo returnsAString;
+        private MethodInfo targetMethodIntString;
+        private MethodInfo targetMethodStringInt;
+        private MethodInfo targetWithOutParams;
 
         [TestInitialize]
         public void Setup()
@@ -114,24 +114,24 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
     {
         public string ReturnsAString()
         {
-            return "";
+            return String.Empty;
         }
 
-        public void TargetMethodInt(int intParam) {}
+        public void TargetMethodInt(int intParam) { }
 
         public void TargetMethodIntString(int intParam,
-                                          string stringParam) {}
+                                          string stringParam) { }
 
-        public void TargetMethodString(string param1) {}
+        public void TargetMethodString(string param1) { }
 
         public void TargetMethodStringInt(string stringParam,
-                                          int intParam) {}
+                                          int intParam) { }
 
         public string TargetWithOutParams(double doubleParam,
                                           out int outIntParam)
         {
             outIntParam = 42;
-            return "";
+            return String.Empty;
         }
     }
 }

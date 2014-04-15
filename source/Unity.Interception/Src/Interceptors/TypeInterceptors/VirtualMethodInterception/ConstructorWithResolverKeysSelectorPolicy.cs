@@ -7,10 +7,10 @@ using Microsoft.Practices.ObjectBuilder2;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
-    ///<summary>
+    /// <summary>
     /// A small implementation of <see cref="IConstructorSelectorPolicy"/> that returns the
     /// given <see cref="SelectedConstructor"/> object.
-    ///</summary>
+    /// </summary>
     public class ConstructorWithResolverKeysSelectorPolicy : IConstructorSelectorPolicy
     {
         private readonly SelectedConstructor selectedConstructor;

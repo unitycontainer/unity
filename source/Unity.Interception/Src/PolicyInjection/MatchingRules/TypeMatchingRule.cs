@@ -93,7 +93,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <remarks>Matches may be on the namespace-qualified type name or just the type name.</remarks>
         /// <param name="t">Type to check.</param>
         /// <returns>True if it matches, false if it doesn't.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t", Justification = "Parameter name is meaningful enough in context")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class")]
         public bool Matches(Type t)

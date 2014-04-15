@@ -62,7 +62,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             target.MethodWithVarArgs(1, "two", "two and a half", "two and three quarters");
         }
 
-        ISignatureTestTarget GetTarget()
+        private ISignatureTestTarget GetTarget()
         {
             var interceptor = new InterfaceInterceptor();
             PolicySet policySet = GetPolicies();
@@ -81,7 +81,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             return (ISignatureTestTarget)proxy;
         }
 
-        PolicySet GetPolicies()
+        private PolicySet GetPolicies()
         {
             PolicySet policies = new PolicySet();
 
@@ -163,7 +163,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             params string[] two);
     }
 
-    class SignatureTestTarget : ISignatureTestTarget
+    internal class SignatureTestTarget : ISignatureTestTarget
     {
         public void MethodWithInOutByrefParams(int one,
                                                out string two,
@@ -190,7 +190,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                                       params string[] two) { }
     }
 
-    class MatchAllRule : IMatchingRule
+    internal class MatchAllRule : IMatchingRule
     {
         public bool Matches(MethodBase member)
         {
@@ -198,9 +198,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         }
     }
 
-    class MatchByNameRule : IMatchingRule
+    internal class MatchByNameRule : IMatchingRule
     {
-        string name;
+        private string name;
 
         public MatchByNameRule(string name)
         {
@@ -213,10 +213,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         }
     }
 
-    class SignatureCheckingHandler : ICallHandler
+    internal class SignatureCheckingHandler : ICallHandler
     {
-        Type[] expectedSignature;
-        int order = 0;
+        private Type[] expectedSignature;
+        private int order = 0;
 
         public SignatureCheckingHandler(Type[] expectedSignature)
         {
@@ -236,7 +236,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                                     GetNextHandlerDelegate getNext)
         {
             Assert.IsNotNull(expectedSignature);
-            
+
             Type[] messageSignature = input.MethodBase.GetParameters().Select(info => info.ParameterType).ToArray();
 
             Assert.AreEqual(expectedSignature.Length, messageSignature.Length);

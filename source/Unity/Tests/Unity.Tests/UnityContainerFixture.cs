@@ -287,7 +287,6 @@ namespace Microsoft.Practices.Unity.Tests
             container.BuildUp(typeof(ISomeCommonProperties), o);
 
             o.ValidateInterface();
-
         }
 
         [TestMethod]
@@ -301,7 +300,6 @@ namespace Microsoft.Practices.Unity.Tests
             ILogger o = container.Resolve<ILogger>("logger");
             Assert.AreSame(logger, o);
         }
-
 
         [TestMethod]
         public void CanUseInstanceAsSingletonViaGenericMethod()
@@ -460,7 +458,6 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void CanGetAllWithNonGenericMethod()
         {
-
             IUnityContainer container = new UnityContainer()
                 .RegisterType<ILogger, MockLogger>("mock")
                 .RegisterType<ILogger, SpecialLogger>("special")
@@ -553,7 +550,6 @@ namespace Microsoft.Practices.Unity.Tests
                 {
                     container.RegisterInstance<SomeType>(null);
                 });
-
         }
 
         [TestMethod]
@@ -647,7 +643,6 @@ namespace Microsoft.Practices.Unity.Tests
             IUnityContainer child = parent.CreateChildContainer();
 
             Assert.AreSame(parent, parent.Resolve<IUnityContainer>());
-
         }
 
         [TestMethod]
@@ -658,8 +653,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             AssertExtensions.AssertException<ResolutionFailedException>(
                 () => { container.Resolve(typeof(List<>)); },
-                (e) => { AssertExtensions.IsInstanceOfType(e.InnerException, typeof(ArgumentException)); }
-            );
+                (e) => { AssertExtensions.IsInstanceOfType(e.InnerException, typeof(ArgumentException)); });
         }
 
         [TestMethod]
@@ -669,8 +663,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             AssertExtensions.AssertException<ResolutionFailedException>(
                 () => { container.Resolve<ObjectWithPrivateSetter>(); },
-                (e) => { AssertExtensions.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException)); }
-            );
+                (e) => { AssertExtensions.IsInstanceOfType(e.InnerException, typeof(InvalidOperationException)); });
         }
 
         [TestMethod]
@@ -710,22 +703,18 @@ namespace Microsoft.Practices.Unity.Tests
 
         internal class SomeType
         {
-
         }
 
         public interface IRepository<TEntity>
         {
-
         }
 
         public class MockRespository<TEntity> : IRepository<TEntity>
         {
-
         }
 
         public class SomeTypRepository : IRepository<SomeType>
         {
-
         }
 
         public class ObjectWithPrivateSetter
@@ -738,7 +727,6 @@ namespace Microsoft.Practices.Unity.Tests
         {
             public TypeWithPrimitiveDependency(T dependency)
             {
-
             }
         }
     }

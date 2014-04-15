@@ -13,8 +13,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// An implementation of <see cref="IParameterCollection"/> that wraps a provided array
     /// containing the argument values.
     /// </summary>
-    [SuppressMessage("Microsoft.Design", "CA1035", Justification = "Not a general purpose collection")]
-    [SuppressMessage("Microsoft.Design", "CA1039", Justification = "Not a general purpose collection")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1035:ICollectionImplementationsHaveStronglyTypedMembers",
+        Justification = "Not a general purpose collection")]   
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1039:ListsAreStronglyTyped", 
+        Justification = "Not a general purpose collection")]
     public class ParameterCollection : IParameterCollection
     {
         /// <summary>
@@ -168,18 +170,17 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             return
                 argumentInfo.Exists(
-                    delegate(ArgumentInfo info) 
-                    { 
+                    delegate(ArgumentInfo info)
+                    {
                         var argument = arguments[info.Index];
 
-                        if(argument == null)
+                        if (argument == null)
                         {
                             return value == null;
                         }
 
-                        return argument.Equals(value); 
-                    }
-                );
+                        return argument.Equals(value);
+                    });
         }
 
         /// <summary>
@@ -203,8 +204,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 delegate(ArgumentInfo info)
                 {
                     return arguments[info.Index].Equals(value);
-                }
-                );
+                });
         }
 
         /// <summary>
@@ -269,8 +269,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 {
                     array.SetValue(arguments[info.Index], destIndex);
                     ++destIndex;
-                }
-                );
+                });
         }
 
         /// <summary>

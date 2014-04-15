@@ -100,7 +100,7 @@ namespace Microsoft.Practices.Unity.Tests
 
         public class ObjectWithOptionalConstructorParameter
         {
-            ISomeInterface someInterface;
+            private ISomeInterface someInterface;
 
             public ISomeInterface SomeInterface { get { return someInterface; } }
 
@@ -116,7 +116,6 @@ namespace Microsoft.Practices.Unity.Tests
             public ObjectWithNamedOptionalConstructorParameter([OptionalDependency("named")] ISomeInterface someInterface)
                 : base(someInterface)
             {
-
             }
         }
 

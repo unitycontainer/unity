@@ -32,7 +32,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
             if (context.Existing == null)
             {
-                ILifetimePolicy lifetimePolicy = GetLifetimePolicy(context);
+                ILifetimePolicy lifetimePolicy = this.GetLifetimePolicy(context);
                 IRequiresRecovery recovery = lifetimePolicy as IRequiresRecovery;
                 if (recovery != null)
                 {
@@ -60,7 +60,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             Guard.ArgumentNotNull(context, "context");
             // If we got to this method, then we know the lifetime policy didn't
             // find the object. So we go ahead and store it.
-            ILifetimePolicy lifetimePolicy = GetLifetimePolicy(context);
+            ILifetimePolicy lifetimePolicy = this.GetLifetimePolicy(context);
             lifetimePolicy.SetValue(context.Existing);
         }
 
@@ -69,7 +69,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             ILifetimePolicy policy = context.Policies.GetNoDefault<ILifetimePolicy>(context.BuildKey, false);
             if (policy == null && context.BuildKey.Type.GetTypeInfo().IsGenericType)
             {
-                policy = GetLifetimePolicyForGenericType(context);
+                policy = this.GetLifetimePolicyForGenericType(context);
             }
 
             if (policy == null)

@@ -20,7 +20,7 @@ namespace Microsoft.Practices.Unity.TestSupport.Configuration
         public TSection GetSection<TSection>(string sectionName)
             where TSection : ConfigurationSection
         {
-            return (TSection) configuration.GetSection(sectionName);
+            return (TSection)configuration.GetSection(sectionName);
         }
 
         private void LoadConfigFromFile(string configFileName)
@@ -40,8 +40,8 @@ namespace Microsoft.Practices.Unity.TestSupport.Configuration
 
         private static void DumpResourceFileToDisk(string configFileName)
         {
-            using(Stream resourceStream = GetResourceStream(configFileName))
-            using(Stream outputStream = GetOutputStream(configFileName))
+            using (Stream resourceStream = GetResourceStream(configFileName))
+            using (Stream outputStream = GetOutputStream(configFileName))
             {
                 CopyStream(resourceStream, outputStream);
             }
@@ -57,7 +57,7 @@ namespace Microsoft.Practices.Unity.TestSupport.Configuration
 
         private static string GetResourceNamespace()
         {
-            return typeof (TResourceLocator).Namespace;
+            return typeof(TResourceLocator).Namespace;
         }
 
         private static Stream GetOutputStream(string configFileName)
@@ -72,7 +72,7 @@ namespace Microsoft.Practices.Unity.TestSupport.Configuration
         {
             var buffer = new byte[4096];
             int numRead = inputStream.Read(buffer, 0, buffer.Length);
-            while(numRead > 0)
+            while (numRead > 0)
             {
                 outputStream.Write(buffer, 0, numRead);
                 numRead = inputStream.Read(buffer, 0, buffer.Length);

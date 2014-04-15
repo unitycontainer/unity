@@ -24,11 +24,10 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             return (UnityConfigurationSection)loadedConfiguration.GetSection("unity");
         }
 
-
         [TestMethod]
         public void Then_EmptySectionCanBeSavedAndReloaded()
         {
-            var section = SerializeAndLoadSection("EmptySection.config", 
+            var section = SerializeAndLoadSection("EmptySection.config",
                 s => { });
             Assert.IsNotNull(section);
         }
@@ -48,7 +47,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         {
             var loadedSection = SerializeAndLoadSection("SerializeAliases.config", s =>
             {
-                s.TypeAliases.Add(new AliasElement("mockdb", typeof (MockDatabase)));
+                s.TypeAliases.Add(new AliasElement("mockdb", typeof(MockDatabase)));
                 s.TypeAliases.Add(new AliasElement("ilog", typeof(ILogger)));
             });
 
@@ -62,10 +61,10 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         {
             var loadedSection = SerializeAndLoadSection("SerializeNamespaces.config", s =>
             {
-                s.TypeAliases.Add(new AliasElement("mockdb", typeof (MockDatabase)));
+                s.TypeAliases.Add(new AliasElement("mockdb", typeof(MockDatabase)));
 
-                s.Namespaces.Add(new NamespaceElement {Name = "System"});
-                s.Namespaces.Add(new NamespaceElement {Name = "System.Collections"});
+                s.Namespaces.Add(new NamespaceElement { Name = "System" });
+                s.Namespaces.Add(new NamespaceElement { Name = "System.Collections" });
             });
 
             loadedSection.Namespaces.Select(ns => ns.Name)
@@ -81,7 +80,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
                 s.Namespaces.Add(new NamespaceElement { Name = "System" });
 
                 s.Assemblies.Add(new AssemblyElement { Name = typeof(int).Assembly.FullName });
-                s.Assemblies.Add(new AssemblyElement { Name = typeof(XmlWriter).Assembly.FullName});
+                s.Assemblies.Add(new AssemblyElement { Name = typeof(XmlWriter).Assembly.FullName });
             });
 
             loadedSection.Assemblies.Select(asm => asm.Name)
@@ -93,19 +92,19 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_SectionExtensionsAreSerialized()
         {
-            string extensionTypeName = typeof (TestSectionExtension).AssemblyQualifiedName;
+            string extensionTypeName = typeof(TestSectionExtension).AssemblyQualifiedName;
 
             var loadedSection = SerializeAndLoadSection("SerializeSectionExtensions.config", s =>
             {
                 s.SectionExtensions.Add(new SectionExtensionElement { TypeName = extensionTypeName });
-                s.SectionExtensions.Add(new SectionExtensionElement {TypeName = extensionTypeName, Prefix = "p1"});
+                s.SectionExtensions.Add(new SectionExtensionElement { TypeName = extensionTypeName, Prefix = "p1" });
             });
 
             loadedSection.SectionExtensions.Select(se => se.TypeName)
                 .AssertContainsExactly(extensionTypeName, extensionTypeName);
 
             loadedSection.SectionExtensions.Select(se => se.Prefix)
-                .AssertContainsExactly("", "p1");
+                .AssertContainsExactly(String.Empty, "p1");
         }
 
         [TestMethod]
@@ -125,8 +124,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         {
             var loadedSection = SerializeAndLoadSection("SerializeContainers.config", s =>
             {
-                s.Containers.Add(new ContainerElement {Name = "containerOne"});
-                s.Containers.Add(new ContainerElement {Name = "containerTwo"});
+                s.Containers.Add(new ContainerElement { Name = "containerOne" });
+                s.Containers.Add(new ContainerElement { Name = "containerTwo" });
             });
 
             loadedSection.Containers.Select(c => c.Name)
@@ -139,8 +138,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var loadedSection = SerializeAndLoadSection("SerializeContainers.config", s =>
             {
                 var containerElement = new ContainerElement();
-                containerElement.Extensions.Add(new ContainerExtensionElement {TypeName = "extensionOne"});
-                containerElement.Extensions.Add(new ContainerExtensionElement {TypeName = "extensionTwo"});
+                containerElement.Extensions.Add(new ContainerExtensionElement { TypeName = "extensionOne" });
+                containerElement.Extensions.Add(new ContainerExtensionElement { TypeName = "extensionTwo" });
                 s.Containers.Add(containerElement);
             });
 
@@ -154,8 +153,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var loadedSection = SerializeAndLoadSection("SerializeContainers.config", s =>
             {
                 var containerElement = new ContainerElement();
-                containerElement.Registrations.Add(new RegisterElement
-                {TypeName = "SourceOne", MapToName = "DestOne", Name = "NameOne"});
+                containerElement.Registrations.Add(new RegisterElement { TypeName = "SourceOne", MapToName = "DestOne", Name = "NameOne" });
                 containerElement.Registrations.Add(new RegisterElement
                 {
                     TypeName = "SourceTwo",
@@ -175,7 +173,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             loadedSection.Containers.Default.Registrations.Select(r => r.MapToName)
                 .AssertContainsExactly("DestOne", "DestTwo", "DestThree");
             loadedSection.Containers.Default.Registrations.Select(r => r.Name)
-                .AssertContainsExactly("NameOne", "NameTwo", "");
+                .AssertContainsExactly("NameOne", "NameTwo", String.Empty);
         }
 
         [TestMethod]
@@ -221,7 +219,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var loadedReg2 = loadedSection.Containers.Default.Registrations[2];
 
             Assert.IsNotNull(loadedReg0.Lifetime);
-            Assert.AreEqual("", loadedReg0.Lifetime.TypeName);
+            Assert.AreEqual(String.Empty, loadedReg0.Lifetime.TypeName);
 
             Assert.IsNotNull(loadedReg1.Lifetime);
             Assert.AreEqual("SomeCustomLifetime", loadedReg1.Lifetime.TypeName);
@@ -230,7 +228,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
 
             Assert.IsNotNull(loadedReg2.Lifetime);
             Assert.AreEqual("singleton", loadedReg2.Lifetime.TypeName);
-            Assert.AreEqual("", loadedReg2.Lifetime.TypeConverterTypeName);
+            Assert.AreEqual(String.Empty, loadedReg2.Lifetime.TypeConverterTypeName);
         }
 
         [TestMethod]
@@ -273,9 +271,9 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             instances.Select(i => i.Value)
                 .AssertContainsExactly("42", "today", "hello");
             instances.Select(i => i.TypeConverterTypeName)
-                .AssertContainsExactly("", "RelativeDateTextConverter", "");
+                .AssertContainsExactly(String.Empty, "RelativeDateTextConverter", String.Empty);
             instances.Select(i => i.Name)
-                .AssertContainsExactly("", "", "AString");
+                .AssertContainsExactly(String.Empty, String.Empty, "AString");
         }
 
         [TestMethod]
@@ -286,7 +284,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var zeroArg = loadedSection.Containers.Default.Registrations.Where(r => r.Name == "zeroArg").First();
 
             Assert.AreEqual(1, zeroArg.InjectionMembers.Count);
-            Assert.IsInstanceOfType(zeroArg.InjectionMembers[0], typeof (ConstructorElement));
+            Assert.IsInstanceOfType(zeroArg.InjectionMembers[0], typeof(ConstructorElement));
 
             var oneArg = loadedSection.Containers.Default.Registrations.Where(r => r.Name == "oneArg").First();
             Assert.AreEqual(1, oneArg.InjectionMembers.Count);
@@ -299,12 +297,12 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var loadedSection = SerializeAndLoadSection("SerializeCtors.config", FillSectionWithConstructors);
 
             var zeroArg = loadedSection.Containers.Default.Registrations.Where(r => r.Name == "zeroArg").First();
-            var zeroArgCtor = (ConstructorElement) zeroArg.InjectionMembers[0];
+            var zeroArgCtor = (ConstructorElement)zeroArg.InjectionMembers[0];
 
             Assert.AreEqual(0, zeroArgCtor.Parameters.Count);
 
             var oneArg = loadedSection.Containers.Default.Registrations.Where(r => r.Name == "oneArg").First();
-            var oneArgCtor = (ConstructorElement) oneArg.InjectionMembers[0];
+            var oneArgCtor = (ConstructorElement)oneArg.InjectionMembers[0];
 
             Assert.AreEqual(1, oneArgCtor.Parameters.Count);
             Assert.AreEqual("intParam", oneArgCtor.Parameters[0].Name);
@@ -390,11 +388,11 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
 
             Assert.AreEqual(3, parameterValue.Values.Count);
             parameterValue.Values.Select(p => p.GetType())
-                .AssertContainsExactly(typeof (DependencyElement), typeof (ValueElement), typeof (DependencyElement));
+                .AssertContainsExactly(typeof(DependencyElement), typeof(ValueElement), typeof(DependencyElement));
 
             parameterValue.Values.OfType<DependencyElement>()
                 .Select(p => p.Name)
-                .AssertContainsExactly("", "dependencyName");
+                .AssertContainsExactly(String.Empty, "dependencyName");
 
             parameterValue.Values.OfType<ValueElement>()
                 .Select(p => p.Value)
@@ -406,7 +404,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         {
             var loadedSection = SerializeAndLoadSection("SerializingProperties.config", s =>
             {
-                var prop = new PropertyElement() {Name = "MyProp"};
+                var prop = new PropertyElement() { Name = "MyProp" };
                 var reg = new RegisterElement()
                 {
                     TypeName = "MyType"
@@ -426,8 +424,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             loadedSection.Containers[0].Registrations[0].InjectionMembers
                 .Cast<PropertyElement>()
                 .Select(p => p.Value.GetType())
-                .AssertContainsExactly(typeof (DependencyElement));
-            
+                .AssertContainsExactly(typeof(DependencyElement));
         }
 
         [TestMethod]
@@ -476,7 +473,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
                 .AssertContainsExactly(typeof(DependencyElement), typeof(DependencyElement), typeof(OptionalElement));
 
             Assert.AreEqual("MyDep",
-                ((DependencyElement) propertyElements.Where(p => p.Name == "NamedDependencyProp").First().Value).Name);
+                ((DependencyElement)propertyElements.Where(p => p.Name == "NamedDependencyProp").First().Value).Name);
         }
 
         [TestMethod]
@@ -571,7 +568,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
 
             loadedSection.Containers.Default.Registrations[0].InjectionMembers
                 .Select(i => i.GetType())
-                .AssertContainsExactly(typeof (TestInjectionMemberElement));
+                .AssertContainsExactly(typeof(TestInjectionMemberElement));
         }
 
         [TestMethod]

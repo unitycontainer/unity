@@ -8,8 +8,6 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// <summary>
     /// Represents a chain of responsibility for builder strategies.
     /// </summary>
-    // FxCop suppression: This class is only IEnumerable for testing support.
-    // Renaming it to StrategyCollection implies more than it really should.
     [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix",
         Justification = "This class is only IEnumerable for testing support. Renaming it to StrategyCollection implies more than it really should.")]
     public interface IStrategyChain : IEnumerable<IBuilderStrategy>
@@ -27,7 +25,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="context">Context for the build process.</param>
         /// <returns>The build up object</returns>
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp",
-            Justification = "Back compat with ObjectBuilder")]
+            Justification = "Backwards compatibility with ObjectBuilder")]
         object ExecuteBuildUp(IBuilderContext context);
 
         /// <summary>
@@ -36,7 +34,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="context">Context for the teardown process.</param>
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "TearDown",
-            Justification = "Back compat with ObjectBuilder")]
+            Justification = "Backwards compatibility with ObjectBuilder")]
         void ExecuteTearDown(IBuilderContext context);
     }
 }

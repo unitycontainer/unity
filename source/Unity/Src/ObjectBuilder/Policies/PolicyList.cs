@@ -328,7 +328,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             public static bool operator ==(PolicyKey left, PolicyKey right)
             {
                 return left.PolicyType == right.PolicyType &&
-                    Equals(left.BuildKey, right.BuildKey);
+                    object.Equals(left.BuildKey, right.BuildKey);
             }
 
             public static bool operator !=(PolicyKey left, PolicyKey right)
@@ -349,7 +349,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             public bool Equals(PolicyKey x, PolicyKey y)
             {
                 return x.PolicyType == y.PolicyType &&
-                    Equals(x.BuildKey, y.BuildKey);
+                    object.Equals(x.BuildKey, y.BuildKey);
             }
 
             public int GetHashCode(PolicyKey obj)

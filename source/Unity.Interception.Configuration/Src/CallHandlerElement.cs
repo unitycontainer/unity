@@ -14,9 +14,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
     {
         internal void Configure(IUnityContainer container, PolicyDefinition policyDefinition)
         {
-            if (string.IsNullOrEmpty(TypeName))
+            if (string.IsNullOrEmpty(this.TypeName))
             {
-                policyDefinition.AddCallHandler(Name);
+                policyDefinition.AddCallHandler(this.Name);
             }
             else
             {

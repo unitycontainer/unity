@@ -10,7 +10,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
 {
     public partial class VirtualMethodOverrideFixture
     {
-
         [TestMethod]
         public void CanInterceptDoSomethingMethodWithTransparentProxy()
         {
@@ -32,7 +31,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
 
         public partial class RootClass : MarshalByRefObject
         {
-            
         }
     }
 }

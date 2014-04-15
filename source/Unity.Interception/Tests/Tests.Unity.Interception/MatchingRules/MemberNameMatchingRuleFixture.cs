@@ -8,11 +8,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
     [TestClass]
     public class MemberNameMatchingRuleFixture
     {
-        MethodInfo methodOne;
-        MethodInfo methodTwo;
-        MethodInfo save;
-        MethodInfo reset;
-        MethodInfo closeAndReset;
+        private MethodInfo methodOne;
+        private MethodInfo methodTwo;
+        private MethodInfo save;
+        private MethodInfo reset;
+        private MethodInfo closeAndReset;
 
         [TestInitialize]
         public void Setup()

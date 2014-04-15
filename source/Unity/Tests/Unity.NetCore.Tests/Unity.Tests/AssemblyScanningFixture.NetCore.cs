@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
 namespace Microsoft.Practices.Unity.Tests
 {
-    partial class AssemblyScanningFixture
+    public partial class AssemblyScanningFixture
     {
         [TestMethod]
         public void GetsTypesFromAssembliesLoadedFromApplicationFolderSkippingUnityAssembliesByDefault()

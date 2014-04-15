@@ -43,7 +43,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(NamePropertyName, IsRequired = true)]
         public string Name
         {
-            get { return (string) base[NamePropertyName]; }
+            get { return (string)base[NamePropertyName]; }
             set { base[NamePropertyName] = value; }
         }
 
@@ -53,7 +53,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(TypeNamePropertyName, IsRequired = false)]
         public string TypeName
         {
-            get { return (string) base[TypeNamePropertyName]; }
+            get { return (string)base[TypeNamePropertyName]; }
             set { base[TypeNamePropertyName] = value; }
         }
 
@@ -63,7 +63,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(InjectionPropertyName, IsDefaultCollection = true)]
         public InjectionMemberElementCollection Injection
         {
-            get { return (InjectionMemberElementCollection) base[InjectionPropertyName]; }
+            get { return (InjectionMemberElementCollection)base[InjectionPropertyName]; }
         }
 
         /// <summary>
@@ -72,42 +72,42 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(LifetimePropertyName, IsRequired = false, DefaultValue = null)]
         public LifetimeElement Lifetime
         {
-            get { return (LifetimeElement) base[LifetimePropertyName]; }
+            get { return (LifetimeElement)base[LifetimePropertyName]; }
             set { base[LifetimePropertyName] = value; }
         }
 
         /// <summary>
         /// Reads XML from the configuration file.
         /// </summary>
-        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> that reads from the configuration file.
-        ///                 </param><param name="serializeCollectionKey">true to serialize only the collection key properties; otherwise, false.
-        ///                 </param><exception cref="T:System.Configuration.ConfigurationErrorsException">The element to read is locked.
-        ///                     - or -
-        ///                     An attribute of the current node is not recognized.
-        ///                     - or -
-        ///                     The lock status of the current node cannot be determined.  
-        ///                 </exception>
+        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> that reads from the configuration file.</param>
+        /// <param name="serializeCollectionKey">true to serialize only the collection key properties; otherwise, false.</param>
+        /// <exception cref="T:System.Configuration.ConfigurationErrorsException">The element to read is locked.
+        /// - or -
+        /// An attribute of the current node is not recognized.
+        /// - or -
+        /// The lock status of the current node cannot be determined.  
+        /// </exception>
         protected override void DeserializeElement(XmlReader reader, bool serializeCollectionKey)
         {
             base.DeserializeElement(reader, serializeCollectionKey);
 
-            if (string.IsNullOrEmpty(TypeName) && LifetimeIsPresent())
+            if (string.IsNullOrEmpty(this.TypeName) && this.LifetimeIsPresent())
             {
                 throw new ConfigurationErrorsException(
                     string.Format(
                         CultureInfo.CurrentCulture,
                         Resources.CannotHaveLifetimeWithoutTypeName,
-                        Name),
+                        this.Name),
                     reader);
             }
 
-            if (string.IsNullOrEmpty(TypeName) && Injection.Count > 0)
+            if (string.IsNullOrEmpty(this.TypeName) && this.Injection.Count > 0)
             {
                 throw new ConfigurationErrorsException(
                     string.Format(
                         CultureInfo.CurrentCulture,
                         Resources.CannotHaveInjectionWithoutTypeName,
-                        Name),
+                        this.Name),
                     reader);
             }
         }
@@ -125,13 +125,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         {
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(writer, "writer");
 
-            writer.WriteAttributeString(NamePropertyName, Name);
-            writer.WriteAttributeIfNotEmpty(TypeNamePropertyName, TypeName);
-            if(LifetimeIsPresent())
+            writer.WriteAttributeString(NamePropertyName, this.Name);
+            writer.WriteAttributeIfNotEmpty(TypeNamePropertyName, this.TypeName);
+            if (this.LifetimeIsPresent())
             {
-                writer.WriteElement("lifetime", Lifetime.SerializeContent);
+                writer.WriteElement("lifetime", this.Lifetime.SerializeContent);
             }
-            foreach(var injectionElement in Injection)
+            foreach (var injectionElement in this.Injection)
             {
                 writer.WriteElement(injectionElement.ElementName, injectionElement.SerializeContent);
             }
@@ -139,9 +139,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
 
         private bool LifetimeIsPresent()
         {
-            return !string.IsNullOrEmpty(Lifetime.TypeName) ||
-                !string.IsNullOrEmpty(Lifetime.TypeConverterTypeName) ||
-                    !string.IsNullOrEmpty(Lifetime.Value);
+            return !string.IsNullOrEmpty(this.Lifetime.TypeName) ||
+                !string.IsNullOrEmpty(this.Lifetime.TypeConverterTypeName) ||
+                    !string.IsNullOrEmpty(this.Lifetime.Value);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Microsoft.Practices.Unity.Tests
 
         public CodeGenBug(int i, object parameter)
         {
-            if(parameter == null)
+            if (parameter == null)
             {
                 throw new ArgumentNullException("Static constructor was not called");
             }

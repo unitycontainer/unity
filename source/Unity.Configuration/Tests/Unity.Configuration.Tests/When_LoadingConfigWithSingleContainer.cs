@@ -15,25 +15,24 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         public When_LoadingConfigWithSingleContainer()
             : base("SingleSectionSingleContainer")
         {
-            
         }
 
         [TestMethod]
         public void Then_SectionIsNotNull()
         {
-            Assert.IsNotNull(Section);
+            Assert.IsNotNull(this.section);
         }
 
         [TestMethod]
         public void Then_ContainersPropertyIsSet()
         {
-            Assert.IsNotNull(Section.Containers);
+            Assert.IsNotNull(section.Containers);
         }
 
         [TestMethod]
         public void Then_ThereIsOneContainerInSection()
         {
-            Assert.AreEqual(1, Section.Containers.Count);
+            Assert.AreEqual(1, section.Containers.Count);
         }
     }
 }

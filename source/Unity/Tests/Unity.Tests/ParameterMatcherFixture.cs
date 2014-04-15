@@ -40,7 +40,7 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void SameLengthDifferentTypesDontMatch()
         {
-            ParameterMatcher matcher = new ParameterMatcher(Parameters(typeof (int)));
+            ParameterMatcher matcher = new ParameterMatcher(Parameters(typeof(int)));
             Assert.IsFalse(matcher.Matches(Types(typeof(string))));
         }
 
@@ -54,14 +54,14 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void OpenGenericTypesMatch()
         {
-            ParameterMatcher matcher = new ParameterMatcher(Parameters(typeof (ICommand<>), typeof (ICommand<>)));
+            ParameterMatcher matcher = new ParameterMatcher(Parameters(typeof(ICommand<>), typeof(ICommand<>)));
             Assert.IsTrue(matcher.Matches(Types(typeof(ICommand<>), typeof(ICommand<>))));
         }
 
         private static InjectionParameterValue[] Parameters(params Type[] types)
         {
             List<InjectionParameterValue> values = new List<InjectionParameterValue>();
-            foreach(Type t in types)
+            foreach (Type t in types)
             {
                 values.Add(InjectionParameterValue.ToParameter(t));
             }

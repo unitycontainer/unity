@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
+using System;
 using System.Linq;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.Configuration.Tests.TestObjects;
@@ -15,7 +16,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerForArrayInjection : ContainerConfiguringFixture<ConfigFileLocator>
     {
-        public When_ConfiguringContainerForArrayInjection() : base("ArrayInjection", "")
+        public When_ConfiguringContainerForArrayInjection()
+            : base("ArrayInjection", String.Empty)
         {
         }
 
@@ -25,7 +27,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var result = Container.Resolve<ArrayDependencyObject>("defaultInjection");
 
             result.Loggers.Select(l => l.GetType()).AssertContainsInAnyOrder(
-                typeof (SpecialLogger), typeof (MockLogger), typeof (MockLogger));
+                typeof(SpecialLogger), typeof(MockLogger), typeof(MockLogger));
         }
 
         [TestMethod]
@@ -34,7 +36,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var result = Container.Resolve<ArrayDependencyObject>("specificElements");
 
             result.Loggers.Select(l => l.GetType()).AssertContainsInAnyOrder(
-                typeof (SpecialLogger), typeof (MockLogger));
+                typeof(SpecialLogger), typeof(MockLogger));
         }
 
         [TestMethod]
@@ -68,6 +70,6 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var result = Container.Resolve<GenericArrayPropertyDependency<string>>("explicitZeroLengthArray");
 
             Assert.AreEqual(0, result.Stuff.Count());
-        }    
+        }
     }
 }

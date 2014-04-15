@@ -123,7 +123,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         {
             PolicyList list = new PolicyList();
             FakePolicy policyForType = new FakePolicy();
-            list.Set<IBuilderPolicy>(policyForType, typeof (object));
+            list.Set<IBuilderPolicy>(policyForType, typeof(object));
 
             IBuilderPolicy result = list.Get<IBuilderPolicy>(new NamedTypeBuildKey<object>("name"));
 
@@ -136,12 +136,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             PolicyList list = new PolicyList();
             FakePolicy openTypePolicy = new FakePolicy();
             FakePolicy closedTypePolicy = new FakePolicy();
-            list.Set<IBuilderPolicy>(openTypePolicy, typeof (IDummy<>));
-            list.Set<IBuilderPolicy>(closedTypePolicy, typeof (IDummy<object>));
+            list.Set<IBuilderPolicy>(openTypePolicy, typeof(IDummy<>));
+            list.Set<IBuilderPolicy>(closedTypePolicy, typeof(IDummy<object>));
 
             IBuilderPolicy result = list.Get<IBuilderPolicy>(new NamedTypeBuildKey<IDummy<object>>("name"));
             Assert.AreSame(closedTypePolicy, result);
-
         }
 
         [TestMethod]
@@ -278,8 +277,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             Assert.AreSame(innerList, containingPolicyList);
         }
 
-        class FakePolicy : IBuilderPolicy {}
+        private class FakePolicy : IBuilderPolicy { }
 
-        interface IDummy<T> {}
+        private interface IDummy<T> { }
     }
 }

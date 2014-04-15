@@ -79,8 +79,7 @@ namespace Unity.ServiceLocation.Tests
         {
             Assert.AreEqual(
                 locator.GetInstance<ILogger>(typeof(AdvancedLogger).FullName).GetType(),
-                locator.GetInstance(typeof(ILogger), typeof(AdvancedLogger).FullName).GetType()
-                );
+                locator.GetInstance(typeof(ILogger), typeof(AdvancedLogger).FullName).GetType());
         }
 
         public void Overload_GetInstance_NoName_And_NullName()

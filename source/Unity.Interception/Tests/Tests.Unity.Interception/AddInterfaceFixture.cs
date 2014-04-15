@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -22,7 +22,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             var target = new MockDal();
             var proxied = Intercept.ThroughProxy<IDal>(target,
                 new InterfaceInterceptor(),
-                new[] { new AdditionalInterfaceBehavior()});
+                new[] { new AdditionalInterfaceBehavior() });
 
             Assert.IsNotNull(proxied);
         }
@@ -36,7 +36,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 new[] { new AdditionalInterfaceBehavior() });
 
             Assert.IsNotNull(proxied as IAdditionalInterface);
-            
         }
 
         [TestMethod]
@@ -55,8 +54,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             var target = new MockDal();
             var proxied = Intercept.ThroughProxyWithAdditionalInterfaces<IDal>(target,
                 new InterfaceInterceptor(),
-                new[] {new AdditionalInterfaceBehavior(false)},
-                new[] {typeof (IAdditionalInterface)});
+                new[] { new AdditionalInterfaceBehavior(false) },
+                new[] { typeof(IAdditionalInterface) });
 
             Assert.IsNotNull(proxied as IAdditionalInterface);
         }

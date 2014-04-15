@@ -7,14 +7,13 @@ namespace Microsoft.Practices.Unity.TestSupport.Configuration
 {
     public abstract class SectionLoadingFixture<TResourceLocator>
     {
-        protected UnityConfigurationSection Section;
+        protected UnityConfigurationSection section;
         private readonly string configFileName;
         protected string SectionName { get; private set; }
 
         protected SectionLoadingFixture(string configFileName)
             : this(configFileName, "unity")
         {
-            
         }
 
         protected SectionLoadingFixture(string configFileName, string sectionName)
@@ -26,17 +25,15 @@ namespace Microsoft.Practices.Unity.TestSupport.Configuration
         protected virtual void Arrange()
         {
             var loader = new ConfigFileLoader<TResourceLocator>(configFileName);
-            Section = loader.GetSection<UnityConfigurationSection>(SectionName);
+            section = loader.GetSection<UnityConfigurationSection>(SectionName);
         }
 
         protected virtual void Act()
         {
-            
         }
 
         protected virtual void Teardown()
         {
-            
         }
 
         [TestInitialize]

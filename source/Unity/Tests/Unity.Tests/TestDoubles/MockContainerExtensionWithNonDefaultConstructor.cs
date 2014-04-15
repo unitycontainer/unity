@@ -6,7 +6,6 @@ namespace Microsoft.Practices.Unity.Tests.TestDoubles
     {
         public ContainerExtensionWithNonDefaultConstructor(IUnityContainer container)
         {
-                
         }
 
         protected override void Initialize()

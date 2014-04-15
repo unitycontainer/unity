@@ -9,7 +9,6 @@ namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects.MyGenericTyp
 {
     public class MyPrintService<T> : IGenericService<T>
     {
-
         #region IMyService Members
 
         public string ServiceStatus

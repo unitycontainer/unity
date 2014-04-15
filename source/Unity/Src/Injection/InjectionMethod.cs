@@ -43,12 +43,12 @@ namespace Microsoft.Practices.Unity
         /// <param name="policies">Policy list to add policies to.</param>
         public override void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
         {
-            MethodInfo methodInfo = FindMethod(implementationType);
+            MethodInfo methodInfo = this.FindMethod(implementationType);
             this.ValidateMethodCanBeInjected(methodInfo, implementationType);
 
             SpecifiedMethodsSelectorPolicy selector =
                 GetSelectorPolicy(policies, implementationType, name);
-            selector.AddMethodAndParameters(methodInfo, methodParameters);
+            selector.AddMethodAndParameters(methodInfo, this.methodParameters);
         }
 
         /// <summary>
@@ -69,10 +69,10 @@ namespace Microsoft.Practices.Unity
 
         private MethodInfo FindMethod(Type typeToCreate)
         {
-            ParameterMatcher matcher = new ParameterMatcher(methodParameters);
+            ParameterMatcher matcher = new ParameterMatcher(this.methodParameters);
             foreach (MethodInfo method in typeToCreate.GetMethodsHierarchical())
             {
-                if (MethodNameMatches(method, methodName))
+                if (this.MethodNameMatches(method, this.methodName))
                 {
                     if (matcher.Matches(method.GetParameters()))
                     {
@@ -85,11 +85,11 @@ namespace Microsoft.Practices.Unity
 
         private void ValidateMethodCanBeInjected(MethodInfo method, Type typeToCreate)
         {
-            GuardMethodNotNull(method, typeToCreate);
-            GuardMethodNotStatic(method, typeToCreate);
-            GuardMethodNotGeneric(method, typeToCreate);
-            GuardMethodHasNoOutParams(method, typeToCreate);
-            GuardMethodHasNoRefParams(method, typeToCreate);
+            this.GuardMethodNotNull(method, typeToCreate);
+            this.GuardMethodNotStatic(method, typeToCreate);
+            this.GuardMethodNotGeneric(method, typeToCreate);
+            this.GuardMethodHasNoOutParams(method, typeToCreate);
+            this.GuardMethodHasNoRefParams(method, typeToCreate);
         }
 
         private void GuardMethodNotNull(MethodInfo info, Type typeToCreate)
@@ -138,8 +138,8 @@ namespace Microsoft.Practices.Unity
                 string.Format(CultureInfo.CurrentCulture,
                     message,
                     typeToCreate.GetTypeInfo().Name,
-                    methodName,
-                    methodParameters.JoinStrings(", ", mp => mp.ParameterTypeName)));
+                    this.methodName,
+                    this.methodParameters.JoinStrings(", ", mp => mp.ParameterTypeName)));
         }
 
         private static SpecifiedMethodsSelectorPolicy GetSelectorPolicy(IPolicyList policies, Type typeToCreate, string name)

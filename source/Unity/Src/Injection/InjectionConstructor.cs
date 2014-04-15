@@ -42,7 +42,7 @@ namespace Microsoft.Practices.Unity
         /// <param name="policies">Policy list to add policies to.</param>
         public override void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
         {
-            ConstructorInfo ctor = FindConstructor(implementationType);
+            ConstructorInfo ctor = this.FindConstructor(implementationType);
             policies.Set<IConstructorSelectorPolicy>(
                 new SpecifiedConstructorSelectorPolicy(ctor, this.parameterValues.ToArray()),
                 new NamedTypeBuildKey(implementationType, name));

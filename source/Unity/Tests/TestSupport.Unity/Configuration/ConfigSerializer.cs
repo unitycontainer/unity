@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.TestSupport.Configuration
             SysConfiguration configuration = ConfigurationManager.OpenMappedExeConfiguration(filemap,
                                                                                              ConfigurationUserLevel.None);
 
-            if(configuration.GetSection(sectionName) != null)
+            if (configuration.GetSection(sectionName) != null)
             {
                 configuration.Sections.Remove(sectionName);
             }
@@ -37,7 +37,7 @@ namespace Microsoft.Practices.Unity.TestSupport.Configuration
 
         public SysConfiguration Load()
         {
-            var filemap = new ExeConfigurationFileMap {ExeConfigFilename = filename};
+            var filemap = new ExeConfigurationFileMap { ExeConfigFilename = filename };
             return ConfigurationManager.OpenMappedExeConfiguration(filemap, ConfigurationUserLevel.None);
         }
 

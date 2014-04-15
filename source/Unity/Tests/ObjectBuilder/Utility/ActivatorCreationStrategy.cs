@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests.Utility
 {
-    class ActivatorCreationStrategy : BuilderStrategy
+    internal class ActivatorCreationStrategy : BuilderStrategy
     {
         /// <summary>
         /// Called during the chain of responsibility for a build operation. The
@@ -16,7 +16,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests.Utility
         /// <param name="context">Context of the build operation.</param>
         public override void PreBuildUp(IBuilderContext context)
         {
-            if(context.Existing == null)
+            if (context.Existing == null)
             {
                 context.Existing = Activator.CreateInstance(context.BuildKey.Type);
             }

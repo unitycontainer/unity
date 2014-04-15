@@ -8,7 +8,7 @@ namespace Microsoft.Practices.Unity.TestSupport
 
         public bool InitializeWasCalled
         {
-            get { return initializeWasCalled; }
+            get { return this.initializeWasCalled; }
         }
 
         public new ExtensionContext Context
@@ -18,12 +18,11 @@ namespace Microsoft.Practices.Unity.TestSupport
 
         protected override void Initialize()
         {
-            initializeWasCalled = true;
+            this.initializeWasCalled = true;
         }
     }
 
     public interface IMockConfiguration : IUnityContainerExtensionConfigurator
     {
-        
     }
 }

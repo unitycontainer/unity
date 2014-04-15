@@ -57,7 +57,7 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         public override string ParameterTypeName
         {
-            get { return genericParameterName; }
+            get { return this.genericParameterName; }
         }
 
         /// <summary>
@@ -71,11 +71,11 @@ namespace Microsoft.Practices.Unity
         public override bool MatchesType(Type t)
         {
             Guard.ArgumentNotNull(t, "t");
-            if (!isArray)
+            if (!this.isArray)
             {
-                return t.GetTypeInfo().IsGenericParameter && t.GetTypeInfo().Name == genericParameterName;
+                return t.GetTypeInfo().IsGenericParameter && t.GetTypeInfo().Name == this.genericParameterName;
             }
-            return t.IsArray && t.GetElementType().GetTypeInfo().IsGenericParameter && t.GetElementType().GetTypeInfo().Name == genericParameterName;
+            return t.IsArray && t.GetElementType().GetTypeInfo().IsGenericParameter && t.GetElementType().GetTypeInfo().Name == this.genericParameterName;
         }
 
         /// <summary>
@@ -87,15 +87,15 @@ namespace Microsoft.Practices.Unity
         /// <returns>The <see cref="IDependencyResolverPolicy"/>.</returns>
         public override IDependencyResolverPolicy GetResolverPolicy(Type typeToBuild)
         {
-            GuardTypeToBuildIsGeneric(typeToBuild);
-            GuardTypeToBuildHasMatchingGenericParameter(typeToBuild);
-            Type typeToResolve = new ReflectionHelper(typeToBuild).GetNamedGenericParameter(genericParameterName);
-            if (isArray)
+            this.GuardTypeToBuildIsGeneric(typeToBuild);
+            this.GuardTypeToBuildHasMatchingGenericParameter(typeToBuild);
+            Type typeToResolve = new ReflectionHelper(typeToBuild).GetNamedGenericParameter(this.genericParameterName);
+            if (this.isArray)
             {
                 typeToResolve = typeToResolve.MakeArrayType();
             }
 
-            return DoGetResolverPolicy(typeToResolve, this.resolutionKey);
+            return this.DoGetResolverPolicy(typeToResolve, this.resolutionKey);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Microsoft.Practices.Unity
                         CultureInfo.CurrentCulture,
                         Resources.NotAGenericType,
                         typeToBuild.GetTypeInfo().Name,
-                        genericParameterName));
+                        this.genericParameterName));
             }
         }
 
@@ -126,7 +126,7 @@ namespace Microsoft.Practices.Unity
         {
             foreach (Type genericParam in typeToBuild.GetGenericTypeDefinition().GetTypeInfo().GenericTypeParameters)
             {
-                if (genericParam.GetTypeInfo().Name == genericParameterName)
+                if (genericParam.GetTypeInfo().Name == this.genericParameterName)
                 {
                     return;
                 }
@@ -137,7 +137,7 @@ namespace Microsoft.Practices.Unity
                     CultureInfo.CurrentCulture,
                     Resources.NoMatchingGenericArgument,
                     typeToBuild.GetTypeInfo().Name,
-                    genericParameterName));
+                    this.genericParameterName));
         }
     }
 }

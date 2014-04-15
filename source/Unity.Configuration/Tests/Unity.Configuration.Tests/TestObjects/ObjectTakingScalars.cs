@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects
 {
-    class ObjectTakingScalars
+    internal class ObjectTakingScalars
     {
         public ObjectTakingScalars(int intValue)
         {

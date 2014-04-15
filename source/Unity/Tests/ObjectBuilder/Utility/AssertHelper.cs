@@ -14,7 +14,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {
-    class AssertHelper
+    internal class AssertHelper
     {
         public static void Contains<T>(T expected,
                                        IEnumerable<T> collection)
@@ -42,9 +42,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
                                        string userMessage)
         {
             foreach (T item in collection)
+            {
                 if (comparer.Compare(expected, item) == 0)
+                {
                     return;
-
+                }
+            }
             throw new AssertFailedException(string.Format("Not found: {0}", expected));
         }
 
@@ -68,7 +71,9 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
                                     string userMessage)
         {
             if (actualString.IndexOf(expectedSubString, comparisonType) < 0)
+            {
                 throw new AssertFailedException(string.Format("Not found: {0}", expectedSubString));
+            }
         }
 
         public static IComparer<T> GetComparer<T>()
@@ -100,7 +105,9 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
                                   string userMessage)
         {
             if (!expectedType.Equals(@object.GetType()))
+            {
                 throw new AssertActualExpectedException(@object, expectedType, userMessage);
+            }
         }
 
         public static void NotEmpty(IEnumerable collection)
@@ -111,53 +118,67 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public static void NotEmpty(IEnumerable collection,
                                     string userMessage)
         {
-            if (collection == null) throw new ArgumentNullException("collection", "cannot be null");
-
+            if (collection == null)
+            {
+                throw new ArgumentNullException("collection", "cannot be null");
+            }
 #pragma warning disable 168
             foreach (object @object in collection)
+            {
                 return;
+            }
 #pragma warning restore 168
 
             throw new AssertFailedException(userMessage);
         }
 
-        class AssertComparer<T> : IComparer<T>
+        private class AssertComparer<T> : IComparer<T>
         {
             public int Compare(T x,
                                T y)
             {
                 // Compare against null
-                if (Equals(x, default(T)))
+                if (Object.Equals(x, default(T)))
                 {
-                    if (Equals(y, default(T)))
+                    if (Object.Equals(y, default(T)))
+                    {
                         return 0;
+                    }
                     return -1;
                 }
 
-                if (Equals(y, default(T)))
+                if (Object.Equals(y, default(T)))
+                {
                     return -1;
-
+                }
                 // Are they the same type?
                 if (x.GetType() != y.GetType())
+                {
                     return -1;
-
+                }
                 // Are they arrays?
                 if (x.GetType().IsArray)
                 {
-                    Array xArray = x as Array;
-                    Array yArray = y as Array;
+                    Array arrayX = x as Array;
+                    Array arrayY = y as Array;
 
-                    if (xArray != null && yArray != null)
+                    if (arrayX != null && arrayY != null)
                     {
-                        if (xArray.Rank != 1)
+                        if (arrayX.Rank != 1)
+                        {
                             throw new ArgumentException("Multi-dimension array comparison is not supported");
-
-                        if (xArray.Length != yArray.Length)
+                        }
+                        if (arrayX.Length != arrayY.Length)
+                        {
                             return -1;
-
-                        for (int index = 0; index < xArray.Length; index++)
-                            if (!Equals(xArray.GetValue(index), yArray.GetValue(index)))
+                        }
+                        for (int index = 0; index < arrayX.Length; index++)
+                        {
+                            if (!Object.Equals(arrayX.GetValue(index), arrayY.GetValue(index)))
+                            {
                                 return -1;
+                            }
+                        }
                     }
 
                     return 0;
@@ -167,22 +188,25 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
                 IComparable<T> comparable1 = x as IComparable<T>;
 
                 if (comparable1 != null)
+                {
                     return comparable1.CompareTo(y);
-
+                }
                 // Compare with IComparable
                 IComparable comparable2 = x as IComparable;
 
                 if (comparable2 != null)
+                {
                     return comparable2.CompareTo(y);
-
+                }
                 // Compare with IEquatable
                 IEquatable<T> equatable1 = x as IEquatable<T>;
 
                 if (equatable1 != null && equatable1.Equals(y))
+                {
                     return 0;
-
+                }
                 // Last case, rely on Object.AreEquals
-                return Equals(x, y) ? 0 : -1;
+                return Object.Equals(x, y) ? 0 : -1;
             }
         }
     }

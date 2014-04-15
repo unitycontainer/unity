@@ -1,21 +1,34 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System.Linq;
-using System.Threading;
-using Microsoft.Practices.ObjectBuilder2;
+// Duplicate using statements to avoid ordering using warning SA1210. 
+// ifdefs seem to be confusing stylecop
 #if NETFX_CORE
 #if !WINDOWS_PHONE
 using System;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using Windows.System.Threading;
-#endif
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Windows.System.Threading;
+#else
+using System.Linq;
+using System.Threading;
+using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#endif
 #elif __IOS__
+using System.Linq;
+using System.Threading;
+using Microsoft.Practices.ObjectBuilder2;
 using NUnit.Framework;
 using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
+using System.Linq;
+using System.Threading;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
@@ -92,17 +105,32 @@ namespace Microsoft.Practices.Unity.Tests
 
             object valueOne = null;
             object valueTwo = null;
-            object ValueThree = null;
+            object valueThree = null;
 
             var barrier = new Barrier(3);
             RunInParallel(
-                delegate { ltm.SetValue(one); barrier.SignalAndWait(); valueOne = ltm.GetValue(); },
-                delegate { ltm.SetValue(three); barrier.SignalAndWait(); ValueThree = ltm.GetValue(); },
-                delegate { ltm.SetValue(two); barrier.SignalAndWait(); valueTwo = ltm.GetValue(); });
+                delegate
+                {
+                    ltm.SetValue(one);
+                    barrier.SignalAndWait();
+                    valueOne = ltm.GetValue();
+                },
+                delegate
+                {
+                    ltm.SetValue(three);
+                    barrier.SignalAndWait();
+                    valueThree = ltm.GetValue();
+                },
+                delegate
+                {
+                    ltm.SetValue(two);
+                    barrier.SignalAndWait();
+                    valueTwo = ltm.GetValue();
+                });
 
             Assert.AreSame(one, valueOne);
             Assert.AreSame(two, valueTwo);
-            Assert.AreSame(three, ValueThree);
+            Assert.AreSame(three, valueThree);
         }
 
         [TestMethod]

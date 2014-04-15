@@ -90,7 +90,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
             catch (Exception e)
             {
-                Assert.AreSame(ThrowingConstructorInjectionTestClass.constructorException, e);
+                Assert.AreSame(ThrowingConstructorInjectionTestClass.ConstructorException, e);
 
                 var operation = (InvokingConstructorOperation)context.CurrentOperation;
                 Assert.IsNotNull(operation);
@@ -113,7 +113,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, context.BuildKey);
             plan.BuildUp(context);
 
-            Assert.IsNotNull(resolverPolicy.currentOperation);
+            Assert.IsNotNull(resolverPolicy.CurrentOperation);
         }
 
         [TestMethod]
@@ -281,11 +281,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
         public class ThrowingConstructorInjectionTestClass
         {
-            public static Exception constructorException = new ArgumentException();
+            public static Exception ConstructorException = new ArgumentException();
 
             public ThrowingConstructorInjectionTestClass()
             {
-                throw constructorException;
+                throw ConstructorException;
             }
         }
 

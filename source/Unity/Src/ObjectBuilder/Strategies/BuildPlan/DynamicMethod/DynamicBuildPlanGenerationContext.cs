@@ -73,7 +73,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <returns></returns>
         public Expression CreateParameterExpression(IDependencyResolverPolicy resolver, Type parameterType, Expression setOperationExpression)
         {
-            // This intend of this is to create an parameter resolving expression block.  The following
+            // The intent of this is to create a parameter resolving expression block.  The following
             // psuedo code will hopefully make it clearer as to what we're trying to accomplish (of course actual code
             // trumps comments):
             //  object priorOperation = context.CurrentOperation;
@@ -171,10 +171,10 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="dependencyType">Type of the dependency being resolved.</param>
         /// <param name="resolverKey">Key the resolver was stored under.</param>
         /// <returns>The found dependency resolver.</returns>
+        [Obsolete("Resolvers are no longer stored as policies.")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "context", Justification = "Obsolete method")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "dependencyType", Justification = "Obsolete method")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "resolverKey", Justification = "Obsolete method")]
-        [Obsolete("Resolvers are no longer stored as policies.")]
         public static IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType, string resolverKey)
         {
             throw new NotSupportedException("This method is no longer used");

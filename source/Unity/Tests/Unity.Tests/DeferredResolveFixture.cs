@@ -41,7 +41,7 @@ namespace Microsoft.Practices.Unity.Tests
             var resolver = container.Resolve<Func<ILogger>>();
             var logger = resolver();
 
-            AssertExtensions.IsInstanceOfType(logger, typeof (MockLogger));
+            AssertExtensions.IsInstanceOfType(logger, typeof(MockLogger));
         }
 
         [TestMethod]

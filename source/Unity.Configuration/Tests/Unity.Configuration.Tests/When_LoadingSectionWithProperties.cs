@@ -22,7 +22,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_RegistrationHasOnePropertyElement()
         {
-            var registration = (from reg in Section.Containers.Default.Registrations
+            var registration = (from reg in section.Containers.Default.Registrations
                                 where reg.TypeName == "ObjectWithTwoProperties" && reg.Name == "singleProperty"
                                 select reg).First();
 
@@ -33,7 +33,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_RegistrationHasTwoPropertyElements()
         {
-            var registration = (from reg in Section.Containers.Default.Registrations
+            var registration = (from reg in section.Containers.Default.Registrations
                                 where reg.TypeName == "ObjectWithTwoProperties" && reg.Name == "twoProperties"
                                 select reg).First();
 
@@ -44,7 +44,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_PropertyNamesAreProperlyDeserialized()
         {
-            var registration = (from reg in Section.Containers.Default.Registrations
+            var registration = (from reg in section.Containers.Default.Registrations
                                 where reg.TypeName == "ObjectWithTwoProperties" && reg.Name == "twoProperties"
                                 select reg).First();
 

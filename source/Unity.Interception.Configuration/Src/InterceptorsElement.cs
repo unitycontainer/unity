@@ -25,7 +25,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(InterceptorsPropertyName, IsDefaultCollection = true)]
         public InterceptorsInterceptorElementCollection Interceptors
         {
-            get { return (InterceptorsInterceptorElementCollection) base[InterceptorsPropertyName]; }
+            get { return (InterceptorsInterceptorElementCollection)base[InterceptorsPropertyName]; }
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// <param name="writer">Writer to send XML content to.</param>
         public override void SerializeContent(XmlWriter writer)
         {
-            foreach(var interceptorElement in Interceptors)
+            foreach (var interceptorElement in this.Interceptors)
             {
                 writer.WriteElement("interceptor", interceptorElement.SerializeContent);
             }
@@ -49,7 +49,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// <param name="container">Container to configure.</param>
         protected override void ConfigureContainer(IUnityContainer container)
         {
-            foreach(var interceptorElement in Interceptors)
+            foreach (var interceptorElement in this.Interceptors)
             {
                 interceptorElement.ConfigureContainer(container);
             }

@@ -24,7 +24,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(NamePropertyName, IsRequired = false, DefaultValue = "")]
         public string Name
         {
-            get { return (string) base[NamePropertyName]; }
+            get { return (string)base[NamePropertyName]; }
             set { base[NamePropertyName] = value; }
         }
 
@@ -34,7 +34,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(ValuePropertyName, IsRequired = false)]
         public string Value
         {
-            get { return (string) base[ValuePropertyName]; }
+            get { return (string)base[ValuePropertyName]; }
             set { base[ValuePropertyName] = value; }
         }
 
@@ -44,7 +44,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(TypeNamePropertyName, IsRequired = false, DefaultValue = "")]
         public string TypeName
         {
-            get { return (string) base[TypeNamePropertyName]; }
+            get { return (string)base[TypeNamePropertyName]; }
             set { base[TypeNamePropertyName] = value; }
         }
 
@@ -55,7 +55,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(TypeConverterTypeNamePropertyName, IsRequired = false, DefaultValue = "")]
         public string TypeConverterTypeName
         {
-            get { return (string) base[TypeConverterTypeNamePropertyName]; }
+            get { return (string)base[TypeConverterTypeNamePropertyName]; }
             set { base[TypeConverterTypeNamePropertyName] = value; }
         }
 
@@ -64,7 +64,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         public override string Key
         {
-            get { return "instance:" + Name + ":" + Value; }
+            get { return "instance:" + this.Name + ":" + this.Value; }
         }
 
         /// <summary>
@@ -76,10 +76,10 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <param name="writer">Writer to send XML content to.</param>
         public override void SerializeContent(XmlWriter writer)
         {
-            writer.WriteAttributeIfNotEmpty(NamePropertyName, Name)
-                .WriteAttributeIfNotEmpty(ValuePropertyName, Value)
-                .WriteAttributeIfNotEmpty(TypeNamePropertyName, TypeName)
-                .WriteAttributeIfNotEmpty(TypeConverterTypeNamePropertyName, TypeConverterTypeName);
+            writer.WriteAttributeIfNotEmpty(InstanceElement.NamePropertyName, this.Name)
+                .WriteAttributeIfNotEmpty(InstanceElement.ValuePropertyName, this.Value)
+                .WriteAttributeIfNotEmpty(InstanceElement.TypeNamePropertyName, this.TypeName)
+                .WriteAttributeIfNotEmpty(InstanceElement.TypeConverterTypeNamePropertyName, this.TypeConverterTypeName);
         }
 
         /// <summary>
@@ -88,36 +88,36 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <param name="container">Container to configure.</param>
         protected override void ConfigureContainer(IUnityContainer container)
         {
-            Type instanceType = GetInstanceType();
-            object instanceValue = GetInstanceValue();
+            Type instanceType = this.GetInstanceType();
+            object instanceValue = this.GetInstanceValue();
 
-            container.RegisterInstance(instanceType, Name, instanceValue);
+            container.RegisterInstance(instanceType, this.Name, instanceValue);
         }
 
         private Type GetInstanceType()
         {
-            return TypeResolver.ResolveTypeWithDefault(TypeName, typeof (string));
+            return TypeResolver.ResolveTypeWithDefault(this.TypeName, typeof(string));
         }
 
         private object GetInstanceValue()
         {
-            if (string.IsNullOrEmpty(Value) && string.IsNullOrEmpty(TypeConverterTypeName))
+            if (string.IsNullOrEmpty(this.Value) && string.IsNullOrEmpty(this.TypeConverterTypeName))
             {
                 return null;
             }
 
-            TypeConverter converter = GetTypeConverter();
-            return converter.ConvertFromInvariantString(Value);
+            TypeConverter converter = this.GetTypeConverter();
+            return converter.ConvertFromInvariantString(this.Value);
         }
 
         private TypeConverter GetTypeConverter()
         {
-            if (!string.IsNullOrEmpty(TypeConverterTypeName))
+            if (!string.IsNullOrEmpty(this.TypeConverterTypeName))
             {
-                Type converterType = TypeResolver.ResolveType(TypeConverterTypeName);
-                return (TypeConverter) Activator.CreateInstance(converterType);
+                Type converterType = TypeResolver.ResolveType(this.TypeConverterTypeName);
+                return (TypeConverter)Activator.CreateInstance(converterType);
             }
-            return TypeDescriptor.GetConverter(GetInstanceType());
+            return TypeDescriptor.GetConverter(this.GetInstanceType());
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
 using Microsoft.Practices.Unity.TestSupport;
@@ -69,7 +69,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             {
                 policy.SelectConstructor(GetContext<ObjectWithAmbiguousConstructors>(), new PolicyList());
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
                 // If we got here we're ok
                 return;
@@ -100,12 +100,18 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             return typeof(T).GetTypeInfo().DeclaredConstructors.First(c => ParameterTypesMatch(c.GetParameters(), paramTypes));
         }
 
-        private static bool  ParameterTypesMatch(ParameterInfo[] parameters, Type[] paramTypesToMatch)
+        private static bool ParameterTypesMatch(ParameterInfo[] parameters, Type[] paramTypesToMatch)
         {
-            if (parameters.Length != paramTypesToMatch.Length) return false;
+            if (parameters.Length != paramTypesToMatch.Length)
+            {
+                return false;
+            }
             for (int i = 0; i < parameters.Length; i++)
             {
-                if (parameters[i].ParameterType != paramTypesToMatch[i]) return false;
+                if (parameters[i].ParameterType != paramTypesToMatch[i])
+                {
+                    return false;
+                }
             }
 
             return true;

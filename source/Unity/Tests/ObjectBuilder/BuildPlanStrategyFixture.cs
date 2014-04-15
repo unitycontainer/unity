@@ -49,7 +49,6 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IBuildPlanPolicy plan = context.Policies.Get<IBuildPlanPolicy>(new NamedTypeBuildKey(typeof(object)));
             Assert.IsNotNull(plan);
         }
-
     }
 
     internal class MockBuildPlanCreatorPolicy : IBuildPlanCreatorPolicy
@@ -69,7 +68,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         }
     }
 
-    class ReturnInstanceBuildPlan : IBuildPlanPolicy
+    internal class ReturnInstanceBuildPlan : IBuildPlanPolicy
     {
         private object instance;
         private bool buildUpCalled;

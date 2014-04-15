@@ -8,7 +8,7 @@ namespace Microsoft.Practices.Unity.Configuration
     /// <summary>
     /// A collection of <see cref='AssemblyElement'/>s in configuration.
     /// </summary>
-    [ConfigurationCollection(typeof (AssemblyElement))]
+    [ConfigurationCollection(typeof(AssemblyElement))]
     public class AssemblyElementCollection : DeserializableConfigurationElementCollection<AssemblyElement>
     {
         /// <summary>
@@ -17,11 +17,10 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>
         /// An <see cref="T:System.Object"/> that acts as the key for the specified <see cref="T:System.Configuration.ConfigurationElement"/>.
         /// </returns>
-        /// <param name="element">The <see cref="T:System.Configuration.ConfigurationElement"/> to return the key for. 
-        ///                 </param>
+        /// <param name="element">The <see cref="T:System.Configuration.ConfigurationElement"/> to return the key for. </param>
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((AssemblyElement) element).Name;
+            return ((AssemblyElement)element).Name;
         }
     }
 }

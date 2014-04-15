@@ -50,7 +50,9 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
                 count++;
 
                 if (ReferenceEquals(mdo, obj))
+                {
                     foundMdo = true;
+                }
             }
 
             Assert.AreEqual(1, count);
@@ -126,7 +128,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             container.Remove(new object());
         }
 
-        class DisposableObject : IDisposable
+        private class DisposableObject : IDisposable
         {
             public bool WasDisposed = false;
 
@@ -136,9 +138,9 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
         }
 
-        class DisposeOrderCounter : IDisposable
+        private class DisposeOrderCounter : IDisposable
         {
-            static int count = 0;
+            private static int count = 0;
             public int DisposePosition;
 
             public static void ResetCount()

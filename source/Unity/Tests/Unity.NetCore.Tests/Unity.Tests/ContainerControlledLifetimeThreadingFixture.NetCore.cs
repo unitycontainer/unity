@@ -29,7 +29,7 @@ namespace Microsoft.Practices.Unity.Tests
             {
                 result1 = container.Resolve<object>();
             });
-            
+
             Task task2 = new Task(delegate()
             {
                 result2 = container.Resolve<object>();
@@ -62,7 +62,7 @@ namespace Microsoft.Practices.Unity.Tests
                     {
                         result1 = container.Resolve<object>();
                     }
-                    catch(ResolutionFailedException)
+                    catch (ResolutionFailedException)
                     {
                     }
                 });
@@ -74,10 +74,8 @@ namespace Microsoft.Practices.Unity.Tests
                     thread2Finished = true;
                 });
 
-
             task1.Start();
             task1.Wait();
-            
 
             // Thread1 threw an exception. However, lock should be correctly freed.
             // Run thread2, and if it finished, we're ok.
@@ -99,12 +97,12 @@ namespace Microsoft.Practices.Unity.Tests
 
             public override void PreBuildUp(IBuilderContext context)
             {
-                lock (@lock)
+                lock (DelayStrategy.@lock)
                 {
-                    SpinWait.SpinUntil(() => false, delayMS);
+                    SpinWait.SpinUntil(() => false, this.delayMS);
                 }
 
-                delayMS = delayMS == 0 ? 500 : 0;
+                this.delayMS = this.delayMS == 0 ? 500 : 0;
             }
         }
 
@@ -114,12 +112,11 @@ namespace Microsoft.Practices.Unity.Tests
         {
             private bool shouldThrow = true;
 
-
             public override void PreBuildUp(IBuilderContext context)
             {
-                if (shouldThrow)
+                if (this.shouldThrow)
                 {
-                    shouldThrow = false;
+                    this.shouldThrow = false;
                     throw new Exception("Throwing from buildup chain");
                 }
             }

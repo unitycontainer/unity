@@ -31,12 +31,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             {
                 context.ExecuteBuildUp(new NamedTypeBuildKey<object>(), null);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 // This is supposed to happen.
             }
 
-            Assert.IsTrue(recovery.wasRecovered);
+            Assert.IsTrue(recovery.WasRecovered);
         }
 
         private static MockBuilderContext GetContext()
@@ -49,11 +49,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
         private class RecoveryObject : IRequiresRecovery
         {
-            public bool wasRecovered;
+            public bool WasRecovered;
 
             public void Recover()
             {
-                wasRecovered = true;
+                WasRecovered = true;
             }
         }
 

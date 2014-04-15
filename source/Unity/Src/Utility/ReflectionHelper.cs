@@ -29,7 +29,7 @@ namespace Microsoft.Practices.Unity.Utility
         /// <summary>
         /// The <see cref="Type"/> object we're reflecting over.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods")]
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "This is the type part of the key.")]
         public Type Type
         {
             get { return t; }

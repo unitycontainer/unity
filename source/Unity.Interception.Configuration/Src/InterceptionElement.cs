@@ -16,10 +16,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
     {
         private const string PoliciesPropertyName = "policies";
 
-        private static readonly UnknownElementHandlerMap<InterceptionElement> unknownElementHandlerMap =
+        private static readonly UnknownElementHandlerMap<InterceptionElement> UnknownElementHandlerMap =
             new UnknownElementHandlerMap<InterceptionElement>
                 {
-                    {"policy", (ie, xr) => ie.ReadUnwrappedElement(xr, ie.Policies)},
+                    { "policy", (ie, xr) => ie.ReadUnwrappedElement(xr, ie.Policies) },
                 };
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(PoliciesPropertyName)]
         public PolicyElementCollection Policies
         {
-            get { return (PolicyElementCollection) base[PoliciesPropertyName]; }
+            get { return (PolicyElementCollection)base[PoliciesPropertyName]; }
         }
 
         /// <summary>
@@ -37,25 +37,25 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// <returns>
         /// true when an unknown element is encountered while deserializing; otherwise, false.
         /// </returns>
-        /// <param name="elementName">The name of the unknown subelement.
-        ///                 </param><param name="reader">The <see cref="T:System.Xml.XmlReader"/> being used for deserialization.
-        ///                 </param><exception cref="T:System.Configuration.ConfigurationErrorsException">The element identified by <paramref name="elementName"/> is locked.
-        ///                     - or -
-        ///                     One or more of the element's attributes is locked.
-        ///                     - or -
-        ///                 <paramref name="elementName"/> is unrecognized, or the element has an unrecognized attribute.
-        ///                     - or -
-        ///                     The element has a Boolean attribute with an invalid value.
-        ///                     - or -
-        ///                     An attempt was made to deserialize a property more than once.
-        ///                     - or -
-        ///                     An attempt was made to deserialize a property that is not a valid member of the element.
-        ///                     - or -
-        ///                     The element cannot contain a CDATA or text element.
-        ///                 </exception>
+        /// <param name="elementName">The name of the unknown subelement.</param>
+        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> being used for deserialization.</param>
+        /// <exception cref="T:System.Configuration.ConfigurationErrorsException">The element identified by <paramref name="elementName"/> is locked.
+        /// - or -
+        /// One or more of the element's attributes is locked.
+        /// - or -
+        /// <paramref name="elementName"/> is unrecognized, or the element has an unrecognized attribute.
+        /// - or -
+        /// The element has a Boolean attribute with an invalid value.
+        /// - or -
+        /// An attempt was made to deserialize a property more than once.
+        /// - or -
+        /// An attempt was made to deserialize a property that is not a valid member of the element.
+        /// - or -
+        /// The element cannot contain a CDATA or text element.
+        /// </exception>
         protected override bool OnDeserializeUnrecognizedElement(string elementName, XmlReader reader)
         {
-            return unknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
+            return UnknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
                 base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
@@ -68,7 +68,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// <param name="writer">Writer to send XML content to.</param>
         public override void SerializeContent(XmlWriter writer)
         {
-            foreach(var policy in Policies)
+            foreach (var policy in this.Policies)
             {
                 writer.WriteElement("policy", policy.SerializeContent);
             }
@@ -80,7 +80,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// <param name="container">Container to configure.</param>
         protected override void ConfigureContainer(IUnityContainer container)
         {
-            Policies.ForEach(policy => policy.ConfigureContainer(container));
+            this.Policies.ForEach(policy => policy.ConfigureContainer(container));
         }
     }
 }

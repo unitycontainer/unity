@@ -33,7 +33,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// </summary>
         public InterceptorElement()
         {
-            elementNum = Interlocked.Increment(ref elementCount);
+            this.elementNum = Interlocked.Increment(ref elementCount);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(TypeNamePropertyName)]
         public string TypeName
         {
-            get { return (string) base[TypeNamePropertyName]; }
+            get { return (string)base[TypeNamePropertyName]; }
             set { base[TypeNamePropertyName] = value; }
         }
 
@@ -52,7 +52,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(NamePropertyName, IsRequired = false)]
         public string Name
         {
-            get { return (string) base[NamePropertyName]; }
+            get { return (string)base[NamePropertyName]; }
             set { base[NamePropertyName] = value; }
         }
 
@@ -63,7 +63,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         [ConfigurationProperty(IsDefaultForTypePropertyName, IsRequired = false, DefaultValue = false)]
         public bool IsDefaultForType
         {
-            get { return (bool) base[IsDefaultForTypePropertyName]; }
+            get { return (bool)base[IsDefaultForTypePropertyName]; }
             set { base[IsDefaultForTypePropertyName] = value; }
         }
 
@@ -72,7 +72,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// </summary>
         public override string Key
         {
-            get { return string.Format(CultureInfo.CurrentCulture, "interceptor:{0}", elementNum); }
+            get { return string.Format(CultureInfo.CurrentCulture, "interceptor:{0}", this.elementNum); }
         }
 
         /// <summary>
@@ -87,11 +87,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         public override void SerializeContent(XmlWriter writer)
         {
             Guard.ArgumentNotNull(writer, "writer");
-            writer.WriteAttributeString(TypeNamePropertyName, TypeName);
-            writer.WriteAttributeIfNotEmpty(NamePropertyName, Name);
-            if(IsDefaultForType)
+            writer.WriteAttributeString(TypeNamePropertyName, this.TypeName);
+            writer.WriteAttributeIfNotEmpty(NamePropertyName, this.Name);
+            if (this.IsDefaultForType)
             {
-                writer.WriteAttributeString(IsDefaultForTypePropertyName, IsDefaultForType.ToString());
+                writer.WriteAttributeString(IsDefaultForTypePropertyName, this.IsDefaultForType.ToString());
             }
         }
 
@@ -107,28 +107,26 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         /// applied to the container registration.</returns>
         public override IEnumerable<InjectionMember> GetInjectionMembers(IUnityContainer container, Type fromType, Type toType, string name)
         {
+            Type interceptorType = this.GuardTypeIsInterceptor(TypeResolver.ResolveType(this.TypeName));
 
-            Type interceptorType = GuardTypeIsInterceptor(TypeResolver.ResolveType(TypeName));
-
-            if (IsDefaultForType)
+            if (this.IsDefaultForType)
             {
-                return new[] {new DefaultInterceptor(interceptorType, Name) };
+                return new[] { new DefaultInterceptor(interceptorType, this.Name) };
             }
             else
             {
-                return new[] { new Interceptor(interceptorType, Name) };
-                
+                return new[] { new Interceptor(interceptorType, this.Name) };
             }
         }
 
         private Type GuardTypeIsInterceptor(Type resolvedType)
         {
-            if(!typeof(IInterceptor).IsAssignableFrom(resolvedType))
+            if (!typeof(IInterceptor).IsAssignableFrom(resolvedType))
             {
                 throw new InvalidOperationException(
                     string.Format(CultureInfo.CurrentCulture,
                         Resources.ExceptionResolvedTypeNotCompatible,
-                        TypeName, resolvedType.FullName, typeof (IInterceptor).FullName));
+                        this.TypeName, resolvedType.FullName, typeof(IInterceptor).FullName));
             }
 
             return resolvedType;

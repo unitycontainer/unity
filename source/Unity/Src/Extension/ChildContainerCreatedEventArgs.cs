@@ -17,13 +17,13 @@ namespace Microsoft.Practices.Unity
         /// container.</param>
         public ChildContainerCreatedEventArgs(ExtensionContext childContext)
         {
-            ChildContext = childContext;
+            this.ChildContext = childContext;
         }
 
         /// <summary>
         /// The newly created child container.
         /// </summary>
-        public IUnityContainer ChildContainer { get { return ChildContext.Container; } }
+        public IUnityContainer ChildContainer { get { return this.ChildContext.Container; } }
 
         /// <summary>
         /// An extension context for the created child container.

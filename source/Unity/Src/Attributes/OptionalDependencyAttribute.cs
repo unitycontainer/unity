@@ -41,7 +41,7 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         public string Name
         {
-            get { return name; }
+            get { return this.name; }
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Microsoft.Practices.Unity
         /// <returns>The resolver object.</returns>
         public override IDependencyResolverPolicy CreateResolver(Type typeToResolve)
         {
-            return new OptionalDependencyResolverPolicy(typeToResolve, name);
+            return new OptionalDependencyResolverPolicy(typeToResolve, this.name);
         }
     }
 }

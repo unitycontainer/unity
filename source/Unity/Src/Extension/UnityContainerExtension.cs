@@ -18,9 +18,7 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         /// <param name="context">A <see cref="ExtensionContext"/> instance that gives the
         /// extension access to the internals of the container.</param>
-        // FxCop suppression: Names are the same deliberately, as the property gets set from the parameter.
-        [SuppressMessage("Microsoft.Maintainability", "CA1500:VariableNamesShouldNotMatchFieldNames", MessageId = "context",
-                         Justification = "Names are the same deliberately, as the property gets set from the parameter")]
+        [SuppressMessage("Microsoft.Maintainability", "CA1500:VariableNamesShouldNotMatchFieldNames", MessageId = "context", Justification = "Names are the same deliberately, as the property gets set from the parameter")]
         public void InitializeExtension(ExtensionContext context)
         {
             if (context == null)

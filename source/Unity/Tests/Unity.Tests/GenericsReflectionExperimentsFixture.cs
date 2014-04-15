@@ -24,10 +24,7 @@ namespace Microsoft.Practices.Unity.Tests
     [TestClass]
     public class GenericsReflectionExperimentsFixture
     {
-        //
         // Experiments learning about reflection and generics
-        //
-
         [TestMethod]
         public void ConcreteGenericTypes_ReturnConstructorThatTakeGenericsInReflection()
         {
@@ -45,8 +42,6 @@ namespace Microsoft.Practices.Unity.Tests
             PropertyInfo[] props = t.GetTypeInfo().DeclaredProperties.ToArray();
             Assert.AreEqual(1, props.Length);
         }
-
-
 
         [TestMethod]
         public void GivenGenericConstructorParameters_CanGetConcreteConstructor()
@@ -112,7 +107,6 @@ namespace Microsoft.Practices.Unity.Tests
             Type open = typeof(ICommand<>);
             Assert.IsTrue(open.GetTypeInfo().IsGenericType);
             Assert.IsTrue(open.GetTypeInfo().ContainsGenericParameters);
-
         }
 
         [TestMethod]
@@ -143,13 +137,11 @@ namespace Microsoft.Practices.Unity.Tests
                 {
                     parameterPositions.Add(gp.GenericParameterPosition);
                 }
-
             }
 
             CollectionAssertExtensions.AreEqual(new int[] { 1, 0 }, parameterPositions);
 
             ConstructorInfo targetCtor = closedType.GetMatchingConstructor(closedCtorParamTypes.ToArray());
-
 
             Assert.AreSame(closedType, createdClosedType);
 
@@ -157,7 +149,6 @@ namespace Microsoft.Practices.Unity.Tests
                 closedType.GetMatchingConstructor(Types(typeof(ICommand<Account>), typeof(ICommand<User>)));
 
             Assert.AreSame(closedCtor, targetCtor);
-
         }
 
         [TestMethod]
@@ -173,8 +164,6 @@ namespace Microsoft.Practices.Unity.Tests
             ConstructorInfo ctor = typeof(LoggingCommand<Account>).GetMatchingConstructor(Types(typeof(ICommand<Account>)));
             Assert.IsFalse(HasOpenGenericParameters(ctor));
         }
-
-       
 
         private Type ClosedTypeFromOpenParameter(ParameterInfo openGenericParameter, Type[] typeParams)
         {

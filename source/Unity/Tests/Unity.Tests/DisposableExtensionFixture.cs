@@ -53,7 +53,7 @@ namespace Microsoft.Practices.Unity.Tests
                 .AddExtension(extension);
 
             container.Dispose();
-            container.Dispose();            
+            container.Dispose();
         }
 
         [TestMethod]
@@ -69,7 +69,6 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.IsTrue(extension.Disposed);
         }
 
-
         private class DisposableExtension : UnityContainerExtension, IDisposable
         {
             public bool Disposed = false;
@@ -79,19 +78,18 @@ namespace Microsoft.Practices.Unity.Tests
             {
             }
 
-
             public override void Remove()
             {
-                Removed = true;
+                this.Removed = true;
             }
 
             public void Dispose()
             {
-                if(Disposed)
+                if (this.Disposed)
                 {
                     throw new Exception("Can't dispose twice!");
                 }
-                Disposed = true;
+                this.Disposed = true;
             }
         }
 
@@ -102,6 +100,4 @@ namespace Microsoft.Practices.Unity.Tests
             }
         }
     }
-
-
 }

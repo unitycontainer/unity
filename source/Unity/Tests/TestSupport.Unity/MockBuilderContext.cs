@@ -8,11 +8,11 @@ namespace Microsoft.Practices.Unity.TestSupport
 {
     public class MockBuilderContext : IBuilderContext
     {
-        ILifetimeContainer lifetime = new LifetimeContainer();
-        NamedTypeBuildKey originalBuildKey = null;
+        private ILifetimeContainer lifetime = new LifetimeContainer();
+        private NamedTypeBuildKey originalBuildKey = null;
         private IPolicyList persistentPolicies;
-        IPolicyList policies;
-        StrategyChain strategies = new StrategyChain();
+        private IPolicyList policies;
+        private StrategyChain strategies = new StrategyChain();
         private CompositeResolverOverride resolverOverrides = new CompositeResolverOverride();
 
         private NamedTypeBuildKey buildKey = null;
@@ -34,7 +34,6 @@ namespace Microsoft.Practices.Unity.TestSupport
         {
             get { return originalBuildKey; }
         }
-
 
         public IPolicyList PersistentPolicies
         {
@@ -60,7 +59,6 @@ namespace Microsoft.Practices.Unity.TestSupport
         {
             get { return strategies; }
         }
-
 
         public NamedTypeBuildKey BuildKey
         {
@@ -143,7 +141,7 @@ namespace Microsoft.Practices.Unity.TestSupport
             newContext.resolverOverrides.Add(resolverOverrides);
 
             childCustomizationBlock(newContext);
-            
+
             return strategies.ExecuteBuildUp(newContext);
         }
 

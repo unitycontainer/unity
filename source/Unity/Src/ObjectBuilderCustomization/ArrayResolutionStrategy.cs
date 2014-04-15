@@ -17,7 +17,7 @@ namespace Microsoft.Practices.Unity
     {
         private delegate object ArrayResolver(IBuilderContext context);
 
-        private static readonly MethodInfo genericResolveArrayMethod = typeof(ArrayResolutionStrategy)
+        private static readonly MethodInfo GenericResolveArrayMethod = typeof(ArrayResolutionStrategy)
                 .GetTypeInfo().DeclaredMethods.First(m => m.Name == "ResolveArray" && m.IsPublic == false && m.IsStatic);
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Microsoft.Practices.Unity
             {
                 Type elementType = typeToBuild.GetElementType();
 
-                MethodInfo resolverMethod = genericResolveArrayMethod.MakeGenericMethod(elementType);
+                MethodInfo resolverMethod = GenericResolveArrayMethod.MakeGenericMethod(elementType);
 
                 ArrayResolver resolver = (ArrayResolver)resolverMethod.CreateDelegate(typeof(ArrayResolver));
 

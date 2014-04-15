@@ -39,7 +39,7 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         public override void RemoveValue()
         {
-            Dispose();
+            this.Dispose();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this); // shut FxCop up
         }
 
@@ -55,7 +55,6 @@ namespace Microsoft.Practices.Unity
         /// Standard Dispose pattern implementation. Not needed, but it keeps FxCop happy.
         /// </summary>
         /// <param name="disposing">Always true, since we don't have a finalizer.</param>
-        // FxCop suppression: This method is only here to avoid the other IDisposable warning.
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "disposing",
                          Justification = "This method is only here to avoid the other IDisposable warning")]
         protected virtual void Dispose(bool disposing)

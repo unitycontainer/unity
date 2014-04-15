@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects
 {
-    class GenericObjectWithConstructorDependency<T>
+    internal class GenericObjectWithConstructorDependency<T>
     {
         public T Value { get; private set; }
 

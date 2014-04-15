@@ -12,7 +12,7 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// <summary>
     /// The almost inevitable collection of extra helper methods on
     /// <see cref="IEnumerable{T}"/> to augment the rich set of what
-    /// Linq already gives us.
+    /// LINQ already gives us.
     /// </summary>
     public static class EnumerableExtensions
     {

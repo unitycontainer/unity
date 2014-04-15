@@ -68,7 +68,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterce
         {
             var container = new UnityContainer()
                 .AddNewExtension<Interception>()
-                .RegisterType(typeof (IGenericInterfaceWithConstraints<>), typeof (ImplementsGenericInterface<>),
+                .RegisterType(typeof(IGenericInterfaceWithConstraints<>), typeof(ImplementsGenericInterface<>),
                     new Interceptor<InterfaceInterceptor>(),
                     new InterceptionBehavior(new NoopBehavior()));
 

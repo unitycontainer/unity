@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 {
-    class FakeInterceptionBehavior : IInterceptionBehavior
+    internal class FakeInterceptionBehavior : IInterceptionBehavior
     {
         public Func<IMethodInvocation, GetNextInterceptionBehaviorDelegate, IMethodReturn> InvokeFunc { get; set; }
 

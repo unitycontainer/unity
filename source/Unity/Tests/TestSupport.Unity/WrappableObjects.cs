@@ -84,6 +84,5 @@ namespace Microsoft.Practices.Unity.TestSupport
             get { return wrappable; }
             set { wrappable = value; }
         }
-
     }
 }

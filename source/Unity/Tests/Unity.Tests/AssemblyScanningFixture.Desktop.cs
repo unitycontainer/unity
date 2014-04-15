@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
 
 namespace Microsoft.Practices.Unity.Tests
 {
-    partial class AssemblyScanningFixture
+    public partial class AssemblyScanningFixture
     {
         [TestMethod]
         public void GetsTypesFromLoadedAssembliesExcludingSystemAndUnityByDefault()

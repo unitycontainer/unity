@@ -8,7 +8,7 @@ namespace Microsoft.Practices.Unity.Tests.TestDoubles
     /// A small noop strategy that lets us check afterwards to
     /// see if it ran in the strategy chain.
     /// </summary>
-    class SpyStrategy : BuilderStrategy
+    internal class SpyStrategy : BuilderStrategy
     {
         private IBuilderContext context = null;
         private object buildKey = null;
@@ -22,33 +22,33 @@ namespace Microsoft.Practices.Unity.Tests.TestDoubles
             this.buildKey = context.BuildKey;
             this.existing = context.Existing;
 
-            UpdateSpyPolicy(context);
+            this.UpdateSpyPolicy(context);
         }
 
         public IBuilderContext Context
         {
-            get { return context; }
+            get { return this.context; }
         }
 
         public object BuildKey
         {
-            get { return buildKey; }
+            get { return this.buildKey; }
         }
 
         public object Existing
         {
-            get { return existing; }
+            get { return this.existing; }
         }
 
         public bool BuildUpWasCalled
         {
-            get { return buildUpWasCalled; }
+            get { return this.buildUpWasCalled; }
         }
 
         private void UpdateSpyPolicy(IBuilderContext context)
         {
             SpyPolicy policy = context.Policies.Get<SpyPolicy>(context.BuildKey);
-            if(policy != null)
+            if (policy != null)
             {
                 policy.WasSpiedOn = true;
             }

@@ -27,7 +27,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         public ConstructorInfo Constructor
         {
-            get { return MemberInfo; }
+            get { return this.MemberInfo; }
         }
     }
 }

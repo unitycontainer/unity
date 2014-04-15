@@ -62,7 +62,7 @@ namespace Microsoft.Practices.Unity.Tests
                     {
                         result1 = container.Resolve<object>();
                     }
-                    catch(ResolutionFailedException)
+                    catch (ResolutionFailedException)
                     {
                     }
                 });
@@ -96,8 +96,8 @@ namespace Microsoft.Practices.Unity.Tests
 
             public override void PreBuildUp(IBuilderContext context)
             {
-                Thread.Sleep(delayMS);
-                delayMS = delayMS == 0 ? 500 : 0;
+                Thread.Sleep(this.delayMS);
+                this.delayMS = this.delayMS == 0 ? 500 : 0;
             }
         }
 
@@ -107,12 +107,11 @@ namespace Microsoft.Practices.Unity.Tests
         {
             private bool shouldThrow = true;
 
-
             public override void PreBuildUp(IBuilderContext context)
             {
-                if (shouldThrow)
+                if (this.shouldThrow)
                 {
-                    shouldThrow = false;
+                    this.shouldThrow = false;
                     throw new Exception("Throwing from buildup chain");
                 }
             }

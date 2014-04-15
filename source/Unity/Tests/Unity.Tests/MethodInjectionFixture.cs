@@ -22,7 +22,7 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanInjectMethodReturningVoid()
         {
             IUnityContainer container = new UnityContainer()
-                .RegisterType(typeof (GuineaPig),
+                .RegisterType(typeof(GuineaPig),
                     new InjectionMethod("Inject2", "Hello"));
 
             GuineaPig pig = container.Resolve<GuineaPig>();
@@ -34,7 +34,7 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanInjectMethodReturningInt()
         {
             IUnityContainer container = new UnityContainer()
-                .RegisterType(typeof (GuineaPig),
+                .RegisterType(typeof(GuineaPig),
                         new InjectionMethod("Inject3", 17));
 
             GuineaPig pig = container.Resolve<GuineaPig>();
@@ -84,7 +84,6 @@ namespace Microsoft.Practices.Unity.Tests
 
             public void Inject1()
             {
-
             }
 
             public void Inject2(string stringValue)

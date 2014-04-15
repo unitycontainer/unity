@@ -8,8 +8,6 @@ using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.TestSupport;
-using DependencyAttribute=Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.DependencyAttribute;
-using InjectionConstructorAttribute=Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -20,6 +18,8 @@ using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
+using DependencyAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.DependencyAttribute;
+using InjectionConstructorAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {
@@ -78,7 +78,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
             plan.BuildUp(context);
 
-            Assert.IsNotNull(resolverPolicy.currentOperation);
+            Assert.IsNotNull(resolverPolicy.CurrentOperation);
         }
 
         [TestMethod]
@@ -107,7 +107,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             {
                 Assert.AreSame(exception, e);
 
-                var operation = (ResolvingPropertyValueOperation) context.CurrentOperation;
+                var operation = (ResolvingPropertyValueOperation)context.CurrentOperation;
                 Assert.IsNotNull(operation);
                 Assert.AreSame(typeof(OnePropertyClass), operation.TypeBeingConstructed);
                 Assert.AreEqual("Key", operation.PropertyName);
@@ -132,8 +132,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
             catch (Exception e)
             {
-                Assert.AreSame(OneExceptionThrowingPropertyClass.propertySetterException, e);
-                var operation = (SettingPropertyOperation) context.CurrentOperation;
+                Assert.AreSame(OneExceptionThrowingPropertyClass.PropertySetterException, e);
+                var operation = (SettingPropertyOperation)context.CurrentOperation;
                 Assert.IsNotNull(operation);
 
                 Assert.AreSame(typeof(OneExceptionThrowingPropertyClass), operation.TypeBeingConstructed);
@@ -203,12 +203,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
         public class OneExceptionThrowingPropertyClass
         {
-            public static Exception propertySetterException = new ArgumentException();
+            public static Exception PropertySetterException = new ArgumentException();
 
             [Dependency]
             public object Key
             {
-                set { throw propertySetterException; }
+                set { throw PropertySetterException; }
             }
         }
 

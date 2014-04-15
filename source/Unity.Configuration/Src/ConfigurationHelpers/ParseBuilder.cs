@@ -12,7 +12,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
     /// </summary>
     internal class ParseBuilder
     {
-        private static readonly ParseResult matchFailed = new ParseResult(false);
+        private static readonly ParseResult MatchFailed = new ParseResult(false);
 
         /// <summary>
         /// The PEG "dot" operator that matches and consumes one character.
@@ -23,7 +23,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         {
             if (input.AtEnd)
             {
-                return matchFailed;
+                return MatchFailed;
             }
 
             var result = new ParseResult(input.CurrentChar.ToString());
@@ -46,7 +46,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
                     {
                         return MatchAndConsumeCurrentChar(input);
                     }
-                    return matchFailed;
+                    return MatchFailed;
                 };
         }
 
@@ -64,7 +64,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
                         else
                         {
                             input.BackupTo(bookmark);
-                            return matchFailed;
+                            return MatchFailed;
                         }
                     }
                     return new ParseResult(s);
@@ -86,7 +86,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
                     {
                         return MatchAndConsumeCurrentChar(input);
                     }
-                    return matchFailed;
+                    return MatchFailed;
                 };
         }
 
@@ -142,9 +142,9 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
                     if (!result.Matched)
                     {
                         input.BackupTo(bookmark);
-                        return matchFailed;
+                        return MatchFailed;
                     }
-                    string matchedString = "";
+                    string matchedString = String.Empty;
                     while (result.Matched)
                     {
                         results.Add(result);
@@ -167,7 +167,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
                 {
                     int bookmark = input.CurrentPosition;
                     var results = new List<ParseResult>(expressions.Length);
-                    var matchedString = "";
+                    var matchedString = String.Empty;
 
                     foreach (var expression in expressions)
                     {
@@ -175,7 +175,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
                         if (!result.Matched)
                         {
                             input.BackupTo(bookmark);
-                            return matchFailed;
+                            return MatchFailed;
                         }
 
                         results.Add(result);
@@ -205,7 +205,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
                             return result;
                         }
                     }
-                    return matchFailed;
+                    return MatchFailed;
                 };
         }
 

@@ -7,9 +7,10 @@ using System.Text;
 
 namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects
 {
-    class ContainerConfigElementOne : ContainerConfiguringElement
+    internal class ContainerConfigElementOne : ContainerConfiguringElement
     {
         public static bool ConfigureWasCalled = false;
+
         /// <summary>
         /// Apply this element's configuration to the given <paramref name="container"/>.
         /// </summary>

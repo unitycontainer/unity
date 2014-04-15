@@ -17,17 +17,17 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
     public class ValueElementHelper
     {
         private readonly IValueProvidingElement parentElement;
-        private static readonly DependencyElement defaultDependency = new DependencyElement();
+        private static readonly DependencyElement DefaultDependency = new DependencyElement();
         private readonly UnknownElementHandlerMap unknownElementHandlerMap;
         private readonly Dictionary<string, string> attributeMap = new Dictionary<string, string>();
 
-        private static readonly Dictionary<Type, string> knownValueElementTags =
+        private static readonly Dictionary<Type, string> KnownValueElementTags =
             new Dictionary<Type, string>
             {
-                {typeof (DependencyElement), "dependency"},
-                {typeof (ValueElement), "value"},
-                {typeof (ArrayElement), "array"},
-                {typeof (OptionalElement), "optional"}
+                { typeof(DependencyElement), "dependency" },
+                { typeof(ValueElement), "value" },
+                { typeof(ArrayElement), "array" },
+                { typeof(OptionalElement), "optional" }
             };
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// a <see cref="DependencyElement"/>.</returns>
         public static ParameterValueElement GetValue(ParameterValueElement currentValue)
         {
-            return currentValue ?? defaultDependency;
+            return currentValue ?? DefaultDependency;
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         private static string GetTagForElement(ConfigurationElement element)
         {
             Type elementType = element.GetType();
-            return knownValueElementTags.GetOrNull(elementType) ??
+            return KnownValueElementTags.GetOrNull(elementType) ??
                 ExtensionElementMap.GetTagForExtensionElement(element);
         }
         private void SetValue<TElement>(XmlReader reader)
@@ -159,7 +159,6 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
             {
                 if (attributeMap.Count > 0)
                 {
-
                     throw new ConfigurationErrorsException(
                         string.Format(
                             CultureInfo.CurrentCulture,

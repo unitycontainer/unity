@@ -8,6 +8,5 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests.TestObjects
     /// </summary>
     public class NullLogger
     {
-
     }
 }

@@ -17,12 +17,12 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     public partial class InterceptingClassGenerator
     {
+        private static readonly AssemblyBuilder AssemblyBuilder;
+
         private readonly Type typeToIntercept;
+        private readonly IEnumerable<Type> additionalInterfaces;
         private Type targetType;
         private GenericParameterMapper mainTypeMapper;
-        private readonly IEnumerable<Type> additionalInterfaces;
-
-        private static readonly AssemblyBuilder assemblyBuilder;
 
         private FieldBuilder proxyInterceptionPipelineField;
         private TypeBuilder typeBuilder;
@@ -31,14 +31,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Need to use constructor so we can place attribute on it.")]
         static InterceptingClassGenerator()
         {
-            assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
+            AssemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
                 new AssemblyName("Unity_ILEmit_DynamicClasses"),
 #if DEBUG_SAVE_GENERATED_ASSEMBLY
-                AssemblyBuilderAccess.RunAndSave
+                AssemblyBuilderAccess.RunAndSave);
 #else
-                AssemblyBuilderAccess.Run
+                AssemblyBuilderAccess.Run);
 #endif
-                );
         }
 
         /// <summary>
@@ -169,7 +168,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
         private void AddConstructor(ConstructorInfo ctor)
         {
-            if (!(ctor.IsPublic || ctor.IsFamily || ctor.IsFamilyOrAssembly)) return;
+            if (!(ctor.IsPublic || ctor.IsFamily || ctor.IsFamilyOrAssembly))
+            {
+                return;
+            }
 
             MethodAttributes attributes =
                 (ctor.Attributes
@@ -248,8 +250,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
         private static GenericParameterMapper DefineGenericArguments(TypeBuilder typeBuilder, Type baseClass)
         {
-            if (!baseClass.IsGenericType) return GenericParameterMapper.DefaultMapper;
-
+            if (!baseClass.IsGenericType)
+            {
+                return GenericParameterMapper.DefaultMapper;
+            }
             Type[] genericArguments = baseClass.GetGenericArguments();
 
             GenericTypeParameterBuilder[] genericTypes = typeBuilder.DefineGenericParameters(

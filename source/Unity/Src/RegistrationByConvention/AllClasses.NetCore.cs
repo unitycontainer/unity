@@ -11,7 +11,7 @@ using Windows.Storage;
 
 namespace Microsoft.Practices.Unity
 {
-    partial class AllClasses
+    public partial class AllClasses
     {
         /// <summary>
         /// Returns all visible, non-abstract classes from all assemblies located where the application is installed.

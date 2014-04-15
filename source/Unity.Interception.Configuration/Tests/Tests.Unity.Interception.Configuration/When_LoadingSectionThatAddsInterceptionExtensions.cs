@@ -10,14 +10,15 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
     [TestClass]
     public class When_LoadingSectionThatAddsInterceptionExtensions : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_LoadingSectionThatAddsInterceptionExtensions() : base("SectionExtensionBasics")
+        public When_LoadingSectionThatAddsInterceptionExtensions()
+            : base("SectionExtensionBasics")
         {
         }
 
         [TestMethod]
         public void Then_SectionExtensionIsPresent()
         {
-            Assert.IsInstanceOfType(Section.SectionExtensions[0].ExtensionObject,
+            Assert.IsInstanceOfType(section.SectionExtensions[0].ExtensionObject,
                 typeof(InterceptionConfigurationExtension));
         }
 
@@ -26,6 +27,5 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
         {
             Assert.IsNotNull(ExtensionElementMap.GetContainerConfiguringElementType("interception"));
         }
-
     }
 }

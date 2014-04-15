@@ -61,7 +61,6 @@ namespace Microsoft.Practices.Unity.Tests
             Account named = new Account();
             container.RegisterInstance<Account>("named", named);
 
-
             ClassWithOneGenericParameter<Account> result = container.Resolve<ClassWithOneGenericParameter<Account>>();
             Assert.AreSame(named, result.InjectedValue);
         }
@@ -116,7 +115,7 @@ namespace Microsoft.Practices.Unity.Tests
         {
             private T theT;
             private U theU;
-            public string value;
+            public string Value;
 
             [InjectionConstructor]
             public GenericTypeWithMultipleGenericTypeParameters()
@@ -150,7 +149,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             public void SetAlt(string value)
             {
-                this.value = value;
+                this.Value = value;
             }
         }
     }

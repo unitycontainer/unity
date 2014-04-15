@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -23,7 +23,7 @@ namespace Microsoft.Practices.Unity.Tests
     [TestClass]
     public class OptionalDependencyAPIConfigurationFixture
     {
-        IUnityContainer container;
+        private IUnityContainer container;
 
         [TestInitialize]
         public void Setup()
@@ -103,7 +103,6 @@ namespace Microsoft.Practices.Unity.Tests
 
             public GuineaPig()
             {
-
             }
 
             public GuineaPig(IGuineaPig pig)

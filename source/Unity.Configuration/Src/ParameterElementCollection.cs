@@ -9,7 +9,7 @@ namespace Microsoft.Practices.Unity.Configuration
     /// <summary>
     /// A collection of <see cref="ParameterElement"/> objects.
     /// </summary>
-    [ConfigurationCollection(typeof (ParameterElement), AddItemName = "param")]
+    [ConfigurationCollection(typeof(ParameterElement), AddItemName = "param")]
     public class ParameterElementCollection : DeserializableConfigurationElementCollection<ParameterElement>
     {
         /// <summary>
@@ -18,11 +18,10 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>
         /// An <see cref="T:System.Object"/> that acts as the key for the specified <see cref="T:System.Configuration.ConfigurationElement"/>.
         /// </returns>
-        /// <param name="element">The <see cref="T:System.Configuration.ConfigurationElement"/> to return the key for. 
-        ///                 </param>
+        /// <param name="element">The <see cref="T:System.Configuration.ConfigurationElement"/> to return the key for. </param>
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((ParameterElement) element).Name;
+            return ((ParameterElement)element).Name;
         }
     }
 }

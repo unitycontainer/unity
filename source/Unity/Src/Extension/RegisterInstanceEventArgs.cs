@@ -54,8 +54,8 @@ namespace Microsoft.Practices.Unity
         /// <value>Instance object being registered</value>
         public object Instance
         {
-            get { return instance; }
-            set { instance = value; }
+            get { return this.instance; }
+            set { this.instance = value; }
         }
 
         /// <summary>
@@ -64,8 +64,8 @@ namespace Microsoft.Practices.Unity
         /// </summary>
         public LifetimeManager LifetimeManager
         {
-            get { return lifetimeManager; }
-            set { lifetimeManager = value; }
+            get { return this.lifetimeManager; }
+            set { this.lifetimeManager = value; }
         }
     }
 }

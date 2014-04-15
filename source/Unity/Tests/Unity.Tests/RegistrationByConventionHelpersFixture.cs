@@ -117,7 +117,6 @@ namespace Microsoft.Practices.Unity.Tests
             }
         }
 
-
         public class TypeWithoutInterfaces { }
 
         public class DisposableType : IDisposable

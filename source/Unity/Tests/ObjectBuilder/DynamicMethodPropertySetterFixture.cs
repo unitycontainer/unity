@@ -68,7 +68,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
             plan.BuildUp(context);
 
-            Assert.IsNotNull(resolverPolicy.currentOperation);
+            Assert.IsNotNull(resolverPolicy.CurrentOperation);
         }
 
         [TestMethod]
@@ -122,7 +122,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
             catch (Exception e)
             {
-                Assert.AreSame(OneExceptionThrowingPropertyClass.propertySetterException, e);
+                Assert.AreSame(OneExceptionThrowingPropertyClass.PropertySetterException, e);
                 var operation = (SettingPropertyOperation)context.CurrentOperation;
                 Assert.IsNotNull(operation);
 
@@ -188,12 +188,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
         public class OneExceptionThrowingPropertyClass
         {
-            public static Exception propertySetterException = new ArgumentException();
+            public static Exception PropertySetterException = new ArgumentException();
 
             [Dependency]
             public object Key
             {
-                set { throw propertySetterException; }
+                set { throw PropertySetterException; }
             }
         }
 

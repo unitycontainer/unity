@@ -19,7 +19,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="methodBase">The method for the key.</param>
         /// <returns>The new key.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Preserve existing interface")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class")]
         public static HandlerPipelineKey ForMethod(MethodBase methodBase)
@@ -68,7 +68,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             return left.module == right.module &&
                    left.methodMetadataToken == right.methodMetadataToken;
-
         }
 
         /// <summary>

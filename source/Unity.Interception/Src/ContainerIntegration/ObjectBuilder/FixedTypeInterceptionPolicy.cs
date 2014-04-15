@@ -6,7 +6,7 @@ using Microsoft.Practices.ObjectBuilder2;
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
     /// <summary>
-    /// Implementation of <see cref="ITypeInterceptionPolicy"/> that returns a precreated
+    /// Implementation of <see cref="ITypeInterceptionPolicy"/> that returns a pre-created
     /// interceptor object.
     /// </summary>
     public class FixedTypeInterceptionPolicy : ITypeInterceptionPolicy

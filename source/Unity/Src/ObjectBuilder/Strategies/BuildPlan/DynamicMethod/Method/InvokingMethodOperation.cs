@@ -30,7 +30,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         public string MethodSignature
         {
-            get { return methodSignature; }
+            get { return this.methodSignature; }
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             return string.Format(CultureInfo.CurrentCulture,
                 Resources.InvokingMethodOperation,
                 TypeBeingConstructed.GetTypeInfo().Name,
-                methodSignature);
+                this.methodSignature);
         }
     }
 }

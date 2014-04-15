@@ -24,7 +24,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// Returns the interfaces required by the behavior for the objects it intercepts.
         /// </summary>
         /// <returns>The required interfaces.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Could require computations")]
         IEnumerable<Type> GetRequiredInterfaces();
 
         /// <summary>

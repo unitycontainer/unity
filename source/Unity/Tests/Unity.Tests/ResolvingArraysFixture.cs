@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity.ObjectBuilder;
@@ -14,7 +15,6 @@ using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
-using System;
 
 namespace Microsoft.Practices.Unity.Tests
 {
@@ -71,7 +71,7 @@ namespace Microsoft.Practices.Unity.Tests
                 .RegisterInstance<ILogger>("o2", o2);
 
             List<ILogger> results = new List<ILogger>(container.ResolveAll<ILogger>());
-            CollectionAssertExtensions.AreEqual(new ILogger[] {o1, o2}, results);
+            CollectionAssertExtensions.AreEqual(new ILogger[] { o1, o2 }, results);
         }
 
         [TestMethod]
@@ -116,7 +116,7 @@ namespace Microsoft.Practices.Unity.Tests
                     new LiteralValueDependencyResolverPolicy(o3));
             container.AddExtension(new InjectedObjectConfigurationExtension(resolver));
 
-            object[] results = (object[])container.Resolve<InjectedObject>().injectedValue;
+            object[] results = (object[])container.Resolve<InjectedObject>().InjectedValue;
 
             Assert.IsNotNull(results);
             Assert.AreEqual(2, results.Length);
@@ -143,7 +143,7 @@ namespace Microsoft.Practices.Unity.Tests
                     new NamedTypeDependencyResolverPolicy(typeof(object), "o2"));
             container.AddExtension(new InjectedObjectConfigurationExtension(resolver));
 
-            object[] results = (object[])container.Resolve<InjectedObject>().injectedValue;
+            object[] results = (object[])container.Resolve<InjectedObject>().InjectedValue;
 
             Assert.IsNotNull(results);
             Assert.AreEqual(2, results.Length);
@@ -169,7 +169,7 @@ namespace Microsoft.Practices.Unity.Tests
                     new NamedTypeDependencyResolverPolicy(typeof(ILogger), "o2"));
             container.AddExtension(new InjectedObjectConfigurationExtension(resolver));
 
-            ILogger[] results = (ILogger[])container.Resolve<InjectedObject>().injectedValue;
+            ILogger[] results = (ILogger[])container.Resolve<InjectedObject>().InjectedValue;
 
             Assert.IsNotNull(results);
             Assert.AreEqual(2, results.Length);
@@ -186,7 +186,7 @@ namespace Microsoft.Practices.Unity.Tests
             return new BuilderContext(strategies, null, persistentPolicies, transientPolicies, buildKey, null);
         }
 
-        class InjectedObjectConfigurationExtension : UnityContainerExtension
+        private class InjectedObjectConfigurationExtension : UnityContainerExtension
         {
             private readonly IDependencyResolverPolicy resolverPolicy;
 
@@ -202,7 +202,7 @@ namespace Microsoft.Practices.Unity.Tests
             }
         }
 
-        class InjectedObjectSelectorPolicy : IConstructorSelectorPolicy
+        private class InjectedObjectSelectorPolicy : IConstructorSelectorPolicy
         {
             private readonly IDependencyResolverPolicy resolverPolicy;
 
@@ -223,11 +223,11 @@ namespace Microsoft.Practices.Unity.Tests
 
         public class InjectedObject
         {
-            public readonly object injectedValue;
+            public readonly object InjectedValue;
 
             public InjectedObject(object injectedValue)
             {
-                this.injectedValue = injectedValue;
+                this.InjectedValue = injectedValue;
             }
         }
 
@@ -236,7 +236,7 @@ namespace Microsoft.Practices.Unity.Tests
         }
     }
 
-    class ReturnContainerStrategy : BuilderStrategy
+    internal class ReturnContainerStrategy : BuilderStrategy
     {
         private IUnityContainer container;
 
@@ -249,7 +249,7 @@ namespace Microsoft.Practices.Unity.Tests
         {
             if ((NamedTypeBuildKey)context.BuildKey == NamedTypeBuildKey.Make<IUnityContainer>())
             {
-                context.Existing = container;
+                context.Existing = this.container;
                 context.BuildComplete = true;
             }
         }

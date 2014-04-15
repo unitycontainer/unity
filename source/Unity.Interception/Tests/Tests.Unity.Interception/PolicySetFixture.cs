@@ -118,7 +118,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             Assert.AreEqual(0, oneHandlers.Count);
 
-
             policies.Add(new AttributeDrivenPolicy());
 
             MethodImplementationInfo oneInfo = new MethodImplementationInfo(
@@ -150,7 +149,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             PolicySet policies = new PolicySet(policy);
             MethodImplementationInfo twoInfo = new MethodImplementationInfo(
-                typeof (ITwo).GetMethod("Two"), typeof (TwoType).GetMethod("Two"));
+                typeof(ITwo).GetMethod("Two"), typeof(TwoType).GetMethod("Two"));
 
             List<ICallHandler> handlers
                 = new List<ICallHandler>(policies.GetHandlersFor(twoInfo, container));
@@ -186,7 +185,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             PolicySet policies = new PolicySet(policy);
 
             MethodImplementationInfo twoInfo = new MethodImplementationInfo(
-                typeof (ITwo).GetMethod("Two"), typeof (TwoType).GetMethod("Two"));
+                typeof(ITwo).GetMethod("Two"), typeof(TwoType).GetMethod("Two"));
             List<ICallHandler> handlers
                 = new List<ICallHandler>(policies.GetHandlersFor(twoInfo, container));
 
@@ -235,7 +234,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             MethodImplementationInfo twoInfo = new MethodImplementationInfo(
                 typeof(ITwo).GetMethod("Two"), typeof(TwoType).GetMethod("Two"));
 
-            List<ICallHandler> handlers 
+            List<ICallHandler> handlers
                 = new List<ICallHandler>(policies.GetHandlersFor(twoInfo, container));
 
             Assert.AreEqual(handler6, handlers[0]);
@@ -246,7 +245,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             Assert.AreEqual(handler1, handlers[5]);
         }
 
-        PolicySet GetMultiplePolicySet()
+        private PolicySet GetMultiplePolicySet()
         {
             container
                 .RegisterInstance<ICallHandler>("Handler1", new Handler1())
@@ -265,7 +264,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
             return new PolicySet(typeMatchPolicy, nameMatchPolicy);
         }
 
-        MethodInfo GetNameDoesntMatchMethod()
+        private MethodInfo GetNameDoesntMatchMethod()
         {
             return typeof(MatchesByType).GetMethod("NameDoesntMatch");
         }
@@ -273,11 +272,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         private MethodImplementationInfo GetMethodImplInfo<T>(string methodName)
         {
             return new MethodImplementationInfo(null,
-                typeof (T).GetMethod(methodName));
+                typeof(T).GetMethod(methodName));
         }
     }
 
-    class MatchesByType
+    internal class MatchesByType
     {
         // Matches type policy
         public void NameDoesntMatch() { }
@@ -286,14 +285,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
         public void NameMatch() { }
     }
 
-    class MatchesByMemberName
+    internal class MatchesByMemberName
     {
         public void NameMatch() { }
 
         public void NoMatch() { }
     }
 
-    class NoMatchAnywhere
+    internal class NoMatchAnywhere
     {
         public void NoMatchHere() { }
     }
@@ -332,8 +331,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
     public class MarkerCallHandler : ICallHandler
     {
-        string handlerName;
-        int order = 0;
+        private string handlerName;
+        private int order = 0;
 
         public MarkerCallHandler(string handlerName)
         {
@@ -365,7 +364,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Method)]
     public class MarkerCallHandlerAttribute : HandlerAttribute
     {
-        string handlerName;
+        private string handlerName;
 
         public MarkerCallHandlerAttribute(string handlerName)
         {
@@ -374,7 +373,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
         public override ICallHandler CreateHandler(IUnityContainer ignored)
         {
-            return new MarkerCallHandler(handlerName);
+            return new MarkerCallHandler(this.handlerName);
         }
     }
 }

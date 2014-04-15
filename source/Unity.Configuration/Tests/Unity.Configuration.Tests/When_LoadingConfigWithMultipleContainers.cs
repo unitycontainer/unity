@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System.Linq;
+using System.Text;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
@@ -22,26 +23,26 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_ExpectedNumberOfContainersArePresent()
         {
-            Assert.AreEqual(2, Section.Containers.Count);
+            Assert.AreEqual(2, section.Containers.Count);
         }
 
         [TestMethod]
         public void Then_FirstContainerNameIsCorrect()
         {
-            Assert.AreEqual("one", Section.Containers[0].Name);
+            Assert.AreEqual("one", section.Containers[0].Name);
         }
 
         [TestMethod]
         public void Then_SecondContainerNameIsCorrect()
         {
-            Assert.AreEqual("two", Section.Containers[1].Name);
+            Assert.AreEqual("two", section.Containers[1].Name);
         }
 
         [TestMethod]
         public void Then_EnumeratingContainersHappensInOrderOfConfigFile()
         {
             CollectionAssertExtensions.AreEqual(new[] { "one", "two" },
-                Section.Containers.Select(c => c.Name).ToList());
+                section.Containers.Select(c => c.Name).ToList());
         }
     }
 }

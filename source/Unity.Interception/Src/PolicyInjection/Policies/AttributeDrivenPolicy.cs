@@ -18,7 +18,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public AttributeDrivenPolicy()
             : base("Attribute Driven Policy")
         {
-            attributeMatchRule = new AttributeDrivenPolicyMatchingRule();
+            this.attributeMatchRule = new AttributeDrivenPolicyMatchingRule();
         }
 
         /// <summary>
@@ -33,8 +33,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(member, "member");
 
-            bool matchesInterface = member.InterfaceMethodInfo != null ? attributeMatchRule.Matches(member.InterfaceMethodInfo) : false;
-            bool matchesImplementation = attributeMatchRule.Matches(member.ImplementationMethodInfo);
+            bool matchesInterface = member.InterfaceMethodInfo != null ? this.attributeMatchRule.Matches(member.InterfaceMethodInfo) : false;
+            bool matchesImplementation = this.attributeMatchRule.Matches(member.ImplementationMethodInfo);
 
             return matchesInterface | matchesImplementation;
         }

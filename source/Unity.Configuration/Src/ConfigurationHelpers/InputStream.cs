@@ -42,8 +42,16 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
 
         private int Clamp(int newPosition)
         {
-            if (newPosition < 0) newPosition = 0;
-            if (newPosition > input.Length) newPosition = input.Length;
+            if (newPosition < 0)
+            {
+                newPosition = 0;
+            }
+
+            if (newPosition > input.Length)
+            {
+                newPosition = input.Length;
+            }
+
             return newPosition;
         }
     }

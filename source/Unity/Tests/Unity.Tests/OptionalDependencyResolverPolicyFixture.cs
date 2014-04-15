@@ -70,9 +70,16 @@ namespace Microsoft.Practices.Unity.Tests
             var notExpectedKey = NamedTypeBuildKey.Make<string>();
 
             var mainContext = new MockContext();
-            mainContext.NewBuildupCallback = (k) => {
-                if (k == expectedKey) return expected;
-                if (k == notExpectedKey) return notExpected;
+            mainContext.NewBuildupCallback = (k) =>
+            {
+                if (k == expectedKey)
+                {
+                    return expected;
+                }
+                if (k == notExpectedKey)
+                {
+                    return notExpected;
+                }
                 return null;
             };
 
@@ -85,17 +92,18 @@ namespace Microsoft.Practices.Unity.Tests
 
         #region Helper methods and classes to get appropriate OB mock contexts
 
-        IBuilderContext GetMockContextThatThrows()
+        private IBuilderContext GetMockContextThatThrows()
         {
             var mockContext = new MockContext();
             mockContext.NewBuildupCallback = (c) => { throw new InvalidOperationException(); };
             return mockContext;
         }
 
-        IBuilderContext GetMockContextThatResolvesUnnamedStrings(string expected)
+        private IBuilderContext GetMockContextThatResolvesUnnamedStrings(string expected)
         {
             var mockContext = new MockContext();
-            mockContext.NewBuildupCallback = (c) => {
+            mockContext.NewBuildupCallback = (c) =>
+            {
                 return expected;
             };
             return mockContext;
@@ -103,7 +111,6 @@ namespace Microsoft.Practices.Unity.Tests
 
         public class MockContext : IBuilderContext
         {
-
             public Func<NamedTypeBuildKey, object> NewBuildupCallback;
 
             public IStrategyChain Strategies
@@ -210,7 +217,6 @@ namespace Microsoft.Practices.Unity.Tests
             }
         }
 
-        
         #endregion
     }
 }

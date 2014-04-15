@@ -14,7 +14,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerWithBasicTypeMappings : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_ConfiguringContainerWithBasicTypeMappings() : base("BasicTypeMapping")
+        public When_ConfiguringContainerWithBasicTypeMappings()
+            : base("BasicTypeMapping")
         {
         }
 
@@ -23,27 +24,27 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         protected override void Arrange()
         {
             base.Arrange();
-            container = new UnityContainer();
+            this.container = new UnityContainer();
         }
 
         protected override void Act()
         {
-            Section.Configure(container);
+            this.section.Configure(this.container);
         }
-    
+
         [TestMethod]
         public void Then_ContainerHasTwoMappingsForILogger()
         {
             Assert.AreEqual(2,
-                container.Registrations.Where(r => r.RegisteredType == typeof(ILogger)).Count());
+               this.container.Registrations.Where(r => r.RegisteredType == typeof(ILogger)).Count());
         }
 
         [TestMethod]
         public void Then_DefaultILoggerIsMappedToMockLogger()
         {
-            Assert.AreEqual(typeof (MockLogger),
-                container.Registrations
-                    .Where(r => r.RegisteredType == typeof (ILogger) && r.Name == null)
+            Assert.AreEqual(typeof(MockLogger),
+               this.container.Registrations
+                    .Where(r => r.RegisteredType == typeof(ILogger) && r.Name == null)
                     .Select(r => r.MappedToType)
                     .First());
         }
@@ -52,7 +53,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         public void Then_SpecialILoggerIsMappedToSpecialLogger()
         {
             Assert.AreEqual(typeof(SpecialLogger),
-                container.Registrations
+               this.container.Registrations
                     .Where(r => r.RegisteredType == typeof(ILogger) && r.Name == "special")
                     .Select(r => r.MappedToType)
                     .First());
@@ -61,9 +62,9 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_AllRegistrationsHaveTransientLifetime()
         {
-            Assert.IsTrue(container.Registrations
+            Assert.IsTrue(this.container.Registrations
                 .Where(r => r.RegisteredType == typeof(ILogger))
-                .All(r => r.LifetimeManagerType == typeof (TransientLifetimeManager)));
+                .All(r => r.LifetimeManagerType == typeof(TransientLifetimeManager)));
         }
     }
 }

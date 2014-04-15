@@ -33,11 +33,11 @@ namespace Microsoft.Practices.Unity
         /// has been set for the lifetime manager.</remarks>
         public override object GetValue()
         {
-            Monitor.Enter(lockObj);
+            Monitor.Enter(this.lockObj);
             object result = this.SynchronizedGetValue();
             if (result != null)
             {
-                Monitor.Exit(lockObj);
+                Monitor.Exit(this.lockObj);
             }
             return result;
         }
@@ -95,11 +95,11 @@ namespace Microsoft.Practices.Unity
         private void TryExit()
         {
             // Prevent first chance exception when abandoning a lock that has not been entered
-            if (Monitor.IsEntered(lockObj))
+            if (Monitor.IsEntered(this.lockObj))
             {
                 try
                 {
-                    Monitor.Exit(lockObj);
+                    Monitor.Exit(this.lockObj);
                 }
                 catch (SynchronizationLockException)
                 {

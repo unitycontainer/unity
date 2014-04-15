@@ -4,11 +4,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles
 {
     public class CurrentOperationSensingResolverPolicy<T> : IDependencyResolverPolicy
     {
-        public object currentOperation;
+        public object CurrentOperation;
 
         public object Resolve(IBuilderContext context)
         {
-            this.currentOperation = context.CurrentOperation;
+            this.CurrentOperation = context.CurrentOperation;
 
             return default(T);
         }

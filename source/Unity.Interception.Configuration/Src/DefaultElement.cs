@@ -9,7 +9,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
     {
         internal override string Key
         {
-            get { return "default:" + TypeName; }
+            get { return "default:" + this.TypeName; }
         }
 
         internal override string ElementName
@@ -25,16 +25,16 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         internal override void RegisterInterceptor(IUnityContainer container, IInterceptor interceptor)
         {
             var typeInterceptor = interceptor as ITypeInterceptor;
-            if(typeInterceptor != null)
+            if (typeInterceptor != null)
             {
                 container.Configure<Interception>().SetDefaultInterceptorFor(
-                    ResolvedType,
+                    this.ResolvedType,
                     typeInterceptor);
             }
             else
             {
                 container.Configure<Interception>().SetDefaultInterceptorFor(
-                    ResolvedType,
+                    this.ResolvedType,
                     (IInstanceInterceptor)interceptor);
             }
         }

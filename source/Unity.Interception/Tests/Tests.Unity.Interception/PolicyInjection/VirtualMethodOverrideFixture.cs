@@ -14,7 +14,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
     [TestClass]
     public partial class VirtualMethodOverrideFixture
     {
-
         private static string GetHandlerId(IDictionary<string, List<string>> log)
         {
             return log["created"][0];
@@ -43,8 +42,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
             baseRef.DoSomething();
 
             Assert.IsTrue(log.ContainsKey("created"), "No handlers were created");
-            
-            Assert.IsTrue(log.Keys.Any(k => log["created"].Any(entry=> entry == k)),
+
+            Assert.IsTrue(log.Keys.Any(k => log["created"].Any(entry => entry == k)),
                 "Log doesn't contain any calls to handlers");
         }
 

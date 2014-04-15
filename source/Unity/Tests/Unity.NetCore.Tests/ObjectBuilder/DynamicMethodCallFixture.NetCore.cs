@@ -8,9 +8,6 @@ using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
 using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.TestSupport;
-using DependencyAttribute=Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.DependencyAttribute;
-using InjectionConstructorAttribute=Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
-using InjectionMethodAttribute=Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionMethodAttribute;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -21,6 +18,9 @@ using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
+using DependencyAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.DependencyAttribute;
+using InjectionConstructorAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
+using InjectionMethodAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionMethodAttribute;
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {
@@ -130,8 +130,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
             catch (Exception e)
             {
-                Assert.AreSame(ObjectWithSingleThrowingInjectionMethod.injectionMethodException, e);
-                var operation = (InvokingMethodOperation) context.CurrentOperation;
+                Assert.AreSame(ObjectWithSingleThrowingInjectionMethod.InjectionMethodException, e);
+                var operation = (InvokingMethodOperation)context.CurrentOperation;
                 Assert.IsNotNull(operation);
 
                 Assert.AreSame(typeof(ObjectWithSingleThrowingInjectionMethod), operation.TypeBeingConstructed);
@@ -156,7 +156,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             plan.BuildUp(context);
 
-            Assert.IsNotNull(resolverPolicy.currentOperation);
+            Assert.IsNotNull(resolverPolicy.CurrentOperation);
         }
 
         [TestMethod]
@@ -184,7 +184,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             catch (Exception e)
             {
                 Assert.AreSame(exception, e);
-                var operation = (MethodArgumentResolveOperation) context.CurrentOperation;
+                var operation = (MethodArgumentResolveOperation)context.CurrentOperation;
                 Assert.IsNotNull(operation);
 
                 Assert.AreSame(typeof(ObjectWithSingleInjectionMethod), operation.TypeBeingConstructed);
@@ -266,7 +266,6 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             [InjectionMethod]
             public void DoSomethingGeneric<T>(T input)
             {
-
             }
         }
 
@@ -298,12 +297,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
         public class ObjectWithSingleThrowingInjectionMethod
         {
-            public static Exception injectionMethodException = new ArgumentException();
+            public static Exception InjectionMethodException = new ArgumentException();
 
             [InjectionMethod]
             public void InjectionMethod(object parameter)
             {
-                throw injectionMethodException;
+                throw InjectionMethodException;
             }
         }
 
@@ -320,13 +319,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             {
                 var method =
                     new SelectedMethod(
-                        // .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)[0]
+                    // .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)[0]
                         typeof(T).GetTypeInfo().DeclaredMethods.First(m => m.IsPublic && !m.IsStatic));
                 method.AddParameterResolver(this.resolverPolicy);
 
                 yield return method;
             }
         }
-
     }
 }

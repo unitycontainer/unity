@@ -111,7 +111,6 @@ namespace Microsoft.Practices.Unity.Configuration
             return Instance.GetParameterValueElementType(tag);
         }
 
-
         /// <summary>
         /// Retrieve the correct tag to use when serializing the given
         /// <paramref name="element"/> to XML.
@@ -179,7 +178,7 @@ namespace Microsoft.Practices.Unity.Configuration
 
                 Dictionary<string, Type> dictToSearch = GetDictToSearch(elementType);
 
-                foreach(var keyValue in dictToSearch)
+                foreach (var keyValue in dictToSearch)
                 {
                     if (keyValue.Value == elementType)
                     {
@@ -192,15 +191,15 @@ namespace Microsoft.Practices.Unity.Configuration
 
             private Dictionary<string, Type> GetDictToSearch(Type elementType)
             {
-                if(typeof(ContainerConfiguringElement).IsAssignableFrom(elementType))
+                if (typeof(ContainerConfiguringElement).IsAssignableFrom(elementType))
                 {
                     return containerConfiguringElements;
                 }
-                if(typeof(InjectionMemberElement).IsAssignableFrom(elementType))
+                if (typeof(InjectionMemberElement).IsAssignableFrom(elementType))
                 {
                     return injectionMemberElements;
                 }
-                if(typeof(ParameterValueElement).IsAssignableFrom(elementType))
+                if (typeof(ParameterValueElement).IsAssignableFrom(elementType))
                 {
                     return parameterValueElements;
                 }
@@ -219,16 +218,13 @@ namespace Microsoft.Practices.Unity.Configuration
 
             private static string CreateTag(string prefix, string tag)
             {
-                if(string.IsNullOrEmpty(prefix))
+                if (string.IsNullOrEmpty(prefix))
                 {
                     return tag;
                 }
                 return prefix + "." + tag;
             }
-
-            
         }
         #endregion
-
     }
 }

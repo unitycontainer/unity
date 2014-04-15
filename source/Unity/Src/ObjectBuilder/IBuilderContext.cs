@@ -112,7 +112,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <param name="newBuildKey">Key to use to build up.</param>
         /// <returns>Created object.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp", Justification = "BuildUp is correct.")]
         object NewBuildUp(NamedTypeBuildKey newBuildKey);
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// is invoked with the new child context before the build up process starts. This gives callers
         /// the opportunity to customize the context for the build process.</param>
         /// <returns>Created object.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp", Justification = "BuildUp is correct.")]
         object NewBuildUp(NamedTypeBuildKey newBuildKey, Action<IBuilderContext> childCustomizationBlock);
     }
 
@@ -142,7 +142,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <typeparam name="TResult">Type of object to build.</typeparam>
         /// <param name="context">Parent context.</param>
         /// <returns>Resulting object.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp", Justification = "BuildUp is correct.")]
         public static TResult NewBuildUp<TResult>(this IBuilderContext context)
         {
             return context.NewBuildUp<TResult>(null);
@@ -156,7 +156,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="context">Parent context.</param>
         /// <param name="name">Name to resolve with.</param>
         /// <returns>The resulting object.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp")]
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp", Justification = "BuildUp is correct.")]
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static TResult NewBuildUp<TResult>(this IBuilderContext context, string name)
         {

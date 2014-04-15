@@ -6,7 +6,6 @@ namespace Microsoft.Practices.Unity.Tests.TestObjects
     {
         private object constructorDependency;
 
-
         public ObjectWithInjectionConstructor(object constructorDependency)
         {
             this.constructorDependency = constructorDependency;

@@ -41,19 +41,19 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
             Assert.IsFalse(rule.Matches(method));
         }
 
-        class DerivedObject : TestObject
+        private class DerivedObject : TestObject
         {
-            public override void MethodWithAttribute() {}
+            public override void MethodWithAttribute() { }
         }
 
-        class TestObject
+        private class TestObject
         {
             [RandomAttribute]
-            public virtual void MethodWithAttribute() {}
+            public virtual void MethodWithAttribute() { }
 
-            public void MethodWithoutAttribute() {}
+            public void MethodWithoutAttribute() { }
         }
 
-        class RandomAttribute : Attribute {}
+        private class RandomAttribute : Attribute { }
     }
 }

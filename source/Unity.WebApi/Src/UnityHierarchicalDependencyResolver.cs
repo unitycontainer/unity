@@ -27,8 +27,9 @@ namespace Microsoft.Practices.Unity.WebApi
         public UnityHierarchicalDependencyResolver(IUnityContainer container)
         {
             if (container == null)
+            {
                 throw new ArgumentNullException("container");
-
+            }
             this.container = container;
         }
 

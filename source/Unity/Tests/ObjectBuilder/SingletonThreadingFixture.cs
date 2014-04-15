@@ -33,7 +33,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             task1.Start();
             task2.Start();
-            
+
             Task.WaitAll(task1, task2);
 
             Assert.AreSame(threadResults1.Result, threadResults2.Result);
@@ -51,13 +51,13 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         private IPolicyList GetPolicies()
         {
             PolicyList policies = new PolicyList();
-            policies.Set<ILifetimePolicy>(new ContainerControlledLifetimeManager(), new NamedTypeBuildKey(typeof (object)));
+            policies.Set<ILifetimePolicy>(new ContainerControlledLifetimeManager(), new NamedTypeBuildKey(typeof(object)));
             return policies;
         }
     }
 
     // A test class that runs a buildup - designed to be used in a thread
-    class BuilderOnThread
+    internal class BuilderOnThread
     {
         public object Result;
         private StrategyChain strategies;
@@ -79,7 +79,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
     // A test strategy that puts a variable sleep time into
     // the strategy chain
-    class SleepingStrategy : BuilderStrategy
+    internal class SleepingStrategy : BuilderStrategy
     {
         private int sleepTimeMS = 500;
         private static object @lock = new object();
@@ -87,17 +87,17 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
         public override void PreBuildUp(IBuilderContext context)
         {
             // Sleep
-            lock (@lock)
+            lock (SleepingStrategy.@lock)
             {
-                SpinWait.SpinUntil(()=>false, sleepTimeMS);
+                SpinWait.SpinUntil(() => false, this.sleepTimeMS);
             }
 
-            sleepTimeMS = sleepTimeMS == 0 ? 500 : 0;
+            this.sleepTimeMS = this.sleepTimeMS == 0 ? 500 : 0;
         }
     }
 
     // A test strategy that just creates an object.
-    class NewObjectStrategy : BuilderStrategy
+    internal class NewObjectStrategy : BuilderStrategy
     {
         public override void PreBuildUp(IBuilderContext context)
         {

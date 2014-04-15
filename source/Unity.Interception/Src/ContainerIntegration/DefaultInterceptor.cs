@@ -13,13 +13,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// interceptor for a type - this will be used regardless of which 
     /// name is used to resolve the type.
     /// </summary>
-    public class DefaultInterceptor  : InjectionMember
+    public class DefaultInterceptor : InjectionMember
     {
         private readonly IInterceptor interceptor;
         private readonly NamedTypeBuildKey interceptorKey;
 
         /// <summary>
-        /// Construt a new <see cref="DefaultInterceptor"/> instance that,
+        /// Construct a new <see cref="DefaultInterceptor"/> instance that,
         /// when applied to a container, will register the given
         /// interceptor as the default one.
         /// </summary>
@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public DefaultInterceptor(IInterceptor interceptor)
         {
             Guard.ArgumentNotNull(interceptor, "intereptor");
-            
+
             this.interceptor = interceptor;
         }
 
@@ -41,7 +41,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public DefaultInterceptor(Type interceptorType, string name)
         {
             Guard.ArgumentNotNull(interceptorType, "interceptorType");
-            Guard.TypeIsAssignable(typeof (IInterceptor), interceptorType, "interceptorType");
+            Guard.TypeIsAssignable(typeof(IInterceptor), interceptorType, "interceptorType");
 
             this.interceptorKey = new NamedTypeBuildKey(interceptorType, name);
         }
@@ -55,7 +55,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public DefaultInterceptor(Type interceptorType)
             : this(interceptorType, null)
         {
-            
         }
 
         /// <summary>
@@ -69,13 +68,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="policies">Policy list to add policies to.</param>
         public override void AddPolicies(Type serviceType, Type implementationType, string name, IPolicyList policies)
         {
-            if(IsInstanceInterceptor)
+            if (this.IsInstanceInterceptor)
             {
-                AddDefaultInstanceInterceptor(implementationType, policies);
+                this.AddDefaultInstanceInterceptor(implementationType, policies);
             }
             else
             {
-                AddDefaultTypeInterceptor(implementationType, policies);
+                this.AddDefaultTypeInterceptor(implementationType, policies);
             }
         }
 
@@ -83,11 +82,11 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             get
             {
-                if (interceptor != null)
+                if (this.interceptor != null)
                 {
-                    return interceptor is IInstanceInterceptor;
+                    return this.interceptor is IInstanceInterceptor;
                 }
-                return typeof(IInstanceInterceptor).IsAssignableFrom(interceptorKey.Type);
+                return typeof(IInstanceInterceptor).IsAssignableFrom(this.interceptorKey.Type);
             }
         }
 
@@ -95,15 +94,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             IInstanceInterceptionPolicy policy;
 
-            if(interceptor != null)
+            if (this.interceptor != null)
             {
-                policy = new FixedInstanceInterceptionPolicy((IInstanceInterceptor) interceptor);
+                policy = new FixedInstanceInterceptionPolicy((IInstanceInterceptor)this.interceptor);
             }
             else
             {
-                policy = new ResolvedInstanceInterceptionPolicy(interceptorKey);
+                policy = new ResolvedInstanceInterceptionPolicy(this.interceptorKey);
             }
-
 
             policies.Set<IInstanceInterceptionPolicy>(policy, typeToIntercept);
         }
@@ -112,17 +110,16 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             ITypeInterceptionPolicy policy;
 
-            if(interceptor != null)
+            if (this.interceptor != null)
             {
-                policy = new FixedTypeInterceptionPolicy((ITypeInterceptor)interceptor);
+                policy = new FixedTypeInterceptionPolicy((ITypeInterceptor)this.interceptor);
             }
             else
             {
-                policy = new ResolvedTypeInterceptionPolicy(interceptorKey);
+                policy = new ResolvedTypeInterceptionPolicy(this.interceptorKey);
             }
 
             policies.Set<ITypeInterceptionPolicy>(policy, typeToIntercept);
-
         }
     }
 
@@ -141,7 +138,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public DefaultInterceptor(string name)
             : base(typeof(TInterceptor), name)
         {
-            
         }
 
         /// <summary>
@@ -150,7 +146,6 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public DefaultInterceptor()
             : base(typeof(TInterceptor))
         {
-            
         }
     }
 }

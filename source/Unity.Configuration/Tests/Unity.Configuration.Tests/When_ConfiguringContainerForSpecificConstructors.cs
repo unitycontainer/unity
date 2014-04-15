@@ -14,7 +14,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
     [TestClass]
     public class When_ConfiguringContainerForSpecificConstructors : SectionLoadingFixture<ConfigFileLocator>
     {
-        public When_ConfiguringContainerForSpecificConstructors() : base("VariousConstructors")
+        public When_ConfiguringContainerForSpecificConstructors()
+            : base("VariousConstructors")
         {
         }
 
@@ -23,14 +24,14 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         protected override void Arrange()
         {
             base.Arrange();
-            container = new UnityContainer();
+            this.container = new UnityContainer();
         }
 
         [TestMethod]
         public void Then_CanResolveMockDatabaseAndItCallsDefaultConstructor()
         {
-            Section.Configure(container, "defaultConstructor");
-            var result = container.Resolve<MockDatabase>();
+            section.Configure(this.container, "defaultConstructor");
+            var result = this.container.Resolve<MockDatabase>();
             Assert.IsTrue(result.DefaultConstructorCalled);
         }
 
@@ -39,7 +40,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         {
             AssertExtensions.AssertException<InvalidOperationException>(() =>
                 {
-                    Section.Configure(container, "invalidConstructor");
+                    section.Configure(container, "invalidConstructor");
                 });
         }
 
@@ -48,8 +49,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_OldConfigureAPIStillWorks()
         {
-            Section.Containers["defaultConstructor"].Configure(container);
-            var result = container.Resolve<MockDatabase>();
+            this.section.Containers["defaultConstructor"].Configure(this.container);
+            var result = this.container.Resolve<MockDatabase>();
             Assert.IsTrue(result.DefaultConstructorCalled);
         }
 #pragma warning restore 618

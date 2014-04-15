@@ -75,7 +75,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private class NamespaceMatchingInfo : MatchingInfo
         {
             private bool wildCard;
-            private const string wildCardString = ".*";
+            private const string WildCardString = ".*";
 
             /// <summary>
             /// Construct a new <see cref="NamespaceMatchingInfo"/> that matches the
@@ -86,17 +86,17 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             public NamespaceMatchingInfo(string match, bool ignoreCase)
                 : base(match, ignoreCase)
             {
-                if (NamespaceName.EndsWith(wildCardString, StringComparison.Ordinal))
+                if (this.NamespaceName.EndsWith(WildCardString, StringComparison.Ordinal))
                 {
-                    NamespaceName = NamespaceName.Substring(0, NamespaceName.Length - wildCardString.Length);
-                    wildCard = true;
+                    this.NamespaceName = this.NamespaceName.Substring(0, this.NamespaceName.Length - WildCardString.Length);
+                    this.wildCard = true;
                 }
             }
 
             private string NamespaceName
             {
-                get { return Match; }
-                set { Match = value; }
+                get { return this.Match; }
+                set { this.Match = value; }
             }
 
             /// <summary>
@@ -108,7 +108,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             {
                 if (t == null)
                 {
-                    return string.IsNullOrEmpty(NamespaceName);
+                    return string.IsNullOrEmpty(this.NamespaceName);
                 }
 
                 StringComparison comparison = IgnoreCase
@@ -118,15 +118,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 bool exactMatch =
                     string.Compare(
                         t.Namespace,
-                        NamespaceName,
+                        this.NamespaceName,
                         comparison)
                     == 0;
 
-                if (wildCard)
+                if (this.wildCard)
                 {
-
                     return exactMatch ||
-                        t.Namespace.StartsWith(NamespaceName + ".", comparison);
+                        t.Namespace.StartsWith(this.NamespaceName + ".", comparison);
                 }
                 return exactMatch;
             }

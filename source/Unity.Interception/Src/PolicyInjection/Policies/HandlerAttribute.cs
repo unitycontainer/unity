@@ -24,6 +24,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public abstract ICallHandler CreateHandler(IUnityContainer container);
 
         private int order;
+
         /// <summary>
         /// Gets or sets the order in which the handler will be executed.
         /// </summary>

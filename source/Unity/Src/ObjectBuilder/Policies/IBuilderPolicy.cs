@@ -9,7 +9,6 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// for policies, it acts as a marker interface from which to derive all other
     /// policy interfaces.
     /// </summary>
-    // FxCop suppression: No
-    [SuppressMessage("Microsoft.Design", "CA1040:AvoidEmptyInterfaces")]
+    [SuppressMessage("Microsoft.Design", "CA1040:AvoidEmptyInterfaces", Justification = "Marker interface")]
     public interface IBuilderPolicy { }
 }

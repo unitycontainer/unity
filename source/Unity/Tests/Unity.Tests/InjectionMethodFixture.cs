@@ -30,7 +30,7 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.IsTrue(result.WasInjected);
         }
 
-        [TestMethod]       
+        [TestMethod]
         public void CannotConfigureGenericInjectionMethod()
         {
             AssertExtensions.AssertException<InvalidOperationException>(() =>
@@ -87,7 +87,6 @@ namespace Microsoft.Practices.Unity.Tests
         {
             public void InjectMe<T>()
             {
-
             }
         }
 
@@ -109,7 +108,6 @@ namespace Microsoft.Practices.Unity.Tests
 
         public class InheritedClass : LegalInjectionMethod
         {
-
         }
     }
 }

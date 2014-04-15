@@ -184,6 +184,8 @@ namespace Microsoft.Practices.Unity
         /// <returns>Set of objects of type <paramref name="t"/>.</returns>
         public IEnumerable<object> ResolveAll(Type t, params ResolverOverride[] resolverOverrides)
         {
+            Guard.ArgumentNotNull(t, "t");
+
             return (IEnumerable<object>)this.Resolve(t.MakeArrayType(), resolverOverrides);
         }
 

@@ -15,7 +15,7 @@ namespace Microsoft.Practices.Unity
     // as calling them will leave out the information that makes the exception useful
     // in the first place.
     [SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors",
-        Justification="The standard constructors don't make sense for this exception, as calling them will leave out the information that makes the exception useful in the first place.")]
+        Justification = "The standard constructors don't make sense for this exception, as calling them will leave out the information that makes the exception useful in the first place.")]
     public partial class DuplicateTypeMappingException : Exception
     {
         private string name;
@@ -30,6 +30,9 @@ namespace Microsoft.Practices.Unity
         /// <param name="mappedFromType">The source type for the mapping.</param>
         /// <param name="currentMappedToType">The type currently mapped.</param>
         /// <param name="newMappedToType">The new type to map.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "Validated by Guard class")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "2", Justification = "Validated by Guard class")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "3", Justification = "Validated by Guard class")]
         public DuplicateTypeMappingException(string name, Type mappedFromType, Type currentMappedToType, Type newMappedToType)
             : base(CreateMessage(name, mappedFromType, currentMappedToType, newMappedToType))
         {

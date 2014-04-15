@@ -33,12 +33,12 @@ namespace Microsoft.Practices.ObjectBuilder2
             ConstructorInfo ctor = FindInjectionConstructor(typeToConstruct) ?? FindLongestConstructor(typeToConstruct);
             if (ctor != null)
             {
-                return CreateSelectedConstructor(context, resolverPolicyDestination, ctor);
+                return CreateSelectedConstructor(ctor);
             }
             return null;
         }
 
-        private SelectedConstructor CreateSelectedConstructor(IBuilderContext context, IPolicyList resolverPolicyDestination, ConstructorInfo ctor)
+        private SelectedConstructor CreateSelectedConstructor(ConstructorInfo ctor)
         {
             var result = new SelectedConstructor(ctor);
 

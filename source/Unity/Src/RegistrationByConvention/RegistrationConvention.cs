@@ -19,7 +19,7 @@ namespace Microsoft.Practices.Unity
         /// <summary>
         /// Gets a function to get the types that will be requested for each type to configure.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "API is easier to use with nested generics")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Could require computations")]
         public abstract Func<Type, IEnumerable<Type>> GetFromTypes();
 

@@ -18,6 +18,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <typeparam name="TPolicyInterface">The type the policy was registered as.</typeparam>
         /// <param name="policies"><see cref="IPolicyList"/> to remove the policy from.</param>
         /// <param name="buildKey">The key the policy applies.</param>
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static void Clear<TPolicyInterface>(this IPolicyList policies, object buildKey)
             where TPolicyInterface : IBuilderPolicy
@@ -31,6 +32,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <typeparam name="TPolicyInterface">The type the policy was registered as.</typeparam>
         /// <param name="policies"><see cref="IPolicyList"/> to remove the policy from.</param>
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Checked with Guard class")]
         public static void ClearDefault<TPolicyInterface>(this IPolicyList policies)
             where TPolicyInterface : IBuilderPolicy

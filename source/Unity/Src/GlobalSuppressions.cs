@@ -10,3 +10,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Scope = "member", Target = "Microsoft.Practices.Unity.UnityContainerBase.RegisterInstance(System.Type,System.Object):Microsoft.Practices.Unity.IUnityContainer")]
 [assembly: SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Scope = "member", Target = "Microsoft.Practices.Unity.UnityContainerBase.RegisterInstance(System.Type,System.String,System.Object):Microsoft.Practices.Unity.IUnityContainer")]
 [assembly: SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Scope = "member", Target = "Microsoft.Practices.Unity.InjectionParameter..ctor(System.Object)")]
+[assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "Microsoft.Practices.Unity.StaticFactory", Justification = "As designed")]

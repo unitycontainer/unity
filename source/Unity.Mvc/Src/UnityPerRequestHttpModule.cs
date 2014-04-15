@@ -2,9 +2,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Web;
 using Microsoft.Practices.Unity.Mvc.Properties;
+using Microsoft.Practices.Unity.Utility;
 
 namespace Microsoft.Practices.Unity.Mvc
 {
@@ -60,8 +62,10 @@ namespace Microsoft.Practices.Unity.Mvc
         /// </summary>
         /// <param name="context">An <see cref="HttpApplication"/> that provides access to the methods, properties,
         /// and events common to all application objects within an ASP.NET application.</param>
+        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "Validated with Guard class")]
         public void Init(HttpApplication context)
         {
+            Guard.ArgumentNotNull(context, "context");
             context.EndRequest += OnEndRequest;
         }
 

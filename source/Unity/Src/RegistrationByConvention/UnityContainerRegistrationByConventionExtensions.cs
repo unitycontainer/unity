@@ -30,6 +30,8 @@ namespace Microsoft.Practices.Unity
         /// The container that this method was called on.
         /// </returns>
         /// <exception cref="ArgumentException">A new registration would overwrite an existing mapping and <paramref name="overwriteExistingMappings"/> is <see langword="false"/>.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "Validated with Guard class")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "Validated with Guard class")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
         public static IUnityContainer RegisterTypes(
@@ -98,9 +100,12 @@ namespace Microsoft.Practices.Unity
         /// <returns>
         /// The container that this method was called on.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "Validated with Guard class")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed")]
         public static IUnityContainer RegisterTypes(this IUnityContainer container, RegistrationConvention convention, bool overwriteExistingMappings = false)
         {
+            Guard.ArgumentNotNull(convention, "convention");
+
             container.RegisterTypes(convention.GetTypes(), convention.GetFromTypes(), convention.GetName(), convention.GetLifetimeManager(), convention.GetInjectionMembers(), overwriteExistingMappings);
 
             return container;

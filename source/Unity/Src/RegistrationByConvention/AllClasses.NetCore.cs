@@ -26,6 +26,7 @@ namespace Microsoft.Practices.Unity
         /// are ignored, and the types that can be retrieved are returned; otherwise, the original exception is thrown. These exceptions might be wrapped in a
         /// <see cref="AggregateException"/>.
         /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1026:DefaultParametersShouldNotBeUsed", Justification = "Simplify API")]
         public static IEnumerable<Type> FromApplication(bool includeUnityAssemblies = false, bool skipOnError = true)
         {
             return FromCheckedAssemblies(GetAssembliesApplicationAsync(includeUnityAssemblies, skipOnError).Result, skipOnError);

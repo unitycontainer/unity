@@ -62,6 +62,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// </summary>
         /// <typeparam name="TStrategy">The <see cref="Type"/> of <see cref="IBuilderStrategy"/></typeparam>
         /// <param name="stage">The stage to add the strategy.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix",
             Justification = "This is not a new version of Add, it adds a new strategy")]
         public void AddNew<TStrategy>(TStageEnum stage)

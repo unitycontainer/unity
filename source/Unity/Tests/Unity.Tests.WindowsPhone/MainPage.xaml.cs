@@ -21,7 +21,7 @@ namespace Microsoft.Practices.Unity.Tests
         // Constructor
         public MainPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             var wrapper = new TestExecutorServiceWrapper();
             new Thread(new ServiceMain((param0, param1) => wrapper.SendMessage((ContractName)param0, param1)).Run).Start();

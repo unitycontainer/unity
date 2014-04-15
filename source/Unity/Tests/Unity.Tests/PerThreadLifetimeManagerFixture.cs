@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 // Duplicate using statements to avoid ordering using warning SA1210. 
-// module SuppressMessage not working for integrated build but was working for manual StyleCop invocation
+// ifdefs seem to be confusing stylecop
 #if NETFX_CORE
 #if !WINDOWS_PHONE
 using System;

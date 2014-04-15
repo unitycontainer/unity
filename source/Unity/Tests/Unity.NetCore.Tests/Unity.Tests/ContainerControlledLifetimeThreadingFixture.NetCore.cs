@@ -97,12 +97,12 @@ namespace Microsoft.Practices.Unity.Tests
 
             public override void PreBuildUp(IBuilderContext context)
             {
-                lock (@lock)
+                lock (DelayStrategy.@lock)
                 {
-                    SpinWait.SpinUntil(() => false, delayMS);
+                    SpinWait.SpinUntil(() => false, this.delayMS);
                 }
 
-                delayMS = delayMS == 0 ? 500 : 0;
+                this.delayMS = this.delayMS == 0 ? 500 : 0;
             }
         }
 
@@ -114,9 +114,9 @@ namespace Microsoft.Practices.Unity.Tests
 
             public override void PreBuildUp(IBuilderContext context)
             {
-                if (shouldThrow)
+                if (this.shouldThrow)
                 {
-                    shouldThrow = false;
+                    this.shouldThrow = false;
                     throw new Exception("Throwing from buildup chain");
                 }
             }

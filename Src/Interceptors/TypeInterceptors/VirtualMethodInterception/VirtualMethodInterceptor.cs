@@ -51,10 +51,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             Guard.ArgumentNotNull(implementationType, "implementationType");
 
-            return DoGetInterceptableMethods(interceptedType, implementationType);
+            return DoGetInterceptableMethods(implementationType);
         }
 
-        private IEnumerable<MethodImplementationInfo> DoGetInterceptableMethods(Type interceptedType, Type implementationType)
+        private IEnumerable<MethodImplementationInfo> DoGetInterceptableMethods(Type implementationType)
         {
             var interceptableMethodsToInterfaceMap = new Dictionary<MethodInfo, MethodInfo>();
 

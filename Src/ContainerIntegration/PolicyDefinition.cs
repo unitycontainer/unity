@@ -211,6 +211,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddMatchingRule<TMatchingRule>(
             params InjectionMember[] injectionMembers)
             where TMatchingRule : IMatchingRule
@@ -233,6 +234,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddMatchingRule<TMatchingRule>(
             LifetimeManager lifetimeManager,
             params InjectionMember[] injectionMembers)
@@ -255,6 +257,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddMatchingRule<TMatchingRule>(
             string name,
             params InjectionMember[] injectionMembers)
@@ -280,6 +283,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddMatchingRule<TMatchingRule>(
             string name,
             LifetimeManager lifetimeManager,
@@ -425,6 +429,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddCallHandler<TCallHandler>(
             params InjectionMember[] injectionMembers)
             where TCallHandler : ICallHandler
@@ -447,6 +452,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddCallHandler<TCallHandler>(
             LifetimeManager lifetimeManager,
             params InjectionMember[] injectionMembers)
@@ -469,6 +475,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddCallHandler<TCallHandler>(
             string name,
             params InjectionMember[] injectionMembers)
@@ -494,6 +501,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddCallHandler<TCallHandler>(
             string name,
             LifetimeManager lifetimeManager,

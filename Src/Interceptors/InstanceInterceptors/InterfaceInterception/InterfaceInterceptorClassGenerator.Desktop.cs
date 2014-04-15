@@ -13,7 +13,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 #if DEBUG_SAVE_GENERATED_ASSEMBLY
             return assemblyBuilder.DefineDynamicModule(moduleName, moduleName + ".dll", true);
 #else
-            return assemblyBuilder.DefineDynamicModule(moduleName);
+            return AssemblyBuilder.DefineDynamicModule(moduleName);
 #endif
         }
     }

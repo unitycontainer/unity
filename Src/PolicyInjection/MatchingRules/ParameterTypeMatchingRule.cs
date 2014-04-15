@@ -106,14 +106,17 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// Input parameter
         /// </summary>
         Input,
+
         /// <summary>
         /// Output parameter
         /// </summary>
         Output,
+        
         /// <summary>
         /// Input or output parameter
         /// </summary>
         InputOrOutput,
+        
         /// <summary>
         /// Method return value
         /// </summary>
@@ -175,8 +178,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <value><see cref="ParameterKind"/> indicating which kind of parameters to match.</value>
         public ParameterKind Kind
         {
-            get { return kind; }
-            set { kind = value; }
+            get { return this.kind; }
+            set { this.kind = value; }
         }
     }
 }

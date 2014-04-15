@@ -30,7 +30,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             container.Configure<Interception>()
                 .AddPolicy("Triple an output parameter")
-                .AddMatchingRule(new MemberNameMatchingRule(new[] {"DoSomethingElse", "DoSomethingElseWithRef"}))
+                .AddMatchingRule(new MemberNameMatchingRule(new[] { "DoSomethingElse", "DoSomethingElseWithRef" }))
                 .AddCallHandler("Handler2");
 
             container.RegisterInstance<ICallHandler>("Handler1", new DoubleInputHandler());
@@ -71,7 +71,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
     public class DoubleInputHandler : ICallHandler
     {
-        int order = 0;
+        private int order = 0;
 
         /// <summary>
         /// Gets or sets the order in which the handler will be executed
@@ -93,7 +93,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
     public class TripleOutputHandler : ICallHandler
     {
-        int order = 0;
+        private int order = 0;
 
         /// <summary>
         /// Gets or sets the order in which the handler will be executed
@@ -127,7 +127,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
     public class CanChangeParametersTarget : ICanChangeParametersTarget
     {
-        int mostRecentInput = 0;
+        private int mostRecentInput = 0;
 
         public int MostRecentInput
         {

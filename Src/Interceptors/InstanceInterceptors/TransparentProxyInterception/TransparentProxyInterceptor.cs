@@ -39,7 +39,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <param name="interceptedType">The intercepted type.</param>
         /// <param name="implementationType">The concrete type of the implementing object.</param>
         /// <returns>Sequence of <see cref="MethodInfo"/> objects.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Interceptable")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Interceptable", Justification = "Interceptable is valid in this context")]
         public IEnumerable<MethodImplementationInfo> GetInterceptableMethods(Type interceptedType, Type implementationType)
         {
             if (typeof(MarshalByRefObject).IsAssignableFrom(implementationType))

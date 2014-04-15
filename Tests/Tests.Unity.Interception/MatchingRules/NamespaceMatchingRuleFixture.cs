@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.SeparateTopLevel;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevel;
@@ -8,6 +9,8 @@ using Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLev
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.SecondLevel.ThirdLevel;
 using Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevelTwo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+[module: SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1403:FileMayOnlyContainASingleNamespace", Justification = "Test needs multiple namespaces so keep the namespaces and test together")]
 
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
 {
@@ -17,79 +20,79 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
     [TestClass]
     public class NamespaceMatchingRuleFixture
     {
-        const string topLevelNamespace =
+        private const string TopLevelNamespace =
             "Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevel";
 
-        const string topLevelNamespaceWildcard =
+        private const string TopLevelNamespaceWildcard =
             "Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.*";
 
-        const string secondLevelNamespace =
+        private const string SecondLevelNamespace =
             "Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.SecondLevel";
 
-        const string thirdLevelNamespace =
+        private const string ThirdLevelNamespace =
             "Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.SecondLevel.ThirdLevel";
 
-        const string topLevelTwoNamespace =
+        private const string TopLevelTwoNamespace =
             "Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevelTwo";
 
         [TestMethod]
         public void ShouldMatchWhenInExactNamespace()
         {
-            TestMatch(topLevelNamespace, typeof(TopLevelTarget), true);
+            TestMatch(TopLevelNamespace, typeof(TopLevelTarget), true);
         }
 
         [TestMethod]
         public void ShouldNotMatchWhenInChildNamespace()
         {
-            TestMatch(topLevelNamespace, typeof(SecondLevelTarget), false);
+            TestMatch(TopLevelNamespace, typeof(SecondLevelTarget), false);
         }
 
         [TestMethod]
         public void ShouldMatchWithIgnoreCaseTurnedOn()
         {
-            TestMatch(topLevelNamespace, true, typeof(TopLevelTarget), true);
+            TestMatch(TopLevelNamespace, true, typeof(TopLevelTarget), true);
         }
 
         [TestMethod]
         public void ShouldNotMatchWhenInChildNamespaceWithIgnoreCase()
         {
-            TestMatch(topLevelNamespace, true, typeof(SecondLevelTarget), false);
+            TestMatch(TopLevelNamespace, true, typeof(SecondLevelTarget), false);
         }
 
         [TestMethod]
         public void ShouldMatchInExactNamespaceWithWildcard()
         {
-            TestMatch(topLevelNamespaceWildcard, typeof(TopLevelTarget), true);
+            TestMatch(TopLevelNamespaceWildcard, typeof(TopLevelTarget), true);
         }
 
         [TestMethod]
         public void ShouldMatchInChildNamespaceWithWildcard()
         {
-            TestMatch(topLevelNamespaceWildcard, typeof(SecondLevelTarget), true);
+            TestMatch(TopLevelNamespaceWildcard, typeof(SecondLevelTarget), true);
         }
 
         [TestMethod]
         public void ShouldNotMatchIfNotInSameOrChildNamespace()
         {
-            TestMatch(topLevelNamespaceWildcard, typeof(SeparateTarget), false);
+            TestMatch(TopLevelNamespaceWildcard, typeof(SeparateTarget), false);
         }
 
         [TestMethod]
         public void ShouldNotMatchIfNamespaceOfTargetStartsWithSameStringAsMatchingNamespace()
         {
-            TestMatch(topLevelNamespaceWildcard, typeof(TopLevelTwoTarget), false);
+            TestMatch(TopLevelNamespaceWildcard, typeof(TopLevelTwoTarget), false);
         }
 
         [TestMethod]
         public void ShouldNotMatchIfTargetIsInParentNamespace()
         {
-            TestMatch(secondLevelNamespace, typeof(TopLevelTarget), false);
+            TestMatch(SecondLevelNamespace, typeof(TopLevelTarget), false);
         }
 
         [TestMethod]
         public void ShouldMatchWithWildcardMultipleLevelsDeep()
         {
-            TestMatch(topLevelNamespaceWildcard, typeof(ThirdLevelTarget), true);
+            TestMatch(TopLevelNamespaceWildcard, typeof(ThirdLevelTarget), true);
         }
 
         [TestMethod]
@@ -98,9 +101,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
             IMatchingRule rule =
                 new NamespaceMatchingRule(new MatchingInfo[]
                                               {
-                                                  new MatchingInfo(topLevelNamespace),
-                                                  new MatchingInfo(thirdLevelNamespace),
-                                                  new MatchingInfo(topLevelTwoNamespace.ToUpperInvariant(), true)
+                                                  new MatchingInfo(TopLevelNamespace),
+                                                  new MatchingInfo(ThirdLevelNamespace),
+                                                  new MatchingInfo(TopLevelTwoNamespace.ToUpperInvariant(), true)
                                               });
 
             Assert.IsTrue(rule.Matches(GetTargetMethod(typeof(TopLevelTarget))));
@@ -110,7 +113,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
             Assert.IsTrue(rule.Matches(GetTargetMethod(typeof(TopLevelTwoTarget))));
         }
 
-        void TestMatch(string namespaceName,
+        private void TestMatch(string namespaceName,
                        bool ignoreCase,
                        Type targetType,
                        bool shouldMatch)
@@ -120,14 +123,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
             Assert.AreEqual(shouldMatch, rule.Matches(methodToMatch));
         }
 
-        void TestMatch(string namespaceName,
+        private void TestMatch(string namespaceName,
                        Type targetType,
                        bool shouldMatch)
         {
             TestMatch(namespaceName, false, targetType, shouldMatch);
         }
 
-        MethodInfo GetTargetMethod(Type t)
+        private MethodInfo GetTargetMethod(Type t)
         {
             return t.GetMethod("TargetMethod");
         }
@@ -135,21 +138,21 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
 
     namespace TopLevel
     {
-        class TopLevelTarget
+        internal class TopLevelTarget
         {
             public void TargetMethod() { }
         }
 
         namespace SecondLevel
         {
-            class SecondLevelTarget
+            internal class SecondLevelTarget
             {
                 public void TargetMethod() { }
             }
 
             namespace ThirdLevel
             {
-                class ThirdLevelTarget
+                internal class ThirdLevelTarget
                 {
                     public void TargetMethod() { }
                 }
@@ -159,7 +162,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
 
     namespace SeparateTopLevel
     {
-        class SeparateTarget
+        internal class SeparateTarget
         {
             public void TargetMethod() { }
         }
@@ -167,7 +170,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
 
     namespace TopLevelTwo
     {
-        class TopLevelTwoTarget
+        internal class TopLevelTwoTarget
         {
             public void TargetMethod() { }
         }

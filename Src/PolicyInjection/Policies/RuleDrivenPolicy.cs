@@ -32,8 +32,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public RuleDrivenPolicy(string name, IMatchingRule[] matchingRules, string[] callHandlerNames)
             : base(name)
         {
-            ruleSet = new MatchingRuleSet();
-            ruleSet.AddRange(matchingRules);
+            this.ruleSet = new MatchingRuleSet();
+            this.ruleSet.AddRange(matchingRules);
 
             this.callHandlerNames = callHandlerNames;
         }
@@ -49,8 +49,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(member, "member");
 
-            bool matchesInterface = member.InterfaceMethodInfo != null ? ruleSet.Matches(member.InterfaceMethodInfo) : false;
-            bool matchesImplementation = ruleSet.Matches(member.ImplementationMethodInfo);
+            bool matchesInterface = member.InterfaceMethodInfo != null ? this.ruleSet.Matches(member.InterfaceMethodInfo) : false;
+            bool matchesImplementation = this.ruleSet.Matches(member.ImplementationMethodInfo);
             return matchesInterface | matchesImplementation;
         }
 
@@ -63,9 +63,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <returns>Collection of handlers (possibly empty) that apply to this member.</returns>
         protected override IEnumerable<ICallHandler> DoGetHandlersFor(MethodImplementationInfo member, IUnityContainer container)
         {
-            if (Matches(member))
+            if (this.Matches(member))
             {
-                foreach (string callHandlerName in callHandlerNames)
+                foreach (string callHandlerName in this.callHandlerNames)
                 {
                     yield return container.Resolve<ICallHandler>(callHandlerName);
                 }

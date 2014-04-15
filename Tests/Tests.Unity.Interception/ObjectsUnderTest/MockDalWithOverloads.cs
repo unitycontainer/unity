@@ -3,17 +3,17 @@
 using System;
 namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
 {
-    partial class MockDalWithOverloads
+    internal partial class MockDalWithOverloads
     {
         public int DoSomething(string s)
         {
-            return 42; 
+            return 42;
         }
 
         [Tag("NullString")]
         public string DoSomething(int i)
         {
-            return ( i * 2 ).ToString();
+            return (i * 2).ToString();
         }
     }
 }

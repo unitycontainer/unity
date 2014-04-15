@@ -90,7 +90,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
     {
         public virtual T DoSomething<T>()
         {
-            return default(T);   
+            return default(T);
         }
 
         public virtual void DoSomethingElse(string param)

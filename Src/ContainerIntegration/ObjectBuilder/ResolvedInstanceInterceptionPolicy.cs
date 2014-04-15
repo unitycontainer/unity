@@ -34,7 +34,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public IInstanceInterceptor GetInterceptor(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
-            return (IInstanceInterceptor) context.NewBuildUp(buildKey);
+            return (IInstanceInterceptor)context.NewBuildUp(buildKey);
         }
 
         #endregion

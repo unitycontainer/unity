@@ -97,7 +97,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
         //    Assert.IsTrue(handlers[0] is CallCountHandler);
         //}
 
-        class AnnotatedWithTags
+        private class AnnotatedWithTags
         {
             [Tag("Tagged")]
             public string Name
@@ -105,29 +105,29 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
                 get { return "Annotated"; }
             }
 
-            public void NotTagged() {}
+            public void NotTagged() { }
 
             [Tag("Tagged")]
-            public void Tagged() {}
+            public void Tagged() { }
         }
 
         [Tag("Tagged")]
-        class AnnotatedWithTagsOnClass
+        private class AnnotatedWithTagsOnClass
         {
-            public void Method1() {}
+            public void Method1() { }
 
-            public void Method2() {}
+            public void Method2() { }
         }
 
-        interface IDao
+        private interface IDao
         {
             [Tag("Tag on interface")]
             void Create();
         }
 
-        class DaoImpl : IDao
+        private class DaoImpl : IDao
         {
-            public void Create() {}
+            public void Create() { }
         }
     }
 }

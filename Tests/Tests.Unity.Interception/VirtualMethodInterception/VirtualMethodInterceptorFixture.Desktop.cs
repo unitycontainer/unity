@@ -38,7 +38,5 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInt
 
     public partial class DerivedTypeCreator : MarshalByRefObject
     {
-
     }
-
 }

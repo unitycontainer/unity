@@ -26,17 +26,26 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(context, "context");
 
             // If it's already been intercepted, don't do it again.
-            if (context.Existing is IInterceptingProxy) return;
+            if (context.Existing is IInterceptingProxy)
+            {
+                return;
+            }
 
             IInstanceInterceptionPolicy interceptionPolicy =
                 FindInterceptionPolicy<IInstanceInterceptionPolicy>(context, true);
-            if (interceptionPolicy == null) return;
-            var interceptor = interceptionPolicy.GetInterceptor(context);
+            if (interceptionPolicy == null)
+            {
+                return;
+            }
 
+            var interceptor = interceptionPolicy.GetInterceptor(context);
 
             IInterceptionBehaviorsPolicy interceptionBehaviorsPolicy =
                 FindInterceptionPolicy<IInterceptionBehaviorsPolicy>(context, true);
-            if (interceptionBehaviorsPolicy == null) return;
+            if (interceptionBehaviorsPolicy == null)
+            {
+                return;
+            }
 
             IAdditionalInterfacesPolicy additionalInterfacesPolicy =
                 FindInterceptionPolicy<IAdditionalInterfacesPolicy>(context, false);
@@ -78,7 +87,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             }
 
             if (!probeOriginalKey)
+            {
                 return null;
+            }
 
             // Next, try the original build key
             Type originalType = context.OriginalBuildKey.Type;

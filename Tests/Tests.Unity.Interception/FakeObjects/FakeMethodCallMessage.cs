@@ -13,7 +13,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
     /// An implementation of IMethodCallMessage that can be used to mock
     /// out calls.
     /// </summary>
-    class FakeMethodCallMessage : IMethodCallMessage
+    internal class FakeMethodCallMessage : IMethodCallMessage
     {
         private MethodBase methodBase;
         private object[] arguments;
@@ -30,9 +30,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
             this.arguments = arguments;
             int i = 0;
-            foreach(ParameterInfo param in parameterInfo)
+            foreach (ParameterInfo param in parameterInfo)
             {
-                if( param.IsOut )
+                if (param.IsOut)
                 {
                     outputArgumentIndex.Add(i);
                 }
@@ -100,9 +100,10 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
 
         public object MethodSignature
         {
-            get { 
+            get
+            {
                 List<Type> signatureTypes = new List<Type>();
-                foreach(ParameterInfo paramInfo in parameterInfo)
+                foreach (ParameterInfo paramInfo in parameterInfo)
                 {
                     signatureTypes.Add(paramInfo.ParameterType);
                 }

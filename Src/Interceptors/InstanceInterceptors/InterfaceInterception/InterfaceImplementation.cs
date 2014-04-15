@@ -8,7 +8,7 @@ using System.Reflection.Emit;
 
 namespace Microsoft.Practices.Unity.InterceptionExtension
 {
-    class InterfaceImplementation
+    internal class InterfaceImplementation
     {
         private readonly TypeBuilder typeBuilder;
         private readonly Type @interface;

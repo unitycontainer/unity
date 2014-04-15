@@ -41,7 +41,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             this.context = new Dictionary<string, object>();
 
             ParameterInfo[] targetParameters = targetMethod.GetParameters();
-            this.arguments = new ParameterCollection(parameterValues, targetParameters, param => true );
+            this.arguments = new ParameterCollection(parameterValues, targetParameters, param => true);
             this.inputs = new ParameterCollection(parameterValues, targetParameters, param => !param.IsOut);
         }
 

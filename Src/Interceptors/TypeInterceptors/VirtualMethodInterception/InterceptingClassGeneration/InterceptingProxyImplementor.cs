@@ -31,14 +31,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             // Declaring method builder
             // Method attributes
-            const MethodAttributes methodAttributes = MethodAttributes.Private | MethodAttributes.Virtual
+            const MethodAttributes MethodAttributes = MethodAttributes.Private | MethodAttributes.Virtual
                 | MethodAttributes.Final | MethodAttributes.HideBySig
                     | MethodAttributes.NewSlot;
 
             MethodBuilder methodBuilder =
                 typeBuilder.DefineMethod(
                     "Microsoft.Practices.Unity.InterceptionExtension.IInterceptingProxy.AddInterceptionBehavior",
-                    methodAttributes);
+                    MethodAttributes);
 
             // Setting return type
             methodBuilder.SetReturnType(typeof(void));

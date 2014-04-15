@@ -26,8 +26,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
                 .AddNewExtension<Interception>()
                 .RegisterType<IRepository, TestRepository>()
                 .RegisterType<TestService>(
-                    new Interceptor<VirtualMethodInterceptor>())
-                    ;
+                    new Interceptor<VirtualMethodInterceptor>());
 
             var svc1 = container.Resolve<TestService>();
             var svc2 = container.Resolve<TestService>();

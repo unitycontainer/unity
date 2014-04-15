@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -11,12 +12,13 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// matches available in the file system (*.cs, for example). The Glob
     /// class implements this string matching.
     /// </summary>
-    /// <remarks>Glob supports the following metacharacters:
+    /// <remarks>Glob supports the following meta-characters:
     ///     * - match zero or more characters
     ///     ? - match any one character
     /// [abc] - match one character if it's in the characters inside the brackets.
     /// All other characters in the glob are literals.
     /// </remarks>
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "[abc] is valid in this context but not a word to add to the dictionary.")]
     public class Glob
     {
         private readonly Regex pattern;
@@ -51,7 +53,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         /// <param name="s">String to check.</param>
         /// <returns>True if it matches, false if it doesn't.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "s")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "s", Justification = "Parameter name is meaningful enough in context")]
         public bool IsMatch(string s)
         {
             return pattern.IsMatch(s);

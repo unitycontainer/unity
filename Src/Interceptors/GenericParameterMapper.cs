@@ -13,8 +13,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// </summary>
     public class GenericParameterMapper
     {
-        private static readonly GenericParameterMapper defaultMapper = new GenericParameterMapper(Type.EmptyTypes, Type.EmptyTypes, null);
-        private static readonly KeyValuePair<Type, Type>[] emptyMappings = new KeyValuePair<Type, Type>[0];
+        private static readonly GenericParameterMapper DefaultParameterMapper = new GenericParameterMapper(Type.EmptyTypes, Type.EmptyTypes, null);
+        private static readonly KeyValuePair<Type, Type>[] EmptyMappings = new KeyValuePair<Type, Type>[0];
 
         private readonly IDictionary<Type, Type> mappedTypesCache = new Dictionary<Type, Type>();
         private readonly ICollection<KeyValuePair<Type, Type>> localMappings;
@@ -46,7 +46,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             }
             else
             {
-                this.localMappings = emptyMappings;
+                this.localMappings = EmptyMappings;
                 this.parent = null;
             }
         }
@@ -164,7 +164,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         public static GenericParameterMapper DefaultMapper
         {
-            get { return defaultMapper; }
+            get { return DefaultParameterMapper; }
         }
 
         /// <summary>

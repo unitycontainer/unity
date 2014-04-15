@@ -60,7 +60,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             IEnumerable<IInterceptionBehavior> interceptionBehaviors)
             where T : class
         {
-            return (T) ThroughProxyWithAdditionalInterfaces(typeof (T), target, interceptor, interceptionBehaviors, Type.EmptyTypes);
+            return (T)ThroughProxyWithAdditionalInterfaces(typeof(T), target, interceptor, interceptionBehaviors, Type.EmptyTypes);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             }
 
             var behaviors = interceptionBehaviors.ToList();
-            if(behaviors.Where(ib => ib == null).Count() > 0)
+            if (behaviors.Where(ib => ib == null).Count() > 0)
             {
                 throw new ArgumentException(
                     string.Format(CultureInfo.CurrentCulture, Resources.NullBehavior),
@@ -119,7 +119,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 = GetAllAdditionalInterfaces(activeBehaviors, additionalInterfaces).ToList();
 
             // If no behaviors and no extra interfaces, nothing to do.
-            if(activeBehaviors.Count == 0 && allAdditionalInterfaces.Count == 0)
+            if (activeBehaviors.Count == 0 && allAdditionalInterfaces.Count == 0)
             {
                 return target;
             }
@@ -206,7 +206,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             where T : class
         {
             return
-                (T) NewInstanceWithAdditionalInterfaces(typeof (T), interceptor, interceptionBehaviors, Type.EmptyTypes, constructorParameters);
+                (T)NewInstanceWithAdditionalInterfaces(typeof(T), interceptor, interceptionBehaviors, Type.EmptyTypes, constructorParameters);
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             var behaviors = interceptionBehaviors.ToList();
 
-            if(behaviors.Where(ib => ib == null).Count() > 0)
+            if (behaviors.Where(ib => ib == null).Count() > 0)
             {
                 throw new ArgumentException(
                     string.Format(CultureInfo.CurrentCulture, Resources.NullBehavior),

@@ -17,17 +17,19 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// supply the given interception behavior to the container.
         /// </summary>
         /// <param name="interceptionBehavior">Behavior to apply to this type.</param>
-        public DefaultInterceptionBehavior(IInterceptionBehavior interceptionBehavior) : base(interceptionBehavior)
+        public DefaultInterceptionBehavior(IInterceptionBehavior interceptionBehavior)
+            : base(interceptionBehavior)
         {
         }
 
-        ///<summary>
+        /// <summary>
         /// Create a new <see cref="DefaultInterceptionBehavior"/> that will
         /// resolve the given type/name pair to get the behavior.
-        ///</summary>
-        ///<param name="behaviorType">Type of behavior.</param>
-        ///<param name="name">Name for behavior registration.</param>
-        public DefaultInterceptionBehavior(Type behaviorType, string name) : base(behaviorType, name)
+        /// </summary>
+        /// <param name="behaviorType">Type of behavior.</param>
+        /// <param name="name">Name for behavior registration.</param>
+        public DefaultInterceptionBehavior(Type behaviorType, string name)
+            : base(behaviorType, name)
         {
         }
 
@@ -36,7 +38,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// resolve the given type to get the behavior.
         /// </summary>
         /// <param name="behaviorType">Type of behavior.</param>
-        public DefaultInterceptionBehavior(Type behaviorType) : base(behaviorType)
+        public DefaultInterceptionBehavior(Type behaviorType)
+            : base(behaviorType)
         {
         }
 
@@ -56,7 +59,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 policy = new InterceptionBehaviorsPolicy();
                 policies.Set(policy, implementationType);
             }
-            return (InterceptionBehaviorsPolicy) policy;
+            return (InterceptionBehaviorsPolicy)policy;
         }
     }
 
@@ -73,7 +76,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// that use the given type and name to resolve the behavior object.
         /// </summary>
         /// <param name="name">Name of the registration.</param>
-        public DefaultInterceptionBehavior(string name) : base(typeof (TBehavior), name)
+        public DefaultInterceptionBehavior(string name)
+            : base(typeof(TBehavior), name)
         {
         }
 
@@ -81,7 +85,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// Construct a new <see cref="DefaultInterceptionBehavior{TBehavior}"/> instance
         /// that uses the given type to resolve the behavior object.
         /// </summary>
-        public DefaultInterceptionBehavior() : base(typeof (TBehavior))
+        public DefaultInterceptionBehavior()
+            : base(typeof(TBehavior))
         {
         }
     }

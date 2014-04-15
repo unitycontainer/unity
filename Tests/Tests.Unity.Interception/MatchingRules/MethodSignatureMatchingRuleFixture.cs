@@ -10,9 +10,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
     [TestClass]
     public class MethodSignatureMatchingRuleFixture
     {
-        MethodBase objectToStringMethod;
-        MethodBase objectCtor;
-        MethodBase stringCopyToMethod;
+        private MethodBase objectToStringMethod;
+        private MethodBase objectCtor;
+        private MethodBase stringCopyToMethod;
 
         [TestInitialize]
         public void TestInitialize()

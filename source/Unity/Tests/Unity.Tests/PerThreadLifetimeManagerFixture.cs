@@ -24,7 +24,7 @@ using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
-[module: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1210:UsingDirectivesMustBeOrderedAlphabeticallyByNamespace", Justification = "Sorting would be messy due to #ifdef", Target = "PerThreadLifetimeManagerFixture", Scope = "Type")]
+//[module: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1210:UsingDirectivesMustBeOrderedAlphabeticallyByNamespace", Justification = "Sorting would be messy due to #ifdef")]
 
 namespace Microsoft.Practices.Unity.Tests
 {

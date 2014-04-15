@@ -1,13 +1,17 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Unity</id>
     <version>$Microsoft_Practices_Unity_Version$</version>
-    <title>Unity (PRE-RELEASE)</title>
+    <title>Unity</title>
     <authors>Microsoft</authors>
     <owners>Microsoft; patterns-and-practices</owners>
-    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <description>The Unity Application Block (Unity) is a lightweight extensible dependency injection container with support for constructor, property, and method call injection. It facilitates loosely-coupled design. Declarative configuration and registration by convention are supported on selected platforms.</description>
+    <summary>The Unity Application Block (Unity) is a lightweight extensible dependency injection container with support for constructor, property, and method call injection.</summary>
     <projectUrl>http://unity.codeplex.com</projectUrl>
+    <iconUrl>http://nuget.org/Media/Default/Packages/Unity/2.0/entlib_new_icon_100x100.png</iconUrl>
+    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <dependencies>
       <group targetFramework="win8">
@@ -17,14 +21,12 @@
         <dependency id="CommonServiceLocator" version="1.2.0" />
       </group>
     </dependencies>
-    <description>The Unity Application Block (Unity) is a lightweight extensible dependency injection container with support for constructor, property, and method call injection. It facilitates loosely-coupled design.</description>
-    <summary>The Unity Application Block (Unity) is a lightweight extensible dependency injection container with support for constructor, property, and method call injection.</summary>
-    <tags>Unity EntLib EntLib6 IoC DI container dependency injection inversion control LOB WinRT Win8 Windows8 NetCore WindowsStoreApps WindowsStore futures OSS</tags>
+    <tags>Unity Unity3 Unity35 EntLib EntLib6 IoC DI container dependency injection inversion control LOB WinRT Win8 Windows8 NetCore WindowsStoreApps WindowsStore WindowsPhone WindowsPhone8 wp8 Azure Xamarin MonoTouch MonoAndroid OSS</tags>
   </metadata>
   <files>
-    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.dll" target="lib\portable-net45+wp80+win8" />
-    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.pdb" target="lib\portable-net45+wp80+win8" />
-    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.xml" target="lib\portable-net45+wp80+win8" />
+    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.dll" target="lib\portable-net45+wp80+win8+MonoAndroid10+MonoTouch10" />
+    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.pdb" target="lib\portable-net45+wp80+win8+MonoAndroid10+MonoTouch10" />
+    <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.xml" target="lib\portable-net45+wp80+win8+MonoAndroid10+MonoTouch10" />
     <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.dll" target="lib\net45" />
     <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.pdb" target="lib\net45" />
     <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.xml" target="lib\net45" />

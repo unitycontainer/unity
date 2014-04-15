@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System.Linq;
+using System.Text;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
@@ -22,7 +23,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_FirstRegistrationHasOneMethodInjection()
         {
-            var registration = (from reg in Section.Containers.Default.Registrations
+            var registration = (from reg in section.Containers.Default.Registrations
                                 where reg.TypeName == "ObjectWithInjectionMethod" && reg.Name == "singleMethod"
                                 select reg).First();
 

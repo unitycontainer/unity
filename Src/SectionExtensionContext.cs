@@ -28,10 +28,11 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         /// <typeparam name="TAliased">Type the alias maps to.</typeparam>
         /// <param name="alias">The alias to use</param>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
+            Justification = "TAliased is required to do the mapping between the alias and the type")]
         public void AddAlias<TAliased>(string alias)
         {
-            AddAlias(alias, typeof (TAliased));
+            AddAlias(alias, typeof(TAliased));
         }
 
         /// <summary>
@@ -46,11 +47,12 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         /// <typeparam name="TElement">Type the tag maps to.</typeparam>
         /// <param name="tag">Tag name in the XML.</param>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
+        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
+            Justification = "TElement is required to map the tag to the element type")]
         public void AddElement<TElement>(string tag)
             where TElement : DeserializableConfigurationElement
         {
-            AddElement(tag, typeof (TElement));
+            AddElement(tag, typeof(TElement));
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Microsoft.Practices.Unity.Configuration
     /// <summary>
     /// A collection of <see cref="SectionExtensionElement"/>s.
     /// </summary>
-    [ConfigurationCollection(typeof (SectionExtensionElement))]
+    [ConfigurationCollection(typeof(SectionExtensionElement))]
     public class SectionExtensionElementCollection :
         DeserializableConfigurationElementCollection<SectionExtensionElement>
     {
@@ -18,11 +18,10 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>
         /// An <see cref="T:System.Object"/> that acts as the key for the specified <see cref="T:System.Configuration.ConfigurationElement"/>.
         /// </returns>
-        /// <param name="element">The <see cref="T:System.Configuration.ConfigurationElement"/> to return the key for. 
-        ///                 </param>
+        /// <param name="element">The <see cref="T:System.Configuration.ConfigurationElement"/> to return the key for. </param>
         protected override object GetElementKey(ConfigurationElement element)
         {
-            var sectionElement = (SectionExtensionElement) element;
+            var sectionElement = (SectionExtensionElement)element;
             string prefix = sectionElement.Prefix;
             if (!string.IsNullOrEmpty(prefix))
             {

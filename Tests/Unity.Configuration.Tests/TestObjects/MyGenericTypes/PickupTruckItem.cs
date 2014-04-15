@@ -7,9 +7,8 @@ using System.Text;
 
 namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects.MyGenericTypes
 {
-    class PickupTruckItem : IItem
+    internal class PickupTruckItem : IItem
     {
-
         public PickupTruckItem(string name, int maxLoad)
         {
             this.ItemName = name;

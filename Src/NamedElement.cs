@@ -21,7 +21,7 @@ namespace Microsoft.Practices.Unity.Configuration
         [ConfigurationProperty(NamePropertyName, IsRequired = true, IsKey = true)]
         public string Name
         {
-            get { return (string) base[NamePropertyName]; }
+            get { return (string)base[NamePropertyName]; }
             set { base[NamePropertyName] = value; }
         }
 
@@ -37,7 +37,7 @@ namespace Microsoft.Practices.Unity.Configuration
         public override void SerializeContent(XmlWriter writer)
         {
             Guard.ArgumentNotNull(writer, "writer");
-            writer.WriteAttributeString(NamePropertyName, Name);
+            writer.WriteAttributeString(NamedElement.NamePropertyName, this.Name);
         }
     }
 }

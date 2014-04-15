@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects.MyGenericTypes
 {
-    class MidsizeCarItem : IItem
+    internal class MidsizeCarItem : IItem
     {
         public MidsizeCarItem(string name, int numberCupHolders)
         {

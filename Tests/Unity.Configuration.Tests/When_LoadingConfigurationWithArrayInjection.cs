@@ -22,7 +22,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_ArrayPropertyHasArrayElementAsValue()
         {
-            var prop = GetArrayPropertyElement("specificElements");
+            var prop = this.GetArrayPropertyElement("specificElements");
 
             Assert.IsInstanceOfType(prop.Value, typeof(ArrayElement));
         }
@@ -30,7 +30,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_ArrayPropertyHasTwoValuesThatWillBeInjected()
         {
-            var prop = GetArrayPropertyElement("specificElements");
+            var prop = this.GetArrayPropertyElement("specificElements");
             var arrayValue = (ArrayElement)prop.Value;
 
             Assert.AreEqual(2, arrayValue.Values.Count);
@@ -39,7 +39,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_ArrayPropertyValuesAreAllDependencies()
         {
-            var prop = GetArrayPropertyElement("specificElements");
+            var prop = this.GetArrayPropertyElement("specificElements");
             var arrayValue = (ArrayElement)prop.Value;
 
             Assert.IsTrue(arrayValue.Values.All(v => v is DependencyElement));
@@ -48,7 +48,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_ArrayPropertyValuesHaveExpectedNames()
         {
-            var prop = GetArrayPropertyElement("specificElements");
+            var prop = this.GetArrayPropertyElement("specificElements");
             var arrayValue = (ArrayElement)prop.Value;
 
             CollectionAssertExtensions.AreEqual(new[] { "main", "special" },
@@ -57,7 +57,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
 
         private PropertyElement GetArrayPropertyElement(string registrationName)
         {
-            var registration = Section.Containers.Default.Registrations
+            var registration = section.Containers.Default.Registrations
                 .Where(r => r.TypeName == "ArrayDependencyObject" && r.Name == registrationName)
                 .First();
 

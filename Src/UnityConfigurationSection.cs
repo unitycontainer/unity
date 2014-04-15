@@ -32,10 +32,7 @@ namespace Microsoft.Practices.Unity.Configuration
         private const string AssembliesPropertyName = "assemblies";
         private const string XmlnsPropertyName = "xmlns";
 
-        [ThreadStatic]
-        private static UnityConfigurationSection currentSection;
-
-        private static readonly UnknownElementHandlerMap<UnityConfigurationSection> unknownElementHandlerMap
+        private static readonly UnknownElementHandlerMap<UnityConfigurationSection> UnknownElementHandlerMap
             = new UnknownElementHandlerMap<UnityConfigurationSection>
                 {
                     { "typeAliases", (s, xr) => s.TypeAliases.Deserialize(xr) },
@@ -45,6 +42,9 @@ namespace Microsoft.Practices.Unity.Configuration
                     { "namespace", (s, xr) => s.ReadUnwrappedElement(xr, s.Namespaces) },
                     { "assembly", (s, xr) => s.ReadUnwrappedElement(xr, s.Assemblies) }
                 };
+
+        [ThreadStatic]
+        private static UnityConfigurationSection currentSection;
 
         /// <summary>
         /// The current <see cref="UnityConfigurationSection"/> that is being deserialized
@@ -116,7 +116,6 @@ namespace Microsoft.Practices.Unity.Configuration
             get { return (AssemblyElementCollection)base[AssembliesPropertyName]; }
         }
 
-
         /// <summary>
         /// Apply the configuration in the default container element to the given container.
         /// </summary>
@@ -124,7 +123,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>The passed in <paramref name="container"/>.</returns>
         public IUnityContainer Configure(IUnityContainer container)
         {
-            return Configure(container, "");
+            return this.Configure(container, String.Empty);
         }
 
         /// <summary>
@@ -137,7 +136,7 @@ namespace Microsoft.Practices.Unity.Configuration
         {
             currentSection = this;
             TypeResolver.SetAliases(this);
-            var containerElement = GuardContainerExists(configuredContainerName, Containers[configuredContainerName]);
+            var containerElement = GuardContainerExists(configuredContainerName, this.Containers[configuredContainerName]);
 
             containerElement.ConfigureContainer(container);
             return container;
@@ -158,9 +157,8 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <summary>
         /// Reads XML from the configuration file.
         /// </summary>
-        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> object, which reads from the configuration file. 
-        ///                 </param><exception cref="T:System.Configuration.ConfigurationErrorsException"><paramref name="reader"/> found no elements in the configuration file.
-        ///                 </exception>
+        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> object, which reads from the configuration file. </param>
+        /// <exception cref="T:System.Configuration.ConfigurationErrorsException"><paramref name="reader"/> found no elements in the configuration file.</exception>
         protected override void DeserializeSection(XmlReader reader)
         {
             ExtensionElementMap.Clear();
@@ -174,9 +172,10 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>
         /// true when an unknown element is encountered while deserializing; otherwise, false.
         /// </returns>
-        /// <param name="elementName">The name of the unknown subelement.
-        ///                 </param><param name="reader">The <see cref="T:System.Xml.XmlReader"/> being used for deserialization.
-        ///                 </param><exception cref="T:System.Configuration.ConfigurationErrorsException">The element identified by <paramref name="elementName"/> is locked.
+        /// <param name="elementName">The name of the unknown subelement.</param>
+        /// <param name="reader">The <see cref="T:System.Xml.XmlReader"/> being used for deserialization.</param>
+        /// <exception cref="T:System.Configuration.ConfigurationErrorsException">
+        ///                     The element identified by <paramref name="elementName"/> is locked.
         ///                     - or -
         ///                     One or more of the element's attributes is locked.
         ///                     - or -
@@ -189,17 +188,17 @@ namespace Microsoft.Practices.Unity.Configuration
         ///                     An attempt was made to deserialize a property that is not a valid member of the element.
         ///                     - or -
         ///                     The element cannot contain a CDATA or text element.
-        ///                 </exception>
+        /// </exception>
         protected override bool OnDeserializeUnrecognizedElement(string elementName, XmlReader reader)
         {
-            return unknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
+            return UnknownElementHandlerMap.ProcessElement(this, elementName, reader) ||
                 base.OnDeserializeUnrecognizedElement(elementName, reader);
         }
 
         private void DeserializeSectionExtension(XmlReader reader)
         {
             TypeResolver.SetAliases(this);
-            var element = this.ReadUnwrappedElement(reader, SectionExtensions);
+            var element = this.ReadUnwrappedElement(reader, this.SectionExtensions);
             element.ExtensionObject.AddExtensions(new ExtensionContext(this, element.Prefix));
         }
 
@@ -209,27 +208,26 @@ namespace Microsoft.Practices.Unity.Configuration
         /// <returns>
         /// An XML string containing an unmerged view of the <see cref="T:System.Configuration.ConfigurationSection"/> object.
         /// </returns>
-        /// <param name="parentElement">The <see cref="T:System.Configuration.ConfigurationElement"/> instance to use as the parent when performing the un-merge.
-        ///                 </param><param name="name">The name of the section to create.
-        ///                 </param><param name="saveMode">The <see cref="T:System.Configuration.ConfigurationSaveMode"/> instance to use when writing to a string.
-        ///                 </param>
+        /// <param name="parentElement">The <see cref="T:System.Configuration.ConfigurationElement"/> instance to use as the parent when performing the un-merge.</param>
+        /// <param name="name">The name of the section to create.</param>
+        /// <param name="saveMode">The <see cref="T:System.Configuration.ConfigurationSaveMode"/> instance to use when writing to a string.</param>
         protected override string SerializeSection(ConfigurationElement parentElement, string name, ConfigurationSaveMode saveMode)
         {
             ExtensionElementMap.Clear();
             currentSection = this;
             TypeResolver.SetAliases(this);
-            InitializeSectionExtensions();
+            this.InitializeSectionExtensions();
 
             var sb = new StringBuilder();
             using (var writer = MakeXmlWriter(sb))
             {
                 writer.WriteStartElement(name, XmlNamespace);
                 writer.WriteAttributeString("xmlns", XmlNamespace);
-                TypeAliases.SerializeElementContents(writer, "alias");
-                Namespaces.SerializeElementContents(writer, "namespace");
-                Assemblies.SerializeElementContents(writer, "assembly");
-                SectionExtensions.SerializeElementContents(writer, "sectionExtension");
-                Containers.SerializeElementContents(writer, "container");
+                this.TypeAliases.SerializeElementContents(writer, "alias");
+                this.Namespaces.SerializeElementContents(writer, "namespace");
+                this.Assemblies.SerializeElementContents(writer, "assembly");
+                this.SectionExtensions.SerializeElementContents(writer, "sectionExtension");
+                this.Containers.SerializeElementContents(writer, "container");
                 writer.WriteEndElement();
             }
 
@@ -244,13 +242,13 @@ namespace Microsoft.Practices.Unity.Configuration
                                    OmitXmlDeclaration = true,
                                    ConformanceLevel = ConformanceLevel.Fragment
                                };
-            return XmlWriter.Create(sb, settings);
 
+            return XmlWriter.Create(sb, settings);
         }
 
         private void InitializeSectionExtensions()
         {
-            foreach (var extensionElement in SectionExtensions)
+            foreach (var extensionElement in this.SectionExtensions)
             {
                 SectionExtension extensionObject = extensionElement.ExtensionObject;
                 extensionObject.AddExtensions(new ExtensionContext(this, extensionElement.Prefix, false));
@@ -284,15 +282,18 @@ namespace Microsoft.Practices.Unity.Configuration
             /// <param name="aliasedType">Type the alias maps to.</param>
             public override void AddAlias(string newAlias, Type aliasedType)
             {
-                if (!saveAliases) return;
-
-                string alias = newAlias;
-                if (!string.IsNullOrEmpty(prefix))
+                if (!this.saveAliases)
                 {
-                    alias = prefix + "." + alias;
+                    return;
                 }
 
-                section.TypeAliases.Add(new AliasElement(alias, aliasedType));
+                string alias = newAlias;
+                if (!string.IsNullOrEmpty(this.prefix))
+                {
+                    alias = this.prefix + "." + alias;
+                }
+
+                this.section.TypeAliases.Add(new AliasElement(alias, aliasedType));
             }
 
             /// <summary>
@@ -308,15 +309,15 @@ namespace Microsoft.Practices.Unity.Configuration
 
                 if (typeof(ContainerConfiguringElement).IsAssignableFrom(elementType))
                 {
-                    ExtensionElementMap.AddContainerConfiguringElement(prefix, tag, elementType);
+                    ExtensionElementMap.AddContainerConfiguringElement(this.prefix, tag, elementType);
                 }
                 else if (typeof(InjectionMemberElement).IsAssignableFrom(elementType))
                 {
-                    ExtensionElementMap.AddInjectionMemberElement(prefix, tag, elementType);
+                    ExtensionElementMap.AddInjectionMemberElement(this.prefix, tag, elementType);
                 }
                 else if (typeof(ParameterValueElement).IsAssignableFrom(elementType))
                 {
-                    ExtensionElementMap.AddParameterValueElement(prefix, tag, elementType);
+                    ExtensionElementMap.AddParameterValueElement(this.prefix, tag, elementType);
                 }
                 else
                 {

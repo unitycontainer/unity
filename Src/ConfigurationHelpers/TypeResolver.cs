@@ -12,7 +12,8 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
     /// </summary>
     public static class TypeResolver
     {
-        [ThreadStatic] private static TypeResolverImpl impl;
+        [ThreadStatic]
+        private static TypeResolverImpl impl;
 
         /// <summary>
         /// Set the set of aliases to use for resolution.
@@ -32,9 +33,9 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         }
 
         /// <summary>
-        /// Resolves a type alias or type fullname to a concrete type.
+        /// Resolves a type alias or type FullName to a concrete type.
         /// </summary>
-        /// <param name="typeNameOrAlias">Type alias or type fullname</param>
+        /// <param name="typeNameOrAlias">Type alias or type FullName</param>
         /// <returns>Type object or null if resolve fails.</returns>
         /// <exception cref="InvalidOperationException">Thrown if alias lookup fails.</exception>
         public static Type ResolveType(string typeNameOrAlias)
@@ -43,7 +44,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         }
 
         /// <summary>
-        /// Resolves a type alias or type fullname to a concrete type.
+        /// Resolves a type alias or type FullName to a concrete type.
         /// </summary>
         /// <param name="typeNameOrAlias">Alias or name to resolve.</param>
         /// <param name="throwIfResolveFails">if true and the alias does not

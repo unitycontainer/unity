@@ -20,7 +20,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         protected ContainerConfiguringElement()
         {
-            configuringElementNum = Interlocked.Increment(ref configuringElementCount);
+            this.configuringElementNum = Interlocked.Increment(ref configuringElementCount);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Microsoft.Practices.Unity.Configuration
 
         internal void ConfigureContainerInternal(IUnityContainer container)
         {
-            ConfigureContainer(container);
+            this.ConfigureContainer(container);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Microsoft.Practices.Unity.Configuration
         /// </summary>
         public virtual string Key
         {
-            get { return string.Format(CultureInfo.InvariantCulture, "configuring:{0}", configuringElementNum); }
+            get { return string.Format(CultureInfo.InvariantCulture, "configuring:{0}", this.configuringElementNum); }
         }
     }
 }

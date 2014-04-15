@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System.Linq;
+using System.Text;
 using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
 using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.Practices.Unity.TestSupport.Configuration;
@@ -22,7 +23,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_ExpectedNumberOfAliasesArePresent()
         {
-            Assert.AreEqual(8, Section.TypeAliases.Count);
+            Assert.AreEqual(8, section.TypeAliases.Count);
         }
 
         [TestMethod]
@@ -30,7 +31,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         {
             CollectionAssertExtensions.AreEqual(
                 new[] { "string", "int", "ILogger", "MockLogger", "SpecialLogger", "DependentConstructor", "TwoConstructorArgs", "MockDatabase" },
-                Section.TypeAliases.Select(a => a.Alias).ToList());
+                section.TypeAliases.Select(a => a.Alias).ToList());
         }
     }
 }

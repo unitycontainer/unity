@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <returns>The created element.</returns>
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "baseElement",
             Justification = "Made this an extension method to get nice usage syntax.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class")]
         public static TElementType ReadUnwrappedElement<TElementType>(this ConfigurationElement baseElement,
             XmlReader reader, DeserializableConfigurationElementCollectionBase<TElementType> elementCollection)
@@ -56,7 +56,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <returns>The created element.</returns>
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "baseElement",
             Justification = "Made this an extension method to get nice usage syntax.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class")]
         public static TElementType ReadElementByType<TElementType>(this ConfigurationElement baseElement,
             XmlReader reader, Type elementType, DeserializableConfigurationElementCollectionBase<TElementType> elementCollection)
@@ -65,9 +65,9 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
             Guard.ArgumentNotNull(reader, "reader");
             Guard.ArgumentNotNull(elementType, "elementType");
             Guard.ArgumentNotNull(elementCollection, "elementCollection");
-            Guard.TypeIsAssignable(typeof (TElementType), elementType, "elementType");
+            Guard.TypeIsAssignable(typeof(TElementType), elementType, "elementType");
 
-            var element = (TElementType) Activator.CreateInstance(elementType);
+            var element = (TElementType)Activator.CreateInstance(elementType);
             element.Deserialize(reader);
             elementCollection.Add(element);
             return element;

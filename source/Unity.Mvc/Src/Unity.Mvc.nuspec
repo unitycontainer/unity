@@ -3,15 +3,16 @@
   <metadata schemaVersion="2">
     <id>Unity.Mvc</id>
     <version>$Microsoft_Practices_Unity_WebApi_Version$</version>
-    <title>Unity bootstrapper for ASP.NET MVC (PRE-RELEASE)</title>
+    <title>Unity bootstrapper for ASP.NET MVC</title>
     <authors>Microsoft</authors>
     <owners>Microsoft; patterns-and-practices</owners>
-    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <description>Unity is a lightweight extensible dependency injection container. This package is a Unity bootstrapper for ASP.NET MVC.</description>
+    <summary>This package is a Unity bootstrapper for ASP.NET MVC</summary>
     <projectUrl>http://unity.codeplex.com</projectUrl>
+    <iconUrl>http://nuget.org/Media/Default/Packages/Unity/2.0/entlib_new_icon_100x100.png</iconUrl>
+    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>The Unity Application Block (Unity) is a lightweight extensible dependency injection container with support for constructor, property, and method call injection. It facilitates loosely-coupled design.</description>
-    <summary>The Unity Application Block (Unity) is a lightweight extensible dependency injection container with support for constructor, property, and method call injection.</summary>
-    <tags>Unity EntLib EntLib6 IoC DI container dependency injection inversion control aspnet mvc aspnetmvc LOB futures OSS</tags>
     <dependencies>
       <dependency id="Unity" version="$Microsoft_Practices_Unity_Version$" />
       <dependency id="WebActivatorEx" version="2.0" />
@@ -19,6 +20,7 @@
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Web" targetFramework="net40" />
     </frameworkAssemblies>
+    <tags>Unity Unity3 Unity35 EntLib EntLib6 IoC DI container dependency injection inversion control aspnet mvc aspnetmvc LOB OSS</tags>
   </metadata>
   <files>
     <file src="Unity.Mvc\Src\NuGet\UnityConfig.cs.pp" target="content\App_Start" />

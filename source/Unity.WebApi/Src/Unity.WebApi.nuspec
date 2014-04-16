@@ -3,20 +3,22 @@
   <metadata>
     <id>Unity.AspNet.WebApi</id>
     <version>$Microsoft_Practices_Unity_Mvc_Version$</version>
-    <title>Unity bootstrapper for ASP.NET Web API (PRE-RELEASE)</title>
+    <title>Unity bootstrapper for ASP.NET Web API</title>
     <authors>Microsoft</authors>
     <owners>Microsoft; patterns-and-practices</owners>
-    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <description>Unity is a lightweight extensible dependency injection container. This package is a Unity bootstrapper for ASP.NET Web API.</description>
+    <summary>This package is a Unity bootstrapper for ASP.NET Web API</summary>
     <projectUrl>http://unity.codeplex.com</projectUrl>
+    <iconUrl>http://nuget.org/Media/Default/Packages/Unity/2.0/entlib_new_icon_100x100.png</iconUrl>
+    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>Unity bootstrapper for ASP.NET Web API</description>
-    <summary>This is a Unity bootstrapper for ASP.NET Web API</summary>
-    <tags>Unity EntLib EntLib6 IoC DI container dependency injection inversion control aspnet webapi web api aspnetwebapi LOB futures OSS</tags>
     <dependencies>
       <dependency id="Unity" version="$Microsoft_Practices_Unity_Version$" />
       <dependency id="WebActivatorEx" version="2.0" />
       <dependency id="Microsoft.AspNet.WebApi.WebHost" version="4.0" />
     </dependencies>
+    <tags>Unity Unity3 Unity35 EntLib EntLib6 IoC DI container dependency injection inversion control aspnet webapi web api aspnetwebapi LOB OSS</tags>
   </metadata>
   <files>
     <file src="Unity.Mvc\Src\NuGet\UnityConfig.cs.pp" target="content\App_Start" />

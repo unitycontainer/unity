@@ -17,13 +17,13 @@ using System.Runtime.InteropServices;
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
-[assembly: AssemblyCopyright("Copyright © 2011,2012 Microsoft Corporation.")]
+[assembly: AssemblyCopyright("Copyright © Microsoft Corporation")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 [assembly: AssemblyVersion("3.5.0.0")]
 [assembly: AssemblyFileVersion("3.5.1404.0")]
-[assembly: AssemblyInformationalVersion("3.5.1404-prerelease")]
+[assembly: AssemblyInformationalVersion("3.5.1404.0")]
 
 [assembly: ComVisible(false)]
 [assembly: NeutralResourcesLanguage("en")]

@@ -1,7 +1,9 @@
-﻿// This output was generated based on a format similar to the one used by resx resource generation.
+﻿
+// This output was generated based on a format similar to the one used by resx resource generation.
 namespace Microsoft.Practices.Unity
 {
     using System;
+
 
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
@@ -11,11 +13,12 @@ namespace Microsoft.Practices.Unity
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute]
-    [global::System.Security.SecuritySafeCriticalAttribute]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::System.Security.SecuritySafeCriticalAttribute()]
     internal class Resources
     {
+
         private static global::Windows.ApplicationModel.Resources.ResourceLoader resourceMan;
 
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Using resx generated code as template")]
@@ -39,10 +42,10 @@ namespace Microsoft.Practices.Unity
                 return resourceMan;
             }
         }
-
-        /// <summary>
-        /// An attempt to override an existing mapping was detected for type {1} wit...
-        /// </summary>
+		
+		/// <summary>
+		/// An attempt to override an existing mapping was detected for type {1} wit...
+		/// </summary>
         internal static string DuplicateTypeMappingException
         {
             get
@@ -50,10 +53,10 @@ namespace Microsoft.Practices.Unity
                 return ResourceManager.GetString("DuplicateTypeMappingException");
             }
         }
-
-        /// <summary>
-        /// The set of assemblies contains a null element.
-        /// </summary>
+	
+		/// <summary>
+		/// The set of assemblies contains a null element.
+		/// </summary>
         internal static string ExceptionNullAssembly
         {
             get
@@ -61,5 +64,6 @@ namespace Microsoft.Practices.Unity
                 return ResourceManager.GetString("ExceptionNullAssembly");
             }
         }
-    }
+	}
 }
+

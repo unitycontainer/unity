@@ -8,15 +8,17 @@ using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.Practices.Unity.Utility;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using InjectionConstructorAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
 #elif __IOS__
 using NUnit.Framework;
+using InjectionConstructorAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
 using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
-using TestMethodAttribute = NUnit.Framework.TestAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 using InjectionConstructorAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
+#endif
 
 namespace Microsoft.Practices.ObjectBuilder2.Tests
 {

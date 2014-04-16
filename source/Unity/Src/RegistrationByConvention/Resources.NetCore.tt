@@ -7,7 +7,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Text.RegularExpressions" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ output extension=".cs" #>
+<#@ output extension=".Designer.cs" #>
 <#
 	var resourceFile = this.Host.ResolvePath("strings\\en-US\\Resources.resw");
 	XDocument document = XDocument.Load(resourceFile);
@@ -37,7 +37,7 @@ namespace <#= suggestedNamespace #>
 
         private static global::Windows.ApplicationModel.Resources.ResourceLoader resourceMan;
 
-        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Using resx generated code as template")]
         internal Resources()
         {
         }

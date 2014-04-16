@@ -23,8 +23,8 @@ using System.Threading;
 using Microsoft.Practices.ObjectBuilder2;
 using NUnit.Framework;
 using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
-using TestMethodAttribute = NUnit.Framework.TestAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
+using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
 using System.Linq;
 using System.Threading;

@@ -73,8 +73,8 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <returns></returns>
         public Expression CreateParameterExpression(IDependencyResolverPolicy resolver, Type parameterType, Expression setOperationExpression)
         {
-            // The intent of this is to create a parameter resolving expression block.  The following
-            // psuedo code will hopefully make it clearer as to what we're trying to accomplish (of course actual code
+            // The intent of this is to create a parameter resolving expression block. The following
+            // pseudo code will hopefully make it clearer as to what we're trying to accomplish (of course actual code
             // trumps comments):
             //  object priorOperation = context.CurrentOperation;
             //  SetCurrentOperation

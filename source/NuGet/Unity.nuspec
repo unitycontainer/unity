@@ -47,6 +47,7 @@
     <file src="bin\Desktop\$Configuration$\Microsoft.Practices.Unity.xml" target="lib\win8" />
     <file src="bin\NetCore\$Configuration$\Microsoft.Practices.Unity.RegistrationByConvention.dll" target="lib\win8" />
     <file src="bin\NetCore\$Configuration$\Microsoft.Practices.Unity.RegistrationByConvention.pdb" target="lib\win8" />
+    <file src="bin\NetCore\$Configuration$\Microsoft.Practices.Unity.RegistrationByConvention.pri" target="lib\win8" />
     <file src="bin\NetCore\$Configuration$\Microsoft.Practices.Unity.RegistrationByConvention.xml" target="lib\win8" />
     <file src="UnityConfiguration30.xsd" target="" />
     <file src="Unity\Src\**\*.cs" target="src\Unity\Src" />

@@ -2,14 +2,14 @@
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
 
   <Identity Name="1f200b01-051e-4843-93d9-b6965489308f"
-            Publisher="CN=Fernando"
+            Publisher="CN=Microsoft.Practices.Unity"
             Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="1f200b01-051e-4843-93d9-b6965489308f" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Unity.Tests.WindowsPhone.8.1</DisplayName>
-    <PublisherDisplayName>Fernando</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft.Practices.Unity</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

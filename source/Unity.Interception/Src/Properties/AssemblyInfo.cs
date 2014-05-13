@@ -30,7 +30,7 @@ using System.Security;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("3.5.0.0")]
+[assembly: AssemblyVersion("3.5.1.0")]
 [assembly: AssemblyFileVersion("3.5.1405.0")]
 [assembly: AssemblyInformationalVersion("3.5.1405-prerelease")]
 

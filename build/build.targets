@@ -9,12 +9,12 @@
     <Configuration>Release</Configuration>
     <Platform>Any CPU</Platform>
 
-    <AssemblyOriginatorKeyFile></AssemblyOriginatorKeyFile>
-    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)unity.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
 
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    
+
     <RepoRoot>$(MSBuildThisFileDirectory)..\</RepoRoot>
     <SourceRoot Condition=" '$(SourceRoot)' == '' ">$(RepoRoot)Source\</SourceRoot>
     <OutputRoot Condition=" '$(OutputRoot)' == '' ">$(RepoRoot)bin\$(Configuration)\</OutputRoot>
@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <Target Name="Rebuild" DependsOnTargets="Clean;Build"/>
-  
+
   <Target Name="Build" DependsOnTargets="Compile;RunTests;BuildNugetPackages" />
 
   <Target Name="Clean" DependsOnTargets="CleanProjects;CleanNugetPackages"/>
@@ -62,6 +62,6 @@
 
     <MSBuild Projects="test.targets" Targets="RunTests" Properties="$(TestProperties)"/>
   </Target>
-  
+
   <Import Project="nuget.targets"/>
 </Project>

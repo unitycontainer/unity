@@ -6,7 +6,7 @@ using System.Resources;
 using System.Runtime.InteropServices;
 using System.Security;
 
-// General Information about an assembly is controlled through the following 
+// General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Microsoft.Practices.Unity.InterceptionExtension")]
@@ -31,7 +31,7 @@ using System.Security;
 [assembly: AssemblyCulture("")]
 
 [assembly: AssemblyVersion("3.5.1.0")]
-[assembly: AssemblyFileVersion("3.5.1405.0")]
-[assembly: AssemblyInformationalVersion("3.5.1405-prerelease")]
+[assembly: AssemblyFileVersion("3.5.1406.0")]
+[assembly: AssemblyInformationalVersion("3.5.1406")]
 
 [assembly: NeutralResourcesLanguage("en")]

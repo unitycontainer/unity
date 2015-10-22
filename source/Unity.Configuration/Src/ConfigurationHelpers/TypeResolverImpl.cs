@@ -206,7 +206,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
                 {
                     foreach (var genericParamInfo in parseResult.GenericParameters)
                     {
-                        Type genericParam = ResolveType(genericParamInfo.FullName, false);
+                        Type genericParam = ResolveType(genericParamInfo.FullNameWithNestedGenerics, false);
                         if (genericParam == null)
                         {
                             return null;

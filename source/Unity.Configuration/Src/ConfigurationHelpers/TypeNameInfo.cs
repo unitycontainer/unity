@@ -58,5 +58,50 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
                 return name;
             }
         }
+
+        public string FullNameWithNestedGenerics
+        {
+            get
+            {
+                string name = Name;
+                if (IsGenericType)
+                {
+                    if (IsOpenGeneric)
+                    {
+                        name += '`' + NumGenericParameters.ToString(CultureInfo.InvariantCulture);
+                    }
+                    else
+                    {
+                        name += '[';
+
+                        for (int i = 0; i < NumGenericParameters; i++)
+                        {
+                            TypeNameInfo genericParameterInfo = GenericParameters[i];
+
+                            string genericParameter = genericParameterInfo.FullNameWithNestedGenerics;
+
+                            if (!string.IsNullOrEmpty(genericParameterInfo.AssemblyName))
+                                genericParameter = "[" + genericParameter + "]";
+
+                            name += genericParameter;
+
+                            if (i != NumGenericParameters - 1)
+                                name += ",";
+                        }
+
+                        name += ']';
+                    }
+                }
+                if (!string.IsNullOrEmpty(Namespace))
+                {
+                    name = Namespace + '.' + name;
+                }
+                if (!string.IsNullOrEmpty(AssemblyName))
+                {
+                    name = name + ", " + AssemblyName;
+                }
+                return name;
+            }
+        }
     }
 }

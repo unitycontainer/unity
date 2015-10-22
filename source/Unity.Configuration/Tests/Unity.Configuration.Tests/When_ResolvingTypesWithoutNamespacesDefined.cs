@@ -107,5 +107,11 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         {
             Assert.IsNull(typeResolver.ResolveType("Namespace.Type, Assembly", false));
         }
+
+        [TestMethod]
+        public void Then_ShorthandWithNestedGenericAndMultipleParametersIsResolved()
+        {
+            Assert.AreSame(typeResolver.ResolveType("System.Func[[System.Collections.Generic.List[int], mscorlib], System.Int64], mscorlib", true), typeof(Func<List<int>, long>));
+        }
     }
 }

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// Base class for Policies that specifies which handlers apply to which methods of an object.
@@ -99,7 +99,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         protected static IEnumerable<MethodBase> GetMethodSet(MethodBase member)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(member, "member");
+            Unity.Utility.Guard.ArgumentNotNull(member, "member");
 
             List<MethodBase> methodSet = new List<MethodBase>(new MethodBase[] { member });
             if (member.DeclaringType != null && !member.DeclaringType.IsInterface)

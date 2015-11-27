@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// A matching rule that matches when the member is declared
@@ -98,7 +98,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public bool Matches(Type t)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(t, "t");
+            Unity.Utility.Guard.ArgumentNotNull(t, "t");
 
             foreach (MatchingInfo match in matches)
             {

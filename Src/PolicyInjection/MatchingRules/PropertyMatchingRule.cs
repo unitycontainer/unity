@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// An <see cref="IMatchingRule"/> implementation that matches properties
@@ -57,7 +57,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public PropertyMatchingRule(IEnumerable<PropertyMatchingInfo> matches)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(matches, "matches");
+            Unity.Utility.Guard.ArgumentNotNull(matches, "matches");
 
             foreach (PropertyMatchingInfo match in matches)
             {
@@ -82,7 +82,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public bool Matches(MethodBase member)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(member, "member");
+            Unity.Utility.Guard.ArgumentNotNull(member, "member");
 
             return
                 member.IsSpecialName &&

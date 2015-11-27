@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Practices.ObjectBuilder2;
+using ObjectBuilder2;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// Interface that controls when and how types get intercepted.

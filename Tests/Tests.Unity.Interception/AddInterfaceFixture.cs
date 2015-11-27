@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.InterceptionExtension.Tests.ObjectsUnderTest;
+using Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
+namespace Unity.InterceptionExtension.Tests
 {
     /// <summary>
     /// Summary description for AddInterfaceFixture

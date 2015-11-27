@@ -3,16 +3,16 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.SeparateTopLevel;
-using Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevel;
-using Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.SecondLevel;
-using Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.SecondLevel.ThirdLevel;
-using Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevelTwo;
+using Unity.InterceptionExtension.Tests.MatchingRules.SeparateTopLevel;
+using Unity.InterceptionExtension.Tests.MatchingRules.TopLevel;
+using Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.SecondLevel;
+using Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.SecondLevel.ThirdLevel;
+using Unity.InterceptionExtension.Tests.MatchingRules.TopLevelTwo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [module: SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1403:FileMayOnlyContainASingleNamespace", Justification = "Test needs multiple namespaces so keep the namespaces and test together")]
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
+namespace Unity.InterceptionExtension.Tests.MatchingRules
 {
     /// <summary>
     /// Unit tests for NamespaceMatchingRule
@@ -21,19 +21,19 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
     public class NamespaceMatchingRuleFixture
     {
         private const string TopLevelNamespace =
-            "Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevel";
+            "Unity.InterceptionExtension.Tests.MatchingRules.TopLevel";
 
         private const string TopLevelNamespaceWildcard =
-            "Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.*";
+            "Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.*";
 
         private const string SecondLevelNamespace =
-            "Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.SecondLevel";
+            "Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.SecondLevel";
 
         private const string ThirdLevelNamespace =
-            "Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.SecondLevel.ThirdLevel";
+            "Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.SecondLevel.ThirdLevel";
 
         private const string TopLevelTwoNamespace =
-            "Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules.TopLevelTwo";
+            "Unity.InterceptionExtension.Tests.MatchingRules.TopLevelTwo";
 
         [TestMethod]
         public void ShouldMatchWhenInExactNamespace()

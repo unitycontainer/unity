@@ -12,5 +12,5 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Microsoft.Naming", "CA1703:ResourceStringsShouldBeSpelledCorrectly", MessageId = "interceptable", Scope = "resource", Target = "Microsoft.Practices.Unity.InterceptionExtension.Properties.Resources.resources",
+[assembly: SuppressMessage("Microsoft.Naming", "CA1703:ResourceStringsShouldBeSpelledCorrectly", MessageId = "interceptable", Scope = "resource", Target = "Unity.InterceptionExtension.Properties.Resources.resources",
     Justification = "interceptable is spelled correctly")]

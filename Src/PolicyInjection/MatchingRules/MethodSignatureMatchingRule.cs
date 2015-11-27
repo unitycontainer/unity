@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// Match methods with the given names and method signature.
@@ -25,7 +25,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public MethodSignatureMatchingRule(string methodName, IEnumerable<string> parameterTypeNames, bool ignoreCase)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(parameterTypeNames, "parameterTypeNames");
+            Unity.Utility.Guard.ArgumentNotNull(parameterTypeNames, "parameterTypeNames");
 
             methodNamePattern = new Glob(methodName, !ignoreCase);
             parameterRules = new List<TypeMatchingRule>();
@@ -79,7 +79,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     Justification = "Validation done by Guard class")]        
         public bool Matches(MethodBase member)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(member, "member");
+            Unity.Utility.Guard.ArgumentNotNull(member, "member");
 
             if (!methodNamePattern.IsMatch(member.Name))
             {

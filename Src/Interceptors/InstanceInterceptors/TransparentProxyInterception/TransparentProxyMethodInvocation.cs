@@ -8,7 +8,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Security;
 using System.Security.Permissions;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// An implementation of <see cref="IMethodInvocation"/> that wraps the
@@ -37,7 +37,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public TransparentProxyMethodInvocation(IMethodCallMessage callMessage, object target)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(callMessage, "callMessage");
+            Unity.Utility.Guard.ArgumentNotNull(callMessage, "callMessage");
 
             this.callMessage = callMessage;
             this.invocationContext = new Dictionary<string, object>();

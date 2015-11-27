@@ -6,10 +6,10 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Runtime.Remoting.Proxies;
 using System.Text;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.InterfaceInterception
+namespace Unity.InterceptionExtension.Tests.InterfaceInterception
 {
     public partial class InterfaceInterceptorFixture
     {

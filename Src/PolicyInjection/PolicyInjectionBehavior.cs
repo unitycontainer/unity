@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// Interceptor that performs policy injection.
@@ -35,7 +35,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public PolicyInjectionBehavior(CurrentInterceptionRequest interceptionRequest, InjectionPolicy[] policies,
             IUnityContainer container)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(interceptionRequest, "interceptionRequest");
+            Unity.Utility.Guard.ArgumentNotNull(interceptionRequest, "interceptionRequest");
 
             var allPolicies = new PolicySet(policies);
             bool hasHandlers = false;

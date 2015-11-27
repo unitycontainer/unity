@@ -3,7 +3,7 @@
 using System;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
+namespace Unity.InterceptionExtension.Tests.ObjectsUnderTest
 {
     public class TypeMatchingAssignmentRule : IMatchingRule
     {

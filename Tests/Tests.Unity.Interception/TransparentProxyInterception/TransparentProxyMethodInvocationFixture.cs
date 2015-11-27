@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
+namespace Unity.InterceptionExtension.Tests
 {
     /// <summary>
     /// Tests for the TransparentProxyMethodInvocation class, which wraps

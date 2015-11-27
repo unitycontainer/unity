@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
+namespace Unity.InterceptionExtension.Tests.MatchingRules
 {
     // Tests on assembly matching rules that only work in VS 2010/.NET 4.0
     public partial class AssemblyMatchingRuleFixture

@@ -8,9 +8,9 @@ using System.Reflection;
 using System.Runtime.Remoting.Proxies;
 using System.Security;
 using System.Security.Permissions;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// An instance interceptor that uses remoting proxies to do the

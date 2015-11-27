@@ -4,7 +4,7 @@ using System;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
+namespace Unity.InterceptionExtension.Tests.MatchingRules
 {
     [TestClass]
     public class CustomAttributeMatchingRuleFixture

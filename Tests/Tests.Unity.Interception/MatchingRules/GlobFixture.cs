@@ -2,7 +2,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
+namespace Unity.InterceptionExtension.Tests.MatchingRules
 {
     /// <summary>
     /// Test figure for the Glob class, which implements matching using

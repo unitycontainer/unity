@@ -2,12 +2,12 @@
 
 using System;
 using System.Globalization;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.InterceptionExtension.Properties;
-using Microsoft.Practices.Unity.ObjectBuilder;
-using Guard = Microsoft.Practices.Unity.Utility.Guard;
+using ObjectBuilder2;
+using Unity.InterceptionExtension.Properties;
+using Unity.ObjectBuilder;
+using Guard = Unity.Utility.Guard;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// A Unity container extension that allows you to configure

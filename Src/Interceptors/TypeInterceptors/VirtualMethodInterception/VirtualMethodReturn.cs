@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// An implementation of <see cref="IMethodReturn"/> used by
@@ -30,7 +30,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public VirtualMethodReturn(IMethodInvocation originalInvocation, object returnValue, object[] arguments)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(originalInvocation, "originalInvocation");
+            Unity.Utility.Guard.ArgumentNotNull(originalInvocation, "originalInvocation");
 
             invocationContext = originalInvocation.InvocationContext;
             this.returnValue = returnValue;
@@ -47,7 +47,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public VirtualMethodReturn(IMethodInvocation originalInvocation, Exception exception)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(originalInvocation, "originalInvocation");
+            Unity.Utility.Guard.ArgumentNotNull(originalInvocation, "originalInvocation");
             
             invocationContext = originalInvocation.InvocationContext;
             this.exception = exception;

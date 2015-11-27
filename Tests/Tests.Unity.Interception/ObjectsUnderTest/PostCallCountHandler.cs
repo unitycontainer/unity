@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
+namespace Unity.InterceptionExtension.Tests.ObjectsUnderTest
 {
     internal class PostCallCountHandler : ICallHandler
     {

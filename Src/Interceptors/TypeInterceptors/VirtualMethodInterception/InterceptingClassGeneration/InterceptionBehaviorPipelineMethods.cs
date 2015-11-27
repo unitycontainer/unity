@@ -2,9 +2,9 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     internal static class InterceptionBehaviorPipelineMethods
     {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
+namespace Unity.InterceptionExtension.Tests.PolicyInjection
 {
     /// <summary>
     /// Tests to verify behavior of call handlers in the presence of

@@ -7,13 +7,13 @@ using System.Linq;
 using System.Reflection;
 using System.Security;
 using System.Security.Permissions;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest;
-using Microsoft.Practices.Unity.TestSupport;
-using Microsoft.Practices.Unity.Utility;
+using ObjectBuilder2;
+using Unity.InterceptionExtension.Tests.ObjectsUnderTest;
+using Unity.TestSupport;
+using Unity.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInterception
+namespace Unity.InterceptionExtension.Tests.VirtualMethodInterception
 {
     [TestClass]
     public partial class InterceptingClassGenerationFixture

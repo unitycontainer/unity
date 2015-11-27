@@ -2,10 +2,10 @@
 
 using System;
 using System.ComponentModel;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.TransparaentProxyInterception.Tests
+namespace Unity.InterceptionExtension.TransparaentProxyInterception.Tests
 {
     [TestClass]
     public class InterceptingRealProxyFixture

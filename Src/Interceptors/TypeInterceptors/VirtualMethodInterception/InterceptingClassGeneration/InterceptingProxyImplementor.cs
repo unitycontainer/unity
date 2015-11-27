@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// This class provides the code needed to implement the <see cref="IInterceptingProxy"/>
@@ -37,7 +37,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             MethodBuilder methodBuilder =
                 typeBuilder.DefineMethod(
-                    "Microsoft.Practices.Unity.InterceptionExtension.IInterceptingProxy.AddInterceptionBehavior",
+                    "Unity.InterceptionExtension.IInterceptingProxy.AddInterceptionBehavior",
                     MethodAttributes);
 
             // Setting return type

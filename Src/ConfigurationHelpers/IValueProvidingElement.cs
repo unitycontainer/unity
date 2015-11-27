@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
+namespace Unity.Configuration.ConfigurationHelpers
 {
     /// <summary>
     /// An element that has a child Value property.

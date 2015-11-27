@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration.ConfigurationHelpers;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// A configuration element representing a single container type registration.
@@ -95,7 +95,7 @@ namespace Microsoft.Practices.Unity.Configuration
             Justification = "Validation done by Guard class")]
         public override void SerializeContent(XmlWriter writer)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(writer, "writer");
+            Unity.Utility.Guard.ArgumentNotNull(writer, "writer");
 
             writer.WriteAttributeString(TypePropertyName, this.TypeName);
             writer.WriteAttributeIfNotEmpty(MapToPropertyName, this.MapToName)

@@ -3,10 +3,10 @@
 using System;
 using System.Configuration;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// Configuration element representing an extension to add to a container.
@@ -33,7 +33,7 @@ namespace Microsoft.Practices.Unity.Configuration
             Justification = "Validation done by Guard class")]
         protected override void ConfigureContainer(IUnityContainer container)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(container, "container");
+            Unity.Utility.Guard.ArgumentNotNull(container, "container");
 
             var extensionType = this.GetExtensionType();
             var extension = (UnityContainerExtension)container.Resolve(extensionType);

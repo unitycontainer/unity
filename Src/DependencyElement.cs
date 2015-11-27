@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.Configuration.Properties;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration.Properties;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// A <see cref="ParameterValueElement"/> derived class that describes

@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects.MyGenericTypes
+namespace Unity.Configuration.Tests.TestObjects.MyGenericTypes
 {
     public class ItemsCollection<T>
     {

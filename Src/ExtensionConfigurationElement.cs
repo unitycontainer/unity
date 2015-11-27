@@ -2,9 +2,9 @@
 
 using System.Globalization;
 using System.Threading;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration.ConfigurationHelpers;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// Base class used to derive new elements that can occur

@@ -5,10 +5,10 @@ using System.Configuration;
 using System.Globalization;
 using System.Text;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.Configuration.Properties;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration.Properties;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// A configuration section describing configuration for an <see cref="IUnityContainer"/>.
@@ -305,7 +305,7 @@ namespace Microsoft.Practices.Unity.Configuration
                 Justification = "Validation done by Guard class")]
             public override void AddElement(string tag, Type elementType)
             {
-                Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(elementType, "elementType");
+                Unity.Utility.Guard.ArgumentNotNull(elementType, "elementType");
 
                 if (typeof(ContainerConfiguringElement).IsAssignableFrom(elementType))
                 {

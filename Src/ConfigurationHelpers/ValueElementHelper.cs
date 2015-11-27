@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration.Properties;
+using Unity.Configuration.Properties;
 
-namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
+namespace Unity.Configuration.ConfigurationHelpers
 {
     /// <summary>
     /// A helper class that assists in deserializing parameter and property

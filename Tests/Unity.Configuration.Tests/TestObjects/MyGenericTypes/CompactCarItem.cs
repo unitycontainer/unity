@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects.MyGenericTypes
+namespace Unity.Configuration.Tests.TestObjects.MyGenericTypes
 {
     internal class CompactCarItem : IItem
     {

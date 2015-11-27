@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects
+namespace Unity.Configuration.Tests.TestObjects
 {
     internal class SeventeenValueElement : ParameterValueElement
     {

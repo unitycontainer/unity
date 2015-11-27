@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
+namespace Unity.Configuration.ConfigurationHelpers
 {
     /// <summary>
     /// A simple implementing of the rules for a Parsing Expression Grammar

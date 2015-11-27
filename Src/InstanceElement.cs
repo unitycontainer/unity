@@ -4,9 +4,9 @@ using System;
 using System.ComponentModel;
 using System.Configuration;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration.ConfigurationHelpers;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// A configuration element that describes an instance to add to the container.

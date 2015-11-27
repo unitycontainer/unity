@@ -2,9 +2,9 @@
 
 using System;
 using System.Xml;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
+namespace Unity.Configuration.ConfigurationHelpers
 {
     /// <summary>
     /// Helper methods on <see cref="XmlWriter"/>.

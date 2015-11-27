@@ -2,11 +2,11 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.Configuration.Tests
+namespace Unity.Configuration.Tests
 {
     /// <summary>
     /// Summary description for When_ResolvingTypesWithoutNamespacesDefined
@@ -22,8 +22,8 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var aliases = new Dictionary<string, string>
                 {
                     { "dict", typeof(Dictionary<,>).AssemblyQualifiedName },
-                    { "ILogger", "Microsoft.Practices.Unity.TestSupport.ILogger, Unity.TestSupport" },
-                    { "MockLogger", "Microsoft.Practices.Unity.TestSupport.MockLogger, Unity.TestSupport" }
+                    { "ILogger", "Unity.TestSupport.ILogger, Unity.TestSupport" },
+                    { "MockLogger", "Unity.TestSupport.MockLogger, Unity.TestSupport" }
                 };
 
             var namespaces = new string[0];
@@ -87,7 +87,7 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
         [TestMethod]
         public void Then_ILoggerResolvesThroughSearch()
         {
-            Assert.AreSame(typeResolver.ResolveType("Microsoft.Practices.Unity.TestSupport.ILogger", true), typeof(ILogger));
+            Assert.AreSame(typeResolver.ResolveType("Unity.TestSupport.ILogger", true), typeof(ILogger));
         }
 
         [TestMethod]

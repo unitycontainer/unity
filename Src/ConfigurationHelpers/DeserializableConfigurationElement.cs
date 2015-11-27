@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 
-namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
+namespace Unity.Configuration.ConfigurationHelpers
 {
     /// <summary>
     /// Base class for configuration elements with a default implementation of

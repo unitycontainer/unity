@@ -2,10 +2,10 @@
 
 using System;
 using System.Configuration;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.Configuration.Properties;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration.Properties;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// A collection of <see cref="ContainerConfiguringElement"/>s as

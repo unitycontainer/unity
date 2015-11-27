@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
-using Microsoft.Practices.Unity.Configuration.Properties;
+using Unity.Configuration.Properties;
 
-namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
+namespace Unity.Configuration.ConfigurationHelpers
 {
     /// <summary>
     /// A helper class that implements the actual logic for resolving a shorthand
@@ -70,7 +70,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         public TypeResolverImpl(IEnumerable<KeyValuePair<string, string>> aliasesSequence,
             IEnumerable<string> namespaces, IEnumerable<string> assemblies)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(aliasesSequence, "aliasesSequence");
+            Unity.Utility.Guard.ArgumentNotNull(aliasesSequence, "aliasesSequence");
 
             aliases = new Dictionary<string, string>();
             foreach (var pair in aliasesSequence)

@@ -2,11 +2,11 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.Configuration.Tests
+namespace Unity.Configuration.Tests
 {
     /// <summary>
     /// Summary description for When_ResolvingTypes
@@ -22,11 +22,11 @@ namespace Microsoft.Practices.Unity.Configuration.Tests
             var aliases = new Dictionary<string, string>
                 {
                     { "dict", typeof(Dictionary<,>).AssemblyQualifiedName },
-                    { "ILogger", "Microsoft.Practices.Unity.TestSupport.ILogger, Unity.TestSupport" },
-                    { "MockLogger", "Microsoft.Practices.Unity.TestSupport.MockLogger, Unity.TestSupport" }
+                    { "ILogger", "Unity.TestSupport.ILogger, Unity.TestSupport" },
+                    { "MockLogger", "Unity.TestSupport.MockLogger, Unity.TestSupport" }
                 };
 
-            var namespaces = new[] { "System", "System.Collections.Generic", "Microsoft.Practices.Unity.TestSupport" };
+            var namespaces = new[] { "System", "System.Collections.Generic", "Unity.TestSupport" };
             var assemblies = new[] { "System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", "Unity.TestSupport", "an invalid assembly name", "invalid, invalid" };
 
             typeResolver = new TypeResolverImpl(aliases, namespaces, assemblies);

@@ -4,10 +4,10 @@ using System;
 using System.ComponentModel;
 using System.Configuration;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// A configuration element that represents lifetime managers.

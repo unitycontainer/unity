@@ -3,10 +3,10 @@
 using System.Configuration;
 using System.IO;
 using System.Xml;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.Configuration.Tests
+namespace Unity.Configuration.Tests
 {
     [TestClass]
     public class When_DeserializingParameterElement

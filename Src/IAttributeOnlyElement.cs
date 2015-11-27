@@ -2,7 +2,7 @@
 
 using System.Xml;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     internal interface IAttributeOnlyElement
     {

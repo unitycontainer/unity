@@ -2,7 +2,7 @@
 
 using System.Configuration;
 
-namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
+namespace Unity.Configuration.ConfigurationHelpers
 {
     /// <summary>
     /// Specialization of <see cref="DeserializableConfigurationElementCollectionBase{TElement}"/>

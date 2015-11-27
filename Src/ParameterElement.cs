@@ -6,11 +6,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.Configuration.Properties;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration.Properties;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// Configuration element representing a parameter passed to a constructor

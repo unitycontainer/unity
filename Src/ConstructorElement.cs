@@ -7,11 +7,11 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.Configuration.Properties;
+using ObjectBuilder2;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration.Properties;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// Configuration element representing a constructor configuration.

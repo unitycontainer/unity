@@ -3,10 +3,10 @@
 using System;
 using System.Configuration;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration;
+using Unity.Configuration.ConfigurationHelpers;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
+namespace Unity.InterceptionExtension.Configuration
 {
     /// <summary>
     /// The &lt;key&gt; element that occurs inside an &lt;interceptor&gt; element

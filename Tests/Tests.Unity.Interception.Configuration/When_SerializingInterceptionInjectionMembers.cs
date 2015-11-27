@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Practices.Unity.Configuration;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.Configuration;
+using Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
+namespace Unity.InterceptionExtension.Configuration.Tests
 {
     /// <summary>
     /// Summary description for When_SerializingInterceptionInjectionMembers

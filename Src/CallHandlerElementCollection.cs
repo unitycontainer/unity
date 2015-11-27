@@ -2,9 +2,9 @@
 
 using System.Configuration;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration.ConfigurationHelpers;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
+namespace Unity.InterceptionExtension.Configuration
 {
     /// <summary>
     /// A collection of <see cref="CallHandlerElement"/>s for configuration.

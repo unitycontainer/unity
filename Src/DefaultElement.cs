@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
+namespace Unity.InterceptionExtension.Configuration
 {
     /// <summary>
     /// The &lt;default&gt; element that appears inside an &lt;interceptor&gt; element.

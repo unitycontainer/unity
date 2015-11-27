@@ -2,10 +2,10 @@
 
 using System;
 using System.Configuration;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.InterceptionExtension.Configuration.Properties;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.InterceptionExtension.Configuration.Properties;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
+namespace Unity.InterceptionExtension.Configuration
 {
     /// <summary>
     /// A collection of <see cref="InterceptorRegistrationElement"/> objects as shown

@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
+namespace Unity.InterceptionExtension.Configuration.Tests
 {
     [TestClass]
     public class When_SerializingInterceptors : SerializationFixture

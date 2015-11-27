@@ -2,11 +2,11 @@
 
 using System.Configuration;
 using System.Xml;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.Configuration;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using ObjectBuilder2;
+using Unity.Configuration;
+using Unity.Configuration.ConfigurationHelpers;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
+namespace Unity.InterceptionExtension.Configuration
 {
     /// <summary>
     /// A configuration element that contains the top-level container configuration

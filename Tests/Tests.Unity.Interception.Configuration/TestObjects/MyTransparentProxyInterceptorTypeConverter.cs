@@ -3,7 +3,7 @@
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests.TestObjects
+namespace Unity.InterceptionExtension.Configuration.Tests.TestObjects
 {
     public class MyTransparentProxyInterceptorTypeConverter : TypeConverter
     {

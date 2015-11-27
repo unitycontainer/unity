@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Properties {
+namespace Unity.InterceptionExtension.Configuration.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Properti
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Practices.Unity.InterceptionExtension.Configuration.Properties.Resource" +
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Unity.InterceptionExtension.Configuration.Properties.Resource" +
                             "s", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }

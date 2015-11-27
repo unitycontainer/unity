@@ -2,12 +2,12 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests.ConfigFiles;
-using Microsoft.Practices.Unity.TestSupport;
-using Microsoft.Practices.Unity.TestSupport.Configuration;
+using Unity.InterceptionExtension.Configuration.Tests.ConfigFiles;
+using Unity.TestSupport;
+using Unity.TestSupport.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
+namespace Unity.InterceptionExtension.Configuration.Tests
 {
     /// <summary>
     /// Summary description for When_ConfiguringPolicies

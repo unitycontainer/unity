@@ -1,14 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System.Runtime.Remoting;
-using Microsoft.Practices.Unity.Configuration;
-using Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests.ConfigFiles;
-using Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests.TestObjects;
-using Microsoft.Practices.Unity.TestSupport;
-using Microsoft.Practices.Unity.TestSupport.Configuration;
+using Unity.Configuration;
+using Unity.InterceptionExtension.Configuration.Tests.ConfigFiles;
+using Unity.InterceptionExtension.Configuration.Tests.TestObjects;
+using Unity.TestSupport;
+using Unity.TestSupport.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
+namespace Unity.InterceptionExtension.Configuration.Tests
 {
     /// <summary>
     /// Summary description for When_ConfiguringInterceptorsThroughContainerElementExtension

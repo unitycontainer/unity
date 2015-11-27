@@ -2,9 +2,9 @@
 
 using System.Configuration;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration.ConfigurationHelpers;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
+namespace Unity.InterceptionExtension.Configuration
 {
     /// <summary>
     /// Configuration element for building up an interception policy.
@@ -89,7 +89,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             Justification = "Validation done by Guard class")]
         public override void SerializeContent(XmlWriter writer)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(writer, "writer");
+            Unity.Utility.Guard.ArgumentNotNull(writer, "writer");
 
             writer.WriteAttributeString(NamePropertyName, this.Name);
             foreach (var matchingRuleElement in this.MatchingRules)

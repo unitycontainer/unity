@@ -3,12 +3,12 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.ObjectBuilder;
-using Microsoft.Practices.Unity.Tests.TestDoubles;
+using ObjectBuilder2;
+using Unity.ObjectBuilder;
+using Unity.Tests.TestDoubles;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     // Test for a race condition in the ContainerControlledLifetime
     // class.

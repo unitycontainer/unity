@@ -3,10 +3,10 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using Microsoft.Practices.Unity.InterceptionExtension.Properties;
-using Microsoft.Practices.Unity.Utility;
+using Unity.InterceptionExtension.Properties;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// An implementation of <see cref="IMatchingRule"/> that checks to see if

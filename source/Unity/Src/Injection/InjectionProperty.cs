@@ -5,12 +5,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.ObjectBuilder;
-using Microsoft.Practices.Unity.Properties;
-using Microsoft.Practices.Unity.Utility;
+using ObjectBuilder2;
+using Unity.ObjectBuilder;
+using Unity.Properties;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// This class stores information about which properties to inject,

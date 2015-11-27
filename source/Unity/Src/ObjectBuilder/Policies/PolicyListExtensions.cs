@@ -2,9 +2,9 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Utility;
 
-namespace Microsoft.Practices.ObjectBuilder2
+namespace ObjectBuilder2
 {
     /// <summary>
     /// Extension methods on <see cref="IPolicyList"/> to provide convenience
@@ -257,7 +257,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         public static void SetDefault<TPolicyInterface>(this IPolicyList policies, TPolicyInterface policy)
             where TPolicyInterface : IBuilderPolicy
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(policies, "policies");
+            Unity.Utility.Guard.ArgumentNotNull(policies, "policies");
 
             policies.SetDefault(typeof(TPolicyInterface), policy);
         }

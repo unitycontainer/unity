@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Web;
-using Microsoft.Practices.Unity.Mvc.Properties;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Mvc.Properties;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.Mvc
+namespace Unity.Mvc
 {
     /// <summary>
     /// Implementation of the <see cref="IHttpModule"/> interface that provides support for using the

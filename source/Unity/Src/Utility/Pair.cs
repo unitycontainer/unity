@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-namespace Microsoft.Practices.Unity.Utility
+namespace Unity.Utility
 {
     /// <summary>
     /// A helper class that encapsulates two different

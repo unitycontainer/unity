@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
-using Microsoft.Practices.Unity.InterceptionExtension.Properties;
-using Microsoft.Practices.Unity.Utility;
+using Unity.InterceptionExtension.Properties;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// A type based interceptor that works by generated a new class

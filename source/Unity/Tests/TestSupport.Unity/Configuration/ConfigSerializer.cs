@@ -5,7 +5,7 @@ using System.Configuration;
 using System.IO;
 using SysConfiguration = System.Configuration.Configuration;
 
-namespace Microsoft.Practices.Unity.TestSupport.Configuration
+namespace Unity.TestSupport.Configuration
 {
     public class ConfigSerializer
     {

@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
-using Microsoft.Practices.Unity.InterceptionExtension;
+using Unity.InterceptionExtension;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// Implementation of <see cref="IMethodInvocation"/> used
@@ -34,7 +34,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public VirtualMethodInvocation(object target, MethodBase targetMethod, params object[] parameterValues)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(targetMethod, "targetMethod");
+            Unity.Utility.Guard.ArgumentNotNull(targetMethod, "targetMethod");
 
             this.target = target;
             this.targetMethod = targetMethod;

@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.ObjectBuilder2
+namespace ObjectBuilder2
 {
     /// <summary>
     /// Base class for the current operation stored in the build context.

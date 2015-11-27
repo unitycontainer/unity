@@ -3,11 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Utility;
+using ObjectBuilder2;
+using Unity;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.ObjectBuilder
+namespace Unity.ObjectBuilder
 {
     /// <summary>
     /// An implementation of <see cref="IConstructorSelectorPolicy"/> that selects
@@ -47,7 +47,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
              Justification = "Validation done by Guard class")]
         public SelectedConstructor SelectConstructor(IBuilderContext context, IPolicyList resolverPolicyDestination)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(context, "context");
+            Unity.Utility.Guard.ArgumentNotNull(context, "context");
 
             SelectedConstructor result;
             Type typeToBuild = context.BuildKey.Type;

@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// This attribute is used to mark methods that should be called when

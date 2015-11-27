@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     public partial class AssemblyScanningFixture
     {
@@ -13,59 +13,59 @@ namespace Microsoft.Practices.Unity.Tests
         public void GetsTypesFromLoadedAssembliesExcludingSystemAndUnityByDefault()
         {
             // ensure type is loaded
-            var ignore = new Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1();
+            var ignore = new Unity.Tests.TestNetAssembly.PublicClass1();
 
             var typesByAssembly = AllClasses.FromLoadedAssemblies().GroupBy(t => t.Assembly).ToDictionary(g => g.Key);
 
             Assert.IsFalse(typesByAssembly.ContainsKey(typeof(Uri).Assembly));
             Assert.IsFalse(typesByAssembly.ContainsKey(typeof(IUnityContainer).Assembly));
-            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1).Assembly));
+            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Unity.Tests.TestNetAssembly.PublicClass1).Assembly));
         }
 
         [TestMethod]
         public void GetsTypesFromLoadedAssembliesIncludingSystemIfOverridden()
         {
             // ensure type is loaded
-            var ignore = new Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1();
+            var ignore = new Unity.Tests.TestNetAssembly.PublicClass1();
 
             var typesByAssembly = AllClasses.FromLoadedAssemblies(includeSystemAssemblies: true).GroupBy(t => t.Assembly).ToDictionary(g => g.Key);
 
             Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Uri).Assembly));
             Assert.IsFalse(typesByAssembly.ContainsKey(typeof(IUnityContainer).Assembly));
-            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1).Assembly));
+            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Unity.Tests.TestNetAssembly.PublicClass1).Assembly));
         }
 
         [TestMethod]
         public void GetsTypesFromLoadedAssembliesIncludingUnityIfOverridden()
         {
             // ensure type is loaded
-            var ignore = new Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1();
+            var ignore = new Unity.Tests.TestNetAssembly.PublicClass1();
 
             var typesByAssembly = AllClasses.FromLoadedAssemblies(includeUnityAssemblies: true).GroupBy(t => t.Assembly).ToDictionary(g => g.Key);
 
             Assert.IsFalse(typesByAssembly.ContainsKey(typeof(Uri).Assembly));
             Assert.IsTrue(typesByAssembly.ContainsKey(typeof(IUnityContainer).Assembly));
-            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1).Assembly));
+            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Unity.Tests.TestNetAssembly.PublicClass1).Assembly));
         }
 
         [TestMethod]
         public void GetsTypesFromLoadedAssembliesIncludingUnityAndSystemIfOverridden()
         {
             // ensure type is loaded
-            var ignore = new Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1();
+            var ignore = new Unity.Tests.TestNetAssembly.PublicClass1();
 
             var typesByAssembly = AllClasses.FromLoadedAssemblies(includeSystemAssemblies: true, includeUnityAssemblies: true).GroupBy(t => t.Assembly).ToDictionary(g => g.Key);
 
             Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Uri).Assembly));
             Assert.IsTrue(typesByAssembly.ContainsKey(typeof(IUnityContainer).Assembly));
-            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1).Assembly));
+            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Unity.Tests.TestNetAssembly.PublicClass1).Assembly));
         }
 
         [TestMethod]
         public void GettingTypesFromLoadedAssembliesWithErrorsThrows()
         {
             // ensure type is loaded
-            var ignore = new Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1();
+            var ignore = new Unity.Tests.TestNetAssembly.PublicClass1();
 
             try
             {
@@ -95,7 +95,7 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.IsFalse(typesByAssembly.ContainsKey(typeof(Uri).Assembly));
             Assert.IsFalse(typesByAssembly.ContainsKey(typeof(IUnityContainer).Assembly));
             Assert.IsTrue(typesByAssembly.Any(g => g.Key.GetName().Name == "NotReferencedTestNetAssembly"), "No types for NotReferencedTestNetAssembly");
-            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1).Assembly), "No types for TestNetAssembly");
+            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Unity.Tests.TestNetAssembly.PublicClass1).Assembly), "No types for TestNetAssembly");
         }
 
         [TestMethod]
@@ -112,7 +112,7 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Uri).Assembly));
             Assert.IsFalse(typesByAssembly.ContainsKey(typeof(IUnityContainer).Assembly));
             Assert.IsTrue(typesByAssembly.Any(g => g.Key.GetName().Name == "NotReferencedTestNetAssembly"), "No types for NotReferencedTestNetAssembly");
-            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1).Assembly), "No types for TestNetAssembly");
+            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Unity.Tests.TestNetAssembly.PublicClass1).Assembly), "No types for TestNetAssembly");
         }
 
         [TestMethod]
@@ -129,7 +129,7 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.IsFalse(typesByAssembly.ContainsKey(typeof(Uri).Assembly));
             Assert.IsTrue(typesByAssembly.ContainsKey(typeof(IUnityContainer).Assembly));
             Assert.IsTrue(typesByAssembly.Any(g => g.Key.GetName().Name == "NotReferencedTestNetAssembly"), "No types for NotReferencedTestNetAssembly");
-            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1).Assembly), "No types for TestNetAssembly");
+            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Unity.Tests.TestNetAssembly.PublicClass1).Assembly), "No types for TestNetAssembly");
         }
 
         [TestMethod]
@@ -146,7 +146,7 @@ namespace Microsoft.Practices.Unity.Tests
             Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Uri).Assembly));
             Assert.IsTrue(typesByAssembly.ContainsKey(typeof(IUnityContainer).Assembly));
             Assert.IsTrue(typesByAssembly.Any(g => g.Key.GetName().Name == "NotReferencedTestNetAssembly"), "No types for NotReferencedTestNetAssembly");
-            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1).Assembly), "No types for TestNetAssembly");
+            Assert.IsTrue(typesByAssembly.ContainsKey(typeof(Unity.Tests.TestNetAssembly.PublicClass1).Assembly), "No types for TestNetAssembly");
         }
 
         [TestMethod]

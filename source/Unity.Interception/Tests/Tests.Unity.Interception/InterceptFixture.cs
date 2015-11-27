@@ -2,10 +2,10 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
+namespace Unity.InterceptionExtension.Tests
 {
     [TestClass]
     public class InterceptFixture

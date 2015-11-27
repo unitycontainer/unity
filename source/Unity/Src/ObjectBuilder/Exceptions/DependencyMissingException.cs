@@ -2,9 +2,9 @@
 
 using System;
 using System.Globalization;
-using Microsoft.Practices.Unity.Properties;
+using Unity.Properties;
 
-namespace Microsoft.Practices.ObjectBuilder2
+namespace ObjectBuilder2
 {
     /// <summary>
     /// Represents that a dependency could not be resolved.

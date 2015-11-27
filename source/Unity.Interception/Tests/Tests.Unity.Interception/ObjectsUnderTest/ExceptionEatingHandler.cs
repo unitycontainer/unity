@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
+namespace Unity.InterceptionExtension.Tests.ObjectsUnderTest
 {
     internal class ExceptionEatingHandler : ICallHandler
     {

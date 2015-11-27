@@ -4,7 +4,7 @@ using System;
 using System.Globalization;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// A <see cref="IMatchingRule"/> that checks a member for the presence

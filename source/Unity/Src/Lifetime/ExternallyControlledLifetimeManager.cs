@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// A <see cref="LifetimeManager"/> that holds a weak reference to

@@ -8,10 +8,10 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Security;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.InterceptionExtension.Properties;
+using ObjectBuilder2;
+using Unity.InterceptionExtension.Properties;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// A class used to generate proxy classes for doing interception on

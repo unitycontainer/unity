@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.Utility
+namespace Unity.Utility
 {
     /// <summary>
     /// A small helper class to encapsulate details of the

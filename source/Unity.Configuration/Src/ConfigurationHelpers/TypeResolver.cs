@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
+namespace Unity.Configuration.ConfigurationHelpers
 {
     /// <summary>
     /// Type that manage access to a set of type aliases and implements
@@ -24,7 +24,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
             Justification = "Validation done by Guard class")]
         public static void SetAliases(UnityConfigurationSection section)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(section, "section");
+            Unity.Utility.Guard.ArgumentNotNull(section, "section");
 
             impl = new TypeResolverImpl(
                 section.TypeAliases.Select(e => new KeyValuePair<string, string>(e.Alias, e.TypeName)),

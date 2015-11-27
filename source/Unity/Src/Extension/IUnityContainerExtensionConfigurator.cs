@@ -2,7 +2,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// Base interface for all extension configuration interfaces.

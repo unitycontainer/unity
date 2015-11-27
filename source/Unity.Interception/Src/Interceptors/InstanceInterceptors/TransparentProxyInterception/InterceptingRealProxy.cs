@@ -10,10 +10,10 @@ using System.Runtime.Remoting.Messaging;
 using System.Runtime.Remoting.Proxies;
 using System.Security;
 using System.Security.Permissions;
-using Microsoft.Practices.Unity.InterceptionExtension.Properties;
-using Microsoft.Practices.Unity.Utility;
+using Unity.InterceptionExtension.Properties;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// This class provides the remoting based interception mechanism. It is

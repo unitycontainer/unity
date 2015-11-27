@@ -3,7 +3,7 @@
 using System.Globalization;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// A dumb data holder that returns the MethodInfo for both an

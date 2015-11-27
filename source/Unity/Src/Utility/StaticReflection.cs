@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.Utility
+namespace Unity.Utility
 {
     /// <summary>
     /// A set of helper methods to pick through lambdas and pull out
@@ -131,7 +131,7 @@ namespace Microsoft.Practices.Unity.Utility
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "As designed for setting usage expectations")]
         public static MemberInfo GetMemberInfo<T, TProperty>(Expression<Func<T, TProperty>> expression)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(expression, "expression");
+            Unity.Utility.Guard.ArgumentNotNull(expression, "expression");
 
             var body = expression.Body as MemberExpression;
             if (body == null)
@@ -161,7 +161,7 @@ namespace Microsoft.Practices.Unity.Utility
             Justification = "Validation done by Guard class")]
         public static ConstructorInfo GetConstructorInfo<T>(Expression<Func<T>> expression)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(expression, "expression");
+            Unity.Utility.Guard.ArgumentNotNull(expression, "expression");
 
             var body = expression.Body as NewExpression;
             if (body == null)

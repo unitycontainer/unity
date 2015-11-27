@@ -15,7 +15,7 @@ using AssertFailedException = NUnit.Framework.AssertionException;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
-namespace Microsoft.Practices.Unity.TestSupport
+namespace Unity.TestSupport
 {
     public static class CollectionAssertExtensions
     {

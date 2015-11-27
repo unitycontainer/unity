@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// A simple data holder class used to store information about the current

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.PolicyInjection
+namespace Unity.InterceptionExtension.Tests.PolicyInjection
 {
     public partial class PolicyInjectionWithGenericMethodsFixture
     {

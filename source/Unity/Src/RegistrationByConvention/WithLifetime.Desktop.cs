@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     public partial class WithLifetime
     {

@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Microsoft.Practices.ObjectBuilder2
+namespace ObjectBuilder2
 {
     /// <summary>
     /// An <see cref="IBuilderPolicy"/> that returns a sequence

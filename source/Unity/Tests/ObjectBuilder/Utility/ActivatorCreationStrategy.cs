@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests.Utility
+namespace ObjectBuilder2.Tests.Utility
 {
     internal class ActivatorCreationStrategy : BuilderStrategy
     {

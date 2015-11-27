@@ -3,7 +3,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Microsoft.Practices.ObjectBuilder2
+namespace ObjectBuilder2
 {
     /// <summary>
     /// The exception thrown when injection is attempted on a method

@@ -2,7 +2,7 @@
 
 using System.Reflection;
 
-namespace Microsoft.Practices.ObjectBuilder2
+namespace ObjectBuilder2
 {
     /// <summary>
     /// Objects of this type are returned from

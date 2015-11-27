@@ -2,10 +2,10 @@
 
 using System;
 using System.ComponentModel;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInterception
+namespace Unity.InterceptionExtension.Tests.VirtualMethodInterception
 {
     /// <summary>
     /// Tests for the virtual method interception mechanism as invoked

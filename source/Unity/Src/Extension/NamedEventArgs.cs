@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// An EventArgs class that holds a string Name.

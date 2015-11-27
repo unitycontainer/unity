@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System.Configuration;
-using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
-using Microsoft.Practices.Unity.TestSupport.Configuration;
+using Unity.Configuration.Tests.ConfigFiles;
+using Unity.TestSupport.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.Configuration.Tests
+namespace Unity.Configuration.Tests
 {
     /// <summary>
     /// Basic bootstrapping to confirm that our "load from resources" config

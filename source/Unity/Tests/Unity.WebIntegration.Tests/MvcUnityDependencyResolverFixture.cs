@@ -3,10 +3,10 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
-using Microsoft.Practices.Unity.Mvc;
+using Unity.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.WebIntegation.Tests
+namespace Unity.WebIntegation.Tests
 {
     [TestClass]
     public class MvcUnityDependencyResolverFixture

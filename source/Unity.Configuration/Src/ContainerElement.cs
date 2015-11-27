@@ -4,10 +4,10 @@ using System;
 using System.Configuration;
 using System.Linq;
 using System.Xml;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using ObjectBuilder2;
+using Unity.Configuration.ConfigurationHelpers;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// A configuration element class defining the set of registrations to be

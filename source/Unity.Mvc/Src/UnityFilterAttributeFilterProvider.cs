@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace Microsoft.Practices.Unity.Mvc
+namespace Unity.Mvc
 {
     /// <summary>
     /// Defines a filter provider for filter attributes that support injection of Unity dependencies.

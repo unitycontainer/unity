@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     public partial class AllClasses
     {

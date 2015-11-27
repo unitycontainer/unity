@@ -3,7 +3,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
+namespace Unity.InterceptionExtension.Tests
 {
     /// <summary>
     /// Tests for various kinds of things handlers can do.

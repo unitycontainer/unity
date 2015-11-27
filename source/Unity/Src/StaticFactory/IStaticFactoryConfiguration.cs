@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity.StaticFactory
+namespace Unity.StaticFactory
 {
     /// <summary>
     /// Interface defining the configuration interface exposed by the

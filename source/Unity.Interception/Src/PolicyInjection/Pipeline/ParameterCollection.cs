@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// An implementation of <see cref="IParameterCollection"/> that wraps a provided array
@@ -59,8 +59,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public ParameterCollection(object[] arguments, ParameterInfo[] argumentInfo, Predicate<ParameterInfo> isArgumentPartOfCollection)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(arguments, "arguments");
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(isArgumentPartOfCollection, "isArgumentPartOfCollection");
+            Unity.Utility.Guard.ArgumentNotNull(arguments, "arguments");
+            Unity.Utility.Guard.ArgumentNotNull(isArgumentPartOfCollection, "isArgumentPartOfCollection");
 
             this.arguments = arguments;
             this.argumentInfo = new List<ArgumentInfo>();

@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System.Linq;
-using Microsoft.Practices.Unity.TestSupport;
-using Microsoft.Practices.Unity.Utility;
+using Unity.TestSupport;
+using Unity.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
+namespace Unity.InterceptionExtension.Tests
 {
     [TestClass]
     public class ParameterCollectionFixture

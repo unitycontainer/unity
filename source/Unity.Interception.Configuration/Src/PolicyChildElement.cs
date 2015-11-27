@@ -3,11 +3,11 @@
 using System.Configuration;
 using System.Globalization;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.InterceptionExtension.Configuration.Properties;
+using Unity.Configuration;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.InterceptionExtension.Configuration.Properties;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
+namespace Unity.InterceptionExtension.Configuration
 {
     /// <summary>
     /// Base class for the two children of the Policy element:
@@ -123,7 +123,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
             Justification = "Validation done by Guard class")]
         public override void SerializeContent(XmlWriter writer)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(writer, "writer");
+            Unity.Utility.Guard.ArgumentNotNull(writer, "writer");
 
             writer.WriteAttributeString(NamePropertyName, this.Name);
             writer.WriteAttributeIfNotEmpty(TypeNamePropertyName, this.TypeName);

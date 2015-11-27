@@ -8,19 +8,19 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Practices.ObjectBuilder2;
+using ObjectBuilder2;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Windows.System.Threading;
 #else
 using System.Linq;
 using System.Threading;
-using Microsoft.Practices.ObjectBuilder2;
+using ObjectBuilder2;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #endif
 #elif __IOS__
 using System.Linq;
 using System.Threading;
-using Microsoft.Practices.ObjectBuilder2;
+using ObjectBuilder2;
 using NUnit.Framework;
 using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
@@ -28,11 +28,11 @@ using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
 using System.Linq;
 using System.Threading;
-using Microsoft.Practices.ObjectBuilder2;
+using ObjectBuilder2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     [TestClass]
     public class PerThreadLifetimeManagerFixture

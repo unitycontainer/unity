@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.Configuration.Properties;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration.Properties;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// A collection of <see cref="ExtensionConfigurationElement"/>s.

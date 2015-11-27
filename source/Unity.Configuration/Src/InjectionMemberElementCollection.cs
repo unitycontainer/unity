@@ -6,10 +6,10 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.Configuration.Properties;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration.Properties;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// A polymorphic collection of <see cref="InjectionMemberElement"/>s.

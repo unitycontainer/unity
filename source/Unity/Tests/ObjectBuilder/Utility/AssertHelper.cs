@@ -12,7 +12,7 @@ using AssertFailedException = System.Exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
     internal class AssertHelper
     {

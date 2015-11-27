@@ -8,7 +8,7 @@ using System.Security;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft.Practices.Unity.Configuration")]
+[assembly: AssemblyTitle("Unity.Configuration")]
 [assembly: AssemblyDescription("Configuration Sections for the Unity Application Block")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

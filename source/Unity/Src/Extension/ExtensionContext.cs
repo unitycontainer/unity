@@ -2,10 +2,10 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.ObjectBuilder;
+using ObjectBuilder2;
+using Unity.ObjectBuilder;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// The <see cref="ExtensionContext"/> class provides the means for extension objects

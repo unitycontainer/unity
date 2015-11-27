@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity.StaticFactory
+namespace Unity.StaticFactory
 {
     /// <summary>
     /// A <see cref="UnityContainerExtension"/> that lets you register a

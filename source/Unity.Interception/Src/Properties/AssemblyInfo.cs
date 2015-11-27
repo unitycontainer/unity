@@ -9,7 +9,7 @@ using System.Security;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft.Practices.Unity.InterceptionExtension")]
+[assembly: AssemblyTitle("Unity.InterceptionExtension")]
 [assembly: AssemblyDescription("Interception support for the Unity Application Block")]
 
 [assembly: CLSCompliant(true)]

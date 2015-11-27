@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity.Tests.TestObjects
+namespace Unity.Tests.TestObjects
 {
     public class DisposableObject : IDisposable
     {

@@ -3,7 +3,7 @@
 using System.Collections;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     internal static class IListMethods
     {

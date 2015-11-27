@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     public partial class AllClasses
     {

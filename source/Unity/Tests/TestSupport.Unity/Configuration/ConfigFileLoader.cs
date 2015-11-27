@@ -3,9 +3,9 @@
 using System;
 using System.Configuration;
 using System.IO;
-using Microsoft.Practices.ObjectBuilder2;
+using ObjectBuilder2;
 
-namespace Microsoft.Practices.Unity.TestSupport.Configuration
+namespace Unity.TestSupport.Configuration
 {
     public class ConfigFileLoader<TResourceLocator>
     {

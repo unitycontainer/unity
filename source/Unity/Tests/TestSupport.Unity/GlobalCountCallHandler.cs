@@ -2,10 +2,10 @@
 
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using Microsoft.Practices.Unity.InterceptionExtension;
+using Unity.InterceptionExtension;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.TestSupport
+namespace Unity.TestSupport
 {
     public class GlobalCountCallHandler : ICallHandler
     {

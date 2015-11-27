@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace Microsoft.Practices.Unity.Mvc
+namespace Unity.Mvc
 {
     /// <summary>
     /// An implementation of <see cref="IDependencyResolver"/> that wraps a Unity container.

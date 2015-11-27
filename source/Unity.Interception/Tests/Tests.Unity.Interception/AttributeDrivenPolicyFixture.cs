@@ -3,10 +3,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
+namespace Unity.InterceptionExtension.Tests
 {
     [TestClass]
     public class AttributeDrivenPolicyFixture

@@ -2,12 +2,12 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.ObjectBuilder;
-using Microsoft.Practices.Unity.Utility;
-using Guard = Microsoft.Practices.Unity.Utility.Guard;
+using ObjectBuilder2;
+using Unity.ObjectBuilder;
+using Unity.Utility;
+using Guard = Unity.Utility.Guard;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// A class that stores a name and type, and generates a 

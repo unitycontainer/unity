@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity.ServiceLocation.Tests.Components;
+using Unity.ServiceLocation.Tests.Components;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -40,13 +40,13 @@ namespace Unity.ServiceLocation.Tests
         public void GetNamedInstance()
         {
             ILogger instance = locator.GetInstance<ILogger>(typeof(AdvancedLogger).FullName);
-            Microsoft.Practices.Unity.TestSupport.AssertExtensions.IsInstanceOfType(instance, typeof(AdvancedLogger));
+            Unity.TestSupport.AssertExtensions.IsInstanceOfType(instance, typeof(AdvancedLogger));
         }
 
         public void GetNamedInstance2()
         {
             ILogger instance = locator.GetInstance<ILogger>(typeof(SimpleLogger).FullName);
-            Microsoft.Practices.Unity.TestSupport.AssertExtensions.IsInstanceOfType(instance, typeof(SimpleLogger));
+            Unity.TestSupport.AssertExtensions.IsInstanceOfType(instance, typeof(SimpleLogger));
         }
 
         public void GetUnknownInstance2()

@@ -11,7 +11,7 @@ using TestMethodAttribute = NUnit.Framework.TestAttribute;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
     [TestClass]
     public class BuildKeyMappingPolicyTest

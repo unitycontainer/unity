@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
+using Unity;
+using Unity.Configuration;
 
 namespace $rootnamespace$.App_Start
 {
@@ -32,7 +32,7 @@ namespace $rootnamespace$.App_Start
         /// change the defaults), as Unity allows resolving a concrete type even if it was not previously registered.</remarks>
         public static void RegisterTypes(IUnityContainer container)
         {
-            // NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
+            // NOTE: To load from web.config uncomment the line below. Make sure to add a Unity.Configuration to the using statements.
             // container.LoadConfiguration();
 
             // TODO: Register your types here

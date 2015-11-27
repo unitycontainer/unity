@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
+namespace Unity.Configuration.ConfigurationHelpers
 {
     /// <summary>
     /// A couple of useful extension methods on IDictionary
@@ -21,7 +21,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
             Justification = "Validation done by Guard class")]
         public static TValue GetOrNull<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(dictionary, "dictionary");
+            Unity.Utility.Guard.ArgumentNotNull(dictionary, "dictionary");
 
             TValue value;
             if (dictionary.TryGetValue(key, out value))

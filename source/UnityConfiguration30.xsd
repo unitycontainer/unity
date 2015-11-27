@@ -264,7 +264,7 @@
     <xs:union memberTypes="TypeName_Type">
       <xs:simpleType>
         <xs:restriction base="xs:string">
-          <xs:enumeration value="Microsoft.Practices.Unity.InterceptionExtension.Configuration.InterceptionConfigurationExtension, Microsoft.Practices.Unity.Interception.Configuration"/>
+          <xs:enumeration value="Unity.InterceptionExtension.Configuration.InterceptionConfigurationExtension, Unity.Interception.Configuration"/>
         </xs:restriction>
       </xs:simpleType>
     </xs:union>

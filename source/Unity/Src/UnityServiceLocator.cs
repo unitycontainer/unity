@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Practices.ServiceLocation;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// An implementation of <see cref="IServiceLocator"/> that wraps a Unity container.

@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-using Microsoft.Practices.Unity.WebApi;
+using Unity.WebApi;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof($rootnamespace$.App_Start.UnityWebApiActivator), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethod(typeof($rootnamespace$.App_Start.UnityWebApiActivator), "Shutdown")]

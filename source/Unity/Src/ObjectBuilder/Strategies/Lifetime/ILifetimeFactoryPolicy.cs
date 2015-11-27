@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.ObjectBuilder2
+namespace ObjectBuilder2
 {
     /// <summary>
     /// A builder policy used to create lifetime policy instances.

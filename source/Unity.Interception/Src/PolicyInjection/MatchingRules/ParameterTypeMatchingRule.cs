@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// An <see cref="IMatchingRule"/> that matches methods that have any parameters
@@ -43,7 +43,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public bool Matches(MethodBase member)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(member, "member");
+            Unity.Utility.Guard.ArgumentNotNull(member, "member");
 
             ParameterInfo[] parametersInfo = member.GetParameters();
 

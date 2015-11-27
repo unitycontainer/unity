@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// A simple attribute used to "tag" classes, methods, or properties with a

@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.ObjectBuilder;
-using Microsoft.Practices.Unity.Properties;
-using Microsoft.Practices.Unity.Utility;
+using ObjectBuilder2;
+using Unity.ObjectBuilder;
+using Unity.Properties;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// An <see cref="InjectionMember"/> that configures the
@@ -62,7 +62,7 @@ namespace Microsoft.Practices.Unity
             Justification = "Validation done by Guard class")]
         protected virtual bool MethodNameMatches(MemberInfo targetMethod, string nameToMatch)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(targetMethod, "targetMethod");
+            Unity.Utility.Guard.ArgumentNotNull(targetMethod, "targetMethod");
 
             return targetMethod.Name == nameToMatch;
         }

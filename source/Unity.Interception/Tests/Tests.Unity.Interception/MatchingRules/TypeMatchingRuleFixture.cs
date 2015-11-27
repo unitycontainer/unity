@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [module: SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1403:FileMayOnlyContainASingleNamespace", Justification = "Test needs multiple namespaces so keep the namespaces and test together")]
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.MatchingRules
+namespace Unity.InterceptionExtension.Tests.MatchingRules
 {
     [TestClass]
     public class TypeMatchingRuleFixture

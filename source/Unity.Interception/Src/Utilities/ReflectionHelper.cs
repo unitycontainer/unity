@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// A collection of utility functions to encapsulate details of
@@ -111,7 +111,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public static TAttribute[] GetAttributes<TAttribute>(MemberInfo member, bool inherits) where TAttribute : Attribute
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(member, "member");
+            Unity.Utility.Guard.ArgumentNotNull(member, "member");
 
             object[] attributesAsObjects = member.GetCustomAttributes(typeof(TAttribute), inherits);
             TAttribute[] attributes = new TAttribute[attributesAsObjects.Length];
@@ -138,7 +138,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public static TAttribute[] GetAllAttributes<TAttribute>(MemberInfo member, bool inherits)
             where TAttribute : Attribute
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(member, "member");
+            Unity.Utility.Guard.ArgumentNotNull(member, "member");
 
             List<TAttribute> attributes = new List<TAttribute>();
 

@@ -3,7 +3,7 @@
 using System;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// An <see cref="IMatchingRule"/> that checks to see if a member has a specified

@@ -52,7 +52,7 @@ namespace <#= suggestedNamespace #>
             {
                 if (object.ReferenceEquals(resourceMan, null))
                 {
-                    global::Windows.ApplicationModel.Resources.ResourceLoader temp = new global::Windows.ApplicationModel.Resources.ResourceLoader("Microsoft.Practices.Unity.RegistrationByConvention/Resources");
+                    global::Windows.ApplicationModel.Resources.ResourceLoader temp = new global::Windows.ApplicationModel.Resources.ResourceLoader("Unity.RegistrationByConvention/Resources");
                     resourceMan = temp;
                 }
                 return resourceMan;

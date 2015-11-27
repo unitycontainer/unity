@@ -8,7 +8,7 @@ using System.Security.Permissions;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInterception
+namespace Unity.InterceptionExtension.Tests.VirtualMethodInterception
 {
     public partial class InterceptingClassGenerationFixture
     {

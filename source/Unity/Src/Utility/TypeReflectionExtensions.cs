@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.Practices.Unity.Utility
+namespace Unity.Utility
 {
     /// <summary>
     /// Provides extension methods to the <see cref="Type"/> class due to the introduction 
@@ -91,8 +91,8 @@ namespace Microsoft.Practices.Unity.Utility
         /// <returns></returns>
         public static bool ParametersMatch(ParameterInfo[] parameters, System.Type[] closedConstructorParameterTypes)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(parameters, "parameters");
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(closedConstructorParameterTypes, "closedConstructorParameterTypes");
+            Unity.Utility.Guard.ArgumentNotNull(parameters, "parameters");
+            Unity.Utility.Guard.ArgumentNotNull(closedConstructorParameterTypes, "closedConstructorParameterTypes");
 
             if (parameters.Length != closedConstructorParameterTypes.Length)
             {

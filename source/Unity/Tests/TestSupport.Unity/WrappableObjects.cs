@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity.TestSupport
+namespace Unity.TestSupport
 {
     public class WrappableThroughInterface : Interface, InterfaceA
     {

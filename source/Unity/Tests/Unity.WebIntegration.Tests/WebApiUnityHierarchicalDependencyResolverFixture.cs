@@ -3,10 +3,10 @@
 using System;
 using System.Linq;
 using System.Web.Http.Controllers;
-using Microsoft.Practices.Unity.WebApi;
+using Unity.WebApi;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.WebIntegation.Tests
+namespace Unity.WebIntegation.Tests
 {
     [TestClass]
     public class WebApiUnityHierarchicalDependencyResolverFixture

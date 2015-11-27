@@ -2,10 +2,10 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.Properties;
+using ObjectBuilder2;
+using Unity.Properties;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// This extension supplies the default behavior of the UnityContainer API

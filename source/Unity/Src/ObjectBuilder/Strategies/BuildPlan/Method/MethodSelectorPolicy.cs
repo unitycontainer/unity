@@ -3,7 +3,7 @@
 using System;
 using System.Reflection;
 
-namespace Microsoft.Practices.ObjectBuilder2
+namespace ObjectBuilder2
 {
     /// <summary>
     /// An implementation of <see cref="IMethodSelectorPolicy"/> that selects
@@ -25,7 +25,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             Justification = "Validation done by Guard class")]
         protected override IDependencyResolverPolicy CreateResolver(ParameterInfo parameter)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(parameter, "parameter");
+            Unity.Utility.Guard.ArgumentNotNull(parameter, "parameter");
 
             return new FixedTypeResolverPolicy(parameter.ParameterType);
         }

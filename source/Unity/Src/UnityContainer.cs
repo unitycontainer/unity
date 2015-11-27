@@ -6,12 +6,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.ObjectBuilder;
-using Microsoft.Practices.Unity.Properties;
-using Guard = Microsoft.Practices.Unity.Utility.Guard;
+using ObjectBuilder2;
+using Unity.ObjectBuilder;
+using Unity.Properties;
+using Guard = Unity.Utility.Guard;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// A simple, extensible dependency injection container.
@@ -323,7 +323,7 @@ namespace Microsoft.Practices.Unity
             Justification = "Validation done by Guard class")]
         public IUnityContainer AddExtension(UnityContainerExtension extension)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(extensions, "extensions");
+            Unity.Utility.Guard.ArgumentNotNull(extensions, "extensions");
 
             extensions.Add(extension);
             extension.InitializeExtension(new ExtensionContextImpl(this));

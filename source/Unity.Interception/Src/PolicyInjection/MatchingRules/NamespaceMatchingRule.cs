@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// An <see cref="IMatchingRule"/> that matches members in a given namespace. You can
@@ -46,7 +46,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public NamespaceMatchingRule(IEnumerable<MatchingInfo> matches)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(matches, "matches");
+            Unity.Utility.Guard.ArgumentNotNull(matches, "matches");
 
             this.matches = new List<NamespaceMatchingInfo>();
             foreach (MatchingInfo match in matches)

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Microsoft.Practices.Unity.Configuration.Tests.TestObjects
+namespace Unity.Configuration.Tests.TestObjects
 {
     public class TestInjectionMemberElement : InjectionMemberElement
     {

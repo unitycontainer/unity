@@ -3,9 +3,9 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
-using Microsoft.Practices.ObjectBuilder2;
+using ObjectBuilder2;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// A <see cref="LifetimeManager"/> that holds onto the instance given to it.

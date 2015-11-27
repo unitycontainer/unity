@@ -4,10 +4,10 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
-using Guard = Microsoft.Practices.Unity.Utility.Guard;
+using ObjectBuilder2;
+using Guard = Unity.Utility.Guard;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// This strategy implements the logic that will call container.ResolveAll

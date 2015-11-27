@@ -3,16 +3,16 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
-using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.TestSupport;
+using ObjectBuilder2.Tests.TestDoubles;
+using ObjectBuilder2.Tests.TestObjects;
+using Unity;
+using Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DependencyAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.DependencyAttribute;
-using InjectionConstructorAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
-using InjectionMethodAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionMethodAttribute;
+using DependencyAttribute = ObjectBuilder2.Tests.TestDoubles.DependencyAttribute;
+using InjectionConstructorAttribute = ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
+using InjectionMethodAttribute = ObjectBuilder2.Tests.TestDoubles.InjectionMethodAttribute;
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
     [TestClass]
     public class DynamicMethodCallFixture

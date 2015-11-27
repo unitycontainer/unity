@@ -2,7 +2,7 @@
 
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// This interface is implemented by the matching rule classes.

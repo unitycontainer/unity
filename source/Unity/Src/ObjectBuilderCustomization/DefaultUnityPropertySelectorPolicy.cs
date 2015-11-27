@@ -3,9 +3,9 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
+using ObjectBuilder2;
 
-namespace Microsoft.Practices.Unity.ObjectBuilder
+namespace Unity.ObjectBuilder
 {
     /// <summary>
     /// An implementation of <see cref="IPropertySelectorPolicy"/> that is aware of
@@ -23,7 +23,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
             Justification = "Validation done by Guard class")]
         protected override IDependencyResolverPolicy CreateResolver(PropertyInfo property)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(property, "property");
+            Unity.Utility.Guard.ArgumentNotNull(property, "property");
 
             var attributes =
                 property.GetCustomAttributes(typeof(DependencyResolutionAttribute), false)

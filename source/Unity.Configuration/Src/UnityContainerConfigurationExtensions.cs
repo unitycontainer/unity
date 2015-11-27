@@ -2,9 +2,9 @@
 
 using System;
 using System.Configuration;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// Extensions to <see cref="IUnityContainer"/> to simplify

@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
-using Microsoft.Practices.Unity.Properties;
+using Unity.Properties;
 
-namespace Microsoft.Practices.ObjectBuilder2
+namespace ObjectBuilder2
 {
     /// <summary>
     /// This class records the information about which constructor argument is currently

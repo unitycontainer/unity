@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Threading;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.Configuration.Properties;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration.Properties;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// Base class for configuration elements that describe a value that will
@@ -55,7 +55,7 @@ namespace Microsoft.Practices.Unity.Configuration
             Justification = "Validation done by Guard class")]
         protected static void GuardPropertyValueIsPresent(IDictionary<string, string> propertyValues, string requiredProperty)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(propertyValues, "propertyValues");
+            Unity.Utility.Guard.ArgumentNotNull(propertyValues, "propertyValues");
 
             if (!propertyValues.ContainsKey(requiredProperty) ||
                 string.IsNullOrEmpty(propertyValues[requiredProperty]))

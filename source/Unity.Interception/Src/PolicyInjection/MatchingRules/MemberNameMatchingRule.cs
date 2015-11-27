@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// A matching rule that matches when the given member name is
@@ -57,7 +57,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public MemberNameMatchingRule(IEnumerable<string> namesToMatch, bool ignoreCase)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(namesToMatch, "namesToMatch");
+            Unity.Utility.Guard.ArgumentNotNull(namesToMatch, "namesToMatch");
 
             patterns = new List<Glob>();
             foreach (string name in namesToMatch)
@@ -76,7 +76,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public MemberNameMatchingRule(IEnumerable<MatchingInfo> matches)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(matches, "matches");
+            Unity.Utility.Guard.ArgumentNotNull(matches, "matches");
 
             patterns = new List<Glob>();
             foreach (MatchingInfo match in matches)

@@ -3,7 +3,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -15,7 +15,7 @@ using TestInitializeAttribute = NUnit.Framework.TestFixtureSetUpAttribute;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     [TestClass]
     public partial class AssemblyScanningFixture
@@ -127,12 +127,12 @@ namespace Microsoft.Practices.Unity.Tests
         [TestMethod]
         public void GetsTypesFromAssembliesWithErrorsIfSkippingErrors()
         {
-            var types = AllClasses.FromAssemblies(true, typeof(Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1).GetTypeInfo().Assembly).ToArray();
+            var types = AllClasses.FromAssemblies(true, typeof(Unity.Tests.TestNetAssembly.PublicClass1).GetTypeInfo().Assembly).ToArray();
 
             Assert.AreEqual(2, types.Length);
             types.AssertContainsInAnyOrder(
-                typeof(Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1),
-                typeof(Microsoft.Practices.Unity.Tests.TestNetAssembly.DisposableClass));
+                typeof(Unity.Tests.TestNetAssembly.PublicClass1),
+                typeof(Unity.Tests.TestNetAssembly.DisposableClass));
         }
 
         [TestMethod]
@@ -140,7 +140,7 @@ namespace Microsoft.Practices.Unity.Tests
         {
             try
             {
-                AllClasses.FromAssemblies(false, typeof(Microsoft.Practices.Unity.Tests.TestNetAssembly.PublicClass1).GetTypeInfo().Assembly).ToArray();
+                AllClasses.FromAssemblies(false, typeof(Unity.Tests.TestNetAssembly.PublicClass1).GetTypeInfo().Assembly).ToArray();
                 Assert.Fail("should have failed");
             }
             catch (Exception e)

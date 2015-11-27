@@ -4,7 +4,7 @@ using System;
 using System.Collections.Specialized;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.ObjectsUnderTest
+namespace Unity.InterceptionExtension.Tests.ObjectsUnderTest
 {
     public class InterfacesOnlyDal : IDal, IMonitor
     {

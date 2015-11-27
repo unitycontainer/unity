@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// Event argument class for the <see cref="ExtensionContext.ChildContainerCreated"/> event.

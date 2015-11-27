@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dependencies;
 
-namespace Microsoft.Practices.Unity.WebApi
+namespace Unity.WebApi
 {
     /// <summary>
     /// An implementation of the <see cref="IDependencyResolver"/> interface that wraps a Unity container.

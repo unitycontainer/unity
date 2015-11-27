@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// A policy is a combination of a matching rule set and a set of handlers.
@@ -47,7 +47,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         protected override bool DoesMatch(MethodImplementationInfo member)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(member, "member");
+            Unity.Utility.Guard.ArgumentNotNull(member, "member");
 
             bool matchesInterface = member.InterfaceMethodInfo != null ? this.ruleSet.Matches(member.InterfaceMethodInfo) : false;
             bool matchesImplementation = this.ruleSet.Matches(member.ImplementationMethodInfo);

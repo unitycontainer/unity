@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// A collection of <see cref="HandlerPipeline"/> objects, indexed
@@ -55,7 +55,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public bool InitializePipeline(MethodImplementationInfo method, IEnumerable<ICallHandler> handlers)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(method, "method");
+            Unity.Utility.Guard.ArgumentNotNull(method, "method");
 
             var pipeline = CreatePipeline(method.ImplementationMethodInfo, handlers);
             if (method.InterfaceMethodInfo != null)

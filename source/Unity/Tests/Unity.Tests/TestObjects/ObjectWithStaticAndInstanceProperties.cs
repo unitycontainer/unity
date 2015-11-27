@@ -8,7 +8,7 @@ using NUnit.Framework;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests.TestObjects
+namespace Unity.Tests.TestObjects
 {
     public class ObjectWithStaticAndInstanceProperties
     {

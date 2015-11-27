@@ -7,7 +7,7 @@
     <ProjectGuid>{F36089DA-D2EF-46F5-88EA-ADD81A0D3FA9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Practices.Unity.Tests</RootNamespace>
+    <RootNamespace>Unity.Tests</RootNamespace>
     <AssemblyName>Unity.Tests.WindowsPhone.8.1</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>

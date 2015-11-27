@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-namespace Microsoft.Practices.Unity.Tests.TestNetAssembly.NotReferencedTestNetAssembly
+namespace Unity.Tests.TestNetAssembly.NotReferencedTestNetAssembly
 {
     public class Class1
     {

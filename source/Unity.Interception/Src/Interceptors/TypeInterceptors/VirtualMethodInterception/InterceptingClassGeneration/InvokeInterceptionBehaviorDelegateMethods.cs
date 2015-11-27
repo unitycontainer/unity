@@ -2,9 +2,9 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
+using ObjectBuilder2;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     internal static class InvokeInterceptionBehaviorDelegateMethods
     {

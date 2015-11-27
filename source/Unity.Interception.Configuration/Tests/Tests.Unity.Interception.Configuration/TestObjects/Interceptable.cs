@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests.TestObjects
+namespace Unity.InterceptionExtension.Configuration.Tests.TestObjects
 {
     public class Interceptable : MarshalByRefObject
     {

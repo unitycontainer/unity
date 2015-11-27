@@ -1,6 +1,6 @@
 ﻿
 // This output was generated based on a format similar to the one used by resx resource generation.
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     using System;
 
@@ -36,7 +36,7 @@ namespace Microsoft.Practices.Unity
             {
                 if (object.ReferenceEquals(resourceMan, null))
                 {
-                    global::Windows.ApplicationModel.Resources.ResourceLoader temp = new global::Windows.ApplicationModel.Resources.ResourceLoader("Microsoft.Practices.Unity.RegistrationByConvention/Resources");
+                    global::Windows.ApplicationModel.Resources.ResourceLoader temp = global::Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse("Unity.RegistrationByConvention/Resources");
                     resourceMan = temp;
                 }
                 return resourceMan;

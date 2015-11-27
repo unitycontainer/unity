@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using Microsoft.Practices.ObjectBuilder2;
+using ObjectBuilder2;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// A strategy that handles Hierarchical lifetimes across a set of parent/child
@@ -22,7 +22,7 @@ namespace Microsoft.Practices.Unity
             Justification = "Validation done by Guard class")]
         public override void PreBuildUp(IBuilderContext context)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(context, "context");
+            Unity.Utility.Guard.ArgumentNotNull(context, "context");
 
             IPolicyList lifetimePolicySource;
 

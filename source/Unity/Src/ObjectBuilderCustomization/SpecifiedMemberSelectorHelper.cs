@@ -2,9 +2,9 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.ObjectBuilder2;
+using ObjectBuilder2;
 
-namespace Microsoft.Practices.Unity.ObjectBuilder
+namespace Unity.ObjectBuilder
 {
     /// <summary>
     /// Helper class for implementing selector policies that need to
@@ -24,9 +24,9 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
             IEnumerable<InjectionParameterValue> parameterValues,
             SelectedMemberWithParameters result)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(policies, "policies");
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(parameterValues, "parameterValues");
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(result, "result");
+            Unity.Utility.Guard.ArgumentNotNull(policies, "policies");
+            Unity.Utility.Guard.ArgumentNotNull(parameterValues, "parameterValues");
+            Unity.Utility.Guard.ArgumentNotNull(result, "result");
 
             foreach (InjectionParameterValue parameterValue in parameterValues)
             {

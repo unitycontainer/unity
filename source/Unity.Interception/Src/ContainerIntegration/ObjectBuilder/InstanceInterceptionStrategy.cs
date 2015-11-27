@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Practices.ObjectBuilder2;
+using ObjectBuilder2;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// A <see cref="IBuilderStrategy"/> that intercepts objects
@@ -23,7 +23,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Justification = "Validation done by Guard class")]
         public override void PostBuildUp(IBuilderContext context)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(context, "context");
+            Unity.Utility.Guard.ArgumentNotNull(context, "context");
 
             // If it's already been intercepted, don't do it again.
             if (context.Existing is IInterceptingProxy)

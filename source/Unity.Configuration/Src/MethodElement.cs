@@ -8,11 +8,11 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Xml;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
-using Microsoft.Practices.Unity.Configuration.Properties;
+using ObjectBuilder2;
+using Unity.Configuration.ConfigurationHelpers;
+using Unity.Configuration.Properties;
 
-namespace Microsoft.Practices.Unity.Configuration
+namespace Unity.Configuration
 {
     /// <summary>
     /// A configuration element representing a method to call.
@@ -81,7 +81,7 @@ namespace Microsoft.Practices.Unity.Configuration
             Justification = "Validation done by Guard class")]
         public override void SerializeContent(XmlWriter writer)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(writer, "writer");
+            Unity.Utility.Guard.ArgumentNotNull(writer, "writer");
 
             writer.WriteAttributeString(NamePropertyName, this.Name);
             foreach (var param in this.Parameters)

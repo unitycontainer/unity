@@ -2,8 +2,8 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Practices.Unity.StaticFactory;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.StaticFactory;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -15,7 +15,7 @@ using TestMethodAttribute = NUnit.Framework.TestAttribute;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     /// <summary>
     /// Tests for the Static Factory container extension.

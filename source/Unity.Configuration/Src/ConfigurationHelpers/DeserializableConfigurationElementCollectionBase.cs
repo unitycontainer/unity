@@ -5,7 +5,7 @@ using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 
-namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
+namespace Unity.Configuration.ConfigurationHelpers
 {
     /// <summary>
     /// A base helper class for implementing configuration collections.

@@ -3,9 +3,9 @@
 using System;
 using System.Globalization;
 using System.Reflection;
-using Microsoft.Practices.Unity.Properties;
+using Unity.Properties;
 
-namespace Microsoft.Practices.ObjectBuilder2
+namespace ObjectBuilder2
 {
     /// <summary>
     /// A class that records that a constructor is about to be call, and is 

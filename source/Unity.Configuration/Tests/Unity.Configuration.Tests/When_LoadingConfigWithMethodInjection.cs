@@ -2,12 +2,12 @@
 
 using System.Linq;
 using System.Text;
-using Microsoft.Practices.Unity.Configuration.Tests.ConfigFiles;
-using Microsoft.Practices.Unity.TestSupport;
-using Microsoft.Practices.Unity.TestSupport.Configuration;
+using Unity.Configuration.Tests.ConfigFiles;
+using Unity.TestSupport;
+using Unity.TestSupport.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.Configuration.Tests
+namespace Unity.Configuration.Tests
 {
     /// <summary>
     /// Summary description for When_LoadingConfigWithMethodInjection

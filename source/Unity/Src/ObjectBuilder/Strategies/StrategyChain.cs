@@ -4,9 +4,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Utility;
 
-namespace Microsoft.Practices.ObjectBuilder2
+namespace ObjectBuilder2
 {
     /// <summary>
     /// Represents a chain of responsibility for builder strategies.
@@ -72,7 +72,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <returns>The build up object</returns>
         public object ExecuteBuildUp(IBuilderContext context)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(context, "context");
+            Unity.Utility.Guard.ArgumentNotNull(context, "context");
 
             int i = 0;
             try
@@ -111,7 +111,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         /// <param name="context">Context for the teardown process.</param>
         public void ExecuteTearDown(IBuilderContext context)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(context, "context");
+            Unity.Utility.Guard.ArgumentNotNull(context, "context");
 
             int i = 0;
 

@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using Microsoft.Practices.Unity.Configuration;
-using Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests.ConfigFiles;
-using Microsoft.Practices.Unity.TestSupport.Configuration;
+using Unity.Configuration;
+using Unity.InterceptionExtension.Configuration.Tests.ConfigFiles;
+using Unity.TestSupport.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration.Tests
+namespace Unity.InterceptionExtension.Configuration.Tests
 {
     [TestClass]
     public class When_LoadingSectionThatAddsInterceptionExtensions : SectionLoadingFixture<ConfigFileLocator>

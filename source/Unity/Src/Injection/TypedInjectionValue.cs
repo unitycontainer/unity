@@ -2,9 +2,9 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity
+namespace Unity
 {
     /// <summary>
     /// A base class for implementing <see cref="InjectionParameterValue"/> classes

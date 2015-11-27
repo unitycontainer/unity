@@ -4,9 +4,9 @@ using System;
 using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Utility;
 
-namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
+namespace Unity.Configuration.ConfigurationHelpers
 {
     /// <summary>
     /// Helpful extension methods when implementing configuration sections

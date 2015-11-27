@@ -3,7 +3,7 @@
 using System;
 using System.Reflection;
 
-namespace Microsoft.Practices.ObjectBuilder2
+namespace ObjectBuilder2
 {
     /// <summary>
     /// An implementation of <see cref="IPropertySelectorPolicy"/> that looks
@@ -24,7 +24,7 @@ namespace Microsoft.Practices.ObjectBuilder2
             Justification = "Validation done by Guard class")]
         protected override IDependencyResolverPolicy CreateResolver(PropertyInfo property)
         {
-            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(property, "property");
+            Unity.Utility.Guard.ArgumentNotNull(property, "property");
 
             return new FixedTypeResolverPolicy(property.PropertyType);
         }

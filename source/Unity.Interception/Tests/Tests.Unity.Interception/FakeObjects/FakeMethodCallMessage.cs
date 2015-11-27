@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests
+namespace Unity.InterceptionExtension.Tests
 {
     /// <summary>
     /// An implementation of IMethodCallMessage that can be used to mock

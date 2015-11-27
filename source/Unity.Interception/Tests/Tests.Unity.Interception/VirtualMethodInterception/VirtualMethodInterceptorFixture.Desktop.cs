@@ -5,7 +5,7 @@ using System.Security;
 using System.Security.Permissions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Microsoft.Practices.Unity.InterceptionExtension.Tests.VirtualMethodInterceptorTests
+namespace Unity.InterceptionExtension.Tests.VirtualMethodInterceptorTests
 {
     public partial class VirtualMethodInterceptorFixture
     {

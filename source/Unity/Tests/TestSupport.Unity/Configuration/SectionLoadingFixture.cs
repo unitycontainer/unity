@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using Unity.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Unity.Configuration;
 
 namespace Unity.TestSupport.Configuration
 {

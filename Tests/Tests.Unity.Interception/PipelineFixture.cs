@@ -1,9 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System.Reflection;
-using Unity.InterceptionExtension.Tests.ObjectsUnderTest;
-using Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Reflection;
+using Unity.TestSupport;
 
 namespace Unity.InterceptionExtension.Tests
 {

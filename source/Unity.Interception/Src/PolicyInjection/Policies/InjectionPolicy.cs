@@ -10,7 +10,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     /// Base class for Policies that specifies which handlers apply to which methods of an object.
     /// </summary>
     /// <remarks>
-    /// <para>This base class always enforces the 
+    /// <para>This base class always enforces the
     /// <see cref="ApplyNoPoliciesMatchingRule"/> before
     /// passing the checks onto derived classes. This way, derived classes do not need to
     /// worry about implementing this check.</para>
@@ -61,7 +61,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private bool DoesNotHaveNoPoliciesAttributeRule(MethodImplementationInfo method)
         {
             bool doesNotHaveRule = true;
-            doesNotHaveRule &= method.InterfaceMethodInfo != null ? doesNotHaveNoPoliciesAttributeRule.Matches(method.InterfaceMethodInfo) : true;
+            doesNotHaveRule &= method.InterfaceMethodInfo == null || doesNotHaveNoPoliciesAttributeRule.Matches(method.InterfaceMethodInfo);
             doesNotHaveRule &= doesNotHaveNoPoliciesAttributeRule.Matches(method.ImplementationMethodInfo);
             return doesNotHaveRule;
         }

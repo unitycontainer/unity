@@ -33,7 +33,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(member, "member");
 
-            bool matchesInterface = member.InterfaceMethodInfo != null ? this.attributeMatchRule.Matches(member.InterfaceMethodInfo) : false;
+            bool matchesInterface = member.InterfaceMethodInfo != null && this.attributeMatchRule.Matches(member.InterfaceMethodInfo);
             bool matchesImplementation = this.attributeMatchRule.Matches(member.ImplementationMethodInfo);
 
             return matchesInterface | matchesImplementation;

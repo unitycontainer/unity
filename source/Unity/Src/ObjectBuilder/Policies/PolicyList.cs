@@ -312,7 +312,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
             public override bool Equals(object obj)
             {
-                if (obj != null && obj.GetType() == typeof(PolicyKey))
+                if (obj != null && obj is PolicyKey)
                 {
                     return this == (PolicyKey)obj;
                 }

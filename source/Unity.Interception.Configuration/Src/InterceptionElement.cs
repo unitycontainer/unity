@@ -19,8 +19,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension.Configuration
         private static readonly UnknownElementHandlerMap<InterceptionElement> UnknownElementHandlerMap =
             new UnknownElementHandlerMap<InterceptionElement>
                 {
-                    { "policy", (ie, xr) => ie.ReadUnwrappedElement(xr, ie.Policies) },
-                };
+                    { "policy", (ie, xr) => ie.ReadUnwrappedElement(xr, ie.Policies) }
+            };
 
         /// <summary>
         /// Policies defined for this container.

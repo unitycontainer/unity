@@ -44,7 +44,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             // if the method is inherited and the declaring type is generic, we need to map
             // the parameters of the original declaration to the actual intercepted type type
-            // E.g. consider given class Type1<T> with virtual method "T Method<U>()", the mappings in 
+            // E.g. consider given class Type1<T> with virtual method "T Method<U>()", the mappings in
             // different scenarios would look like:
             // Type2<S> : Type2<S>                  => S Method<U>()
             // Type2<S> : Type2<IEnumerable<S>>     => IEnumerable<S> Method<U>()
@@ -78,7 +78,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 overrideCount.ToString(CultureInfo.InvariantCulture);
         }
 
-        private static readonly OpCode[] LoadArgsOpcodes = 
+        private static readonly OpCode[] LoadArgsOpcodes =
         {
             OpCodes.Ldarg_1,
             OpCodes.Ldarg_2,
@@ -97,7 +97,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             }
         }
 
-        private static readonly OpCode[] LoadConstOpCodes = 
+        private static readonly OpCode[] LoadConstOpCodes =
         {
             OpCodes.Ldc_I4_0,
             OpCodes.Ldc_I4_1,
@@ -107,7 +107,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             OpCodes.Ldc_I4_5,
             OpCodes.Ldc_I4_6,
             OpCodes.Ldc_I4_7,
-            OpCodes.Ldc_I4_8,
+            OpCodes.Ldc_I4_8
         };
 
         private static void EmitLoadConstant(ILGenerator il, int i)
@@ -156,9 +156,9 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             methodBuilder.SetReturnType(typeof(IMethodReturn));
             // Adding parameters
             methodBuilder.SetParameters(typeof(IMethodInvocation), typeof(GetNextInterceptionBehaviorDelegate));
-            // Parameter 
+            // Parameter
             methodBuilder.DefineParameter(1, ParameterAttributes.None, "inputs");
-            // Parameter 
+            // Parameter
             methodBuilder.DefineParameter(2, ParameterAttributes.None, "getNext");
 
             methodBuilder.SetCustomAttribute(new CustomAttributeBuilder(CompilerGeneratedAttributeMethods.CompilerGeneratedAttribute, new object[0]));

@@ -55,7 +55,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
                 { "HierarchicalLifetimeManager", typeof(HierarchicalLifetimeManager) },
                 { "resolve", typeof(PerResolveLifetimeManager) },
                 { "perresolve", typeof(PerResolveLifetimeManager) },
-                { "PerResolveLifetimeManager", typeof(PerResolveLifetimeManager) },
+                { "PerResolveLifetimeManager", typeof(PerResolveLifetimeManager) }
             };
 
         /// <summary>
@@ -89,9 +89,9 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// </summary>
         /// <param name="typeNameOrAlias">Alias or name to resolve.</param>
         /// <param name="throwIfResolveFails">if true and the alias does not
-        /// resolve, throw an <see cref="InvalidOperationException"/>, otherwise 
+        /// resolve, throw an <see cref="InvalidOperationException"/>, otherwise
         /// return null on failure.</param>
-        /// <returns>The type object or null if resolve fails and 
+        /// <returns>The type object or null if resolve fails and
         /// <paramref name="throwIfResolveFails"/> is false.</returns>
         public Type ResolveType(string typeNameOrAlias, bool throwIfResolveFails)
         {
@@ -123,7 +123,7 @@ namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
         /// <param name="typeNameOrAlias">Type alias or full name to resolve.</param>
         /// <param name="defaultValue">Value to return if typeName is null or empty.</param>
         /// <param name="throwIfResolveFails">if true and the alias does not
-        /// resolve, throw an <see cref="InvalidOperationException"/>, otherwise 
+        /// resolve, throw an <see cref="InvalidOperationException"/>, otherwise
         /// return null on failure.</param>
         /// <returns>
         /// <para>If <paramref name="typeNameOrAlias"/> is null or an empty string,

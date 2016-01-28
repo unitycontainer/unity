@@ -35,7 +35,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             {
                 if (type.IsGenericTypeDefinition)
                 {
-                    throw new ArgumentException(Resources.ExceptionCannotMapGenericTypeDefinition, "type");
+                    throw new ArgumentException(Resources.ExceptionCannotMapGenericTypeDefinition, nameof(type));
                 }
 
                 this.parent = parent;
@@ -79,7 +79,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             if (reflectedParameters.Length != generatedParameters.Length)
             {
-                throw new ArgumentException(Resources.ExceptionMappedParametersDoNotMatch, "reflectedParameters");
+                throw new ArgumentException(Resources.ExceptionMappedParametersDoNotMatch, nameof(reflectedParameters));
             }
 
             var mappings = new List<KeyValuePair<Type, Type>>();
@@ -112,7 +112,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             if (!typeToMap.IsGenericParameter)
             {
-                // The type does not represent a generic parameter, but it might be a type constructed with 
+                // The type does not represent a generic parameter, but it might be a type constructed with
                 // generic parameters
 
                 if (typeToMap.IsArray)

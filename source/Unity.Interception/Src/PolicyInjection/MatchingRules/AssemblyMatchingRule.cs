@@ -36,7 +36,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         {
             if (assembly == null)
             {
-                throw new ArgumentNullException("assembly");
+                throw new ArgumentNullException(nameof(assembly));
             }
         }
 

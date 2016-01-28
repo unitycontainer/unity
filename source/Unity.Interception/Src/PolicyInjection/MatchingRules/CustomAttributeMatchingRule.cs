@@ -29,7 +29,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             Guard.ArgumentNotNull(attributeType, "attributeType");
             if (!attributeType.IsSubclassOf(typeof(Attribute)))
             {
-                throw new ArgumentException(Resources.ExceptionAttributeNoSubclassOfAttribute, "attributeType");
+                throw new ArgumentException(Resources.ExceptionAttributeNoSubclassOfAttribute, nameof(attributeType));
             }
 
             this.attributeType = attributeType;

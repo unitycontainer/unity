@@ -17,7 +17,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private readonly Type additionalInterface;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AdditionalInterface"/> with a 
+        /// Initializes a new instance of the <see cref="AdditionalInterface"/> with a
         /// <see cref="Type"/>.
         /// </summary>
         /// <param name="additionalInterface">A descriptor representing the interception behavior to use.</param>
@@ -37,14 +37,14 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                         CultureInfo.CurrentCulture,
                         Resources.ExceptionTypeIsNotInterface,
                         additionalInterface.Name),
-                    "additionalInterface");
+                    nameof(additionalInterface));
             }
 
             this.additionalInterface = additionalInterface;
         }
 
         /// <summary>
-        /// Add policies to the <paramref name="policies"/> to configure the container to use the represented 
+        /// Add policies to the <paramref name="policies"/> to configure the container to use the represented
         /// <see cref="Type"/> as an additional interface for the supplied parameters.
         /// </summary>
         /// <param name="serviceType">Interface being registered.</param>

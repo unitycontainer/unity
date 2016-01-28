@@ -249,7 +249,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                     CultureInfo.CurrentCulture,
                     Resources.CannotExtractTypeFromBuildKey,
                     buildKey),
-                "buildKey");
+                nameof(buildKey));
         }
 
         private class NullPolicyList : IPolicyList

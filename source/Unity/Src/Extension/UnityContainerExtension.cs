@@ -23,7 +23,7 @@ namespace Microsoft.Practices.Unity
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             this.container = context.Container;

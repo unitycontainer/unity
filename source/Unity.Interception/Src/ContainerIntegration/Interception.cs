@@ -239,7 +239,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                         CultureInfo.CurrentCulture,
                         Resources.InterceptionNotSupported,
                         typeToIntercept.FullName),
-                    "typeToIntercept");
+                    nameof(typeToIntercept));
             }
         }
 

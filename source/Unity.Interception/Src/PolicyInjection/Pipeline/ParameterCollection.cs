@@ -94,7 +94,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     return i;
                 }
             }
-            throw new ArgumentException("Invalid parameter Name", "paramName");
+            throw new ArgumentException("Invalid parameter Name", nameof(paramName));
         }
 
         /// <summary>

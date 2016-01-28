@@ -69,7 +69,7 @@ namespace Microsoft.Practices.ObjectBuilder2
                     string.Format(CultureInfo.CurrentCulture,
                                   Resources.MustHaveSameNumberOfGenericArguments,
                                   sourceTypeInfo.Name, this.DestinationType.Name),
-                    "sourceTypeInfo");
+                    nameof(sourceTypeInfo));
             }
         }
 

@@ -492,7 +492,7 @@ namespace Microsoft.Practices.Unity
                     throw new ArgumentException(
                         string.Format(CultureInfo.CurrentCulture,
                         Resources.CannotResolveOpenGenericType,
-                        t.FullName), "t");
+                        t.FullName), nameof(t));
                 }
 
                 return context.Strategies.ExecuteBuildUp(context);

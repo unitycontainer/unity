@@ -15,7 +15,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
     public static class Intercept
     {
         /// <summary>
-        /// Returns a <see cref="IInterceptingProxy"/> for type <typeparamref name="T"/> which wraps 
+        /// Returns a <see cref="IInterceptingProxy"/> for type <typeparamref name="T"/> which wraps
         /// the supplied <paramref name="target"/>.
         /// </summary>
         /// <typeparam name="T">The type to intercept.</typeparam>
@@ -28,7 +28,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <exception cref="ArgumentNullException">when <paramref name="interceptor"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="additionalInterfaces"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
+        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept
         /// <typeparamref name="T"/>.</exception>
         public static T ThroughProxyWithAdditionalInterfaces<T>(
             T target,
@@ -52,7 +52,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <exception cref="ArgumentNullException">when <paramref name="target"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptor"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
+        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept
         /// <typeparamref name="T"/>.</exception>
         public static T ThroughProxy<T>(
             T target,
@@ -64,7 +64,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         }
 
         /// <summary>
-        /// Returns a <see cref="IInterceptingProxy"/> for type <paramref name="interceptedType"/> which wraps 
+        /// Returns a <see cref="IInterceptingProxy"/> for type <paramref name="interceptedType"/> which wraps
         /// the supplied <paramref name="target"/>.
         /// </summary>
         /// <param name="interceptedType">The type to intercept.</param>
@@ -78,7 +78,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <exception cref="ArgumentNullException">when <paramref name="interceptor"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="additionalInterfaces"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
+        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept
         /// <paramref name="interceptedType"/>.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class")]
@@ -102,7 +102,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                         CultureInfo.CurrentCulture,
                         Resources.InterceptionNotSupported,
                         interceptedType.FullName),
-                    "interceptedType");
+                    nameof(interceptedType));
             }
 
             var behaviors = interceptionBehaviors.ToList();
@@ -110,7 +110,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             {
                 throw new ArgumentException(
                     string.Format(CultureInfo.CurrentCulture, Resources.NullBehavior),
-                    "interceptionBehaviors");
+                    nameof(interceptionBehaviors));
             }
 
             var activeBehaviors = behaviors.Where(ib => ib.WillExecute).ToList();
@@ -136,7 +136,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         }
 
         /// <summary>
-        /// Returns a <see cref="IInterceptingProxy"/> for type <paramref name="interceptedType"/> which wraps 
+        /// Returns a <see cref="IInterceptingProxy"/> for type <paramref name="interceptedType"/> which wraps
         /// the supplied <paramref name="target"/>.
         /// </summary>
         /// <param name="interceptedType">The type to intercept.</param>
@@ -148,7 +148,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <exception cref="ArgumentNullException">when <paramref name="target"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptor"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
+        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept
         /// <paramref name="interceptedType"/>.</exception>
         public static object ThroughProxy(
             Type interceptedType,
@@ -160,7 +160,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         }
 
         /// <summary>
-        /// Creates a new instance of type <typeparamref name="T"/> that is intercepted with the behaviors in 
+        /// Creates a new instance of type <typeparamref name="T"/> that is intercepted with the behaviors in
         /// <paramref name="interceptionBehaviors"/>.
         /// </summary>
         /// <typeparam name="T">The type of the object to create.</typeparam>
@@ -173,7 +173,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <exception cref="ArgumentNullException">when <paramref name="interceptor"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">When <paramref name="additionalInterfaces"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
+        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept
         /// <typeparamref name="T"/>.</exception>
         public static T NewInstanceWithAdditionalInterfaces<T>(
             ITypeInterceptor interceptor,
@@ -186,7 +186,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         }
 
         /// <summary>
-        /// Creates a new instance of type <typeparamref name="T"/> that is intercepted with the behaviors in 
+        /// Creates a new instance of type <typeparamref name="T"/> that is intercepted with the behaviors in
         /// <paramref name="interceptionBehaviors"/>.
         /// </summary>
         /// <typeparam name="T">The type of the object to create.</typeparam>
@@ -197,7 +197,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// given <paramref name="interceptionBehaviors"/>.</returns>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptor"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
+        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept
         /// <typeparamref name="T"/>.</exception>
         public static T NewInstance<T>(
             ITypeInterceptor interceptor,
@@ -210,7 +210,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         }
 
         /// <summary>
-        /// Creates a new instance of type <paramref name="type"/> that is intercepted with the behaviors in 
+        /// Creates a new instance of type <paramref name="type"/> that is intercepted with the behaviors in
         /// <paramref name="interceptionBehaviors"/>.
         /// </summary>
         /// <param name="type">The type of the object to create.</param>
@@ -224,7 +224,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <exception cref="ArgumentNullException">when <paramref name="interceptor"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="additionalInterfaces"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
+        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept
         /// <paramref name="type"/>.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
             Justification = "Validation done by Guard class")]
@@ -247,7 +247,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                         CultureInfo.CurrentCulture,
                         Resources.InterceptionNotSupported,
                         type.FullName),
-                    "type");
+                    nameof(type));
             }
 
             var behaviors = interceptionBehaviors.ToList();
@@ -256,7 +256,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             {
                 throw new ArgumentException(
                     string.Format(CultureInfo.CurrentCulture, Resources.NullBehavior),
-                    "interceptionBehaviors");
+                    nameof(interceptionBehaviors));
             }
 
             Type implementationType = type;
@@ -278,7 +278,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         }
 
         /// <summary>
-        /// Creates a new instance of type <paramref name="type"/> that is intercepted with the behaviors in 
+        /// Creates a new instance of type <paramref name="type"/> that is intercepted with the behaviors in
         /// <paramref name="interceptionBehaviors"/>.
         /// </summary>
         /// <param name="type">The type of the object to create.</param>
@@ -290,7 +290,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// <exception cref="ArgumentNullException">when <paramref name="type"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptor"/> is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentNullException">when <paramref name="interceptionBehaviors"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept 
+        /// <exception cref="ArgumentException">when <paramref name="interceptor"/> cannot intercept
         /// <paramref name="type"/>.</exception>
         public static object NewInstance(
             Type type,
@@ -321,7 +321,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                     {
                         if (ib == null)
                         {
-                            throw new ArgumentException(Resources.ExceptionContainsNullElement, "interceptionBehaviors");
+                            throw new ArgumentException(Resources.ExceptionContainsNullElement, nameof(interceptionBehaviors));
                         }
                         return
                             CheckInterfaces(

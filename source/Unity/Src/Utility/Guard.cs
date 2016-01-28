@@ -59,14 +59,10 @@ namespace Microsoft.Practices.Unity.Utility
         public static void TypeIsAssignable(Type assignmentTargetType, Type assignmentValueType, string argumentName)
         {
             if (assignmentTargetType == null)
-            {
-                throw new ArgumentNullException("assignmentTargetType");
-            }
+                throw new ArgumentNullException(nameof(assignmentTargetType));
 
             if (assignmentValueType == null)
-            {
-                throw new ArgumentNullException("assignmentValueType");
-            }
+                throw new ArgumentNullException(nameof(assignmentValueType));
 
             if (!assignmentTargetType.GetTypeInfo().IsAssignableFrom(assignmentValueType.GetTypeInfo()))
             {
@@ -81,7 +77,7 @@ namespace Microsoft.Practices.Unity.Utility
 
         /// <summary>
         /// Verifies that an argument instance is assignable from the provided type (meaning
-        /// interfaces are implemented, or classes exist in the base class hierarchy, or instance can be 
+        /// interfaces are implemented, or classes exist in the base class hierarchy, or instance can be
         /// assigned through a runtime wrapper, as is the case for COM Objects).
         /// </summary>
         /// <param name="assignmentTargetType">The argument type that will be assigned to.</param>
@@ -90,14 +86,10 @@ namespace Microsoft.Practices.Unity.Utility
         public static void InstanceIsAssignable(Type assignmentTargetType, object assignmentInstance, string argumentName)
         {
             if (assignmentTargetType == null)
-            {
-                throw new ArgumentNullException("assignmentTargetType");
-            }
+                throw new ArgumentNullException(nameof(assignmentTargetType));
 
             if (assignmentInstance == null)
-            {
-                throw new ArgumentNullException("assignmentInstance");
-            }
+                throw new ArgumentNullException(nameof(assignmentInstance));
 
             if (!assignmentTargetType.GetTypeInfo().IsAssignableFrom(assignmentInstance.GetType().GetTypeInfo()))
             {

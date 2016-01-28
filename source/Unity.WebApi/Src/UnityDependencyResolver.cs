@@ -23,9 +23,8 @@ namespace Microsoft.Practices.Unity.WebApi
         public UnityDependencyResolver(IUnityContainer container)
         {
             if (container == null)
-            {
-                throw new ArgumentNullException("container");
-            }
+                throw new ArgumentNullException(nameof(container));
+
             this.container = container;
             this.sharedScope = new SharedDependencyScope(container);
         }

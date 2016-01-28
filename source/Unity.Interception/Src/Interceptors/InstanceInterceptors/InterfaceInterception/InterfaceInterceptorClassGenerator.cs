@@ -60,9 +60,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         private static void CheckAdditionalInterfaces(IEnumerable<Type> additionalInterfaces)
         {
             if (additionalInterfaces == null)
-            {
-                throw new ArgumentNullException("additionalInterfaces");
-            }
+                throw new ArgumentNullException(nameof(additionalInterfaces));
 
             foreach (var type in additionalInterfaces)
             {
@@ -70,19 +68,19 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
                 {
                     throw new ArgumentException(
                         Resources.ExceptionContainsNullElement,
-                        "additionalInterfaces");
+                        nameof(additionalInterfaces));
                 }
                 if (!type.IsInterface)
                 {
                     throw new ArgumentException(
                         string.Format(CultureInfo.CurrentCulture, Resources.ExceptionTypeIsNotInterface, type.Name),
-                        "additionalInterfaces");
+                        nameof(additionalInterfaces));
                 }
                 if (type.IsGenericTypeDefinition)
                 {
                     throw new ArgumentException(
                         string.Format(CultureInfo.CurrentCulture, Resources.ExceptionTypeIsOpenGeneric, type.Name),
-                        "additionalInterfaces");
+                        nameof(additionalInterfaces));
                 }
             }
         }

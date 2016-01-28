@@ -21,9 +21,8 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         public ReturnTypeMatchingRule(Type returnType)
         {
             if (returnType == null)
-            {
-                throw new ArgumentNullException("returnType");
-            }
+                throw new ArgumentNullException(nameof(returnType));
+
             typeMatchingRule = new TypeMatchingRule(returnType.FullName);
         }
 

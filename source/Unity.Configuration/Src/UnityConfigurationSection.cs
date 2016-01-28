@@ -149,7 +149,7 @@ namespace Microsoft.Practices.Unity.Configuration
                 throw new ArgumentException(
                     string.Format(CultureInfo.CurrentCulture,
                         Resources.NoSuchContainer, configuredContainerName),
-                    "configuredContainerName");
+                    nameof(configuredContainerName));
             }
             return containerElement;
         }

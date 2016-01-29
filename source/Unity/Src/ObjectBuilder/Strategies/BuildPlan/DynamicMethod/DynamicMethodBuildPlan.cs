@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="context"></param>
     public delegate void DynamicBuildPlanMethod(IBuilderContext context);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class DynamicMethodBuildPlan : IBuildPlanPolicy
     {
-        private DynamicBuildPlanMethod buildMethod;
+        private readonly DynamicBuildPlanMethod buildMethod;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="buildMethod"></param>
         public DynamicMethodBuildPlan(DynamicBuildPlanMethod buildMethod)
@@ -30,7 +30,7 @@ namespace Microsoft.Practices.ObjectBuilder2
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="context"></param>
         public void BuildUp(IBuilderContext context)

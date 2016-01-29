@@ -15,7 +15,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
     public class NamedTypeDependencyResolverPolicy : IDependencyResolverPolicy
     {
         private Type type;
-        private string name;
+        private readonly string name;
 
         /// <summary>
         /// Create an instance of <see cref="NamedTypeDependencyResolverPolicy"/>

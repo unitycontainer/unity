@@ -10,7 +10,7 @@ namespace Microsoft.Practices.Unity.ObjectBuilder
     /// </summary>
     public class LiteralValueDependencyResolverPolicy : IDependencyResolverPolicy
     {
-        private object dependencyValue;
+        private readonly object dependencyValue;
 
         /// <summary>
         /// Create a new instance of <see cref="LiteralValueDependencyResolverPolicy"/>

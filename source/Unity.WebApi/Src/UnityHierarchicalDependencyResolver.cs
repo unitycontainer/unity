@@ -85,7 +85,7 @@ namespace Microsoft.Practices.Unity.WebApi
 
         private sealed class UnityHierarchicalDependencyScope : IDependencyScope
         {
-            private IUnityContainer container;
+            private readonly IUnityContainer container;
 
             public UnityHierarchicalDependencyScope(IUnityContainer parentContainer)
             {

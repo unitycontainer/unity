@@ -74,7 +74,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
         /// </summary>
         private class NamespaceMatchingInfo : MatchingInfo
         {
-            private bool wildCard;
+            private readonly bool wildCard;
             private const string WildCardString = ".*";
 
             /// <summary>

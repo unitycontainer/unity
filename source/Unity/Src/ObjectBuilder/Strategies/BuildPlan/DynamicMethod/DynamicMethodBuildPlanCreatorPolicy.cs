@@ -11,7 +11,7 @@ namespace Microsoft.Practices.ObjectBuilder2
     /// </summary>
     public class DynamicMethodBuildPlanCreatorPolicy : IBuildPlanCreatorPolicy
     {
-        private IStagedStrategyChain strategies;
+        private readonly IStagedStrategyChain strategies;
 
         /// <summary>
         /// Construct a <see cref="DynamicMethodBuildPlanCreatorPolicy"/> that

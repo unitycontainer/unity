@@ -8,7 +8,7 @@ namespace Microsoft.Practices.Unity
 {
     internal class RegisteredNamesPolicy : IRegisteredNamesPolicy
     {
-        private NamedTypesRegistry registry;
+        private readonly NamedTypesRegistry registry;
 
         public RegisteredNamesPolicy(NamedTypesRegistry registry)
         {

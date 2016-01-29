@@ -121,7 +121,7 @@ namespace Microsoft.Practices.ObjectBuilder2
 
         private static int NumberOfEnumValues()
         {
-            return typeof(TStageEnum).GetTypeInfo().DeclaredFields.Where(f => f.IsPublic && f.IsStatic).Count();
+            return typeof(TStageEnum).GetTypeInfo().DeclaredFields.Count(f => f.IsPublic && f.IsStatic);
         }
     }
 }

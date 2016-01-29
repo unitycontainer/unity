@@ -106,7 +106,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
             }
 
             var behaviors = interceptionBehaviors.ToList();
-            if (behaviors.Where(ib => ib == null).Count() > 0)
+            if (behaviors.Count(ib => ib == null) > 0)
             {
                 throw new ArgumentException(
                     string.Format(CultureInfo.CurrentCulture, Resources.NullBehavior),
@@ -252,7 +252,7 @@ namespace Microsoft.Practices.Unity.InterceptionExtension
 
             var behaviors = interceptionBehaviors.ToList();
 
-            if (behaviors.Where(ib => ib == null).Count() > 0)
+            if (behaviors.Count(ib => ib == null) > 0)
             {
                 throw new ArgumentException(
                     string.Format(CultureInfo.CurrentCulture, Resources.NullBehavior),

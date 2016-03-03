@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-namespace Microsoft.Practices.Unity.TestSupport
+#if !DNXCORE50
+namespace Unity.TestSupport
 {
     public partial class Wrappable : MarshalByRefObject
     {
@@ -15,3 +15,4 @@ namespace Microsoft.Practices.Unity.TestSupport
     {
     }
 }
+#endif

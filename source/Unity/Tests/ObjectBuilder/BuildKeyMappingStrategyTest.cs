@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -9,15 +9,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
-    [TestClass]
+     
     public class BuildKeyMappingStrategyTest
     {
-        [TestMethod]
+        [Fact]
         public void CanMapGenericsWithIdenticalGenericParameters()
         {
             MockBuilderContext context = new MockBuilderContext();
@@ -31,10 +31,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.BuildKey = new NamedTypeBuildKey<ITestType<int>>();
             context.Strategies.ExecuteBuildUp(context);
 
-            Assert.AreEqual(new NamedTypeBuildKey(typeof(ConcreteType<int>)), spy.BuildKey);
+            Assert.Equal(new NamedTypeBuildKey(typeof(ConcreteType<int>)), spy.BuildKey);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanMapGenericsWithANonTypeBuildKey()
         {
             MockBuilderContext context = new MockBuilderContext();
@@ -50,11 +50,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.Strategies.ExecuteBuildUp(context);
 
             AssertExtensions.IsInstanceOfType(spy.BuildKey, typeof(NamedTypeBuildKey));
-            Assert.AreEqual(typeof(ConcreteType<int>), spy.BuildKey.Type);
-            Assert.AreEqual("two", spy.BuildKey.Name);
+            Assert.Equal(typeof(ConcreteType<int>), spy.BuildKey.Type);
+            Assert.Equal("two", spy.BuildKey.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanMapInterfacesToConcreteTypes()
         {
             MockBuilderContext context = new MockBuilderContext();
@@ -67,10 +67,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.BuildKey = new NamedTypeBuildKey<ITestType>();
             context.Strategies.ExecuteBuildUp(context);
 
-            Assert.AreEqual(new NamedTypeBuildKey(typeof(ConcreteType)), spy.BuildKey);
+            Assert.True((new NamedTypeBuildKey(typeof(ConcreteType))).Equals(spy.BuildKey));
         }
 
-        [TestMethod]
+        [Fact]
         public void MappingStrategyActuallyReturnsTheBuildKeyThePolicySpecifies()
         {
             MockBuilderContext context = new MockBuilderContext();
@@ -86,7 +86,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.Strategies.ExecuteBuildUp(context);
 
             AssertExtensions.IsInstanceOfType(spy.BuildKey, typeof(NamedTypeBuildKey));
-            Assert.AreEqual(toKey, spy.BuildKey);
+            Assert.Equal(toKey, spy.BuildKey);
         }
 
         private class ConcreteType : ITestType { }

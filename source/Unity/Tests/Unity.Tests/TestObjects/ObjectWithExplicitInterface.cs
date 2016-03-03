@@ -1,15 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
 using NUnit.Framework;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests.TestObjects
+namespace Unity.Tests.TestObjects
 {
     public interface ISomeCommonProperties
     {
@@ -50,8 +50,8 @@ namespace Microsoft.Practices.Unity.Tests.TestObjects
 
         public void ValidateInterface()
         {
-            Assert.IsNotNull(logger);
-            Assert.IsNotNull(syncObject);
+            Assert.NotNull(logger);
+            Assert.NotNull(syncObject);
         }
     }
 }

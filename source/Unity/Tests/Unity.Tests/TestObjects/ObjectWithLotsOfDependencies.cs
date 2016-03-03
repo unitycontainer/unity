@@ -1,15 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
 using NUnit.Framework;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests.TestObjects
+namespace Unity.Tests.TestObjects
 {
     // An object that has constructor, property, and method injection dependencies.
     public class ObjectWithLotsOfDependencies
@@ -40,10 +40,10 @@ namespace Microsoft.Practices.Unity.Tests.TestObjects
 
         public void Validate()
         {
-            Assert.IsNotNull(ctorLogger);
-            Assert.IsNotNull(dep1);
-            Assert.IsNotNull(dep2);
-            Assert.IsNotNull(dep3);
+            Assert.NotNull(ctorLogger);
+            Assert.NotNull(dep1);
+            Assert.NotNull(dep2);
+            Assert.NotNull(dep3);
 
             dep1.Validate();
             dep2.Validate();

@@ -5,10 +5,10 @@ using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
 using NUnit.Framework;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests.TestObjects
+namespace Unity.Tests.TestObjects
 {
     // A class that contains another one which has another
     // constructor dependency. Used to validate recursive
@@ -29,7 +29,7 @@ namespace Microsoft.Practices.Unity.Tests.TestObjects
 
         public void Validate()
         {
-            Assert.IsNotNull(oneDep);
+            Assert.NotNull(oneDep);
             oneDep.Validate();
         }
     }

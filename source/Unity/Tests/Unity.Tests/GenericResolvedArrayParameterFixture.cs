@@ -2,7 +2,7 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -11,15 +11,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
-    [TestClass]
+     
     public class GenericResolvedArrayParameterFixture
     {
-        [TestMethod]
+        [Fact]
         public void MatchesArrayOfGenericTypeOnly()
         {
             InjectionParameterValue parameterValue = new GenericResolvedArrayParameter("T");
@@ -31,16 +31,16 @@ namespace Microsoft.Practices.Unity.Tests
                 = this.GetType().GetTypeInfo().GetDeclaredMethod("GetU")
                     .GetGenericArguments()[0];
 
-            Assert.IsFalse(parameterValue.MatchesType(genericTypeT));
-            Assert.IsFalse(parameterValue.MatchesType(genericTypeU));
-            Assert.IsFalse(parameterValue.MatchesType(typeof(object)));
-            Assert.IsTrue(parameterValue.MatchesType(genericTypeT.MakeArrayType(1)));
-            Assert.IsFalse(parameterValue.MatchesType(genericTypeT.MakeArrayType(2)));
-            Assert.IsFalse(parameterValue.MatchesType(genericTypeU.MakeArrayType(1)));
-            Assert.IsFalse(parameterValue.MatchesType(typeof(object[])));
+            Assert.False(parameterValue.MatchesType(genericTypeT));
+            Assert.False(parameterValue.MatchesType(genericTypeU));
+            Assert.False(parameterValue.MatchesType(typeof(object)));
+            Assert.True(parameterValue.MatchesType(genericTypeT.MakeArrayType(1)));
+            Assert.False(parameterValue.MatchesType(genericTypeT.MakeArrayType(2)));
+            Assert.False(parameterValue.MatchesType(genericTypeU.MakeArrayType(1)));
+            Assert.False(parameterValue.MatchesType(typeof(object[])));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanCallConstructorTakingGenericParameterArray()
         {
             IUnityContainer container = new UnityContainer()
@@ -57,13 +57,13 @@ namespace Microsoft.Practices.Unity.Tests
 
             ClassWithOneArrayGenericParameter<Account> result
                 = container.Resolve<ClassWithOneArrayGenericParameter<Account>>();
-            Assert.IsFalse(result.DefaultConstructorCalled);
-            Assert.AreEqual(2, result.InjectedValue.Length);
-            Assert.AreSame(a0, result.InjectedValue[0]);
-            Assert.AreSame(a1, result.InjectedValue[1]);
+            Assert.False(result.DefaultConstructorCalled);
+            Assert.Equal(2, result.InjectedValue.Length);
+            Assert.Same(a0, result.InjectedValue[0]);
+            Assert.Same(a1, result.InjectedValue[1]);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanCallConstructorTakingGenericParameterArrayWithValues()
         {
             IUnityContainer container = new UnityContainer()
@@ -84,13 +84,13 @@ namespace Microsoft.Practices.Unity.Tests
 
             ClassWithOneArrayGenericParameter<Account> result
                 = container.Resolve<ClassWithOneArrayGenericParameter<Account>>();
-            Assert.IsFalse(result.DefaultConstructorCalled);
-            Assert.AreEqual(2, result.InjectedValue.Length);
-            Assert.AreSame(a2, result.InjectedValue[0]);
-            Assert.AreSame(a1, result.InjectedValue[1]);
+            Assert.False(result.DefaultConstructorCalled);
+            Assert.Equal(2, result.InjectedValue.Length);
+            Assert.Same(a2, result.InjectedValue[0]);
+            Assert.Same(a1, result.InjectedValue[1]);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanSetPropertyWithGenericParameterArrayType()
         {
             IUnityContainer container = new UnityContainer()
@@ -107,13 +107,13 @@ namespace Microsoft.Practices.Unity.Tests
 
             ClassWithOneArrayGenericParameter<Account> result
                 = container.Resolve<ClassWithOneArrayGenericParameter<Account>>();
-            Assert.IsTrue(result.DefaultConstructorCalled);
-            Assert.AreEqual(2, result.InjectedValue.Length);
-            Assert.AreSame(a0, result.InjectedValue[0]);
-            Assert.AreSame(a1, result.InjectedValue[1]);
+            Assert.True(result.DefaultConstructorCalled);
+            Assert.Equal(2, result.InjectedValue.Length);
+            Assert.Same(a0, result.InjectedValue[0]);
+            Assert.Same(a1, result.InjectedValue[1]);
         }
 
-        [TestMethod]
+        [Fact]
         public void AppropriateExceptionIsThrownWhenNoMatchingConstructorCanBeFound()
         {
             AssertExtensions.AssertException<InvalidOperationException>(() =>

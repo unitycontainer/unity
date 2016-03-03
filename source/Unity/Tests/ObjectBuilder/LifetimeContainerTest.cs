@@ -9,21 +9,20 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
-    [TestClass]
+     
     public class LifetimeContainerTest
     {
-        [TestInitialize]
-        public void Setup()
+        public LifetimeContainerTest()
         {
             DisposeOrderCounter.ResetCount();
         }
 
-        [TestMethod]
+        [Fact]
         public void CanDetermineIfLifetimeContainerContainsObject()
         {
             ILifetimeContainer container = new LifetimeContainer();
@@ -31,10 +30,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             container.Add(obj);
 
-            Assert.IsTrue(container.Contains(obj));
+            Assert.True(container.Contains(obj));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanEnumerateItemsInContainer()
         {
             ILifetimeContainer container = new LifetimeContainer();
@@ -55,11 +54,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
                 }
             }
 
-            Assert.AreEqual(1, count);
-            Assert.IsTrue(foundMdo);
+            Assert.Equal(1, count);
+            Assert.True(foundMdo);
         }
 
-        [TestMethod]
+        [Fact]
         public void ContainerEnsuresObjectsWontBeCollected()
         {
             ILifetimeContainer container = new LifetimeContainer();
@@ -70,13 +69,13 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             mdo = null;
             GC.Collect();
 
-            Assert.AreEqual(1, container.Count);
+            Assert.Equal(1, container.Count);
             mdo = wref.Target as DisposableObject;
-            Assert.IsNotNull(mdo);
-            Assert.IsFalse(mdo.WasDisposed);
+            Assert.NotNull(mdo);
+            Assert.False(mdo.WasDisposed);
         }
 
-        [TestMethod]
+        [Fact]
         public void DisposingContainerDisposesOwnedObjects()
         {
             ILifetimeContainer container = new LifetimeContainer();
@@ -85,10 +84,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             container.Add(mdo);
             container.Dispose();
 
-            Assert.IsTrue(mdo.WasDisposed);
+            Assert.True(mdo.WasDisposed);
         }
 
-        [TestMethod]
+        [Fact]
         public void DisposingItemsFromContainerDisposesInReverseOrderAdded()
         {
             ILifetimeContainer container = new LifetimeContainer();
@@ -102,12 +101,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             container.Dispose();
 
-            Assert.AreEqual(1, obj3.DisposePosition);
-            Assert.AreEqual(2, obj2.DisposePosition);
-            Assert.AreEqual(3, obj1.DisposePosition);
+            Assert.Equal(1, obj3.DisposePosition);
+            Assert.Equal(2, obj2.DisposePosition);
+            Assert.Equal(3, obj1.DisposePosition);
         }
 
-        [TestMethod]
+        [Fact]
         public void RemovingItemsFromContainerDoesNotDisposeThem()
         {
             ILifetimeContainer container = new LifetimeContainer();
@@ -117,10 +116,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             container.Remove(mdo);
             container.Dispose();
 
-            Assert.IsFalse(mdo.WasDisposed);
+            Assert.False(mdo.WasDisposed);
         }
 
-        [TestMethod]
+        [Fact]
         public void RemovingNonContainedItemDoesNotThrow()
         {
             ILifetimeContainer container = new LifetimeContainer();

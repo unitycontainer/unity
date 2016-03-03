@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests.TestObjects
+namespace ObjectBuilder2.Tests.TestObjects
 {
     /// <summary>
     /// A simple class with only default constructor. A test

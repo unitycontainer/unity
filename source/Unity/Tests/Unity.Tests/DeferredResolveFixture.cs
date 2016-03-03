@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -11,28 +11,28 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     /// <summary>
     /// Summary description for DeferredResolveFixture
     /// </summary>
-    [TestClass]
+     
     public class DeferredResolveFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanResolveAFunc()
         {
             var container = new UnityContainer()
                 .RegisterType<ILogger, MockLogger>();
 
             var resolver = container.Resolve<Func<ILogger>>();
-            Assert.IsNotNull(resolver);
+            Assert.NotNull(resolver);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolvedFuncResolvesThroughContainer()
         {
             var container = new UnityContainer()
@@ -44,7 +44,7 @@ namespace Microsoft.Practices.Unity.Tests
             AssertExtensions.IsInstanceOfType(logger, typeof(MockLogger));
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolvedFuncGetsInjectedAsADependency()
         {
             var container = new UnityContainer()
@@ -52,11 +52,11 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = container.Resolve<ObjectThatGetsAResolver>();
 
-            Assert.IsNotNull(result.LoggerResolver);
+            Assert.NotNull(result.LoggerResolver);
             AssertExtensions.IsInstanceOfType(result.LoggerResolver(), typeof(MockLogger));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanResolveFuncWithName()
         {
             var container = new UnityContainer()
@@ -65,10 +65,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             var resolver = container.Resolve<Func<ILogger>>("special");
 
-            Assert.IsNotNull(resolver);
+            Assert.NotNull(resolver);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolvedFuncWithNameResolvedThroughContainerWithName()
         {
             var container = new UnityContainer();
@@ -80,11 +80,11 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = resolver();
 
-            Assert.IsNotNull(result);
+            Assert.NotNull(result);
             AssertExtensions.IsInstanceOfType(result, typeof(SpecialLogger));
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolvingFuncOfIEnumerableCallsResolveAll()
         {
             var container = new UnityContainer()

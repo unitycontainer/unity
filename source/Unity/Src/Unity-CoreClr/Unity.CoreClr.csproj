@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile344</TargetFrameworkProfile>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Practices.Unity</RootNamespace>
+    <AssemblyName>Microsoft.Practices.Unity</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ProjectGuid>{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}</ProjectGuid>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Desktop\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\bin\Desktop\Debug\Microsoft.Practices.Unity.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <CodeAnalysisRuleSet>..\..\Unity.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Desktop\Release</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\bin\Desktop\Release\Microsoft.Practices.Unity.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <CodeAnalysisRuleSet>..\..\Unity.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="ObjectBuilderCustomization\IRegisteredNamesPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\RegisteredNamesPolicy.cs" />
+    <Compile Include="GlobalAssemblyInfo.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Lazy\LazyDynamicMethodBuildPlanCreatorPolicy.cs" />
+    <Compile Include="Utility\TypeReflectionExtensions.cs" />
+    <Compile Include="Attributes\DependencyResolutionAttribute.cs" />
+    <Compile Include="Attributes\InjectionConstructorAttribute.cs" />
+    <Compile Include="Attributes\InjectionMethodAttribute.cs" />
+    <Compile Include="Attributes\DependencyAttribute.cs" />
+    <Compile Include="Attributes\OptionalDependencyAttribute.cs" />
+    <Compile Include="CompositeResolverOverride.cs" />
+    <Compile Include="ContainerRegistration.cs" />
+    <Compile Include="DependencyOverride.cs" />
+    <Compile Include="DependencyOverrides.cs" />
+    <Compile Include="Extension\ChildContainerCreatedEventArgs.cs" />
+    <Compile Include="Injection\GenericParameterBase.cs" />
+    <Compile Include="Injection\OptionalGenericParameter.cs" />
+    <Compile Include="Injection\InjectionFactory.cs" />
+    <Compile Include="Injection\OptionalParameter.cs" />
+    <Compile Include="Lifetime\HierarchicalLifetimeManager.cs" />
+    <Compile Include="Lifetime\PerResolveLifetimeManager.cs" />
+    <Compile Include="ObjectBuilderCustomization\HierarchicalLifetimeStrategy.cs" />
+    <Compile Include="ObjectBuilderCustomization\OptionalDependencyResolverPolicy.cs" />
+    <Compile Include="ObjectBuilder\Policies\PolicyListExtensions.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\BuildOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Factory\DeferredResolveBuildPlanPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\OverriddenBuildPlanMarkerPolicy.cs" />
+    <Compile Include="ObjectBuilder\Utility\EnumerableExtensions.cs" />
+    <Compile Include="ParameterOverride.cs" />
+    <Compile Include="ParameterOverrides.cs" />
+    <Compile Include="OverrideCollection.cs" />
+    <Compile Include="PropertyOverride.cs" />
+    <Compile Include="PropertyOverrides.cs" />
+    <Compile Include="ResolverOverride.cs" />
+    <Compile Include="StaticFactory\IStaticFactoryConfiguration.cs" />
+    <Compile Include="ObjectBuilder\BuilderContext.cs" />
+    <Compile Include="ObjectBuilder\Exceptions\DependencyMissingException.cs" />
+    <Compile Include="ObjectBuilder\Exceptions\IllegalInjectionMethodException.cs" />
+    <Compile Include="ObjectBuilder\IBuilderContext.cs" />
+    <Compile Include="ObjectBuilder\IRecoveryStack.cs" />
+    <Compile Include="ObjectBuilder\IRequiresRecovery.cs" />
+    <Compile Include="ObjectBuilder\Lifetime\ILifetimeContainer.cs" />
+    <Compile Include="ObjectBuilder\Lifetime\LifetimeContainer.cs" />
+    <Compile Include="ObjectBuilder\Policies\IBuilderPolicy.cs" />
+    <Compile Include="ObjectBuilder\Policies\IPolicyList.cs" />
+    <Compile Include="ObjectBuilder\Policies\PolicyList.cs" />
+    <Compile Include="ObjectBuilder\RecoveryStack.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuilderAware\BuilderAwareStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuilderAware\IBuilderAware.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuilderStage.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuilderStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildKeyMapping\BuildKeyMappingPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildKeyMapping\BuildKeyMappingStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildKeyMapping\GenericTypeBuildKeyMappingPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildKeyMapping\IBuildKeyMappingPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\BuildPlanStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Creation\ConstructorSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Creation\ConstructorSelectorPolicyBase.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Creation\IConstructorSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Creation\SelectedConstructor.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Creation\SelectedMemberWithParameters.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Creation\ConstructorArgumentResolveOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Creation\DynamicMethodConstructorStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Creation\InvokingConstructorOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\DynamicBuildPlanGenerationContext.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\DynamicMethodBuildPlan.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\DynamicMethodBuildPlanCreatorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Method\InvokingMethodOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Method\MethodArgumentResolveOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Method\DynamicMethodCallStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Property\PropertyOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Property\ResolvingPropertyValueOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Property\DynamicMethodPropertySetterStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Property\SettingPropertyOperation.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Factory\FactoryDelegateBuildPlanPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\IBuildPlanCreatorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\IBuildPlanPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Method\IMethodSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Method\MethodSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Method\MethodSelectorPolicyBase.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Method\SelectedMethod.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Property\IPropertySelectorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Property\PropertySelectorBase.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Property\PropertySelectorPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Property\SelectedProperty.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Resolution\DependencyResolverTrackerPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Resolution\FixedTypeResolverPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Resolution\IDependencyResolverPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\BuildPlan\Resolution\IDependencyResolverTrackerPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\IBuilderStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\IStagedStrategyChain.cs" />
+    <Compile Include="ObjectBuilder\Strategies\IStrategyChain.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Lifetime\ILifetimeFactoryPolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Lifetime\ILifetimePolicy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\Lifetime\LifetimeStrategy.cs" />
+    <Compile Include="ObjectBuilder\Strategies\StagedStrategyChain.cs" />
+    <Compile Include="ObjectBuilder\Strategies\StrategyChain.cs" />
+    <Compile Include="ObjectBuilder\Utility\NamedTypeBuildKey.cs" />
+    <Compile Include="ObjectBuilder\Utility\Sequence.cs" />
+    <Compile Include="StaticFactory\StaticFactoryExtension.cs" />
+    <Compile Include="TypeBasedOverride.cs" />
+    <Compile Include="UnityContainerExtensions.cs" />
+    <Compile Include="Extension\ExtensionContext.cs" />
+    <Compile Include="Extension\IUnityContainerExtensionConfigurator.cs" />
+    <Compile Include="Extension\NamedEventArgs.cs" />
+    <Compile Include="Extension\RegisterEventArgs.cs" />
+    <Compile Include="Extension\RegisterInstanceEventArgs.cs" />
+    <Compile Include="Extension\UnityContainerExtension.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Injection\GenericParameter.cs" />
+    <Compile Include="Injection\GenericResolvedArrayParameter.cs" />
+    <Compile Include="Injection\InjectedMembers.cs" />
+    <Compile Include="Injection\InjectionConstructor.cs" />
+    <Compile Include="Injection\InjectionMember.cs" />
+    <Compile Include="Injection\InjectionMethod.cs" />
+    <Compile Include="Injection\InjectionParameter.cs" />
+    <Compile Include="Injection\InjectionParameterValue.cs" />
+    <Compile Include="Injection\InjectionProperty.cs" />
+    <Compile Include="Injection\ResolvedArrayParameter.cs" />
+    <Compile Include="Injection\TypedInjectionValue.cs" />
+    <Compile Include="IUnityContainer.cs" />
+    <Compile Include="Lifetime\ContainerControlledLifetimeManager.cs" />
+    <Compile Include="Lifetime\ExternallyControlledLifetimeManager.cs" />
+    <Compile Include="Lifetime\LifetimeManager.cs" />
+    <Compile Include="Lifetime\LifetimeManagerFactory.cs" />
+    <Compile Include="Lifetime\PerThreadLifetimeManager.cs" />
+    <Compile Include="Lifetime\SynchronizedLifetimeManager.cs" />
+    <Compile Include="Lifetime\TransientLifetimeManager.cs" />
+    <Compile Include="ObjectBuilderCustomization\ArrayResolutionStrategy.cs" />
+    <Compile Include="ObjectBuilderCustomization\DefaultUnityConstructorSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\DefaultUnityMethodSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\DefaultUnityPropertySelectorPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\LiteralValueDependencyResolverPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\NamedTypeDependencyResolverPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\ResolvedArrayWithElementsResolverPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\SpecifiedConstructorSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\SpecifiedMemberSelectorHelper.cs" />
+    <Compile Include="ObjectBuilderCustomization\SpecifiedMethodsSelectorPolicy.cs" />
+    <Compile Include="ObjectBuilderCustomization\SpecifiedPropertiesSelectorPolicy.cs" />
+    <Compile Include="ResolutionFailedException.cs" />
+    <Compile Include="Injection\ResolvedParameter.cs" />
+    <Compile Include="UnityServiceLocator.cs" />
+    <Compile Include="Utility\Guard.cs" />
+    <Compile Include="NamedTypesRegistry.cs" />
+    <Compile Include="ObjectBuilderCustomization\UnityBuildStage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UnityContainer.cs" />
+    <Compile Include="UnityDefaultBehaviorExtension.cs" />
+    <Compile Include="UnityDefaultStrategiesExtension.cs" />
+    <Compile Include="Utility\MethodReflectionHelper.cs" />
+    <Compile Include="Utility\Pair.cs" />
+    <Compile Include="Utility\ParameterMatcher.cs" />
+    <Compile Include="Utility\ParameterReflectionHelper.cs" />
+    <Compile Include="Utility\ReflectionHelper.cs" />
+    <Compile Include="Utility\StaticReflection.cs" />
+    <None Include="..\..\Unity.licenseheader">
+      <Link>Unity.licenseheader</Link>
+    </None>
+    <None Include="packages.config" />
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="..\..\..\..\build\stylecop.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

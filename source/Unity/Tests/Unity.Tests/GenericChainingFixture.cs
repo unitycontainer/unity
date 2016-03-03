@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -12,17 +12,17 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     // Test fixture to verify generic object chaining.
     // Reported as a bug in http://www.codeplex.com/unity/Thread/View.aspx?ThreadId=27231
-    [TestClass]
+     
     public class GenericChainingFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanSpecializeGenericTypes()
         {
             IUnityContainer container = new UnityContainer()
@@ -31,7 +31,7 @@ namespace Microsoft.Practices.Unity.Tests
             AssertExtensions.IsInstanceOfType(cmd, typeof(ConcreteCommand<User>));
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfiguringConstructorThatTakesOpenGenericTypeDoesNotThrow()
         {
             IUnityContainer container = new UnityContainer()
@@ -39,7 +39,7 @@ namespace Microsoft.Practices.Unity.Tests
                     new InjectionConstructor(new ResolvedParameter(typeof(ICommand<>), "concrete")));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanChainGenericTypes()
         {
             IUnityContainer container = new UnityContainer()
@@ -50,11 +50,11 @@ namespace Microsoft.Practices.Unity.Tests
             ICommand<User> cmd = container.Resolve<ICommand<User>>();
             LoggingCommand<User> logCmd = (LoggingCommand<User>)cmd;
 
-            Assert.IsNotNull(logCmd.Inner);
+            Assert.NotNull(logCmd.Inner);
             AssertExtensions.IsInstanceOfType(logCmd.Inner, typeof(ConcreteCommand<User>));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanChainGenericTypesViaRegisterTypeMethod()
         {
             IUnityContainer container = new UnityContainer()
@@ -65,11 +65,11 @@ namespace Microsoft.Practices.Unity.Tests
             ICommand<User> cmd = container.Resolve<ICommand<User>>();
             LoggingCommand<User> logCmd = (LoggingCommand<User>)cmd;
 
-            Assert.IsNotNull(logCmd.Inner);
+            Assert.NotNull(logCmd.Inner);
             AssertExtensions.IsInstanceOfType(logCmd.Inner, typeof(ConcreteCommand<User>));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureGenericMethodInjectionInContainer()
         {
             IUnityContainer container = new UnityContainer()
@@ -80,7 +80,7 @@ namespace Microsoft.Practices.Unity.Tests
                 .RegisterType(typeof(ICommand<>), typeof(ConcreteCommand<>), "inner");
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfiguredGenericMethodInjectionIsCalled()
         {
             IUnityContainer container = new UnityContainer()
@@ -93,10 +93,10 @@ namespace Microsoft.Practices.Unity.Tests
             ICommand<Account> result = container.Resolve<ICommand<Account>>();
             LoggingCommand<Account> lc = (LoggingCommand<Account>)result;
 
-            Assert.IsTrue(lc.ChainedExecuteWasCalled);
+            Assert.True(lc.ChainedExecuteWasCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureInjectionForNonGenericMethodOnGenericClass()
         {
             IUnityContainer container = new UnityContainer();
@@ -107,10 +107,10 @@ namespace Microsoft.Practices.Unity.Tests
             ICommand<Account> result = container.Resolve<ICommand<Account>>();
             LoggingCommand<Account> logResult = (LoggingCommand<Account>)result;
 
-            Assert.IsTrue(logResult.WasInjected);
+            Assert.True(logResult.WasInjected);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanCallDefaultConstructorOnGeneric()
         {
             IUnityContainer container = new UnityContainer()
@@ -125,7 +125,7 @@ namespace Microsoft.Practices.Unity.Tests
             AssertExtensions.IsInstanceOfType(accountResult, typeof(LoggingCommand<Account>));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureInjectionForGenericProperty()
         {
             IUnityContainer container = new UnityContainer()
@@ -136,7 +136,7 @@ namespace Microsoft.Practices.Unity.Tests
                 .RegisterType(typeof(ICommand<>), typeof(ConcreteCommand<>), "inner");
         }
 
-        [TestMethod]
+        [Fact]
         public void GenericPropertyIsActuallyInjected()
         {
             IUnityContainer container = new UnityContainer()
@@ -150,11 +150,11 @@ namespace Microsoft.Practices.Unity.Tests
 
             LoggingCommand<Account> actualResult = (LoggingCommand<Account>)result;
 
-            Assert.IsNotNull(actualResult.Inner);
+            Assert.NotNull(actualResult.Inner);
             AssertExtensions.IsInstanceOfType(actualResult.Inner, typeof(ConcreteCommand<Account>));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanInjectNonGenericPropertyOnGenericClass()
         {
             IUnityContainer container = new UnityContainer()
@@ -162,10 +162,10 @@ namespace Microsoft.Practices.Unity.Tests
                     new InjectionProperty("NonGenericProperty"));
 
             ConcreteCommand<User> result = (ConcreteCommand<User>)(container.Resolve<ICommand<User>>());
-            Assert.IsNotNull(result.NonGenericProperty);
+            Assert.NotNull(result.NonGenericProperty);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanInjectNestedGenerics()
         {
             IUnityContainer container = new UnityContainer()
@@ -176,11 +176,11 @@ namespace Microsoft.Practices.Unity.Tests
             var cmd = container.Resolve<ICommand<Customer?>>();
             var logCmd = (LoggingCommand<Customer?>)cmd;
 
-            Assert.IsNotNull(logCmd.Inner);
+            Assert.NotNull(logCmd.Inner);
             AssertExtensions.IsInstanceOfType(logCmd.Inner, typeof(ConcreteCommand<Customer?>));
         }
 
-        [TestMethod]
+        [Fact]
         public void ContainerControlledOpenGenericsAreDisposed()
         {
             var container = new UnityContainer()
@@ -192,8 +192,8 @@ namespace Microsoft.Practices.Unity.Tests
 
             container.Dispose();
 
-            Assert.IsTrue(((DisposableCommand<Account>)accountCommand).Disposed);
-            Assert.IsTrue(((DisposableCommand<User>)userCommand).Disposed);
+            Assert.True(((DisposableCommand<Account>)accountCommand).Disposed);
+            Assert.True(((DisposableCommand<User>)userCommand).Disposed);
         }
     }
 

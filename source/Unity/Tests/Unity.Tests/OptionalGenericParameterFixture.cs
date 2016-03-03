@@ -9,19 +9,19 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     /// <summary>
     /// Tests that use the GenericParameter class to ensure that
     /// generic object injection works.
     /// </summary>
-    [TestClass]
+     
     public class OptionalGenericParameterFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanCallConstructorTakingGenericParameterWithResolvableOptional()
         {
             IUnityContainer container = new UnityContainer()
@@ -33,10 +33,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             ClassWithOneGenericParameter<Account> result = container.Resolve<ClassWithOneGenericParameter<Account>>();
 
-            Assert.AreSame(a, result.InjectedValue);
+            Assert.Same(a, result.InjectedValue);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanCallConstructorTakingGenericParameterWithNonResolvableOptional()
         {
             IUnityContainer container = new UnityContainer()
@@ -45,10 +45,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = container.Resolve<ClassWithOneGenericParameter<IComparable>>();
 
-            Assert.IsNull(result.InjectedValue);
+            Assert.Null(result.InjectedValue);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfiguredNamedResolutionOfOptionalGenericParameter()
         {
             IUnityContainer container = new UnityContainer()
@@ -61,7 +61,7 @@ namespace Microsoft.Practices.Unity.Tests
             container.RegisterInstance<Account>("named", named);
 
             ClassWithOneGenericParameter<Account> result = container.Resolve<ClassWithOneGenericParameter<Account>>();
-            Assert.AreSame(named, result.InjectedValue);
+            Assert.Same(named, result.InjectedValue);
         }
 
         // Our various test objects

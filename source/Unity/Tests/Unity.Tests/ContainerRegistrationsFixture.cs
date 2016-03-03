@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -11,64 +11,63 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     /// <summary>
     /// Summary description for ContainerRegistrationsFixture
     /// </summary>
-    [TestClass]
+     
     public class ContainerRegistrationsFixture
     {
         private IUnityContainer container;
 
-        [TestInitialize]
-        public void Setup()
+        public ContainerRegistrationsFixture()
         {
             container = new UnityContainer();
         }
 
-        [TestMethod]
+        [Fact]
         public void ContainerListsItselfAsRegistered()
         {
-            Assert.IsTrue(container.IsRegistered(typeof(IUnityContainer)));
+            Assert.True(container.IsRegistered(typeof(IUnityContainer)));
         }
 
-        [TestMethod]
+        [Fact]
         public void ContainerDoesNotListItselfUnderNonDefaultName()
         {
-            Assert.IsFalse(container.IsRegistered(typeof(IUnityContainer), "other"));
+            Assert.False(container.IsRegistered(typeof(IUnityContainer), "other"));
         }
 
-        [TestMethod]
+        [Fact]
         public void ContainerListsItselfAsRegisteredUsingGenericOverload()
         {
-            Assert.IsTrue(container.IsRegistered<IUnityContainer>());
+            Assert.True(container.IsRegistered<IUnityContainer>());
         }
 
-        [TestMethod]
+        [Fact]
         public void ContainerDoesNotListItselfUnderNonDefaultNameUsingGenericOverload()
         {
-            Assert.IsFalse(container.IsRegistered<IUnityContainer>("other"));
+            Assert.False(container.IsRegistered<IUnityContainer>("other"));
         }
 
-        [TestMethod]
+        [Fact]
         public void IsRegisteredWorksForRegisteredType()
         {
             container.RegisterType<ILogger, MockLogger>();
 
-            Assert.IsTrue(container.IsRegistered<ILogger>());
+            Assert.True(container.IsRegistered<ILogger>());
         }
 
-        [TestMethod]
+        [Fact]
         public void ContainerIncludesItselfUnderRegistrations()
         {
-            Assert.IsNotNull(container.Registrations.Where(r => r.RegisteredType == typeof(IUnityContainer)).FirstOrDefault());
+            Assert.NotNull(container.Registrations.Where(r => r.RegisteredType == typeof(IUnityContainer)).FirstOrDefault());
         }
 
-        [TestMethod]
+        [Fact]
         public void NewRegistrationsShowUpInRegistrationsSequence()
         {
             container.RegisterType<ILogger, MockLogger>()
@@ -78,23 +77,23 @@ namespace Microsoft.Practices.Unity.Tests
                                  where r.RegisteredType == typeof(ILogger)
                                  select r).ToList();
 
-            Assert.AreEqual(2, registrations.Count);
+            Assert.Equal(2, registrations.Count);
 
-            Assert.IsTrue(registrations.Any(r => r.Name == null));
-            Assert.IsTrue(registrations.Any(r => r.Name == "second"));
+            Assert.True(registrations.Any(r => r.Name == null));
+            Assert.True(registrations.Any(r => r.Name == "second"));
         }
 
-        [TestMethod]
+        [Fact]
         public void TypeMappingShowsUpInRegistrationsCorrectly()
         {
             container.RegisterType<ILogger, MockLogger>();
 
             var registration =
                 (from r in container.Registrations where r.RegisteredType == typeof(ILogger) select r).First();
-            Assert.AreSame(typeof(MockLogger), registration.MappedToType);
+            Assert.Same(typeof(MockLogger), registration.MappedToType);
         }
 
-        [TestMethod]
+        [Fact]
         public void NonMappingRegistrationShowsUpInRegistrationsSequence()
         {
             container.RegisterType<MockLogger>();
@@ -102,21 +101,21 @@ namespace Microsoft.Practices.Unity.Tests
                                 where r.RegisteredType == typeof(MockLogger)
                                 select r).First();
 
-            Assert.AreSame(registration.RegisteredType, registration.MappedToType);
-            Assert.IsNull(registration.Name);
+            Assert.Same(registration.RegisteredType, registration.MappedToType);
+            Assert.Null(registration.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void RegistrationOfOpenGenericTypeShowsUpInRegistrationsSequence()
         {
             container.RegisterType(typeof(IDictionary<,>), typeof(Dictionary<,>), "test");
             var registration = container.Registrations.First(r => r.RegisteredType == typeof(IDictionary<,>));
 
-            Assert.AreSame(typeof(Dictionary<,>), registration.MappedToType);
-            Assert.AreEqual("test", registration.Name);
+            Assert.Same(typeof(Dictionary<,>), registration.MappedToType);
+            Assert.Equal("test", registration.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void RegistrationsInParentContainerAppearInChild()
         {
             container.RegisterType<ILogger, MockLogger>();
@@ -125,10 +124,10 @@ namespace Microsoft.Practices.Unity.Tests
             var registration =
                 (from r in child.Registrations where r.RegisteredType == typeof(ILogger) select r).First();
 
-            Assert.AreSame(typeof(MockLogger), registration.MappedToType);
+            Assert.Same(typeof(MockLogger), registration.MappedToType);
         }
 
-        [TestMethod]
+        [Fact]
         public void RegistrationsInChildContainerDoNotAppearInParent()
         {
             var child = container.CreateChildContainer()
@@ -138,11 +137,11 @@ namespace Microsoft.Practices.Unity.Tests
             var parentRegistration =
                 container.Registrations.Where(r => r.RegisteredType == typeof(ILogger)).FirstOrDefault();
 
-            Assert.IsNull(parentRegistration);
-            Assert.IsNotNull(childRegistration);
+            Assert.Null(parentRegistration);
+            Assert.NotNull(childRegistration);
         }
 
-        [TestMethod]
+        [Fact]
         public void DuplicateRegistrationsInParentAndChildOnlyShowUpOnceInChild()
         {
             container.RegisterType<ILogger, MockLogger>("one");
@@ -154,11 +153,11 @@ namespace Microsoft.Practices.Unity.Tests
                                 where r.RegisteredType == typeof(ILogger)
                                 select r;
 
-            Assert.AreEqual(1, registrations.Count());
+            Assert.Equal(1, registrations.Count());
 
             var childRegistration = registrations.First();
-            Assert.AreSame(typeof(SpecialLogger), childRegistration.MappedToType);
-            Assert.AreEqual("one", childRegistration.Name);
+            Assert.Same(typeof(SpecialLogger), childRegistration.MappedToType);
+            Assert.Equal("one", childRegistration.Name);
         }
     }
 }

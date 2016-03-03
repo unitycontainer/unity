@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles
+namespace ObjectBuilder2.Tests.TestDoubles
 {
     public class ExceptionThrowingTestResolverPolicy : IDependencyResolverPolicy
     {

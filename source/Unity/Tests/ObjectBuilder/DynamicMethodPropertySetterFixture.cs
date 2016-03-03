@@ -4,19 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.TestSupport;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DependencyAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.DependencyAttribute;
-using InjectionConstructorAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
+using ObjectBuilder2.Tests.TestDoubles;
+using Unity;
+using Unity.TestSupport;
+using Xunit;
+using DependencyAttribute = ObjectBuilder2.Tests.TestDoubles.DependencyAttribute;
+using InjectionConstructorAttribute = ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
-    [TestClass]
+     
     public class DynamicMethodPropertySetterFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanInjectProperties()
         {
             MockBuilderContext context = GetContext();
@@ -33,11 +33,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.BuildKey = new NamedTypeBuildKey(typeof(OnePropertyClass));
             plan.BuildUp(context);
 
-            Assert.IsNotNull(existing.Key);
-            Assert.AreSame(existingObject, existing.Key);
+            Assert.NotNull(existing.Key);
+            Assert.Same(existingObject, existing.Key);
         }
 
-        [TestMethod]
+        [Fact]
         public void TheCurrentOperationIsNullAfterSuccessfullyExecutingTheBuildPlan()
         {
             MockBuilderContext context = GetContext();
@@ -48,10 +48,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
             plan.BuildUp(context);
 
-            Assert.IsNull(context.CurrentOperation);
+            Assert.Null(context.CurrentOperation);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolvingAPropertyValueSetsTheCurrentOperation()
         {
             var resolverPolicy = new CurrentOperationSensingResolverPolicy<object>();
@@ -68,10 +68,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
             plan.BuildUp(context);
 
-            Assert.IsNotNull(resolverPolicy.CurrentOperation);
+            Assert.NotNull(resolverPolicy.CurrentOperation);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExceptionThrownWhileResolvingAPropertyValueIsBubbledUpAndTheCurrentOperationIsNotCleared()
         {
             var exception = new ArgumentException();
@@ -91,20 +91,20 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 plan.BuildUp(context);
-                Assert.Fail("failure expected");
+                Assert.True(false, string.Format("failure expected"));
             }
             catch (Exception e)
             {
-                Assert.AreSame(exception, e);
+                Assert.Same(exception, e);
 
                 var operation = (ResolvingPropertyValueOperation)context.CurrentOperation;
-                Assert.IsNotNull(operation);
-                Assert.AreSame(typeof(OnePropertyClass), operation.TypeBeingConstructed);
-                Assert.AreEqual("Key", operation.PropertyName);
+                Assert.NotNull(operation);
+                Assert.Same(typeof(OnePropertyClass), operation.TypeBeingConstructed);
+                Assert.Equal("Key", operation.PropertyName);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ExceptionThrownWhileSettingAPropertyIsBubbledUpAndTheCurrentOperationIsNotCleared()
         {
             MockBuilderContext context = GetContext();
@@ -118,16 +118,16 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 plan.BuildUp(context);
-                Assert.Fail("failure expected");
+                Assert.True(false, string.Format("failure expected"));
             }
             catch (Exception e)
             {
-                Assert.AreSame(OneExceptionThrowingPropertyClass.PropertySetterException, e);
+                Assert.Same(OneExceptionThrowingPropertyClass.PropertySetterException, e);
                 var operation = (SettingPropertyOperation)context.CurrentOperation;
-                Assert.IsNotNull(operation);
+                Assert.NotNull(operation);
 
-                Assert.AreSame(typeof(OneExceptionThrowingPropertyClass), operation.TypeBeingConstructed);
-                Assert.AreEqual("Key", operation.PropertyName);
+                Assert.Same(typeof(OneExceptionThrowingPropertyClass), operation.TypeBeingConstructed);
+                Assert.Equal("Key", operation.PropertyName);
             }
         }
 

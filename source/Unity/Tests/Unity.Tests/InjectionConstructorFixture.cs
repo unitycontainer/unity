@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.ObjectBuilder;
-using Microsoft.Practices.Unity.TestSupport;
+using ObjectBuilder2;
+using Unity.ObjectBuilder;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -12,15 +12,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
-    [TestClass]
+     
     public class InjectionConstructorFixture
     {
-        [TestMethod]
+        [Fact]
         public void InjectionConstructorInsertsChooserForDefaultConstructor()
         {
             var ctor = new InjectionConstructor();
@@ -36,11 +36,11 @@ namespace Microsoft.Practices.Unity.Tests
                 new NamedTypeBuildKey(typeof(GuineaPig)));
 
             SelectedConstructor selected = selector.SelectConstructor(context, policies);
-            Assert.AreEqual(typeof(GuineaPig).GetMatchingConstructor(new Type[0]), selected.Constructor);
-            Assert.AreEqual(0, selected.GetParameterResolvers().Length);
+            Assert.Equal(typeof(GuineaPig).GetMatchingConstructor(new Type[0]), selected.Constructor);
+            Assert.Equal(0, selected.GetParameterResolvers().Length);
         }
 
-        [TestMethod]
+        [Fact]
         public void InjectionConstructorInsertsChooserForConstructorWithParameters()
         {
             string expectedString = "Hello";
@@ -61,14 +61,14 @@ namespace Microsoft.Practices.Unity.Tests
             SelectedConstructor selected = selector.SelectConstructor(context, policies);
             var resolvers = selected.GetParameterResolvers();
 
-            Assert.AreEqual(typeof(GuineaPig).GetMatchingConstructor(Sequence.Collect(typeof(string), typeof(int))), selected.Constructor);
-            Assert.AreEqual(2, resolvers.Length);
+            Assert.Equal(typeof(GuineaPig).GetMatchingConstructor(Sequence.Collect(typeof(string), typeof(int))), selected.Constructor);
+            Assert.Equal(2, resolvers.Length);
 
-            Assert.AreEqual(expectedString, (string)resolvers[0].Resolve(null));
-            Assert.AreEqual(expectedInt, (int)resolvers[1].Resolve(null));
+            Assert.Equal(expectedString, (string)resolvers[0].Resolve(null));
+            Assert.Equal(expectedInt, (int)resolvers[1].Resolve(null));
         }
 
-        [TestMethod]
+        [Fact]
         public void InjectionConstructorSetsResolverForInterfaceToLookupInContainer()
         {
             var ctor = new InjectionConstructor("Logger", typeof(ILogger));
@@ -84,14 +84,14 @@ namespace Microsoft.Practices.Unity.Tests
             SelectedConstructor selected = selector.SelectConstructor(context, policies);
             var resolvers = selected.GetParameterResolvers();
 
-            Assert.AreEqual(typeof(GuineaPig).GetMatchingConstructor(Sequence.Collect(typeof(string), typeof(ILogger))), selected.Constructor);
-            Assert.AreEqual(2, resolvers.Length);
+            Assert.Equal(typeof(GuineaPig).GetMatchingConstructor(Sequence.Collect(typeof(string), typeof(ILogger))), selected.Constructor);
+            Assert.Equal(2, resolvers.Length);
 
             var policy = resolvers[1];
-            Assert.IsTrue(policy is NamedTypeDependencyResolverPolicy);
+            Assert.True(policy is NamedTypeDependencyResolverPolicy);
         }
 
-        [TestMethod]
+        [Fact]
         public void InjectionConstructorThrowsIfNoMatchingConstructor()
         {
             InjectionConstructor ctor = new InjectionConstructor(typeof(double));

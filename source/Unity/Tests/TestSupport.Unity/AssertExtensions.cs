@@ -8,10 +8,10 @@ using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
 using NUnit.Framework;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.TestSupport
+namespace Unity.TestSupport
 {
     public static class AssertExtensions
     {
@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.TestSupport
             try
             {
                 action();
-                Assert.Fail("Expected exception of type {0}", typeof(TException).GetTypeInfo().Name);
+                Assert.True(false, String.Format("Expected exception of type {0}", typeof(TException).GetTypeInfo().Name));
             }
             catch (TException e)
             {
@@ -37,9 +37,9 @@ namespace Microsoft.Practices.Unity.TestSupport
 
         public static void IsInstanceOfType(object value, Type expectedType)
         {
-            Assert.IsNotNull(value, "value should not be null");
-            Assert.IsNotNull(value, "expectedType should not be null");
-            Assert.IsTrue(expectedType.GetTypeInfo().IsAssignableFrom(value.GetType().GetTypeInfo()));
+            Assert.NotNull(value);
+            Assert.NotNull(expectedType);
+            Assert.True(expectedType.GetTypeInfo().IsAssignableFrom(value.GetType().GetTypeInfo()));
         }
     }
 }

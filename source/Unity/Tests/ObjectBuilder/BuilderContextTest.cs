@@ -9,44 +9,43 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
-    [TestClass]
+     
     public class BuilderContextTest : IBuilderStrategy
     {
         private IBuilderContext parentContext, childContext, receivedContext;
         private bool throwOnBuildUp;
-
-        [TestInitialize]
-        public void SetUp()
+        
+        public BuilderContextTest()
         {
             this.throwOnBuildUp = false;
         }
 
-        [TestMethod]
+        [Fact]
         public void NewBuildSetsChildContextWhileBuilding()
         {
             this.parentContext = new BuilderContext(GetNonThrowingStrategyChain(), null, null, null, null, null);
 
             this.parentContext.NewBuildUp(null);
 
-            Assert.AreSame(this.childContext, this.receivedContext);
+            Assert.Same(this.childContext, this.receivedContext);
         }
 
-        [TestMethod]
+        [Fact]
         public void NewBuildClearsTheChildContextOnSuccess()
         {
             this.parentContext = new BuilderContext(GetNonThrowingStrategyChain(), null, null, null, null, null);
 
             this.parentContext.NewBuildUp(null);
 
-            Assert.IsNull(this.parentContext.ChildContext);
+            Assert.Null(this.parentContext.ChildContext);
         }
 
-        [TestMethod]
+        [Fact]
         public void NewBuildDoesNotClearTheChildContextOnFailure()
         {
             this.parentContext = new BuilderContext(GetThrowingStrategyChain(), null, null, null, null, null);
@@ -54,12 +53,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 this.parentContext.NewBuildUp(null);
-                Assert.Fail("an exception should have been thrown here");
+                Assert.True(false, string.Format("an exception should have been thrown here"));
             }
             catch (Exception)
             {
-                Assert.IsNotNull(this.parentContext.ChildContext);
-                Assert.AreSame(this.parentContext.ChildContext, this.receivedContext);
+                Assert.NotNull(this.parentContext.ChildContext);
+                Assert.Same(this.parentContext.ChildContext, this.receivedContext);
             }
         }
 

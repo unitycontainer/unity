@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -10,15 +10,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
-    [TestClass]
+     
     public class MethodInjectionFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanInjectMethodReturningVoid()
         {
             IUnityContainer container = new UnityContainer()
@@ -27,10 +27,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             GuineaPig pig = container.Resolve<GuineaPig>();
 
-            Assert.AreEqual("Hello", pig.StringValue);
+            Assert.Equal("Hello", pig.StringValue);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanInjectMethodReturningInt()
         {
             IUnityContainer container = new UnityContainer()
@@ -39,10 +39,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             GuineaPig pig = container.Resolve<GuineaPig>();
 
-            Assert.AreEqual(17, pig.IntValue);
+            Assert.Equal(17, pig.IntValue);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureMultipleMethods()
         {
             IUnityContainer container = new UnityContainer()
@@ -52,20 +52,20 @@ namespace Microsoft.Practices.Unity.Tests
 
             GuineaPig pig = container.Resolve<GuineaPig>();
 
-            Assert.AreEqual(37, pig.IntValue);
-            Assert.AreEqual("Hi there", pig.StringValue);
+            Assert.Equal(37, pig.IntValue);
+            Assert.Equal("Hi there", pig.StringValue);
         }
 
-        [TestMethod]
+        [Fact]
         public void StaticMethodsShouldNotBeInjected()
         {
             IUnityContainer container = new UnityContainer();
 
             GuineaPig pig = container.Resolve<GuineaPig>();
-            Assert.IsFalse(GuineaPig.StaticMethodWasCalled);
+            Assert.False(GuineaPig.StaticMethodWasCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void ContainerThrowsWhenConfiguringStaticMethodForInjection()
         {
             AssertExtensions.AssertException<InvalidOperationException>(() =>

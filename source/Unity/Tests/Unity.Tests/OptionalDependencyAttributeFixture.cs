@@ -8,15 +8,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     /// <summary>
     /// Summary description for OptionalDependencyAttributeFixture
     /// </summary>
-    [TestClass]
+     
     public class OptionalDependencyAttributeFixture
     {
         public void OptionalDependencyParametersAreInjectedWithNull()
@@ -24,10 +24,10 @@ namespace Microsoft.Practices.Unity.Tests
             IUnityContainer container = new UnityContainer();
 
             var result = container.Resolve<ObjectWithOptionalConstructorParameter>();
-            Assert.IsNull(result.SomeInterface);
+            Assert.Null(result.SomeInterface);
         }
 
-        [TestMethod]
+        [Fact]
         public void OptionalDependencyParameterIsResolvedIfRegisteredInContainer()
         {
             ISomeInterface expectedSomeInterface = new SomeInterfaceMock();
@@ -36,10 +36,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = container.Resolve<ObjectWithOptionalConstructorParameter>();
 
-            Assert.AreSame(expectedSomeInterface, result.SomeInterface);
+            Assert.Same(expectedSomeInterface, result.SomeInterface);
         }
 
-        [TestMethod]
+        [Fact]
         public void OptionalDependencyParameterIsResolvedByName()
         {
             ISomeInterface namedSomeInterface = new SomeInterfaceMock();
@@ -51,20 +51,20 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = container.Resolve<ObjectWithNamedOptionalConstructorParameter>();
 
-            Assert.AreSame(namedSomeInterface, result.SomeInterface);
+            Assert.Same(namedSomeInterface, result.SomeInterface);
         }
 
-        [TestMethod]
+        [Fact]
         public void OptionalPropertiesGetNullWhenNotConfigured()
         {
             IUnityContainer container = new UnityContainer();
 
             var result = container.Resolve<ObjectWithOptionalProperty>();
 
-            Assert.IsNull(result.SomeInterface);
+            Assert.Null(result.SomeInterface);
         }
 
-        [TestMethod]
+        [Fact]
         public void OptionalPropertiesAreInjectedWhenRegisteredInContainer()
         {
             ISomeInterface expected = new SomeInterfaceMock();
@@ -73,10 +73,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = container.Resolve<ObjectWithOptionalProperty>();
 
-            Assert.AreSame(expected, result.SomeInterface);
+            Assert.Same(expected, result.SomeInterface);
         }
 
-        [TestMethod]
+        [Fact]
         public void OptionalPropertiesAreInjectedByName()
         {
             ISomeInterface namedSomeInterface = new SomeInterfaceMock();
@@ -88,7 +88,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = container.Resolve<ObjectWithNamedOptionalProperty>();
 
-            Assert.AreSame(namedSomeInterface, result.SomeInterface);
+            Assert.Same(namedSomeInterface, result.SomeInterface);
         }
 
         public class SomeInterfaceMock : ISomeInterface

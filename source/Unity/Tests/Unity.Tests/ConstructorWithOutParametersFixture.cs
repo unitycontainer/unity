@@ -8,15 +8,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
-    [TestClass]
+     
     public class ConstructorWithOutAndRefParametersFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanBuildUpExistingObjectOnTypeWithCtorWithRefParameter()
         {
             IUnityContainer container =
@@ -27,10 +27,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             container.BuildUp(instance);
 
-            Assert.AreEqual(10, instance.Property);
+            Assert.Equal(10, instance.Property);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanBuildUpExistingObjectOnTypeWithCtorWithOutParameter()
         {
             IUnityContainer container =
@@ -41,10 +41,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             container.BuildUp(instance);
 
-            Assert.AreEqual(10, instance.Property);
+            Assert.Equal(10, instance.Property);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolvingANewInstanceOfTypeWithCtorWithRefParameterThrows()
         {
             IUnityContainer container = new UnityContainer();
@@ -52,7 +52,7 @@ namespace Microsoft.Practices.Unity.Tests
             try
             {
                 TypeWithConstructorWithRefParameter instance = container.Resolve<TypeWithConstructorWithRefParameter>();
-                Assert.Fail("should have thrown");
+                Assert.True(false, string.Format("should have thrown"));
             }
             catch (ResolutionFailedException)
             {
@@ -60,7 +60,7 @@ namespace Microsoft.Practices.Unity.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolvingANewInstanceOfTypeWithCtorWithOutParameterThrows()
         {
             IUnityContainer container = new UnityContainer();
@@ -68,7 +68,7 @@ namespace Microsoft.Practices.Unity.Tests
             try
             {
                 TypeWithConstructorWithOutParameter instance = container.Resolve<TypeWithConstructorWithOutParameter>();
-                Assert.Fail("should have thrown");
+                Assert.True(false, string.Format("should have thrown"));
             }
             catch (ResolutionFailedException)
             {

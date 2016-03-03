@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -10,25 +10,25 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
-    [TestClass]
+     
     public class InjectedMembersFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanConfigureContainerToCallDefaultConstructor()
         {
             IUnityContainer container = new UnityContainer()
                 .RegisterType<GuineaPig>(new InjectionConstructor());
 
             GuineaPig pig = container.Resolve<GuineaPig>();
-            Assert.IsTrue(pig.DefaultConstructorCalled);
+            Assert.True(pig.DefaultConstructorCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureContainerToCallConstructorWithValues()
         {
             int expectedInt = 37;
@@ -40,13 +40,13 @@ namespace Microsoft.Practices.Unity.Tests
                             new InjectionConstructor(expectedInt, expectedString, expectedDouble));
 
             GuineaPig pig = container.Resolve<GuineaPig>();
-            Assert.IsTrue(pig.ThreeArgumentConstructorCalled);
-            Assert.AreEqual(expectedInt, pig.I);
-            Assert.AreEqual(expectedDouble, pig.D);
-            Assert.AreEqual(expectedString, pig.S);
+            Assert.True(pig.ThreeArgumentConstructorCalled);
+            Assert.Equal(expectedInt, pig.I);
+            Assert.Equal(expectedDouble, pig.D);
+            Assert.Equal(expectedString, pig.S);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureContainerToInjectProperty()
         {
             object expectedObject = new object();
@@ -58,11 +58,11 @@ namespace Microsoft.Practices.Unity.Tests
                         new InjectionProperty("ObjectProperty"));
 
             GuineaPig pig = container.Resolve<GuineaPig>();
-            Assert.IsTrue(pig.DefaultConstructorCalled);
-            Assert.AreSame(expectedObject, pig.ObjectProperty);
+            Assert.True(pig.DefaultConstructorCalled);
+            Assert.Same(expectedObject, pig.ObjectProperty);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureContainerToInjectPropertyWithValue()
         {
             int expectedInt = 82;
@@ -74,11 +74,11 @@ namespace Microsoft.Practices.Unity.Tests
 
             GuineaPig pig = container.Resolve<GuineaPig>();
 
-            Assert.IsTrue(pig.DefaultConstructorCalled);
-            Assert.AreEqual(expectedInt, pig.IntProperty);
+            Assert.True(pig.DefaultConstructorCalled);
+            Assert.Equal(expectedInt, pig.IntProperty);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureInjectionByNameWithoutUsingGenerics()
         {
             object expectedObjectZero = new object();
@@ -96,14 +96,14 @@ namespace Microsoft.Practices.Unity.Tests
             GuineaPig pigZero = container.Resolve<GuineaPig>();
             GuineaPig pigOne = container.Resolve<GuineaPig>("one");
 
-            Assert.IsTrue(pigZero.DefaultConstructorCalled);
-            Assert.AreSame(expectedObjectZero, pigZero.ObjectProperty);
-            Assert.IsTrue(pigOne.OneArgumentConstructorCalled);
-            Assert.AreSame(expectedObjectOne, pigOne.ObjectProperty);
-            Assert.AreEqual(35, pigOne.IntProperty);
+            Assert.True(pigZero.DefaultConstructorCalled);
+            Assert.Same(expectedObjectZero, pigZero.ObjectProperty);
+            Assert.True(pigOne.OneArgumentConstructorCalled);
+            Assert.Same(expectedObjectOne, pigOne.ObjectProperty);
+            Assert.Equal(35, pigOne.IntProperty);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureInjectionWithGenericProperty()
         {
             IUnityContainer container = new UnityContainer()
@@ -113,10 +113,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             GenericGuineaPig<int> pig = container.Resolve<GenericGuineaPig<int>>();
 
-            Assert.AreEqual(35, pig.GenericProperty);
+            Assert.Equal(35, pig.GenericProperty);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureContainerToDoMethodInjection()
         {
             string expectedString = "expected string";
@@ -128,11 +128,11 @@ namespace Microsoft.Practices.Unity.Tests
 
             GuineaPig pig = container.Resolve<GuineaPig>();
 
-            Assert.IsTrue(pig.DefaultConstructorCalled);
-            Assert.AreEqual(expectedString, pig.S);
+            Assert.True(pig.DefaultConstructorCalled);
+            Assert.Equal(expectedString, pig.S);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfiguringInjectionAfterResolvingTakesEffect()
         {
             IUnityContainer container = new UnityContainer()
@@ -145,10 +145,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             GuineaPig pig2 = container.Resolve<GuineaPig>();
 
-            Assert.AreEqual("someValue", pig2.ObjectProperty.ToString());
+            Assert.Equal("someValue", pig2.ObjectProperty.ToString());
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfiguringInjectionConstructorThatDoesNotExistThrows()
         {
             IUnityContainer container = new UnityContainer();
@@ -160,7 +160,7 @@ namespace Microsoft.Practices.Unity.Tests
                 });
         }
 
-        [TestMethod]
+        [Fact]
         public void RegisterTypeThrowsIfTypeIsNull()
         {
             IUnityContainer container = new UnityContainer();

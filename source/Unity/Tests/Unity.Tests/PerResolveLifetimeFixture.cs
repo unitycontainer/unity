@@ -8,18 +8,18 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     /// <summary>
     /// Summary description for PerResolveLifetimeFixture
     /// </summary>
-    [TestClass]
+     
     public class PerResolveLifetimeFixture
     {
-        [TestMethod]
+        [Fact]
         public void ContainerCanBeConfiguredForPerBuildSingleton()
         {
             var container = new UnityContainer()
@@ -27,7 +27,7 @@ namespace Microsoft.Practices.Unity.Tests
                 .RegisterType<IView, View>(new PerResolveLifetimeManager());
         }
 
-        [TestMethod]
+        [Fact]
         public void ViewIsReusedAcrossGraph()
         {
             var container = new UnityContainer()
@@ -37,10 +37,10 @@ namespace Microsoft.Practices.Unity.Tests
             var view = container.Resolve<IView>();
 
             var realPresenter = (MockPresenter)view.Presenter;
-            Assert.AreSame(view, realPresenter.View);
+            Assert.Same(view, realPresenter.View);
         }
 
-        [TestMethod]
+        [Fact]
         public void ViewsAreDifferentInDifferentResolveCalls()
         {
             var container = new UnityContainer()
@@ -50,10 +50,10 @@ namespace Microsoft.Practices.Unity.Tests
             var view1 = container.Resolve<IView>();
             var view2 = container.Resolve<IView>();
 
-            Assert.AreNotSame(view1, view2);
+            Assert.NotSame(view1, view2);
         }
 
-        [TestMethod]
+        [Fact]
         public void PerBuildLifetimeIsHonoredWhenUsingFactory()
         {
             var container = new UnityContainer()
@@ -62,7 +62,7 @@ namespace Microsoft.Practices.Unity.Tests
                     new InjectionFactory(c => new SomeService()));
 
             var rootService = container.Resolve<AService>();
-            Assert.AreSame(rootService.SomeService, rootService.OtherService.SomeService);
+            Assert.Same(rootService.SomeService, rootService.OtherService.SomeService);
         }
 
         // A small object graph to verify per-build configuration works

@@ -1,0 +1,38 @@
+version: 4.1.0.{build}
+os: Visual Studio 2015
+configuration: Release
+install:
+- ps: >-
+    dnvm install 1.0.0-beta8
+
+    cd source\Unity
+
+    dnu restore
+
+    cd..
+
+    cd..
+build:
+  project: source\Unity.dnx.sln
+  publish_nuget: true
+  verbosity: minimal
+test_script:
+- ps: >-
+    dnvm install 1.0.0-beta8 -r coreclr -arch x86
+
+    dnvm use 1.0.0-beta8 -r coreclr -arch x86
+
+    cd C:\projects\unity\source\Unity\Tests\Unity.Tests
+
+    dnx test
+
+    cd C:\projects\unity\source\Unity\Tests\ObjectBuilder
+
+    dnx test
+
+    cd C:\projects\unity\source\Unity\Tests\ObjectBuilder
+
+    dnx test
+artifacts:
+- path: '**\*.nupkg'
+  name: Unity

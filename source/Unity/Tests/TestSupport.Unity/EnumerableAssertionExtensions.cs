@@ -8,10 +8,10 @@ using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
 using NUnit.Framework;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.TestSupport
+namespace Unity.TestSupport
 {
     public static class EnumerableAssertionExtensions
     {
@@ -27,32 +27,32 @@ namespace Microsoft.Practices.Unity.TestSupport
 
         public static void AssertTrueForAll<TItem>(this IEnumerable<TItem> items, Func<TItem, bool> predicate)
         {
-            Assert.IsTrue(items.All(predicate));
+            Assert.True(items.All(predicate));
         }
 
         public static void AssertTrueForAny<TItem>(this IEnumerable<TItem> items, Func<TItem, bool> predicate)
         {
-            Assert.IsTrue(items.Any(predicate));
+            Assert.True(items.Any(predicate));
         }
 
         public static void AssertFalseForAll<TItem>(this IEnumerable<TItem> items, Func<TItem, bool> predicate)
         {
-            Assert.IsFalse(items.All(predicate));
+            Assert.False(items.All(predicate));
         }
 
         public static void AssertFalseForAny<TItem>(this IEnumerable<TItem> items, Func<TItem, bool> predicate)
         {
-            Assert.IsFalse(items.Any(predicate));
+            Assert.False(items.Any(predicate));
         }
 
         public static void AssertHasItems<TItem>(this IEnumerable<TItem> items)
         {
-            Assert.IsTrue(items.Any());
+            Assert.True(items.Any());
         }
 
         public static void AssertHasNoItems<TItem>(this IEnumerable<TItem> items)
         {
-            Assert.IsFalse(items.Any());
+            Assert.False(items.Any());
         }
     }
 }

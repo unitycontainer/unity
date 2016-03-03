@@ -2,9 +2,9 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.ObjectBuilder;
-using Microsoft.Practices.Unity.TestSupport;
+using ObjectBuilder2;
+using Unity.ObjectBuilder;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -13,15 +13,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
-    [TestClass]
+     
     public class ResolvingArraysFixture
     {
-        [TestMethod]
+        [Fact]
         public void ContainerCanResolveListOfT()
         {
             IUnityContainer container = new UnityContainer();
@@ -30,20 +30,20 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = container.Resolve<List<EmptyClass>>();
 
-            Assert.IsNotNull(result);
+            Assert.NotNull(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void ContainerReturnsEmptyArrayIfNoObjectsRegistered()
         {
             IUnityContainer container = new UnityContainer();
             List<object> results = new List<object>(container.ResolveAll<object>());
 
-            Assert.IsNotNull(results);
+            Assert.NotNull(results);
             CollectionAssertExtensions.AreEqual(new object[0], results);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolveAllReturnsRegisteredObjects()
         {
             IUnityContainer container = new UnityContainer();
@@ -59,7 +59,7 @@ namespace Microsoft.Practices.Unity.Tests
             CollectionAssertExtensions.AreEqual(new object[] { o1, o2 }, results);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolveAllReturnsRegisteredObjectsForBaseClass()
         {
             IUnityContainer container = new UnityContainer();
@@ -74,7 +74,7 @@ namespace Microsoft.Practices.Unity.Tests
             CollectionAssertExtensions.AreEqual(new ILogger[] { o1, o2 }, results);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolverWithElementsReturnsEmptyArrayIfThereAreNoElements()
         {
             IUnityContainer container = new UnityContainer();
@@ -93,11 +93,11 @@ namespace Microsoft.Practices.Unity.Tests
 
             object[] results = (object[])resolver.Resolve(context);
 
-            Assert.IsNotNull(results);
-            Assert.AreEqual(0, results.Length);
+            Assert.NotNull(results);
+            Assert.Equal(0, results.Length);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolverWithElementsReturnsLiteralElements()
         {
             IUnityContainer container = new UnityContainer();
@@ -118,13 +118,13 @@ namespace Microsoft.Practices.Unity.Tests
 
             object[] results = (object[])container.Resolve<InjectedObject>().InjectedValue;
 
-            Assert.IsNotNull(results);
-            Assert.AreEqual(2, results.Length);
-            Assert.AreSame(o1, results[0]);
-            Assert.AreSame(o3, results[1]);
+            Assert.NotNull(results);
+            Assert.Equal(2, results.Length);
+            Assert.Same(o1, results[0]);
+            Assert.Same(o3, results[1]);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolverWithElementsReturnsResolvedElements()
         {
             IUnityContainer container = new UnityContainer();
@@ -145,13 +145,13 @@ namespace Microsoft.Practices.Unity.Tests
 
             object[] results = (object[])container.Resolve<InjectedObject>().InjectedValue;
 
-            Assert.IsNotNull(results);
-            Assert.AreEqual(2, results.Length);
-            Assert.AreSame(o1, results[0]);
-            Assert.AreSame(o2, results[1]);
+            Assert.NotNull(results);
+            Assert.Equal(2, results.Length);
+            Assert.Same(o1, results[0]);
+            Assert.Same(o2, results[1]);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolverWithElementsReturnsResolvedElementsForBaseClass()
         {
             IUnityContainer container = new UnityContainer();
@@ -171,10 +171,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             ILogger[] results = (ILogger[])container.Resolve<InjectedObject>().InjectedValue;
 
-            Assert.IsNotNull(results);
-            Assert.AreEqual(2, results.Length);
-            Assert.AreSame(o1, results[0]);
-            Assert.AreSame(o2, results[1]);
+            Assert.NotNull(results);
+            Assert.Equal(2, results.Length);
+            Assert.Same(o1, results[0]);
+            Assert.Same(o2, results[1]);
         }
 
         private BuilderContext GetContext(IUnityContainer container, NamedTypeBuildKey buildKey)

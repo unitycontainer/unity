@@ -1,0 +1,16 @@
+﻿{
+  "version": "1.0.0.0-beta",
+  "description": "Unity.TestSupport Class Library",
+  "authors": [ "AgileSight" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "dependencies": {
+    "xunit.assert": "2.1.0",
+    "Unity-CoreClr": "1.0.0.0-beta2"
+  },
+
+  "frameworks": {
+    "dnxcore50": { }
+  }
+}

@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity.ServiceLocation.Tests.Components
+namespace Unity.ServiceLocation.Tests.Components
 {
     public class SimpleLogger : ILogger
     {

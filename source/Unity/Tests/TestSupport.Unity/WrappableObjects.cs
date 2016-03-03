@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Microsoft.Practices.Unity.TestSupport
+namespace Unity.TestSupport
 {
     public class WrappableThroughInterface : Interface, InterfaceA
     {
@@ -12,7 +12,7 @@ namespace Microsoft.Practices.Unity.TestSupport
 
         public void MethodA() { }
     }
-
+#if !DNXCORE50
     public class WrappableThroughInterfaceWithAttributes : Interface
     {
         [GlobalCountCallHandler(HandlerName = "WrappableThroughInterfaceWithAttributes-Method")]
@@ -21,7 +21,7 @@ namespace Microsoft.Practices.Unity.TestSupport
         [GlobalCountCallHandler(HandlerName = "WrappableThroughInterfaceWithAttributes-Method3")]
         public void Method3() { }
     }
-
+#endif
     public interface Interface : InterfaceBase
     {
         void Method();

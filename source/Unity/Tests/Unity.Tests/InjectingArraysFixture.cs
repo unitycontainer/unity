@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -11,15 +11,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
-    [TestClass]
+     
     public class InjectingArraysFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanConfigureContainerToCallConstructorWithArrayParameter()
         {
             ILogger o1 = new MockLogger();
@@ -34,13 +34,13 @@ namespace Microsoft.Practices.Unity.Tests
 
             TypeWithArrayConstructorParameter resolved = container.Resolve<TypeWithArrayConstructorParameter>();
 
-            Assert.IsNotNull(resolved.Loggers);
-            Assert.AreEqual(2, resolved.Loggers.Length);
-            Assert.AreSame(o1, resolved.Loggers[0]);
-            Assert.AreSame(o2, resolved.Loggers[1]);
+            Assert.NotNull(resolved.Loggers);
+            Assert.Equal(2, resolved.Loggers.Length);
+            Assert.Same(o1, resolved.Loggers[0]);
+            Assert.Same(o2, resolved.Loggers[1]);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureContainerToCallConstructorWithArrayParameterWithNonGenericVersion()
         {
             ILogger o1 = new MockLogger();
@@ -53,13 +53,13 @@ namespace Microsoft.Practices.Unity.Tests
 
             TypeWithArrayConstructorParameter resolved = container.Resolve<TypeWithArrayConstructorParameter>();
 
-            Assert.IsNotNull(resolved.Loggers);
-            Assert.AreEqual(2, resolved.Loggers.Length);
-            Assert.AreSame(o1, resolved.Loggers[0]);
-            Assert.AreSame(o2, resolved.Loggers[1]);
+            Assert.NotNull(resolved.Loggers);
+            Assert.Equal(2, resolved.Loggers.Length);
+            Assert.Same(o1, resolved.Loggers[0]);
+            Assert.Same(o2, resolved.Loggers[1]);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureContainerToInjectSpecificValuesIntoAnArray()
         {
             ILogger logger2 = new SpecialLogger();
@@ -76,13 +76,13 @@ namespace Microsoft.Practices.Unity.Tests
 
             TypeWithArrayConstructorParameter result = container.Resolve<TypeWithArrayConstructorParameter>();
 
-            Assert.AreEqual(3, result.Loggers.Length);
+            Assert.Equal(3, result.Loggers.Length);
             AssertExtensions.IsInstanceOfType(result.Loggers[0], typeof(SpecialLogger));
             AssertExtensions.IsInstanceOfType(result.Loggers[1], typeof(MockLogger));
-            Assert.AreSame(logger2, result.Loggers[2]);
+            Assert.Same(logger2, result.Loggers[2]);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureContainerToInjectSpecificValuesIntoAnArrayWithNonGenericVersion()
         {
             ILogger logger2 = new SpecialLogger();
@@ -100,13 +100,13 @@ namespace Microsoft.Practices.Unity.Tests
 
             TypeWithArrayConstructorParameter result = container.Resolve<TypeWithArrayConstructorParameter>();
 
-            Assert.AreEqual(3, result.Loggers.Length);
+            Assert.Equal(3, result.Loggers.Length);
             AssertExtensions.IsInstanceOfType(result.Loggers[0], typeof(SpecialLogger));
             AssertExtensions.IsInstanceOfType(result.Loggers[1], typeof(MockLogger));
-            Assert.AreSame(logger2, result.Loggers[2]);
+            Assert.Same(logger2, result.Loggers[2]);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreatingResolvedArrayParameterWithValuesOfNonCompatibleType()
         {
             ILogger logger2 = new SpecialLogger();
@@ -120,7 +120,7 @@ namespace Microsoft.Practices.Unity.Tests
                 });
         }
 
-        [TestMethod]
+        [Fact]
         public void ContainerAutomaticallyResolvesAllWhenInjectingArrays()
         {
             ILogger[] expected = new ILogger[] { new MockLogger(), new SpecialLogger() };
@@ -133,7 +133,7 @@ namespace Microsoft.Practices.Unity.Tests
             CollectionAssertExtensions.AreEqual(expected, result.Loggers);
         }
 
-        [TestMethod]
+        [Fact]
         public void ContainerAutomaticallyResolvesAllWhenInjectingGenericArrays()
         {
             ILogger[] expected = new ILogger[] { new MockLogger(), new SpecialLogger() };

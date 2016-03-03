@@ -1,0 +1,24 @@
+﻿{
+  "version": "1.0.0-beta3",
+  "description": "Unity Class Library",
+  "authors": [ "AgileSight" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "namedResource": {
+    "Unity.Properties.Resources": "Properties/Resources.resx"
+  },
+  "dependencies": {
+    "System.Diagnostics.Tools": "4.0.0",
+    "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225",
+    "Unity.ServiceLocator-CoreClr": "1.0.0-beta2"
+  },
+
+  "frameworks": {
+    "dnxcore50": {
+      "Microsoft.CSharp": "4.0.1-beta-23516"
+    },
+    "dotnet5.4": {
+    }
+  }
+}

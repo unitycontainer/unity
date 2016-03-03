@@ -8,15 +8,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
-    [TestClass]
+     
     public class PolicyListTest
     {
-        [TestMethod]
+        [Fact]
         public void CanAddMultiplePoliciesToBagAndRetrieveThem()
         {
             PolicyList list = new PolicyList();
@@ -26,11 +26,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             list.Set<IBuilderPolicy>(policy1, "1");
             list.Set<IBuilderPolicy>(policy2, "2");
 
-            Assert.AreSame(policy1, list.Get<IBuilderPolicy>("1"));
-            Assert.AreSame(policy2, list.Get<IBuilderPolicy>("2"));
+            Assert.Same(policy1, list.Get<IBuilderPolicy>("1"));
+            Assert.Same(policy2, list.Get<IBuilderPolicy>("2"));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanAddPolicyToBagAndRetrieveIt()
         {
             PolicyList list = new PolicyList();
@@ -39,10 +39,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             IBuilderPolicy result = list.Get<IBuilderPolicy>(typeof(object));
 
-            Assert.AreSame(policy, result);
+            Assert.Same(policy, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanClearAllPolicies()
         {
             PolicyList list = new PolicyList();
@@ -51,10 +51,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             list.ClearAll();
 
-            Assert.AreEqual(0, list.Count);
+            Assert.Equal(0, list.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanClearDefaultPolicy()
         {
             PolicyList list = new PolicyList();
@@ -64,10 +64,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             list.ClearDefault<IBuilderPolicy>();
 
             IBuilderPolicy result = list.Get<IBuilderPolicy>(typeof(object));
-            Assert.IsNull(result);
+            Assert.Null(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanClearPolicy()
         {
             PolicyList list = new PolicyList();
@@ -76,10 +76,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             list.Set<IBuilderPolicy>(policy, typeof(string));
             list.Clear<IBuilderPolicy>(typeof(string));
 
-            Assert.IsNull(list.Get<IBuilderPolicy>(typeof(string)));
+            Assert.Null(list.Get<IBuilderPolicy>(typeof(string)));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanGetLocalPolicy()
         {
             PolicyList innerList = new PolicyList();
@@ -90,11 +90,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IPolicyList containingPolicyList;
             FakePolicy result = outerList.Get<FakePolicy>(typeof(object), true, out containingPolicyList);
 
-            Assert.IsNull(result);
-            Assert.IsNull(containingPolicyList);
+            Assert.Null(result);
+            Assert.Null(containingPolicyList);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanRegisterGenericPolicyAndRetrieveWithSpecificGenericInstance()
         {
             PolicyList list = new PolicyList();
@@ -103,10 +103,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             FakePolicy result = list.Get<FakePolicy>(typeof(IDummy<int>));
 
-            Assert.AreSame(policy, result);
+            Assert.Same(policy, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void DefaultPolicyUsedWhenSpecificPolicyIsntAvailable()
         {
             PolicyList list = new PolicyList();
@@ -115,10 +115,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             IBuilderPolicy result = list.Get<IBuilderPolicy>(typeof(object));
 
-            Assert.AreSame(defaultPolicy, result);
+            Assert.Same(defaultPolicy, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void PolicyRegisteredForTypeIsUsedIfKeyIsNotFound()
         {
             PolicyList list = new PolicyList();
@@ -127,10 +127,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             IBuilderPolicy result = list.Get<IBuilderPolicy>(new NamedTypeBuildKey<object>("name"));
 
-            Assert.AreSame(policyForType, result);
+            Assert.Same(policyForType, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void PolicyForClosedGenericTypeOverridesPolicyForOpenType()
         {
             PolicyList list = new PolicyList();
@@ -140,10 +140,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             list.Set<IBuilderPolicy>(closedTypePolicy, typeof(IDummy<object>));
 
             IBuilderPolicy result = list.Get<IBuilderPolicy>(new NamedTypeBuildKey<IDummy<object>>("name"));
-            Assert.AreSame(closedTypePolicy, result);
+            Assert.Same(closedTypePolicy, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void PolicyRegisteredForOpenGenericTypeUsedIfKeyIsNotFound()
         {
             PolicyList list = new PolicyList();
@@ -151,10 +151,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             list.Set<IBuilderPolicy>(policyForType, typeof(IDummy<>));
 
             IBuilderPolicy result = list.Get<IBuilderPolicy>(new NamedTypeBuildKey<IDummy<object>>("name"));
-            Assert.AreSame(policyForType, result);
+            Assert.Same(policyForType, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void OuterPolicyDefaultOverridesInnerPolicyDefault()
         {
             PolicyList innerList = new PolicyList();
@@ -167,11 +167,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IPolicyList containingPolicyList;
             FakePolicy result = outerList.Get<FakePolicy>(typeof(object), out containingPolicyList);
 
-            Assert.AreSame(outerPolicy, result);
-            Assert.AreSame(outerList, containingPolicyList);
+            Assert.Same(outerPolicy, result);
+            Assert.Same(outerList, containingPolicyList);
         }
 
-        [TestMethod]
+        [Fact]
         public void OuterPolicyOverridesInnerPolicy()
         {
             PolicyList innerList = new PolicyList();
@@ -184,11 +184,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IPolicyList containingPolicyList;
             FakePolicy result = outerList.Get<FakePolicy>(typeof(object), out containingPolicyList);
 
-            Assert.AreSame(outerPolicy, result);
-            Assert.AreSame(outerList, containingPolicyList);
+            Assert.Same(outerPolicy, result);
+            Assert.Same(outerList, containingPolicyList);
         }
 
-        [TestMethod]
+        [Fact]
         public void SetOverwritesExistingPolicy()
         {
             PolicyList list = new PolicyList();
@@ -199,10 +199,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             IBuilderPolicy result = list.Get<IBuilderPolicy>(typeof(string));
 
-            Assert.AreSame(policy2, result);
+            Assert.Same(policy2, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void SpecificGenericPolicyComesBeforeGenericPolicy()
         {
             PolicyList list = new PolicyList();
@@ -213,10 +213,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             FakePolicy result = list.Get<FakePolicy>(typeof(IDummy<int>));
 
-            Assert.AreSame(specificPolicy, result);
+            Assert.Same(specificPolicy, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void SpecificInnerPolicyOverridesDefaultOuterPolicy()
         {
             PolicyList innerList = new PolicyList();
@@ -229,11 +229,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IPolicyList containingPolicyList;
             FakePolicy result = outerList.Get<FakePolicy>(typeof(object), out containingPolicyList);
 
-            Assert.AreSame(innerPolicy, result);
-            Assert.AreSame(innerList, containingPolicyList);
+            Assert.Same(innerPolicy, result);
+            Assert.Same(innerList, containingPolicyList);
         }
 
-        [TestMethod]
+        [Fact]
         public void SpecificPolicyOverridesDefaultPolicy()
         {
             PolicyList list = new PolicyList();
@@ -244,10 +244,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             IBuilderPolicy result = list.Get<IBuilderPolicy>(typeof(object));
 
-            Assert.AreSame(specificPolicy, result);
+            Assert.Same(specificPolicy, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void WillAskInnerPolicyListWhenOuterHasNoAnswer()
         {
             PolicyList innerList = new PolicyList();
@@ -258,11 +258,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IPolicyList containingPolicies;
             FakePolicy result = outerList.Get<FakePolicy>(typeof(object), out containingPolicies);
 
-            Assert.AreSame(policy, result);
-            Assert.AreSame(innerList, containingPolicies);
+            Assert.Same(policy, result);
+            Assert.Same(innerList, containingPolicies);
         }
 
-        [TestMethod]
+        [Fact]
         public void WillUseInnerDefaultPolicyWhenOuterHasNoAnswer()
         {
             PolicyList innerList = new PolicyList();
@@ -273,8 +273,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IPolicyList containingPolicyList;
             FakePolicy result = outerList.Get<FakePolicy>(typeof(object), out containingPolicyList);
 
-            Assert.AreSame(policy, result);
-            Assert.AreSame(innerList, containingPolicyList);
+            Assert.Same(policy, result);
+            Assert.Same(innerList, containingPolicyList);
         }
 
         private class FakePolicy : IBuilderPolicy { }

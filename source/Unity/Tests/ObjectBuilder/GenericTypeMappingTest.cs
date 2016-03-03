@@ -10,15 +10,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
-    [TestClass]
+     
     public class GenericTypeMappingTest
     {
-        [TestMethod]
+        [Fact]
         public void CanMapGenericTypeToNewGenericType()
         {
             var original = new NamedTypeBuildKey(typeof(IList<int>));
@@ -27,10 +27,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof(List<>)));
 
             var result = policy.Map(original, null);
-            Assert.AreEqual(expected, result);
+            Assert.Equal(expected, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanMapGenericTypeFromNamedTypeBuildKey()
         {
             NamedTypeBuildKey original = new NamedTypeBuildKey(typeof(IList<string>), "test");
@@ -38,11 +38,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             NamedTypeBuildKey result = policy.Map(original, null);
 
-            Assert.AreEqual(typeof(List<string>), result.Type);
-            Assert.AreEqual(original.Name, result.Name);
+            Assert.Equal(typeof(List<string>), result.Type);
+            Assert.Equal(original.Name, result.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void PolicyThrowsIfWrongNumberOfGenericParameters()
         {
             var original = new NamedTypeBuildKey(typeof(IList<string>));
@@ -50,7 +50,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 policy.Map(original, null);
-                Assert.Fail("Expected exception");
+                Assert.True(false, string.Format("Expected exception"));
             }
             catch (ArgumentException)
             {
@@ -58,7 +58,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void PolicyThrowsIfInputIsNotAGeneric()
         {
             IBuildKeyMappingPolicy policy = new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(typeof(List<>)));
@@ -66,7 +66,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 policy.Map(new NamedTypeBuildKey<int>(), null);
-                Assert.Fail("Expected Exception");
+                Assert.True(false, string.Format("Expected Exception"));
             }
             catch (ArgumentException)
             {

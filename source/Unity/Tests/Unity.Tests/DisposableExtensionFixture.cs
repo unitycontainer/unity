@@ -9,15 +9,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
-    [TestClass]
+     
     public class DisposableExtensionFixture
     {
-        [TestMethod]
+        [Fact]
         public void DisposableExtensionsAreDisposedWithContainerButNotRemoved()
         {
             DisposableExtension extension = new DisposableExtension();
@@ -26,11 +26,11 @@ namespace Microsoft.Practices.Unity.Tests
 
             container.Dispose();
 
-            Assert.IsTrue(extension.Disposed);
-            Assert.IsFalse(extension.Removed);
+            Assert.True(extension.Disposed);
+            Assert.False(extension.Removed);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnlyDisposableExtensionAreDisposed()
         {
             DisposableExtension extension = new DisposableExtension();
@@ -42,10 +42,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             container.Dispose();
 
-            Assert.IsTrue(extension.Disposed);
+            Assert.True(extension.Disposed);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanSafelyDisposeContainerTwice()
         {
             DisposableExtension extension = new DisposableExtension();
@@ -56,7 +56,7 @@ namespace Microsoft.Practices.Unity.Tests
             container.Dispose();
         }
 
-        [TestMethod]
+        [Fact]
         public void RemovedExtensionsAreDisposed()
         {
             DisposableExtension extension = new DisposableExtension();
@@ -65,8 +65,8 @@ namespace Microsoft.Practices.Unity.Tests
 
             container.RemoveAllExtensions();
 
-            Assert.IsTrue(extension.Removed);
-            Assert.IsTrue(extension.Disposed);
+            Assert.True(extension.Removed);
+            Assert.True(extension.Disposed);
         }
 
         private class DisposableExtension : UnityContainerExtension, IDisposable

@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.ObjectBuilder;
-using Microsoft.Practices.Unity.TestSupport;
+using ObjectBuilder2;
+using Unity.ObjectBuilder;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -15,18 +15,18 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     /// <summary>
     /// Summary description for SpecifiedConstructorSelectorPolicyFixture
     /// </summary>
-    [TestClass]
+     
     public class SpecifiedConstructorSelectorPolicyFixture
     {
-        [TestMethod]
+        [Fact]
         public void SelectConstructorWithNoParameters()
         {
             ConstructorInfo ctor = typeof(ClassWithSimpleConstructor).GetMatchingConstructor(new Type[0]);
@@ -36,11 +36,11 @@ namespace Microsoft.Practices.Unity.Tests
 
             SelectedConstructor selectedCtor = policy.SelectConstructor(builderContext, new PolicyList());
 
-            Assert.AreEqual(ctor, selectedCtor.Constructor);
-            Assert.AreEqual(0, selectedCtor.GetParameterResolvers().Length);
+            Assert.Equal(ctor, selectedCtor.Constructor);
+            Assert.Equal(0, selectedCtor.GetParameterResolvers().Length);
         }
 
-        [TestMethod]
+        [Fact]
         public void SelectConstructorWith2Parameters()
         {
             ConstructorInfo ctor = typeof(ClassWithConstructorParameters).GetMatchingConstructor(Types(typeof(int), typeof(string)));
@@ -56,18 +56,18 @@ namespace Microsoft.Practices.Unity.Tests
 
             SelectedConstructor selectedCtor = policy.SelectConstructor(builderContext, builderContext.PersistentPolicies);
 
-            Assert.AreEqual(ctor, selectedCtor.Constructor);
-            Assert.AreEqual(2, selectedCtor.GetParameterResolvers().Length);
+            Assert.Equal(ctor, selectedCtor.Constructor);
+            Assert.Equal(2, selectedCtor.GetParameterResolvers().Length);
 
             var resolvers = selectedCtor.GetParameterResolvers();
-            Assert.AreEqual(2, resolvers.Length);
+            Assert.Equal(2, resolvers.Length);
             foreach (var resolverPolicy in resolvers)
             {
                 AssertPolicyIsCorrect(resolverPolicy);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void CanSelectConcreteConstructorGivenGenericConstructor()
         {
             ConstructorInfo ctor = typeof(LoggingCommand<>).GetTypeInfo().DeclaredConstructors.ElementAt(0);
@@ -86,12 +86,12 @@ namespace Microsoft.Practices.Unity.Tests
             SelectedConstructor result = policy.SelectConstructor(ctx, new PolicyList());
 
             ConstructorInfo expectedCtor = typeof(LoggingCommand<User>).GetMatchingConstructor(Types(typeof(ICommand<User>)));
-            Assert.AreSame(expectedCtor, result.Constructor);
+            Assert.Same(expectedCtor, result.Constructor);
         }
 
         private static void AssertPolicyIsCorrect(IDependencyResolverPolicy policy)
         {
-            Assert.IsNotNull(policy);
+            Assert.NotNull(policy);
             AssertExtensions.IsInstanceOfType(policy, typeof(LiteralValueDependencyResolverPolicy));
         }
 

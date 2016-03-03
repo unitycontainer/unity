@@ -2,7 +2,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Practices.Unity;
+using Unity;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -11,15 +11,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
-    [TestClass]
+     
     public class SingletonThreadingFixture
     {
-        [TestMethod]
+        [Fact]
         public void SingletonReturnsSameValueWhenCalledInMultipleThreads()
         {
             StrategyChain strategies = GetStrategies();
@@ -36,7 +36,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             Task.WaitAll(task1, task2);
 
-            Assert.AreSame(threadResults1.Result, threadResults2.Result);
+            Assert.Same(threadResults1.Result, threadResults2.Result);
         }
 
         private StrategyChain GetStrategies()

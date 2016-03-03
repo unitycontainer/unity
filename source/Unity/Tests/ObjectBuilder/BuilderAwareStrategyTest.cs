@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -9,15 +9,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
-    [TestClass]
+     
     public class BuilderAwareStrategyTest
     {
-        [TestMethod]
+        [Fact]
         public void BuildCallsClassWithInterface()
         {
             var strategy = new BuilderAwareStrategy();
@@ -28,12 +28,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.ExecuteBuildUp(new NamedTypeBuildKey<Aware>(), obj);
 
-            Assert.IsTrue(obj.OnBuiltUpWasCalled);
-            Assert.IsFalse(obj.OnTearingDownWasCalled);
-            Assert.AreEqual(new NamedTypeBuildKey<Aware>(), obj.OnBuiltUpBuildKey);
+            Assert.True(obj.OnBuiltUpWasCalled);
+            Assert.False(obj.OnTearingDownWasCalled);
+            Assert.Equal(new NamedTypeBuildKey<Aware>(), obj.OnBuiltUpBuildKey);
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildChecksConcreteTypeAndNotRequestedType()
         {
             var strategy = new BuilderAwareStrategy();
@@ -44,11 +44,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.ExecuteBuildUp(new NamedTypeBuildKey<Aware>(), obj);
 
-            Assert.IsTrue(obj.OnBuiltUpWasCalled);
-            Assert.IsFalse(obj.OnTearingDownWasCalled);
+            Assert.True(obj.OnBuiltUpWasCalled);
+            Assert.False(obj.OnTearingDownWasCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void BuildIgnoresClassWithoutInterface()
         {
             var strategy = new BuilderAwareStrategy();
@@ -59,11 +59,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.ExecuteBuildUp(new NamedTypeBuildKey<Ignorant>(), obj);
 
-            Assert.IsFalse(obj.OnBuiltUpWasCalled);
-            Assert.IsFalse(obj.OnTearingDownWasCalled);
+            Assert.False(obj.OnBuiltUpWasCalled);
+            Assert.False(obj.OnTearingDownWasCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void TearDownCallsClassWithInterface()
         {
             var strategy = new BuilderAwareStrategy();
@@ -74,11 +74,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.ExecuteTearDown(obj);
 
-            Assert.IsFalse(obj.OnBuiltUpWasCalled);
-            Assert.IsTrue(obj.OnTearingDownWasCalled);
+            Assert.False(obj.OnBuiltUpWasCalled);
+            Assert.True(obj.OnTearingDownWasCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void TearDownIgnoresClassWithoutInterface()
         {
             var strategy = new BuilderAwareStrategy();
@@ -89,8 +89,8 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.ExecuteTearDown(obj);
 
-            Assert.IsFalse(obj.OnBuiltUpWasCalled);
-            Assert.IsFalse(obj.OnTearingDownWasCalled);
+            Assert.False(obj.OnBuiltUpWasCalled);
+            Assert.False(obj.OnTearingDownWasCalled);
         }
 
         private class Aware : Ignorant, IBuilderAware { }

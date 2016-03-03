@@ -1,0 +1,6 @@
+{
+  "projects": [ "Unity/Tests", "Unity/Src", "Unity.Mvc6", "." ],
+  "sdk": {
+    "version": "1.0.0-rc1-update1"
+  }
+}

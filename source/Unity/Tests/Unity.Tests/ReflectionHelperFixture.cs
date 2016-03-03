@@ -3,9 +3,9 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.TestSupport;
-using Microsoft.Practices.Unity.Utility;
+using ObjectBuilder2;
+using Unity.TestSupport;
+using Unity.Utility;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -14,50 +14,50 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
-    [TestClass]
+     
     public class ReflectionHelperFixture
     {
-        [TestMethod]
+        [Fact]
         public void ShouldDetermineStringIsNotGeneric()
         {
             ReflectionHelper helper = new ReflectionHelper(typeof(string));
-            Assert.IsFalse(helper.IsGenericType);
+            Assert.False(helper.IsGenericType);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldDetermineICommandIsGeneric()
         {
             ReflectionHelper helper = new ReflectionHelper(typeof(ICommand<User>));
-            Assert.IsTrue(helper.IsGenericType);
+            Assert.True(helper.IsGenericType);
         }
 
-        [TestMethod]
+        [Fact]
         public void ShouldIdentifyOpenGeneric()
         {
             ReflectionHelper helper = new ReflectionHelper(typeof(ICommand<>));
-            Assert.IsTrue(helper.IsOpenGeneric);
+            Assert.True(helper.IsOpenGeneric);
         }
 
-        [TestMethod]
+        [Fact]
         public void IntIsNotAnOpenGeneric()
         {
             ReflectionHelper helper = new ReflectionHelper(typeof(int));
-            Assert.IsFalse(helper.IsOpenGeneric);
+            Assert.False(helper.IsOpenGeneric);
         }
 
-        [TestMethod]
+        [Fact]
         public void RegularMethodHasNoOpenParameters()
         {
             MethodInfo executeMethod = typeof(LoggingCommand<User>).GetTypeInfo().GetDeclaredMethod("Execute");
-            Assert.IsFalse(ReflectionHelper.MethodHasOpenGenericParameters(executeMethod));
+            Assert.False(ReflectionHelper.MethodHasOpenGenericParameters(executeMethod));
         }
 
-        [TestMethod]
+        [Fact]
         public void ParameterReflectionHelperDetectsOpenGenericParameters()
         {
             MethodBase executeMethod = typeof(LoggingCommand<>).GetTypeInfo().DeclaredConstructors.ElementAt(0);
@@ -65,42 +65,42 @@ namespace Microsoft.Practices.Unity.Tests
 
             ParameterReflectionHelper helper = new ParameterReflectionHelper(methodParams[0]);
 
-            Assert.IsTrue(helper.IsOpenGeneric);
+            Assert.True(helper.IsOpenGeneric);
         }
 
-        [TestMethod]
+        [Fact]
         public void ClosingParameterTypesReturnsOriginalTypeWhenItIsClosed()
         {
             MethodBase m = typeof(User).GetTypeInfo().GetDeclaredMethod("DoSomething");
             ParameterInfo[] methodParams = m.GetParameters();
 
-            Assert.AreEqual(1, methodParams.Length);
+            Assert.Equal(1, methodParams.Length);
 
             ParameterReflectionHelper helper = new ParameterReflectionHelper(methodParams[0]);
-            Assert.AreSame(typeof(string), helper.GetClosedParameterType(new Type[0]));
+            Assert.Same(typeof(string), helper.GetClosedParameterType(new Type[0]));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanCreateClosedParameterTypeFromOpenOne()
         {
             MethodBase m = typeof(LoggingCommand<>).GetTypeInfo().DeclaredConstructors.ElementAt(0);
             ParameterReflectionHelper helper = new ParameterReflectionHelper(
                 m.GetParameters()[0]);
             Type closedType = helper.GetClosedParameterType(typeof(LoggingCommand<User>).GenericTypeArguments);
-            Assert.AreSame(typeof(ICommand<User>), closedType);
+            Assert.Same(typeof(ICommand<User>), closedType);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanGetIfAnyParametersAreOpenGeneric()
         {
             Type openType = typeof(Pathological<,>);
             ConstructorInfo ctor = openType.GetTypeInfo().DeclaredConstructors.ElementAt(0);
 
             MethodReflectionHelper helper = new MethodReflectionHelper(ctor);
-            Assert.IsTrue(helper.MethodHasOpenGenericParameters);
+            Assert.True(helper.MethodHasOpenGenericParameters);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanGetClosedParameterTypesFromOpenOnes()
         {
             Type openType = typeof(Pathological<,>);
@@ -113,7 +113,7 @@ namespace Microsoft.Practices.Unity.Tests
             closedTypes.AssertContainsExactly(typeof(ICommand<User>), typeof(ICommand<Account>));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanGetClosedParameterArrayTypesFromOpenOnes()
         {
             Type openType = typeof(TypeWithArrayConstructorParameters<,>);

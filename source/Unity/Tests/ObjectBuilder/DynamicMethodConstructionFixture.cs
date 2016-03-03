@@ -1,31 +1,31 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
-using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.TestSupport;
-using Microsoft.Practices.Unity.Utility;
+using ObjectBuilder2.Tests.TestDoubles;
+using ObjectBuilder2.Tests.TestObjects;
+using Unity;
+using Unity.TestSupport;
+using Unity.Utility;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using InjectionConstructorAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
+using InjectionConstructorAttribute = ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
 #elif __IOS__
 using NUnit.Framework;
-using InjectionConstructorAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
+using InjectionConstructorAttribute = ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
 using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using InjectionConstructorAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
+using Xunit;
+using InjectionConstructorAttribute = ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
 #endif
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
-    [TestClass]
+     
     public class DynamicMethodConstructionFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanBuildUpObjectWithDefaultConstructorViaBuildPlan()
         {
             MockBuilderContext context = GetContext();
@@ -35,11 +35,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             plan.BuildUp(context);
 
             object result = context.Existing;
-            Assert.IsNotNull(result);
+            Assert.NotNull(result);
             AssertExtensions.IsInstanceOfType(result, typeof(NullLogger));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanResolveSimpleParameterTypes()
         {
             MockBuilderContext context = GetContext();
@@ -55,12 +55,12 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             object result = context.Existing;
             FileLogger logger = result as FileLogger;
 
-            Assert.IsNotNull(result);
-            Assert.IsNotNull(logger);
-            Assert.AreEqual("C:\\Log.txt", logger.LogFile);
+            Assert.NotNull(result);
+            Assert.NotNull(logger);
+            Assert.Equal("C:\\Log.txt", logger.LogFile);
         }
 
-        [TestMethod]
+        [Fact]
         public void TheCurrentOperationIsNullAfterSuccessfullyExecutingTheBuildPlan()
         {
             MockBuilderContext context = GetContext();
@@ -73,10 +73,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, context.BuildKey);
             plan.BuildUp(context);
 
-            Assert.IsNull(context.CurrentOperation);
+            Assert.Null(context.CurrentOperation);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExceptionThrownWhileInvokingTheConstructorIsBubbledUpAndTheCurrentOperationIsNotCleared()
         {
             MockBuilderContext context = GetContext();
@@ -88,19 +88,19 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 plan.BuildUp(context);
-                Assert.Fail("failure expected");
+                Assert.True(false, string.Format("failure expected"));
             }
             catch (Exception e)
             {
-                Assert.AreSame(ThrowingConstructorInjectionTestClass.ConstructorException, e);
+                Assert.Same(ThrowingConstructorInjectionTestClass.ConstructorException, e);
 
                 var operation = (InvokingConstructorOperation)context.CurrentOperation;
-                Assert.IsNotNull(operation);
-                Assert.AreSame(typeof(ThrowingConstructorInjectionTestClass), operation.TypeBeingConstructed);
+                Assert.NotNull(operation);
+                Assert.Same(typeof(ThrowingConstructorInjectionTestClass), operation.TypeBeingConstructed);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolvingAParameterSetsTheCurrentOperation()
         {
             var resolverPolicy = new CurrentOperationSensingResolverPolicy<object>();
@@ -115,10 +115,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, context.BuildKey);
             plan.BuildUp(context);
 
-            Assert.IsNotNull(resolverPolicy.CurrentOperation);
+            Assert.NotNull(resolverPolicy.CurrentOperation);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExceptionThrownWhileResolvingAParameterIsBubbledUpAndTheCurrentOperationIsNotCleared()
         {
             var exception = new ArgumentException();
@@ -136,21 +136,21 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 plan.BuildUp(context);
-                Assert.Fail("failure expected");
+                Assert.True(false, string.Format("failure expected"));
             }
             catch (Exception e)
             {
-                Assert.AreSame(exception, e);
+                Assert.Same(exception, e);
 
                 var operation = (ConstructorArgumentResolveOperation)context.CurrentOperation;
-                Assert.IsNotNull(operation);
+                Assert.NotNull(operation);
 
-                Assert.AreSame(typeof(ConstructorInjectionTestClass), operation.TypeBeingConstructed);
-                Assert.AreEqual("parameter", operation.ParameterName);
+                Assert.Same(typeof(ConstructorInjectionTestClass), operation.TypeBeingConstructed);
+                Assert.Equal("parameter", operation.ParameterName);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolvingANewInstanceOfATypeWithPrivateConstructorThrows()
         {
             MockBuilderContext context = GetContext();
@@ -161,14 +161,14 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 plan.BuildUp(context);
-                Assert.Fail("should have thrown");
+                Assert.True(false, string.Format("should have thrown"));
             }
             catch (InvalidOperationException)
             {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolvingANewInstanceOfADelegateTypeThrows()
         {
             MockBuilderContext context = GetContext();
@@ -179,14 +179,14 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 plan.BuildUp(context);
-                Assert.Fail("should have thrown");
+                Assert.True(false, string.Format("should have thrown"));
             }
             catch (InvalidOperationException)
             {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void CanResolveAADelegateTypeIfInstanceExists()
         {
             MockBuilderContext context = GetContext();
@@ -197,10 +197,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.Existing = existing;
 
             plan.BuildUp(context);
-            Assert.AreSame(existing, context.Existing);
+            Assert.Same(existing, context.Existing);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolvingANewInstanceOfAnInterfaceTypeThrows()
         {
             MockBuilderContext context = GetContext();
@@ -211,14 +211,14 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 plan.BuildUp(context);
-                Assert.Fail("should have thrown");
+                Assert.True(false, string.Format("should have thrown"));
             }
             catch (InvalidOperationException)
             {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void CanBuildUpExistingObjectWithPrivateConstructor()
         {
             MockBuilderContext context = GetContext();
@@ -229,7 +229,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             plan.BuildUp(context);
 
             object result = context.Existing;
-            Assert.IsNotNull(result);
+            Assert.NotNull(result);
         }
 
         public class TestSingleArgumentConstructorSelectorPolicy<T> : IConstructorSelectorPolicy
@@ -243,7 +243,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             public SelectedConstructor SelectConstructor(IBuilderContext context, IPolicyList resolverPoliciesDestination)
             {
-                var selectedConstructor = new SelectedConstructor(typeof(T).GetConstructor(new[] { typeof(object) }));
+                var selectedConstructor = new SelectedConstructor(typeof(T).GetConstructorInfo(new[] { typeof(object) }));
                 selectedConstructor.AddParameterResolver(this.parameterResolverPolicy);
 
                 return selectedConstructor;

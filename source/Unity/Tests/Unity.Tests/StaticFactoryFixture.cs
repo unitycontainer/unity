@@ -2,8 +2,8 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Practices.Unity.StaticFactory;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.StaticFactory;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -12,27 +12,27 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     /// <summary>
     /// Tests for the Static Factory container extension.
     /// </summary>
-    [TestClass]
+     
     public class StaticFactoryFixture
     {
         // Turn off the obsolete warning for StaticFactoryExtension
 #pragma warning disable 618
-        [TestMethod]
+        [Fact]
         public void CanAddExtensionToContainer()
         {
             IUnityContainer container = new UnityContainer()
                 .AddNewExtension<StaticFactoryExtension>();
         }
 
-        [TestMethod]
+        [Fact]
         public void CanGetExtensionConfigurationFromContainer()
         {
             IUnityContainer container = new UnityContainer()
@@ -40,10 +40,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             IStaticFactoryConfiguration config = container.Configure<IStaticFactoryConfiguration>();
 
-            Assert.IsNotNull(config);
+            Assert.NotNull(config);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfiguredFactoryDelegateGetsCalled()
         {
             bool factoryWasCalled = false;
@@ -61,10 +61,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             ILogger logger = container.Resolve<ILogger>();
             AssertExtensions.IsInstanceOfType(logger, typeof(MockLogger));
-            Assert.IsTrue(factoryWasCalled);
+            Assert.True(factoryWasCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanUseContainerToResolveFactoryParameters()
         {
             bool factoryWasCalled = false;
@@ -76,7 +76,7 @@ namespace Microsoft.Practices.Unity.Tests
                 .Configure<IStaticFactoryConfiguration>()
                     .RegisterFactory<MockDatabase>(c =>
                     {
-                        Assert.AreSame(container, c);
+                        Assert.Same(container, c);
                         factoryWasCalled = true;
                         string cs = c.Resolve<string>("connectionString");
                         return MockDatabase.Create(cs);
@@ -86,12 +86,12 @@ namespace Microsoft.Practices.Unity.Tests
 
             MockDatabase db = container.Resolve<MockDatabase>();
 
-            Assert.IsTrue(factoryWasCalled);
-            Assert.IsNotNull(db);
-            Assert.AreEqual(connectionString, db.ConnectionString);
+            Assert.True(factoryWasCalled);
+            Assert.NotNull(db);
+            Assert.Equal(connectionString, db.ConnectionString);
         }
 
-        [TestMethod]
+        [Fact]
         public void FactoryRecievesCurrentContainerWhenUsingChild()
         {
             IUnityContainer parent = new UnityContainer();
@@ -104,14 +104,14 @@ namespace Microsoft.Practices.Unity.Tests
                 .RegisterFactory<MockDatabase>(
                 c =>
                 {
-                    Assert.AreSame(child, c);
+                    Assert.Same(child, c);
                     return MockDatabase.Create("connectionString");
                 });
 
             var db = child.Resolve<MockDatabase>();
         }
 
-        [TestMethod]
+        [Fact]
         public void ConfiguredFactoryGetsCalledWhenUsingInjectionFactory()
         {
             bool factoryWasCalled = false;
@@ -126,10 +126,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             ILogger logger = container.Resolve<ILogger>();
             AssertExtensions.IsInstanceOfType(logger, typeof(MockLogger));
-            Assert.IsTrue(factoryWasCalled);
+            Assert.True(factoryWasCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanUseContainerToResolveFactoryParametersWhenUsingInjectionFactory()
         {
             bool factoryWasCalled = false;
@@ -140,7 +140,7 @@ namespace Microsoft.Practices.Unity.Tests
             container.RegisterType<MockDatabase>(
                 new InjectionFactory(c =>
                     {
-                        Assert.AreSame(container, c);
+                        Assert.Same(container, c);
                         factoryWasCalled = true;
                         var cs = c.Resolve<string>("connectionString");
                         return MockDatabase.Create(cs);
@@ -149,12 +149,12 @@ namespace Microsoft.Practices.Unity.Tests
 
             MockDatabase db = container.Resolve<MockDatabase>();
 
-            Assert.IsTrue(factoryWasCalled);
-            Assert.IsNotNull(db);
-            Assert.AreEqual(connectionString, db.ConnectionString);
+            Assert.True(factoryWasCalled);
+            Assert.NotNull(db);
+            Assert.Equal(connectionString, db.ConnectionString);
         }
 
-        [TestMethod]
+        [Fact]
         public void FactoryRecievesCurrentContainerWhenUsingChildWhenUsingInjectionFactory()
         {
             bool factoryWasCalled = false;
@@ -166,15 +166,15 @@ namespace Microsoft.Practices.Unity.Tests
                 new InjectionFactory(c =>
                 {
                     factoryWasCalled = true;
-                    Assert.AreSame(child, c);
+                    Assert.Same(child, c);
                     return MockDatabase.Create("connectionString");
                 }));
 
             child.Resolve<MockDatabase>();
-            Assert.IsTrue(factoryWasCalled);
+            Assert.True(factoryWasCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void RegisteredFactoriesAreExecutedWhenDoingResolveAllWithOldAPI()
         {
             var container = new UnityContainer()
@@ -189,7 +189,7 @@ namespace Microsoft.Practices.Unity.Tests
             result.AssertContainsInAnyOrder("this", "that", "the other");
         }
 
-        [TestMethod]
+        [Fact]
         public void RegisteredFactoriesAreExecutedWhenDoingResolveAll()
         {
             var container = new UnityContainer()
@@ -201,7 +201,7 @@ namespace Microsoft.Practices.Unity.Tests
             result.AssertContainsInAnyOrder("this", "that", "the other");
         }
 
-        [TestMethod]
+        [Fact]
         public void CanRegisterFactoryFunctionThatReceivesTypeAndName()
         {
             Func<IUnityContainer, Type, string, object> factory = (c, t, s) => s + t.GetTypeInfo().Name;

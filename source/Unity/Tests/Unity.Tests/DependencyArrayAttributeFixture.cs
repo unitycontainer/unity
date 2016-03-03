@@ -2,8 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.TestSupport;
+using ObjectBuilder2;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -12,15 +12,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
-    [TestClass]
+     
     public class DependencyArrayAttributeFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanResolveArrayForConstructorParameter()
         {
             ILogger o1 = new MockLogger();
@@ -33,13 +33,13 @@ namespace Microsoft.Practices.Unity.Tests
 
             TypeWithArrayConstructorParameter resolved = container.Resolve<TypeWithArrayConstructorParameter>();
 
-            Assert.IsNotNull(resolved.Loggers);
-            Assert.AreEqual(2, resolved.Loggers.Length);
-            Assert.AreSame(o1, resolved.Loggers[0]);
-            Assert.AreSame(o2, resolved.Loggers[1]);
+            Assert.NotNull(resolved.Loggers);
+            Assert.Equal(2, resolved.Loggers.Length);
+            Assert.Same(o1, resolved.Loggers[0]);
+            Assert.Same(o2, resolved.Loggers[1]);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanResolveArrayForProperty()
         {
             ILogger o1 = new MockLogger();
@@ -52,13 +52,13 @@ namespace Microsoft.Practices.Unity.Tests
 
             TypeWithArrayProperty resolved = container.Resolve<TypeWithArrayProperty>();
 
-            Assert.IsNotNull(resolved.Loggers);
-            Assert.AreEqual(2, resolved.Loggers.Length);
-            Assert.AreSame(o1, resolved.Loggers[0]);
-            Assert.AreSame(o2, resolved.Loggers[1]);
+            Assert.NotNull(resolved.Loggers);
+            Assert.Equal(2, resolved.Loggers.Length);
+            Assert.Same(o1, resolved.Loggers[0]);
+            Assert.Same(o2, resolved.Loggers[1]);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanResolveArrayForConstructorParameterOnClosedGenericType()
         {
             ILogger o1 = new MockLogger();
@@ -72,13 +72,13 @@ namespace Microsoft.Practices.Unity.Tests
             GenericTypeWithArrayConstructorParameter<ILogger> resolved
                 = container.Resolve<GenericTypeWithArrayConstructorParameter<ILogger>>();
 
-            Assert.IsNotNull(resolved.Values);
-            Assert.AreEqual(2, resolved.Values.Length);
-            Assert.AreSame(o1, resolved.Values[0]);
-            Assert.AreSame(o2, resolved.Values[1]);
+            Assert.NotNull(resolved.Values);
+            Assert.Equal(2, resolved.Values.Length);
+            Assert.Same(o1, resolved.Values[0]);
+            Assert.Same(o2, resolved.Values[1]);
         }
 
-        [TestMethod]
+        [Fact]
         public void BindingDependencyArrayToArrayParameterWithRankOverOneThrows()
         {
             IUnityContainer container = new UnityContainer();
@@ -86,7 +86,7 @@ namespace Microsoft.Practices.Unity.Tests
             try
             {
                 container.Resolve<TypeWithArrayConstructorParameterOfRankTwo>();
-                Assert.Fail("Call to Resolve<>() should have failed");
+                Assert.True(false, string.Format("Call to Resolve<>() should have failed"));
             }
             catch (ResolutionFailedException)
             {

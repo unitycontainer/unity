@@ -3,21 +3,21 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
-using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.TestSupport;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DependencyAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.DependencyAttribute;
-using InjectionConstructorAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
-using InjectionMethodAttribute = Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles.InjectionMethodAttribute;
+using ObjectBuilder2.Tests.TestDoubles;
+using ObjectBuilder2.Tests.TestObjects;
+using Unity;
+using Unity.TestSupport;
+using Xunit;
+using DependencyAttribute = ObjectBuilder2.Tests.TestDoubles.DependencyAttribute;
+using InjectionConstructorAttribute = ObjectBuilder2.Tests.TestDoubles.InjectionConstructorAttribute;
+using InjectionMethodAttribute = ObjectBuilder2.Tests.TestDoubles.InjectionMethodAttribute;
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
-    [TestClass]
+     
     public class DynamicMethodCallFixture
     {
-        [TestMethod]
+        [Fact]
         public void CallsMethodsMarkedWithInjectionAttribute()
         {
             MockBuilderContext context = GetContext();
@@ -40,19 +40,19 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             GC.KeepAlive(intValue);
             GC.KeepAlive(stringValue);
 
-            Assert.IsTrue(existing.WasInjected);
-            Assert.AreEqual(intValue, existing.IntValue);
-            Assert.AreEqual(stringValue, existing.StringValue);
+            Assert.True(existing.WasInjected);
+            Assert.Equal(intValue, existing.IntValue);
+            Assert.Equal(stringValue, existing.StringValue);
         }
 
-        [TestMethod]
+        [Fact]
         public void ThrowsWhenBuildingPlanWithGenericInjectionMethod()
         {
             try
             {
                 MockBuilderContext context = GetContext();
                 GetPlanCreator(context).CreatePlan(context, new NamedTypeBuildKey(typeof(ObjectWithGenericInjectionMethod)));
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (IllegalInjectionMethodException)
             {
@@ -60,35 +60,35 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ThrowsWhenBuildingPlanWithMethodWithOutParam()
         {
             try
             {
                 MockBuilderContext context = GetContext();
                 GetPlanCreator(context).CreatePlan(context, new NamedTypeBuildKey(typeof(ObjectWithOutParamMethod)));
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (IllegalInjectionMethodException)
             {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ThrowsWhenBuildingPlanWithMethodWithRefParam()
         {
             try
             {
                 MockBuilderContext context = GetContext();
                 GetPlanCreator(context).CreatePlan(context, new NamedTypeBuildKey(typeof(ObjectWithRefParamMethod)));
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (IllegalInjectionMethodException)
             {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void TheCurrentOperationIsNullAfterSuccessfullyExecutingTheBuildPlan()
         {
             MockBuilderContext context = GetContext();
@@ -99,10 +99,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             IBuildPlanPolicy plan = GetPlanCreator(context).CreatePlan(context, key);
             plan.BuildUp(context);
 
-            Assert.IsNull(context.CurrentOperation);
+            Assert.Null(context.CurrentOperation);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExceptionThrownWhileInvokingTheInjectionMethodIsBubbledUpAndTheCurrentOperationIsNotCleared()
         {
             MockBuilderContext context = GetContext();
@@ -116,19 +116,19 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 plan.BuildUp(context);
-                Assert.Fail("failure expected");
+                Assert.True(false, string.Format("failure expected"));
             }
             catch (Exception e)
             {
-                Assert.AreSame(ObjectWithSingleThrowingInjectionMethod.InjectionMethodException, e);
+                Assert.Same(ObjectWithSingleThrowingInjectionMethod.InjectionMethodException, e);
                 var operation = (InvokingMethodOperation)context.CurrentOperation;
-                Assert.IsNotNull(operation);
+                Assert.NotNull(operation);
 
-                Assert.AreSame(typeof(ObjectWithSingleThrowingInjectionMethod), operation.TypeBeingConstructed);
+                Assert.Same(typeof(ObjectWithSingleThrowingInjectionMethod), operation.TypeBeingConstructed);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolvingAParameterSetsTheCurrentOperation()
         {
             var resolverPolicy = new CurrentOperationSensingResolverPolicy<object>();
@@ -146,10 +146,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             plan.BuildUp(context);
 
-            Assert.IsNotNull(resolverPolicy.CurrentOperation);
+            Assert.NotNull(resolverPolicy.CurrentOperation);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExceptionThrownWhileResolvingAParameterIsBubbledUpAndTheCurrentOperationIsNotCleared()
         {
             var exception = new ArgumentException();
@@ -169,16 +169,16 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             try
             {
                 plan.BuildUp(context);
-                Assert.Fail("failure expected");
+                Assert.True(false, string.Format("failure expected"));
             }
             catch (Exception e)
             {
-                Assert.AreSame(exception, e);
+                Assert.Same(exception, e);
                 var operation = (MethodArgumentResolveOperation)context.CurrentOperation;
-                Assert.IsNotNull(operation);
+                Assert.NotNull(operation);
 
-                Assert.AreSame(typeof(ObjectWithSingleInjectionMethod), operation.TypeBeingConstructed);
-                Assert.AreEqual("parameter", operation.ParameterName);
+                Assert.Same(typeof(ObjectWithSingleInjectionMethod), operation.TypeBeingConstructed);
+                Assert.Equal("parameter", operation.ParameterName);
             }
         }
 

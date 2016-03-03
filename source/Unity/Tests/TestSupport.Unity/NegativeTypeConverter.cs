@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Microsoft.Practices.Unity.TestSupport
+namespace Unity.TestSupport
 {
     /// <summary>
     /// A faked up type converter that converts integers, then returns the

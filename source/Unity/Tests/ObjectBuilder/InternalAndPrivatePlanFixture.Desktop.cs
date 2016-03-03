@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles;
-using Microsoft.Practices.ObjectBuilder2.Tests.TestObjects;
-using Microsoft.Practices.Unity.TestSupport;
+using ObjectBuilder2.Tests.TestDoubles;
+using ObjectBuilder2.Tests.TestObjects;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -11,15 +11,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
-    [TestClass]
+     
     public class InternalAndPrivatePlanFixture
     {
-        [TestMethod]
+        [Fact]
         public void ExistingObjectIsUntouchedByConstructionPlan()
         {
             MockBuilderContext context = GetContext();
@@ -33,11 +33,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             plan.BuildUp(context);
             object result = context.Existing;
 
-            Assert.AreSame(existing, result);
-            Assert.AreEqual("C:\\log.log", existing.LogFile);
+            Assert.Same(existing, result);
+            Assert.Equal("C:\\log.log", existing.LogFile);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanCreateObjectWithoutExplicitConstructorDefined()
         {
             MockBuilderContext context = GetContext();
@@ -48,10 +48,10 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.BuildKey = key;
             plan.BuildUp(context);
             var result = (InternalObjectWithoutExplicitConstructor)context.Existing;
-            Assert.IsNotNull(result);
+            Assert.NotNull(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanCreatePlanAndExecuteItForPrivateClassWhenInFullTrust()
         {
             MockBuilderContext context = GetContext();
@@ -62,7 +62,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             context.BuildKey = key;
             plan.BuildUp(context);
 
-            Assert.IsNotNull(context.Existing);
+            Assert.NotNull(context.Existing);
             AssertExtensions.IsInstanceOfType(context.Existing, typeof(PrivateClassWithoutExplicitConstructor));
         }
 

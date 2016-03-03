@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.Practices.ObjectBuilder2.Tests.Utility;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.TestSupport;
+using ObjectBuilder2.Tests.Utility;
+using Unity;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -12,27 +12,27 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
-    [TestClass]
+     
     public class LifetimeStrategyTest
     {
-        [TestMethod]
+        [Fact]
         public void LifetimeStrategyDefaultsToTransient()
         {
             MockBuilderContext context = CreateContext();
             var key = new NamedTypeBuildKey<object>();
             object result = context.ExecuteBuildUp(key, null);
             object result2 = context.ExecuteBuildUp(key, null);
-            Assert.IsNotNull(result);
-            Assert.IsNotNull(result2);
-            Assert.AreNotSame(result, result2);
+            Assert.NotNull(result);
+            Assert.NotNull(result2);
+            Assert.NotSame(result, result2);
         }
 
-        [TestMethod]
+        [Fact]
         public void SingletonPolicyAffectsLifetime()
         {
             MockBuilderContext context = CreateContext();
@@ -41,11 +41,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             object result = context.ExecuteBuildUp(key, null);
             object result2 = context.ExecuteBuildUp(key, null);
-            Assert.IsNotNull(result);
-            Assert.AreSame(result, result2);
+            Assert.NotNull(result);
+            Assert.Same(result, result2);
         }
 
-        [TestMethod]
+        [Fact]
         public void LifetimeStrategyAddsRecoveriesToContext()
         {
             MockBuilderContext context = CreateContext();
@@ -55,13 +55,13 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             context.ExecuteBuildUp(key, null);
 
-            Assert.AreEqual(1, context.RecoveryStack.Count);
+            Assert.Equal(1, context.RecoveryStack.Count);
 
             context.RecoveryStack.ExecuteRecovery();
-            Assert.IsTrue(recovery.WasRecovered);
+            Assert.True(recovery.WasRecovered);
         }
 
-        [TestMethod]
+        [Fact]
         public void LifetimeStrategyUsesFactoryToGetLifetimePolicyForGenericType()
         {
             MockBuilderContext context = CreateContext();
@@ -78,11 +78,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             ILifetimePolicy intLifetime =
                 context.Policies.GetNoDefault<ILifetimePolicy>(new NamedTypeBuildKey(typeof(YetAnotherDummyInterfaceImplementation<int>)), false);
 
-            Assert.IsNotNull(stringLifetime);
-            Assert.IsNotNull(intLifetime);
+            Assert.NotNull(stringLifetime);
+            Assert.NotNull(intLifetime);
             AssertExtensions.IsInstanceOfType(stringLifetime, typeof(RecoverableLifetime));
             AssertExtensions.IsInstanceOfType(intLifetime, typeof(RecoverableLifetime));
-            Assert.AreNotSame(stringLifetime, intLifetime);
+            Assert.NotSame(stringLifetime, intLifetime);
         }
 
         private MockBuilderContext CreateContext()

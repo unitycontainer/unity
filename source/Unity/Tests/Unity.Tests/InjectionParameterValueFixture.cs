@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.ObjectBuilder;
-using Microsoft.Practices.Unity.TestSupport;
+using ObjectBuilder2;
+using Unity.ObjectBuilder;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -14,16 +14,16 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     // Tests for the DependencyValue class and its derivatives
-    [TestClass]
+     
     public class InjectionParameterValueFixture
     {
-        [TestMethod]
+        [Fact]
         public void InjectionParameterReturnsExpectedValue()
         {
             int expected = 12;
@@ -31,7 +31,7 @@ namespace Microsoft.Practices.Unity.Tests
             AssertExpectedValue(parameter, typeof(int), expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void InjectionParameterCanTakeExplicitType()
         {
             double expected = Math.E;
@@ -39,7 +39,7 @@ namespace Microsoft.Practices.Unity.Tests
             AssertExpectedValue(parameter, typeof(double), expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void InjectionParameterCanReturnNull()
         {
             string expected = null;
@@ -47,7 +47,7 @@ namespace Microsoft.Practices.Unity.Tests
             AssertExpectedValue(parameter, typeof(string), expected);
         }
 
-        [TestMethod]
+        [Fact]
         public void DependencyParameterCreatesExpectedResolver()
         {
             Type expectedType = typeof(ILogger);
@@ -56,11 +56,11 @@ namespace Microsoft.Practices.Unity.Tests
             IDependencyResolverPolicy resolver = parameter.GetResolverPolicy(expectedType);
 
             AssertExtensions.IsInstanceOfType(resolver, typeof(NamedTypeDependencyResolverPolicy));
-            Assert.AreEqual(expectedType, ((NamedTypeDependencyResolverPolicy)resolver).Type);
-            Assert.IsNull(((NamedTypeDependencyResolverPolicy)resolver).Name);
+            Assert.Equal(expectedType, ((NamedTypeDependencyResolverPolicy)resolver).Type);
+            Assert.Null(((NamedTypeDependencyResolverPolicy)resolver).Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolvedParameterHandledNamedTypes()
         {
             Type expectedType = typeof(ILogger);
@@ -70,56 +70,56 @@ namespace Microsoft.Practices.Unity.Tests
             IDependencyResolverPolicy resolver = parameter.GetResolverPolicy(expectedType);
 
             AssertExtensions.IsInstanceOfType(resolver, typeof(NamedTypeDependencyResolverPolicy));
-            Assert.AreEqual(expectedType, ((NamedTypeDependencyResolverPolicy)resolver).Type);
-            Assert.AreEqual(name, ((NamedTypeDependencyResolverPolicy)resolver).Name);
+            Assert.Equal(expectedType, ((NamedTypeDependencyResolverPolicy)resolver).Type);
+            Assert.Equal(name, ((NamedTypeDependencyResolverPolicy)resolver).Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void TypesImplicitlyConvertToResolvedDependencies()
         {
             List<InjectionParameterValue> values = GetParameterValues(typeof(int));
 
-            Assert.AreEqual(1, values.Count);
+            Assert.Equal(1, values.Count);
             AssertExtensions.IsInstanceOfType(values[0], typeof(ResolvedParameter));
         }
 
-        [TestMethod]
+        [Fact]
         public void ObjectsConverterToInjectionParametersResolveCorrectly()
         {
             List<InjectionParameterValue> values = GetParameterValues(15);
 
             InjectionParameter parameter = (InjectionParameter)values[0];
-            Assert.AreEqual(typeof(int), parameter.ParameterType);
+            Assert.Equal(typeof(int), parameter.ParameterType);
             IDependencyResolverPolicy policy = parameter.GetResolverPolicy(null);
             int result = (int)policy.Resolve(null);
 
-            Assert.AreEqual(15, result);
+            Assert.Equal(15, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void TypesAndObjectsImplicitlyConvertToInjectionParameters()
         {
             List<InjectionParameterValue> values = GetParameterValues(
                 15, typeof(string), 22.5);
 
-            Assert.AreEqual(3, values.Count);
+            Assert.Equal(3, values.Count);
             AssertExtensions.IsInstanceOfType(values[0], typeof(InjectionParameter));
             AssertExtensions.IsInstanceOfType(values[1], typeof(ResolvedParameter));
             AssertExtensions.IsInstanceOfType(values[2], typeof(InjectionParameter));
         }
 
-        [TestMethod]
+        [Fact]
         public void ConcreteTypesMatch()
         {
             List<InjectionParameterValue> values = GetParameterValues(typeof(int), typeof(string), typeof(User));
             Type[] expectedTypes = Sequence.Collect(typeof(int), typeof(string), typeof(User));
             for (int i = 0; i < values.Count; ++i)
             {
-                Assert.IsTrue(values[i].MatchesType(expectedTypes[i]));
+                Assert.True(values[i].MatchesType(expectedTypes[i]));
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void CreatingInjectionParameterWithNullValueThrows()
         {
             AssertExtensions.AssertException<ArgumentNullException>(() =>
@@ -128,7 +128,7 @@ namespace Microsoft.Practices.Unity.Tests
                 });
         }
 
-        [TestMethod]
+        [Fact]
         public void InjectionParameterForNullValueReturnsExpectedValueIfTypeIsSuppliedExplicitly()
         {
             var parameter = new InjectionParameter(typeof(string), null);
@@ -141,9 +141,9 @@ namespace Microsoft.Practices.Unity.Tests
             IDependencyResolverPolicy resolver = parameter.GetResolverPolicy(expectedType);
             object result = resolver.Resolve(null);
 
-            Assert.AreEqual(expectedType, parameter.ParameterType);
+            Assert.Equal(expectedType, parameter.ParameterType);
             AssertExtensions.IsInstanceOfType(resolver, typeof(LiteralValueDependencyResolverPolicy));
-            Assert.AreEqual(expectedValue, result);
+            Assert.Equal(expectedValue, result);
         }
 
         private List<InjectionParameterValue> GetParameterValues(params object[] values)

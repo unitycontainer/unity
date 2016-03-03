@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using Microsoft.Practices.Unity.ObjectBuilder;
-using Microsoft.Practices.Unity.Tests.TestDoubles;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.ObjectBuilder;
+using Unity.Tests.TestDoubles;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -11,36 +11,36 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
-    [TestClass]
+     
     public class UnityExtensionFixture
     {
-        [TestMethod]
+        [Fact]
         public void ContainerCallsExtensionsInitializeMethod()
         {
             MockContainerExtension extension = new MockContainerExtension();
             IUnityContainer container = new UnityContainer();
             container.AddExtension(extension);
 
-            Assert.IsTrue(extension.InitializeWasCalled);
+            Assert.True(extension.InitializeWasCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExtensionReceivesExtensionContextInInitialize()
         {
             MockContainerExtension extension = new MockContainerExtension();
             IUnityContainer container = new UnityContainer();
             container.AddExtension(extension);
 
-            Assert.IsNotNull(extension.Context);
-            Assert.AreSame(container, extension.Context.Container);
+            Assert.NotNull(extension.Context);
+            Assert.Same(container, extension.Context.Container);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanGetConfigurationInterfaceFromExtension()
         {
             MockContainerExtension extension = new MockContainerExtension();
@@ -49,11 +49,11 @@ namespace Microsoft.Practices.Unity.Tests
 
             IMockConfiguration config = container.Configure<IMockConfiguration>();
 
-            Assert.AreSame(extension, config);
-            Assert.AreSame(container, config.Container);
+            Assert.Same(extension, config);
+            Assert.Same(container, config.Container);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanGetConfigurationWithoutGenericMethod()
         {
             MockContainerExtension extension = new MockContainerExtension();
@@ -62,11 +62,11 @@ namespace Microsoft.Practices.Unity.Tests
 
             IMockConfiguration config = (IMockConfiguration)container.Configure(typeof(IMockConfiguration));
 
-            Assert.AreSame(extension, config);
-            Assert.AreSame(container, config.Container);
+            Assert.Same(extension, config);
+            Assert.Same(container, config.Container);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExtensionCanAddStrategy()
         {
             SpyStrategy spy = new SpyStrategy();
@@ -76,11 +76,11 @@ namespace Microsoft.Practices.Unity.Tests
                 .AddExtension(extension);
 
             object result = container.Resolve<object>();
-            Assert.IsTrue(spy.BuildUpWasCalled);
-            Assert.AreSame(result, spy.Existing);
+            Assert.True(spy.BuildUpWasCalled);
+            Assert.Same(result, spy.Existing);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExtensionCanAddPolicy()
         {
             SpyStrategy spy = new SpyStrategy();
@@ -94,10 +94,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             container.Resolve<object>();
 
-            Assert.IsTrue(spyPolicy.WasSpiedOn);
+            Assert.True(spyPolicy.WasSpiedOn);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanReinstallDefaultBehavior()
         {
             IUnityContainer container = new UnityContainer()
@@ -106,10 +106,10 @@ namespace Microsoft.Practices.Unity.Tests
                 .AddExtension(new UnityDefaultStrategiesExtension());
 
             object result = container.Resolve<object>();
-            Assert.IsNotNull(result);
+            Assert.NotNull(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanLookupExtensionByClassName()
         {
             MockContainerExtension extension = new MockContainerExtension();
@@ -118,10 +118,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             MockContainerExtension result = container.Configure<MockContainerExtension>();
 
-            Assert.AreSame(extension, result);
+            Assert.Same(extension, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void ContainerRaisesChildContainerCreatedToExtension()
         {
             bool childContainerEventRaised = false;
@@ -136,10 +136,10 @@ namespace Microsoft.Practices.Unity.Tests
                 };
 
             var child = container.CreateChildContainer();
-            Assert.IsTrue(childContainerEventRaised);
+            Assert.True(childContainerEventRaised);
         }
 
-        [TestMethod]
+        [Fact]
         public void ChildContainerCreatedEventGivesChildContainerToExtension()
         {
             var mockExtension = new MockContainerExtension();
@@ -154,16 +154,16 @@ namespace Microsoft.Practices.Unity.Tests
             };
 
             var child = container.CreateChildContainer();
-            Assert.AreSame(child, childContext.Container);
+            Assert.Same(child, childContext.Container);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanAddExtensionWithNonDefaultConstructor()
         {
             IUnityContainer container = new UnityContainer();
             container.AddNewExtension<ContainerExtensionWithNonDefaultConstructor>();
             var extension = container.Configure(typeof(ContainerExtensionWithNonDefaultConstructor));
-            Assert.IsNotNull(extension);
+            Assert.NotNull(extension);
         }
     }
 }

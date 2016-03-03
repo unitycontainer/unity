@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -11,12 +11,12 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
-    [TestClass]
+     
     public class StagedStrategyChainTest
     {
         private static void AssertOrder(IStrategyChain chain,
@@ -26,7 +26,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             CollectionAssertExtensions.AreEqual(strategies, strategiesInChain);
         }
 
-        [TestMethod]
+        [Fact]
         public void InnerStrategiesComeBeforeOuterStrategiesInStrategyChain()
         {
             StagedStrategyChain<FakeStage> innerChain = new StagedStrategyChain<FakeStage>();
@@ -41,7 +41,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             AssertOrder(chain, innerStrategy, outerStrategy);
         }
 
-        [TestMethod]
+        [Fact]
         public void OrderingAcrossStagesForStrategyChain()
         {
             StagedStrategyChain<FakeStage> innerChain = new StagedStrategyChain<FakeStage>();
@@ -60,7 +60,7 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
             AssertOrder(chain, innerStage1, outerStage1, innerStage2, outerStage2);
         }
 
-        [TestMethod]
+        [Fact]
         public void MultipleChildContainers()
         {
             StagedStrategyChain<FakeStage> innerChain = new StagedStrategyChain<FakeStage>();

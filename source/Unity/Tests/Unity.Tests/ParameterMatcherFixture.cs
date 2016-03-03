@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Practices.Unity.Utility;
+using Unity.Utility;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -11,51 +11,51 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     /// <summary>
     /// Tests around the 
     /// </summary>
-    [TestClass]
+     
     public class ParameterMatcherFixture
     {
-        [TestMethod]
+        [Fact]
         public void EmptyParameterListMatches()
         {
             ParameterMatcher matcher = new ParameterMatcher(Parameters());
 
-            Assert.IsTrue(matcher.Matches(Types()));
+            Assert.True(matcher.Matches(Types()));
         }
 
-        [TestMethod]
+        [Fact]
         public void MismatchedParameterListsDontMatch()
         {
             ParameterMatcher matcher = new ParameterMatcher(Parameters());
-            Assert.IsFalse(matcher.Matches(Types(typeof(int))));
+            Assert.False(matcher.Matches(Types(typeof(int))));
         }
 
-        [TestMethod]
+        [Fact]
         public void SameLengthDifferentTypesDontMatch()
         {
             ParameterMatcher matcher = new ParameterMatcher(Parameters(typeof(int)));
-            Assert.IsFalse(matcher.Matches(Types(typeof(string))));
+            Assert.False(matcher.Matches(Types(typeof(string))));
         }
 
-        [TestMethod]
+        [Fact]
         public void SameLengthSameTypesMatch()
         {
             ParameterMatcher matcher = new ParameterMatcher(Parameters(typeof(int), typeof(string)));
-            Assert.IsTrue(matcher.Matches(Types(typeof(int), typeof(string))));
+            Assert.True(matcher.Matches(Types(typeof(int), typeof(string))));
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenGenericTypesMatch()
         {
             ParameterMatcher matcher = new ParameterMatcher(Parameters(typeof(ICommand<>), typeof(ICommand<>)));
-            Assert.IsTrue(matcher.Matches(Types(typeof(ICommand<>), typeof(ICommand<>))));
+            Assert.True(matcher.Matches(Types(typeof(ICommand<>), typeof(ICommand<>))));
         }
 
         private static InjectionParameterValue[] Parameters(params Type[] types)

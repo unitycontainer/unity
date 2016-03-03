@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests.TestDoubles
+namespace ObjectBuilder2.Tests.TestDoubles
 {
     [AttributeUsage(AttributeTargets.Constructor)]
     public class InjectionConstructorAttribute : Attribute

@@ -3,14 +3,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity.ServiceLocation.Tests.Components;
+using Unity.ServiceLocator;
+using Unity.ServiceLocation.Tests.Components;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
 using NUnit.Framework;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
 namespace Unity.ServiceLocation.Tests
@@ -29,8 +29,9 @@ namespace Unity.ServiceLocation.Tests
         public void GetInstance()
         {
             ILogger instance = locator.GetInstance<ILogger>();
-            Assert.IsNotNull(instance);
+            Assert.NotNull(instance);
         }
+
 
         public void AskingForInvalidComponentShouldRaiseActivationException()
         {
@@ -40,14 +41,15 @@ namespace Unity.ServiceLocation.Tests
         public void GetNamedInstance()
         {
             ILogger instance = locator.GetInstance<ILogger>(typeof(AdvancedLogger).FullName);
-            Microsoft.Practices.Unity.TestSupport.AssertExtensions.IsInstanceOfType(instance, typeof(AdvancedLogger));
+            Unity.TestSupport.AssertExtensions.IsInstanceOfType(instance, typeof(AdvancedLogger));
         }
 
         public void GetNamedInstance2()
         {
             ILogger instance = locator.GetInstance<ILogger>(typeof(SimpleLogger).FullName);
-            Microsoft.Practices.Unity.TestSupport.AssertExtensions.IsInstanceOfType(instance, typeof(SimpleLogger));
+            Unity.TestSupport.AssertExtensions.IsInstanceOfType(instance, typeof(SimpleLogger));
         }
+
 
         public void GetUnknownInstance2()
         {
@@ -58,33 +60,33 @@ namespace Unity.ServiceLocation.Tests
         {
             IEnumerable<ILogger> instances = locator.GetAllInstances<ILogger>();
             IList<ILogger> list = new List<ILogger>(instances);
-            Assert.AreEqual(2, list.Count);
+            Assert.Equal(2, list.Count);
         }
 
         public void GetAllInstance_ForUnknownType_ReturnEmptyEnumerable()
         {
             IEnumerable<IDictionary> instances = locator.GetAllInstances<IDictionary>();
             IList<IDictionary> list = new List<IDictionary>(instances);
-            Assert.AreEqual(0, list.Count);
+            Assert.Equal(0, list.Count);
         }
 
         public void GenericOverload_GetInstance()
         {
-            Assert.AreEqual(
+            Assert.Equal(
                 locator.GetInstance<ILogger>().GetType(),
                 locator.GetInstance(typeof(ILogger), null).GetType());
         }
 
         public void GenericOverload_GetInstance_WithName()
         {
-            Assert.AreEqual(
+            Assert.Equal(
                 locator.GetInstance<ILogger>(typeof(AdvancedLogger).FullName).GetType(),
                 locator.GetInstance(typeof(ILogger), typeof(AdvancedLogger).FullName).GetType());
         }
 
         public void Overload_GetInstance_NoName_And_NullName()
         {
-            Assert.AreEqual(
+            Assert.Equal(
                 locator.GetInstance<ILogger>().GetType(),
                 locator.GetInstance<ILogger>(null).GetType());
         }
@@ -93,10 +95,10 @@ namespace Unity.ServiceLocation.Tests
         {
             List<ILogger> genericLoggers = new List<ILogger>(locator.GetAllInstances<ILogger>());
             List<object> plainLoggers = new List<object>(locator.GetAllInstances(typeof(ILogger)));
-            Assert.AreEqual(genericLoggers.Count, plainLoggers.Count);
+            Assert.Equal(genericLoggers.Count, plainLoggers.Count);
             for (int i = 0; i < genericLoggers.Count; i++)
             {
-                Assert.AreEqual(
+                Assert.Equal(
                     genericLoggers[i].GetType(),
                     plainLoggers[i].GetType());
             }
@@ -115,11 +117,11 @@ namespace Unity.ServiceLocation.Tests
             }
             catch (Exception ex)
             {
-                Assert.Fail("Expected exception {0}, but instead exception {1} was thrown",
+                Assert.True(false, string.Format("Expected exception {0}, but instead exception {1} was thrown",
                     typeof(TException).Name,
-                    ex.GetType().Name);
+                    ex.GetType().Name));
             }
-            Assert.Fail("Expected exception {0}, no exception thrown", typeof(TException).Name);
+            Assert.True(false, string.Format("Expected exception {0}, no exception thrown", typeof(TException).Name));
         }
     }
 }

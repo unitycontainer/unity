@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.Practices.ObjectBuilder2;
+using ObjectBuilder2;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -10,34 +10,34 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     /// <summary>
     /// Summary description for OptionalDependencyResolverPolicyFixture
     /// </summary>
-    [TestClass]
+     
     public class OptionalDependencyResolverPolicyFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanCreateResolverWithNoName()
         {
             var resolver = new OptionalDependencyResolverPolicy(typeof(object));
-            Assert.AreEqual(typeof(object), resolver.DependencyType);
-            Assert.IsNull(resolver.Name);
+            Assert.Equal(typeof(object), resolver.DependencyType);
+            Assert.Null(resolver.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanCreateResolverWithName()
         {
             var resolver = new OptionalDependencyResolverPolicy(typeof(object), "name");
-            Assert.AreEqual(typeof(object), resolver.DependencyType);
-            Assert.AreEqual("name", resolver.Name);
+            Assert.Equal(typeof(object), resolver.DependencyType);
+            Assert.Equal("name", resolver.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolverReturnsNullWhenDependencyIsNotResolved()
         {
             IBuilderContext context = GetMockContextThatThrows();
@@ -45,10 +45,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             object result = resolver.Resolve(context);
 
-            Assert.IsNull(result);
+            Assert.Null(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolverReturnsBuiltObject()
         {
             string expected = "Here's the string to resolve";
@@ -57,10 +57,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             object result = resolver.Resolve(context);
 
-            Assert.AreSame(expected, result);
+            Assert.Same(expected, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void ResolverReturnsProperNamedObject()
         {
             string expected = "We want this one";
@@ -87,7 +87,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             object result = resolver.Resolve(mainContext);
 
-            Assert.AreSame(expected, result);
+            Assert.Same(expected, result);
         }
 
         #region Helper methods and classes to get appropriate OB mock contexts

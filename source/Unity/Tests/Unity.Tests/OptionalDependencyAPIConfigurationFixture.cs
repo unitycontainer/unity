@@ -12,26 +12,25 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     /// <summary>
     /// Summary description for OptionalDependencyAPIConfigurationFixture
     /// </summary>
-    [TestClass]
+     
     public class OptionalDependencyAPIConfigurationFixture
     {
         private IUnityContainer container;
 
-        [TestInitialize]
-        public void Setup()
+        public OptionalDependencyAPIConfigurationFixture()
         {
             container = new UnityContainer();
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureConstructorWithOptionalDependency()
         {
             container.RegisterType<GuineaPig>(
@@ -39,10 +38,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = container.Resolve<GuineaPig>();
 
-            Assert.IsNull(result.Pig);
+            Assert.Null(result.Pig);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanResolveOptionalDependencyWhenConfiguredByAPI()
         {
             IGuineaPig mockPig = new GuineaPigImpl();
@@ -53,10 +52,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = container.Resolve<GuineaPig>();
 
-            Assert.AreSame(mockPig, result.Pig);
+            Assert.Same(mockPig, result.Pig);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanResolveOptionalDependenciesByNameWithAPI()
         {
             IGuineaPig expected = new GuineaPigImpl();
@@ -67,10 +66,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = container.Resolve<GuineaPig>();
 
-            Assert.AreSame(expected, result.Pig);
+            Assert.Same(expected, result.Pig);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureOptionalPropertiesViaAPI()
         {
             container.RegisterType<GuineaPig>(
@@ -79,10 +78,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = container.Resolve<GuineaPig>();
 
-            Assert.IsNull(result.Pig);
+            Assert.Null(result.Pig);
         }
 
-        [TestMethod]
+        [Fact]
         public void CanConfigureOptionalParameterToInjectionMethod()
         {
             IGuineaPig expected = new GuineaPigImpl();
@@ -94,7 +93,7 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = container.Resolve<GuineaPig>();
 
-            Assert.AreSame(expected, result.Pig);
+            Assert.Same(expected, result.Pig);
         }
 
         public class GuineaPig

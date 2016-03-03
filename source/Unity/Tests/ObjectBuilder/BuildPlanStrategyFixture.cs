@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using Microsoft.Practices.Unity.TestSupport;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -9,15 +9,15 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.ObjectBuilder2.Tests
+namespace ObjectBuilder2.Tests
 {
-    [TestClass]
+     
     public class BuildPlanStrategyFixture
     {
-        [TestMethod]
+        [Fact]
         public void StrategyGetsBuildPlanFromPolicySet()
         {
             MockBuilderContext context = new MockBuilderContext();
@@ -29,11 +29,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             object result = context.ExecuteBuildUp(new NamedTypeBuildKey<object>(), null);
 
-            Assert.IsTrue(plan.BuildUpCalled);
-            Assert.AreSame(instance, result);
+            Assert.True(plan.BuildUpCalled);
+            Assert.Same(instance, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void StrategyCreatesBuildPlanWhenItDoesntExist()
         {
             MockBuilderContext context = new MockBuilderContext();
@@ -43,11 +43,11 @@ namespace Microsoft.Practices.ObjectBuilder2.Tests
 
             object result = context.ExecuteBuildUp(new NamedTypeBuildKey<object>(), null);
 
-            Assert.IsNotNull(result);
-            Assert.IsTrue(policy.PolicyWasCreated);
+            Assert.NotNull(result);
+            Assert.True(policy.PolicyWasCreated);
 
             IBuildPlanPolicy plan = context.Policies.Get<IBuildPlanPolicy>(new NamedTypeBuildKey(typeof(object)));
-            Assert.IsNotNull(plan);
+            Assert.NotNull(plan);
         }
     }
 

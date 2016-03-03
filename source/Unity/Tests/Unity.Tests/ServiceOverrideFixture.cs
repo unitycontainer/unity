@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.Practices.ObjectBuilder2;
-using Microsoft.Practices.Unity.ObjectBuilder;
-using Microsoft.Practices.Unity.TestSupport;
+using ObjectBuilder2;
+using Unity.ObjectBuilder;
+using Unity.TestSupport;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -12,19 +12,19 @@ using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
 using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 using TestMethodAttribute = NUnit.Framework.TestAttribute;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 #endif
 
-namespace Microsoft.Practices.Unity.Tests
+namespace Unity.Tests
 {
     /// <summary>
     /// Test cases around service overrides and passing parameters to
     /// the container's Resolve method.
     /// </summary>
-    [TestClass]
+     
     public class ServiceOverrideFixture
     {
-        [TestMethod]
+        [Fact]
         public void CanProvideConstructorParameterViaResolveCall()
         {
             const int ConfiguredValue = 15; // Just need a number, value has no signficance.
@@ -35,10 +35,10 @@ namespace Microsoft.Practices.Unity.Tests
             var result =
                 container.Resolve<SimpleTestObject>(new ParameterOverride("x", ExpectedValue));
 
-            Assert.AreEqual(ExpectedValue, result.X);
+            Assert.Equal(ExpectedValue, result.X);
         }
 
-        [TestMethod]
+        [Fact]
         public void OverrideDoesntLastAfterResolveCall()
         {
             const int ConfiguredValue = 15; // Just need a number, value has no signficance.
@@ -50,10 +50,10 @@ namespace Microsoft.Practices.Unity.Tests
 
             var result = container.Resolve<SimpleTestObject>();
 
-            Assert.AreEqual(ConfiguredValue, result.X);
+            Assert.Equal(ConfiguredValue, result.X);
         }
 
-        [TestMethod]
+        [Fact]
         public void OverrideIsUsedInRecursiveBuilds()
         {
             const int ExpectedValue = 42; // Just need a number, value has no significance.
@@ -62,10 +62,10 @@ namespace Microsoft.Practices.Unity.Tests
             var result = container.Resolve<ObjectThatDependsOnSimpleObject>(
                 new ParameterOverride("x", ExpectedValue));
 
-            Assert.AreEqual(ExpectedValue, result.TestObject.X);
+            Assert.Equal(ExpectedValue, result.TestObject.X);
         }
 
-        [TestMethod]
+        [Fact]
         public void NonMatchingOverridesAreIgnored()
         {
             const int ExpectedValue = 42; // Just need a number, value has no significance.
@@ -78,10 +78,10 @@ namespace Microsoft.Practices.Unity.Tests
                     { "x", ExpectedValue } 
                 }.OnType<SimpleTestObject>());
 
-            Assert.AreEqual(ExpectedValue, result.X);
+            Assert.Equal(ExpectedValue, result.X);
         }
 
-        [TestMethod]
+        [Fact]
         public void DependencyOverrideOccursEverywhereTypeMatches()
         {
             var container = new UnityContainer()
@@ -94,11 +94,11 @@ namespace Microsoft.Practices.Unity.Tests
             var result = container.Resolve<ObjectThatDependsOnSimpleObject>(
                 new DependencyOverride<SimpleTestObject>(overrideValue));
 
-            Assert.AreSame(overrideValue, result.TestObject);
-            Assert.AreSame(overrideValue, result.OtherTestObject);
+            Assert.Same(overrideValue, result.TestObject);
+            Assert.Same(overrideValue, result.OtherTestObject);
         }
 
-        [TestMethod]
+        [Fact]
         public void ParameterOverrideMatchesWhenCurrentOperationIsResolvingMatchingParameter()
         {
             var context = new MockBuilderContext
@@ -110,14 +110,14 @@ namespace Microsoft.Practices.Unity.Tests
 
             var resolver = overrider.GetResolver(context, typeof(int));
 
-            Assert.IsNotNull(resolver);
+            Assert.NotNull(resolver);
             AssertExtensions.IsInstanceOfType(resolver, typeof(LiteralValueDependencyResolverPolicy));
 
             var result = (int)resolver.Resolve(context);
-            Assert.AreEqual(42, result);
+            Assert.Equal(42, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void ParameterOverrideCanResolveOverride()
         {
             var container = new UnityContainer()
@@ -130,7 +130,7 @@ namespace Microsoft.Practices.Unity.Tests
             AssertExtensions.IsInstanceOfType(result.MySomething, typeof(Something2));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanOverridePropertyValue()
         {
             var container = new UnityContainer()
@@ -143,11 +143,11 @@ namespace Microsoft.Practices.Unity.Tests
             var result = container.Resolve<ObjectTakingASomething>(
                 new PropertyOverride("MySomething", new ResolvedParameter<ISomething>("other")).OnType<ObjectTakingASomething>());
 
-            Assert.IsNotNull(result.MySomething);
+            Assert.NotNull(result.MySomething);
             AssertExtensions.IsInstanceOfType(result.MySomething, typeof(Something2));
         }
 
-        [TestMethod]
+        [Fact]
         public void PropertyValueOverrideForTypeDifferentThanResolvedTypeIsIgnored()
         {
             var container = new UnityContainer()
@@ -160,11 +160,11 @@ namespace Microsoft.Practices.Unity.Tests
             var result = container.Resolve<ObjectTakingASomething>(
                 new PropertyOverride("MySomething", new ResolvedParameter<ISomething>("other")).OnType<ObjectThatDependsOnSimpleObject>());
 
-            Assert.IsNotNull(result.MySomething);
+            Assert.NotNull(result.MySomething);
             AssertExtensions.IsInstanceOfType(result.MySomething, typeof(Something1));
         }
 
-        [TestMethod]
+        [Fact]
         public void CanOverridePropertyValueWithNullWithExplicitInjectionParameter()
         {
             var container = new UnityContainer()
@@ -177,10 +177,10 @@ namespace Microsoft.Practices.Unity.Tests
             var result = container.Resolve<ObjectTakingASomething>(
                 new PropertyOverride("MySomething", new InjectionParameter<ISomething>(null)).OnType<ObjectTakingASomething>());
 
-            Assert.IsNull(result.MySomething);
+            Assert.Null(result.MySomething);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreatingAPropertyOverrideForANullValueThrows()
         {
             AssertExtensions.AssertException<ArgumentNullException>(() =>
@@ -189,7 +189,7 @@ namespace Microsoft.Practices.Unity.Tests
                 });
         }
 
-        [TestMethod]
+        [Fact]
         public void CanOverrideDependencyWithExplicitInjectionParameterValue()
         {
             var container = new UnityContainer()
@@ -200,11 +200,11 @@ namespace Microsoft.Practices.Unity.Tests
 
             var instance = container.Resolve<Outer>(new DependencyOverride<int>(new InjectionParameter(50)).OnType<Inner>());
 
-            Assert.AreEqual(10, instance.LogLevel);
-            Assert.AreEqual(50, instance.Inner.LogLevel);
+            Assert.Equal(10, instance.LogLevel);
+            Assert.Equal(50, instance.Inner.LogLevel);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreatingATypeOverrideForANullTypeThrows()
         {
             AssertExtensions.AssertException<ArgumentNullException>(() =>
@@ -213,7 +213,7 @@ namespace Microsoft.Practices.Unity.Tests
                 });
         }
 
-        [TestMethod]
+        [Fact]
         public void CreatingATypeOverrideForANullOverrideThrows()
         {
             AssertExtensions.AssertException<ArgumentNullException>(() =>

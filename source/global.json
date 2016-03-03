@@ -1,5 +1,5 @@
 {
-  "projects": [ "Unity/Tests", "Unity/Src", "Unity.Mvc6", "." ],
+  "projects": [ "Unity/Tests", "Unity/Src", "." ],
   "sdk": {
     "version": "1.0.0-rc1-update1"
   }

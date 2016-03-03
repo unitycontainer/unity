@@ -23,25 +23,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestAssemblies", "TestAssemblies", "{897BE377-FB20-4C9E-998B-71521C0743A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissingAssembly", "Unity\Tests\TestAssemblies\MissingAssembly\MissingAssembly.csproj", "{D5986F12-55BB-47FC-8A96-E8E8BBF1278F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissingAssembly", "Tests\TestAssemblies\MissingAssembly\MissingAssembly.csproj", "{D5986F12-55BB-47FC-8A96-E8E8BBF1278F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNetAssembly", "Unity\Tests\TestAssemblies\TestNetAssembly\TestNetAssembly.csproj", "{F877EDF4-DC1F-4700-939D-8F425554C971}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNetAssembly", "Tests\TestAssemblies\TestNetAssembly\TestNetAssembly.csproj", "{F877EDF4-DC1F-4700-939D-8F425554C971}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotReferencedTestNetAssembly", "Unity\Tests\TestAssemblies\NotReferencedTestNetAssembly\NotReferencedTestNetAssembly.csproj", "{9EB77C40-393C-497B-996B-8745A122F369}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotReferencedTestNetAssembly", "Tests\TestAssemblies\NotReferencedTestNetAssembly\NotReferencedTestNetAssembly.csproj", "{9EB77C40-393C-497B-996B-8745A122F369}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Unity-CoreClr", "Unity\Src\Unity-CoreClr\Unity-CoreClr.xproj", "{2864072C-44EC-4D9D-BED9-C6176148EC86}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Unity-CoreClr", "Src\Unity-CoreClr\Unity-CoreClr.xproj", "{2864072C-44EC-4D9D-BED9-C6176148EC86}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Unity.TestSupport", "Unity\Tests\TestSupport.Unity\Unity.TestSupport.xproj", "{19DE910F-D3F0-4979-86F0-D157F03AB5D3}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Unity.TestSupport", "Tests\TestSupport.Unity\Unity.TestSupport.xproj", "{19DE910F-D3F0-4979-86F0-D157F03AB5D3}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ObjectBuilder.Tests", "Unity\Tests\ObjectBuilder\ObjectBuilder.Tests.xproj", "{991B7E68-DDAB-4C83-BACA-32EE43930F2E}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ObjectBuilder.Tests", "Tests\ObjectBuilder\ObjectBuilder.Tests.xproj", "{991B7E68-DDAB-4C83-BACA-32EE43930F2E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Unity.ServiceLocation.Tests", "Unity\Tests\Unity.ServiceLocation.Tests\Unity.ServiceLocation.Tests.xproj", "{06F206E8-65DD-4CD9-8C14-5CD4384CFB6D}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Unity.ServiceLocation.Tests", "Tests\Unity.ServiceLocation.Tests\Unity.ServiceLocation.Tests.xproj", "{06F206E8-65DD-4CD9-8C14-5CD4384CFB6D}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Unity.Tests", "Unity\Tests\Unity.Tests\Unity.Tests.xproj", "{86EE0D49-78A0-46A9-AEDC-C22716612E28}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Unity.Tests", "Tests\Unity.Tests\Unity.Tests.xproj", "{86EE0D49-78A0-46A9-AEDC-C22716612E28}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Unity.Mvc6", "Unity.Mvc6\Unity.Mvc6.xproj", "{3C882049-413A-47FC-9395-A0D68E58E2B9}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Unity.Mvc6", "Src\Unity.Mvc6\Unity.Mvc6.xproj", "{3C882049-413A-47FC-9395-A0D68E58E2B9}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Web.Tests", "Unity\Tests\Web.Tests\Web.Tests.xproj", "{650A5A85-5956-491E-9312-5E25A27D1108}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Web.Tests", "Tests\Web.Tests\Web.Tests.xproj", "{650A5A85-5956-491E-9312-5E25A27D1108}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

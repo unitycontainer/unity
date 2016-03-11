@@ -5,8 +5,8 @@ using System.Reflection;
 using System.Security;
 
 [assembly: CLSCompliant(true)]
-[assembly: AssemblyProduct("Microsoft Unity Application Block")]
-[assembly: AssemblyCompany("Microsoft Corporation")]
+[assembly: AssemblyProduct("Unity Core")]
+[assembly: AssemblyCompany("")]
 
 [assembly: SecurityTransparent]
 
@@ -15,10 +15,10 @@ using System.Security;
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
-[assembly: AssemblyCopyright("Copyright © Microsoft Corporation")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("4.0.0.0")]
-[assembly: AssemblyFileVersion("4.0.0.0")]
-[assembly: AssemblyInformationalVersion("4.0.0")]
+[assembly: AssemblyVersion("0.0.1.0")]
+[assembly: AssemblyFileVersion("0.0.1.0")]
+[assembly: AssemblyInformationalVersion("0.0.1")]

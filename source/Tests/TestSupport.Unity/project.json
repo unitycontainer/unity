@@ -7,7 +7,7 @@
   "licenseUrl": "",
   "dependencies": {
     "xunit.assert": "2.1.0",
-    "Unity-CoreClr": "1.0.0.0-beta2"
+    "Unity-CoreClr": "1.0.0.0-beta3"
   },
 
   "frameworks": {

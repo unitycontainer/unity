@@ -38,10 +38,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unity.ServiceLocator-CoreClr, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\Unity.ServiceLocator-CoreClr.1.0.0-beta2\lib\net45\Unity.ServiceLocator-CoreClr.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseClass.cs" />

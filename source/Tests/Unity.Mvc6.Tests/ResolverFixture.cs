@@ -3,7 +3,6 @@ using System.Linq;
 //using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using ServiceProviderExtensions = Microsoft.Framework.DependencyInjection.ServiceProviderExtensions;
 
 namespace Unity.Mvc.Tests
 {

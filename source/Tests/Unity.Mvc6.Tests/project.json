@@ -6,15 +6,6 @@
   "projectUrl": "",
   "licenseUrl": "",
   "frameworks": {
-    "dotnet5.4": {
-      "dependencies": {
-        "Microsoft.CSharp": "4.0.1-beta-23516",
-        "System.Collections": "4.0.11-beta-23225",
-        "System.Linq": "4.0.1-beta-23516",
-        "System.Runtime": "4.0.21-beta-23516",
-        "System.Threading": "4.0.11-beta-23516"
-      }
-    },
     "dnxcore50": {
       "dependencies": {
         "Microsoft.CSharp": "4.0.1-beta-23516",
@@ -22,18 +13,17 @@
         "System.Linq": "4.0.1-beta-23516",
         "System.Runtime": "4.0.21-beta-23516",
         "System.Threading": "4.0.11-beta-23516",
-        "xunit.runner.dnx": "2.1.0-beta6-build191"
+        "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1-final",
+        "runtime.win7.System.Private.Uri": "4.0.1-beta-23516",
+        "Unity-CoreClr": "1.0.0-beta3",
+        "Unity.Mvc6": "1.0.0-beta3",
+        "xunit.core": "2.1.0",
+        "xunit.runner.dnx": "2.1.0-rc1-build204",
+        "TestSupport.Unity": "1.0.0.0-beta"
       }
     }
   },
-  "dependencies": {
-    "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1-final",
-    "runtime.win7.System.Private.Uri": "4.0.1-beta-23516",
-    "Unity-CoreClr": "1.0.0-beta3",
-    "Unity.Mvc6": "1.0.0-beta3",
-    "xunit": "2.1.0"
-  },
   "commands": {
-    "test": "xunit.runner.dnx"
+    "test": "xunit.runner.dnx -xml testresults.xml"
   }
 }

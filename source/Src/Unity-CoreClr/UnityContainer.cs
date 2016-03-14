@@ -188,7 +188,7 @@ namespace Unity
                 }
                 else
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }

@@ -19,6 +19,7 @@
       "Microsoft.CSharp": "4.0.1-beta-23516"
     },
     "dotnet5.4": {
-    }
+    },
+    "dotnet": {}
   }
 }

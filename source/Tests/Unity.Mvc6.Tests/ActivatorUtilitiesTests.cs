@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection.Specification.Fakes;
+using Unity;
 #if NETFX_CORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #elif __IOS__
@@ -135,8 +136,8 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
         public void TypeActivatorRequiresPublicConstructor(CreateInstanceFunc createFunc, Type type)
         {
             // Arrange
-            var expectedMessage = $"A suitable constructor for type '{type}' could not be located. " +
-                "Ensure the type is concrete and services are registered for all parameters of a public constructor.";
+            var expectedMessage = $"Unable to locate suitable constructor for type '{type}'. " +
+                "Ensure the type is concrete and all parameters are accepted by a constructor.";
 
             // Act and Assert
             var ex = Assert.Throws<InvalidOperationException>(() =>
@@ -150,8 +151,8 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
         public void TypeActivatorRequiresAllArgumentsCanBeAccepted(CreateInstanceFunc createFunc)
         {
             // Arrange
-            var expectedMessage = $"A suitable constructor for type '{typeof(AnotherClassAcceptingData).FullName}' could not be located. " +
-                "Ensure the type is concrete and services are registered for all parameters of a public constructor.";
+            var expectedMessage = $"Unable to locate suitable constructor for type '{typeof(AnotherClassAcceptingData).FullName}'. " +
+                "Ensure the type is concrete and all parameters are accepted by a constructor.";
             var serviceCollection = new ServiceCollection()
                 .AddTransient<IFakeService, FakeService>();
             var serviceProvider = CreateServiceProvider(serviceCollection);
@@ -288,11 +289,9 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
                 .AddSingleton<CreationCountFakeService>();
             var serviceProvider = CreateServiceProvider(serviceCollection);
 
-            var ex = Assert.Throws<InvalidOperationException>(() =>
+            var ex = Assert.Throws<ResolutionFailedException>(() =>
             CreateInstance<CreationCountFakeService>(createFunc, serviceProvider));
-            Assert.Equal($"Unable to resolve service for type '{typeof(IFakeService)}' while attempting" +
-                $" to activate '{typeof(CreationCountFakeService)}'.",
-                ex.Message);
+            Assert.True(ex.Message.StartsWith($"Resolution of the dependency failed, type = \"{typeof(IFakeService)}\""));
         }
     }
 }

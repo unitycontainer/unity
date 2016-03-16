@@ -10,16 +10,37 @@
   },
   "dependencies": {
     "System.Diagnostics.Tools": "4.0.0",
-    "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225",
     "Unity.ServiceLocator-CoreClr": "1.0.0-beta2"
   },
 
   "frameworks": {
     "dnxcore50": {
-      "Microsoft.CSharp": "4.0.1-beta-23516"
+      "Microsoft.CSharp": "4.0.1-beta-23516",
+      "dependencies": {
+        "runtime.any.System.Private.DataContractSerialization": "4.1.0-beta-23516"
+      }
+
     },
     "dotnet5.4": {
+      "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225"
     },
-    "dotnet": {}
+    "dotnet": {
+      "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225"
+    },
+    "net46": {
+      "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225"
+    },
+    "net45": {
+      "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225"
+    },
+    "netcore45": {
+      "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225"
+    },
+    "netcore451": {
+      "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225"
+    },
+    "dnx46": {
+      "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225"
+    }
   }
 }

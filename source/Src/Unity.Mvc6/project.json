@@ -19,7 +19,12 @@
         "System.Threading": "4.0.11-beta-23516"
       }
     },
-    "dnxcore50": {}
+    "dnxcore50": {
+
+    },
+    "dnx46": {
+      
+    }
   },
   "dependencies": {
     "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1-final",

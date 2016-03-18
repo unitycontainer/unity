@@ -25,10 +25,18 @@
       "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225"
     },
     "dotnet": {
-      "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225"
+      "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225",
+      "System.Runtime": {
+        "type": "build",
+        "version": ""
+      }
     },
     "net46": {
-      "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225"
+      "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225",
+      "System.Runtime": {
+        "type": "build",
+        "version": ""
+      }
     },
     "net45": {
       "System.Runtime.Serialization.Primitives": "4.0.11-beta-23225"

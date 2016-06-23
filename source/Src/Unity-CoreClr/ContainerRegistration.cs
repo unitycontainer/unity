@@ -13,7 +13,7 @@ namespace Unity
     {
         private readonly NamedTypeBuildKey buildKey;
 
-        internal ContainerRegistration(Type registeredType, string name, IPolicyList policies)
+        public ContainerRegistration(Type registeredType, string name, IPolicyList policies)
         {
             this.buildKey = new NamedTypeBuildKey(registeredType, name);
             MappedToType = GetMappedType(policies);

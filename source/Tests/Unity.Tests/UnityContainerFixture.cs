@@ -337,6 +337,15 @@ namespace Unity.Tests
         }
 
         [Fact]
+        public void DisposingContainerDoesNotRecursivelyDisposeSelf()
+        {
+            IUnityContainer container = new UnityContainer();
+            container.RegisterInstance(container);
+            // This line should not throw a StackOverflow
+            container.Dispose();
+        }
+
+        [Fact]
         public void ContainerDefaultsToInstanceOwnership()
         {
             DisposableObject o = new DisposableObject();

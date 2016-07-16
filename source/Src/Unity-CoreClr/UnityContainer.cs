@@ -469,6 +469,8 @@ namespace Unity
             GC.SuppressFinalize(this); // Shut FxCop up
         }
 
+        private bool inDispose = false;
+
         /// <summary>
         /// Dispose this container instance.
         /// </summary>
@@ -478,8 +480,12 @@ namespace Unity
         /// method, false if being called from a finalizer.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && !inDispose)
             {
+                // Avoid infinite loop when someone
+                //  registers something which would end up 
+                //  disposing this container (e.g. container.RegisterInsance(container))
+                inDispose = true;
                 if (lifetimeContainer != null)
                 {
                     lifetimeContainer.Dispose();

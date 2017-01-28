@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AmbiguousInjectionConstructor" xml:space="preserve">
+    <value>The type {0} has multiple constructors of length {1}. Unable to disambiguate.</value>
+  </data>
+  <data name="ArgumentMustNotBeEmpty" xml:space="preserve">
+    <value>The provided string argument must not be empty.</value>
+  </data>
+  <data name="BuildFailedException" xml:space="preserve">
+    <value>The current build operation (build key {2}) failed: {3} (Strategy type {0}, index {1})</value>
+  </data>
+  <data name="CannotConstructAbstractClass" xml:space="preserve">
+    <value>The current type, {0}, is an abstract class and cannot be constructed. Are you missing a type mapping?</value>
+  </data>
+  <data name="CannotConstructDelegate" xml:space="preserve">
+    <value>The current type, {0}, is delegate and cannot be constructed. Unity only supports resolving Func&lt;T&gt; and Func&lt;IEnumerable&lt;T&gt;&gt; by default.</value>
+  </data>
+  <data name="CannotConstructInterface" xml:space="preserve">
+    <value>The current type, {0}, is an interface and cannot be constructed. Are you missing a type mapping?</value>
+  </data>
+  <data name="CannotExtractTypeFromBuildKey" xml:space="preserve">
+    <value>Cannot extract type from build key {0}.</value>
+  </data>
+  <data name="CannotInjectGenericMethod" xml:space="preserve">
+    <value>The method {0}.{1}({2}) is an open generic method. Open generic methods cannot be injected.</value>
+  </data>
+  <data name="CannotInjectIndexer" xml:space="preserve">
+    <value>The property {0} on type {1} is an indexer. Indexed properties cannot be injected.</value>
+  </data>
+  <data name="CannotInjectMethodWithOutParam" xml:space="preserve">
+    <value>The method {1} on type {0} has an out parameter. Injection cannot be performed.</value>
+  </data>
+  <data name="CannotInjectMethodWithOutParams" xml:space="preserve">
+    <value>The method {0}.{1}({2}) has at least one out parameter. Methods with out parameters cannot be injected.</value>
+  </data>
+  <data name="CannotInjectMethodWithRefParams" xml:space="preserve">
+    <value>The method {0}.{1}({2}) has at least one ref parameter.Methods with ref parameters cannot be injected.</value>
+  </data>
+  <data name="CannotInjectOpenGenericMethod" xml:space="preserve">
+    <value>The method {1} on type {0} is marked for injection, but it is an open generic method. Injection cannot be performed.</value>
+  </data>
+  <data name="CannotInjectStaticMethod" xml:space="preserve">
+    <value>The method {0}.{1}({2}) is static. Static methods cannot be injected.</value>
+  </data>
+  <data name="CannotResolveOpenGenericType" xml:space="preserve">
+    <value>The type {0} is an open generic type. An open generic type cannot be resolved.</value>
+  </data>
+  <data name="ConstructorArgumentResolveOperation" xml:space="preserve">
+    <value>Resolving parameter "{0}" of constructor {1}</value>
+  </data>
+  <data name="ConstructorParameterResolutionFailed" xml:space="preserve">
+    <value>The parameter {0} could not be resolved when attempting to call constructor {1}.</value>
+  </data>
+  <data name="ExceptionNullParameterValue" xml:space="preserve">
+    <value>Parameter type inference does not work for null values. Indicate the parameter type explicitly using a properly configured instance of the InjectionParameter or InjectionParameter&lt;T&gt; classes.</value>
+  </data>
+  <data name="InvokingConstructorOperation" xml:space="preserve">
+    <value>Calling constructor {0}</value>
+  </data>
+  <data name="InvokingMethodOperation" xml:space="preserve">
+    <value>Calling method {0}.{1}</value>
+  </data>
+  <data name="KeyAlreadyPresent" xml:space="preserve">
+    <value>An item with the given key is already present in the dictionary.</value>
+  </data>
+  <data name="LifetimeManagerInUse" xml:space="preserve">
+    <value>The lifetime manager is already registered. Lifetime managers cannot be reused, please create a new one.</value>
+  </data>
+  <data name="MarkerBuildPlanInvoked" xml:space="preserve">
+    <value>The override marker build plan policy has been invoked. This should never happen, looks like a bug in the container.</value>
+  </data>
+  <data name="MethodArgumentResolveOperation" xml:space="preserve">
+    <value>Resolving parameter "{0}" of method {1}.{2}</value>
+  </data>
+  <data name="MethodParameterResolutionFailed" xml:space="preserve">
+    <value>The value for parameter "{1}" of method {0} could not be resolved. </value>
+  </data>
+  <data name="MissingDependency" xml:space="preserve">
+    <value>Could not resolve dependency for build key {0}.</value>
+  </data>
+  <data name="MultipleInjectionConstructors" xml:space="preserve">
+    <value>The type {0} has multiple constructors marked with the InjectionConstructor attribute. Unable to disambiguate.</value>
+  </data>
+  <data name="MustHaveOpenGenericType" xml:space="preserve">
+    <value>The supplied type {0} must be an open generic type.</value>
+  </data>
+  <data name="MustHaveSameNumberOfGenericArguments" xml:space="preserve">
+    <value>The supplied type {0} does not have the same number of generic arguments as the target type {1}.</value>
+  </data>
+  <data name="NoConstructorFound" xml:space="preserve">
+    <value>The type {0} does not have an accessible constructor.</value>
+  </data>
+  <data name="NoMatchingGenericArgument" xml:space="preserve">
+    <value>The type {0} does not have a generic argument named "{1}"</value>
+  </data>
+  <data name="NoOperationExceptionReason" xml:space="preserve">
+    <value>while resolving</value>
+  </data>
+  <data name="NoSuchConstructor" xml:space="preserve">
+    <value>The type {0} does not have a constructor that takes the parameters ({1}).</value>
+  </data>
+  <data name="NoSuchMethod" xml:space="preserve">
+    <value>The type {0} does not have a public method named {1} that takes the parameters ({2}).</value>
+  </data>
+  <data name="NoSuchProperty" xml:space="preserve">
+    <value>The type {0} does not contain an instance property named {1}.</value>
+  </data>
+  <data name="NotAGenericType" xml:space="preserve">
+    <value>The type {0} is not a generic type, and you are attempting to inject a generic parameter named "{1}".</value>
+  </data>
+  <data name="NotAnArrayTypeWithRankOne" xml:space="preserve">
+    <value>The type {0} is not an array type with rank 1, and you are attempting to use a [DependencyArray] attribute on a parameter or property with this type.</value>
+  </data>
+  <data name="OptionalDependenciesMustBeReferenceTypes" xml:space="preserve">
+    <value>Optional dependencies must be reference types. The type {0} is a value type.</value>
+  </data>
+  <data name="PropertyNotSettable" xml:space="preserve">
+    <value>The property {0} on type {1} is not settable.</value>
+  </data>
+  <data name="PropertyTypeMismatch" xml:space="preserve">
+    <value>The property {0} on type {1} is of type {2}, and cannot be injected with a value of type {3}.</value>
+  </data>
+  <data name="PropertyValueResolutionFailed" xml:space="preserve">
+    <value>The value for the property "{0}" could not be resolved.</value>
+  </data>
+  <data name="ProvidedStringArgMustNotBeEmpty" xml:space="preserve">
+    <value>The provided string argument must not be empty.</value>
+  </data>
+  <data name="ResolutionFailed" xml:space="preserve">
+    <value>Resolution of the dependency failed, type = "{0}", name = "{1}".
+Exception occurred while: {2}.
+Exception is: {3} - {4}
+-----------------------------------------------
+At the time of the exception, the container was:
+</value>
+  </data>
+  <data name="ResolutionTraceDetail" xml:space="preserve">
+    <value>Resolving {0},{1}</value>
+  </data>
+  <data name="ResolutionWithMappingTraceDetail" xml:space="preserve">
+    <value>Resolving {0},{1} (mapped from {2}, {3})</value>
+  </data>
+  <data name="ResolvingPropertyValueOperation" xml:space="preserve">
+    <value>Resolving value for property {0}.{1}</value>
+  </data>
+  <data name="SelectedConstructorHasRefParameters" xml:space="preserve">
+    <value>The constructor {1} selected for type {0} has ref or out parameters. Such parameters are not supported for constructor injection.</value>
+  </data>
+  <data name="SettingPropertyOperation" xml:space="preserve">
+    <value>Setting value for property {0}.{1}</value>
+  </data>
+  <data name="TypeIsNotConstructable" xml:space="preserve">
+    <value>The type {0} cannot be constructed. You must configure the container to supply this value.</value>
+  </data>
+  <data name="TypesAreNotAssignable" xml:space="preserve">
+    <value>The type {1} cannot be assigned to variables of type {0}.</value>
+  </data>
+  <data name="UnknownType" xml:space="preserve">
+    <value>&lt;unknown&gt;</value>
+  </data>
+</root>

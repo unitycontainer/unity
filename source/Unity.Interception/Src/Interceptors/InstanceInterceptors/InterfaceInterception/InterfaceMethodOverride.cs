@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.ExceptionServices;
 using Unity.InterceptionExtension.Properties;
 using Unity.Utility;
 
@@ -410,7 +411,8 @@ namespace Unity.InterceptionExtension
             il.Emit(OpCodes.Ceq);
             il.Emit(OpCodes.Brtrue_S, noException);
             il.Emit(OpCodes.Ldloc, ex);
-            il.Emit(OpCodes.Throw);
+            il.EmitCall(OpCodes.Call, typeof(ExceptionDispatchInfo).GetMethod("Capture", BindingFlags.Public | BindingFlags.Static, null, new Type[] { typeof(Exception) }, null), null);
+            il.EmitCall(OpCodes.Callvirt, typeof(ExceptionDispatchInfo).GetMethod("Throw", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { }, null), null);
 
             il.MarkLabel(noException);
 

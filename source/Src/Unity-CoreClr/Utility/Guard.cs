@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Unity.Properties;
 
 namespace Unity.Utility
@@ -20,7 +21,7 @@ namespace Unity.Utility
         /// <param name="argumentValue">Argument value to test.</param>
         /// <param name="argumentName">Name of the argument being tested.</param>
         public static void ArgumentNotNull(object argumentValue,
-                                           string argumentName)
+                                           [CallerMemberName] string argumentName = null)
         {
             if (argumentValue == null)
             {
@@ -36,7 +37,7 @@ namespace Unity.Utility
         /// <param name="argumentValue">Argument value to check.</param>
         /// <param name="argumentName">Name of argument being checked.</param>
         public static void ArgumentNotNullOrEmpty(string argumentValue,
-                                                  string argumentName)
+                                                  [CallerMemberName] string argumentName = null)
         {
             if (argumentValue == null)
             {
@@ -56,7 +57,8 @@ namespace Unity.Utility
         /// <param name="assignmentTargetType">The argument type that will be assigned to.</param>
         /// <param name="assignmentValueType">The type of the value being assigned.</param>
         /// <param name="argumentName">Argument name.</param>
-        public static void TypeIsAssignable(Type assignmentTargetType, Type assignmentValueType, string argumentName)
+        public static void TypeIsAssignable(Type assignmentTargetType, Type assignmentValueType, 
+                                            [CallerMemberName] string argumentName = null)
         {
             if (assignmentTargetType == null)
             {
@@ -87,7 +89,8 @@ namespace Unity.Utility
         /// <param name="assignmentTargetType">The argument type that will be assigned to.</param>
         /// <param name="assignmentInstance">The instance that will be assigned.</param>
         /// <param name="argumentName">Argument name.</param>
-        public static void InstanceIsAssignable(Type assignmentTargetType, object assignmentInstance, string argumentName)
+        public static void InstanceIsAssignable(Type assignmentTargetType, object assignmentInstance, 
+                                                [CallerMemberName] string argumentName = null)
         {
             if (assignmentTargetType == null)
             {

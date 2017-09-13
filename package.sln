@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity", "src\Unity\Unity.cs
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F45198AB-F3A6-4F83-94B8-762482625BC7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.xUnit", "test\Unity.xUnit\Unity.xUnit.csproj", "{5089A2D7-2AD6-4999-90E1-5017E2C601E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.xUnit", "test\Unity.xUnit\Tests.Unity.xUnit.csproj", "{5089A2D7-2AD6-4999-90E1-5017E2C601E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.MSTests", "test\Unity.MSTests\Unity.MSTests.csproj", "{358E433E-58EF-4077-9FBB-0248DE04FB29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.MSTests", "test\Unity.MSTests\Tests.Unity.MSTests.csproj", "{358E433E-58EF-4077-9FBB-0248DE04FB29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

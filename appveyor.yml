@@ -1,0 +1,62 @@
+image: Visual Studio 2017
+configuration: Release
+platform: Any CPU
+
+environment:
+  cert_pwd:
+    secure: MFaEwW42SYpK0OfoI4fErg==
+
+install:
+  - ps: $env:build_version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version 
+  - ps: Update-AppveyorBuild -Version "$env:build_version.$env:APPVEYOR_BUILD_NUMBER"
+  - nuget install PfxToSnk -ExcludeVersion
+
+before_build:
+- cmd: dotnet restore
+- cmd: PfxToSnk\lib\net40\PfxToSnk.exe "Unity.pfx" Unity.snk  %cert_pwd%
+- choco install opencover.portable
+- choco install codecov
+
+build:
+  project: package.sln
+#  project: Package.sln
+  parallel: true
+  verbosity: minimal
+
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: $(build_version)
+  package_version: $(build_version)
+#  file_version: $(APPVEYOR_BUILD_VERSION)
+  
+
+test_script:
+- OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test" -filter:"+[Unity]*"
+- codecov -f "results.xml" 
+
+artifacts:
+- path: '**\Unity.*.nupkg'
+  name: 'CommonServiceLocator'
+
+deploy:
+- provider: GitHub
+  force_update: true
+  tag: $(appveyor_repo_tag_name)
+  release: v$(appveyor_build_version)
+  auth_token:
+    secure: 0RltkfAMN35pApf7xYqjwy1EgsVeniSYPv35Qb9ntHY1b4SC51QYLXVVfklvw09j
+  artifact: /.*\.nupkg/            # upload all NuGet packages to release assets
+  draft: false
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only  
+- provider: NuGet
+  api_key:
+    secure: Q/HUObjarHxWF0NlnHBDY5uMQHM4ESyKfFCYdbRVfsNrWUFozADu6FMvh44gEmFk
+  skip_symbols: false
+  artifact: /.*\.nupkg/
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only  

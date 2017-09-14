@@ -13,6 +13,8 @@
     <RepositoryType>GitHub</RepositoryType>
     <PackageReleaseNotes>This package is distributed as .NET Standard 1.0 package. It is compatible with</PackageReleaseNotes>
     <PackageId>Unity</PackageId>
+    <Authors>Microsoft.Practices.Unity</Authors>
+    <Company>Microsoft.Practices.Unity</Company>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'net40'">

@@ -32,7 +32,7 @@ dotnet_csproj:
   
 
 test_script:
-- OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test" -filter:"+[Unity]*"
+- OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test" -filter:"+[Unity*]*"
 - codecov -f "results.xml" 
 
 artifacts:

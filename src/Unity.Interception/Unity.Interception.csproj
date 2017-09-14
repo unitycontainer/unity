@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.0</TargetFramework>
+    <TargetFramework>net45</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Unity Core</Description>
+    <Description>Unity Interception</Description>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <FileVersion>5.0.0.0</FileVersion>
     <Copyright>Copyright © Microsoft 2008</Copyright>
@@ -11,19 +11,19 @@
     <PackageProjectUrl>https://github.com/IoC-Unity</PackageProjectUrl>
     <RepositoryUrl>https://github.com/IoC-Unity</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <PackageReleaseNotes>This package is distributed as .NET Standard 1.0 package. It is compatible with</PackageReleaseNotes>
-    <PackageId>Unity</PackageId>
+    <PackageReleaseNotes>This package is distributed as .NET package.</PackageReleaseNotes>
+    <PackageId>Unity.Interception</PackageId>
     <Authors>Microsoft.Practices.Unity</Authors>
     <Company>Microsoft.Practices.Unity</Company>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Practices.ServiceLocation" Version="2.0.0" />
-  </ItemGroup>
-
   <PropertyGroup>
     <DebugType Condition="'$(TargetFramework)' != '' AND !$(TargetFramework.StartsWith('netcoreapp'))">Full</DebugType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Unity\Unity.csproj" />
+  </ItemGroup>
   
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

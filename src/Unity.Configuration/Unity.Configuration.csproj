@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.0</TargetFramework>
+    <TargetFrameworks>net45;net47</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Unity Core</Description>
+    <Description>Unity Configuration</Description>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <FileVersion>5.0.0.0</FileVersion>
     <Copyright>Copyright © Microsoft 2008</Copyright>
@@ -11,21 +11,21 @@
     <PackageProjectUrl>https://github.com/IoC-Unity</PackageProjectUrl>
     <RepositoryUrl>https://github.com/IoC-Unity</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <PackageReleaseNotes>This package is distributed as .NET Standard 1.0 package. It is compatible with</PackageReleaseNotes>
-    <PackageId>Unity</PackageId>
+    <PackageReleaseNotes>This package is distributed as .NET Standard 2.0 package. It is compatible with</PackageReleaseNotes>
+    <PackageId>Unity.Configuration</PackageId>
   </PropertyGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
-    <Compile Remove="Utility\TypeInfo.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Practices.ServiceLocation" Version="2.0.0" />
-  </ItemGroup>
 
   <PropertyGroup>
     <DebugType Condition="'$(TargetFramework)' != '' AND !$(TargetFramework.StartsWith('netcoreapp'))">Full</DebugType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Unity\Unity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
   
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

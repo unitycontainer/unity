@@ -7,9 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity", "src\Unity\Unity.cs
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F45198AB-F3A6-4F83-94B8-762482625BC7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.xUnit", "test\Unity.xUnit\Tests.Unity.xUnit.csproj", "{5089A2D7-2AD6-4999-90E1-5017E2C601E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Unity.xUnit", "test\Unity.xUnit\Tests.Unity.xUnit.csproj", "{5089A2D7-2AD6-4999-90E1-5017E2C601E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.MSTests", "test\Unity.MSTests\Tests.Unity.MSTests.csproj", "{358E433E-58EF-4077-9FBB-0248DE04FB29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Unity.MSTests", "test\Unity.MSTests\Tests.Unity.MSTests.csproj", "{358E433E-58EF-4077-9FBB-0248DE04FB29}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Configuration", "src\Unity.Configuration\Unity.Configuration.csproj", "{0B20B912-D9F4-444C-9A47-2E3A46FB0FD6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Unity.Configuration", "test\Unity.Configuration\Tests.Unity.Configuration.csproj", "{41F9434F-DC50-4DEA-BF56-20E301F910D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +33,14 @@ Global
 		{358E433E-58EF-4077-9FBB-0248DE04FB29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{358E433E-58EF-4077-9FBB-0248DE04FB29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{358E433E-58EF-4077-9FBB-0248DE04FB29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B20B912-D9F4-444C-9A47-2E3A46FB0FD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B20B912-D9F4-444C-9A47-2E3A46FB0FD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B20B912-D9F4-444C-9A47-2E3A46FB0FD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B20B912-D9F4-444C-9A47-2E3A46FB0FD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41F9434F-DC50-4DEA-BF56-20E301F910D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41F9434F-DC50-4DEA-BF56-20E301F910D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41F9434F-DC50-4DEA-BF56-20E301F910D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41F9434F-DC50-4DEA-BF56-20E301F910D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +48,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5089A2D7-2AD6-4999-90E1-5017E2C601E4} = {F45198AB-F3A6-4F83-94B8-762482625BC7}
 		{358E433E-58EF-4077-9FBB-0248DE04FB29} = {F45198AB-F3A6-4F83-94B8-762482625BC7}
+		{41F9434F-DC50-4DEA-BF56-20E301F910D1} = {F45198AB-F3A6-4F83-94B8-762482625BC7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5AAFE72A-A2F4-4EE5-B3E2-B8E1E4652456}

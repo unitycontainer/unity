@@ -1,17 +1,16 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
-using Unity;
 
 namespace Unity.Mvc
 {
     public static class Configuration
     {
-        static IServiceProvider  _originalServiceProvider;
+        static Microsoft.Practices.ServiceLocation.IServiceProvider _originalServiceProvider;
 
-        public static void ConfigureDefaultServiceProvider(IServiceProvider serviceProvider)
+        public static void ConfigureDefaultServiceProvider(Microsoft.Practices.ServiceLocation.IServiceProvider serviceProvider)
         {
             _originalServiceProvider = serviceProvider;
         }

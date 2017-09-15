@@ -1,10 +1,9 @@
 ﻿using System;
-using Unity;
-
 
 namespace Unity.Mvc
 {
     public class ServiceProvider : IServiceProvider
+                                   
     {
         private readonly IUnityContainer container;
 

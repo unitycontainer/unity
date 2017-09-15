@@ -4,10 +4,10 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
-using Unity.Properties;
-using Unity.Utility;
+using Microsoft.Practices.Unity.Properties;
+using Microsoft.Practices.Unity.Utility;
 
-namespace ObjectBuilder2
+namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
     /// An implementation of <see cref="IBuildKeyMappingPolicy"/> that can map

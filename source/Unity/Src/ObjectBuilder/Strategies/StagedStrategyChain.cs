@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
-namespace ObjectBuilder2
+namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
     /// Represents a chain of responsibility for builder strategies partitioned by stages.

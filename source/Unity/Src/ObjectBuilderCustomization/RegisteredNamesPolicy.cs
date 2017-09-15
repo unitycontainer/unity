@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Unity
+namespace Microsoft.Practices.Unity
 {
     internal class RegisteredNamesPolicy : IRegisteredNamesPolicy
     {

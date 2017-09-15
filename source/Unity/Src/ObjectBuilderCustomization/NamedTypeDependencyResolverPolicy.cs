@@ -2,10 +2,10 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using ObjectBuilder2;
-using Unity.Utility;
+using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.Utility;
 
-namespace Unity.ObjectBuilder
+namespace Microsoft.Practices.Unity.ObjectBuilder
 {
     /// <summary>
     /// An implementation of <see cref="IDependencyResolverPolicy"/> that stores a

@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
-using Unity.Properties;
+using Microsoft.Practices.Unity.Properties;
 
-namespace ObjectBuilder2
+namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
     /// A custom collection wrapper over <see cref="IBuilderPolicy"/> objects.

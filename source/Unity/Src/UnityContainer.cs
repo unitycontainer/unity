@@ -1,17 +1,17 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Reflection;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-using ObjectBuilder2;
-using Unity.ObjectBuilder;
-using Unity.Properties;
-using Guard = Unity.Utility.Guard;
+using System.Reflection;
+using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity.ObjectBuilder;
+using Microsoft.Practices.Unity.Properties;
+using Guard = Microsoft.Practices.Unity.Utility.Guard;
 
-namespace Unity
+namespace Microsoft.Practices.Unity
 {
     /// <summary>
     /// A simple, extensible dependency injection container.
@@ -323,7 +323,7 @@ namespace Unity
             Justification = "Validation done by Guard class")]
         public IUnityContainer AddExtension(UnityContainerExtension extension)
         {
-            Unity.Utility.Guard.ArgumentNotNull(extensions, "extensions");
+            Microsoft.Practices.Unity.Utility.Guard.ArgumentNotNull(extensions, "extensions");
 
             extensions.Add(extension);
             extension.InitializeExtension(new ExtensionContextImpl(this));
@@ -404,7 +404,6 @@ namespace Unity
         public IUnityContainer CreateChildContainer()
         {
             var child = new UnityContainer(this);
-
             var childContext = new ExtensionContextImpl(child);
             ChildContainerCreated(this, new ChildContainerCreatedEventArgs(childContext));
             return child;

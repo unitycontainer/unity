@@ -3,7 +3,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Unity
+namespace Microsoft.Practices.Unity
 {
     /// <summary>
     /// Base class for all <see cref="UnityContainer"/> extension objects.

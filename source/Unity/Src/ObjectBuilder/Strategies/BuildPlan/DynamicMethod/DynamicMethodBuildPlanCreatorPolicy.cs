@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System.Diagnostics.CodeAnalysis;
-using Unity.Utility;
+using Microsoft.Practices.Unity.Utility;
 
-namespace ObjectBuilder2
+namespace Microsoft.Practices.ObjectBuilder2
 {
     /// <summary>
     /// An <see cref="IBuildPlanCreatorPolicy"/> implementation

@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using ObjectBuilder2;
+using Microsoft.Practices.ObjectBuilder2;
 
-namespace Unity.ObjectBuilder
+namespace Microsoft.Practices.Unity.ObjectBuilder
 {
     /// <summary>
     /// A <see cref="IDependencyResolverPolicy"/> implementation that returns

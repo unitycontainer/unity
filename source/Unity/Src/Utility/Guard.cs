@@ -4,9 +4,9 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
-using Unity.Properties;
+using Microsoft.Practices.Unity.Properties;
 
-namespace Unity.Utility
+namespace Microsoft.Practices.Unity.Utility
 {
     /// <summary>
     /// A static helper class that includes various parameter checking routines.

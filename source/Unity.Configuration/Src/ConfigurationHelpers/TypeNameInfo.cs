@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Unity.Configuration.ConfigurationHelpers
+namespace Microsoft.Practices.Unity.Configuration.ConfigurationHelpers
 {
     /// <summary>
     /// Class containing information about a type name.

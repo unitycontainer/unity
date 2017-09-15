@@ -138,5 +138,29 @@ namespace Unity.Configuration.Tests
         {
             Assert.IsNull(typeResolver.ResolveType("Namespace.Type, Assembly", false));
         }
+
+        [TestMethod]
+        public void Then_ShorthandWithNestedGenericIsResolved()
+        {
+            Assert.AreSame(typeResolver.ResolveType("List[List[int]]", true), typeof(List<List<int>>));
+        }
+
+        [TestMethod]
+        public void Then_ShorthandWithNestedGenericAndMultipleParametersIsResolved()
+        {
+            Assert.AreSame(typeResolver.ResolveType("Func[List[int], string]", true), typeof(Func<List<int>, string>));
+        }
+
+        [TestMethod]
+        public void Then_ShorthandWith2NestedGenericIsResolved()
+        {
+            Assert.AreSame(typeResolver.ResolveType("List[List[List[int]]]", true), typeof(List<List<List<int>>>));
+        }
+
+        [TestMethod]
+        public void Then_ShorthandWith2NestedGenericAndAssemblyNameIsResolved()
+        {
+            Assert.AreSame(typeResolver.ResolveType("List[Func[[System.Collections.Generic.List[int], mscorlib], string]]", true), typeof(List<Func<List<int>, string>>));
+        }
     }
 }

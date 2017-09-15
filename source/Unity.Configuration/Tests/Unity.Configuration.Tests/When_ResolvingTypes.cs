@@ -2,17 +2,17 @@
 
 using System;
 using System.Collections.Generic;
-using Unity.Configuration.ConfigurationHelpers;
-using Unity.TestSupport;
+using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Unity.Configuration.Tests
+namespace Microsoft.Practices.Unity.Configuration.Tests
 {
     /// <summary>
-    /// Summary description for When_ResolvingTypesWithoutNamespacesDefined
+    /// Summary description for When_ResolvingTypes
     /// </summary>
     [TestClass]
-    public class When_ResolvingTypesWithoutNamespacesDefined
+    public class When_ResolvingTypes
     {
         private TypeResolverImpl typeResolver;
 
@@ -22,12 +22,12 @@ namespace Unity.Configuration.Tests
             var aliases = new Dictionary<string, string>
                 {
                     { "dict", typeof(Dictionary<,>).AssemblyQualifiedName },
-                    { "ILogger", "Unity.TestSupport.ILogger, Tests.Unity.Configuration" },
-                    { "MockLogger", "Unity.TestSupport.MockLogger, Tests.Unity.Configuration" }
+                    { "ILogger", "Microsoft.Practices.Unity.TestSupport.ILogger, Unity.TestSupport" },
+                    { "MockLogger", "Microsoft.Practices.Unity.TestSupport.MockLogger, Unity.TestSupport" }
                 };
 
-            var namespaces = new string[0];
-            var assemblies = new[] { "System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", "Tests.Unity.Configuration", "an invalid assembly name", "invalid, invalid" };
+            var namespaces = new[] { "System", "System.Collections.Generic", "Microsoft.Practices.Unity.TestSupport" };
+            var assemblies = new[] { "System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", "Unity.TestSupport", "an invalid assembly name", "invalid, invalid" };
 
             typeResolver = new TypeResolverImpl(aliases, namespaces, assemblies);
         }
@@ -69,7 +69,7 @@ namespace Unity.Configuration.Tests
                     { "HierarchicalLifetimeManager", typeof(HierarchicalLifetimeManager) },
                     { "resolve", typeof(PerResolveLifetimeManager) },
                     { "perresolve", typeof(PerResolveLifetimeManager) },
-                    { "PerResolveLifetimeManager", typeof(PerResolveLifetimeManager) },
+                    { "PerResolveLifetimeManager", typeof(PerResolveLifetimeManager) }
                 };
 
             foreach (var kv in expected)
@@ -85,21 +85,52 @@ namespace Unity.Configuration.Tests
         }
 
         [TestMethod]
-        public void Then_ILoggerResolvesThroughSearch()
+        public void Then_GuidIsFoundThroughSearch()
         {
-            Assert.AreSame(typeResolver.ResolveType("Unity.TestSupport.ILogger", true), typeof(ILogger));
+            Assert.AreSame(typeResolver.ResolveType("Guid", true), typeof(Guid));
+        }
+
+        [TestMethod]
+        public void Then_UriIsFoundThroughSearch()
+        {
+            Assert.AreSame(typeResolver.ResolveType("Uri", true), typeof(Uri));
+        }
+
+        [TestMethod]
+        public void Then_OpenGenericIsResolvedThroughSearch()
+        {
+            Assert.AreSame(typeResolver.ResolveType("Dictionary`2", true), typeof(Dictionary<,>));
+        }
+
+        [TestMethod]
+        public void Then_OpenGenericShorthandIsResolvedThroughSearch()
+        {
+            Assert.AreSame(typeResolver.ResolveType("Dictionary[,]", true), typeof(Dictionary<,>));
         }
 
         [TestMethod]
         public void Then_ShorthandForOpenGenericWithOneParameterWorks()
         {
-            Assert.AreSame(typeResolver.ResolveType("System.Collections.Generic.List[]", true), typeof(List<>));
+            Assert.AreSame(typeResolver.ResolveType("List[]", true), typeof(List<>));
         }
 
         [TestMethod]
         public void Then_ShorthandGenericIsResolved()
         {
-            Assert.AreSame(typeResolver.ResolveType("System.Collections.Generic.List[int]", true), typeof(List<int>));
+            Assert.AreSame(typeResolver.ResolveType("List[int]", true), typeof(List<int>));
+        }
+
+        [TestMethod]
+        public void Then_ShorthandWithMultipleParametersIsResolved()
+        {
+            Assert.AreSame(typeResolver.ResolveType("Func[int, string]", true), typeof(Func<int, string>));
+        }
+
+        [TestMethod]
+        public void Then_ShorthandWithLeadingAliasIsResolved()
+        {
+            Assert.AreSame(typeResolver.ResolveType("dict[string, datetime]", true),
+                typeof(Dictionary<string, DateTime>));
         }
 
         [TestMethod]
@@ -109,9 +140,27 @@ namespace Unity.Configuration.Tests
         }
 
         [TestMethod]
+        public void Then_ShorthandWithNestedGenericIsResolved()
+        {
+            Assert.AreSame(typeResolver.ResolveType("List[List[int]]", true), typeof(List<List<int>>));
+        }
+
+        [TestMethod]
         public void Then_ShorthandWithNestedGenericAndMultipleParametersIsResolved()
         {
-            Assert.AreSame(typeResolver.ResolveType("System.Func[[System.Collections.Generic.List[int], mscorlib], System.Int64], mscorlib", true), typeof(Func<List<int>, long>));
+            Assert.AreSame(typeResolver.ResolveType("Func[List[int], string]", true), typeof(Func<List<int>, string>));
+        }
+
+        [TestMethod]
+        public void Then_ShorthandWith2NestedGenericIsResolved()
+        {
+            Assert.AreSame(typeResolver.ResolveType("List[List[List[int]]]", true), typeof(List<List<List<int>>>));
+        }
+
+        [TestMethod]
+        public void Then_ShorthandWith2NestedGenericAndAssemblyNameIsResolved()
+        {
+            Assert.AreSame(typeResolver.ResolveType("List[Func[[System.Collections.Generic.List[int], mscorlib], string]]", true), typeof(List<Func<List<int>, string>>));
         }
     }
 }

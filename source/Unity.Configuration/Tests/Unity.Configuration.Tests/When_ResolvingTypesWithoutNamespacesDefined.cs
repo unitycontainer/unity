@@ -2,11 +2,11 @@
 
 using System;
 using System.Collections.Generic;
-using Unity.Configuration.ConfigurationHelpers;
-using Unity.TestSupport;
+using Microsoft.Practices.Unity.Configuration.ConfigurationHelpers;
+using Microsoft.Practices.Unity.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Unity.Configuration.Tests
+namespace Microsoft.Practices.Unity.Configuration.Tests
 {
     /// <summary>
     /// Summary description for When_ResolvingTypesWithoutNamespacesDefined
@@ -22,12 +22,12 @@ namespace Unity.Configuration.Tests
             var aliases = new Dictionary<string, string>
                 {
                     { "dict", typeof(Dictionary<,>).AssemblyQualifiedName },
-                    { "ILogger", "Unity.TestSupport.ILogger, Tests.Unity.Configuration" },
-                    { "MockLogger", "Unity.TestSupport.MockLogger, Tests.Unity.Configuration" }
+                    { "ILogger", "Microsoft.Practices.Unity.TestSupport.ILogger, Unity.TestSupport" },
+                    { "MockLogger", "Microsoft.Practices.Unity.TestSupport.MockLogger, Unity.TestSupport" }
                 };
 
             var namespaces = new string[0];
-            var assemblies = new[] { "System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", "Tests.Unity.Configuration", "an invalid assembly name", "invalid, invalid" };
+            var assemblies = new[] { "System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", "Unity.TestSupport", "an invalid assembly name", "invalid, invalid" };
 
             typeResolver = new TypeResolverImpl(aliases, namespaces, assemblies);
         }
@@ -87,7 +87,7 @@ namespace Unity.Configuration.Tests
         [TestMethod]
         public void Then_ILoggerResolvesThroughSearch()
         {
-            Assert.AreSame(typeResolver.ResolveType("Unity.TestSupport.ILogger", true), typeof(ILogger));
+            Assert.AreSame(typeResolver.ResolveType("Microsoft.Practices.Unity.TestSupport.ILogger", true), typeof(ILogger));
         }
 
         [TestMethod]

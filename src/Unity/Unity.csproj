@@ -16,15 +16,15 @@
     <Authors>Microsoft.Practices.Unity</Authors>
     <Company>Microsoft.Practices.Unity</Company>
   </PropertyGroup>
-
-  <PropertyGroup>
-    <DebugType Condition="'$(TargetFramework)' != '' AND !$(TargetFramework.StartsWith('netcoreapp'))">Full</DebugType>
-  </PropertyGroup>
   
   <PropertyGroup Condition="Exists('..\..\package.snk')">
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\package.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DebugType Condition="'$(TargetFramework)' != '' AND !$(TargetFramework.StartsWith('netcoreapp'))">Full</DebugType>
   </PropertyGroup>
   
   <ItemGroup>

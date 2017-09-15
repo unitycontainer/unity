@@ -450,8 +450,12 @@ namespace Unity
             {
                 if (lifetimeContainer != null)
                 {
-                    lifetimeContainer.Dispose();
+                    // Avoid infinite loop when someone
+                    //  registers something which would end up 
+                    //  disposing this container (e.g. container.RegisterInsance(container))
+                    LifetimeContainer lifetimeContainerCopy = lifetimeContainer;
                     lifetimeContainer = null;
+                    lifetimeContainerCopy.Dispose();
 
                     if (parent != null && parent.lifetimeContainer != null)
                     {

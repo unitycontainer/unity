@@ -12,7 +12,7 @@ install:
   - nuget install PfxToSnk -ExcludeVersion
 
 before_build:
-- cmd: PfxToSnk\lib\net40\PfxToSnk.exe "package.pfx" package.snk  %cert_pwd%
+- cmd: PfxToSnk\lib\net40\PfxToSnk.exe package.pfx package.snk  %cert_pwd%
 - cmd: dotnet restore
 - choco install opencover.portable
 - choco install codecov

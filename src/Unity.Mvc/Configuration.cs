@@ -8,9 +8,9 @@ namespace Unity.Mvc
 {
     public static class Configuration
     {
-        static Microsoft.Practices.ServiceLocation.IServiceProvider _originalServiceProvider;
+        static IServiceProvider _originalServiceProvider;
 
-        public static void ConfigureDefaultServiceProvider(Microsoft.Practices.ServiceLocation.IServiceProvider serviceProvider)
+        public static void ConfigureDefaultServiceProvider(IServiceProvider serviceProvider)
         {
             _originalServiceProvider = serviceProvider;
         }
@@ -32,16 +32,6 @@ namespace Unity.Mvc
             // Configure all registrations into Unity
             foreach (var serviceDescriptor in services)
             {
-                
-                // Ariel
-                //if (serviceDescriptor.ServiceType.Name == "ViewResultExecutor") System.Diagnostics.Debugger.Break();
-
-                //if (serviceDescriptor.ServiceType.Name == "IDataProtectionProvider") System.Diagnostics.Debugger.Break();
-                //if (serviceDescriptor.ServiceType.Name == "IApplicationDiscriminator") System.Diagnostics.Debugger.Break();
-                //if (serviceDescriptor.ServiceType.Name == "IXmlRepository") System.Diagnostics.Debugger.Break();
-
-                //if (serviceDescriptor.ServiceType.Name == "IActionInvokerFactory") System.Diagnostics.Debugger.Break(); 
-
                 RegisterType(container, lifetime, serviceDescriptor, aggregateTypes, registerInstance);
             }
         }

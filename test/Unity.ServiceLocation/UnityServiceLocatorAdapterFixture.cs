@@ -5,6 +5,7 @@ using Microsoft.Practices.ServiceLocation;
 using ServiceLocation.Tests.Components;
 using Xunit;
 using Unity;
+using System.Collections;
 
 namespace ServiceLocation.Tests
 {
@@ -35,12 +36,11 @@ namespace ServiceLocation.Tests
             base.GetInstance();
         }
 
-        //todo: Enable and fix this test
-        //[Fact]
-        //public new void AskingForInvalidComponentShouldRaiseActivationException()
-        //{
-        //    base.AskingForInvalidComponentShouldRaiseActivationException();
-        //}
+        [Fact]
+        public new void AskingForInvalidComponentShouldRaiseActivationException()
+        {
+            Assert.Throws<ActivationException>(() => locator.GetInstance<IDictionary>());
+        }
 
         [Fact]
         public new void GetNamedInstance()
@@ -54,12 +54,11 @@ namespace ServiceLocation.Tests
             base.GetNamedInstance2();
         }
 
-        //todo: Enable and fix this test
-        //[Fact]
-        //public new void GetUnknownInstance2()
-        //{
-        //    base.GetUnknownInstance2();
-        //}
+        [Fact]
+        public new void GetUnknownInstance2()
+        {
+            Assert.Throws<ActivationException>(() => locator.GetInstance<ILogger>("test"));
+        }
 
         [Fact]
         public new void GetAllInstances()

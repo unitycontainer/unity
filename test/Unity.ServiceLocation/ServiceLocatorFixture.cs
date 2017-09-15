@@ -34,14 +34,12 @@ namespace ServiceLocation.Tests
 
         public void GetNamedInstance()
         {
-            ILogger instance = locator.GetInstance<ILogger>(typeof(AdvancedLogger).FullName);
-            Unity.TestSupport.AssertExtensions.IsInstanceOfType(instance, typeof(AdvancedLogger));
+            Assert.IsType(typeof(AdvancedLogger), locator.GetInstance<ILogger>(typeof(AdvancedLogger).FullName));
         }
 
         public void GetNamedInstance2()
         {
-            ILogger instance = locator.GetInstance<ILogger>(typeof(SimpleLogger).FullName);
-            Unity.TestSupport.AssertExtensions.IsInstanceOfType(instance, typeof(SimpleLogger));
+            Assert.IsType(typeof(SimpleLogger), locator.GetInstance<ILogger>(typeof(SimpleLogger).FullName));
         }
 
 

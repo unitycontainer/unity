@@ -10,9 +10,6 @@ using ObjectBuilder2;
 using Unity.ObjectBuilder;
 using Unity.Properties;
 using Guard = Unity.Utility.Guard;
-#if NETSTANDARD1_0
-using Microsoft.Practices.ServiceLocation;
-#endif
 
 namespace Unity
 {
@@ -36,8 +33,6 @@ namespace Unity
         private event EventHandler<RegisterEventArgs> Registering;
         private event EventHandler<RegisterInstanceEventArgs> RegisteringInstance;
         private event EventHandler<ChildContainerCreatedEventArgs> ChildContainerCreated;
-
-        private IServiceProvider alternativeServiceProvider;
 
         /// <summary>
         /// Create a default <see cref="UnityContainer"/>.
@@ -78,7 +73,7 @@ namespace Unity
 #pragma warning restore 618
         }
 
-#region Type Mapping
+        #region Type Mapping
 
         /// <summary>
         /// RegisterType a type mapping with the container, where the created instances will use
@@ -119,9 +114,9 @@ namespace Unity
             return this;
         }
 
-#endregion
+        #endregion
 
-#region Instance Registration
+        #region Instance Registration
 
         /// <summary>
         /// RegisterType an instance with the container.
@@ -156,9 +151,9 @@ namespace Unity
             return this;
         }
 
-#endregion
+        #endregion
 
-#region Getting objects
+        #region Getting objects
 
         /// <summary>
         /// Get an instance of the requested type with the given name from the container.
@@ -169,31 +164,7 @@ namespace Unity
         /// <returns>The retrieved object.</returns>
         public object Resolve(Type t, string name, params ResolverOverride[] resolverOverrides)
         {
-            try
-            {
-                return DoBuildUp(t, name, resolverOverrides);
-            }
-            catch
-            {
-                // Ariel. No usar el catch para esta logica
-
-                //if (t.Name == "IDataProtectionProvider") System.Diagnostics.Debugger.Break();
-                //if (t.Name == "IApplicationDiscriminator") System.Diagnostics.Debugger.Break();
-                //if (t.Name == "IXmlRepository") System.Diagnostics.Debugger.Break();
-
-                //if (t.Name == "IActionInvokerFactory") System.Diagnostics.Debugger.Break();
-
-                //if (t.Name == "ViewResultExecutor") System.Diagnostics.Debugger.Break();
-
-                if (alternativeServiceProvider != null)
-                {
-                    return alternativeServiceProvider.GetService(t);
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            return DoBuildUp(t, name, resolverOverrides);
         }
 
         /// <summary>
@@ -218,9 +189,9 @@ namespace Unity
             return (IEnumerable<object>)this.Resolve(t.MakeArrayType(), resolverOverrides);
         }
 
-#endregion
+        #endregion
 
-#region BuildUp existing object
+        #region BuildUp existing object
 
         /// <summary>
         /// Run an existing object through the container and perform injection on it.
@@ -269,9 +240,9 @@ namespace Unity
             }
         }
 
-#endregion
+        #endregion
 
-#region Extension Management
+        #region Extension Management
 
         /// <summary>
         /// Implementation of the ExtensionContext that is actually used
@@ -417,9 +388,9 @@ namespace Unity
             return this;
         }
 
-#endregion
+        #endregion
 
-#region Child container management
+        #region Child container management
 
         /// <summary>
         /// Create a child container.
@@ -433,12 +404,6 @@ namespace Unity
         public IUnityContainer CreateChildContainer()
         {
             var child = new UnityContainer(this);
-
-            // Ariel
-            if (this.AlternativeServiceProvider != null)
-            {
-                child.AlternativeServiceProvider = this.AlternativeServiceProvider;
-            }
 
             var childContext = new ExtensionContextImpl(child);
             ChildContainerCreated(this, new ChildContainerCreatedEventArgs(childContext));
@@ -454,9 +419,9 @@ namespace Unity
             get { return parent; }
         }
 
-#endregion
+        #endregion
 
-#region IDisposable Implementation
+        #region IDisposable Implementation
 
         /// <summary>
         /// Dispose this container instance.
@@ -499,9 +464,9 @@ namespace Unity
             }
         }
 
-#endregion
+        #endregion
 
-#region Running ObjectBuilder
+        #region Running ObjectBuilder
 
         private object DoBuildUp(Type t, string name, IEnumerable<ResolverOverride> resolverOverrides)
         {
@@ -511,12 +476,6 @@ namespace Unity
         private object DoBuildUp(Type t, object existing, string name, IEnumerable<ResolverOverride> resolverOverrides)
         {
             IBuilderContext context = null;
-
-            // Ariel
-            //if (t.Name == "IDataProtectionProvider") System.Diagnostics.Debugger.Break();
-            if (t.Name == "IApplicationDiscriminator") System.Diagnostics.Debugger.Break();
-
-            //if (t.Name == "IActionInvokerFactory") System.Diagnostics.Debugger.Break();
 
             try
             {
@@ -566,9 +525,9 @@ namespace Unity
             return buildStrategies;
         }
 
-#endregion
+        #endregion
 
-#region ObjectBuilder initialization
+        #region ObjectBuilder initialization
 
         private void InitializeBuilderState()
         {
@@ -605,7 +564,7 @@ namespace Unity
             get { return parent == null ? null : parent.registeredNames; }
         }
 
-#endregion
+        #endregion
 
         /// <summary>
         /// Get a sequence of <see cref="ContainerRegistration"/> that describe the current state
@@ -656,13 +615,6 @@ namespace Unity
                 typeRegistrations[t] =
                     (typeRegistrations[t].Concat(registeredNames.GetKeys(t))).Distinct().ToList();
             }
-        }
-
-
-        public IServiceProvider AlternativeServiceProvider
-        {
-            get { return alternativeServiceProvider; }
-            set { alternativeServiceProvider = value; }
         }
     }
 }

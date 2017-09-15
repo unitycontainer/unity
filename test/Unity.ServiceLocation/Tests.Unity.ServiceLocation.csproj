@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net47;netcoreapp1.0</TargetFrameworks>
+    <TargetFramework>net47</TargetFramework>
     <IsPackable>false</IsPackable>
     <RootNamespace>Unity.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Practices.ServiceLocation" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Practices.ServiceLocation" Version="2.0.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="xunit" Version="2.2.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />

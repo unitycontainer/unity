@@ -55,33 +55,44 @@ namespace Unity.Mvc.Tests
             }
         }
 
-        //[Fact]
-        //public void When_resolving_concrete_controller_then_returns_injected_instance()
-        //{
-        //    using (var container = new UnityContainer())
-        //    {
-        //        var serviceCollection = new ServiceCollection();
-        //        Configuration.Register(serviceCollection, container);
-        //        container.RegisterInstance<IFoo>(new Foo { TestProperty = "value" });
-        //        var resolver = container.Resolve<IServiceProvider>();
+        [Fact]
+        public void When_resolving_concrete_controller_then_returns_injected_instance()
+        {
+            using (var container = new UnityContainer())
+            {
+                var serviceCollection = new ServiceCollection();
+                Configuration.Register(serviceCollection, container);
 
-        //        var actual = (TestController)resolver.GetService(typeof(TestController));
-        //        Assert.Equal("value", actual.Foo.TestProperty);
-        //    }
-        //}
+                container.RegisterInstance<IFoo>(new Foo { TestProperty = "value" });
+                var resolver = container.Resolve<IServiceProvider>();
 
-        //[Fact]
-        //public void When_resolving_controller_with_unregistered_dependencies_then_throws()
-        //{
-        //    using (var container = new UnityContainer())
-        //    {
-        //        var serviceCollection = new ServiceCollection();
-        //        Configuration.Register(serviceCollection, container);
-        //        var resolver = container.Resolve<IServiceProvider>();
+                var actual = (TestController)resolver.GetService(typeof(TestController));
+                Assert.Equal("value", actual.Foo.TestProperty);
+            }
+        }
 
-        //        Assert.Throws<ResolutionFailedException>(() => resolver.GetService(typeof(TestController)));
-        //    }
-        //}
+        [Fact]
+        public void When_resolving_controller_with_unregistered_dependencies_then_null()
+        {
+            using (var container = new UnityContainer())
+            {
+                var serviceCollection = new ServiceCollection();
+                Configuration.Register(serviceCollection, container);
+                var resolver = container.Resolve<IServiceProvider>();
+
+                Assert.Null(resolver.GetService(typeof(TestController)));
+            }
+        }
+
+        public class TestController 
+        {
+            public TestController(IFoo foo)
+            {
+                this.Foo = foo;
+            }
+
+            public IFoo Foo { get; set; }
+        }
 
         [Fact]
         public void When_resolving_type_with_container_controlled_lifetime_then_returns_same_instance_every_time()
@@ -119,16 +130,6 @@ namespace Unity.Mvc.Tests
         {
             public string TestProperty { get; set; }
         }
-
-        //public class TestController : Controller
-        //{
-        //    public TestController(IFoo foo)
-        //    {
-        //        this.Foo = foo;
-        //    }
-
-        //    public IFoo Foo { get; set; }
-        //}
 
         private static void AssertThrows<TException>(Action action)
             where TException : Exception

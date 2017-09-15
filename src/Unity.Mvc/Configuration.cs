@@ -114,20 +114,19 @@ namespace Unity.Mvc
         private static void RegisterType(IUnityContainer _container, Func<ServiceDescriptor, LifetimeManager> fetchLifetime, ServiceDescriptor serviceDescriptor,
             ICollection<Type> aggregateTypes, MethodInfo miRegisterInstanceOpen)
         {
-            LifetimeManager lifetimeManager = fetchLifetime(serviceDescriptor);
             var isAggregateType = aggregateTypes.Contains(serviceDescriptor.ServiceType);
 
             if (serviceDescriptor.ImplementationType != null)
             {
-                RegisterImplementation(_container, serviceDescriptor, isAggregateType, lifetimeManager);
+                RegisterImplementation(_container, serviceDescriptor, isAggregateType, fetchLifetime);
             }
             else if (serviceDescriptor.ImplementationFactory != null)
             {
-                RegisterFactory(_container, serviceDescriptor, isAggregateType, lifetimeManager);
+                RegisterFactory(_container, serviceDescriptor, isAggregateType, fetchLifetime(serviceDescriptor));
             }
             else if (serviceDescriptor.ImplementationInstance != null)
             {
-                RegisterSingleton(_container, serviceDescriptor, miRegisterInstanceOpen, isAggregateType, lifetimeManager);
+                RegisterSingleton(_container, serviceDescriptor, miRegisterInstanceOpen, isAggregateType, fetchLifetime(serviceDescriptor));
             }
             else
             {
@@ -136,18 +135,16 @@ namespace Unity.Mvc
         }
 
         private static void RegisterImplementation(IUnityContainer _container, ServiceDescriptor serviceDescriptor,
-            bool isAggregateType, LifetimeManager lifetimeManager)
+            bool isAggregateType, Func<ServiceDescriptor, LifetimeManager> fetchLifetime)
         {
             if (isAggregateType)
             {
                 _container.RegisterType(serviceDescriptor.ServiceType, serviceDescriptor.ImplementationType,
-                    serviceDescriptor.ImplementationType.AssemblyQualifiedName, lifetimeManager);
+                    serviceDescriptor.ImplementationType.AssemblyQualifiedName, fetchLifetime(serviceDescriptor));
             }
-            else
-            {
-                _container.RegisterType(serviceDescriptor.ServiceType, serviceDescriptor.ImplementationType,
-                    lifetimeManager);
-            }
+
+            _container.RegisterType(serviceDescriptor.ServiceType, serviceDescriptor.ImplementationType,
+                fetchLifetime(serviceDescriptor));
         }
 
         private static void RegisterFactory(IUnityContainer _container, ServiceDescriptor serviceDescriptor,

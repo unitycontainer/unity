@@ -6,16 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection.Specification.Fakes;
 using Unity;
-#if NETFX_CORE
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#elif __IOS__
-using NUnit.Framework;
-using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
-using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
-using TestMethodAttribute = NUnit.Framework.TestAttribute;
-#else
 using Xunit;
-#endif
 
 namespace Microsoft.Extensions.DependencyInjection.Specification
 {
@@ -287,8 +278,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
         [MemberData(nameof(CreateInstanceFuncs))]
         public void UnRegisteredServiceAsConstructorParameterThrowsException(CreateInstanceFunc createFunc)
         {
-            var serviceCollection = new ServiceCollection()
-                .AddSingleton<CreationCountFakeService>();
+            var serviceCollection = new ServiceCollection().AddSingleton<CreationCountFakeService>();
             var serviceProvider = CreateServiceProvider(serviceCollection);
 
             var ex = Assert.Throws<ResolutionFailedException>(() =>

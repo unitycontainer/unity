@@ -66,13 +66,13 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.Same(service1, service2);
         }
 
-        //[Fact]
+        [Fact]
         public void ServiceInstanceCanBeResolved()
         {
             // Arrange
             var collection = new ServiceCollection();
             var instance = new FakeService();
-            collection.AddSingleton(typeof(IFakeServiceInstance), instance.GetType());
+            collection.AddSingleton(typeof(IFakeServiceInstance), instance);
             var provider = CreateServiceProvider(collection);
 
             // Act
@@ -251,7 +251,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.Same(service1.ScopedService, service2.ScopedService);
         }
 
-        //[Fact]
+        [Fact]
         public void LastServiceReplacesPreviousServices()
         {
             // Arrange
@@ -346,50 +346,52 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             }
         }
 
-        //[Fact]
-        public void DisposingScopeDisposesService()
-        {
-            // Arrange
-            var collection = new ServiceCollection();
-            collection.AddSingleton<IFakeSingletonService, FakeService>();
-            collection.AddScoped<IFakeScopedService, FakeService>();
-            collection.AddTransient<IFakeService, FakeService>();
+        // TODO: Fix implementation of scoped 
+        // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection#service-lifetimes-and-registration-options
+        // [Fact]
+        //public void DisposingScopeDisposesService()
+        //{
+        //    // Arrange
+        //    var collection = new ServiceCollection();
+        //    collection.AddSingleton<IFakeSingletonService, FakeService>();
+        //    collection.AddScoped<IFakeScopedService, FakeService>();
+        //    collection.AddTransient<IFakeService, FakeService>();
 
-            var provider = CreateServiceProvider(collection);
-            FakeService disposableService;
-            FakeService transient1;
-            FakeService transient2;
-            FakeService singleton;
+        //    var provider = CreateServiceProvider(collection);
+        //    FakeService disposableService;
+        //    FakeService transient1;
+        //    FakeService transient2;
+        //    FakeService singleton;
 
-            // Act and Assert
-            var transient3 = Assert.IsType<FakeService>(provider.GetService<IFakeService>());
-            var scopeFactory = provider.GetService<IServiceScopeFactory>();
-            using (var scope = scopeFactory.CreateScope())
-            {
-                disposableService = (FakeService)scope.ServiceProvider.GetService<IFakeScopedService>();
-                transient1 = (FakeService)scope.ServiceProvider.GetService<IFakeService>();
-                transient2 = (FakeService)scope.ServiceProvider.GetService<IFakeService>();
-                singleton = (FakeService)scope.ServiceProvider.GetService<IFakeSingletonService>();
+        //    // Act and Assert
+        //    var transient3 = Assert.IsType<FakeService>(provider.GetService<IFakeService>());
+        //    var scopeFactory = provider.GetService<IServiceScopeFactory>();
+        //    using (var scope = scopeFactory.CreateScope())
+        //    {
+        //        disposableService = (FakeService)scope.ServiceProvider.GetService<IFakeScopedService>();
+        //        transient1 = (FakeService)scope.ServiceProvider.GetService<IFakeService>();
+        //        transient2 = (FakeService)scope.ServiceProvider.GetService<IFakeService>();
+        //        singleton = (FakeService)scope.ServiceProvider.GetService<IFakeSingletonService>();
 
-                Assert.False(disposableService.Disposed);
-                Assert.False(transient1.Disposed);
-                Assert.False(transient2.Disposed);
-                Assert.False(singleton.Disposed);
-            }
+        //        Assert.False(disposableService.Disposed);
+        //        Assert.False(transient1.Disposed);
+        //        Assert.False(transient2.Disposed);
+        //        Assert.False(singleton.Disposed);
+        //    }
 
-            Assert.True(disposableService.Disposed);
-            Assert.True(transient1.Disposed);
-            Assert.True(transient2.Disposed);
-            Assert.False(singleton.Disposed);
+        //    Assert.True(disposableService.Disposed);
+        //    Assert.True(transient1.Disposed);
+        //    Assert.True(transient2.Disposed);
+        //    Assert.False(singleton.Disposed);
 
-            var disposableProvider = provider as IDisposable;
-            if (disposableProvider != null)
-            {
-                disposableProvider.Dispose();
-                Assert.True(singleton.Disposed);
-                Assert.True(transient3.Disposed);
-            }
-        }
+        //    var disposableProvider = provider as IDisposable;
+        //    if (disposableProvider != null)
+        //    {
+        //        disposableProvider.Dispose();
+        //        Assert.True(singleton.Disposed);
+        //        Assert.True(transient3.Disposed);
+        //    }
+        //}
 
         [Fact]
         public void SelfResolveThenDispose()
@@ -512,7 +514,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.IsType<FakeService>(service);
         }
 
-        //[Fact]
+        [Fact]
         public void AttemptingToResolveNonexistentServiceReturnsNull()
         {
             // Arrange
@@ -540,6 +542,8 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.Empty(services);
         }
 
+        // Unity Container does not do Constructor With Longest Matches Data
+        // It always creates Constructor With Longest List of arguments
         public static TheoryData ServiceContainerPicksConstructorWithLongestMatchesData
         {
             get
@@ -586,8 +590,54 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             }
         }
 
-        //[Theory]
-        //[MemberData(nameof(ServiceContainerPicksConstructorWithLongestMatchesData))]
+        public static TheoryData UnityContainerPicksConstructorWithLongestMatchesData
+        {
+            get
+            {
+                var fakeService = new FakeService();
+                var multipleService = new FakeService();
+                var factoryService = new TransientFactoryService();
+                var scopedService = new FakeService();
+
+                return new TheoryData<IServiceCollection, TypeWithSupersetConstructors>
+                {
+                    {
+                        new ServiceCollection()
+                            .AddSingleton<IFakeService>(x => fakeService),
+                        null
+                    },
+                    {
+                        new ServiceCollection()
+                            .AddSingleton<IFactoryService>(x => factoryService),
+                        null
+                    },
+                    {
+                        new ServiceCollection()
+                            .AddSingleton<IFakeService>(x => fakeService)
+                            .AddSingleton<IFactoryService>(x => factoryService),
+                       null
+                    },
+                    {
+                        new ServiceCollection()
+                            .AddSingleton<IFakeService>(x => fakeService)
+                            .AddSingleton<IFakeMultipleService>(x => multipleService)
+                            .AddSingleton<IFactoryService>(x => factoryService),
+                       null
+                    },
+                    {
+                        new ServiceCollection()
+                            .AddSingleton<IFakeService>(x => fakeService)
+                            .AddSingleton<IFakeMultipleService>(x => multipleService)
+                            .AddSingleton<IFakeScopedService>(x => scopedService)
+                            .AddSingleton<IFactoryService>(x => factoryService),
+                       new TypeWithSupersetConstructors(multipleService, factoryService, fakeService, scopedService)
+                    }
+                };
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(UnityContainerPicksConstructorWithLongestMatchesData))]
         public void ServiceContainerPicksConstructorWithLongestMatches(
             IServiceCollection serviceCollection,
             TypeWithSupersetConstructors expected)
@@ -598,6 +648,12 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
 
             // Act
             var actual = serviceProvider.GetService<TypeWithSupersetConstructors>();
+
+            if (null == expected)
+            {
+                Assert.Null(actual);
+                return;
+            }
 
             // Assert
             Assert.NotNull(actual);

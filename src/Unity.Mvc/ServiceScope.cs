@@ -1,30 +1,42 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using Unity;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Unity.Mvc
 {
-    public class ServiceScope : IServiceScope
+    public class ServiceScope : ServiceProvider, IServiceScope
     {
-        private readonly IUnityContainer container;
-        private readonly IServiceProvider serviceProvider;
+        private readonly List<IDisposable> scope = new List<IDisposable>();
 
         public ServiceScope(IUnityContainer container)
+            : base(container.CreateChildContainer())
         {
-            this.container = container.CreateChildContainer();
-            serviceProvider = this.container.Resolve<IServiceProvider>();
         }
 
-        IServiceProvider IServiceScope.ServiceProvider
+        IServiceProvider IServiceScope.ServiceProvider => this;
+
+
+        public override object GetService(Type serviceType)
         {
-            get
+            try
             {
-                return serviceProvider;
+                return container.Resolve(serviceType);
             }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+
+            return null;
         }
 
         void IDisposable.Dispose()
         {
+            foreach (IDisposable disposable in scope.ToArray())
+                disposable.Dispose();
+
+            scope.Clear();
             container.Dispose();
         }
     }

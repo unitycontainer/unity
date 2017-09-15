@@ -12,14 +12,13 @@ install:
   - nuget install PfxToSnk -ExcludeVersion
 
 before_build:
+- cmd: PfxToSnk\lib\net40\PfxToSnk.exe "package.pfx" package.snk  %cert_pwd%
 - cmd: dotnet restore
-- cmd: PfxToSnk\lib\net40\PfxToSnk.exe "Unity.pfx" Unity.snk  %cert_pwd%
 - choco install opencover.portable
 - choco install codecov
 
 build:
   project: package.sln
-#  project: Package.sln
   parallel: true
   verbosity: minimal
 
@@ -32,12 +31,12 @@ dotnet_csproj:
   
 
 test_script:
-- OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test" -filter:"+[Unity*]*"
+- OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test" -filter:"+[Unity*]* -[*]*Resources"
 - codecov -f "results.xml" 
 
 artifacts:
 - path: '**\Unity.*.nupkg'
-  name: 'CommonServiceLocator'
+  name: 'Unity'
 
 deploy:
 - provider: GitHub
@@ -50,7 +49,6 @@ deploy:
   draft: false
   prerelease: false
   on:
-    branch: master                 # release from master branch only
     appveyor_repo_tag: true        # deploy on tag push only  
 - provider: NuGet
   api_key:
@@ -58,5 +56,4 @@ deploy:
   skip_symbols: false
   artifact: /.*\.nupkg/
   on:
-    branch: master                 # release from master branch only
     appveyor_repo_tag: true        # deploy on tag push only  

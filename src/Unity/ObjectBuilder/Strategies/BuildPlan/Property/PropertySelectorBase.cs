@@ -31,7 +31,11 @@ namespace ObjectBuilder2
 
             foreach (PropertyInfo prop in t.GetPropertiesHierarchical().Where(p => p.CanWrite))
             {
+#if NET40
+                var propertyMethod = prop.GetSetMethod(true) ?? prop.GetGetMethod(true);
+#else
                 var propertyMethod = prop.SetMethod ?? prop.GetMethod;
+#endif
                 if (propertyMethod.IsStatic)
                 {
                     // Skip static properties. In the previous implementation the reflection query took care of this.

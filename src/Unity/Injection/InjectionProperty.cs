@@ -62,7 +62,11 @@ namespace Unity
             PropertyInfo propInfo =
                 implementationType.GetPropertiesHierarchical()
                         .FirstOrDefault(p => p.Name == this.propertyName &&
+#if NET40
+                                              !p.GetSetMethod(true).IsStatic);
+#else
                                               !p.SetMethod.IsStatic);
+#endif
 
             GuardPropertyExists(propInfo, implementationType, this.propertyName);
             GuardPropertyIsSettable(propInfo);

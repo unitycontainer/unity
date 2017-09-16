@@ -61,6 +61,8 @@ namespace Unity.Tests.TestDoubles
             remove { this.i--; }
         }
 
+#pragma warning disable 67
         public override event EventHandler<ChildContainerCreatedEventArgs> ChildContainerCreated;
+#pragma warning restore 67
     }
 }

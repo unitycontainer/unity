@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.0</TargetFramework>
+    <TargetFrameworks>netstandard1.0;net47;net45;net40</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Unity Core</Description>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
@@ -26,6 +26,12 @@
   <PropertyGroup>
     <DebugType Condition="'$(TargetFramework)' != '' AND !$(TargetFramework.StartsWith('netcoreapp'))">Full</DebugType>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' != 'net35'  AND '$(TargetFramework)' != 'net40' ">
+    <Compile Remove="Legacy\**" />
+    <EmbeddedResource Remove="Legacy\**" />
+    <None Remove="Legacy\**" />
+  </ItemGroup>
   
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

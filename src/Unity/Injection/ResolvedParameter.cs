@@ -76,13 +76,13 @@ namespace Unity
         private IDependencyResolverPolicy CreateGenericResolverPolicy(Type typeToBuild, ReflectionHelper parameterReflector)
         {
             return new NamedTypeDependencyResolverPolicy(
-                parameterReflector.GetClosedParameterType(typeToBuild.GenericTypeArguments),
+                parameterReflector.GetClosedParameterType(typeToBuild.GetTypeInfo().GenericTypeArguments),
                 this.name);
         }
 
         private IDependencyResolverPolicy CreateGenericArrayResolverPolicy(Type typeToBuild, ReflectionHelper parameterReflector)
         {
-            Type arrayType = parameterReflector.GetClosedParameterType(typeToBuild.GenericTypeArguments);
+            Type arrayType = parameterReflector.GetClosedParameterType(typeToBuild.GetTypeInfo().GenericTypeArguments);
             return new NamedTypeDependencyResolverPolicy(arrayType, this.name);
         }
     }

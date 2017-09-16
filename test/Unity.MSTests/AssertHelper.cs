@@ -5,14 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-#if NETFX_CORE
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#elif WINDOWS_PHONE
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 
 namespace Unity.Tests
 {

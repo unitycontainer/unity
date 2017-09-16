@@ -76,7 +76,11 @@ namespace ObjectBuilder2
         {
             //todo: Added a check for private to meet original expectations; we could consider opening this up for 
             //      private property injection.
+#if NET40
+            var setter = property.GetSetMethod(true);
+#else
             var setter = property.SetMethod;
+#endif
             if (setter == null || setter.IsPrivate)
             {
                 throw new InvalidOperationException(

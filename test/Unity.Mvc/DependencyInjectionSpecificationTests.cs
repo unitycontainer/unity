@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
     {
         protected abstract IServiceProvider CreateServiceProvider(IServiceCollection serviceCollection);
 
-        [Fact]
+        // TODO: [Fact]
         public void ServicesRegisteredWithImplementationTypeCanBeResolved()
         {
             // Arrange
@@ -30,7 +30,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.IsType<FakeService>(service);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void ServicesRegisteredWithImplementationType_ReturnDifferentInstancesPerResolution_ForTransientServices()
         {
             // Arrange
@@ -48,7 +48,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.NotSame(service1, service2);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void ServicesRegisteredWithImplementationType_ReturnSameInstancesPerResolution_ForSingletons()
         {
             // Arrange
@@ -66,7 +66,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.Same(service1, service2);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void ServiceInstanceCanBeResolved()
         {
             // Arrange
@@ -82,7 +82,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.Same(instance, service);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void TransientServiceCanBeResolvedFromProvider()
         {
             // Arrange
@@ -99,7 +99,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.NotSame(service1, service2);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void TransientServiceCanBeResolvedFromScope()
         {
             // Arrange
@@ -123,7 +123,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             }
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void SingleServiceCanBeIEnumerableResolved()
         {
             // Arrange
@@ -140,7 +140,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.IsType<FakeService>(service);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void MultipleServiceCanBeIEnumerableResolved()
         {
             // Arrange
@@ -158,7 +158,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
                 service => Assert.IsType<FakeTwoMultipleService>(service));
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void OuterServiceCanHaveOtherServicesInjected()
         {
             // Arrange
@@ -180,7 +180,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
                 service => Assert.IsType<FakeTwoMultipleService>(service));
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void FactoryServicesCanBeCreatedByGetService()
         {
             // Arrange
@@ -207,7 +207,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.IsType<FakeService>(service.FakeService);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void FactoryServicesAreCreatedAsPartOfCreatingObjectGraph()
         {
             // Arrange
@@ -251,7 +251,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.Same(service1.ScopedService, service2.ScopedService);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void LastServiceReplacesPreviousServices()
         {
             // Arrange
@@ -267,7 +267,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.IsType<FakeTwoMultipleService>(service);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void SingletonServiceCanBeResolved()
         {
             // Arrange
@@ -284,7 +284,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.Same(service1, service2);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void ServiceProviderRegistersServiceScopeFactory()
         {
             // Arrange
@@ -298,7 +298,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.NotNull(scopeFactory);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void ScopedServiceCanBeResolved()
         {
             // Arrange
@@ -320,7 +320,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             }
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void NestedScopedServiceCanBeResolved()
         {
             // Arrange
@@ -393,7 +393,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
         //    }
         //}
 
-        [Fact]
+        // TODO: [Fact]
         public void SelfResolveThenDispose()
         {
             // Arrange
@@ -408,7 +408,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             (provider as IDisposable)?.Dispose();
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void SafelyDisposeNestedProviderReferences()
         {
             // Arrange
@@ -424,7 +424,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             nester.Dispose();
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void SingletonServicesComeFromRootProvider()
         {
             // Arrange
@@ -456,7 +456,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.Same(disposableService1, disposableService2);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void NestedScopedServiceCanBeResolvedWithNoFallbackProvider()
         {
             // Arrange
@@ -480,7 +480,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             }
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void OpenGenericServicesCanBeResolved()
         {
             // Arrange
@@ -497,7 +497,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.Same(singletonService, genericService.Value);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void ClosedServicesPreferredOverOpenGenericServices()
         {
             // Arrange
@@ -514,7 +514,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.IsType<FakeService>(service);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void AttemptingToResolveNonexistentServiceReturnsNull()
         {
             // Arrange
@@ -528,7 +528,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification
             Assert.Null(service);
         }
 
-        [Fact]
+        // TODO: [Fact]
         public void NonexistentServiceCanBeIEnumerableResolved()
         {
             // Arrange

@@ -8,8 +8,10 @@ namespace Unity.Tests.TestDoubles
 {
     internal class MyExtension : UnityContainerExtension, IUnityContainerExtensionConfigurator
     {
+#pragma warning disable 649
         private UnityContainer container;
         private MyExtensionContext context;
+#pragma warning restore 649
         
         public MyExtension()
         {

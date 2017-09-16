@@ -94,9 +94,11 @@ namespace Unity
 
         private void TryExit()
         {
+#if !NET40
             // Prevent first chance exception when abandoning a lock that has not been entered
             if (Monitor.IsEntered(this.lockObj))
             {
+#endif
                 try
                 {
                     Monitor.Exit(this.lockObj);
@@ -106,6 +108,8 @@ namespace Unity
                     // Noop here - we don't hold the lock and that's ok.
                 }
             }
+#if !NET40
         }
+#endif
     }
 }

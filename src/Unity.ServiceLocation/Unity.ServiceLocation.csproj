@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net47</TargetFramework>
+    <TargetFrameworks>netstandard1.0;net47;net45;net40</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Unity Service Location</Description>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
@@ -23,13 +23,13 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Practices.ServiceLocation" Version="2.0.4" />
-  </ItemGroup>
-
   <PropertyGroup>
     <DebugType Condition="'$(TargetFramework)' != '' AND !$(TargetFramework.StartsWith('netcoreapp'))">Full</DebugType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Practices.ServiceLocation" Version="2.0.5" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Unity\Unity.csproj" />

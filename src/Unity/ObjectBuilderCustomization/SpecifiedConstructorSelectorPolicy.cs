@@ -60,7 +60,7 @@ namespace Unity.ObjectBuilder
             else
             {
                 Type[] closedCtorParameterTypes =
-                    ctorReflector.GetClosedParameterTypes(typeToBuild.GenericTypeArguments);
+                    ctorReflector.GetClosedParameterTypes(typeToBuild.GetTypeInfo().GenericTypeArguments);
                 result = new SelectedConstructor(typeToBuild.GetConstructorInfo(closedCtorParameterTypes));
             }
 

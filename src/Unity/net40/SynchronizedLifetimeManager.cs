@@ -94,17 +94,13 @@ namespace Unity
 
         private void TryExit()
         {
-            // Prevent first chance exception when abandoning a lock that has not been entered
-            if (Monitor.IsEntered(this.lockObj))
+            try
             {
-                try
-                {
-                    Monitor.Exit(this.lockObj);
-                }
-                catch (SynchronizationLockException)
-                {
-                    // Noop here - we don't hold the lock and that's ok.
-                }
+                Monitor.Exit(this.lockObj);
+            }
+            catch (SynchronizationLockException)
+            {
+                // Noop here - we don't hold the lock and that's ok.
             }
         }
     }

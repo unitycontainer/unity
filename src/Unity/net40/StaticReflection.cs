@@ -66,7 +66,7 @@ namespace Unity.Utility
         {
             var property = GetPropertyInfo<T, TProperty>(expression);
 
-            var getMethod = property.GetMethod;
+            var getMethod = property.GetGetMethod(true);
             if (getMethod == null)
             {
                 throw new InvalidOperationException("Invalid expression form passed");
@@ -91,7 +91,7 @@ namespace Unity.Utility
         {
             var property = GetPropertyInfo<T, TProperty>(expression);
 
-            var setMethod = property.SetMethod;
+            var setMethod = property.GetSetMethod(true);
             if (setMethod == null)
             {
                 throw new InvalidOperationException("Invalid expression form passed");

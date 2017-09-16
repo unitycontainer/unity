@@ -22,7 +22,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Unity.Mvc\Unity.Mvc.csproj" />
+    <ProjectReference Include="..\..\src\Unity.Microsoft.DependencyInjection\Unity.Microsoft.DependencyInjection.csproj" />
     <ProjectReference Include="..\..\src\Unity\Unity.csproj" />
   </ItemGroup>
 

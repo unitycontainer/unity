@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;net47</TargetFrameworks>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <TargetFrameworks>net47;net45;net40</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Unity Configuration</Description>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <FileVersion>5.0.0.0</FileVersion>
     <Copyright>Copyright © Microsoft 2008</Copyright>
     <Version>5.0.0</Version>
-    <PackageProjectUrl>https://github.com/IoC-Unity</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/IoC-Unity</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/IoC-Unity/Unity</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/IoC-Unity/Unity</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <PackageReleaseNotes>This package is distributed as .NET Standard 2.0 package. It is compatible with</PackageReleaseNotes>
+    <PackageReleaseNotes>This package is compatible with .NET 4.0, 4.5, and 4.7 frameworks.</PackageReleaseNotes>
     <PackageId>Unity.Configuration</PackageId>
     <Authors>Microsoft.Practices.Unity</Authors>
     <Company>Microsoft.Practices.Unity</Company>
@@ -25,6 +25,7 @@
 
   <PropertyGroup>
     <DebugType Condition="'$(TargetFramework)' != '' AND !$(TargetFramework.StartsWith('netcoreapp'))">Full</DebugType>
+    <PackageLicenseUrl>https://github.com/IoC-Unity/Unity/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>

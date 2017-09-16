@@ -23,9 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Interception.Configur
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Unity.Interception.Configuration", "test\Unity.Interception.Configuration\Tests.Unity.Interception.Configuration.csproj", "{8502221D-D3D6-4470-A98F-84A7BF6BF4A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Mvc", "src\Unity.Mvc\Unity.Mvc.csproj", "{D110E6FF-FE83-4525-98B2-D8926C9E0673}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Microsoft.DependencyInjection", "src\Unity.Microsoft.DependencyInjection\Unity.Microsoft.DependencyInjection.csproj", "{D110E6FF-FE83-4525-98B2-D8926C9E0673}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Unity.Mvc", "test\Unity.Mvc\Tests.Unity.Mvc.csproj", "{C44F2D57-91B3-4113-B553-A1A51A3C1C1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Unity.Microsoft.DependencyInjection", "test\Unity.Microsoft.DependencyInjection\Tests.Unity.Microsoft.DependencyInjection.csproj", "{C44F2D57-91B3-4113-B553-A1A51A3C1C1F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.ServiceLocation", "src\Unity.ServiceLocation\Unity.ServiceLocation.csproj", "{4AE16D35-E838-482C-B97D-1B5B7E256D54}"
 EndProject

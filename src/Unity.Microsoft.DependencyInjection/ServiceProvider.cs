@@ -21,8 +21,8 @@ namespace Unity.Microsoft.DependencyInjection
         public ServiceProvider(IUnityContainer unity)
         {
             container = unity;
-            container.RegisterInstance<IServiceProvider>(this);
-            container.RegisterInstance<IServiceScopeFactory>(this);
+            container.RegisterInstance<IServiceProvider>(this, new ExternallyControlledLifetimeManager());
+            container.RegisterInstance<IServiceScopeFactory>(this, new ExternallyControlledLifetimeManager());
             container.RegisterType<IServiceScope>(new InjectionFactory(CreateScope));
         }
 

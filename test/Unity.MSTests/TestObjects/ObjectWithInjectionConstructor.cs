@@ -9,27 +9,29 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Unity;
 
 namespace Microsoft.Practices.Unity.Tests.TestObjects
 {
-    public class ObjectWithOneDependency
-	{
-		private object inner;
+    public class ObjectWithInjectionConstructor
+    {
+        private object constructorDependency;
 
-		public ObjectWithOneDependency(object inner)
-		{
-			this.inner = inner;
-		}
 
-		public object InnerObject
-		{
-			get { return inner; }
-		}
+        public ObjectWithInjectionConstructor(object constructorDependency)
+        {
+            this.constructorDependency = constructorDependency;
+        }
 
-		public void Validate()
-		{
-			Assert.IsNotNull(inner);
-		}
-	}
+        [InjectionConstructor]
+        public ObjectWithInjectionConstructor(string s)
+        {
+            constructorDependency = s;
+        }
+
+        public object ConstructorDependency
+        {
+            get { return constructorDependency; }
+        }
+    }
 }

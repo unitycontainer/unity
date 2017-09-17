@@ -5,12 +5,9 @@ namespace Unity.Microsoft.DependencyInjection
 {
     internal class ScopedServiceProvider : ServiceProvider, IServiceScope
     {
-        IUnityContainer parent;
-
         public ScopedServiceProvider(IUnityContainer container)
             : base(container.CreateChildContainer())
         {
-            parent = container;
         }
 
         IServiceProvider IServiceScope.ServiceProvider => this;

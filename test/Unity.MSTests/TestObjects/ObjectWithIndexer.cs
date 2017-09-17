@@ -9,27 +9,22 @@
 // FITNESS FOR A PARTICULAR PURPOSE.
 //===============================================================================
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Unity;
 
 namespace Microsoft.Practices.Unity.Tests.TestObjects
 {
-    public class ObjectWithOneDependency
+    public class ObjectWithIndexer
 	{
-		private object inner;
-
-		public ObjectWithOneDependency(object inner)
+		[Dependency]
+		public object this[int index]
 		{
-			this.inner = inner;
+			get { return null; }
+			set { }
 		}
 
-		public object InnerObject
+		public bool Validate()
 		{
-			get { return inner; }
-		}
-
-		public void Validate()
-		{
-			Assert.IsNotNull(inner);
+			return true;
 		}
 	}
 }

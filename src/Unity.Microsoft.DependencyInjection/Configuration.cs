@@ -52,17 +52,13 @@ namespace Unity.Microsoft.DependencyInjection
         // TODO: Verify
         private static HashSet<Type> GetAggregateTypes(IServiceCollection services)
         {
-            var aggregateTypes = new HashSet<Type>
-                (
-                services.
-                    GroupBy
-                    (
-                        serviceDescriptor => serviceDescriptor.ServiceType,
-                        serviceDescriptor => serviceDescriptor
-                    ).
-                    Where(typeGrouping => typeGrouping.Count() > 1).
-                    Select(type => type.Key)
+            var aggregateTypes = new HashSet<Type> (
+                services.GroupBy(serviceDescriptor => serviceDescriptor.ServiceType,
+                                 serviceDescriptor => serviceDescriptor)
+                        .Where(typeGrouping => typeGrouping.Count() > 1)
+                        .Select(type => type.Key)
                 );
+
             return aggregateTypes;
         }
 

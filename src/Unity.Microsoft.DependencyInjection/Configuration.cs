@@ -4,29 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Unity.Mvc
+namespace Unity.Microsoft.DependencyInjection
 {
     public static class Configuration
     {
-        static IServiceProvider _originalServiceProvider;
+        #region Public Members
 
-        public static void ConfigureDefaultServiceProvider(IServiceProvider serviceProvider)
+        public static IServiceProvider CreateServiceProvider(this IServiceCollection serviceCollection)
         {
-            _originalServiceProvider = serviceProvider;
+            var container = new UnityContainer();
+            return container.CreateServiceProvider(serviceCollection);
         }
 
-        public static void Register(IServiceCollection services, IUnityContainer container)
+        public static IServiceProvider CreateServiceProvider(this IUnityContainer container, IServiceCollection services = null)
         {
-            container.RegisterType<IServiceScopeFactory, ServiceScopeFactory>();
-            container.RegisterType<IServiceScope, ServiceScope>();
-            container.RegisterType<IServiceProvider, ServiceProvider>();
+            ServiceProvider provider = new ServiceProvider(container);
 
-            RegisterEnumerable(container);
+            if (null == services) return provider;
 
             var aggregateTypes = GetAggregateTypes(services);
-
             var registerInstance = RegisterInstance();
-
             var lifetime = GetLifetime();
 
             // Configure all registrations into Unity
@@ -34,17 +31,25 @@ namespace Unity.Mvc
             {
                 RegisterType(container, lifetime, serviceDescriptor, aggregateTypes, registerInstance);
             }
+
+            return provider;
         }
 
+        #endregion
+
+
+        #region Implementatin
+
+        // TODO: Verify
         private static MethodInfo RegisterInstance()
         {
-            var miRegisterInstanceOpen =
-                typeof (UnityContainerExtensions).
-                    GetMethods(BindingFlags.Static | BindingFlags.Public).
-                    Single(mi => (mi.Name == "RegisterInstance") && mi.IsGenericMethod && (mi.GetParameters().Length == 4));
+            var miRegisterInstanceOpen = 
+                typeof (UnityContainerExtensions).GetMethods(BindingFlags.Static | BindingFlags.Public)
+                                                 .Single(mi => (mi.Name == "RegisterInstance") && mi.IsGenericMethod && (mi.GetParameters().Length == 4));
             return miRegisterInstanceOpen;
         }
 
+        // TODO: Verify
         private static HashSet<Type> GetAggregateTypes(IServiceCollection services)
         {
             var aggregateTypes = new HashSet<Type>
@@ -61,36 +66,7 @@ namespace Unity.Mvc
             return aggregateTypes;
         }
 
-        private static void RegisterEnumerable(IUnityContainer _container)
-        {
-            _container.RegisterType
-                (
-                    typeof (IEnumerable<>),
-                    new InjectionFactory
-                        (
-                        (container, enumerableType, name) =>
-                        {
-                            Type type = enumerableType.GetGenericArguments().Single();
-
-                            object[] allInstances = container.ResolveAll(type).Concat
-                                (
-                                    (_container.IsRegistered(type) ||
-                                     (type.GetGenericArguments().Length > 0 &&
-                                      _container.IsRegistered(type.GetGenericTypeDefinition())))
-                                        ? new object[] {container.Resolve(type)}
-                                        : new object[] {}
-                                ).ToArray();
-
-                            return
-                                typeof (Enumerable).
-                                    GetMethod("OfType", BindingFlags.Static | BindingFlags.Public).
-                                    MakeGenericMethod(new Type[] {type}).
-                                    Invoke(null, new object[] {allInstances});
-                        }
-                        )
-                );
-        }
-
+        // TODO: Verify
         private static Func<ServiceDescriptor, LifetimeManager> GetLifetime()
         {
             Func<ServiceDescriptor, LifetimeManager> fetchLifetime = (serviceDescriptor) =>
@@ -111,6 +87,7 @@ namespace Unity.Mvc
             return fetchLifetime;
         }
 
+        // TODO: Verify
         private static void RegisterType(IUnityContainer _container, Func<ServiceDescriptor, LifetimeManager> fetchLifetime, ServiceDescriptor serviceDescriptor,
             ICollection<Type> aggregateTypes, MethodInfo miRegisterInstanceOpen)
         {
@@ -134,6 +111,7 @@ namespace Unity.Mvc
             }
         }
 
+        // TODO: Verify
         private static void RegisterImplementation(IUnityContainer _container, ServiceDescriptor serviceDescriptor,
             bool isAggregateType, Func<ServiceDescriptor, LifetimeManager> fetchLifetime)
         {
@@ -142,11 +120,14 @@ namespace Unity.Mvc
                 _container.RegisterType(serviceDescriptor.ServiceType, serviceDescriptor.ImplementationType,
                     serviceDescriptor.ImplementationType.AssemblyQualifiedName, fetchLifetime(serviceDescriptor));
             }
-
-            _container.RegisterType(serviceDescriptor.ServiceType, serviceDescriptor.ImplementationType,
-                fetchLifetime(serviceDescriptor));
+            else
+            {
+                _container.RegisterType(serviceDescriptor.ServiceType, serviceDescriptor.ImplementationType,
+                    fetchLifetime(serviceDescriptor));
+            }
         }
 
+        // TODO: Verify
         private static void RegisterFactory(IUnityContainer _container, ServiceDescriptor serviceDescriptor,
             bool isAggregateType, LifetimeManager lifetimeManager)
         {
@@ -185,8 +166,12 @@ namespace Unity.Mvc
                             )
                     );
             }
+
+            #endregion
+
         }
 
+        // TODO: Verify
         private static void RegisterSingleton(IUnityContainer _container, ServiceDescriptor serviceDescriptor,
             MethodInfo miRegisterInstanceOpen, bool isAggregateType, LifetimeManager lifetimeManager)
         {

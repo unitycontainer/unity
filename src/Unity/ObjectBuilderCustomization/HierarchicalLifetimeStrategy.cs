@@ -22,7 +22,7 @@ namespace Unity
             Justification = "Validation done by Guard class")]
         public override void PreBuildUp(IBuilderContext context)
         {
-            Unity.Utility.Guard.ArgumentNotNull(context, "context");
+            Utility.Guard.ArgumentNotNull(context, "context");
 
             IPolicyList lifetimePolicySource;
 

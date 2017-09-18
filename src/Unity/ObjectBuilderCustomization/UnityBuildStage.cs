@@ -15,21 +15,22 @@ namespace Unity.ObjectBuilder
         Setup,
 
         /// <summary>
-        /// Second stage. Type mapping occurs here.
-        /// </summary>
-        TypeMapping,
-
-        /// <summary>
         /// Third stage. lifetime managers are checked here,
         /// and if they're available the rest of the pipeline is skipped.
         /// </summary>
         Lifetime,
 
         /// <summary>
+        /// Second stage. Type mapping occurs here.
+        /// </summary>
+        TypeMapping,
+
+        /// <summary>
         /// Fourth stage. Reflection over constructors, properties, etc. is
         /// performed here.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "PreCreation",
+        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", 
+            MessageId = "PreCreation",
             Justification = "Kept for backward compatibility with ObjectBuilder")]
         PreCreation,
 

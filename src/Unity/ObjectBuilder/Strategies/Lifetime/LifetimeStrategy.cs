@@ -66,7 +66,9 @@ namespace ObjectBuilder2
 
         private ILifetimePolicy GetLifetimePolicy(IBuilderContext context)
         {
-            ILifetimePolicy policy = context.Policies.GetNoDefault<ILifetimePolicy>(context.BuildKey, false);
+            IPolicyList lifetimePolicySource;
+            // TODO: Verify if call is optimal
+            var policy = context.PersistentPolicies.Get<ILifetimePolicy>(context.BuildKey, out lifetimePolicySource);
             if (policy == null && context.BuildKey.Type.GetTypeInfo().IsGenericType)
             {
                 policy = this.GetLifetimePolicyForGenericType(context);

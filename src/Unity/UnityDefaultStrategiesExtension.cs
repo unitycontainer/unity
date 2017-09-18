@@ -18,42 +18,29 @@ namespace Unity
         protected override void Initialize()
         {
             // Main strategy chain
-            Context.Strategies.AddNew<BuildKeyMappingStrategy>(UnityBuildStage.TypeMapping);
             Context.Strategies.AddNew<HierarchicalLifetimeStrategy>(UnityBuildStage.Lifetime);
             Context.Strategies.AddNew<LifetimeStrategy>(UnityBuildStage.Lifetime);
+            Context.Strategies.AddNew<BuildKeyMappingStrategy>(UnityBuildStage.TypeMapping);
 
             Context.Strategies.AddNew<ArrayResolutionStrategy>(UnityBuildStage.Creation);
             Context.Strategies.AddNew<BuildPlanStrategy>(UnityBuildStage.Creation);
 
             // Build plan strategy chain
-            Context.BuildPlanStrategies.AddNew<DynamicMethodConstructorStrategy>(
-                UnityBuildStage.Creation);
-            Context.BuildPlanStrategies.AddNew<DynamicMethodPropertySetterStrategy>(
-                UnityBuildStage.Initialization);
-            Context.BuildPlanStrategies.AddNew<DynamicMethodCallStrategy>(
-                UnityBuildStage.Initialization);
+            Context.BuildPlanStrategies.AddNew<DynamicMethodConstructorStrategy>(UnityBuildStage.Creation);
+            Context.BuildPlanStrategies.AddNew<DynamicMethodPropertySetterStrategy>(UnityBuildStage.Initialization);
+            Context.BuildPlanStrategies.AddNew<DynamicMethodCallStrategy>(UnityBuildStage.Initialization);
 
             // Policies - mostly used by the build plan strategies
-            Context.Policies.SetDefault<IConstructorSelectorPolicy>(
-                new DefaultUnityConstructorSelectorPolicy());
-            Context.Policies.SetDefault<IPropertySelectorPolicy>(
-                new DefaultUnityPropertySelectorPolicy());
-            Context.Policies.SetDefault<IMethodSelectorPolicy>(
-                new DefaultUnityMethodSelectorPolicy());
+            Context.Policies.SetDefault<IConstructorSelectorPolicy>(new DefaultUnityConstructorSelectorPolicy());
+            Context.Policies.SetDefault<IPropertySelectorPolicy>(new DefaultUnityPropertySelectorPolicy());
+            Context.Policies.SetDefault<IMethodSelectorPolicy>(new DefaultUnityMethodSelectorPolicy());
 
-            Context.Policies.SetDefault<IBuildPlanCreatorPolicy>(
-                new DynamicMethodBuildPlanCreatorPolicy(Context.BuildPlanStrategies));
+            Context.Policies.SetDefault<IBuildPlanCreatorPolicy>(new DynamicMethodBuildPlanCreatorPolicy(Context.BuildPlanStrategies));
 
-            Context.Policies.Set<IBuildPlanPolicy>(
-                new DeferredResolveBuildPlanPolicy(),
-                typeof(Func<>));
-            Context.Policies.Set<ILifetimePolicy>(
-                new PerResolveLifetimeManager(),
-                typeof(Func<>));
+            Context.Policies.Set<IBuildPlanPolicy>(new DeferredResolveBuildPlanPolicy(), typeof(Func<>));
+            Context.Policies.Set<ILifetimePolicy>(new PerResolveLifetimeManager(), typeof(Func<>));
 
-            Context.Policies.Set<IBuildPlanCreatorPolicy>(
-                new LazyDynamicMethodBuildPlanCreatorPolicy(),
-                typeof(Lazy<>));
+            Context.Policies.Set<IBuildPlanCreatorPolicy>(new LazyDynamicMethodBuildPlanCreatorPolicy(), typeof(Lazy<>));
         }
     }
 }

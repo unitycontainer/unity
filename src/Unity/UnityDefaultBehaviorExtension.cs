@@ -53,14 +53,14 @@ namespace Unity
             }
             if (e.LifetimeManager != null)
             {
-                this.SetLifetimeManager(e.TypeTo, e.Name, e.LifetimeManager);
+                SetLifetimeManager(e.TypeFrom ?? e.TypeTo, e.Name, e.LifetimeManager);
             }
         }
 
         private void OnRegisterInstance(object sender, RegisterInstanceEventArgs e)
         {
             Context.RegisterNamedType(e.RegisteredType, e.Name);
-            this.SetLifetimeManager(e.RegisteredType, e.Name, e.LifetimeManager);
+            SetLifetimeManager(e.RegisteredType, e.Name, e.LifetimeManager);
             NamedTypeBuildKey identityKey = new NamedTypeBuildKey(e.RegisteredType, e.Name);
             Context.Policies.Set<IBuildKeyMappingPolicy>(new BuildKeyMappingPolicy(identityKey), identityKey);
             e.LifetimeManager.SetValue(e.Instance);

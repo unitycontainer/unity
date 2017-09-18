@@ -7,9 +7,7 @@ namespace Microsoft.Extensions.DependencyInjection.Specification.Fakes
 {
     public class FakeService : IFakeEveryService, IDisposable
     {
-        public string Id = Guid.NewGuid().ToString();
-
-        public string Value => "Hello world";
+        public PocoClass Value { get; set; }
 
         public bool Disposed { get; private set; }
 

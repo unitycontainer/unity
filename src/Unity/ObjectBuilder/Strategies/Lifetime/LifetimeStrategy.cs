@@ -30,21 +30,37 @@ namespace ObjectBuilder2
         {
             Guard.ArgumentNotNull(context, "context");
 
-            if (context.Existing == null)
-            {
-                ILifetimePolicy lifetimePolicy = GetLifetimePolicy(context);
-                IRequiresRecovery recovery = lifetimePolicy as IRequiresRecovery;
-                if (recovery != null)
-                {
-                    context.RecoveryStack.Add(recovery);
-                }
+            if (context.Existing != null) return;
 
-                object existing = lifetimePolicy.GetValue();
-                if (existing != null)
-                {
-                    context.Existing = existing;
-                    context.BuildComplete = true;
-                }
+            IPolicyList containingPolicyList;
+            ILifetimePolicy lifetimePolicy = GetLifetimePolicy(context, out containingPolicyList);
+
+            if (lifetimePolicy is HierarchicalLifetimeManager && 
+                !ReferenceEquals(containingPolicyList, context.PersistentPolicies))
+            {
+                var newLifetime = new HierarchicalLifetimeManager { InUse = true };
+                context.PersistentPolicies.Set<ILifetimePolicy>(newLifetime, context.BuildKey);
+                context.Lifetime.Add(newLifetime);
+            }
+
+            if (lifetimePolicy is PerResolveLifetimeManager &&
+                ReferenceEquals(containingPolicyList, context.PersistentPolicies))
+            {
+                var newLifetime = new PerResolveLifetimeManager();
+                context.Policies.Set<ILifetimePolicy>(newLifetime, context.BuildKey);
+            }
+
+            IRequiresRecovery recovery = lifetimePolicy as IRequiresRecovery;
+            if (recovery != null)
+            {
+                context.RecoveryStack.Add(recovery);
+            }
+
+            object existing = lifetimePolicy.GetValue();
+            if (existing != null)
+            {
+                context.Existing = existing;
+                context.BuildComplete = true;
             }
         }
 
@@ -58,20 +74,22 @@ namespace ObjectBuilder2
         public override void PostBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
-            // If we got to this method, then we know the lifetime policy didn't
-            // find the object. So we go ahead and store it.
-            ILifetimePolicy lifetimePolicy = this.GetLifetimePolicy(context);
-            lifetimePolicy.SetValue(context.Existing);
+            
+            IPolicyList containingPolicyList;
+
+            ILifetimePolicy lifetimePolicy = this.GetLifetimePolicy(context, out containingPolicyList);
+            if (lifetimePolicy is ContainerControlledLifetimeManager)
+            {
+                lifetimePolicy.SetValue(context.Existing);
+            }
         }
 
-        private ILifetimePolicy GetLifetimePolicy(IBuilderContext context)
+        private ILifetimePolicy GetLifetimePolicy(IBuilderContext context, out IPolicyList containingPolicyList)
         {
-            IPolicyList lifetimePolicySource;
-            // TODO: Verify if call is optimal
-            var policy = context.PersistentPolicies.Get<ILifetimePolicy>(context.BuildKey, out lifetimePolicySource);
+            var policy = context.Policies.Get<ILifetimePolicy>(context.BuildKey, out containingPolicyList);
             if (policy == null && context.BuildKey.Type.GetTypeInfo().IsGenericType)
             {
-                policy = GetLifetimePolicyForGenericType(context);
+                policy = GetLifetimePolicyForGenericType(context, out containingPolicyList);
             }
 
             if (policy == null)
@@ -83,15 +101,14 @@ namespace ObjectBuilder2
             return policy;
         }
 
-        private ILifetimePolicy GetLifetimePolicyForGenericType(IBuilderContext context)
+        private ILifetimePolicy GetLifetimePolicyForGenericType(IBuilderContext context, out IPolicyList containingPolicyList)
         {
             Type typeToBuild = context.BuildKey.Type;
             object openGenericBuildKey = new NamedTypeBuildKey(typeToBuild.GetGenericTypeDefinition(),
                                                                context.BuildKey.Name);
 
-            IPolicyList factorySource;
             ILifetimeFactoryPolicy factoryPolicy =
-                context.Policies.Get<ILifetimeFactoryPolicy>(openGenericBuildKey, out factorySource);
+                context.Policies.Get<ILifetimeFactoryPolicy>(openGenericBuildKey, out containingPolicyList);
 
             if (factoryPolicy != null)
             {
@@ -104,10 +121,10 @@ namespace ObjectBuilder2
                 lock (this.genericLifetimeManagerLock)
                 {
                     // check whether the policy for closed-generic has been added since first checked
-                    ILifetimePolicy lifetime = factorySource.GetNoDefault<ILifetimePolicy>(context.BuildKey, false);
+                    ILifetimePolicy lifetime = containingPolicyList.GetNoDefault<ILifetimePolicy>(context.BuildKey, false);
                     if (lifetime == null)
                     {
-                        factorySource.Set<ILifetimePolicy>(newLifetime, context.BuildKey);
+                        containingPolicyList.Set(newLifetime, context.BuildKey);
                         lifetime = newLifetime;
                     }
 

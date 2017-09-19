@@ -188,9 +188,12 @@ namespace ObjectBuilder2
         {
             Guard.ArgumentNotNull(context, "context");
 
-            var lifetime = context.Policies.Get<ILifetimePolicy>(context.BuildKey) as PerResolveLifetimeManager;
-            if (null != lifetime && null != context.Existing && !Equals(lifetime.GetValue(), context.Existing))
+            var lifetime = context.Policies.Get<ILifetimePolicy>(context.BuildKey);
+            if (null != lifetime && !(lifetime is ITransientPolicy) &&
+                null != context.Existing && !Equals(lifetime.GetValue(), context.Existing))
+            {
                 lifetime.SetValue(context.Existing);
+            }
         }
 
         /// <summary>

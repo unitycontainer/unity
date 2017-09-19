@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ObjectBuilder2;
+using System;
 using System.Collections.Generic;
 
 namespace Unity
@@ -8,7 +9,7 @@ namespace Unity
     /// except that in the presence of child containers, each child gets it's own instance
     /// of the object, instead of sharing one in the common parent.
     /// </summary>
-    public class HierarchicalTransienLifetimeManager : HierarchicalLifetimeManager
+    public class HierarchicalTransientLifetimeManager : HierarchicalLifetimeManager, ITransientPolicy
     {
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 

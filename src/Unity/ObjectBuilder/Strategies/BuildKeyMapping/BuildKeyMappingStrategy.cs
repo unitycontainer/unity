@@ -11,7 +11,8 @@ namespace ObjectBuilder2
     public class BuildKeyMappingStrategy : BuilderStrategy
     {
         /// <summary>
-        /// Called during the chain of responsibility for a build operation.  Looks for the <see cref="IBuildKeyMappingPolicy"/>
+        /// Called during the chain of responsibility for a build operation.  
+        /// Looks for the <see cref="IBuildKeyMappingPolicy"/>
         /// and if found maps the build key for the current operation.
         /// </summary>
         /// <param name="context">The context for the operation.</param>
@@ -28,10 +29,12 @@ namespace ObjectBuilder2
             context.BuildKey = policy.Map(context.BuildKey, context);
             var lifetime = context.Policies.Get<ILifetimePolicy>(key, out lifetimePolicySource);
 
-            if (lifetime is PerResolveLifetimeManager)
+            if (null != lifetime && !(lifetime is ITransientPolicy))
                 context.Policies.Set(lifetime, context.BuildKey);
 
-            context.Strategies.ExecuteBuildUp(context);
+            if (null != context.Strategies.ExecuteBuildUp(context))
+                context.BuildComplete = true;
+
             context.BuildKey = key;
         }
     }

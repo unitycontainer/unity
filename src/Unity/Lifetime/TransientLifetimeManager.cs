@@ -1,12 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
+using ObjectBuilder2;
+
 namespace Unity
 {
     /// <summary>
     /// An <see cref="LifetimeManager"/> implementation that does nothing,
     /// thus ensuring that instances are created new every time.
     /// </summary>
-    public class TransientLifetimeManager : LifetimeManager
+    public class TransientLifetimeManager : LifetimeManager, ITransientPolicy
     {
         /// <summary>
         /// Retrieve a value from the backing store associated with this Lifetime policy.

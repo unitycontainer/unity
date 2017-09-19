@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
-using System.Diagnostics;
+
+using ObjectBuilder2;
 
 
 namespace Unity
@@ -11,9 +12,6 @@ namespace Unity
     /// </summary>
     public class PerResolveLifetimeManager : LifetimeManager
     {
-        // TODO: Use InUse instead
-        private bool isSet;
-
         private object value;
 
         /// <summary>
@@ -32,9 +30,6 @@ namespace Unity
         /// <param name="newValue">The object being stored.</param>
         public override void SetValue(object newValue)
         {
-            Debug.Assert(!isSet, "The value for PerResolveLifetimeManager can only be set once");
-
-            isSet = true;
             value = newValue;
         }
 

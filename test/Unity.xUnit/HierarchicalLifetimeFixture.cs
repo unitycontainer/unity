@@ -68,11 +68,9 @@ namespace Unity.Tests
         public void DisposingScopeDisposesService()
         {
             // Arrange
-            container.RegisterType<IFakeMultipleService, FakeOneMultipleService>();
-            container.RegisterType<IFakeMultipleService, FakeTwoMultipleService>();
             container.RegisterType<IFakeService, FakeService>();
             container.RegisterType<IFakeSingletonService, FakeService>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IFakeScopedService, FakeService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IFakeScopedService, FakeService>(new HierarchicalTransientLifetimeManager());
 
             FakeService disposableService;
             FakeService transient1;

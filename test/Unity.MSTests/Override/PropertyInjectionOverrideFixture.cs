@@ -225,12 +225,10 @@ namespace Unity.Tests.Override
             container.RegisterType<ISubjectTypeToInjectForPropertyOverride, SubjectType1ToInjectForPropertyOverride>(
                 new ExternallyControlledLifetimeManager(), new InjectionProperty("InjectedObject", defaultInjected));
 
-            var result1 = container.Resolve<SubjectType1ToInjectForPropertyOverride>();
-            var result2 =
-                container.Resolve<SubjectType1ToInjectForPropertyOverride>(new PropertyOverride("InjectedObject",
-                    overrideInjected));
+            var result1 = container.Resolve<ISubjectTypeToInjectForPropertyOverride>();
+            var result2 = container.Resolve<ISubjectTypeToInjectForPropertyOverride>(new PropertyOverride("InjectedObject", overrideInjected));
 
-            Assert.AreEqual<SubjectType1ToInjectForPropertyOverride>(result1, result2);
+            Assert.AreEqual(result1, result2);
             Assert.IsInstanceOfType(result2.InjectedObject, typeof(TypeToInjectForPropertyOverride1));
 
             result1 = null;

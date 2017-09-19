@@ -38,16 +38,16 @@ namespace ObjectBuilder2
             if (lifetimePolicy is HierarchicalLifetimeManager && 
                 !ReferenceEquals(containingPolicyList, context.PersistentPolicies))
             {
-                var newLifetime = new HierarchicalLifetimeManager { InUse = true };
-                context.PersistentPolicies.Set<ILifetimePolicy>(newLifetime, context.BuildKey);
-                context.Lifetime.Add(newLifetime);
+                lifetimePolicy = new HierarchicalLifetimeManager { InUse = true };
+                context.PersistentPolicies.Set<ILifetimePolicy>(lifetimePolicy, context.BuildKey);
+                context.Lifetime.Add(lifetimePolicy);
             }
 
             if (lifetimePolicy is PerResolveLifetimeManager &&
                 ReferenceEquals(containingPolicyList, context.PersistentPolicies))
             {
-                var newLifetime = new PerResolveLifetimeManager();
-                context.Policies.Set<ILifetimePolicy>(newLifetime, context.BuildKey);
+                lifetimePolicy = new PerResolveLifetimeManager();
+                context.Policies.Set<ILifetimePolicy>(lifetimePolicy, context.BuildKey);
             }
 
             IRequiresRecovery recovery = lifetimePolicy as IRequiresRecovery;
@@ -70,15 +70,16 @@ namespace ObjectBuilder2
         /// phase and executes in reverse order from the PreBuildUp calls.
         /// </summary>
         /// <param name="context">Context of the build operation.</param>
-        // FxCop suppression: Validation is done by Guard class
         public override void PostBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
-            
+
             IPolicyList containingPolicyList;
 
-            ILifetimePolicy lifetimePolicy = this.GetLifetimePolicy(context, out containingPolicyList);
-            if (lifetimePolicy is ContainerControlledLifetimeManager)
+            ILifetimePolicy lifetimePolicy = GetLifetimePolicy(context, out containingPolicyList);
+
+            if (null != lifetimePolicy && !(lifetimePolicy is ITransientPolicy) &&
+                null != context.Existing && !Equals(lifetimePolicy.GetValue(), context.Existing))
             {
                 lifetimePolicy.SetValue(context.Existing);
             }

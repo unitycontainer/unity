@@ -18,7 +18,6 @@ namespace Unity
         protected override void Initialize()
         {
             // Main strategy chain
-            Context.Strategies.AddNew<HierarchicalLifetimeStrategy>(UnityBuildStage.Lifetime);
             Context.Strategies.AddNew<LifetimeStrategy>(UnityBuildStage.Lifetime);
             Context.Strategies.AddNew<BuildKeyMappingStrategy>(UnityBuildStage.TypeMapping);
 

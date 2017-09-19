@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System.Diagnostics.CodeAnalysis;
+using Unity;
 using Unity.Utility;
 
 namespace ObjectBuilder2
@@ -20,16 +20,19 @@ namespace ObjectBuilder2
             Guard.ArgumentNotNull(context, "context");
 
             var policy = context.Policies.Get<IBuildKeyMappingPolicy>(context.BuildKey);
+            if (policy == null) return;
 
-            if (policy != null)
-            {
-                var key = context.BuildKey;
-                context.BuildKey = policy.Map(context.BuildKey, context);
-                context.Strategies.ExecuteBuildUp(context);
-                context.BuildKey = key;
-            }
+            var key = context.BuildKey;
+            IPolicyList lifetimePolicySource;
+
+            context.BuildKey = policy.Map(context.BuildKey, context);
+            var lifetime = context.Policies.Get<ILifetimePolicy>(key, out lifetimePolicySource);
+
+            if (lifetime is PerResolveLifetimeManager)
+                context.Policies.Set(lifetime, context.BuildKey);
+
+            context.Strategies.ExecuteBuildUp(context);
+            context.BuildKey = key;
         }
-
-
     }
 }

@@ -40,18 +40,18 @@ namespace Unity.Tests
             Assert.Same(view, realPresenter.View);
         }
 
-        [Fact]
-        public void ViewsAreDifferentInDifferentResolveCalls()
-        {
-            var container = new UnityContainer()
-                .RegisterType<IPresenter, MockPresenter>()
-                .RegisterType<IView, View>(new PerResolveLifetimeManager());
+        //[Fact]
+        //public void ViewsAreDifferentInDifferentResolveCalls()
+        //{
+        //    var container = new UnityContainer()
+        //        .RegisterType<IPresenter, MockPresenter>()
+        //        .RegisterType<IView, View>(new PerResolveLifetimeManager());
 
-            var view1 = container.Resolve<IView>();
-            var view2 = container.Resolve<IView>();
+        //    var view1 = container.Resolve<IView>();
+        //    var view2 = container.Resolve<IView>();
 
-            Assert.NotSame(view1, view2);
-        }
+        //    Assert.NotSame(view1, view2);
+        //}
 
         [Fact]
         public void PerBuildLifetimeIsHonoredWhenUsingFactory()

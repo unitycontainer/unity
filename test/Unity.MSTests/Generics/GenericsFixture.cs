@@ -48,7 +48,7 @@ namespace Unity.Tests.Generics
         [TestMethod]
         public void CanRegisterGenericTypesAndResolveThem()
         {
-            Dictionary<string, string> myDict = new Dictionary<string, string>();
+            IDictionary<string, string> myDict = new Dictionary<string, string>();
 
             myDict.Add("One", "two");
             myDict.Add("Two", "three");

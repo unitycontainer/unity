@@ -50,10 +50,8 @@ namespace Microsoft.Practices.Unity.Tests
         public void CanOverrideGenericLifetimeManagerWithSpecificOne()
         {
             IUnityContainer container = new UnityContainer()
-                .RegisterType(typeof(IFoo<>),
-                    typeof(MyFoo<>),
-                    new ContainerControlledLifetimeManager())
-                .RegisterType(typeof(MyFoo<double>), new TransientLifetimeManager());
+                .RegisterType(typeof(IFoo<>), typeof(MyFoo<>), new ContainerControlledLifetimeManager())
+                .RegisterType(typeof(IFoo<double>), new TransientLifetimeManager());
 
             IFoo<string> string1 = container.Resolve<IFoo<string>>();
             IFoo<string> string2 = container.Resolve<IFoo<string>>();

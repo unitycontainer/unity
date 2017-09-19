@@ -561,7 +561,7 @@ namespace Microsoft.Practices.Unity.Tests
             myDict.Add("Two", "three");
 
             IUnityContainer container = new UnityContainer()
-                .RegisterInstance(myDict)
+                .RegisterInstance<IDictionary<string, string>>(myDict)
                 .RegisterType(typeof(IDictionary<,>), typeof(Dictionary<,>));
 
             IDictionary<string, string> result = container.Resolve<IDictionary<string, string>>();

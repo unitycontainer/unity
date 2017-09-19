@@ -10,8 +10,6 @@ namespace ObjectBuilder2
     /// </summary>
     public class BuildKeyMappingStrategy : BuilderStrategy
     {
-        private NamedTypeBuildKey key;
-
         /// <summary>
         /// Called during the chain of responsibility for a build operation.  Looks for the <see cref="IBuildKeyMappingPolicy"/>
         /// and if found maps the build key for the current operation.
@@ -25,28 +23,13 @@ namespace ObjectBuilder2
 
             if (policy != null)
             {
-                key = context.BuildKey;
+                var key = context.BuildKey;
                 context.BuildKey = policy.Map(context.BuildKey, context);
-            }
-            else
-            {
-                key = null;
-            }
-        }
-
-        /// <summary>
-        /// Called during the chain of responsibility for a build operation. The
-        /// PostBuildUp method is called when the chain has finished the PreBuildUp
-        /// phase and executes in reverse order from the PreBuildUp calls.
-        /// </summary>
-        /// <param name="context">Context of the build operation.</param>
-        public override void PostBuildUp(IBuilderContext context)
-        {
-            if (key != null)
-            {
+                context.Strategies.ExecuteBuildUp(context);
                 context.BuildKey = key;
             }
         }
+
 
     }
 }

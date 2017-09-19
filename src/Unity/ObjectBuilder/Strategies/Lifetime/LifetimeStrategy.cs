@@ -32,7 +32,7 @@ namespace ObjectBuilder2
 
             if (context.Existing == null)
             {
-                ILifetimePolicy lifetimePolicy = this.GetLifetimePolicy(context);
+                ILifetimePolicy lifetimePolicy = GetLifetimePolicy(context);
                 IRequiresRecovery recovery = lifetimePolicy as IRequiresRecovery;
                 if (recovery != null)
                 {
@@ -71,7 +71,7 @@ namespace ObjectBuilder2
             var policy = context.PersistentPolicies.Get<ILifetimePolicy>(context.BuildKey, out lifetimePolicySource);
             if (policy == null && context.BuildKey.Type.GetTypeInfo().IsGenericType)
             {
-                policy = this.GetLifetimePolicyForGenericType(context);
+                policy = GetLifetimePolicyForGenericType(context);
             }
 
             if (policy == null)

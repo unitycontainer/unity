@@ -1,0 +1,27 @@
+CanOverrideGenericLifetimeManagerWithSpecificOne
+
+This no longer works:
+	container.RegisterType(typeof(IFoo<>), typeof(MyFoo<>), new ContainerControlledLifetimeManager())
+                 .RegisterType(typeof(MyFoo<double>), new TransientLifetimeManager());
+
+Should use instead:
+	container.RegisterType(typeof(IFoo<>), typeof(MyFoo<>), new ContainerControlledLifetimeManager())
+                 .RegisterType(typeof(IFoo<double>), new TransientLifetimeManager());
+-----
+
+CanRegisterGenericTypesAndResolveThem()
+{
+    Dictionary<string, string> myDict = new Dictionary<string, string> { {"One", "two" },
+																		 {"Two", "three"}};
+This no longer works:
+    container.RegisterInstance(myDict);
+
+	IDictionary<string, string> result = container.Resolve<IDictionary<string, string>>();
+    Assert.AreSame(myDict, result);
+
+Should use instead:
+    container.RegisterInstance<IDictionary<string, string>>(myDict);
+
+	IDictionary<string, string> result = container.Resolve<IDictionary<string, string>>();
+    Assert.AreSame(myDict, result);
+

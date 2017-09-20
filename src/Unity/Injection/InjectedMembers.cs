@@ -9,7 +9,6 @@ namespace Unity
     /// which constructors, properties, and methods get injected
     /// via an API rather than through attributes.
     /// </summary>
-    [Obsolete("Use the IUnityContainer.RegisterType method instead of this interface")]
     public class InjectedMembers : UnityContainerExtension
     {
         /// <summary>

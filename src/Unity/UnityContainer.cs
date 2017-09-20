@@ -49,7 +49,7 @@ namespace Unity
         /// </summary>
         /// <param name="parent">The parent <see cref="UnityContainer"/>. The current object
         /// will apply its own settings first, and then check the parent for additional ones.</param>
-        private UnityContainer(UnityContainer parent)
+        private UnityContainer(UnityContainer parent, IEnumerable<UnityContainerExtension> extensions = null)
         {
             this.parent = parent;
 
@@ -65,12 +65,17 @@ namespace Unity
             RegisteringInstance += delegate { };
             ChildContainerCreated += delegate { };
 
-            // Every container gets the default behavior
-            this.AddExtension(new UnityDefaultBehaviorExtension());
+            foreach(var extension in extensions ?? GetDefaultExtensions())
+                AddExtension(extension);
+        }
 
-#pragma warning disable 618
-            this.AddExtension(new InjectedMembers());
-#pragma warning restore 618
+        protected virtual IEnumerable<UnityContainerExtension> GetDefaultExtensions()
+        {
+            return new[] 
+            {
+                new UnityDefaultBehaviorExtension(),
+                new InjectedMembers() as UnityContainerExtension
+            };
         }
 
         #region Type Mapping

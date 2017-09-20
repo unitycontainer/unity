@@ -26,7 +26,12 @@ namespace ObjectBuilder2
             var key = policy.Map(context.BuildKey, context);
             if (key == context.BuildKey) return;
 
-            var existing = context.NewBuildUp(key, (child) => child.Existing = context.Existing );
+            var existing = context.NewBuildUp(context.BuildKey, (child) => 
+            {
+                child.Existing = context.Existing;
+                child.BuildKey = key;
+            });
+
             if (null != existing)
             {
                 context.Existing = existing;

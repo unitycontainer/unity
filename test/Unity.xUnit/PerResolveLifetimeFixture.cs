@@ -1,15 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-#if NETFX_CORE
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#elif __IOS__
-using NUnit.Framework;
-using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
-using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
-using TestMethodAttribute = NUnit.Framework.TestAttribute;
-#else
 using Xunit;
-#endif
 
 namespace Unity.Tests
 {
@@ -40,18 +31,18 @@ namespace Unity.Tests
             Assert.Same(view, realPresenter.View);
         }
 
-        //[Fact]
-        //public void ViewsAreDifferentInDifferentResolveCalls()
-        //{
-        //    var container = new UnityContainer()
-        //        .RegisterType<IPresenter, MockPresenter>()
-        //        .RegisterType<IView, View>(new PerResolveLifetimeManager());
+        [Fact]
+        public void ViewsAreDifferentInDifferentResolveCalls()
+        {
+            var container = new UnityContainer()
+                .RegisterType<IPresenter, MockPresenter>()
+                .RegisterType<IView, View>(new PerResolveLifetimeManager());
 
-        //    var view1 = container.Resolve<IView>();
-        //    var view2 = container.Resolve<IView>();
+            var view1 = container.Resolve<IView>();
+            var view2 = container.Resolve<IView>();
 
-        //    Assert.NotSame(view1, view2);
-        //}
+            Assert.NotSame(view1, view2);
+        }
 
         [Fact]
         public void PerBuildLifetimeIsHonoredWhenUsingFactory()

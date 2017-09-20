@@ -2,17 +2,11 @@ image: Visual Studio 2017
 configuration: Release
 platform: Any CPU
 
-environment:
-  cert_pwd:
-    secure: MFaEwW42SYpK0OfoI4fErg==
-
 install:
   - ps: $env:build_version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version 
   - ps: Update-AppveyorBuild -Version "$env:build_version.$env:APPVEYOR_BUILD_NUMBER"
-  - nuget install PfxToSnk -ExcludeVersion
 
 before_build:
-- cmd: PfxToSnk\lib\net40\PfxToSnk.exe package.pfx package.snk  %cert_pwd%
 - cmd: dotnet restore
 - choco install opencover.portable
 - choco install codecov

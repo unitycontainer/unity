@@ -1,6 +1,8 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/ako7xsb677q254ra/branch/master?svg=true)](https://ci.appveyor.com/project/IoC-Unity/unity/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/nv00dk4lax6oqd00/branch/master?svg=true)](https://ci.appveyor.com/project/IoC-Unity/unity/branch/master)
 [![codecov](https://codecov.io/gh/unitycontainer/unity/branch/master/graph/badge.svg)](https://codecov.io/gh/unitycontainer/unity)
 [![License](https://img.shields.io/badge/license-apache%202.0-60C060.svg)](https://github.com/IoC-Unity/Unity/blob/master/LICENSE)
+[![NuGet](https://img.shields.io/nuget/dt/commonservicelocator.svg)](https://www.nuget.org/packages/Unity)
+[![NuGet](https://img.shields.io/nuget/v/commonservicelocator.svg)](https://www.nuget.org/packages/Unity)
 
 
 ## Overview

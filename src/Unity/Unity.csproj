@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.0;net47;net45;net40</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Unity Core</Description>
+    <AssemblyVersion>5.0.0.0</AssemblyVersion>
+    <FileVersion>5.0.0.0</FileVersion>
+    <Copyright>Copyright © Microsoft 2008</Copyright>
+    <Version>5.0.0</Version>
+    <PackageProjectUrl>https://github.com/IoC-Unity/Unity/tree/master/src/Unity</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/IoC-Unity/Unity</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>This package is distributed as .NET Standard 1.0 package.</PackageReleaseNotes>
+    <PackageId>Unity</PackageId>
+    <Authors>Microsoft.Practices.Unity</Authors>
+    <Company>Microsoft.Practices.Unity</Company>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="Exists('..\..\package.snk')">
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\package.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DebugType Condition="'$(TargetFramework)' != '' AND !$(TargetFramework.StartsWith('netcoreapp'))">Full</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' != 'net40' ">
+    <Compile Remove="net40\**" />
+    <EmbeddedResource Remove="net40\**" />
+    <None Remove="net40\**" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' == 'net40' ">
+    <Compile Remove="Injection\InjectionProperty.cs" />
+    <Compile Remove="Lifetime\SynchronizedLifetimeManager.cs" />
+    <Compile Remove="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Property\DynamicMethodPropertySetterStrategy.cs" />
+    <Compile Remove="ObjectBuilder\Strategies\BuildPlan\Property\PropertySelectorBase.cs" />
+    <Compile Remove="Utility\StaticReflection.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+
+</Project>

@@ -1,5 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/ako7xsb677q254ra/branch/master?svg=true)](https://ci.appveyor.com/project/IoC-Unity/unity/branch/master)
-[![codecov](https://codecov.io/gh/IoC-Unity/Unity/branch/master/graph/badge.svg)](https://codecov.io/gh/IoC-Unity/Unity)
+[![codecov](https://codecov.io/gh/unitycontainer/unity/branch/master/graph/badge.svg)](https://codecov.io/gh/unitycontainer/unity)
 [![License](https://img.shields.io/badge/license-apache%202.0-60C060.svg)](https://github.com/IoC-Unity/Unity/blob/master/LICENSE)
 
 

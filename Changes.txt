@@ -1,3 +1,8 @@
+Removed Unity.ServiceLocation functionality into separate project. With that Unity core no longer requires reference to Microsoft.Practices.ServiceLocation assembly.
+
+
+-----
+
 CanOverrideGenericLifetimeManagerWithSpecificOne
 
 This no longer works:

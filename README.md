@@ -1,4 +1,10 @@
-#Overview
+[![Build status](https://ci.appveyor.com/api/projects/status/ako7xsb677q254ra/branch/master?svg=true)](https://ci.appveyor.com/project/IoC-Unity/unity/branch/master)
+[![codecov](https://codecov.io/gh/IoC-Unity/Unity/branch/master/graph/badge.svg)](https://codecov.io/gh/IoC-Unity/Unity)
+[![License](https://img.shields.io/badge/license-apache%202.0-60C060.svg)](https://github.com/IoC-Unity/Unity/blob/master/LICENSE)
+
+
+## Overview
+
 The Unity Container (Unity) is a lightweight, extensible dependency injection container. It facilitates building loosely coupled applications and provides developers with the following advantages:
 
 * Simplified object creation, especially for hierarchical object structures and dependencies

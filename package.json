@@ -1,5 +1,5 @@
 {
-  "version": "5.0.0",
+  "version": "4.9.9",
   "name": "Unity",
   "description": "The Unity Container (Unity) is a lightweight, extensible dependency injection container."
 }

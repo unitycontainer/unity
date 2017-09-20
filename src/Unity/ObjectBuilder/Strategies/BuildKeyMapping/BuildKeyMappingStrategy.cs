@@ -23,19 +23,15 @@ namespace ObjectBuilder2
             var policy = context.Policies.Get<IBuildKeyMappingPolicy>(context.BuildKey);
             if (policy == null) return;
 
-            var key = context.BuildKey;
-            IPolicyList lifetimePolicySource;
+            var key = policy.Map(context.BuildKey, context);
+            if (key == context.BuildKey) return;
 
-            context.BuildKey = policy.Map(context.BuildKey, context);
-            var lifetime = context.Policies.Get<ILifetimePolicy>(key, out lifetimePolicySource);
-
-            if (null != lifetime && !(lifetime is ITransientPolicy))
-                context.Policies.Set(lifetime, context.BuildKey);
-
-            if (null != context.Strategies.ExecuteBuildUp(context))
+            var existing = context.NewBuildUp(key, (child) => child.Existing = context.Existing );
+            if (null != existing)
+            {
+                context.Existing = existing;
                 context.BuildComplete = true;
-
-            context.BuildKey = key;
+            }
         }
     }
 }

@@ -62,7 +62,7 @@ namespace Unity
 
         private Type GetLifetimeManagerType(IPolicyList policies)
         {
-            var key = new NamedTypeBuildKey(MappedToType, Name);
+            var key = new NamedTypeBuildKey(RegisteredType, Name);
             var lifetime = policies.Get<ILifetimePolicy>(key);
 
             if (lifetime != null)
@@ -70,9 +70,9 @@ namespace Unity
                 return lifetime.GetType();
             }
 
-            if (MappedToType.GetTypeInfo().IsGenericType)
+            if (RegisteredType.GetTypeInfo().IsGenericType)
             {
-                var genericKey = new NamedTypeBuildKey(MappedToType.GetGenericTypeDefinition(), Name);
+                var genericKey = new NamedTypeBuildKey(RegisteredType.GetGenericTypeDefinition(), Name);
                 var lifetimeFactory = policies.Get<ILifetimeFactoryPolicy>(genericKey);
                 if (lifetimeFactory != null)
                 {
@@ -85,7 +85,7 @@ namespace Unity
 
         private LifetimeManager GetLifetimeManager(IPolicyList policies)
         {
-            var key = new NamedTypeBuildKey(MappedToType, Name);
+            var key = new NamedTypeBuildKey(RegisteredType, Name);
             return (LifetimeManager)policies.Get<ILifetimePolicy>(key);
         }
     }

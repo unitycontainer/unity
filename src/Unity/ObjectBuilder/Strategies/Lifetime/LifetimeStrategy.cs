@@ -35,19 +35,12 @@ namespace ObjectBuilder2
             IPolicyList containingPolicyList;
             ILifetimePolicy lifetimePolicy = GetLifetimePolicy(context, out containingPolicyList);
 
-            if (lifetimePolicy is HierarchicalLifetimeManager && 
-                !ReferenceEquals(containingPolicyList, context.PersistentPolicies))
+            var scope = lifetimePolicy as IScopeLifetimePolicy;
+            if (null != scope &&  !ReferenceEquals(containingPolicyList, context.PersistentPolicies))
             {
-                lifetimePolicy = new HierarchicalLifetimeManager { InUse = true };
-                context.PersistentPolicies.Set<ILifetimePolicy>(lifetimePolicy, context.BuildKey);
+                lifetimePolicy = scope.CreateScope() as ILifetimePolicy;
+                context.PersistentPolicies.Set(lifetimePolicy, context.BuildKey);
                 context.Lifetime.Add(lifetimePolicy);
-            }
-
-            if (lifetimePolicy is PerResolveLifetimeManager &&
-                ReferenceEquals(containingPolicyList, context.PersistentPolicies))
-            {
-                lifetimePolicy = new PerResolveLifetimeManager();
-                context.Policies.Set<ILifetimePolicy>(lifetimePolicy, context.BuildKey);
             }
 
             IRequiresRecovery recovery = lifetimePolicy as IRequiresRecovery;
@@ -77,12 +70,7 @@ namespace ObjectBuilder2
             IPolicyList containingPolicyList;
 
             ILifetimePolicy lifetimePolicy = GetLifetimePolicy(context, out containingPolicyList);
-
-            if (null != lifetimePolicy && !(lifetimePolicy is ITransientPolicy) &&
-                null != context.Existing && !Equals(lifetimePolicy.GetValue(), context.Existing))
-            {
-                lifetimePolicy.SetValue(context.Existing);
-            }
+            lifetimePolicy.SetValue(context.Existing);
         }
 
         private ILifetimePolicy GetLifetimePolicy(IBuilderContext context, out IPolicyList containingPolicyList)

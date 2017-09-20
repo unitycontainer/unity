@@ -8,7 +8,7 @@ namespace Unity
     /// An <see cref="LifetimeManager"/> implementation that does nothing,
     /// thus ensuring that instances are created new every time.
     /// </summary>
-    public class TransientLifetimeManager : LifetimeManager, ITransientPolicy
+    public class TransientLifetimeManager : LifetimeManager
     {
         /// <summary>
         /// Retrieve a value from the backing store associated with this Lifetime policy.

@@ -108,15 +108,17 @@ namespace Unity.Tests.Lifetime
         [TestMethod]
         public void SetSingletonRegisterInstanceTwiceSetLifetimeTwice()
         {
-            IUnityContainer uc = new UnityContainer();
+            IUnityContainer container = new UnityContainer();
 
             A aInstance = new A();
-            uc.RegisterInstance<A>(aInstance)
-                .RegisterInstance<A>("hello", aInstance)
-                .RegisterType<A>(new ContainerControlledLifetimeManager())
-                .RegisterType<A>("hello1", new ContainerControlledLifetimeManager());
-            A obj = uc.Resolve<A>();
-            A obj1 = uc.Resolve<A>("hello1");
+
+            container.RegisterInstance(aInstance);
+            container.RegisterInstance("hello", aInstance);
+            container.RegisterType<A>(new ContainerControlledLifetimeManager());
+            container.RegisterType<A>("hello1", new ContainerControlledLifetimeManager());
+
+            A obj = container.Resolve<A>();
+            A obj1 = container.Resolve<A>("hello1");
             
             Assert.AreNotSame(obj, obj1);
         }

@@ -9,7 +9,7 @@ namespace Unity
     /// except that in the presence of child containers, each child gets it's own instance
     /// of the object, instead of sharing one in the common parent.
     /// </summary>
-    public class HierarchicalTransientLifetimeManager : HierarchicalLifetimeManager, ITransientPolicy
+    public class HierarchicalTransientLifetimeManager : HierarchicalLifetimeManager
     {
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 

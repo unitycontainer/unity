@@ -10,7 +10,7 @@
     <Version>5.0.0</Version>
     <PackageProjectUrl>https://github.com/IoC-Unity/Unity/tree/master/src/Unity</PackageProjectUrl>
     <RepositoryUrl>https://github.com/IoC-Unity/Unity</RepositoryUrl>
-    <RepositoryType>GitHub</RepositoryType>
+    <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>This package is distributed as .NET Standard 1.0 package.</PackageReleaseNotes>
     <PackageId>Unity</PackageId>
     <Authors>Microsoft.Practices.Unity</Authors>

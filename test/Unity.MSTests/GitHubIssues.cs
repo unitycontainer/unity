@@ -28,5 +28,19 @@ namespace GitHub
 
             }
         }
+        
+        // Test types 
+        public interface ITestClass
+        { }
+
+        public class TestClass : ITestClass
+        {
+            public TestClass()
+            { }
+
+            [InjectionConstructor]
+            public TestClass(TestClass x) //1
+            { }
+        }
     }
 }

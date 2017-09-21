@@ -34,6 +34,19 @@ namespace Microsoft.Practices.Unity.Tests
         }
 
         [TestMethod]
+        public void CanCreateValueTypeArray()
+        {
+            using (var unityContainer = new UnityContainer())
+            {
+                unityContainer.RegisterInstance(true);
+                unityContainer.RegisterInstance("true", true);
+                unityContainer.RegisterInstance("false", false);
+
+                Assert.IsNotNull(unityContainer.ResolveAll(typeof(bool)));
+            }
+        }
+
+        [TestMethod]
         public void ContainerResolvesRecursiveConstructorDependencies()
         {
             IUnityContainer container = new UnityContainer();

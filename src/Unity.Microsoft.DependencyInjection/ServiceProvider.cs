@@ -108,7 +108,12 @@ namespace Unity.Microsoft.DependencyInjection
 
         protected virtual void Dispose(bool disposing)
         {
+            var disposable = container;
+
             container = null;
+
+            if (null != disposable)
+                disposable.Dispose();
         }
 
         #endregion

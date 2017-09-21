@@ -89,6 +89,25 @@ namespace Microsoft.Practices.Unity.Tests
             IDictionary<string, string> result = container.Resolve<IDictionary<string, string>>();
         }
 
+        [TestMethod]
+        public void Issue_37()
+        {
+            using (IUnityContainer parent = new UnityContainer())
+            {
+                var manager = new HierarchicalLifetimeManager();
+                parent.RegisterType(typeof(MyFoo<>), manager);
+                using (var child = parent.CreateChildContainer())
+                {
+                    var first = child.Resolve<MyFoo<MockBasic>>(); // first is stored in child.lifetimeContainer
+                    var second = child.Resolve<MyFoo<MockBasic>>(); // the same as first (by reference)
+
+                    Assert.IsNotNull(first);
+                    Assert.IsNotNull(second);
+                    Assert.AreSame(first, second);
+                }
+            }
+        }
+        
         public interface IBasicInterface
         { 
         }

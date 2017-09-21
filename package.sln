@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity", "src\Unity\Unity.csproj", "{41BBFB63-0FA7-4236-9731-A53F09EC9C79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity", "src\Unity\Unity.csproj", "{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F45198AB-F3A6-4F83-94B8-762482625BC7}"
 EndProject
@@ -11,15 +11,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Unity.xUnit", "test\U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Unity.MSTests", "test\Unity.MSTests\Tests.Unity.MSTests.csproj", "{358E433E-58EF-4077-9FBB-0248DE04FB29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Configuration", "src\Unity.Configuration\Unity.Configuration.csproj", "{0B20B912-D9F4-444C-9A47-2E3A46FB0FD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Configuration", "src\Unity.Configuration\Unity.Configuration.csproj", "{AEF45ED2-3E7F-4AA5-9001-A4D1BAC12EBE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Unity.Configuration", "test\Unity.Configuration\Tests.Unity.Configuration.csproj", "{41F9434F-DC50-4DEA-BF56-20E301F910D1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Interception", "src\Unity.Interception\Unity.Interception.csproj", "{A1037350-AAA2-43A9-9BDD-08E2C10F0F2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Interception", "src\Unity.Interception\Unity.Interception.csproj", "{F8186B23-B0E1-4646-B5F3-14357841E2BA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Unity.Interception", "test\Unity.Interception\Tests.Unity.Interception.csproj", "{63068947-2938-444D-BFE6-B74163A50E41}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Interception.Configuration", "src\Unity.Interception.Configuration\Unity.Interception.Configuration.csproj", "{FDCA2D0F-98AD-4170-AB37-1FAA435EF147}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Interception.Configuration", "src\Unity.Interception.Configuration\Unity.Interception.Configuration.csproj", "{80F7399F-B221-465F-97C9-4B9FC0E2F67F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Unity.Interception.Configuration", "test\Unity.Interception.Configuration\Tests.Unity.Interception.Configuration.csproj", "{8502221D-D3D6-4470-A98F-84A7BF6BF4A8}"
 EndProject

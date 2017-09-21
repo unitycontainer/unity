@@ -13,6 +13,20 @@ namespace GitHub
         [TestMethod]
         public void StackOverflowException_54()
         {
+            using (IUnityContainer container = new UnityContainer())
+            {
+                container.RegisterType(typeof(ITestClass), typeof(TestClass));
+                try
+                {
+//                    var instance = container.Resolve<ITestClass>(); //2
+//                    Assert.IsNotNull(instance);
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+
+            }
         }
     }
 }

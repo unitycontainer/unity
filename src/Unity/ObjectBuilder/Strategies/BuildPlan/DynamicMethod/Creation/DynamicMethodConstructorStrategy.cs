@@ -102,24 +102,24 @@ namespace ObjectBuilder2
 
             string signature = DynamicMethodConstructorStrategy.CreateSignatureString(selectedConstructor.Constructor);
 
-            if (IsInvalidConstructor(selectedConstructor))
+            if (IsInvalidConstructor(targetTypeInfo, context, selectedConstructor))
             {
                 return CreateThrowForNullExistingObjectWithInvalidConstructor(buildContext, signature);
             }
 
-            // psuedo-code:
-            // throw if attempting interface
-            // if (context.Existing == null) {
-            //   collect parameters
-            //   set operation to invoking constructor
-            //   context.Existing = new {objectType}({constructorparameter}...)
-            //   clear current operation
-            // }
             return Expression.Block(this.CreateNewBuildupSequence(buildContext, selectedConstructor, signature));
         }
 
-        private static bool IsInvalidConstructor(SelectedConstructor selectedConstructor)
+        private static bool IsInvalidConstructor(TypeInfo target, IBuilderContext context, SelectedConstructor selectedConstructor)
         {
+            if (selectedConstructor.Constructor.GetParameters().Any(p => p.ParameterType == target))
+            {
+                IPolicyList containingPolicyList;
+                var policy = context.Policies.Get<ILifetimePolicy>(context.BuildKey, out containingPolicyList);
+                if (null == policy?.GetValue())
+                    return true;
+            }
+
             return selectedConstructor.Constructor.GetParameters().Any(pi => pi.ParameterType.IsByRef);
         }
 

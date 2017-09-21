@@ -25,6 +25,7 @@
 
   <PropertyGroup>
     <DebugType Condition="'$(TargetFramework)' != '' AND !$(TargetFramework.StartsWith('netcoreapp'))">Full</DebugType>
+    <PackageIconUrl>https://avatars1.githubusercontent.com/u/12849707?u=60666efa853c774bbe0c8b625518de9381057152</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' != 'net40' ">

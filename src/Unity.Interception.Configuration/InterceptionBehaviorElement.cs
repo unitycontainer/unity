@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Xml;
 using Unity.Configuration;
 using Unity.Configuration.ConfigurationHelpers;
-using Unity.InterceptionExtension.Configuration.Properties;
+using Unity.Interception.Configuration.Properties;
 using Unity.Utility;
 
 namespace Unity.InterceptionExtension.Configuration

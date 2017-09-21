@@ -41,7 +41,7 @@
     <Compile Remove="ObjectBuilder\Strategies\BuildPlan\Property\PropertySelectorBase.cs" />
     <Compile Remove="Utility\StaticReflection.cs" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>

@@ -4,13 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Xml;
 using Unity.Configuration;
 using Unity.Configuration.ConfigurationHelpers;
-using Unity.InterceptionExtension.Configuration.Properties;
+using Unity.Interception.Configuration.Properties;
 using Unity.Utility;
 
 namespace Unity.InterceptionExtension.Configuration

@@ -34,7 +34,7 @@ namespace Tests.Unity.Microsoft.DependencyInjection
             //Assert.IsType<FakeService>(enumerable[0]);
         }
         [Fact]
-        public void DisposesInReverseOrderOfCreation()
+        public new void DisposesInReverseOrderOfCreation()
         {
             // Arrange
             var serviceCollection = new ServiceCollection();

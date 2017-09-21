@@ -40,11 +40,7 @@ namespace Unity.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-#if NETSTANDARD1_0
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Unity.Properties.Resources", typeof(Resources).GetTypeInfo().Assembly);
-#else
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Unity.Properties.Resources", typeof(Resources).Assembly);
-#endif
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -481,6 +477,15 @@ namespace Unity.Properties {
         internal static string ResolvingPropertyValueOperation {
             get {
                 return ResourceManager.GetString("ResolvingPropertyValueOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The constructor {1} selected for type {0} has reference to itself. Such references create infinite loop during resolving..
+        /// </summary>
+        internal static string SelectedConstructorHasRefItself {
+            get {
+                return ResourceManager.GetString("SelectedConstructorHasRefItself", resourceCulture);
             }
         }
         

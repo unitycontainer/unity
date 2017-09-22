@@ -2,39 +2,39 @@
 
 namespace Unity.Tests.CollectionSupport
 {
-    public class ConfigurationCollectionSupportTestClassGeneric<T>
+    public class ConfigurationTestClass
     {
-        private T[] arrayProperty;
-        public T[] ArrayProperty
+        private TestClass[] arrayProperty;
+        public TestClass[] ArrayProperty
         {
             get { return arrayProperty; }
             set { arrayProperty = value; }
         }
 
-        private T[] arrayMethod;
-        public T[] ArrayMethod
+        private TestClass[] arrayMethod;
+        public TestClass[] ArrayMethod
         {
             get { return arrayMethod; }
             set { arrayMethod = value; }
         }
 
-        private T[] arrayCtor;
-        public T[] ArrayCtor
+        private TestClass[] arrayCtor;
+        public TestClass[] ArrayCtor
         {
             get { return arrayCtor; }
             set { arrayCtor = value; }
         }
 
-        public void InjectionMethod(T[] arrayMethod)
+        public void InjectionMethod(TestClass[] arrayMethod)
         {
             ArrayMethod = arrayMethod;
         }
 
         [InjectionConstructor]
-        public ConfigurationCollectionSupportTestClassGeneric()
+        public ConfigurationTestClass()
         { }
 
-        public ConfigurationCollectionSupportTestClassGeneric(T[] arrayCtor)
+        public ConfigurationTestClass(TestClass[] arrayCtor)
         {
             ArrayCtor = arrayCtor;
         }

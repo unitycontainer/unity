@@ -2,9 +2,9 @@
 
 namespace Unity.Tests.CollectionSupport
 {
-    public class CollectionSupportTestClassWithDependencyArrayProperty
+    public class TestClassWithArrayDependency
     {
         [Dependency]
-        public CollectionSupportTestClass[] Dependency { get; set; }
+        public TestClass[] Dependency { get; set; }
     }
 }

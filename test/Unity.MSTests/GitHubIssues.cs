@@ -5,7 +5,6 @@ using Unity;
 
 namespace GitHub
 {
-    // https://github.com/unitycontainer/unity/issues/54
     [TestClass]
     public class Issues
     {
@@ -31,7 +30,7 @@ namespace GitHub
                     var instance = container.Resolve<ITestClass>(); //2
                     Assert.IsNotNull(instance);
                 }
-                catch (ResolutionFailedException e)
+                catch (ResolutionFailedException)
                 {
                 }
 

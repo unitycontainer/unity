@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Unity.Tests.TestObjects
 {
-    // A dummy interface to support testing type mapping
-    public interface ILogger
+    // A second implementation of ILogger to test named resolution
+    internal class SpecialLogger : ILogger
     {
     }
 }

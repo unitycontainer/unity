@@ -1,52 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="InterceptionExtension\**" />
-    <Compile Remove="RegistrationByConvention\**" />
-    <EmbeddedResource Remove="InterceptionExtension\**" />
-    <EmbeddedResource Remove="RegistrationByConvention\**" />
-    <None Remove="InterceptionExtension\**" />
-    <None Remove="RegistrationByConvention\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="CodeplexIssuesConfigurationFixture.cs" />
-    <Compile Remove="CollectionSupport\CollectionSupportConfigurationFileFixture.cs" />
-    <Compile Remove="CollectionSupport\CollectionSupportConfigurationFixture.cs" />
-    <Compile Remove="ConfigInjectionFixture.cs" />
-    <Compile Remove="ConfigurationFixtureBase.cs" />
-    <Compile Remove="ContainerControlledLifetimeThreadingFixture.cs" />
-    <Compile Remove="ContainerRegisterFixture.cs" />
-    <Compile Remove="ContainerRegistration\ContainerRegistrationFixture.cs" />
-    <Compile Remove="CustomCallHandler.cs" />
-    <Compile Remove="DependencyArrayAttributeFixture.cs" />
-    <Compile Remove="DependencyOverrideFixture.cs" />
-    <Compile Remove="Extension\MyCustomExtension.cs" />
-    <Compile Remove="Extension\MyCustomExtensionFixture.cs" />
-    <Compile Remove="Extension\UnityExtension.cs" />
-    <Compile Remove="Generics\GenericParameterConfigurationFixture.cs" />
-    <Compile Remove="Generics\GenericParameterConfigurationInvalidFixture.cs" />
-    <Compile Remove="ImplicitDefaultAliasFixture.cs" />
-    <Compile Remove="InjectionConstructorFixture.cs" />
-    <Compile Remove="InterceptionFixture.cs" />
-    <Compile Remove="OptionalDependencyAPIConfigurationFixture.cs" />
-    <Compile Remove="OptionalDependencyAttributeFixture.cs" />
-    <Compile Remove="OptionalDependencyResolverPolicyFixture.cs" />
-    <Compile Remove="Override\ConstructorParameterOverrideFixture.cs" />
-    <Compile Remove="Override\PropertyInjectionOverrideConfigurationFixture.cs" />
-    <Compile Remove="Override\TypeBasedOverrideConfigurationFixture.cs" />
-    <Compile Remove="PerThreadLifetimeManagerFixture.cs" />
-    <Compile Remove="ResolvingArraysFixture.cs" />
-    <Compile Remove="ServiceOverrideFixture.cs" />
-    <Compile Remove="SpecifiedConstructorSelectorPolicyFixture.cs" />
-    <Compile Remove="TestDoubles\MockUnityContainer.cs" />
-    <Compile Remove="TestObjects\InterceptedObjects.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />

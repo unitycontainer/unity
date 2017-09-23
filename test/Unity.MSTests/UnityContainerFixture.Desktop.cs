@@ -22,37 +22,38 @@ namespace Microsoft.Practices.Unity.Tests
     [TestClass]
     public class UnityContainerFixtureDesktop
     {
-        [TestMethod]
-        [Ignore]
-        public void CanRegisterComObject()
-        {
-            Type xmlHttpType = Type.GetTypeFromProgID("MSXML2.XMLHTTP.3.0");
-            IUnknown xmlHttp = (IUnknown)Activator.CreateInstance(xmlHttpType);
+        // TODO: Feature request
+        //[TestMethod]
+        //[Ignore]
+        //public void CanRegisterComObject()
+        //{
+        //    Type xmlHttpType = Type.GetTypeFromProgID("MSXML2.XMLHTTP.3.0");
+        //    IUnknown xmlHttp = (IUnknown)Activator.CreateInstance(xmlHttpType);
 
-            IUnityContainer container = new UnityContainer()
-                .RegisterInstance(typeof(IUnknown), "__comObject", xmlHttp);
+        //    IUnityContainer container = new UnityContainer()
+        //        .RegisterInstance(typeof(IUnknown), "__comObject", xmlHttp);
 
-            var o = container.Resolve<IUnknown>("__comObject");
-            Assert.IsNotNull(o);
-        }
+        //    var o = container.Resolve<IUnknown>("__comObject");
+        //    Assert.IsNotNull(o);
+        //}
 
 
-        [TestMethod]
-        [Ignore]
-        public void CanBuildUpComObject()
-        {
-            Type xmlHttpType = Type.GetTypeFromProgID("MSXML2.XMLHTTP.3.0");
-            IUnknown xmlHttp = (IUnknown)Activator.CreateInstance(xmlHttpType);
+        //[TestMethod]
+        //[Ignore]
+        //public void CanBuildUpComObject()
+        //{
+        //    Type xmlHttpType = Type.GetTypeFromProgID("MSXML2.XMLHTTP.3.0");
+        //    IUnknown xmlHttp = (IUnknown)Activator.CreateInstance(xmlHttpType);
 
-            IUnknown o = (IUnknown)new UnityContainer().BuildUp(typeof(IUnknown), xmlHttp);
+        //    IUnknown o = (IUnknown)new UnityContainer().BuildUp(typeof(IUnknown), xmlHttp);
 
-            Assert.IsNotNull(o);
-        }
+        //    Assert.IsNotNull(o);
+        //}
 
-        [Guid("00000000-0000-0000-C000-000000000046")]
-        public interface IUnknown
-        {
-        }
+        //[Guid("00000000-0000-0000-C000-000000000046")]
+        //public interface IUnknown
+        //{
+        //}
 
 
         // TODO: Verify

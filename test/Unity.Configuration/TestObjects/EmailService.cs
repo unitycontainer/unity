@@ -5,8 +5,13 @@ using System.Text;
 
 namespace Unity.Tests.TestObjects
 {
-    // A dummy interface to support testing type mapping
-    public interface ILogger
+    // A dummy class to support testing type mapping
+    public class EmailService : IService
     {
+        public bool Disposed = false;
+        public void Dispose()
+        {
+            Disposed = true;
+        }
     }
 }

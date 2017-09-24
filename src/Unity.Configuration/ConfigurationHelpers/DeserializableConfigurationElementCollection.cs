@@ -9,8 +9,6 @@ namespace Unity.Configuration.ConfigurationHelpers
     /// that provides a canned implementation of <see cref="ConfigurationElementCollection.CreateNewElement()"/>.
     /// </summary>
     /// <typeparam name="TElement">Type of configuration element in the collection.</typeparam>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Deserializable",
-        Justification = "It is spelled correctly.")]
     public abstract class DeserializableConfigurationElementCollection<TElement> :
         DeserializableConfigurationElementCollectionBase<TElement>
         where TElement : DeserializableConfigurationElement, new()

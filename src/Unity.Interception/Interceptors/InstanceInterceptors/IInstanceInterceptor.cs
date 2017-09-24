@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Unity.InterceptionExtension
 {
@@ -18,7 +17,6 @@ namespace Unity.InterceptionExtension
         /// <param name="target">Object to create the proxy for.</param>
         /// <param name="additionalInterfaces">Additional interfaces the proxy must implement.</param>
         /// <returns>The proxy object.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t", Justification = "Parameter name is meaningful enough in context")]
         IInterceptingProxy CreateProxy(Type t, object target, params Type[] additionalInterfaces);
     }
 }

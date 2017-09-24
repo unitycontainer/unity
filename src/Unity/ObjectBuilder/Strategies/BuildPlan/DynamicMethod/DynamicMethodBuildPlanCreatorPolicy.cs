@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System.Diagnostics.CodeAnalysis;
 using Unity.Utility;
 
 namespace ObjectBuilder2
@@ -29,7 +28,6 @@ namespace ObjectBuilder2
         /// <param name="context">The current build context.</param>
         /// <param name="buildKey">The current build key.</param>
         /// <returns>The created build plan.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         public IBuildPlanPolicy CreatePlan(IBuilderContext context, NamedTypeBuildKey buildKey)
         {
             Guard.ArgumentNotNull(buildKey, "buildKey");

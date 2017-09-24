@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using Unity.Properties;
@@ -23,7 +22,6 @@ namespace ObjectBuilder2
         /// </summary>
         /// <param name="destinationKey">Build key to map to. This must be or contain an open generic type.</param>
         // FxCop suppression: Validation is done by Guard class
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation is done by Guard class")]
         public GenericTypeBuildKeyMappingPolicy(NamedTypeBuildKey destinationKey)
         {
             Guard.ArgumentNotNull(destinationKey, "destinationKey");

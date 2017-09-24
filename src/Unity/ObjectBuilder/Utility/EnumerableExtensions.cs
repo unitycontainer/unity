@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using Unity.Utility;
@@ -22,7 +21,6 @@ namespace ObjectBuilder2
         /// <typeparam name="TItem">Type of the items stored in <paramref name="sequence"/></typeparam>
         /// <param name="sequence">Sequence of items to process.</param>
         /// <param name="action">Code to run over each item.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         public static void ForEach<TItem>(this IEnumerable<TItem> sequence, Action<TItem> action)
         {
             Guard.ArgumentNotNull(sequence, "sequence");

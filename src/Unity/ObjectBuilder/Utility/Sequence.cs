@@ -32,8 +32,6 @@ namespace ObjectBuilder2
         /// <param name="sequence1">First sequence of items.</param>
         /// <param name="sequence2">Second sequence of items.</param>
         /// <returns>New sequence of pairs. This sequence ends when the shorter of sequence1 and sequence2 does.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
-            Justification = "No other way to do this")]
         public static IEnumerable<Pair<TFirstSequenceElement, TSecondSequenceElement>> Zip<TFirstSequenceElement, TSecondSequenceElement>(IEnumerable<TFirstSequenceElement> sequence1, IEnumerable<TSecondSequenceElement> sequence2)
         {
             var enum1 = sequence1.GetEnumerator();

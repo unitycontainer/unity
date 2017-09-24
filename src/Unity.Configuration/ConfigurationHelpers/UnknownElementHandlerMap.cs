@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 
 namespace Unity.Configuration.ConfigurationHelpers
@@ -14,7 +13,6 @@ namespace Unity.Configuration.ConfigurationHelpers
     /// used to interpret that element.
     /// </summary>
     /// <typeparam name="TContainingElement"></typeparam>
-    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Not a collection, only implements IEnumerable to get initialization syntax.")]
     public class UnknownElementHandlerMap<TContainingElement> :
         IEnumerable<KeyValuePair<string, Action<TContainingElement, XmlReader>>>
         where TContainingElement : ConfigurationElement

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using ObjectBuilder2;
@@ -66,8 +65,6 @@ namespace Unity
         /// <param name="t">Type to check.</param>
         /// <returns>True if this parameter value is compatible with type <paramref name="t"/>,
         /// false if not.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public override bool MatchesType(Type t)
         {
             Guard.ArgumentNotNull(t, "t");
@@ -105,8 +102,6 @@ namespace Unity
         /// <param name="typeToResolve">The actual type to resolve.</param>
         /// <param name="resolutionKey">The resolution key.</param>
         /// <returns>The <see cref="IDependencyResolverPolicy"/>.</returns>
-        [SuppressMessage("Microsoft.Maintainability", "CA1500:VariableNamesShouldNotMatchFieldNames", MessageId = "resolutionKey",
-            Justification = "protected method parameter collides with private field - not an issue.")]
         protected abstract IDependencyResolverPolicy DoGetResolverPolicy(Type typeToResolve, string resolutionKey);
 
         private void GuardTypeToBuildIsGeneric(Type typeToBuild)

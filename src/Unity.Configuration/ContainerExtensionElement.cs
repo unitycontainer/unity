@@ -29,8 +29,6 @@ namespace Unity.Configuration
         /// Add the extension specified in this element to the container.
         /// </summary>
         /// <param name="container">Container to configure.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         protected override void ConfigureContainer(IUnityContainer container)
         {
             Unity.Utility.Guard.ArgumentNotNull(container, "container");
@@ -47,8 +45,6 @@ namespace Unity.Configuration
         /// calling this method, so deriving classes only need to write the element content, not
         /// the start or end tags.</remarks>
         /// <param name="writer">Writer to send XML content to.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public override void SerializeContent(System.Xml.XmlWriter writer)
         {
             Guard.ArgumentNotNull(writer, "writer");

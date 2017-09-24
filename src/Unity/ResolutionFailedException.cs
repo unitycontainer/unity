@@ -18,8 +18,6 @@ namespace Unity
     // FxCop suppression: The standard constructors don't make sense for this exception,
     // as calling them will leave out the information that makes the exception useful
     // in the first place.
-    [SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors",
-        Justification = "The standard constructors don't make sense for this exception, as calling them will leave out the information that makes the exception useful in the first place.")]
     public partial class ResolutionFailedException : Exception
     {
         private string typeRequested;

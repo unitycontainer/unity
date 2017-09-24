@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using ObjectBuilder2;
@@ -19,8 +18,6 @@ namespace Unity.ObjectBuilder
         /// </summary>
         /// <param name="parameter">Parameter to create the resolver for.</param>
         /// <returns>The resolver object.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         protected override IDependencyResolverPolicy CreateResolver(ParameterInfo parameter)
         {
             Unity.Utility.Guard.ArgumentNotNull(parameter, "parameter");

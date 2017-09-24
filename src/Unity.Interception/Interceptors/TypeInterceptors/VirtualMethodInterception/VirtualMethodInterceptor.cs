@@ -24,8 +24,6 @@ namespace Unity.InterceptionExtension
         /// </summary>
         /// <param name="t">Type to check.</param>
         /// <returns>True if interception is possible, false if not.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done via Guard class")]
         public bool CanIntercept(Type t)
         {
             Guard.ArgumentNotNull(t, "t");
@@ -42,10 +40,6 @@ namespace Unity.InterceptionExtension
         /// <param name="interceptedType">The intercepted type.</param>
         /// <param name="implementationType">The concrete type of the implementing object.</param>
         /// <returns>Sequence of <see cref="MethodInfo"/> objects.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Interceptable",
-            Justification = "Spelling is fine")]
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done via Guard class")]
         public IEnumerable<MethodImplementationInfo> GetInterceptableMethods(Type interceptedType, Type implementationType)
         {
             Guard.ArgumentNotNull(implementationType, "implementationType");
@@ -91,8 +85,6 @@ namespace Unity.InterceptionExtension
         /// <param name="additionalInterfaces">Additional interfaces the proxy must implement.</param>
         /// <returns>New type that can be instantiated instead of the
         /// original type t, and supports interception.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done via Guard class")]
         public Type CreateProxyType(Type t, params Type[] additionalInterfaces)
         {
             Guard.ArgumentNotNull(t, "t");

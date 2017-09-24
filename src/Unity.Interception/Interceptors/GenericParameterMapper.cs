@@ -25,8 +25,6 @@ namespace Unity.InterceptionExtension
         /// </summary>
         /// <param name="type">A constructed generic type, open or closed.</param>
         /// <param name="parent">The parent mapper, or <see langword="null"/>.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public GenericParameterMapper(Type type, GenericParameterMapper parent)
         {
             Guard.ArgumentNotNull(type, "type");

@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Unity
 {
@@ -22,8 +21,6 @@ namespace Unity
         /// of the returned instance.</param>
         /// <param name="injectionMembers">Injection configuration objects.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "To",
-            Justification = "Identifier name 'to' makes sense. Avoid changing public API names.")]
         IUnityContainer RegisterType(Type from, Type to, string name, LifetimeManager lifetimeManager,
                                               params InjectionMember[] injectionMembers);
 
@@ -43,7 +40,6 @@ namespace Unity
         /// <param name="lifetime">
         /// <see cref="LifetimeManager"/> object that controls how this instance will be managed by the container.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t", Justification = "Parameter name is meaningful enough in context")]
         IUnityContainer RegisterInstance(Type t, string name, object instance, LifetimeManager lifetime);
 
         /// <summary>
@@ -53,7 +49,6 @@ namespace Unity
         /// <param name="name">Name of the object to retrieve.</param>
         /// <param name="resolverOverrides">Any overrides for the resolve call.</param>
         /// <returns>The retrieved object.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t", Justification = "Parameter name is meaningful enough in context")]
         object Resolve(Type t, string name, params ResolverOverride[] resolverOverrides);
 
         /// <summary>
@@ -71,7 +66,6 @@ namespace Unity
         /// <param name="t">The type requested.</param>
         /// <param name="resolverOverrides">Any overrides for the resolve calls.</param>
         /// <returns>Set of objects of type <paramref name="t"/>.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t", Justification = "Parameter name is meaningful enough in context")]
         IEnumerable<object> ResolveAll(Type t, params ResolverOverride[] resolverOverrides);
 
         /// <summary>
@@ -90,15 +84,12 @@ namespace Unity
         /// <returns>The resulting object. By default, this will be <paramref name="existing"/>, but
         /// container extensions may add things like automatic proxy creation which would
         /// cause this to return a different object (but still type compatible with <paramref name="t"/>).</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t", Justification = "Parameter name is meaningful enough in context")]
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp", Justification = "BuildUp is correct.")]
         object BuildUp(Type t, object existing, string name, params ResolverOverride[] resolverOverrides);
 
         /// <summary>
         /// Run an existing object through the container, and clean it up.
         /// </summary>
         /// <param name="o">The object to tear down.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "o", Justification = "Parameter name is valid in context")]
         void Teardown(object o);
 
         /// <summary>

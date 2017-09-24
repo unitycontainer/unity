@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using Unity.Utility;
 
 namespace ObjectBuilder2
@@ -9,8 +8,6 @@ namespace ObjectBuilder2
     /// <summary>
     /// An implementation of <see cref="IRecoveryStack"/>.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix", 
-        Justification = "The name ends in stack because the semantics are a stack, and we want that to be obvious to users")]
     public class RecoveryStack : IRecoveryStack
     {
         private Stack<IRequiresRecovery> recoveries = new Stack<IRequiresRecovery>();

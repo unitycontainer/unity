@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Security;
 using System.Security.Permissions;
 using ObjectBuilder2;
 using Unity.InterceptionExtension.Tests.ObjectsUnderTest;
@@ -798,7 +797,6 @@ namespace Unity.InterceptionExtension.Tests.VirtualMethodInterception
         private InterceptionBehaviorPipeline pipeline = new InterceptionBehaviorPipeline();
         private MethodBase reverse = typeof(InterceptingGenericClass<T>).GetMethod("Reverse");
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1100:DoNotPrefixCallsWithBaseUnlessLocalImplementationExists", Justification = "Point of the test is to call base class and Reverse is overridden and virtual.")]
         private string BaseReverse<TITem>(TITem obj)
         {
             return base.Reverse(obj);

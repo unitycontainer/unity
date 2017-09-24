@@ -43,8 +43,6 @@ namespace Unity.InterceptionExtension
         /// </summary>
         /// <param name="member">MemberInfo to check against.</param>
         /// <returns>true if ruleset matches, false if it does not.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         protected override bool DoesMatch(MethodImplementationInfo member)
         {
             Unity.Utility.Guard.ArgumentNotNull(member, "member");

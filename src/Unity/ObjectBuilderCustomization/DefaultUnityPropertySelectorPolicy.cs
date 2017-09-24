@@ -19,8 +19,6 @@ namespace Unity.ObjectBuilder
         /// </summary>
         /// <param name="property">Property to create resolver for.</param>
         /// <returns>The resolver object.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         protected override IDependencyResolverPolicy CreateResolver(PropertyInfo property)
         {
             Unity.Utility.Guard.ArgumentNotNull(property, "property");

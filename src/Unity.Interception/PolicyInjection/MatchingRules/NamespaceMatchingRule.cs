@@ -42,8 +42,6 @@ namespace Unity.InterceptionExtension
         /// the given namespace names.
         /// </summary>
         /// <param name="matches">Collection of namespace names to match.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public NamespaceMatchingRule(IEnumerable<MatchingInfo> matches)
         {
             Unity.Utility.Guard.ArgumentNotNull(matches, "matches");

@@ -51,8 +51,6 @@ namespace Unity.Configuration
         /// </summary>
         /// <param name="propertyValues">Dictionary of name/value pairs to check.</param>
         /// <param name="requiredProperty">attribute name to check.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         protected static void GuardPropertyValueIsPresent(IDictionary<string, string> propertyValues, string requiredProperty)
         {
             Unity.Utility.Guard.ArgumentNotNull(propertyValues, "propertyValues");

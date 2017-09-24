@@ -33,8 +33,6 @@ namespace Unity.InterceptionExtension
         /// </summary>
         /// <param name="callMessage">Remoting call message object.</param>
         /// <param name="target">Ultimate target of the method call.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public TransparentProxyMethodInvocation(IMethodCallMessage callMessage, object target)
         {
             Unity.Utility.Guard.ArgumentNotNull(callMessage, "callMessage");

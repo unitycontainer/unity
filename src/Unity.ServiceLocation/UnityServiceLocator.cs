@@ -28,8 +28,6 @@ namespace Unity
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         /// <filterpriority>2</filterpriority>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1816:CallGCSuppressFinalizeCorrectly",
-            Justification = "Object is not finalizable, no reason to call SuppressFinalize")]
         public void Dispose()
         {
             if (this.container != null)

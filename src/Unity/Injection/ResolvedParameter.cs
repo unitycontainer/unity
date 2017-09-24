@@ -47,8 +47,6 @@ namespace Unity
         /// <param name="typeToBuild">Type that contains the member that needs this parameter. Used
         /// to resolve open generic parameters.</param>
         /// <returns>The <see cref="IDependencyResolverPolicy"/>.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done via Guard class")]
         public override IDependencyResolverPolicy GetResolverPolicy(Type typeToBuild)
         {
             Guard.ArgumentNotNull(typeToBuild, "typeToBuild");

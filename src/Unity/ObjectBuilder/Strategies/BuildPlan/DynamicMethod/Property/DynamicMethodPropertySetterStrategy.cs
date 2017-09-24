@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -90,7 +88,6 @@ namespace ObjectBuilder2
         /// <summary>
         /// A helper method used by the generated IL to store the current operation in the build context.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class.")]
         public static void SetCurrentOperationToResolvingPropertyValue(string propertyName, IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
@@ -101,7 +98,6 @@ namespace ObjectBuilder2
         /// <summary>
         /// A helper method used by the generated IL to store the current operation in the build context.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class.")]
         public static void SetCurrentOperationToSettingProperty(string propertyName, IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");

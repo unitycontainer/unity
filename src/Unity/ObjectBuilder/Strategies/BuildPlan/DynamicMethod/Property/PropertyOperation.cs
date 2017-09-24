@@ -48,8 +48,6 @@ namespace ObjectBuilder2
         /// the base <see cref='ToString'/> method.
         /// </summary>
         /// <returns>The format string.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate",
-            Justification = "This could theoretically be expensive, and is easier to override for clients if it's a method.")]
         protected abstract string GetDescriptionFormat();
     }
 }

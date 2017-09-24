@@ -15,7 +15,6 @@ namespace ObjectBuilder2
         /// include strategies that use reflection to set policies into the context that other
         /// strategies would later use.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", Justification = "Backwards compatibility")]
         PreCreation,
 
         /// <summary>

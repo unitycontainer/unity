@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Unity.Utility;
@@ -59,8 +58,6 @@ namespace ObjectBuilder2
         /// </summary>
         /// <param name="property">Property to create resolver for.</param>
         /// <returns>The resolver object.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Property",
-            Justification = "Identifier name 'property' makes sense. Avoid changing API names.")]
         protected abstract IDependencyResolverPolicy CreateResolver(PropertyInfo property);
     }
 }

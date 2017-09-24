@@ -95,8 +95,6 @@ namespace Unity.InterceptionExtension
         /// </summary>
         /// <param name="member">Member to get Method Set for.</param>
         /// <returns>The set of methods</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         protected static IEnumerable<MethodBase> GetMethodSet(MethodBase member)
         {
             Unity.Utility.Guard.ArgumentNotNull(member, "member");

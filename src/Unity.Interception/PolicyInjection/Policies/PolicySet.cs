@@ -2,8 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace Unity.InterceptionExtension
 {
@@ -11,7 +9,6 @@ namespace Unity.InterceptionExtension
     /// A collection of Policy objects. The policies within a PolicySet combine using
     /// an "or" operation.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1710", Justification = "Using alternative suffix 'Set'.")]
     public class PolicySet : List<InjectionPolicy>
     {
         /// <summary>

@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 
 namespace Unity.Configuration.ConfigurationHelpers
@@ -12,9 +11,6 @@ namespace Unity.Configuration.ConfigurationHelpers
     /// </summary>
     /// <typeparam name="TElement">Type of configuration element contained in 
     /// the collection.</typeparam>
-    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "This is a base class, name is reasonable")]
-    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Deserializable",
-        Justification = "It is spelled correctly")]
     public abstract class DeserializableConfigurationElementCollectionBase<TElement> :
         ConfigurationElementCollection,
         IEnumerable<TElement>

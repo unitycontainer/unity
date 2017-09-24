@@ -1,5 +1,5 @@
-﻿using ObjectBuilder2;
-using System;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Unity
@@ -26,7 +26,7 @@ namespace Unity
 
         protected override void Dispose(bool disposing)
         {
-            foreach (IDisposable disposable in disposables)
+            foreach (IDisposable disposable in disposables.Reverse<IDisposable>())
             {
                 disposable.Dispose();
             }

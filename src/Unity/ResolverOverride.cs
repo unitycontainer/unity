@@ -26,7 +26,6 @@ namespace Unity
         /// </summary>
         /// <typeparam name="T">Type to constrain the override to.</typeparam>
         /// <returns>The new override.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public ResolverOverride OnType<T>()
         {
             return new TypeBasedOverride<T>(this);

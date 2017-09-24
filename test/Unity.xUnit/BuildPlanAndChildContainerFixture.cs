@@ -2,16 +2,7 @@
 
 using Unity.Tests.TestObjects;
 using Unity.TestSupport;
-#if NETFX_CORE
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#elif __IOS__
-using NUnit.Framework;
-using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
-using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
-using TestMethodAttribute = NUnit.Framework.TestAttribute;
-#else
 using Xunit;
-#endif
 
 namespace Unity.Tests
 {

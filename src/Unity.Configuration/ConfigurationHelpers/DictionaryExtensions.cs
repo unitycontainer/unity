@@ -17,8 +17,6 @@ namespace Unity.Configuration.ConfigurationHelpers
         /// <param name="dictionary">Dictionary to search.</param>
         /// <param name="key">Key to look up.</param>
         /// <returns>The value at the key or null if not in the dictionary.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public static TValue GetOrNull<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
             Unity.Utility.Guard.ArgumentNotNull(dictionary, "dictionary");

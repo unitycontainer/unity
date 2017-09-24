@@ -51,8 +51,6 @@ namespace Unity.InterceptionExtension
         /// <param name="method">Method to retrieve the pipeline for.</param>
         /// <param name="handlers">Handlers to initialize the pipeline with</param>
         /// <returns>True if the pipeline has any handlers in it, false if not.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public bool InitializePipeline(MethodImplementationInfo method, IEnumerable<ICallHandler> handlers)
         {
             Unity.Utility.Guard.ArgumentNotNull(method, "method");

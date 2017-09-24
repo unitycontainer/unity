@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System.Diagnostics.CodeAnalysis;
 namespace Unity.ObjectBuilder
 {
     /// <summary>
@@ -29,9 +28,6 @@ namespace Unity.ObjectBuilder
         /// Fourth stage. Reflection over constructors, properties, etc. is
         /// performed here.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", 
-            MessageId = "PreCreation",
-            Justification = "Kept for backward compatibility with ObjectBuilder")]
         PreCreation,
 
         /// <summary>

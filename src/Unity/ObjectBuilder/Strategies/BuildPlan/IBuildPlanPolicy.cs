@@ -16,8 +16,6 @@ namespace ObjectBuilder2
         /// in the existing type if passed in.
         /// </summary>
         /// <param name="context">Context used to build up the object.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp",
-            Justification = "Kept for backward compatibility with ObjectBuilder")]
         void BuildUp(IBuilderContext context);
     }
 }

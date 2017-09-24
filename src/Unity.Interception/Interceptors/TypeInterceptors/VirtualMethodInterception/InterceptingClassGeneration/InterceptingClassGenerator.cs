@@ -4,11 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Security;
 
 namespace Unity.InterceptionExtension
 {
@@ -27,8 +25,6 @@ namespace Unity.InterceptionExtension
         private FieldBuilder proxyInterceptionPipelineField;
         private TypeBuilder typeBuilder;
 
-        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline",
-            Justification = "Need to use constructor so we can place attribute on it.")]
         static InterceptingClassGenerator()
         {
             AssemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(

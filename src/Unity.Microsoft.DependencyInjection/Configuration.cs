@@ -13,13 +13,23 @@ namespace Unity.Microsoft.DependencyInjection
         public static IServiceProvider CreateServiceProvider(this IServiceCollection serviceCollection)
         {
             var container = new UnityContainer();
-            return container.CreateServiceProvider(serviceCollection);
+            var provider = new ServiceProvider(container);
+            return ConfigureContainer(container, provider, serviceCollection);
         }
 
         public static IServiceProvider CreateServiceProvider(this IUnityContainer container, IServiceCollection services = null)
         {
-            ServiceProvider provider = new ServiceProvider(container);
+            ServiceProvider provider = new ServiceProvider(container.CreateChildContainer());
+            return ConfigureContainer(container, provider, services);
+        }
 
+        #endregion
+
+
+        #region Implementatin
+
+        private static IServiceProvider ConfigureContainer(IUnityContainer container, ServiceProvider provider, IServiceCollection services)
+        {
             if (null == services) return provider;
 
             var aggregateTypes = GetAggregateTypes(services);
@@ -34,11 +44,6 @@ namespace Unity.Microsoft.DependencyInjection
 
             return provider;
         }
-
-        #endregion
-
-
-        #region Implementatin
 
         // TODO: Verify
         private static MethodInfo RegisterInstance()
@@ -74,7 +79,7 @@ namespace Unity.Microsoft.DependencyInjection
                     case ServiceLifetime.Singleton:
                         return new ContainerControlledLifetimeManager();
                     case ServiceLifetime.Transient:
-                        return new TransientLifetimeManager();
+                        return new HierarchicalTransientLifetimeManager();
                     default:
                         throw new NotImplementedException(string.Format("Unsupported lifetime manager type '{0}'",
                             serviceDescriptor.Lifetime));

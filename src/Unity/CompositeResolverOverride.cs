@@ -3,7 +3,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using ObjectBuilder2;
 
@@ -15,7 +14,6 @@ namespace Unity
     /// returns the resolver from the first child override that
     /// matches the current context and request.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Not really a collection, only implement IEnumerable to get convenient initialization syntax.")]
     public class CompositeResolverOverride : ResolverOverride, IEnumerable<ResolverOverride>
     {
         private readonly List<ResolverOverride> overrides = new List<ResolverOverride>();

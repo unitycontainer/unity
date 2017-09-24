@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -106,8 +105,6 @@ namespace Unity.Utility
             }
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
-            Justification = "Need to use exception as flow control here, no other choice")]
         private static string GetTypeName(object assignmentInstance)
         {
             string assignmentInstanceType;

@@ -10,7 +10,7 @@
     <Version>5.0.0</Version>
     <PackageProjectUrl>https://github.com/IoC-Unity/Unity/tree/master/src/Unity.Interception</PackageProjectUrl>
     <RepositoryUrl>https://github.com/IoC-Unity/Unity</RepositoryUrl>
-    <RepositoryType>GitHub</RepositoryType>
+    <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>This package is compatible with .NET 4.0, 4.5, and 4.7 frameworks.</PackageReleaseNotes>
     <PackageId>Unity.Interception</PackageId>
     <Authors>Microsoft.Practices.Unity</Authors>
@@ -27,6 +27,7 @@
     <DebugType Condition="'$(TargetFramework)' != '' AND !$(TargetFramework.StartsWith('netcoreapp'))">Full</DebugType>
     <PackageTags />
     <PackageLicenseUrl>https://github.com/IoC-Unity/Unity/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://avatars1.githubusercontent.com/u/12849707?u=60666efa853c774bbe0c8b625518de9381057152</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>

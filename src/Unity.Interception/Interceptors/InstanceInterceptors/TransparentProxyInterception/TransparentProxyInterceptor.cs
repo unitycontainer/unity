@@ -2,12 +2,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Proxies;
 using System.Security;
-using System.Security.Permissions;
 using Unity.Utility;
 
 namespace Unity.InterceptionExtension
@@ -23,8 +20,6 @@ namespace Unity.InterceptionExtension
         /// </summary>
         /// <param name="t">Type to check.</param>
         /// <returns>True if interception is possible, false if not.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public bool CanIntercept(Type t)
         {
             Guard.ArgumentNotNull(t, "t");
@@ -39,7 +34,6 @@ namespace Unity.InterceptionExtension
         /// <param name="interceptedType">The intercepted type.</param>
         /// <param name="implementationType">The concrete type of the implementing object.</param>
         /// <returns>Sequence of <see cref="MethodInfo"/> objects.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Interceptable", Justification = "Interceptable is valid in this context")]
         public IEnumerable<MethodImplementationInfo> GetInterceptableMethods(Type interceptedType, Type implementationType)
         {
             if (typeof(MarshalByRefObject).IsAssignableFrom(implementationType))

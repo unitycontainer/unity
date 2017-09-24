@@ -30,8 +30,6 @@ namespace Unity.InterceptionExtension
         /// <param name="target">Object that is target of this invocation.</param>
         /// <param name="targetMethod">Method on <paramref name="target"/> to call.</param>
         /// <param name="parameterValues">Values for the parameters.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public VirtualMethodInvocation(object target, MethodBase targetMethod, params object[] parameterValues)
         {
             Unity.Utility.Guard.ArgumentNotNull(targetMethod, "targetMethod");

@@ -2,12 +2,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Security;
 using ObjectBuilder2;
 using Unity.Interception.Properties;
 
@@ -29,8 +27,6 @@ namespace Unity.InterceptionExtension
         private FieldBuilder typeToProxyField;
         private TypeBuilder typeBuilder;
 
-        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline",
-            Justification = "Need to use constructor so we can place attribute on it.")]
         static InterfaceInterceptorClassGenerator()
         {
             AssemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(

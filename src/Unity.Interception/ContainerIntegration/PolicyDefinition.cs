@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using Unity.Utility;
 
 namespace Unity.InterceptionExtension
@@ -211,7 +210,6 @@ namespace Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddMatchingRule<TMatchingRule>(
             params InjectionMember[] injectionMembers)
             where TMatchingRule : IMatchingRule
@@ -234,7 +232,6 @@ namespace Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddMatchingRule<TMatchingRule>(
             LifetimeManager lifetimeManager,
             params InjectionMember[] injectionMembers)
@@ -257,7 +254,6 @@ namespace Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddMatchingRule<TMatchingRule>(
             string name,
             params InjectionMember[] injectionMembers)
@@ -283,7 +279,6 @@ namespace Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddMatchingRule<TMatchingRule>(
             string name,
             LifetimeManager lifetimeManager,
@@ -429,7 +424,6 @@ namespace Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddCallHandler<TCallHandler>(
             params InjectionMember[] injectionMembers)
             where TCallHandler : ICallHandler
@@ -452,7 +446,6 @@ namespace Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddCallHandler<TCallHandler>(
             LifetimeManager lifetimeManager,
             params InjectionMember[] injectionMembers)
@@ -475,7 +468,6 @@ namespace Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddCallHandler<TCallHandler>(
             string name,
             params InjectionMember[] injectionMembers)
@@ -501,7 +493,6 @@ namespace Unity.InterceptionExtension
         /// <returns>
         /// The <see cref="PolicyDefinition"/> than allows further configuration of the policy.
         /// </returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public PolicyDefinition AddCallHandler<TCallHandler>(
             string name,
             LifetimeManager lifetimeManager,
@@ -515,8 +506,6 @@ namespace Unity.InterceptionExtension
                 UpdateHandlerNames);
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic",
-            Justification = "Consistency with other overloads")]
         private PolicyDefinition AddElement<T>(string name, UpdateElements update)
         {
             Guard.ArgumentNotNull(name, "name");

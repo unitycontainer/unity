@@ -21,17 +21,17 @@ namespace Unity.Tests.CollectionSupport
         {
             IUnityContainer container = new UnityContainer();
 
-            CollectionSupportTestClass[] resolved = container.Resolve<CollectionSupportTestClass[]>();
+            TestClass[] resolved = container.Resolve<TestClass[]>();
         }
 
         [TestMethod]
         public void ResolvingAnArrayTypeSucceedsIfItWasRegistered()
         {
             IUnityContainer container = new UnityContainer();
-            CollectionSupportTestClass[] array = new CollectionSupportTestClass[0];
-            container.RegisterInstance<CollectionSupportTestClass[]>(array);
+            TestClass[] array = new TestClass[0];
+            container.RegisterInstance<TestClass[]>(array);
 
-            CollectionSupportTestClass[] resolved = container.Resolve<CollectionSupportTestClass[]>();
+            TestClass[] resolved = container.Resolve<TestClass[]>();
 
             Assert.AreSame(array, resolved);
         }
@@ -41,8 +41,8 @@ namespace Unity.Tests.CollectionSupport
         {
             IUnityContainer container = new UnityContainer();
 
-            IEnumerable<CollectionSupportTestClass> resolved = container.ResolveAll<CollectionSupportTestClass>();
-            List<CollectionSupportTestClass> resolvedList = new List<CollectionSupportTestClass>(resolved);
+            IEnumerable<TestClass> resolved = container.ResolveAll<TestClass>();
+            List<TestClass> resolvedList = new List<TestClass>(resolved);
 
             Assert.AreEqual(0, resolvedList.Count);
         }
@@ -51,12 +51,12 @@ namespace Unity.Tests.CollectionSupport
         public void ResolvingAllRegistratiosnForaTypeReturnsAnEquivalentArrayWhenItemsAreRegisterd()
         {
             IUnityContainer container = new UnityContainer();
-            container.RegisterType<CollectionSupportTestClass>("Element1", new ContainerControlledLifetimeManager());
-            container.RegisterType<CollectionSupportTestClass>("Element2", new ContainerControlledLifetimeManager());
-            container.RegisterType<CollectionSupportTestClass>("Element3", new ContainerControlledLifetimeManager());
+            container.RegisterType<TestClass>("Element1", new ContainerControlledLifetimeManager());
+            container.RegisterType<TestClass>("Element2", new ContainerControlledLifetimeManager());
+            container.RegisterType<TestClass>("Element3", new ContainerControlledLifetimeManager());
 
-            IEnumerable<CollectionSupportTestClass> resolved = container.ResolveAll<CollectionSupportTestClass>();
-            List<CollectionSupportTestClass> resolvedList = new List<CollectionSupportTestClass>(resolved);
+            IEnumerable<TestClass> resolved = container.ResolveAll<TestClass>();
+            List<TestClass> resolvedList = new List<TestClass>(resolved);
 
             Assert.AreEqual(3, resolvedList.Count);
         }
@@ -66,17 +66,17 @@ namespace Unity.Tests.CollectionSupport
         {
             IUnityContainer container = new UnityContainer();
 
-            CollectionSupportTestClassWithDependency resolved = container.Resolve<CollectionSupportTestClassWithDependency>();
+            TestClassWithArrayDependency resolved = container.Resolve<TestClassWithArrayDependency>();
         }
 
         [TestMethod]
         public void InjectingAnArrayTypeSucceedsIfItWasRegistered()
         {
             IUnityContainer container = new UnityContainer();
-            CollectionSupportTestClass[] array = new CollectionSupportTestClass[0];
-            container.RegisterInstance<CollectionSupportTestClass[]>(array);
+            TestClass[] array = new TestClass[0];
+            container.RegisterInstance<TestClass[]>(array);
 
-            CollectionSupportTestClassWithDependency resolved = container.Resolve<CollectionSupportTestClassWithDependency>();
+            TestClassWithArrayDependency resolved = container.Resolve<TestClassWithArrayDependency>();
 
             Assert.AreSame(array, resolved.Dependency);
         }
@@ -86,7 +86,7 @@ namespace Unity.Tests.CollectionSupport
         {
             IUnityContainer container = new UnityContainer();
 
-            CollectionSupportTestClassWithDependencyArrayProperty resolved = container.Resolve<CollectionSupportTestClassWithDependencyArrayProperty>();
+            TestClassWithDependencyArrayProperty resolved = container.Resolve<TestClassWithDependencyArrayProperty>();
 
             Assert.AreEqual(0, resolved.Dependency.Length);
         }
@@ -95,11 +95,11 @@ namespace Unity.Tests.CollectionSupport
         public void InjectingAnArrayDependencySucceedsIfSomeWereRegistered()
         {
             IUnityContainer container = new UnityContainer();
-            container.RegisterType<CollectionSupportTestClass>("Element1", new ContainerControlledLifetimeManager());
-            container.RegisterType<CollectionSupportTestClass>("Element2", new ContainerControlledLifetimeManager());
-            container.RegisterType<CollectionSupportTestClass>("Element3", new ContainerControlledLifetimeManager());
+            container.RegisterType<TestClass>("Element1", new ContainerControlledLifetimeManager());
+            container.RegisterType<TestClass>("Element2", new ContainerControlledLifetimeManager());
+            container.RegisterType<TestClass>("Element3", new ContainerControlledLifetimeManager());
 
-            CollectionSupportTestClassWithDependencyArrayProperty resolved = container.Resolve<CollectionSupportTestClassWithDependencyArrayProperty>();
+            TestClassWithDependencyArrayProperty resolved = container.Resolve<TestClassWithDependencyArrayProperty>();
 
             Assert.AreEqual(3, resolved.Dependency.Length);
         }
@@ -109,7 +109,7 @@ namespace Unity.Tests.CollectionSupport
         {
             IUnityContainer container = new UnityContainer();
 
-            CollectionSupportTestClassWithDependencyArrayConstructor resolved = container.Resolve<CollectionSupportTestClassWithDependencyArrayConstructor>();
+            TestClassWithDependencyArrayConstructor resolved = container.Resolve<TestClassWithDependencyArrayConstructor>();
 
             Assert.AreEqual(0, resolved.Dependency.Length);
         }
@@ -118,11 +118,11 @@ namespace Unity.Tests.CollectionSupport
         public void ConstructingAnDependencyArrayWithRegisteredElementsSucceeds()
         {
             IUnityContainer container = new UnityContainer();
-            container.RegisterType<CollectionSupportTestClass>("Element1", new ContainerControlledLifetimeManager());
-            container.RegisterType<CollectionSupportTestClass>("Element2", new ContainerControlledLifetimeManager());
-            container.RegisterType<CollectionSupportTestClass>("Element3", new ContainerControlledLifetimeManager());
+            container.RegisterType<TestClass>("Element1", new ContainerControlledLifetimeManager());
+            container.RegisterType<TestClass>("Element2", new ContainerControlledLifetimeManager());
+            container.RegisterType<TestClass>("Element3", new ContainerControlledLifetimeManager());
 
-            CollectionSupportTestClassWithDependencyArrayConstructor resolved = container.Resolve<CollectionSupportTestClassWithDependencyArrayConstructor>();
+            TestClassWithDependencyArrayConstructor resolved = container.Resolve<TestClassWithDependencyArrayConstructor>();
 
             Assert.AreEqual(3, resolved.Dependency.Length);
         }
@@ -132,7 +132,7 @@ namespace Unity.Tests.CollectionSupport
         {
             IUnityContainer container = new UnityContainer();
 
-            CollectionSupportTestClassWithDependencyTypeConstructor resolved = container.Resolve<CollectionSupportTestClassWithDependencyTypeConstructor>();
+            TestClassWithDependencyTypeConstructor resolved = container.Resolve<TestClassWithDependencyTypeConstructor>();
         }
 
         [TestMethod]
@@ -140,7 +140,7 @@ namespace Unity.Tests.CollectionSupport
         {
             IUnityContainer container = new UnityContainer();
 
-            CollectionSupportTestClassWithDependencyArrayMethod resolved = container.Resolve<CollectionSupportTestClassWithDependencyArrayMethod>();
+            TestClassWithDependencyArrayMethod resolved = container.Resolve<TestClassWithDependencyArrayMethod>();
 
             Assert.AreEqual(0, resolved.Dependency.Length);
         }
@@ -149,11 +149,11 @@ namespace Unity.Tests.CollectionSupport
         public void ConstructingWithMethodInjectionAnDependencyArrayWithRegisteredElementsSucceeds()
         {
             IUnityContainer container = new UnityContainer();
-            container.RegisterType<CollectionSupportTestClass>("Element1", new ContainerControlledLifetimeManager());
-            container.RegisterType<CollectionSupportTestClass>("Element2", new ContainerControlledLifetimeManager());
-            container.RegisterType<CollectionSupportTestClass>("Element3", new ContainerControlledLifetimeManager());
+            container.RegisterType<TestClass>("Element1", new ContainerControlledLifetimeManager());
+            container.RegisterType<TestClass>("Element2", new ContainerControlledLifetimeManager());
+            container.RegisterType<TestClass>("Element3", new ContainerControlledLifetimeManager());
 
-            CollectionSupportTestClassWithDependencyArrayMethod resolved = container.Resolve<CollectionSupportTestClassWithDependencyArrayMethod>();
+            TestClassWithDependencyArrayMethod resolved = container.Resolve<TestClassWithDependencyArrayMethod>();
 
             Assert.AreEqual(3, resolved.Dependency.Length);
         }
@@ -163,7 +163,7 @@ namespace Unity.Tests.CollectionSupport
         {
             IUnityContainer container = new UnityContainer();
 
-            CollectionSupportTestClassWithDependencyTypeMethod resolved = container.Resolve<CollectionSupportTestClassWithDependencyTypeMethod>();
+            TestClassWithDependencyTypeMethod resolved = container.Resolve<TestClassWithDependencyTypeMethod>();
         }
     }
 }

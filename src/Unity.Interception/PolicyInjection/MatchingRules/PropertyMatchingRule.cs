@@ -53,8 +53,6 @@ namespace Unity.InterceptionExtension
         /// </summary>
         /// <param name="matches">Collection of <see cref="PropertyMatchingInfo"/> defining which
         /// properties to match.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public PropertyMatchingRule(IEnumerable<PropertyMatchingInfo> matches)
         {
             Unity.Utility.Guard.ArgumentNotNull(matches, "matches");
@@ -78,8 +76,6 @@ namespace Unity.InterceptionExtension
         /// </summary>
         /// <param name="member">Member to check.</param>
         /// <returns>True if it matches, false if it does not.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public bool Matches(MethodBase member)
         {
             Unity.Utility.Guard.ArgumentNotNull(member, "member");

@@ -3,7 +3,6 @@
 using System;
 using System.Reflection;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using ObjectBuilder2;
@@ -49,7 +48,7 @@ namespace Unity
         /// </summary>
         /// <param name="parent">The parent <see cref="UnityContainer"/>. The current object
         /// will apply its own settings first, and then check the parent for additional ones.</param>
-        private UnityContainer(UnityContainer parent)
+        private UnityContainer(UnityContainer parent, IEnumerable<UnityContainerExtension> extensions = null)
         {
             this.parent = parent;
 
@@ -65,12 +64,17 @@ namespace Unity
             RegisteringInstance += delegate { };
             ChildContainerCreated += delegate { };
 
-            // Every container gets the default behavior
-            this.AddExtension(new UnityDefaultBehaviorExtension());
+            foreach(var extension in extensions ?? GetDefaultExtensions())
+                AddExtension(extension);
+        }
 
-#pragma warning disable 618
-            this.AddExtension(new InjectedMembers());
-#pragma warning restore 618
+        protected virtual IEnumerable<UnityContainerExtension> GetDefaultExtensions()
+        {
+            return new[] 
+            {
+                new UnityDefaultBehaviorExtension(),
+                new InjectedMembers() as UnityContainerExtension
+            };
         }
 
         #region Type Mapping
@@ -186,7 +190,10 @@ namespace Unity
         {
             Guard.ArgumentNotNull(t, "t");
 
-            return (IEnumerable<object>)this.Resolve(t.MakeArrayType(), resolverOverrides);
+            var result = this.Resolve(t.MakeArrayType(), resolverOverrides);
+            return result is IEnumerable<object> 
+                ? (IEnumerable<object>) result 
+                : ((Array)result).Cast<object>();
         }
 
         #endregion
@@ -209,7 +216,6 @@ namespace Unity
         /// <returns>The resulting object. By default, this will be <paramref name="existing"/>, but
         /// container extensions may add things like automatic proxy creation which would
         /// cause this to return a different object (but still type compatible with <paramref name="t"/>).</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Guard class is doing validation")]
         public object BuildUp(Type t, object existing, string name, params ResolverOverride[] resolverOverrides)
         {
             Guard.ArgumentNotNull(existing, "existing");
@@ -221,7 +227,6 @@ namespace Unity
         /// Run an existing object through the container, and clean it up.
         /// </summary>
         /// <param name="o">The object to tear down.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         public void Teardown(object o)
         {
             IBuilderContext context = null;
@@ -319,8 +324,6 @@ namespace Unity
         /// </summary>
         /// <param name="extension"><see cref="UnityContainerExtension"/> to add.</param>
         /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public IUnityContainer AddExtension(UnityContainerExtension extension)
         {
             Unity.Utility.Guard.ArgumentNotNull(extensions, "extensions");
@@ -399,8 +402,6 @@ namespace Unity
         /// A child container shares the parent's configuration, but can be configured with different
         /// settings or lifetime.</remarks>
         /// <returns>The new child container.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope",
-            Justification = "Factory method that creates disposable object but does not own its lifetime.")]
         public IUnityContainer CreateChildContainer()
         {
             var child = new UnityContainer(this);

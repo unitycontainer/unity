@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System.Configuration;
-using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 
 namespace Unity.Configuration.ConfigurationHelpers
@@ -10,8 +9,6 @@ namespace Unity.Configuration.ConfigurationHelpers
     /// Base class for configuration elements with a default implementation of
     /// public deserialization.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Deserializable",
-        Justification = "It is spelled correctly")]
     public abstract class DeserializableConfigurationElement : ConfigurationElement
     {
         /// <summary>

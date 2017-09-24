@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System.Diagnostics.CodeAnalysis;
 using Unity.Utility;
 
 namespace ObjectBuilder2
@@ -16,7 +15,6 @@ namespace ObjectBuilder2
         /// Called during the chain of responsibility for a build operation.
         /// </summary>
         /// <param name="context">The context for the operation.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         public override void PreBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");

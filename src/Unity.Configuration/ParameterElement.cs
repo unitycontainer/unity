@@ -98,8 +98,6 @@ namespace Unity.Configuration
         /// <param name="container">Container being configured.</param>
         /// <param name="parameterType">Type of the parameter.</param>
         /// <returns>The value to use to configure the container.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public InjectionParameterValue GetParameterValue(IUnityContainer container, Type parameterType)
         {
             Guard.ArgumentNotNull(parameterType, "parameterType");
@@ -123,8 +121,6 @@ namespace Unity.Configuration
         /// </summary>
         /// <param name="parameterInfo">Information about the parameter.</param>
         /// <returns>True if this is a match, false if not.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public bool Matches(ParameterInfo parameterInfo)
         {
             Guard.ArgumentNotNull(parameterInfo, "parameterInfo");
@@ -213,8 +209,6 @@ namespace Unity.Configuration
         /// calling this method, so deriving classes only need to write the element content, not
         /// the start or end tags.</remarks>
         /// <param name="writer">Writer to send XML content to.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public override void SerializeContent(XmlWriter writer)
         {
             Guard.ArgumentNotNull(writer, "writer");

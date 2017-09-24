@@ -82,7 +82,6 @@ namespace Unity.InterceptionExtension
         /// <param name="name">Name type is registered under.</param>
         /// <param name="interceptor">Interceptor object to use.</param>
         /// <returns>This extension object.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public Interception SetInterceptorFor<T>(string name, ITypeInterceptor interceptor)
         {
             return this.SetInterceptorFor(typeof(T), name, interceptor);
@@ -94,7 +93,6 @@ namespace Unity.InterceptionExtension
         /// <typeparam name="T">Type to intercept</typeparam>
         /// <param name="interceptor">Interceptor object to use.</param>
         /// <returns>This extension object.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public Interception SetInterceptorFor<T>(ITypeInterceptor interceptor)
         {
             return this.SetInterceptorFor(typeof(T), null, interceptor);
@@ -154,7 +152,6 @@ namespace Unity.InterceptionExtension
         /// <typeparam name="TTypeToIntercept">Type to intercept</typeparam>
         /// <param name="interceptor">Interceptor instance.</param>
         /// <returns>This extension object.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public Interception SetDefaultInterceptorFor<TTypeToIntercept>(ITypeInterceptor interceptor)
         {
             return this.SetDefaultInterceptorFor(typeof(TTypeToIntercept), interceptor);
@@ -178,7 +175,6 @@ namespace Unity.InterceptionExtension
         /// <param name="name">Name type is registered under.</param>
         /// <param name="interceptor">Instance interceptor to use.</param>
         /// <returns>This extension object.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public Interception SetInterceptorFor<T>(string name, IInstanceInterceptor interceptor)
         {
             return this.SetInterceptorFor(typeof(T), name, interceptor);
@@ -190,7 +186,6 @@ namespace Unity.InterceptionExtension
         /// <typeparam name="T">Type to intercept.</typeparam>
         /// <param name="interceptor">Instance interceptor to use.</param>
         /// <returns>This extension object.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public Interception SetInterceptorFor<T>(IInstanceInterceptor interceptor)
         {
             return this.SetInterceptorFor(typeof(T), null, interceptor);
@@ -224,7 +219,6 @@ namespace Unity.InterceptionExtension
         /// <typeparam name="TTypeToIntercept">Type the interception is being configured for.</typeparam>
         /// <param name="interceptor">The interceptor to use by default.</param>
         /// <returns>This extension object.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         public Interception SetDefaultInterceptorFor<TTypeToIntercept>(IInstanceInterceptor interceptor)
         {
             return this.SetDefaultInterceptorFor(typeof(TTypeToIntercept), interceptor);

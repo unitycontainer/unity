@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Unity.InterceptionExtension.Tests.MatchingRules.SeparateTopLevel;
 using Unity.InterceptionExtension.Tests.MatchingRules.TopLevel;
@@ -10,7 +9,6 @@ using Unity.InterceptionExtension.Tests.MatchingRules.TopLevel.SecondLevel.Third
 using Unity.InterceptionExtension.Tests.MatchingRules.TopLevelTwo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-[module: SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1403:FileMayOnlyContainASingleNamespace", Justification = "Test needs multiple namespaces so keep the namespaces and test together")]
 
 namespace Unity.InterceptionExtension.Tests.MatchingRules
 {

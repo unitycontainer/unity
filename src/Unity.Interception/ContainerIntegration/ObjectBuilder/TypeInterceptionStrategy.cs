@@ -25,8 +25,6 @@ namespace Unity.InterceptionExtension
         /// <remarks>In this class, PreBuildUp is responsible for figuring out if the
         /// class is proxyable, and if so, replacing it with a proxy class.</remarks>
         /// <param name="context">Context of the build operation.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public override void PreBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
@@ -88,8 +86,6 @@ namespace Unity.InterceptionExtension
         /// <remarks>In this class, PostBuildUp checks to see if the object was proxyable,
         /// and if it was, wires up the handlers.</remarks>
         /// <param name="context">Context of the build operation.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public override void PostBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");

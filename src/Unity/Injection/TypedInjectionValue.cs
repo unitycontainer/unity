@@ -47,8 +47,6 @@ namespace Unity
         /// <param name="t">Type to check.</param>
         /// <returns>True if this parameter value is compatible with type <paramref name="t"/>,
         /// false if not.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class.")]
         public override bool MatchesType(Type t)
         {
             Guard.ArgumentNotNull(t, "t");

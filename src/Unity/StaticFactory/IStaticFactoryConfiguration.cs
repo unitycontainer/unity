@@ -17,7 +17,6 @@ namespace Unity.StaticFactory
         /// <typeparam name="TTypeToBuild">Type that will be requested from the container.</typeparam>
         /// <param name="factoryMethod">Delegate to invoke to create the instance.</param>
         /// <returns>The container extension object this method was invoked on.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         IStaticFactoryConfiguration RegisterFactory<TTypeToBuild>(Func<IUnityContainer, object> factoryMethod);
 
         /// <summary>
@@ -28,7 +27,6 @@ namespace Unity.StaticFactory
         /// <param name="name">The name that will be used when requesting to resolve this type.</param>
         /// <param name="factoryMethod">Delegate to invoke to create the instance.</param>
         /// <returns>The container extension object this method was invoked on.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "As designed")]
         IStaticFactoryConfiguration RegisterFactory<TTypeToBuild>(string name,
             Func<IUnityContainer, object> factoryMethod);
     }

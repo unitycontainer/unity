@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Unity;
 using Unity.Utility;
@@ -15,7 +14,6 @@ namespace ObjectBuilder2
     /// </summary>
     internal class DeferredResolveBuildPlanPolicy : IBuildPlanPolicy
     {
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Validation done by Guard class")]
         public void BuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");

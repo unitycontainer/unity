@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -304,8 +303,6 @@ namespace Unity.InterceptionExtension
             return methodBuilder;
         }
 
-        [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling",
-            Justification = "Possibly agree with this, but requires more deliberate refactoring")]
         private MethodBuilder CreateMethodOverride(MethodBuilder delegateMethod)
         {
             MethodAttributes attrs =

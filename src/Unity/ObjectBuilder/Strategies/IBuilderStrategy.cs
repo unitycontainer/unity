@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System.Diagnostics.CodeAnalysis;
 
 namespace ObjectBuilder2
 {
@@ -20,8 +19,6 @@ namespace ObjectBuilder2
         /// forward direction.
         /// </summary>
         /// <param name="context">Context of the build operation.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly",
-            Justification = "Kept for backward compatibility with ObjectBuilder")]
         void PreBuildUp(IBuilderContext context);
 
         /// <summary>
@@ -30,8 +27,6 @@ namespace ObjectBuilder2
         /// phase and executes in reverse order from the PreBuildUp calls.
         /// </summary>
         /// <param name="context">Context of the build operation.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "BuildUp",
-            Justification = "Kept for backward compatibility with ObjectBuilder")]
         void PostBuildUp(IBuilderContext context);
 
         /// <summary>
@@ -40,8 +35,6 @@ namespace ObjectBuilder2
         /// forward direction.
         /// </summary>
         /// <param name="context">Context of the teardown operation.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "TearDown",
-            Justification = "Kept for backward compatibility with ObjectBuilder")]
         void PreTearDown(IBuilderContext context);
 
         /// <summary>
@@ -50,8 +43,6 @@ namespace ObjectBuilder2
         /// phase and executes in reverse order from the PreTearDown calls.
         /// </summary>
         /// <param name="context">Context of the teardown operation.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "TearDown",
-            Justification = "Kept for backward compatibility with ObjectBuilder")]
         void PostTearDown(IBuilderContext context);
     }
 }

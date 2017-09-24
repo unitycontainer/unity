@@ -21,8 +21,6 @@ namespace Unity.InterceptionExtension
         /// </summary>
         /// <param name="method">MethodBase for the property's get or set method.</param>
         /// <returns>PropertyInfo for the property, or null if method is not part of a property.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class.")]
         public static PropertyInfo GetPropertyFromMethod(MethodBase method)
         {
             Guard.ArgumentNotNull(method, "method");
@@ -42,8 +40,6 @@ namespace Unity.InterceptionExtension
         /// </summary>
         /// <param name="method">MethodBase for the property's get or set method.</param>
         /// <returns>PropertyInfo for the property, or null if method is not part of a property.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class.")]
         public static PropertyInfo GetPropertyFromMethod(MethodInfo method)
         {
             Guard.ArgumentNotNull(method, "method");
@@ -107,8 +103,6 @@ namespace Unity.InterceptionExtension
         /// <param name="member">The member to look at.</param>
         /// <param name="inherits">True to include attributes inherited from base classes.</param>
         /// <returns>Array of found attributes.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public static TAttribute[] GetAttributes<TAttribute>(MemberInfo member, bool inherits) where TAttribute : Attribute
         {
             Unity.Utility.Guard.ArgumentNotNull(member, "member");
@@ -133,8 +127,6 @@ namespace Unity.InterceptionExtension
         /// <param name="member">The member to look at.</param>
         /// <param name="inherits">true to include attributes inherited from base classes.</param>
         /// <returns>Array of found attributes.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public static TAttribute[] GetAllAttributes<TAttribute>(MemberInfo member, bool inherits)
             where TAttribute : Attribute
         {

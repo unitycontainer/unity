@@ -19,8 +19,6 @@ namespace Unity.InterceptionExtension
         /// phase and executes in reverse order from the PreBuildUp calls.
         /// </summary>
         /// <param name="context">Context of the build operation.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public override void PostBuildUp(IBuilderContext context)
         {
             Unity.Utility.Guard.ArgumentNotNull(context, "context");

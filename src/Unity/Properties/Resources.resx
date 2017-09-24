@@ -260,6 +260,9 @@ At the time of the exception, the container was:
   <data name="ResolvingPropertyValueOperation" xml:space="preserve">
     <value>Resolving value for property {0}.{1}</value>
   </data>
+  <data name="SelectedConstructorHasRefItself" xml:space="preserve">
+    <value>The constructor {1} selected for type {0} has reference to itself. Such references create infinite loop during resolving.</value>
+  </data>
   <data name="SelectedConstructorHasRefParameters" xml:space="preserve">
     <value>The constructor {1} selected for type {0} has ref or out parameters. Such parameters are not supported for constructor injection.</value>
   </data>

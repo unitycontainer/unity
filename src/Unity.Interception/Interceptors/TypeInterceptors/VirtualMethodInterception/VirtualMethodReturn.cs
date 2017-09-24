@@ -26,8 +26,6 @@ namespace Unity.InterceptionExtension
         /// <param name="originalInvocation">The method invocation.</param>
         /// <param name="returnValue">Return value (should be null if method returns void).</param>
         /// <param name="arguments">All arguments (including current values) passed to the method.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public VirtualMethodReturn(IMethodInvocation originalInvocation, object returnValue, object[] arguments)
         {
             Unity.Utility.Guard.ArgumentNotNull(originalInvocation, "originalInvocation");
@@ -43,8 +41,6 @@ namespace Unity.InterceptionExtension
         /// </summary>
         /// <param name="originalInvocation">The method invocation.</param>
         /// <param name="exception">Exception that was thrown.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public VirtualMethodReturn(IMethodInvocation originalInvocation, Exception exception)
         {
             Unity.Utility.Guard.ArgumentNotNull(originalInvocation, "originalInvocation");

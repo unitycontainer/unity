@@ -3,7 +3,7 @@
 using System;
 using System.Configuration;
 using Unity.Configuration.ConfigurationHelpers;
-using Unity.InterceptionExtension.Configuration.Properties;
+using Unity.Interception.Configuration.Properties;
 
 namespace Unity.InterceptionExtension.Configuration
 {

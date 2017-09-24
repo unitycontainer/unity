@@ -73,6 +73,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Unity.Configuration\Unity.Configuration.csproj" />
+    <ProjectReference Include="..\..\src\Unity\Unity.csproj" />
   </ItemGroup>
 
   <ItemGroup>

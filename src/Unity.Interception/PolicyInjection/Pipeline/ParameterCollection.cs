@@ -13,10 +13,6 @@ namespace Unity.InterceptionExtension
     /// An implementation of <see cref="IParameterCollection"/> that wraps a provided array
     /// containing the argument values.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1035:ICollectionImplementationsHaveStronglyTypedMembers",
-        Justification = "Not a general purpose collection")]   
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1039:ListsAreStronglyTyped", 
-        Justification = "Not a general purpose collection")]
     public class ParameterCollection : IParameterCollection
     {
         /// <summary>
@@ -55,8 +51,6 @@ namespace Unity.InterceptionExtension
         /// <param name="isArgumentPartOfCollection">A <see cref="Predicate{ParameterInfo}"/> that indicates
         /// whether a particular parameter is part of the collection. Used to filter out only input
         /// parameters, for example.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public ParameterCollection(object[] arguments, ParameterInfo[] argumentInfo, Predicate<ParameterInfo> isArgumentPartOfCollection)
         {
             Unity.Utility.Guard.ArgumentNotNull(arguments, "arguments");

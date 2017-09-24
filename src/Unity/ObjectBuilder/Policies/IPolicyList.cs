@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace ObjectBuilder2
 {
@@ -38,10 +37,6 @@ namespace ObjectBuilder2
         /// <param name="containingPolicyList">The policy list in the chain that the searched for policy was found in, null if the policy was
         /// not found.</param>
         /// <returns>The policy in the list, if present; returns null otherwise.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get",
-            Justification = "Backwards compatibility with ObjectBuilder")]
-        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#",
-            Justification = "Backwards compatibility with ObjectBuilder")]
         IBuilderPolicy Get(Type policyInterface,
             object buildKey,
             bool localOnly,
@@ -56,8 +51,6 @@ namespace ObjectBuilder2
         /// <param name="containingPolicyList">The policy list in the chain that the searched for policy was found in, null if the policy was
         /// not found.</param>
         /// <returns>The policy in the list if present; returns null otherwise.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "3#",
-            Justification = "Backwards compatibility with ObjectBuilder")]
         IBuilderPolicy GetNoDefault(Type policyInterface, object buildKey, bool localOnly,
             out IPolicyList containingPolicyList);
 
@@ -67,8 +60,6 @@ namespace ObjectBuilder2
         /// <param name="policyInterface">The <see cref="Type"/> of the policy.</param>
         /// <param name="policy">The policy to be registered.</param>
         /// <param name="buildKey">The key the policy applies.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Set",
-            Justification = "Backwards compatibility with ObjectBuilder")]
         void Set(Type policyInterface,
                  IBuilderPolicy policy,
                  object buildKey);

@@ -15,6 +15,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Unity;
 using Unity.Tests;
 using Unity.ObjectBuilder;
+using ObjectBuilder2;
 
 namespace Microsoft.Practices.Unity.Tests
 {

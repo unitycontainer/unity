@@ -21,8 +21,6 @@ namespace Unity.InterceptionExtension
         /// <param name="methodName">Method name to match. Wildcards are allowed.</param>
         /// <param name="parameterTypeNames">Parameter type names to match, in order. Wildcards are allowed.</param>
         /// <param name="ignoreCase">If false, name comparisons are case sensitive. If true, name comparisons are case insensitive.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public MethodSignatureMatchingRule(string methodName, IEnumerable<string> parameterTypeNames, bool ignoreCase)
         {
             Unity.Utility.Guard.ArgumentNotNull(parameterTypeNames, "parameterTypeNames");
@@ -75,8 +73,6 @@ namespace Unity.InterceptionExtension
         /// </summary>
         /// <param name="member">Member to check.</param>
         /// <returns>True if match, false if not.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-                    Justification = "Validation done by Guard class")]        
         public bool Matches(MethodBase member)
         {
             Unity.Utility.Guard.ArgumentNotNull(member, "member");

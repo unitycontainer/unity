@@ -23,8 +23,6 @@ namespace Unity.InterceptionExtension
         /// given type.
         /// </summary>
         /// <param name="type">The type to match.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class.")]
         public TypeMatchingRule(Type type)
             : this(SafeGetTypeName(type), false)
         {
@@ -73,8 +71,6 @@ namespace Unity.InterceptionExtension
         /// </summary>
         /// <param name="member">Member to match.</param>
         /// <returns>True if match, false if not.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class.")]
         public bool Matches(MethodBase member)
         {
             Guard.ArgumentNotNull(member, "member");
@@ -93,9 +89,6 @@ namespace Unity.InterceptionExtension
         /// <remarks>Matches may be on the namespace-qualified type name or just the type name.</remarks>
         /// <param name="t">Type to check.</param>
         /// <returns>True if it matches, false if it doesn't.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "t", Justification = "Parameter name is meaningful enough in context")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation done by Guard class")]
         public bool Matches(Type t)
         {
             Unity.Utility.Guard.ArgumentNotNull(t, "t");

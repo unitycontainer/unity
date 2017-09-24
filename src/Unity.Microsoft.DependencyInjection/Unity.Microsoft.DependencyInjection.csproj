@@ -10,12 +10,13 @@
     <Version>5.0.0</Version>
     <PackageProjectUrl>https://github.com/IoC-Unity/Unity/tree/master/src/Unity.Microsoft.DependencyInjection</PackageProjectUrl>
     <RepositoryUrl>https://github.com/IoC-Unity/Unity</RepositoryUrl>
-    <RepositoryType>GitHub</RepositoryType>
+    <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>This package is distributed as .NET Core 2.0 package.</PackageReleaseNotes>
     <PackageId>Unity.Mvc</PackageId>
     <Authors>Microsoft.Practices.Unity</Authors>
     <Company>Microsoft.Practices.Unity</Company>
     <PackageLicenseUrl>https://github.com/IoC-Unity/Unity/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://avatars1.githubusercontent.com/u/12849707?u=60666efa853c774bbe0c8b625518de9381057152</PackageIconUrl>
   </PropertyGroup>
   
   <PropertyGroup Condition="Exists('..\..\package.snk')">

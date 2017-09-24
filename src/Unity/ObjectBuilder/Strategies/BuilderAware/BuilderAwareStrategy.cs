@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
-using System.Diagnostics.CodeAnalysis;
 using Unity.Utility;
 
 namespace ObjectBuilder2
@@ -23,8 +22,6 @@ namespace ObjectBuilder2
         /// forward direction.
         /// </summary>
         /// <param name="context">Context of the build operation.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation is done by Guard class")]
         public override void PreBuildUp(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");
@@ -42,8 +39,6 @@ namespace ObjectBuilder2
         /// forward direction.
         /// </summary>
         /// <param name="context">Context of the teardown operation.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
-            Justification = "Validation is done by Guard class")]
         public override void PreTearDown(IBuilderContext context)
         {
             Guard.ArgumentNotNull(context, "context");

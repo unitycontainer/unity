@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace Unity.Microsoft.DependencyInjection
 {

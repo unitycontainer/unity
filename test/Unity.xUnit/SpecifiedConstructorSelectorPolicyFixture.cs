@@ -180,6 +180,8 @@ namespace Unity.Tests
                 set { throw new NotImplementedException(); }
             }
 
+            public IUnityContainer Container => throw new NotImplementedException();
+
             public object NewBuildUp(NamedTypeBuildKey newBuildKey)
             {
                 throw new NotImplementedException();

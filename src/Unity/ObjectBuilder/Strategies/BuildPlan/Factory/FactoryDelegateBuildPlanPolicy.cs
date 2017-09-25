@@ -25,7 +25,7 @@ namespace ObjectBuilder2
 
             if (context.Existing == null)
             {
-                var currentContainer = context.NewBuildUp<IUnityContainer>();
+                var currentContainer = context.Container ?? context.NewBuildUp<IUnityContainer>();
                 context.Existing = factory(currentContainer, context.BuildKey.Type, context.BuildKey.Name);
 
                 DynamicMethodConstructorStrategy.SetPerBuildSingleton(context);

@@ -20,7 +20,7 @@ namespace ObjectBuilder2
 
             if (context.Existing == null)
             {
-                var currentContainer = context.NewBuildUp<IUnityContainer>();
+                var currentContainer = context.Container ?? context.NewBuildUp<IUnityContainer>();
 
                 Type typeToBuild = GetTypeToBuild(context.BuildKey.Type);
                 string nameToBuild = context.BuildKey.Name;

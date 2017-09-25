@@ -22,26 +22,19 @@ namespace ObjectBuilder2
         private bool ownsOverrides;
 
         /// <summary>
-        /// Initialize a new instance of the <see cref="BuilderContext"/> class.
-        /// </summary>
-        protected BuilderContext() { }
-
-        /// <summary>
         /// Initialize a new instance of the <see cref="BuilderContext"/> class with a <see cref="IStrategyChain"/>, 
         /// <see cref="ILifetimeContainer"/>, <see cref="IPolicyList"/> and the 
         /// build key used to start this build operation. 
         /// </summary>
+        /// <param name="container">The instance of <see cref="UnityContainer"/> it is associated with</param>
         /// <param name="chain">The <see cref="IStrategyChain"/> to use for this context.</param>
         /// <param name="lifetime">The <see cref="ILifetimeContainer"/> to use for this context.</param>
         /// <param name="policies">The <see cref="IPolicyList"/> to use for this context.</param>
         /// <param name="originalBuildKey">Build key to start building.</param>
         /// <param name="existing">The existing object to build up.</param>
-        public BuilderContext(IStrategyChain chain,
-            ILifetimeContainer lifetime,
-            IPolicyList policies,
-            NamedTypeBuildKey originalBuildKey,
-            object existing)
+        public BuilderContext(IUnityContainer container, IStrategyChain chain, ILifetimeContainer lifetime, IPolicyList policies, NamedTypeBuildKey originalBuildKey, object existing)
         {
+            this.Container = container;
             this.chain = chain;
             this.lifetime = lifetime;
             this.originalBuildKey = originalBuildKey;
@@ -65,8 +58,9 @@ namespace ObjectBuilder2
         /// combined.</param>
         /// <param name="buildKey">Build key for this context.</param>
         /// <param name="existing">Existing object to build up.</param>
-        public BuilderContext(IStrategyChain chain, ILifetimeContainer lifetime, IPolicyList persistentPolicies, IPolicyList transientPolicies, NamedTypeBuildKey buildKey, object existing)
+        public BuilderContext(IUnityContainer container, IStrategyChain chain, ILifetimeContainer lifetime, IPolicyList persistentPolicies, IPolicyList transientPolicies, NamedTypeBuildKey buildKey, object existing)
         {
+            this.Container = container;
             this.chain = chain;
             this.lifetime = lifetime;
             this.persistentPolicies = persistentPolicies;
@@ -90,8 +84,9 @@ namespace ObjectBuilder2
         /// combined.</param>
         /// <param name="buildKey">Build key for this context.</param>
         /// <param name="resolverOverrides">The resolver overrides.</param>
-        protected BuilderContext(IStrategyChain chain, ILifetimeContainer lifetime, IPolicyList persistentPolicies, IPolicyList transientPolicies, NamedTypeBuildKey buildKey, CompositeResolverOverride resolverOverrides)
+        protected BuilderContext(IUnityContainer container, IStrategyChain chain, ILifetimeContainer lifetime, IPolicyList persistentPolicies, IPolicyList transientPolicies, NamedTypeBuildKey buildKey, CompositeResolverOverride resolverOverrides = null)
         {
+            this.Container = container;
             this.chain = chain;
             this.lifetime = lifetime;
             this.persistentPolicies = persistentPolicies;
@@ -99,9 +94,11 @@ namespace ObjectBuilder2
             this.originalBuildKey = buildKey;
             this.BuildKey = buildKey;
             this.Existing = null;
-            this.resolverOverrides = resolverOverrides;
-            this.ownsOverrides = false;
+            this.resolverOverrides = resolverOverrides ?? new CompositeResolverOverride(); ;
+            this.ownsOverrides = null == resolverOverrides;
         }
+
+        public IUnityContainer Container { get; }
 
         /// <summary>
         /// Gets the head of the strategy chain.
@@ -239,7 +236,7 @@ namespace ObjectBuilder2
         public object NewBuildUp(NamedTypeBuildKey newBuildKey)
         {
             this.ChildContext =
-                new BuilderContext(this.chain, lifetime, persistentPolicies, policies, newBuildKey, this.resolverOverrides);
+                new BuilderContext(this.Container, this.chain, lifetime, persistentPolicies, policies, newBuildKey, this.resolverOverrides);
 
             object result = this.ChildContext.Strategies.ExecuteBuildUp(this.ChildContext);
 
@@ -263,7 +260,7 @@ namespace ObjectBuilder2
             Guard.ArgumentNotNull(childCustomizationBlock, "childCustomizationBlock");
 
             this.ChildContext =
-                new BuilderContext(this.chain, lifetime, persistentPolicies, policies, newBuildKey, this.resolverOverrides);
+                new BuilderContext(this.Container, this.chain, lifetime, persistentPolicies, policies, newBuildKey, this.resolverOverrides);
 
             childCustomizationBlock(this.ChildContext);
 

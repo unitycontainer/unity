@@ -72,7 +72,7 @@ namespace ObjectBuilder2.Tests
         public void Build()
         {
             var transientPolicies = new PolicyList(policies);
-            var context = new BuilderContext(strategies, null, policies, transientPolicies, new NamedTypeBuildKey<object>(), null);
+            var context = new BuilderContext(null, strategies, null, policies, transientPolicies, new NamedTypeBuildKey<object>(), null);
             Result = strategies.ExecuteBuildUp(context);
         }
     }

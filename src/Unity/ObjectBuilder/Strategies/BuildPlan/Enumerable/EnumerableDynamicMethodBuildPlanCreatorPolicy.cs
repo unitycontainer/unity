@@ -1,7 +1,10 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Unity;
+using Unity.Properties;
 using Unity.Utility;
 
 namespace ObjectBuilder2
@@ -39,10 +42,32 @@ namespace ObjectBuilder2
                 var key = context.BuildKey;
                 var type = key.Type;
                 var itemType = type.GetTypeInfo().GenericTypeArguments[0];
-
                 var container = context.Container ?? context.NewBuildUp<IUnityContainer>();
-                var list = container.Registrations.Where(r => Equals(itemType, r.RegisteredType)).Select(r => container.Resolve(r));
-                context.Existing = CastMethod.MakeGenericMethod(itemType).Invoke(null, new[] { list });
+
+                if (itemType.IsGenericTypeDefinition)
+                {
+                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,
+                                                Resources.MustHaveOpenGenericType,
+                                                itemType.GetTypeInfo().Name));
+                }
+
+                IEnumerable<object> enumerable;
+                if (itemType.IsGenericType)
+                {
+                    var generic = new Lazy<Type>(() => itemType.GetGenericTypeDefinition());
+                    enumerable = container.Registrations
+                                          .Where(r => r.RegisteredType == itemType || 
+                                                     (r.RegisteredType.IsGenericTypeDefinition && 
+                                                      r.RegisteredType == generic.Value))
+                                          .Select(r => context.NewBuildUp(new NamedTypeBuildKey(itemType, r.Name)));
+                }
+                else
+                {
+                    enumerable = container.Registrations.Where(r => r.RegisteredType == itemType).Select(r => container.Resolve(r));
+                }
+
+                context.Existing = CastMethod.MakeGenericMethod(itemType).Invoke(null, new object[] { enumerable });
+                context.BuildComplete = true;
             }
 
             // match the behavior of DynamicMethodConstructorStrategy

@@ -168,7 +168,7 @@ namespace Unity
         /// <returns>The retrieved object.</returns>
         public object Resolve(Type t, string name, params ResolverOverride[] resolverOverrides)
         {
-            return DoBuildUp(t, name, resolverOverrides);
+            return DoBuildUp(t, null, name, resolverOverrides);
         }
 
         /// <summary>
@@ -472,11 +472,6 @@ namespace Unity
         #endregion
 
         #region Running ObjectBuilder
-
-        private object DoBuildUp(Type t, string name, IEnumerable<ResolverOverride> resolverOverrides)
-        {
-            return DoBuildUp(t, null, name, resolverOverrides);
-        }
 
         private object DoBuildUp(Type t, object existing, string name, IEnumerable<ResolverOverride> resolverOverrides)
         {

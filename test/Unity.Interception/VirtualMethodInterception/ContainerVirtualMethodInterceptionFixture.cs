@@ -24,9 +24,18 @@ namespace Unity.InterceptionExtension.Tests.VirtualMethodInterception
             AddPoliciesToContainer(container);
             ConfigureInterceptionWithRegisterType(container);
 
-            Interceptee target = container.Resolve<Interceptee>();
+            try
+            {
+                Interceptee target = container.Resolve<Interceptee>();
 
-            Assert.AreNotSame(typeof(Interceptee), target.GetType());
+                Assert.AreNotSame(typeof(Interceptee), target.GetType());
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
 
         [TestMethod]

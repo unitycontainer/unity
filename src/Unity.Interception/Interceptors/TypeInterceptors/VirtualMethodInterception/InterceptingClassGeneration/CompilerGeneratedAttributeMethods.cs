@@ -11,7 +11,10 @@ namespace Unity.InterceptionExtension
     {
         public static ConstructorInfo CompilerGeneratedAttribute
         {
-            get { return StaticReflection.GetConstructorInfo(() => new CompilerGeneratedAttribute()); }
+            get
+            {
+                return typeof(CompilerGeneratedAttribute).GetConstructor(new Type[0]);
+            }
         }
     }
 }

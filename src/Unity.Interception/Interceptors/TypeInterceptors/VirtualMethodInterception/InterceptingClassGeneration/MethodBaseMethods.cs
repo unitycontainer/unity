@@ -13,8 +13,7 @@ namespace Unity.InterceptionExtension
         {
             get
             {
-                return StaticReflection.GetMethodInfo(
-                    () => MethodBase.GetMethodFromHandle(default(RuntimeMethodHandle)));
+                return typeof(MethodBase).GetMethod(nameof(MethodBase.GetMethodFromHandle));
             }
         }
 
@@ -22,8 +21,7 @@ namespace Unity.InterceptionExtension
         {
             get
             {
-                return StaticReflection.GetMethodInfo(
-                    () => MethodBase.GetMethodFromHandle(default(RuntimeMethodHandle), default(RuntimeTypeHandle)));
+                return typeof(MethodBase).GetMethod(nameof(MethodBase.GetMethodFromHandle));
             }
         }
     }

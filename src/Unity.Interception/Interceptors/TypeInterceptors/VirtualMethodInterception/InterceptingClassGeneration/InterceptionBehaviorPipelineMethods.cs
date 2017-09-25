@@ -10,17 +10,17 @@ namespace Unity.InterceptionExtension
     {
         internal static ConstructorInfo Constructor
         {
-            get { return StaticReflection.GetConstructorInfo(() => new InterceptionBehaviorPipeline()); }
+            get { return typeof(IMethodReturn).GetConstructor(new Type[0]); }
         }
 
         internal static MethodInfo Add
         {
-            get { return StaticReflection.GetMethodInfo((InterceptionBehaviorPipeline pip) => pip.Add(null)); }
+            get { return typeof(InterceptionBehaviorPipeline).GetMethod(nameof(InterceptionBehaviorPipeline.Add)); }
         }
 
         internal static MethodInfo Invoke
         {
-            get { return StaticReflection.GetMethodInfo((InterceptionBehaviorPipeline pip) => pip.Invoke(null, null)); }
+            get { return typeof(InterceptionBehaviorPipeline).GetMethod(nameof(InterceptionBehaviorPipeline.Invoke)); }
         }
     }
 }

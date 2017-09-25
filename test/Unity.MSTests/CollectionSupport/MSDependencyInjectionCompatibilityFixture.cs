@@ -129,7 +129,6 @@ namespace Unity.Tests.CollectionSupport
         }
 
         [TestMethod]
-        [Ignore]
         public void Enumerable_SingleServiceCanBeIEnumerableResolved()
         {
             using (IUnityContainer provider = new UnityContainer())
@@ -148,7 +147,31 @@ namespace Unity.Tests.CollectionSupport
         }
 
         [TestMethod]
-        [Ignore]
+        public void Enumerable_MixedServicesCanBeIEnumerableResolved()
+        {
+            using (IUnityContainer provider = new UnityContainer())
+            {
+                // Arrange
+                provider.RegisterType<IService, EmailService>(typeof(EmailService).FullName);
+                provider.RegisterType<IService, EmailService>();
+                provider.RegisterType<IService, OtherEmailService>(typeof(OtherEmailService).FullName);
+
+                // Act
+                var registered = provider.Registrations;
+                var services = provider.Resolve<IEnumerable<IService>>();
+
+                // Assert
+                var enumerator = services.GetEnumerator();
+                Assert.IsTrue(enumerator.MoveNext());
+                Assert.IsInstanceOfType(enumerator.Current, typeof(EmailService));
+                Assert.IsTrue(enumerator.MoveNext());
+                Assert.IsInstanceOfType(enumerator.Current, typeof(EmailService));
+                Assert.IsTrue(enumerator.MoveNext());
+                Assert.IsInstanceOfType(enumerator.Current, typeof(OtherEmailService));
+            }
+        }
+
+        [TestMethod]
         public void Enumerable_MultipleServiceCanBeIEnumerableResolved()
         {
             using (IUnityContainer provider = new UnityContainer())
@@ -170,7 +193,6 @@ namespace Unity.Tests.CollectionSupport
         }
 
         [TestMethod]
-        [Ignore]
         public void Enumerable_RegistrationOrderIsPreservedWhenServicesAreIEnumerableResolved()
         {
             using (IUnityContainer provider = new UnityContainer())
@@ -465,7 +487,6 @@ namespace Unity.Tests.CollectionSupport
         }
 
         [TestMethod]
-        [Ignore]
         public void Enumerable_NonexistentServiceCanBeIEnumerableResolved()
         {
             using (IUnityContainer provider = new UnityContainer())
@@ -565,7 +586,6 @@ namespace Unity.Tests.CollectionSupport
         }
 
         [TestMethod]
-        [Ignore]
         public void Enumerable_ResolvesDifferentInstancesForOpenGenericsWhenResolvingEnumerable()
         {
             using (IUnityContainer provider = new UnityContainer())

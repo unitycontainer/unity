@@ -13,6 +13,10 @@ namespace ObjectBuilder2
     public interface IBuilderContext
     {
         /// <summary>
+        /// Gets the UnityContainer it is associated with
+        /// </summary>
+        IUnityContainer Container { get; }
+        /// <summary>
         /// Gets the head of the strategy chain.
         /// </summary>
         /// <returns>

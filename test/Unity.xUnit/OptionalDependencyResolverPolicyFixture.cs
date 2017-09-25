@@ -196,6 +196,8 @@ namespace Unity.Tests
                 get { throw new NotImplementedException(); }
             }
 
+            public IUnityContainer Container => throw new NotImplementedException();
+
             public void AddResolverOverrides(System.Collections.Generic.IEnumerable<ResolverOverride> newOverrides)
             {
                 throw new NotImplementedException();

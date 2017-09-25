@@ -510,6 +510,18 @@ namespace Unity
             return container.Resolve(t, null, overrides);
         }
 
+        /// <summary>
+        /// Resolve an instance of the default requested type from the container.
+        /// </summary>
+        /// <param name="container">Container to resolve from.</param>
+        /// <param name="registration">Registration to be resolved.</param>
+        public static object Resolve(this IUnityContainer container, ContainerRegistration registration)
+        {
+            Guard.ArgumentNotNull(container, "container");
+            Guard.ArgumentNotNull(container, "registration");
+            return container.Resolve(registration.RegisteredType, registration.Name);
+        }
+
         #endregion
 
         #region ResolveAll overloads

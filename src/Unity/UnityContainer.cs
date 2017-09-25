@@ -236,7 +236,7 @@ namespace Unity
                 Guard.ArgumentNotNull(o, "o");
 
                 context =
-                    new BuilderContext(GetStrategies().Reverse(), lifetimeContainer, policies, null, o);
+                    new BuilderContext(this, GetStrategies().Reverse(), lifetimeContainer, policies, null, o);
                 context.Strategies.ExecuteTearDown(context);
             }
             catch (Exception ex)
@@ -485,12 +485,7 @@ namespace Unity
             try
             {
                 context =
-                    new BuilderContext(
-                        GetStrategies(),
-                        lifetimeContainer,
-                        policies,
-                        new NamedTypeBuildKey(t, name),
-                        existing);
+                    new BuilderContext(this, GetStrategies(), lifetimeContainer, policies, new NamedTypeBuildKey(t, name), existing);
                 context.AddResolverOverrides(resolverOverrides);
 
                 if (t.GetTypeInfo().IsGenericTypeDefinition)

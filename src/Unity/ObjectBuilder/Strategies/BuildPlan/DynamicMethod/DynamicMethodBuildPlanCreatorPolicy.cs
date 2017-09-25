@@ -44,13 +44,13 @@ namespace ObjectBuilder2
 
         private IBuilderContext GetContext(IBuilderContext originalContext, NamedTypeBuildKey buildKey, DynamicBuildPlanGenerationContext generatorContext)
         {
-            return new BuilderContext(
-                strategies.MakeStrategyChain(),
-                originalContext.Lifetime,
-                originalContext.PersistentPolicies,
-                originalContext.Policies,
-                buildKey,
-                generatorContext);
+            return new BuilderContext(originalContext.Container, 
+                                      strategies.MakeStrategyChain(), 
+                                      originalContext.Lifetime, 
+                                      originalContext.PersistentPolicies, 
+                                      originalContext.Policies, 
+                                      buildKey, 
+                                      generatorContext);
         }
     }
 }

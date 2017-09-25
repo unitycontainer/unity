@@ -56,7 +56,7 @@ namespace ObjectBuilder2
             if (context.Existing == null)
             {
                 var name = context.BuildKey.Name;
-                var container = context.NewBuildUp<IUnityContainer>();
+                var container = context.Container ?? context.NewBuildUp<IUnityContainer>();
                 context.Existing = new Lazy<T>(() => container.Resolve<T>(name));
             }
 
@@ -68,7 +68,7 @@ namespace ObjectBuilder2
         {
             if (context.Existing == null)
             {
-                var container = context.NewBuildUp<IUnityContainer>();
+                var container = context.Container ?? context.NewBuildUp<IUnityContainer>();
                 context.Existing = new Lazy<IEnumerable<T>>(() => container.ResolveAll<T>());
             }
 

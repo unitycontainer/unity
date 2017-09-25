@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace System.Reflection
 {
@@ -44,8 +45,6 @@ namespace System.Reflection
         public bool IsValueType => _type.IsValueType;
 
         public bool ContainsGenericParameters => _type.ContainsGenericParameters;
-
-
 
         #region moved over from Type
 

@@ -28,7 +28,7 @@ namespace ObjectBuilder2.Tests
         [Fact]
         public void NewBuildSetsChildContextWhileBuilding()
         {
-            this.parentContext = new BuilderContext(GetNonThrowingStrategyChain(), null, null, null, null, null);
+            this.parentContext = new BuilderContext(null, GetNonThrowingStrategyChain(), null, null, null, null, null);
 
             this.parentContext.NewBuildUp(null);
 
@@ -38,7 +38,7 @@ namespace ObjectBuilder2.Tests
         [Fact]
         public void NewBuildClearsTheChildContextOnSuccess()
         {
-            this.parentContext = new BuilderContext(GetNonThrowingStrategyChain(), null, null, null, null, null);
+            this.parentContext = new BuilderContext(null, GetNonThrowingStrategyChain(), null, null, null, null, null);
 
             this.parentContext.NewBuildUp(null);
 
@@ -48,7 +48,7 @@ namespace ObjectBuilder2.Tests
         [Fact]
         public void NewBuildDoesNotClearTheChildContextOnFailure()
         {
-            this.parentContext = new BuilderContext(GetThrowingStrategyChain(), null, null, null, null, null);
+            this.parentContext = new BuilderContext(null, GetThrowingStrategyChain(), null, null, null, null, null);
 
             try
             {

@@ -19,7 +19,6 @@ namespace Unity
         protected override void Initialize()
         {
             // Setup strategy chain
-            Context.Strategies.AddNew<EnumerableResolutionStrategy>(UnityBuildStage.Setup);
 
             // Main strategy chain
             Context.Strategies.AddNew<LifetimeStrategy>(UnityBuildStage.Lifetime);

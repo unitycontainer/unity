@@ -525,38 +525,32 @@ namespace Unity.Tests.CollectionSupport
         }
 
         [TestMethod]
-        [Ignore]
         public void Enumerable_ResolvesMixedOpenClosedGenericsAsEnumerable()
         {
-                //using (IUnityContainer provider = new UnityContainer())
-                //{
-                //    // Arrange
-                //    var instance = new FakeOpenGenericService<PocoClass>(null);
+            using (IUnityContainer provider = new UnityContainer())
+            {
+                // Arrange
+                var instance = new Foo<IService>(new OtherEmailService());
 
-                //    provider.RegisterType<PocoClass>();
-                //    provider.RegisterType<IService, EmailService>();
-                //    provider.RegisterType(typeof(IFakeOpenGenericService<PocoClass>), typeof(FakeService), "asdf", new ContainerControlledLifetimeManager());
-                //    provider.RegisterType(typeof(IFakeOpenGenericService<>), typeof(FakeOpenGenericService<>), "fa", new ContainerControlledLifetimeManager());
-                //    provider.RegisterInstance<IFakeOpenGenericService<PocoClass>>(instance);
+                provider.RegisterType<IService>();
+                provider.RegisterType<IService, EmailService>();
+                provider.RegisterType(typeof(IFoo<IService>), typeof(Foo<IService>), "asdf", new ContainerControlledLifetimeManager());
+                provider.RegisterType(typeof(IFoo<>), typeof(Foo<>), "fa", new ContainerControlledLifetimeManager());
+                provider.RegisterInstance<IFoo<IService>>(instance);
 
-                //    var instance1 = provider.Resolve<PocoClass>();
-                //    var instance2 = provider.Resolve<IFakeOpenGenericService<PocoClass>>();
-                //    //var instance3 = provider.Resolve<IFakeOpenGenericService<>>();
-                //    var instance4 = provider.Resolve<IFakeOpenGenericService<PocoClass>>();
+                // Act
+                var enumerable = provider.Resolve<IEnumerable<IFoo<IService>>>().ToArray();
 
-                //    var enumerable = provider.Resolve<IEnumerable<IFakeOpenGenericService<PocoClass>>>().ToArray();
+                // Assert
+                Assert.AreEqual(3, enumerable.Length);
+                Assert.IsNotNull(enumerable[0]);
+                Assert.IsNotNull(enumerable[1]);
+                Assert.IsNotNull(enumerable[2]);
 
-                //    // Assert
-                //    //Assert.Equal(3, enumerable.Length);
-                //    //Assert.NotNull(enumerable[0]);
-                //    //Assert.NotNull(enumerable[1]);
-                //    //Assert.NotNull(enumerable[2]);
-
-                //}
+            }
         }
 
         [TestMethod]
-        [Ignore]
         public void Enumerable_ResolvesDifferentInstancesWhenResolvingEnumerable()
         {
             using (IUnityContainer provider = new UnityContainer())
@@ -585,7 +579,6 @@ namespace Unity.Tests.CollectionSupport
         }
 
         [TestMethod]
-        [Ignore]
         public void Enumerable_ResolvesDifferentInstancesForOpenGenericsWhenResolvingEnumerable()
         {
             using (IUnityContainer provider = new UnityContainer())

@@ -586,6 +586,7 @@ namespace Unity.Tests.CollectionSupport
         }
 
         [TestMethod]
+        [Ignore]
         public void Enumerable_ResolvesDifferentInstancesForOpenGenericsWhenResolvingEnumerable()
         {
             using (IUnityContainer provider = new UnityContainer())

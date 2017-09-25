@@ -18,32 +18,41 @@ namespace ObjectBuilder2
     /// </summary>
     public class DynamicMethodConstructorStrategy : BuilderStrategy
     {
-        private static readonly MethodInfo ThrowForNullExistingObjectMethod =
-          StaticReflection.GetMethodInfo(() => ThrowForNullExistingObject(null));
+        private static readonly MethodInfo ThrowForNullExistingObjectMethod = 
+            typeof(DynamicMethodConstructorStrategy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(DynamicMethodConstructorStrategy.ThrowForNullExistingObject)));
 
         private static readonly MethodInfo ThrowForNullExistingObjectWithInvalidConstructorMethod =
-            StaticReflection.GetMethodInfo(() => ThrowForNullExistingObjectWithInvalidConstructor(null, null));
+            typeof(DynamicMethodConstructorStrategy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(DynamicMethodConstructorStrategy.ThrowForNullExistingObjectWithInvalidConstructor)));
 
         private static readonly MethodInfo ThrowForReferenceItselfConstructorMethod =
-            StaticReflection.GetMethodInfo(() => ThrowForReferenceItselfConstructor(null, null));
+            typeof(DynamicMethodConstructorStrategy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(DynamicMethodConstructorStrategy.ThrowForReferenceItselfConstructor)));
 
         private static readonly MethodInfo ThrowForAttemptingToConstructInterfaceMethod =
-           StaticReflection.GetMethodInfo(() => ThrowForAttemptingToConstructInterface(null));
+            typeof(DynamicMethodConstructorStrategy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(DynamicMethodConstructorStrategy.ThrowForAttemptingToConstructInterface)));
 
         private static readonly MethodInfo ThrowForAttemptingToConstructAbstractClassMethod =
-           StaticReflection.GetMethodInfo(() => ThrowForAttemptingToConstructAbstractClass(null));
+            typeof(DynamicMethodConstructorStrategy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(DynamicMethodConstructorStrategy.ThrowForAttemptingToConstructAbstractClass)));
 
         private static readonly MethodInfo ThrowForAttemptingToConstructDelegateMethod =
-           StaticReflection.GetMethodInfo(() => ThrowForAttemptingToConstructDelegate(null));
+            typeof(DynamicMethodConstructorStrategy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(DynamicMethodConstructorStrategy.ThrowForAttemptingToConstructDelegate)));
 
         private static readonly MethodInfo SetCurrentOperationToResolvingParameterMethod =
-            StaticReflection.GetMethodInfo(() => SetCurrentOperationToResolvingParameter(null, null, null));
+            typeof(DynamicMethodConstructorStrategy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(DynamicMethodConstructorStrategy.SetCurrentOperationToResolvingParameter)));
 
         private static readonly MethodInfo SetCurrentOperationToInvokingConstructorMethod =
-            StaticReflection.GetMethodInfo(() => SetCurrentOperationToInvokingConstructor(null, null));
+            typeof(DynamicMethodConstructorStrategy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(DynamicMethodConstructorStrategy.SetCurrentOperationToInvokingConstructor)));
 
         private static readonly MethodInfo SetPerBuildSingletonMethod =
-            StaticReflection.GetMethodInfo(() => SetPerBuildSingleton(null));
+            typeof(DynamicMethodConstructorStrategy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(DynamicMethodConstructorStrategy.SetPerBuildSingleton)));
 
         /// <summary>
         /// Called during the chain of responsibility for a build operation.

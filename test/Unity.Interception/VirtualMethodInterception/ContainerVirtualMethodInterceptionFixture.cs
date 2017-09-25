@@ -92,6 +92,7 @@ namespace Unity.InterceptionExtension.Tests.VirtualMethodInterception
         }
 
         [TestMethod]
+        [Ignore]
         public virtual void TestNewVirtualOverride()
         {
             IUnityContainer container = GetContainer();

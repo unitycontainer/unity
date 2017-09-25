@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Unity;
 using Unity.Utility;
@@ -14,8 +15,13 @@ namespace ObjectBuilder2
     /// </summary>
     public class LazyDynamicMethodBuildPlanCreatorPolicy : IBuildPlanCreatorPolicy
     {
-        private static readonly MethodInfo BuildResolveLazyMethod = StaticReflection.GetMethodInfo(() => LazyDynamicMethodBuildPlanCreatorPolicy.BuildResolveLazy<object>(null)).GetGenericMethodDefinition();
-        private static readonly MethodInfo BuildResolveAllLazyMethod = StaticReflection.GetMethodInfo(() => LazyDynamicMethodBuildPlanCreatorPolicy.BuildResolveAllLazy<object>(null)).GetGenericMethodDefinition();
+        private static readonly MethodInfo BuildResolveLazyMethod = 
+            typeof(LazyDynamicMethodBuildPlanCreatorPolicy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(LazyDynamicMethodBuildPlanCreatorPolicy.BuildResolveLazy)));
+
+        private static readonly MethodInfo BuildResolveAllLazyMethod =
+            typeof(LazyDynamicMethodBuildPlanCreatorPolicy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(LazyDynamicMethodBuildPlanCreatorPolicy.BuildResolveAllLazy)));
 
         /// <summary>
         /// Creates a build plan using the given context and build key.

@@ -19,13 +19,16 @@ namespace ObjectBuilder2
         private readonly Queue<Expression> buildPlanExpressions;
 
         private static readonly MethodInfo ResolveDependencyMethod =
-            StaticReflection.GetMethodInfo((IDependencyResolverPolicy r) => r.Resolve(null));
+            typeof(IDependencyResolverPolicy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(IDependencyResolverPolicy.Resolve)));
 
         private static readonly MethodInfo GetResolverMethod =
-            StaticReflection.GetMethodInfo(() => GetResolver(null, null, (IDependencyResolverPolicy)null));
+            typeof(DynamicBuildPlanGenerationContext).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(DynamicBuildPlanGenerationContext.GetResolver)));
 
         private static readonly MemberInfo GetBuildContextExistingObjectProperty =
-            StaticReflection.GetMemberInfo((IBuilderContext c) => c.Existing);
+            typeof(IBuilderContext).GetTypeInfo().DeclaredMembers
+                .First(m => Equals(m.Name, nameof(IBuilderContext.Existing)));
 
         /// <summary>
         /// 
@@ -161,19 +164,6 @@ namespace ObjectBuilder2
                 Expression.MakeMemberAccess(
                     this.ContextParameter,
                     typeof(IBuilderContext).GetTypeInfo().GetDeclaredProperty("CurrentOperation")));
-        }
-
-        /// <summary>
-        /// Helper method used by generated IL to look up a dependency resolver based on the given key.
-        /// </summary>
-        /// <param name="context">Current build context.</param>
-        /// <param name="dependencyType">Type of the dependency being resolved.</param>
-        /// <param name="resolverKey">Key the resolver was stored under.</param>
-        /// <returns>The found dependency resolver.</returns>
-        [Obsolete("Resolvers are no longer stored as policies.")]
-        public static IDependencyResolverPolicy GetResolver(IBuilderContext context, Type dependencyType, string resolverKey)
-        {
-            throw new NotSupportedException("This method is no longer used");
         }
 
         /// <summary>

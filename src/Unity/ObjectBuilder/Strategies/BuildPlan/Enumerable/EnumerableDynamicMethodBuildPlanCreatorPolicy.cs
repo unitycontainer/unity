@@ -12,9 +12,10 @@ namespace ObjectBuilder2
     /// </summary>
     public class EnumerableDynamicMethodBuildPlanCreatorPolicy : IBuildPlanCreatorPolicy
     {
-        private static readonly MethodInfo ResolveMethod = typeof(EnumerableDynamicMethodBuildPlanCreatorPolicy).GetTypeInfo()
-                                                                                                                .DeclaredMethods
-                                                                                                                .First(m => Equals(m.Name, nameof(EnumerableDynamicMethodBuildPlanCreatorPolicy.BuildResolveEnumerable)));
+        private static readonly MethodInfo ResolveMethod = 
+            typeof(EnumerableDynamicMethodBuildPlanCreatorPolicy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(EnumerableDynamicMethodBuildPlanCreatorPolicy.BuildResolveEnumerable)));
+
         private static readonly MethodInfo CastMethod = typeof(Enumerable).GetTypeInfo()
                                                                           .DeclaredMethods
                                                                           .First(m => Equals(m.Name, "Cast"));

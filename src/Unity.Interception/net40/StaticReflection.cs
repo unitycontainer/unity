@@ -1,10 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Unity.Utility
+namespace Unity.InterceptionExtension
 {
     /// <summary>
     /// A set of helper methods to pick through lambdas and pull out
@@ -18,6 +19,8 @@ namespace Unity.Utility
         /// </summary>
         /// <param name="expression">Expression describing the method to call.</param>
         /// <returns>Corresponding <see cref="MethodInfo"/>.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters",
+            Justification = "Lambda inference at the call site doesn't work without the derived type.")]
         public static MethodInfo GetMethodInfo(Expression<Action> expression)
         {
             return GetMethodInfo((LambdaExpression)expression);
@@ -30,6 +33,10 @@ namespace Unity.Utility
         /// <typeparam name="T">The type where the method is defined.</typeparam>
         /// <param name="expression">Expression describing the method to call.</param>
         /// <returns>Corresponding <see cref="MethodInfo"/>.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
+            Justification = "Expressions require nested generics")]
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters",
+            Justification = "Lambda inference at the call site doesn't work without the derived type.")]
         public static MethodInfo GetMethodInfo<T>(Expression<Action<T>> expression)
         {
             return GetMethodInfo((LambdaExpression)expression);
@@ -51,11 +58,15 @@ namespace Unity.Utility
         /// <typeparam name="TProperty">The type for the property.</typeparam>
         /// <param name="expression">Expression describing the property for which the get method is to be extracted.</param>
         /// <returns>Corresponding <see cref="MethodInfo"/>.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
+            Justification = "Expressions require nested generics")]
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters",
+            Justification = "Lambda inference at the call site doesn't work without the derived type.")]
         public static MethodInfo GetPropertyGetMethodInfo<T, TProperty>(Expression<Func<T, TProperty>> expression)
         {
             var property = GetPropertyInfo<T, TProperty>(expression);
 
-            var getMethod = property.GetMethod;
+            var getMethod = property.GetGetMethod(true);
             if (getMethod == null)
             {
                 throw new InvalidOperationException("Invalid expression form passed");
@@ -72,11 +83,15 @@ namespace Unity.Utility
         /// <typeparam name="TProperty">The type for the property.</typeparam>
         /// <param name="expression">Expression describing the property for which the set method is to be extracted.</param>
         /// <returns>Corresponding <see cref="MethodInfo"/>.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
+            Justification = "Expressions require nested generics")]
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters",
+            Justification = "Lambda inference at the call site doesn't work without the derived type.")]
         public static MethodInfo GetPropertySetMethodInfo<T, TProperty>(Expression<Func<T, TProperty>> expression)
         {
             var property = GetPropertyInfo<T, TProperty>(expression);
 
-            var setMethod = property.SetMethod;
+            var setMethod = property.GetSetMethod(true);
             if (setMethod == null)
             {
                 throw new InvalidOperationException("Invalid expression form passed");
@@ -109,6 +124,11 @@ namespace Unity.Utility
         /// <typeparam name="TProperty"></typeparam>
         /// <param name="expression"></param>
         /// <returns></returns>
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
+            Justification = "Expressions require nested generics")]
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "As designed for setting usage expectations")]
         public static MemberInfo GetMemberInfo<T, TProperty>(Expression<Func<T, TProperty>> expression)
         {
             Unity.Utility.Guard.ArgumentNotNull(expression, "expression");
@@ -133,6 +153,12 @@ namespace Unity.Utility
         /// <typeparam name="T">The type where the constructor is defined.</typeparam>
         /// <param name="expression">Expression invoking the desired constructor.</param>
         /// <returns>Corresponding <see cref="ConstructorInfo"/>.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures",
+            Justification = "Expressions require nested generics")]
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters",
+            Justification = "Lambda inference at the call site doesn't work without the derived type.")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods",
+            Justification = "Validation done by Guard class")]
         public static ConstructorInfo GetConstructorInfo<T>(Expression<Func<T>> expression)
         {
             Unity.Utility.Guard.ArgumentNotNull(expression, "expression");

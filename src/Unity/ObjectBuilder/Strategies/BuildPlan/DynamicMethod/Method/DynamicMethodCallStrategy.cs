@@ -17,11 +17,13 @@ namespace ObjectBuilder2
     /// </summary>
     public class DynamicMethodCallStrategy : BuilderStrategy
     {
-        private static readonly MethodInfo SetCurrentOperationToResolvingParameterMethod =
-            StaticReflection.GetMethodInfo(() => SetCurrentOperationToResolvingParameter(null, null, null));
+        private static readonly MethodInfo SetCurrentOperationToResolvingParameterMethod = 
+            typeof(DynamicMethodCallStrategy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(DynamicMethodCallStrategy.SetCurrentOperationToResolvingParameter)));
 
         private static readonly MethodInfo SetCurrentOperationToInvokingMethodInfo =
-            StaticReflection.GetMethodInfo(() => SetCurrentOperationToInvokingMethod(null, null));
+            typeof(DynamicMethodCallStrategy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(DynamicMethodCallStrategy.SetCurrentOperationToInvokingMethod)));
 
         /// <summary>
         /// Called during the chain of responsibility for a build operation. The

@@ -3,6 +3,7 @@ namespace Unity.Tests.Generics
 {
     public interface IFoo<TEntity>
     {
+        TEntity Value { get; }
     }
 
     public interface IFoo

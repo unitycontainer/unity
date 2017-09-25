@@ -3,6 +3,7 @@
 using System;
 using ObjectBuilder2;
 using Unity.ObjectBuilder;
+using System.Collections.Generic;
 
 namespace Unity
 {
@@ -43,6 +44,7 @@ namespace Unity
             Context.Policies.Set<ILifetimePolicy>(new PerResolveLifetimeManager(), typeof(Func<>));
 
             Context.Policies.Set<IBuildPlanCreatorPolicy>(new LazyDynamicMethodBuildPlanCreatorPolicy(), typeof(Lazy<>));
+            Context.Policies.Set<IBuildPlanCreatorPolicy>(new EnumerableDynamicMethodBuildPlanCreatorPolicy(), typeof(IEnumerable<>));
         }
     }
 }

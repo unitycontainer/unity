@@ -11,12 +11,11 @@ namespace Unity
     /// </summary>
     public class HierarchicalTransientLifetimeManager : HierarchicalLifetimeManager
     {
-        private readonly List<IDisposable> disposables = new List<IDisposable>();
+        private readonly List<object> objects = new List<object>();
 
         public override void SetValue(object newValue)
         {
-            if (newValue is IDisposable disposable)
-                disposables.Add(disposable);
+            objects.Add(newValue);
         }
 
         public override object GetValue()
@@ -26,11 +25,14 @@ namespace Unity
 
         protected override void Dispose(bool disposing)
         {
-            foreach (IDisposable disposable in disposables.Reverse<IDisposable>())
+            foreach (IDisposable disposable in objects.Select(o => o as IDisposable)
+                                                      .Where(o => null != o)
+                                                      .Reverse())
             {
                 disposable.Dispose();
             }
-            disposables.Clear();
+
+            objects.Clear();
             base.Dispose(disposing);
         }
     }

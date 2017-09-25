@@ -101,6 +101,7 @@ namespace Unity.Tests.Generics
         public void TypeMappingWithExternallyControlled()
         {
             IUnityContainer container = new UnityContainer()
+                .RegisterInstance("Test String")
                 .RegisterType(typeof(IFoo<>), typeof(Foo<>), new ContainerControlledLifetimeManager());
 
             IFoo<string> result = container.Resolve<IFoo<string>>();

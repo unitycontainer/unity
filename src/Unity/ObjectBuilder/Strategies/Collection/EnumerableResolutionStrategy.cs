@@ -15,12 +15,12 @@ namespace Unity
 
         public override void PreBuildUp(IBuilderContext context)
         {
-            var info = context.BuildKey.Type.GetTypeInfo();
-            if (!info.IsInterface || !info.IsGenericType || 
-                !Equals(enumerable, context.BuildKey.Type.GetGenericTypeDefinition()))
-                return;
+            //var info = context.BuildKey.Type.GetTypeInfo();
+            //if (!info.IsInterface || !info.IsGenericType || 
+            //    !Equals(enumerable, context.BuildKey.Type.GetGenericTypeDefinition()))
+            //    return;
 
-            System.Diagnostics.Debug.WriteLine("");
+            //System.Diagnostics.Debug.WriteLine("");
         }
     }
 }

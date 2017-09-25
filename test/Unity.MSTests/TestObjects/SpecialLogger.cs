@@ -6,7 +6,7 @@ using System.Text;
 namespace Unity.Tests.TestObjects
 {
     // A second implementation of ILogger to test named resolution
-    internal class SpecialLogger : ILogger
+    public class SpecialLogger : ILogger
     {
     }
 }

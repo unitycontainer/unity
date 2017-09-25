@@ -9,10 +9,7 @@ namespace Unity.InterceptionExtension
     {
         internal static MethodInfo AddInterceptionBehavior
         {
-            get
-            {
-                return typeof(IInterceptingProxy).GetMethod(nameof(IInterceptingProxy.AddInterceptionBehavior));
-            }
+            get { return StaticReflection.GetMethodInfo<IInterceptingProxy>(ip => ip.AddInterceptionBehavior(null)); }
         }
     }
 }

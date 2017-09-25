@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
+using System;
 using System.Reflection;
+using Unity.Utility;
 
 namespace Unity.InterceptionExtension
 {
@@ -12,7 +14,7 @@ namespace Unity.InterceptionExtension
     {
         internal static MethodInfo CreateExceptionMethodReturn
         {
-            get { return typeof(IMethodInvocation).GetMethod(nameof(IMethodInvocation.CreateExceptionMethodReturn)); }
+            get { return StaticReflection.GetMethodInfo((IMethodInvocation mi) => mi.CreateExceptionMethodReturn(default(Exception))); }
         }
 
         internal static MethodInfo CreateReturn
@@ -24,7 +26,7 @@ namespace Unity.InterceptionExtension
 
         internal static MethodInfo GetArguments
         {
-            get { return typeof(IMethodInvocation).GetMethod(nameof(IMethodInvocation.Arguments)); }
+            get { return StaticReflection.GetPropertyGetMethodInfo((IMethodInvocation mi) => mi.Arguments); }
         }
     }
 }

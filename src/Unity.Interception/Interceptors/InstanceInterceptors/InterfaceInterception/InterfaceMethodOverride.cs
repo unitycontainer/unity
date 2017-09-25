@@ -17,7 +17,7 @@ namespace Unity.InterceptionExtension
     public class InterfaceMethodOverride
     {
         private static readonly MethodInfo BuildAdditionalInterfaceNonImplementedExceptionMethod =
-            typeof(InterfaceMethodOverride).GetMethod(nameof(InterfaceMethodOverride.BuildAdditionalInterfaceNonImplementedException));
+            StaticReflection.GetMethodInfo(() => InterfaceMethodOverride.BuildAdditionalInterfaceNonImplementedException());
 
         private const MethodAttributes ImplicitImplementationAttributes =
             MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.Final

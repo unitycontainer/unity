@@ -9,17 +9,17 @@ namespace Unity.InterceptionExtension
     {
         internal static MethodInfo GetException
         {
-            get { return typeof(IMethodReturn).GetMethod(nameof(IMethodReturn.Exception)); }
+            get { return StaticReflection.GetPropertyGetMethodInfo((IMethodReturn imr) => imr.Exception); }
         }
 
         internal static MethodInfo GetReturnValue
         {
-            get { return typeof(IMethodReturn).GetMethod(nameof(IMethodReturn.ReturnValue)); }
+            get { return StaticReflection.GetPropertyGetMethodInfo((IMethodReturn imr) => imr.ReturnValue); }
         }
 
         internal static MethodInfo GetOutputs
         {
-            get { return typeof(IMethodReturn).GetMethod(nameof(IMethodReturn.Outputs)); }
+            get { return StaticReflection.GetPropertyGetMethodInfo((IMethodReturn imr) => imr.Outputs); }
         }
     }
 }

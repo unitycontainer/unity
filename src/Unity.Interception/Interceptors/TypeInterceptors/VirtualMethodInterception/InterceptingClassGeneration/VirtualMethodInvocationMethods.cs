@@ -11,7 +11,8 @@ namespace Unity.InterceptionExtension
         {
             get
             {
-                return typeof(VirtualMethodInvocation).GetConstructor(new[] { typeof(object), typeof(MethodBase) });
+                return StaticReflection.GetConstructorInfo(
+                    () => new VirtualMethodInvocation(default(object), default(MethodBase)));
             }
         }
     }

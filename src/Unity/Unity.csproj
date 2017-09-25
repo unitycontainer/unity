@@ -39,7 +39,6 @@
     <Compile Remove="Lifetime\SynchronizedLifetimeManager.cs" />
     <Compile Remove="ObjectBuilder\Strategies\BuildPlan\DynamicMethod\Property\DynamicMethodPropertySetterStrategy.cs" />
     <Compile Remove="ObjectBuilder\Strategies\BuildPlan\Property\PropertySelectorBase.cs" />
-    <Compile Remove="Utility\StaticReflection.cs" />
   </ItemGroup>
 
   <ItemGroup>

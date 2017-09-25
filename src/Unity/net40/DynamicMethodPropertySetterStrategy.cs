@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Unity.Properties;
@@ -18,10 +18,12 @@ namespace ObjectBuilder2
     public class DynamicMethodPropertySetterStrategy : BuilderStrategy
     {
         private static readonly MethodInfo SetCurrentOperationToResolvingPropertyValueMethod =
-            StaticReflection.GetMethodInfo(() => SetCurrentOperationToResolvingPropertyValue(null, null));
+            typeof(DynamicMethodPropertySetterStrategy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(DynamicMethodPropertySetterStrategy.SetCurrentOperationToResolvingPropertyValue)));
 
         private static readonly MethodInfo SetCurrentOperationToSettingPropertyMethod =
-            StaticReflection.GetMethodInfo(() => SetCurrentOperationToSettingProperty(null, null));
+            typeof(DynamicMethodPropertySetterStrategy).GetTypeInfo().DeclaredMethods
+                .First(m => Equals(m.Name, nameof(DynamicMethodPropertySetterStrategy.SetCurrentOperationToSettingProperty)));
 
         /// <summary>
         /// Called during the chain of responsibility for a build operation.

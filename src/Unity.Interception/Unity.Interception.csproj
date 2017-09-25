@@ -30,6 +30,16 @@
     <PackageIconUrl>https://avatars1.githubusercontent.com/u/12849707?u=60666efa853c774bbe0c8b625518de9381057152</PackageIconUrl>
   </PropertyGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' != 'net40' ">
+    <Compile Remove="net40\**" />
+    <EmbeddedResource Remove="net40\**" />
+    <None Remove="net40\**" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' == 'net40' ">
+    <Compile Remove="Utilities\StaticReflection.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Unity\Unity.csproj" />
   </ItemGroup>

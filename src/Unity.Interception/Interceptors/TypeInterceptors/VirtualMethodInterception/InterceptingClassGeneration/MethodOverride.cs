@@ -17,7 +17,7 @@ namespace Unity.InterceptionExtension
     public class MethodOverride
     {
         private static readonly MethodInfo BuildAbstractMethodInvokedExceptionMethod =
-            typeof(MethodOverride).GetMethod(nameof(MethodOverride.BuildAbstractMethodInvokedException));
+            StaticReflection.GetMethodInfo(() => MethodOverride.BuildAbstractMethodInvokedException());
 
         private readonly TypeBuilder typeBuilder;
         private readonly MethodInfo methodToOverride;

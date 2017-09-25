@@ -42,30 +42,22 @@ namespace ObjectBuilder2
                 var key = context.BuildKey;
                 var type = key.Type;
                 var itemType = type.GetTypeInfo().GenericTypeArguments[0];
+                var itemTypeInfo = itemType.GetTypeInfo();
                 var container = context.Container ?? context.NewBuildUp<IUnityContainer>();
 
-                if (itemType.IsGenericTypeDefinition)
+                if (itemTypeInfo.IsGenericTypeDefinition)
                 {
                     throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,
                                                 Resources.MustHaveOpenGenericType,
                                                 itemType.GetTypeInfo().Name));
                 }
 
-                IEnumerable<object> enumerable;
-                if (itemType.IsGenericType)
-                {
-                    var generic = new Lazy<Type>(() => itemType.GetGenericTypeDefinition());
-                    enumerable = container.Registrations
-                                          .Where(r => r.RegisteredType == itemType || 
-                                                     (r.RegisteredType.IsGenericTypeDefinition && 
-                                                      r.RegisteredType == generic.Value))
-                                          .Select(r => context.NewBuildUp(new NamedTypeBuildKey(itemType, r.Name)));
-                }
-                else
-                {
-                    enumerable = container.Registrations.Where(r => r.RegisteredType == itemType).Select(r => container.Resolve(r));
-                }
-
+                var generic = new Lazy<Type>(() => itemType.GetGenericTypeDefinition());
+                IEnumerable<object> enumerable = container.Registrations
+                                                          .Where(r => r.RegisteredType == itemType || (itemTypeInfo.IsGenericType &&
+                                                                      r.RegisteredType.GetTypeInfo().IsGenericTypeDefinition &&
+                                                                      r.RegisteredType == generic.Value))
+                                                          .Select(r => context.NewBuildUp(new NamedTypeBuildKey(itemType, r.Name)));
                 context.Existing = CastMethod.MakeGenericMethod(itemType).Invoke(null, new object[] { enumerable });
                 context.BuildComplete = true;
             }
@@ -75,3 +67,4 @@ namespace ObjectBuilder2
         }
     }
 }
+

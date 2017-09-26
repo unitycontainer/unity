@@ -58,4 +58,10 @@
   </ItemGroup>
 
 
+  <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' == 'net40' ">
+    <Compile Remove="Extension/UnityDefaultValueExt.cs" />
+  </ItemGroup>
+
+  
+  
 </Project>

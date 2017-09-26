@@ -7,7 +7,7 @@
     <Version>5.0.0-beta</Version>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <FileVersion>5.0.0.0</FileVersion>
-    <Copyright>Copyright © Microsoft 2008</Copyright>
+    <Copyright>Copyright Unity 2017 ©</Copyright>
     <PackageProjectUrl>https://github.com/unitycontainer/unity</PackageProjectUrl>
     <RepositoryUrl>https://github.com/unitycontainer/unity</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/unitycontainer/unity/blob/master/LICENSE</PackageLicenseUrl>

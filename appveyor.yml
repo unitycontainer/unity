@@ -17,7 +17,7 @@ build:
   verbosity: minimal
 
 dotnet_csproj:
-  patch: true
+  patch: false
   file: '**\*.csproj'
   version: $(build_version)
   package_version: $(build_version)

@@ -4,10 +4,10 @@
     <TargetFrameworks>net47;net45;net40</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Unity Interception Configuration</Description>
+    <Version>5.0.0-alpha</Version>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <FileVersion>5.0.0.0</FileVersion>
     <Copyright>Copyright © Microsoft 2008</Copyright>
-    <Version>5.0.0</Version>
     <PackageProjectUrl>https://github.com/IoC-Unity/Unity/tree/master/src/Unity.Configuration</PackageProjectUrl>
     <RepositoryUrl>https://github.com/IoC-Unity/Unity</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

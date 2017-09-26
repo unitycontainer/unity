@@ -864,7 +864,7 @@ namespace Unity.InterceptionExtension.Tests.VirtualMethodInterceptorTests
         }
 
         [TestMethod]
-        public void InterceptorCorrectlyRethrowsExceptions()
+        public void InterceptorCorrectlyRethrowsException()
         {
             IUnityContainer container = new UnityContainer()
                 .AddNewExtension<Interception>()

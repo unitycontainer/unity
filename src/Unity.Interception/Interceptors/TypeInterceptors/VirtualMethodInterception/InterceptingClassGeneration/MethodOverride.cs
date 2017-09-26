@@ -6,11 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-#if NET45 || NET47
-using System.Runtime.ExceptionServices;
-#endif
 using Unity.Interception.Properties;
-using Unity.Utility;
 
 namespace Unity.InterceptionExtension
 {
@@ -414,12 +410,17 @@ namespace Unity.InterceptionExtension
             il.Emit(OpCodes.Ceq);
             il.Emit(OpCodes.Brtrue_S, noException);
             il.Emit(OpCodes.Ldloc, ex);
-#if NET45 || NET47
-            il.EmitCall(OpCodes.Call, typeof(ExceptionDispatchInfo).GetMethod("Capture", BindingFlags.Public | BindingFlags.Static, null, new Type[] { typeof(Exception) }, null), null);
-            il.EmitCall(OpCodes.Callvirt, typeof(ExceptionDispatchInfo).GetMethod("Throw", BindingFlags.Public | BindingFlags.Instance, null, new Type[] { }, null), null);
-#else
-            il.Emit(OpCodes.Throw);
-#endif
+
+            if (ReflectionHelper.ExceptionDispatchInfoCaptureMethod != null 
+                && ReflectionHelper.ExceptionDispatchInfoThrowMethod != null)
+            {
+                il.EmitCall(OpCodes.Call, ReflectionHelper.ExceptionDispatchInfoCaptureMethod, null);
+                il.EmitCall(OpCodes.Callvirt, ReflectionHelper.ExceptionDispatchInfoThrowMethod, null);
+            }
+            else
+            {
+                il.Emit(OpCodes.Throw);
+            }
 
             il.MarkLabel(noException);
 

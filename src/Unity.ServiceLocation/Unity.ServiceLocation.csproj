@@ -1,15 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;net47;net45;net40</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp1.0;net47;net45;net40</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Unity Service Location</Description>
+    <Version>5.0.0-beta</Version>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <FileVersion>5.0.0.0</FileVersion>
     <Copyright>Copyright © Microsoft 2008</Copyright>
-    <Version>5.0.0</Version>
-    <PackageProjectUrl>https://github.com/IoC-Unity/Unity/tree/master/src/Unity.ServiceLocation</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/unitycontainer/unity</PackageProjectUrl>
     <RepositoryUrl>https://github.com/IoC-Unity/Unity</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/unitycontainer/unity/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://avatars1.githubusercontent.com/u/12849707</PackageIconUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>This package is compatible with  .NET Standard 1.0 as well as .NET 4.0, 4.5, and 4.7 frameworks.</PackageReleaseNotes>
     <PackageId>Unity.ServiceLocation</PackageId>
@@ -25,13 +27,7 @@
 
   <PropertyGroup>
     <DebugType Condition="'$(TargetFramework)' != '' AND !$(TargetFramework.StartsWith('netcoreapp'))">Full</DebugType>
-    <PackageLicenseUrl>https://github.com/IoC-Unity/Unity/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageIconUrl>https://avatars1.githubusercontent.com/u/12849707?u=60666efa853c774bbe0c8b625518de9381057152</PackageIconUrl>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Practices.ServiceLocation" Version="2.0.5" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Unity\Unity.csproj" />
@@ -50,6 +46,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommonServiceLocator">
+      <Version>1.4.0</Version>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

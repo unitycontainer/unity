@@ -8,8 +8,6 @@ install:
 
 before_build:
 - cmd: dotnet restore
-- choco install opencover.portable
-- choco install codecov
 
 build:
   project: package.sln
@@ -17,37 +15,43 @@ build:
   verbosity: minimal
 
 dotnet_csproj:
-  patch: true
+  patch: false
   file: '**\*.csproj'
   version: $(build_version)
   package_version: $(build_version)
 #  file_version: $(APPVEYOR_BUILD_VERSION)
   
-
+before_test:
+- choco install opencover.portable
+- choco install codecov
+  
 test_script:
 - OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test" -filter:"+[Unity*]* -[*]*Resources"
+
+after_test:
 - codecov -f "results.xml" 
+
 
 artifacts:
 - path: '**\Unity.*.nupkg'
   name: 'Unity'
 
-deploy:
-- provider: GitHub
-  force_update: true
-  tag: $(appveyor_repo_tag_name)
-  release: v$(appveyor_build_version)
-  auth_token:
-    secure: 0RltkfAMN35pApf7xYqjwy1EgsVeniSYPv35Qb9ntHY1b4SC51QYLXVVfklvw09j
-  artifact: /.*\.nupkg/            # upload all NuGet packages to release assets
-  draft: false
-  prerelease: false
-  on:
-    appveyor_repo_tag: true        # deploy on tag push only  
-- provider: NuGet
-  api_key:
-    secure: Q/HUObjarHxWF0NlnHBDY5uMQHM4ESyKfFCYdbRVfsNrWUFozADu6FMvh44gEmFk
-  skip_symbols: false
-  artifact: /.*\.nupkg/
-  on:
-    appveyor_repo_tag: true        # deploy on tag push only  
+#deploy:
+#- provider: GitHub
+#  force_update: true
+#  tag: $(appveyor_repo_tag_name)
+#  release: v$(appveyor_build_version)
+#  auth_token:
+#    secure: 0RltkfAMN35pApf7xYqjwy1EgsVeniSYPv35Qb9ntHY1b4SC51QYLXVVfklvw09j
+#  artifact: /.*\.nupkg/            # upload all NuGet packages to release assets
+#  draft: false
+#  prerelease: false
+#  on:
+#    appveyor_repo_tag: true        # deploy on tag push only  
+#- provider: NuGet
+#  api_key:
+#    secure: Q/HUObjarHxWF0NlnHBDY5uMQHM4ESyKfFCYdbRVfsNrWUFozADu6FMvh44gEmFk
+#  skip_symbols: false
+#  artifact: /.*\.nupkg/
+#  on:
+#    appveyor_repo_tag: true        # deploy on tag push only  

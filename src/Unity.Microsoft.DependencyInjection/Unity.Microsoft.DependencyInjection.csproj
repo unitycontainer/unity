@@ -2,21 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Description>Unity Mvc</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Unity.Microsoft.DependencyInjection</PackageId>
+    <Description>Unity adapter for Microsoft.Extensions.DependencyInjection</Description>
+    <Version>5.0.0-beta</Version>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <FileVersion>5.0.0.0</FileVersion>
-    <Copyright>Copyright © Microsoft 2008</Copyright>
-    <Version>5.0.0</Version>
-    <PackageProjectUrl>https://github.com/IoC-Unity/Unity/tree/master/src/Unity.Microsoft.DependencyInjection</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/IoC-Unity/Unity</RepositoryUrl>
+    <Copyright>Copyright Unity 2017 ©</Copyright>
+    <PackageProjectUrl>https://github.com/unitycontainer/unity</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/unitycontainer/unity</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/unitycontainer/unity/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://avatars1.githubusercontent.com/u/12849707</PackageIconUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>This package is distributed as .NET Core 2.0 package.</PackageReleaseNotes>
-    <PackageId>Unity.Mvc</PackageId>
     <Authors>Microsoft.Practices.Unity</Authors>
     <Company>Microsoft.Practices.Unity</Company>
-    <PackageLicenseUrl>https://github.com/IoC-Unity/Unity/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageIconUrl>https://avatars1.githubusercontent.com/u/12849707?u=60666efa853c774bbe0c8b625518de9381057152</PackageIconUrl>
   </PropertyGroup>
   
   <PropertyGroup Condition="Exists('..\..\package.snk')">

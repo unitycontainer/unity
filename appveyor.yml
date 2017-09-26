@@ -8,8 +8,6 @@ install:
 
 before_build:
 - cmd: dotnet restore
-- choco install opencover.portable
-- choco install codecov
 
 build:
   project: package.sln
@@ -23,10 +21,16 @@ dotnet_csproj:
   package_version: $(build_version)
 #  file_version: $(APPVEYOR_BUILD_VERSION)
   
-
+before_test:
+- choco install opencover.portable
+- choco install codecov
+  
 test_script:
 - OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test" -filter:"+[Unity*]* -[*]*Resources"
+
+after_test:
 - codecov -f "results.xml" 
+
 
 artifacts:
 - path: '**\Unity.*.nupkg'

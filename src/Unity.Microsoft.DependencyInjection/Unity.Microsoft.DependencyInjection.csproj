@@ -3,7 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Unity Mvc</Description>
+    <PackageId>Unity.Microsoft.DependencyInjection</PackageId>
+    <Description>Unity adapter for Microsoft.Extensions.DependencyInjection</Description>
     <Version>5.0.0-beta</Version>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <FileVersion>5.0.0.0</FileVersion>
@@ -14,7 +15,6 @@
     <PackageIconUrl>https://avatars1.githubusercontent.com/u/12849707</PackageIconUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>This package is distributed as .NET Core 2.0 package.</PackageReleaseNotes>
-    <PackageId>Unity.Mvc</PackageId>
     <Authors>Microsoft.Practices.Unity</Authors>
     <Company>Microsoft.Practices.Unity</Company>
   </PropertyGroup>

@@ -10,7 +10,7 @@
     <Copyright>Copyright © Microsoft 2008</Copyright>
     <PackageProjectUrl>https://github.com/unitycontainer/unity</PackageProjectUrl>
     <RepositoryUrl>https://github.com/IoC-Unity/Unity</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/IoC-Unity/Unity/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/unitycontainer/unity/blob/master/LICENSE</PackageLicenseUrl>
     <PackageIconUrl>https://avatars1.githubusercontent.com/u/12849707</PackageIconUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>This package is compatible with  .NET Standard 1.0 as well as .NET 4.0, 4.5, and 4.7 frameworks.</PackageReleaseNotes>

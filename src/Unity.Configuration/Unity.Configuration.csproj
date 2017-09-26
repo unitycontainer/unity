@@ -4,7 +4,7 @@
     <TargetFrameworks>net47;net45;net40</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Unity Configuration</Description>
-    <Version>5.0.0-alpha</Version>
+    <Version>5.0.0-beta</Version>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <FileVersion>5.0.0.0</FileVersion>
     <Copyright>Copyright © Microsoft 2008</Copyright>

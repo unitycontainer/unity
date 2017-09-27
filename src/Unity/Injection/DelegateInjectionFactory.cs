@@ -95,9 +95,24 @@ namespace Unity
                 context.CurrentOperation = null;
             }
 
-            return null;// operation.TypeBeingConstructed.GetDefaultValue();
+            return operation.TypeBeingConstructed.GetDefaultValue();
         }
 
         #endregion
+        /// <summary>
+        /// Will return null for a reference type, or Activator.CreateInstance(t) for a value type
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        private object GetDefaultValue(this Type t)
+        {
+            if (t == null)
+                return null;
+
+            if (t.IsValueType)
+                return Activator.CreateInstance(t);
+
+            return null;
+        }
     }
 }

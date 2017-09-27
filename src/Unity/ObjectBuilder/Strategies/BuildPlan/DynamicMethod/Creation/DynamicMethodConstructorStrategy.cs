@@ -98,6 +98,8 @@ namespace ObjectBuilder2
                 return CreateThrowWithContext(buildContext, ThrowForAttemptingToConstructDelegateMethod);
             }
 
+            var ss = ((System.Collections.IEnumerable)context.Policies);
+
             IPolicyList resolverPolicyDestination;
             IConstructorSelectorPolicy selector =
                 context.Policies.Get<IConstructorSelectorPolicy>(context.BuildKey, out resolverPolicyDestination);
@@ -287,6 +289,9 @@ namespace ObjectBuilder2
                 context.BuildKey.Type, constructorSignature);
         }
 
+
+        #region Error conditions
+
         /// <summary>
         /// A helper method used by the generated IL to throw an exception if
         /// no existing object is present, but the user is attempting to build
@@ -386,5 +391,7 @@ namespace ObjectBuilder2
                               context.BuildKey.Type.GetTypeInfo().Name,
                               signature));
         }
+
+        #endregion
     }
 }

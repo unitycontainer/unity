@@ -29,9 +29,9 @@ namespace Unity
         private IStrategyChain cachedStrategies;
         private object cachedStrategiesLock;
 
-        private event EventHandler<RegisterEventArgs> Registering;
-        private event EventHandler<RegisterInstanceEventArgs> RegisteringInstance;
-        private event EventHandler<ChildContainerCreatedEventArgs> ChildContainerCreated;
+        private event EventHandler<RegisterEventArgs> Registering = delegate { };
+        private event EventHandler<RegisterInstanceEventArgs> RegisteringInstance = delegate { };
+        private event EventHandler<ChildContainerCreatedEventArgs> ChildContainerCreated = delegate { };
 
         /// <summary>
         /// Create a default <see cref="UnityContainer"/>.
@@ -40,7 +40,7 @@ namespace Unity
             : this(null)
         {
             // Only a root container (one without a parent) gets the default strategies.
-            this.AddExtension(new UnityDefaultStrategiesExtension());
+            AddExtension(new UnityDefaultStrategiesExtension());
         }
 
         /// <summary>
@@ -48,33 +48,17 @@ namespace Unity
         /// </summary>
         /// <param name="parent">The parent <see cref="UnityContainer"/>. The current object
         /// will apply its own settings first, and then check the parent for additional ones.</param>
-        private UnityContainer(UnityContainer parent, IEnumerable<UnityContainerExtension> extensions = null)
+        private UnityContainer(UnityContainer parent)
         {
             this.parent = parent;
 
             if (parent != null)
-            {
                 parent.lifetimeContainer.Add(this);
-            }
 
             InitializeBuilderState();
-            // Put a noop at the beginning of each of our events so we don't have to worry
-            // about nulls
-            Registering += delegate { };
-            RegisteringInstance += delegate { };
-            ChildContainerCreated += delegate { };
 
-            foreach(var extension in extensions ?? GetDefaultExtensions())
-                AddExtension(extension);
-        }
-
-        protected virtual IEnumerable<UnityContainerExtension> GetDefaultExtensions()
-        {
-            return new[] 
-            {
-                new UnityDefaultBehaviorExtension(),
-                new InjectedMembers() as UnityContainerExtension
-            };
+            // Every container gets the default behavior
+            AddExtension(new UnityDefaultBehaviorExtension());
         }
 
         #region Type Mapping

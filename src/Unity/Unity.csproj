@@ -57,11 +57,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Compile Remove="Extension/UnityDefaultValueExt.cs" />
-  </ItemGroup>
-
-  
-  
 </Project>

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
@@ -11,7 +12,7 @@ namespace ObjectBuilder2
     /// <summary>
     /// A custom collection wrapper over <see cref="IBuilderPolicy"/> objects.
     /// </summary>
-    public class PolicyList : IPolicyList
+    public class PolicyList : IPolicyList, IEnumerable
     {
         private readonly IPolicyList innerPolicyList;
         private readonly object lockObject = new object();
@@ -250,6 +251,21 @@ namespace ObjectBuilder2
                     Resources.CannotExtractTypeFromBuildKey,
                     buildKey),
                 nameof(buildKey));
+        }
+
+        private IEnumerable<object> Policies()
+        {
+            foreach (var policy in policies)
+            {
+                yield return policy;
+            }
+
+            yield break;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return 0 == Count ? ((IEnumerable)innerPolicyList).GetEnumerator() : Policies().GetEnumerator();
         }
 
         private class NullPolicyList : IPolicyList

@@ -6,16 +6,7 @@ using System.Reflection;
 using ObjectBuilder2.Tests.TestDoubles;
 using ObjectBuilder2.Tests.TestObjects;
 using Unity.TestSupport;
-#if NETFX_CORE
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#elif __IOS__
-using NUnit.Framework;
-using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
-using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
-using TestMethodAttribute = NUnit.Framework.TestAttribute;
-#else
 using Xunit;
-#endif
 
 namespace ObjectBuilder2.Tests
 {

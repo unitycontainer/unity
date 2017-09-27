@@ -104,7 +104,7 @@ namespace Unity
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        private object GetDefaultValue(this Type t)
+        private static object GetDefaultValue(this Type t)
         {
             if (t == null)
                 return null;

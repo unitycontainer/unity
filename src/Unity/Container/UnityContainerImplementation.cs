@@ -5,6 +5,7 @@ using Unity.Properties;
 using System.Linq;
 using System.Collections.Generic;
 using Unity.ObjectBuilder;
+using System.Globalization;
 
 namespace Unity
 {
@@ -132,6 +133,93 @@ namespace Unity
         #endregion
 
 
+        #region ObjectBuilder
+
+        private object DoBuildUp(Type t, object existing, string name, IEnumerable<ResolverOverride> resolverOverrides)
+        {
+            IBuilderContext context = null;
+
+            try
+            {
+                context =
+                    new BuilderContext(this, GetStrategies(), lifetimeContainer, policies, new NamedTypeBuildKey(t, name), existing);
+                context.AddResolverOverrides(resolverOverrides);
+
+                if (t.GetTypeInfo().IsGenericTypeDefinition)
+                {
+                    throw new ArgumentException(
+                        string.Format(CultureInfo.CurrentCulture,
+                        Resources.CannotResolveOpenGenericType,
+                        t.FullName), nameof(t));
+                }
+
+                return context.Strategies.ExecuteBuildUp(context);
+            }
+            catch (Exception ex)
+            {
+                throw new ResolutionFailedException(t, name, ex, context);
+            }
+        }
+
+        private IStrategyChain GetStrategies()
+        {
+            IStrategyChain buildStrategies = cachedStrategies;
+            if (buildStrategies == null)
+            {
+                lock (cachedStrategiesLock)
+                {
+                    if (cachedStrategies == null)
+                    {
+                        buildStrategies = strategies.MakeStrategyChain();
+                        cachedStrategies = buildStrategies;
+                    }
+                    else
+                    {
+                        buildStrategies = cachedStrategies;
+                    }
+                }
+            }
+            return buildStrategies;
+        }
+
+        private void InitializeBuilderState()
+        {
+            registeredNames = new NamedTypesRegistry(ParentNameRegistry);
+            extensions = new List<UnityContainerExtension>();
+
+            lifetimeContainer = new LifetimeContainer();
+            strategies = new StagedStrategyChain<UnityBuildStage>(ParentStrategies);
+            buildPlanStrategies = new StagedStrategyChain<UnityBuildStage>(ParentBuildPlanStrategies);
+            policies = new PolicyList(ParentPolicies);
+            policies.Set<IRegisteredNamesPolicy>(new RegisteredNamesPolicy(registeredNames), null);
+
+            cachedStrategies = null;
+            cachedStrategiesLock = new object();
+        }
+
+        private StagedStrategyChain<UnityBuildStage> ParentStrategies
+        {
+            get { return parent == null ? null : parent.strategies; }
+        }
+
+        private StagedStrategyChain<UnityBuildStage> ParentBuildPlanStrategies
+        {
+            get { return parent == null ? null : parent.buildPlanStrategies; }
+        }
+
+        private PolicyList ParentPolicies
+        {
+            get { return parent == null ? null : parent.policies; }
+        }
+
+        private NamedTypesRegistry ParentNameRegistry
+        {
+            get { return parent == null ? null : parent.registeredNames; }
+        }
+
+        #endregion
+
+
         #region Lifetime Management
 
         private void SetLifetimeManager(Type lifetimeType, string name, LifetimeManager lifetimeManager)
@@ -177,10 +265,98 @@ namespace Unity
             }
         }
 
-        #endregion 
+        #endregion
 
 
-        #region Extension Management
+        #region Registrations
+
+        /// <summary>
+        /// Remove policies associated with building this type. This removes the
+        /// compiled build plan so that it can be rebuilt with the new settings
+        /// the next time this type is resolved.
+        /// </summary>
+        /// <param name="typeToInject">Type of object to clear the plan for.</param>
+        /// <param name="name">Name the object is being registered with.</param>
+        private void ClearExistingBuildPlan(Type typeToInject, string name)
+        {
+            var buildKey = new NamedTypeBuildKey(typeToInject, name);
+            DependencyResolverTrackerPolicy.RemoveResolvers(policies, buildKey);
+            policies.Set<IBuildPlanPolicy>(new OverriddenBuildPlanMarkerPolicy(), buildKey);
+        }
+
+        private void FillTypeRegistrationDictionary(IDictionary<Type, List<string>> typeRegistrations)
+        {
+            if (parent != null)
+            {
+                parent.FillTypeRegistrationDictionary(typeRegistrations);
+            }
+
+            foreach (Type t in registeredNames.RegisteredTypes)
+            {
+                if (!typeRegistrations.ContainsKey(t))
+                {
+                    typeRegistrations[t] = new List<string>();
+                }
+
+                typeRegistrations[t] =
+                    (typeRegistrations[t].Concat(registeredNames.GetKeys(t))).Distinct().ToList();
+            }
+        }
+        
+        #endregion
+
+
+        #region IDisposable Implementation
+
+        /// <summary>
+        /// Dispose this container instance.
+        /// </summary>
+        /// <remarks>
+        /// Disposing the container also disposes any child containers,
+        /// and disposes any instances whose lifetimes are managed
+        /// by the container.
+        /// </remarks>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this); // Shut FxCop up
+        }
+
+        /// <summary>
+        /// Dispose this container instance.
+        /// </summary>
+        /// <remarks>
+        /// This class doesn't have a finalizer, so <paramref name="disposing"/> will always be true.</remarks>
+        /// <param name="disposing">True if being called from the IDisposable.Dispose
+        /// method, false if being called from a finalizer.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (lifetimeContainer != null)
+                {
+                    // Avoid infinite loop when someone
+                    //  registers something which would end up 
+                    //  disposing this container (e.g. container.RegisterInsance(container))
+                    LifetimeContainer lifetimeContainerCopy = lifetimeContainer;
+                    lifetimeContainer = null;
+                    lifetimeContainerCopy.Dispose();
+
+                    if (parent != null && parent.lifetimeContainer != null)
+                    {
+                        parent.lifetimeContainer.Remove(this);
+                    }
+                }
+
+                extensions.OfType<IDisposable>().ForEach(ex => ex.Dispose());
+                extensions.Clear();
+            }
+        }
+
+        #endregion
+
+
+        #region Nested Types
 
         /// <summary>
         /// Implementation of the ExtensionContext that is actually used
@@ -252,85 +428,6 @@ namespace Unity
             }
         }
 
-        /// <summary>
-        /// Add an extension object to the container.
-        /// </summary>
-        /// <param name="extension"><see cref="UnityContainerExtension"/> to add.</param>
-        /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        public IUnityContainer AddExtension(UnityContainerExtension extension)
-        {
-            Unity.Utility.Guard.ArgumentNotNull(extensions, "extensions");
-
-            extensions.Add(extension);
-            extension.InitializeExtension(new ExtensionContextImpl(this));
-            lock (cachedStrategiesLock)
-            {
-                cachedStrategies = null;
-            }
-            return this;
-        }
-
-        /// <summary>
-        /// Get access to a configuration interface exposed by an extension.
-        /// </summary>
-        /// <remarks>Extensions can expose configuration interfaces as well as adding
-        /// strategies and policies to the container. This method walks the list of
-        /// added extensions and returns the first one that implements the requested type.
-        /// </remarks>
-        /// <param name="configurationInterface"><see cref="Type"/> of configuration interface required.</param>
-        /// <returns>The requested extension's configuration interface, or null if not found.</returns>
-        public object Configure(Type configurationInterface)
-        {
-            return extensions.Where(ex => configurationInterface.GetTypeInfo().IsAssignableFrom(ex.GetType().GetTypeInfo())).FirstOrDefault();
-        }
-
-        /// <summary>
-        /// Remove all installed extensions from this container.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// This method removes all extensions from the container, including the default ones
-        /// that implement the out-of-the-box behavior. After this method, if you want to use
-        /// the container again you will need to either read the default extensions or replace
-        /// them with your own.
-        /// </para>
-        /// <para>
-        /// The registered instances and singletons that have already been set up in this container
-        /// do not get removed.
-        /// </para>
-        /// </remarks>
-        /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        public IUnityContainer RemoveAllExtensions()
-        {
-            var toRemove = new List<UnityContainerExtension>(extensions);
-            toRemove.Reverse();
-            foreach (UnityContainerExtension extension in toRemove)
-            {
-                extension.Remove();
-                var disposable = extension as IDisposable;
-                if (disposable != null)
-                {
-                    disposable.Dispose();
-                }
-            }
-
-            extensions.Clear();
-
-            // Reset our policies, strategies, and registered names to reset to "zero"
-            strategies.Clear();
-            policies.ClearAll();
-            registeredNames.Clear();
-
-            // Restore defaults
-            Registering = OnRegister;
-            RegisteringInstance = OnRegisterInstance;
-            InitializeDefaultPolicies();
-
-            return this;
-        }
-
         #endregion
-
-
     }
 }

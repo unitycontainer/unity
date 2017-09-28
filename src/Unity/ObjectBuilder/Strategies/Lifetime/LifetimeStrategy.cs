@@ -16,6 +16,7 @@ namespace ObjectBuilder2
     public class LifetimeStrategy : BuilderStrategy
     {
         private readonly object genericLifetimeManagerLock = new object();
+        private static readonly TransientLifetimeManager TransientLifetime = new TransientLifetimeManager();
 
         /// <summary>
         /// Called during the chain of responsibility for a build operation. The
@@ -81,7 +82,7 @@ namespace ObjectBuilder2
 
             if (policy == null)
             {
-                policy = new TransientLifetimeManager();
+                policy = TransientLifetime;
                 context.PersistentPolicies.Set<ILifetimePolicy>(policy, context.BuildKey);
             }
 

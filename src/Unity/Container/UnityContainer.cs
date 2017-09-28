@@ -15,7 +15,7 @@ namespace Unity
     /// <summary>
     /// A simple, extensible dependency injection container.
     /// </summary>
-    public class UnityContainer : IUnityContainer
+    public partial class UnityContainer : IUnityContainer
     {
         private readonly UnityContainer parent;
 
@@ -29,8 +29,8 @@ namespace Unity
         private IStrategyChain cachedStrategies;
         private object cachedStrategiesLock;
 
-        private event EventHandler<RegisterEventArgs> Registering = delegate { };
-        private event EventHandler<RegisterInstanceEventArgs> RegisteringInstance = delegate { };
+        private event EventHandler<RegisterEventArgs> Registering;
+        private event EventHandler<RegisterInstanceEventArgs> RegisteringInstance;
         private event EventHandler<ChildContainerCreatedEventArgs> ChildContainerCreated = delegate { };
 
         /// <summary>
@@ -46,19 +46,21 @@ namespace Unity
         /// <summary>
         /// Create a <see cref="UnityContainer"/> with the given parent container.
         /// </summary>
-        /// <param name="parent">The parent <see cref="UnityContainer"/>. The current object
+        /// <param name="parentContainer">The parent <see cref="UnityContainer"/>. The current object
         /// will apply its own settings first, and then check the parent for additional ones.</param>
-        private UnityContainer(UnityContainer parent)
+        private UnityContainer(UnityContainer parentContainer)
         {
-            this.parent = parent;
+            parent = parentContainer;
+
+            Registering = OnRegister;
+            RegisteringInstance = OnRegisterInstance;
 
             if (parent != null)
                 parent.lifetimeContainer.Add(this);
 
             InitializeBuilderState();
 
-            // Every container gets the default behavior
-            AddExtension(new UnityDefaultBehaviorExtension());
+            RegisterInstance(typeof(IUnityContainer), null, this, new ContainerLifetimeManager());
         }
 
         #region Type Mapping
@@ -227,152 +229,6 @@ namespace Unity
             {
                 throw new ResolutionFailedException(o.GetType(), null, ex, context);
             }
-        }
-
-        #endregion
-
-        #region Extension Management
-
-        /// <summary>
-        /// Implementation of the ExtensionContext that is actually used
-        /// by the UnityContainer implementation.
-        /// </summary>
-        /// <remarks>
-        /// This is a nested class so that it can access state in the
-        /// container that would otherwise be inaccessible.
-        /// </remarks>
-        private class ExtensionContextImpl : ExtensionContext
-        {
-            private readonly UnityContainer container;
-
-            public ExtensionContextImpl(UnityContainer container)
-            {
-                this.container = container;
-            }
-
-            public override IUnityContainer Container
-            {
-                get { return this.container; }
-            }
-
-            public override StagedStrategyChain<UnityBuildStage> Strategies
-            {
-                get { return this.container.strategies; }
-            }
-
-            public override StagedStrategyChain<UnityBuildStage> BuildPlanStrategies
-            {
-                get { return this.container.buildPlanStrategies; }
-            }
-
-            public override IPolicyList Policies
-            {
-                get { return this.container.policies; }
-            }
-
-            public override ILifetimeContainer Lifetime
-            {
-                get { return this.container.lifetimeContainer; }
-            }
-
-            public override void RegisterNamedType(Type t, string name)
-            {
-                this.container.registeredNames.RegisterType(t, name);
-            }
-
-            public override event EventHandler<RegisterEventArgs> Registering
-            {
-                add { this.container.Registering += value; }
-                remove { this.container.Registering -= value; }
-            }
-
-            /// <summary>
-            /// This event is raised when the <see cref="UnityContainer.RegisterInstance(Type,string,object,LifetimeManager)"/> method,
-            /// or one of its overloads, is called.
-            /// </summary>
-            public override event EventHandler<RegisterInstanceEventArgs> RegisteringInstance
-            {
-                add { this.container.RegisteringInstance += value; }
-                remove { this.container.RegisteringInstance -= value; }
-            }
-
-            public override event EventHandler<ChildContainerCreatedEventArgs> ChildContainerCreated
-            {
-                add { this.container.ChildContainerCreated += value; }
-                remove { this.container.ChildContainerCreated -= value; }
-            }
-        }
-
-        /// <summary>
-        /// Add an extension object to the container.
-        /// </summary>
-        /// <param name="extension"><see cref="UnityContainerExtension"/> to add.</param>
-        /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        public IUnityContainer AddExtension(UnityContainerExtension extension)
-        {
-            Unity.Utility.Guard.ArgumentNotNull(extensions, "extensions");
-
-            extensions.Add(extension);
-            extension.InitializeExtension(new ExtensionContextImpl(this));
-            lock (cachedStrategiesLock)
-            {
-                cachedStrategies = null;
-            }
-            return this;
-        }
-
-        /// <summary>
-        /// Get access to a configuration interface exposed by an extension.
-        /// </summary>
-        /// <remarks>Extensions can expose configuration interfaces as well as adding
-        /// strategies and policies to the container. This method walks the list of
-        /// added extensions and returns the first one that implements the requested type.
-        /// </remarks>
-        /// <param name="configurationInterface"><see cref="Type"/> of configuration interface required.</param>
-        /// <returns>The requested extension's configuration interface, or null if not found.</returns>
-        public object Configure(Type configurationInterface)
-        {
-            return extensions.Where(ex => configurationInterface.GetTypeInfo().IsAssignableFrom(ex.GetType().GetTypeInfo())).FirstOrDefault();
-        }
-
-        /// <summary>
-        /// Remove all installed extensions from this container.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// This method removes all extensions from the container, including the default ones
-        /// that implement the out-of-the-box behavior. After this method, if you want to use
-        /// the container again you will need to either read the default extensions or replace
-        /// them with your own.
-        /// </para>
-        /// <para>
-        /// The registered instances and singletons that have already been set up in this container
-        /// do not get removed.
-        /// </para>
-        /// </remarks>
-        /// <returns>The <see cref="UnityContainer"/> object that this method was called on (this in C#, Me in Visual Basic).</returns>
-        public IUnityContainer RemoveAllExtensions()
-        {
-            var toRemove = new List<UnityContainerExtension>(extensions);
-            toRemove.Reverse();
-            foreach (UnityContainerExtension extension in toRemove)
-            {
-                extension.Remove();
-                var disposable = extension as IDisposable;
-                if (disposable != null)
-                {
-                    disposable.Dispose();
-                }
-            }
-
-            extensions.Clear();
-
-            // Reset our policies, strategies, and registered names to reset to "zero"
-            strategies.Clear();
-            policies.ClearAll();
-            registeredNames.Clear();
-
-            return this;
         }
 
         #endregion

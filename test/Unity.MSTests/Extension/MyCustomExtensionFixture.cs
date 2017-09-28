@@ -151,8 +151,8 @@ namespace Unity.Tests.Extension
         public void AddDefaultExtensions()
         {
             IUnityContainer container = new UnityContainer()
-                .RemoveAllExtensions().AddExtension(new UnityDefaultBehaviorExtension())
-            .AddExtension(new UnityDefaultStrategiesExtension());
+                .RemoveAllExtensions()
+                .AddExtension(new UnityDefaultStrategiesExtension());
 
             object result = container.Resolve<object>();
 
@@ -167,7 +167,6 @@ namespace Unity.Tests.Extension
         {
             IUnityContainer container = new UnityContainer()
                 .RemoveAllExtensions()
-                .AddExtension(new UnityDefaultBehaviorExtension())
                 .AddExtension(new UnityDefaultStrategiesExtension())
                 .AddExtension(new MyCustomExtension());
 

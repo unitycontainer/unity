@@ -95,7 +95,7 @@ namespace Unity
                 context.CurrentOperation = null;
             }
 
-            return operation.TypeBeingConstructed.GetDefaultValue();
+            return GetDefaultValue(operation.TypeBeingConstructed);
         }
 
         #endregion
@@ -104,13 +104,13 @@ namespace Unity
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        private static object GetDefaultValue(this Type t)
+        private static object GetDefaultValue(Type t)
         {
-            if (t == null)
-                return null;
+            //if (t == null)
+            //    return null;
 
-            if (t.IsValueType)
-                return Activator.CreateInstance(t);
+            //if (t.IsValueType)
+            //    return Activator.CreateInstance(t);
 
             return null;
         }

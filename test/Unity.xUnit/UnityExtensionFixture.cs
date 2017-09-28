@@ -102,7 +102,6 @@ namespace Unity.Tests
         {
             IUnityContainer container = new UnityContainer()
                 .RemoveAllExtensions()
-                .AddExtension(new UnityDefaultBehaviorExtension())
                 .AddExtension(new UnityDefaultStrategiesExtension());
 
             object result = container.Resolve<object>();

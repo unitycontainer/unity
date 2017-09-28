@@ -314,10 +314,8 @@ namespace ObjectBuilder2
 
         private struct PolicyKey
         {
-#pragma warning disable 219
             public readonly object BuildKey;
             public readonly Type PolicyType;
-#pragma warning restore 219
 
             public PolicyKey(Type policyType,
                              object buildKey)

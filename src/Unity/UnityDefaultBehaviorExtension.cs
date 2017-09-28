@@ -41,13 +41,13 @@ namespace Unity
                 if (e.TypeFrom.GetTypeInfo().IsGenericTypeDefinition && e.TypeTo.GetTypeInfo().IsGenericTypeDefinition)
                 {
                     Context.Policies.Set<IBuildKeyMappingPolicy>(
-                        new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(e.TypeTo, null)),
+                        new GenericTypeBuildKeyMappingPolicy(new NamedTypeBuildKey(e.TypeTo, e.Name)),
                         new NamedTypeBuildKey(e.TypeFrom, e.Name));
                 }
                 else
                 {
                     Context.Policies.Set<IBuildKeyMappingPolicy>(
-                        new BuildKeyMappingPolicy(new NamedTypeBuildKey(e.TypeTo, null)),
+                        new BuildKeyMappingPolicy(new NamedTypeBuildKey(e.TypeTo, e.Name)),
                         new NamedTypeBuildKey(e.TypeFrom, e.Name));
                 }
             }

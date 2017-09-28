@@ -139,9 +139,10 @@ namespace Unity.Tests.Extension
             IUnityContainer container = new UnityContainer()
                 .RemoveAllExtensions();
 
+            // Default behavior should always work
             object result = container.Resolve<object>();
 
-            Assert.IsNull(result);
+            Assert.IsNotNull(result);
         }
 
         /// <summary>
@@ -151,8 +152,7 @@ namespace Unity.Tests.Extension
         public void AddDefaultExtensions()
         {
             IUnityContainer container = new UnityContainer()
-                .RemoveAllExtensions()
-                .AddExtension(new UnityDefaultStrategiesExtension());
+                .RemoveAllExtensions();
 
             object result = container.Resolve<object>();
 
@@ -167,7 +167,6 @@ namespace Unity.Tests.Extension
         {
             IUnityContainer container = new UnityContainer()
                 .RemoveAllExtensions()
-                .AddExtension(new UnityDefaultStrategiesExtension())
                 .AddExtension(new MyCustomExtension());
 
             object result = container.Resolve<object>();

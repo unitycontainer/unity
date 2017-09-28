@@ -17,52 +17,6 @@ namespace Unity
     /// </summary>
     public partial class UnityContainer : IUnityContainer
     {
-        private readonly UnityContainer parent;
-
-        private LifetimeContainer lifetimeContainer;
-        private StagedStrategyChain<UnityBuildStage> strategies;
-        private StagedStrategyChain<UnityBuildStage> buildPlanStrategies;
-        private PolicyList policies;
-        private NamedTypesRegistry registeredNames;
-        private List<UnityContainerExtension> extensions;
-
-        private IStrategyChain cachedStrategies;
-        private object cachedStrategiesLock;
-
-        private event EventHandler<RegisterEventArgs> Registering;
-        private event EventHandler<RegisterInstanceEventArgs> RegisteringInstance;
-        private event EventHandler<ChildContainerCreatedEventArgs> ChildContainerCreated = delegate { };
-
-        /// <summary>
-        /// Create a default <see cref="UnityContainer"/>.
-        /// </summary>
-        public UnityContainer()
-            : this(null)
-        {
-            // Only a root container (one without a parent) gets the default strategies.
-            AddExtension(new UnityDefaultStrategiesExtension());
-        }
-
-        /// <summary>
-        /// Create a <see cref="UnityContainer"/> with the given parent container.
-        /// </summary>
-        /// <param name="parentContainer">The parent <see cref="UnityContainer"/>. The current object
-        /// will apply its own settings first, and then check the parent for additional ones.</param>
-        private UnityContainer(UnityContainer parentContainer)
-        {
-            parent = parentContainer;
-
-            Registering = OnRegister;
-            RegisteringInstance = OnRegisterInstance;
-
-            if (parent != null)
-                parent.lifetimeContainer.Add(this);
-
-            InitializeBuilderState();
-
-            RegisterInstance(typeof(IUnityContainer), null, this, new ContainerLifetimeManager());
-        }
-
         #region Type Mapping
 
         /// <summary>

@@ -11,6 +11,90 @@ namespace Unity
     // This part implements default behavior of the container
     public partial class UnityContainer
     {
+        #region Fields 
+
+        private readonly UnityContainer parent;
+
+        private LifetimeContainer lifetimeContainer;
+        private StagedStrategyChain<UnityBuildStage> strategies;
+        private StagedStrategyChain<UnityBuildStage> buildPlanStrategies;
+        private PolicyList policies;
+        private NamedTypesRegistry registeredNames;
+        private List<UnityContainerExtension> extensions;
+
+        private IStrategyChain cachedStrategies;
+        private object cachedStrategiesLock;
+
+        private event EventHandler<RegisterEventArgs> Registering;
+        private event EventHandler<RegisterInstanceEventArgs> RegisteringInstance;
+        private event EventHandler<ChildContainerCreatedEventArgs> ChildContainerCreated = delegate { };
+
+        #endregion
+
+
+        #region Constructors
+
+        /// <summary>
+        /// Create a default <see cref="UnityContainer"/>.
+        /// </summary>
+        public UnityContainer()
+            : this(null)
+        {
+            InitializeDefaultPolicies();
+        }
+
+        /// <summary>
+        /// Create a <see cref="UnityContainer"/> with the given parent container.
+        /// </summary>
+        /// <param name="parentContainer">The parent <see cref="UnityContainer"/>. The current object
+        /// will apply its own settings first, and then check the parent for additional ones.</param>
+        private UnityContainer(UnityContainer parentContainer)
+        {
+            parent = parentContainer;
+
+            Registering = OnRegister;
+            RegisteringInstance = OnRegisterInstance;
+
+            if (parent != null)
+                parent.lifetimeContainer.Add(this);
+
+            InitializeBuilderState();
+
+            RegisterInstance(typeof(IUnityContainer), null, this, new ContainerLifetimeManager());
+        }
+
+        #endregion
+
+
+        #region Default Behavior
+
+        private void InitializeDefaultPolicies()
+        {
+            // Main strategy chain
+            strategies.AddNew<LifetimeStrategy>(UnityBuildStage.Lifetime);
+            strategies.AddNew<BuildKeyMappingStrategy>(UnityBuildStage.TypeMapping);
+
+            strategies.AddNew<ArrayResolutionStrategy>(UnityBuildStage.Creation);
+            strategies.AddNew<BuildPlanStrategy>(UnityBuildStage.Creation);
+
+            // Build plan strategy chain
+            buildPlanStrategies.AddNew<DynamicMethodConstructorStrategy>(UnityBuildStage.Creation);
+            buildPlanStrategies.AddNew<DynamicMethodPropertySetterStrategy>(UnityBuildStage.Initialization);
+            buildPlanStrategies.AddNew<DynamicMethodCallStrategy>(UnityBuildStage.Initialization);
+
+            // Policies - mostly used by the build plan strategies
+            policies.SetDefault<IConstructorSelectorPolicy>(new DefaultUnityConstructorSelectorPolicy());
+            policies.SetDefault<IPropertySelectorPolicy>(new DefaultUnityPropertySelectorPolicy());
+            policies.SetDefault<IMethodSelectorPolicy>(new DefaultUnityMethodSelectorPolicy());
+
+            policies.SetDefault<IBuildPlanCreatorPolicy>(new DynamicMethodBuildPlanCreatorPolicy(buildPlanStrategies));
+
+            policies.Set<IBuildPlanPolicy>(new DeferredResolveBuildPlanPolicy(), typeof(Func<>));
+            policies.Set<ILifetimePolicy>(new PerResolveLifetimeManager(), typeof(Func<>));
+
+            policies.Set<IBuildPlanCreatorPolicy>(new LazyDynamicMethodBuildPlanCreatorPolicy(), typeof(Lazy<>));
+            policies.Set<IBuildPlanCreatorPolicy>(new EnumerableDynamicMethodBuildPlanCreatorPolicy(), typeof(IEnumerable<>));
+        }
 
         private void OnRegister(object sender, RegisterEventArgs e)
         {
@@ -45,7 +129,10 @@ namespace Unity
             e.LifetimeManager.SetValue(e.Instance);
         }
 
+        #endregion
 
+
+        #region Lifetime Management
 
         private void SetLifetimeManager(Type lifetimeType, string name, LifetimeManager lifetimeManager)
         {
@@ -90,6 +177,7 @@ namespace Unity
             }
         }
 
+        #endregion 
 
 
         #region Extension Management
@@ -233,8 +321,10 @@ namespace Unity
             policies.ClearAll();
             registeredNames.Clear();
 
+            // Restore defaults
             Registering = OnRegister;
             RegisteringInstance = OnRegisterInstance;
+            InitializeDefaultPolicies();
 
             return this;
         }

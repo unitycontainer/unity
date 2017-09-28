@@ -91,21 +91,10 @@ namespace Unity.Tests.Extension
         }
 
         [TestMethod]
-        public void Ext_RemovingAllExtensionsDisablesDefaultBehavior()
-        {
-            IUnityContainer container = new UnityContainer();
-            container.RemoveAllExtensions();
-            object result = container.Resolve<object>();
-            
-            Assert.IsNull(result);
-        }
-
-        [TestMethod]
         public void Ext_CanReinstallDefaultBehavior()
         {
             IUnityContainer container = new UnityContainer()
-                .RemoveAllExtensions()
-                .AddExtension(new UnityDefaultStrategiesExtension());
+                .RemoveAllExtensions();
             object result = container.Resolve<object>();
             
             Assert.IsNotNull(result);

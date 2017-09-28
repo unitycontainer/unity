@@ -91,21 +91,22 @@ namespace Unity.InterceptionExtension.Tests.VirtualMethodInterception
             Assert.AreEqual("**Hi**", resultTwo.MakeAT().GetAValue("Hi"));
         }
 
-        [TestMethod]
-        [Ignore]
-        public virtual void TestNewVirtualOverride()
-        {
-            IUnityContainer container = GetContainer();
+        // TODO: Verify
+        //[TestMethod]
+        //[Ignore]
+        //public virtual void TestNewVirtualOverride()
+        //{
+        //    IUnityContainer container = GetContainer();
 
-            NewVirtualOverrideTestClass testClass = container.Resolve<NewVirtualOverrideTestClass>();
+        //    NewVirtualOverrideTestClass testClass = container.Resolve<NewVirtualOverrideTestClass>();
 
-            Assert.IsTrue(testClass.TestMethod1(), "override");
-            Assert.IsTrue(testClass.TestMethod2(), "new virtual");
-            Assert.IsTrue(testClass.TestMethod3(), "always true");
-            Assert.IsTrue(testClass.TestMethod4(), "abstract");
+        //    Assert.IsTrue(testClass.TestMethod1(), "override");
+        //    Assert.IsTrue(testClass.TestMethod2(), "new virtual");
+        //    Assert.IsTrue(testClass.TestMethod3(), "always true");
+        //    Assert.IsTrue(testClass.TestMethod4(), "abstract");
 
-            Assert.AreEqual(4, container.Resolve<CallCountHandler>("TestCallHandler").CallCount);
-        }
+        //    Assert.AreEqual(4, container.Resolve<CallCountHandler>("TestCallHandler").CallCount);
+        //}
 
         [TestMethod]
         public void CanInterceptWithInterceptorSetAsDefaultForBaseClassWithMultipleImplementations()

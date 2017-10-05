@@ -58,4 +58,4 @@ The detailed list of all changes is included in the [Release Notes](http://aka.m
 ## Getting Started
 For an introduction to dependency injection, see the article [Inversion of Control Containers and the Dependency Injection pattern](http://www.martinfowler.com/articles/injection.html) by Martin Fowler.
 
-For information about getting started with Unity, see the [Unity documentation](http://go.microsoft.com/fwlink/p/?LinkID=290902) and the new [Unity Developer’s Guide](http://go.microsoft.com/fwlink/p/?LinkID=290913).
+For information about getting started with Unity, see the [Unity documentation](https://msdn.microsoft.com/en-us/library/dn507453.aspx) and the new [Unity Developer’s Guide](https://msdn.microsoft.com/en-us/library/dn223671.aspx).

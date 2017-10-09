@@ -1,0 +1,32 @@
+[submodule "Abstractions"]
+	path = Abstractions
+	url = https://github.com/unitycontainer/abstractions.git
+	branch = master
+[submodule "Container"]
+	path = Container
+	url = https://github.com/unitycontainer/container.git
+	branch = master
+[submodule "Configuration"]
+	path = Configuration
+	url = https://github.com/unitycontainer/configuration.git
+	branch = master
+[submodule "Interception"]
+	path = Interception
+	url = https://github.com/unitycontainer/interception.git
+	branch = master
+[submodule "InterceptionConfiguration"]
+	path = InterceptionConfiguration
+	url = https://github.com/unitycontainer/interception-configuration.git
+	branch = master
+[submodule "RegistrationByConvention"]
+	path = RegistrationByConvention
+	url = https://github.com/unitycontainer/registration-by-convention.git
+	branch = master
+[submodule "CommonServiceLocator"]
+	path = CommonServiceLocator
+	url = https://github.com/unitycontainer/commonservicelocator.git
+	branch = master
+[submodule "ServiceLocation"]
+	path = ServiceLocation
+	url = https://github.com/unitycontainer/service-location.git
+	branch = master

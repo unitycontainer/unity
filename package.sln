@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Container", "Containe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F45198AB-F3A6-4F83-94B8-762482625BC7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Tests", "Unity\tests\Unity.Tests\Unity.Tests.csproj", "{29D42A07-017E-4E9C-A87D-0ABBCAE53798}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Tests", "Container\tests\Unity.Tests\Unity.Tests.csproj", "{29D42A07-017E-4E9C-A87D-0ABBCAE53798}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.ServiceLocation", "ServiceLocation\src\Unity.ServiceLocation.csproj", "{B49E7E51-79A8-461D-AB64-C05107C795AE}"
 EndProject

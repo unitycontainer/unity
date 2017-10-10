@@ -1,5 +1,5 @@
 image: Visual Studio 2017
-configuration: Release
+configuration: Debug
 platform: Any CPU
 
 install:

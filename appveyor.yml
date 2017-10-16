@@ -1,5 +1,5 @@
 image: Visual Studio 2017
-configuration: Debug
+configuration: Package
 platform: Any CPU
 
 install:
@@ -27,7 +27,7 @@ before_test:
 - choco install codecov
   
 test_script:
-- OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test" -filter:"+[Unity*]* -[*]*Resources"
+- OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test"
 
 after_test:
 - codecov -f "results.xml" 

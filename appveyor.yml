@@ -1,6 +1,11 @@
 image: Visual Studio 2017
 configuration: Package
 platform: Any CPU
+  
+install:
+#  - ps: $env:build_version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version 
+#  - ps: Update-AppveyorBuild -Version "$env:build_version.$env:APPVEYOR_BUILD_NUMBER"
+  - git submodule update --init
 
 dotnet_csproj:
   patch: false
@@ -8,11 +13,6 @@ dotnet_csproj:
   version: $(build_version)
   package_version: $(build_version)
 #  file_version: $(APPVEYOR_BUILD_VERSION)
-  
-install:
-#  - ps: $env:build_version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version 
-#  - ps: Update-AppveyorBuild -Version "$env:build_version.$env:APPVEYOR_BUILD_NUMBER"
-  - git submodule update --init
 
 before_build:
 - cmd: dotnet restore

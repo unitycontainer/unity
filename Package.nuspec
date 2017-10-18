@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/unitycontainer/unity</projectUrl>
     <iconUrl>https://avatars1.githubusercontent.com/u/12849707</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Entire Unity Library as single package</description>
+    <description>Unity Container Library as single package</description>
     <releaseNotes>Entire Unity Library as single package.</releaseNotes>
     <copyright>Copyright © Microsoft 2008</copyright>
     <tags>Unity Container IoC</tags>

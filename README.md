@@ -5,7 +5,7 @@
 [![NuGet](https://img.shields.io/nuget/v/Unity.svg)](https://www.nuget.org/packages/Unity)
 
 
-## Overview
+# Overview
 
 The Unity Container (Unity) is a lightweight, extensible dependency injection container. It facilitates building loosely coupled applications and provides developers with the following advantages:
 
@@ -17,7 +17,31 @@ The Unity Container (Unity) is a lightweight, extensible dependency injection co
 * Registration by convention
 
 
-## Release schedule and *L*ong *T*ime *S*upport <sup>1</sup>
+
+# Roadmap
+
+### v4.0.1
+
+Version 4.x is dead. Loss of original signing certificate made it impossible to release anything compatible with v4.0.1 release. To give original developers a credit only about 60 issues were found during two years in production. To move on and enable further development version v5 has been created.
+
+### v5.x
+
+Version 5.x is created as replacement for v4.0.1. Assemblies and namespaces had to be renamed and refactored but otherwise it is compatible with the original. v5.0.0 release fixes most of the issues found in v4.0.1 and implements several optimizations (Registration for example is a order of magnitude faster than 4.0.1) but the accent was on compatibility and if optimization would break API it was ommited. Once stabilized, this version will enter LTS status and will be patched and fixed for the next few years. There will be no significant development in this line.
+
+### v6.x
+
+This is where all new development will be done. The plan for next release is:
+- Optimize performance
+- Add support for Microsoft.Extensions.DependencyInjection.2.0.0 
+- Improve how constructors and dependencies are selected 
+- etc.
+
+The compatibilty would not be a driving factor so better performance and functionality could be acheived. 
+
+
+
+
+## Release schedule and Long Time Support (LTS) <sup>1</sup>
 
 | Release |  LTS Status   | Active LTS Start | Maintenance Start | Maintenance End |
 |   :--:  |    :---:      |       :---:      |       :---:       |      :---:      |
@@ -27,3 +51,12 @@ The Unity Container (Unity) is a lightweight, extensible dependency injection co
 | [6.x]   |**Pending**    |    2018-01-01    |    January 2018   |                 |
 
 * <sup>1</sup>: All scheduled dates are subject to change.
+
+
+
+# Issues and Contributions
+
+- If something is broken and you know how to fix it, send a pull request. 
+- If you have no idea what is wrong, create an issue
+
+## Any feedback is welcome

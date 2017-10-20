@@ -59,4 +59,4 @@ The compatibilty would not be a driving factor so better performance and functio
 - If something is broken and you know how to fix it, send a pull request. 
 - If you have no idea what is wrong, create an issue
 
-## Any feedback is welcome
+## Any feedback and contributions are welcome

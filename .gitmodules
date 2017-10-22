@@ -14,10 +14,6 @@
 	path = InterceptionConfiguration
 	url = https://github.com/unitycontainer/interception-configuration.git
 	branch = master
-[submodule "RegistrationByConvention"]
-	path = RegistrationByConvention
-	url = https://github.com/unitycontainer/registration-by-convention.git
-	branch = master
 [submodule "CommonServiceLocator"]
 	path = CommonServiceLocator
 	url = https://github.com/unitycontainer/commonservicelocator.git

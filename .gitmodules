@@ -6,7 +6,3 @@
 	path = Configuration
 	url = https://github.com/unitycontainer/configuration.git
 	branch = master
-[submodule "CommonServiceLocator"]
-	path = CommonServiceLocator
-	url = https://github.com/unitycontainer/commonservicelocator.git
-	branch = master

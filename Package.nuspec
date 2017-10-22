@@ -15,6 +15,6 @@
     <tags>Unity Container IoC</tags>
   </metadata>
   <files>
-    <file src="lib\**" target="lib" />
+    <file src="lib\**" target="lib" exclude="**\*.nupkg" />
   </files>
 </package>

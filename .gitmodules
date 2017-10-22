@@ -29,3 +29,9 @@
 	path = ServiceLocation
 	url = https://github.com/unitycontainer/service-location.git
 	branch = v2.x
+[submodule "MVC"]
+	path = MVC
+	url = https://github.com/unitycontainer/aspnet-mvc.git
+[submodule "WebAPI"]
+	path = WebAPI
+	url = https://github.com/unitycontainer/aspnet-webapi.git

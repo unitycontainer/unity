@@ -22,7 +22,3 @@
 	path = CommonServiceLocator
 	url = https://github.com/unitycontainer/commonservicelocator.git
 	branch = master
-[submodule "ServiceLocation"]
-	path = ServiceLocation
-	url = https://github.com/unitycontainer/service-location.git
-	branch = master

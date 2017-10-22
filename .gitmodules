@@ -1,4 +1,0 @@
-[submodule "Container"]
-	path = Container
-	url = https://github.com/unitycontainer/container.git
-	branch = master

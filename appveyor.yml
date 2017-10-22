@@ -3,9 +3,9 @@ configuration: Package
 platform: Any CPU
   
 install:
-#  - ps: $env:build_version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version 
-#  - ps: Update-AppveyorBuild -Version "$env:build_version.$env:APPVEYOR_BUILD_NUMBER"
-  - git submodule update --init
+- ps: $env:build_version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version 
+- ps: Update-AppveyorBuild -Version "$env:build_version.$env:APPVEYOR_BUILD_NUMBER"
+- git submodule update --init
 
 dotnet_csproj:
   patch: false

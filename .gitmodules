@@ -9,18 +9,19 @@
 [submodule "Configuration"]
 	path = Configuration
 	url = https://github.com/unitycontainer/configuration.git
-	branch = v5.x
+	branch = master
 [submodule "Interception"]
 	path = Interception
 	url = https://github.com/unitycontainer/interception.git
-	branch = v5.x
+	branch = master
 [submodule "InterceptionConfiguration"]
 	path = InterceptionConfiguration
 	url = https://github.com/unitycontainer/interception-configuration.git
-	branch = v5.x
+	branch = master
 [submodule "RegistrationByConvention"]
 	path = RegistrationByConvention
 	url = https://github.com/unitycontainer/registration-by-convention.git
+	branch = master
 [submodule "CommonServiceLocator"]
 	path = CommonServiceLocator
 	url = https://github.com/unitycontainer/commonservicelocator.git
@@ -28,10 +29,12 @@
 [submodule "ServiceLocation"]
 	path = ServiceLocation
 	url = https://github.com/unitycontainer/service-location.git
-	branch = v2.x
+	branch = master
 [submodule "MVC"]
 	path = MVC
 	url = https://github.com/unitycontainer/aspnet-mvc.git
+	branch = master
 [submodule "WebAPI"]
 	path = WebAPI
 	url = https://github.com/unitycontainer/aspnet-webapi.git
+	branch = master

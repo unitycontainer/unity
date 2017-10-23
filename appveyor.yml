@@ -26,6 +26,9 @@ after_build:
 - cmd: del lib\*.nupkg
 - cmd: NuGet pack
 
+test_script:
+dotnet test --framework net47 --verbosity q
+
 artifacts:
 - path: '**\Unity.*.nupkg'
   name: 'Unity'

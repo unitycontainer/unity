@@ -26,17 +26,6 @@ after_build:
 - cmd: del lib\*.nupkg
 - cmd: NuGet pack
 
-before_test:
-- choco install opencover.portable
-- choco install codecov
-  
-test_script:
-- OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test --framework net47 --verbosity q"
-
-after_test:
-- codecov -f "results.xml" 
-
-
 artifacts:
 - path: '**\Unity.*.nupkg'
   name: 'Unity'

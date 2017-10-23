@@ -15,7 +15,7 @@ dotnet_csproj:
 #  file_version: $(APPVEYOR_BUILD_VERSION)
 
 before_build:
-- cmd: dotnet restore
+- cmd: dotnet restore --verbosity q
 
 build:
   project: package.sln

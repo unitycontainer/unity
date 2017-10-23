@@ -23,6 +23,7 @@ build:
   verbosity: minimal
 
 after_build:
+- cmd: del lib\*.nupkg
 - cmd: NuGet pack
 
 before_test:

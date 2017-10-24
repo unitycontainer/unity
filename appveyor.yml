@@ -22,15 +22,15 @@ build:
   parallel: true
   verbosity: minimal
 
-test_script:
-- cmd: dotnet test --framework net47 --verbosity q
-
-after_test:
+after_build:
 - cmd: del lib\*.nupkg
 - cmd: NuGet pack
 
+test_script:
+- cmd: dotnet test --framework net47 --verbosity q
+
 artifacts:
-- path: '**\Unity.*.nupkg'
+- path: 'lib\Unity.*.nupkg'
   name: 'Unity'
 
 #deploy:

@@ -38,7 +38,7 @@ after_test:
 
 
 artifacts:
-- path: '**\Unity.*.nupkg'
+- path: 'lib\Unity.*.nupkg'
   name: 'Unity'
 
 #deploy:

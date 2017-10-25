@@ -15,7 +15,7 @@ dotnet_csproj:
 #  file_version: $(APPVEYOR_BUILD_VERSION)
 
 before_build:
-- cmd: dotnet restore --verbosity q
+- cmd: dotnet restore --verbosity m
 
 build:
   project: package.sln
@@ -38,7 +38,7 @@ after_test:
 
 
 artifacts:
-- path: '**\Unity.*.nupkg'
+- path: 'lib\Unity.*.nupkg'
   name: 'Unity'
 
 #deploy:

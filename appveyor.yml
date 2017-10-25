@@ -26,37 +26,10 @@ after_build:
 - cmd: del lib\*.nupkg
 - cmd: NuGet pack
 
-before_test:
-- choco install opencover.portable
-- choco install codecov
-  
 test_script:
-- OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test --framework net47 --verbosity q"
-
-after_test:
-- codecov -f "results.xml" 
-
+- cmd: dotnet test --framework net47 --verbosity q
 
 artifacts:
 - path: 'lib\Unity.*.nupkg'
   name: 'Unity'
-
-#deploy:
-#- provider: GitHub
-#  force_update: true
-#  tag: $(appveyor_repo_tag_name)
-#  release: v$(appveyor_build_version)
-#  auth_token:
-#    secure: 0RltkfAMN35pApf7xYqjwy1EgsVeniSYPv35Qb9ntHY1b4SC51QYLXVVfklvw09j
-#  artifact: /.*\.nupkg/            # upload all NuGet packages to release assets
-#  draft: false
-#  prerelease: false
-#  on:
-#    appveyor_repo_tag: true        # deploy on tag push only  
-#- provider: NuGet
-#  api_key:
-#    secure: Q/HUObjarHxWF0NlnHBDY5uMQHM4ESyKfFCYdbRVfsNrWUFozADu6FMvh44gEmFk
-#  skip_symbols: false
-#  artifact: /.*\.nupkg/
-#  on:
-#    appveyor_repo_tag: true        # deploy on tag push only  
+  

@@ -38,6 +38,6 @@ after_test:
 
 
 artifacts:
-- path: 'lib\Unity.*.nupkg'
+- path: 'Unity.*.nupkg'
   name: 'Unity'
   

@@ -30,5 +30,5 @@ test_script:
 - cmd: dotnet test --framework net47 --configuration Release --verbosity q
 
 artifacts:
-- path: 'lib\Unity.nupkg'
+- path: 'lib\Unity.*.nupkg'
   name: 'Unity'

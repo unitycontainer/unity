@@ -1,0 +1,8 @@
+[submodule "Abstractions"]
+	path = Abstractions
+	url = https://github.com/unitycontainer/abstractions.git
+	branch = master
+[submodule "Container"]
+	path = Container
+	url = https://github.com/unitycontainer/container.git
+	branch = master

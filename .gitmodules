@@ -5,7 +5,7 @@
 [submodule "Container"]
 	path = Container
 	url = https://github.com/unitycontainer/container.git
-	branch = v5.x
+	branch = master
 [submodule "Configuration"]
 	path = Configuration
 	url = https://github.com/unitycontainer/configuration.git

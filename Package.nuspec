@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Unity</id>
-    <version>5.0.2</version>
+    <version>5.1.0</version>
     <authors>Microsoft.Practices.Unity</authors>
     <owners>Microsoft.Practices.Unity</owners>
     <licenseUrl>https://github.com/unitycontainer/unity/blob/master/LICENSE</licenseUrl>

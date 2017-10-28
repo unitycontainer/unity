@@ -9,10 +9,6 @@ install:
 
 dotnet_csproj:
   patch: false
-  file: '**\*.csproj'
-  version: $(build_version)
-  package_version: $(build_version)
-#  file_version: $(APPVEYOR_BUILD_VERSION)
 
 before_build:
 - cmd: dotnet restore --verbosity m

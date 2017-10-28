@@ -38,3 +38,6 @@
 	path = WebAPI
 	url = https://github.com/unitycontainer/aspnet-webapi.git
 	branch = master
+[submodule "Microsoft.DependencyInjection"]
+	path = Microsoft.DependencyInjection
+	url = https://github.com/unitycontainer/microsoft-dependency-injection.git

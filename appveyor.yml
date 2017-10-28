@@ -1,18 +1,13 @@
 image: Visual Studio 2017
 configuration: Release
 platform: Any CPU
-  
+
 install:
-- ps: $env:build_version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version 
-- ps: Update-AppveyorBuild -Version "$env:build_version.$env:APPVEYOR_BUILD_NUMBER"
-- git submodule update --init
+  - ps: $env:build_version = (Select-Xml -Path ".\Package.nuspec" -XPath "/package/metadata/version" | Select-Object -ExpandProperty Node).InnerText
+  - ps: Update-AppveyorBuild -Version "$env:build_version.$env:APPVEYOR_BUILD_NUMBER"
 
 dotnet_csproj:
   patch: false
-  file: '**\*.csproj'
-  version: $(build_version)
-  package_version: $(build_version)
-#  file_version: $(APPVEYOR_BUILD_VERSION)
 
 before_build:
 - cmd: dotnet restore --verbosity q

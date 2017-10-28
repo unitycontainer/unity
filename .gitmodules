@@ -6,3 +6,7 @@
 	path = Container
 	url = https://github.com/unitycontainer/container.git
 	branch = master
+[submodule "v5.x"]
+	path = v5.x
+	url = https://github.com/unitycontainer/container.git
+	branch = v5.x

@@ -26,7 +26,7 @@ Version 4.x is dead. Loss of original signing certificate made it impossible to 
 
 ### [v5.x](https://github.com/unitycontainer/unity/tree/v5.x)
 
-Version 5.x is created as replacement for v4.0.1. Assemblies and namespaces had to be renamed and refactored but otherwise it is compatible with the original. v5.0.0 release fixes most of the issues found in v4.0.1 and implements several optimizations (Registration for example is a order of magnitude faster than 4.0.1) but the accent was on compatibility and if optimization would break API it was ommited. Once stabilized, this version will enter LTS status and will be patched and fixed for the next few years. There will be no significant development in this line.
+Version 5.x is created as replacement for v4.0.1. Assemblies and namespaces are renamed and refactored but otherwise it is compatible with the original. v5.0.0 release fixes most of the issues found in v4.0.1 and implements several optimizations (Registration for example is a order of magnitude faster than 4.0.1) but the accent was on compatibility and if optimization would break API it was ommited. Once stabilized, this version will enter LTS status and will be patched and fixed for the next few years. There will be no significant development in this line.
 
 ### v6.x
 

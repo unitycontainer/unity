@@ -6,6 +6,14 @@
 	path = Container
 	url = https://github.com/unitycontainer/container.git
 	branch = master
+[submodule "SpecificationTests"]
+	path = SpecificationTests
+	url = https://github.com/unitycontainer/specification-tests.git
+	branch = master
+[submodule "ServiceLocation"]
+	path = ServiceLocation
+	url = https://github.com/unitycontainer/service-location.git
+	branch = master
 [submodule "Configuration"]
 	path = Configuration
 	url = https://github.com/unitycontainer/configuration.git
@@ -26,10 +34,6 @@
 	path = CommonServiceLocator
 	url = https://github.com/unitycontainer/commonservicelocator.git
 	branch = master
-[submodule "ServiceLocation"]
-	path = ServiceLocation
-	url = https://github.com/unitycontainer/service-location.git
-	branch = master
 [submodule "MVC"]
 	path = MVC
 	url = https://github.com/unitycontainer/aspnet-mvc.git
@@ -41,9 +45,4 @@
 [submodule "Microsoft.DependencyInjection"]
 	path = Microsoft.DependencyInjection
 	url = https://github.com/unitycontainer/microsoft-dependency-injection.git
-[submodule "ComplianceTests"]
-	path = ComplianceTests
-	url = https://github.com/unitycontainer/compliance-tests.git
-[submodule "SpecificationTests"]
-	path = SpecificationTests
-	url = https://github.com/unitycontainer/specification-tests.git
+	branch = master

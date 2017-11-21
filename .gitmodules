@@ -10,3 +10,6 @@
 	path = v5.x
 	url = https://github.com/unitycontainer/container.git
 	branch = v5.x
+[submodule "SpecificationTests"]
+	path = SpecificationTests
+	url = https://github.com/unitycontainer/specification-tests.git

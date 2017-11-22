@@ -60,7 +60,9 @@ The compatibilty would not be a driving factor so better performance and functio
 
 ## Any feedback and contributions are welcome
 
+Let's make Unity better together!
 
+**Vote** for the proposals you like, and **add** yours:
 
 [![Feature Requests](http://feathub.com/unitycontainer/unity?format=svg)](http://feathub.com/unitycontainer/unity)
 

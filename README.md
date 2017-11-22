@@ -17,9 +17,6 @@ The Unity Container (Unity) is a lightweight, extensible dependency injection co
 * Registration by convention
 
 
-[![Feature Requests](http://feathub.com/unitycontainer/unity?format=svg)](http://feathub.com/unitycontainer/unity)
-
-
 # Roadmap
 
 ### [v4.0.1](https://github.com/unitycontainer/unity/tree/a370e3cd8c0f9aa5f505e896ef5225f42711d361)
@@ -62,3 +59,8 @@ The compatibilty would not be a driving factor so better performance and functio
 - If you have no idea what is wrong, create an issue
 
 ## Any feedback and contributions are welcome
+
+
+
+[![Feature Requests](http://feathub.com/unitycontainer/unity?format=svg)](http://feathub.com/unitycontainer/unity)
+

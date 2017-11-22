@@ -23,8 +23,6 @@ The Unity Container (Unity) is a lightweight, extensible dependency injection co
 
 ## Any feedback and contributions are welcome
 
-Let's make Unity better together!
-
 **Vote** for the proposals you like, and **add** yours:
 
 [![Feature Requests](http://feathub.com/unitycontainer/unity?format=svg)](http://feathub.com/unitycontainer/unity)

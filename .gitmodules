@@ -32,7 +32,7 @@
 	branch = master
 [submodule "CommonServiceLocator"]
 	path = CommonServiceLocator
-	url = ../commonservicelocator.git
+	url = https://github.com/unitycontainer/commonservicelocator.git
 	branch = master
 [submodule "MVC"]
 	path = MVC

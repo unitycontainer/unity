@@ -142,3 +142,5 @@ project.lock.json
 testresults.xml
 testresults.xml
 /*.nupkg
+
+README.md

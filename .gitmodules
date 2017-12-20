@@ -1,34 +1,34 @@
 [submodule "Abstractions"]
 	path = Abstractions
-	url = https://github.com/unitycontainer/abstractions.git
+	url = ../abstractions.git
 	branch = master
 [submodule "Container"]
 	path = Container
-	url = https://github.com/unitycontainer/container.git
+	url = ../container.git
 	branch = master
 [submodule "SpecificationTests"]
 	path = SpecificationTests
-	url = https://github.com/unitycontainer/specification-tests.git
+	url = ../specification-tests.git
 	branch = master
 [submodule "ServiceLocation"]
 	path = ServiceLocation
-	url = https://github.com/unitycontainer/service-location.git
+	url = ../service-location.git
 	branch = master
 [submodule "Configuration"]
 	path = Configuration
-	url = https://github.com/unitycontainer/configuration.git
+	url = ../configuration.git
 	branch = master
 [submodule "Interception"]
 	path = Interception
-	url = https://github.com/unitycontainer/interception.git
+	url = ../interception.git
 	branch = master
 [submodule "InterceptionConfiguration"]
 	path = InterceptionConfiguration
-	url = https://github.com/unitycontainer/interception-configuration.git
+	url = ../interception-configuration.git
 	branch = master
 [submodule "RegistrationByConvention"]
 	path = RegistrationByConvention
-	url = https://github.com/unitycontainer/registration-by-convention.git
+	url = ../registration-by-convention.git
 	branch = master
 [submodule "CommonServiceLocator"]
 	path = CommonServiceLocator
@@ -36,13 +36,13 @@
 	branch = master
 [submodule "MVC"]
 	path = MVC
-	url = https://github.com/unitycontainer/aspnet-mvc.git
+	url = ../aspnet-mvc.git
 	branch = master
 [submodule "WebAPI"]
 	path = WebAPI
-	url = https://github.com/unitycontainer/aspnet-webapi.git
+	url = ../aspnet-webapi.git
 	branch = master
 [submodule "Microsoft.DependencyInjection"]
 	path = Microsoft.DependencyInjection
-	url = https://github.com/unitycontainer/microsoft-dependency-injection.git
+	url = ../microsoft-dependency-injection.git
 	branch = master

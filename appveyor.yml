@@ -16,11 +16,11 @@ before_build:
 build:
   project: package.sln
   parallel: true
-  verbosity: quiet
+  verbosity: minimal
 
 after_build:
 - cmd: del lib\*.nupkg
-- cmd: NuGet pack -NoPackageAnalysis
+- cmd: NuGet pack
 
 before_test:
 - choco install opencover.portable

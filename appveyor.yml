@@ -20,7 +20,7 @@ build:
 
 after_build:
 - cmd: del lib\*.nupkg
-- cmd: NuGet pack
+- cmd: NuGet pack -NoPackageAnalysis
 
 before_test:
 - choco install opencover.portable

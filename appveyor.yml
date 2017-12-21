@@ -11,7 +11,7 @@ dotnet_csproj:
   patch: false
 
 before_build:
-- cmd: dotnet restore --verbosity m
+- cmd: dotnet restore --verbosity q
 
 build:
   project: package.sln

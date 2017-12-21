@@ -15,6 +15,6 @@
     <tags>Unity Container unitycontainer Microsoft.Practices.Unity IoC Microsoft.Practices.ServiceLocation Service Location</tags>
   </metadata>
   <files>
-    <file src="lib\**" target="lib" exclude="**\*.nupkg;**\Microsoft.VisualStudio.TestPlatform.*.dll" />
+    <file src="lib\**" target="lib" exclude="**\*.nupkg;content\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll;content\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll;contentFiles\any\net47\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll" />
   </files>
 </package>

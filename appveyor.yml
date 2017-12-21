@@ -16,7 +16,7 @@ before_build:
 build:
   project: package.sln
   parallel: true
-  verbosity: minimal
+  verbosity: quiet
 
 after_build:
 - cmd: del lib\*.nupkg

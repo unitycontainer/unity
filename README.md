@@ -28,7 +28,8 @@ The documentation is a work in progress project. Some info is available [here](h
 
 ## Any feedback and contributions are welcome
 
-**Vote** for the proposals you like, and [**add**](https://feathub.com/unitycontainer/unity/features/new) yours:
+# New Features
+[**Suggest**](https://feathub.com/unitycontainer/unity/features/new) new features or vote for the proposals you like, [**ADD**](https://feathub.com/unitycontainer/unity/features/new) your comments:
 
 [![Feature Requests](http://feathub.com/unitycontainer/unity?format=svg)](http://feathub.com/unitycontainer/unity)
 

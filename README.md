@@ -16,17 +16,6 @@ The Unity Container (Unity) is a lightweight, extensible dependency injection co
 * Instance and type interception
 * Registration by convention
 
-# Documentation
-
-The documentation is a work in progress project. Some info is available [here](https://unitycontainer.github.io) but more is coming...
-
-
-# Issues and Contributions
-
-- If something is broken and you know how to fix it, send a pull request. 
-- If you have no idea what is wrong, create an issue
-
-## Any feedback and contributions are welcome
 
 # New Features
 [**Suggest**](https://feathub.com/unitycontainer/unity/features/new) new features or vote for the proposals you like, [**ADD**](https://feathub.com/unitycontainer/unity/features/new) your comments:
@@ -71,4 +60,19 @@ The compatibilty would not be a driving factor so better performance and functio
 * <sup>1</sup>: All scheduled dates are subject to change.
 
 
+
+
+## Documentation
+
+The documentation is a work in progress project. Some info is available [here](https://unitycontainer.github.io) but more is coming...
+
+
+## Issues and Contributions
+
+- If something is broken and you know how to fix it, send a pull request. 
+- If you have no idea what is wrong, create an issue
+
+### Any feedback and contributions are welcome
+
+If you have something you'd like to improve do not hesitate to send a Pull Request
 

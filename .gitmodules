@@ -50,3 +50,6 @@
 [submodule "NLog"]
 	path = NLog
 	url = https://github.com/unitycontainer/NLog.git
+[submodule "Microsoft.Logging"]
+	path = Microsoft.Logging
+	url = https://github.com/unitycontainer/microsoft-logging.git

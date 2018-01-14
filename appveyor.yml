@@ -23,8 +23,7 @@ after_build:
 - cmd: NuGet pack
 
 test_script:
-#- cmd: dotnet test --framework net47 --configuration Release --verbosity q
-- cmd: dir
+- cmd: dotnet test --framework net47 --configuration Release --verbosity q
 
 artifacts:
 - path: 'Unity.*.nupkg'

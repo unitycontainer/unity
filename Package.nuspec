@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Unity</id>
-    <version>6.0.0</version>
+    <version>5.6.0</version>
     <authors>Microsoft.Practices.Unity</authors>
     <owners>Microsoft.Practices.Unity</owners>
     <licenseUrl>https://github.com/unitycontainer/unity/blob/master/LICENSE</licenseUrl>
@@ -12,7 +12,7 @@
     <description>Unity Container Library as single package</description>
     <releaseNotes>Entire Unity Library as single package.</releaseNotes>
     <copyright>Copyright © Microsoft 2008</copyright>
-    <tags>Unity Container unitycontainer Microsoft.Practices.Unity IoC Microsoft.Practices.ServiceLocation Service Location</tags>
+    <tags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</tags>
   </metadata>
   <files>
     <file src="lib\**" target="lib" exclude="**\*.nupkg" />

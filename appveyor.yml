@@ -32,8 +32,7 @@ test_script:
 after_test:
 - codecov -f "results.xml" 
 
-# Disable artifacts for now
-#artifacts:
-#- path: 'Unity.*.nupkg'
-#  name: 'Unity'
+artifacts:
+- path: 'Unity.*.nupkg'
+  name: 'Unity'
   

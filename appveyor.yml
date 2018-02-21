@@ -5,7 +5,7 @@ platform: Any CPU
 install:
   - ps: $env:build_version = (Select-Xml -Path ".\Package.nuspec" -XPath "/package/metadata/version" | Select-Object -ExpandProperty Node).InnerText
   - ps: Update-AppveyorBuild -Version "$env:build_version.$env:APPVEYOR_BUILD_NUMBER"
-  - cmd: git submodule update --init
+  - cmd: git submodule --quiet update --init
 
 dotnet_csproj:
   patch: false
@@ -22,9 +22,17 @@ after_build:
 - cmd: del lib\*.nupkg
 - cmd: NuGet pack
 
+before_test:
+- choco install opencover.portable
+- choco install codecov
+  
 test_script:
-- cmd: dotnet test --framework net47 --configuration Release --verbosity q
+- OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test --framework net47 --verbosity q"
+
+after_test:
+- codecov -f "results.xml" 
 
 artifacts:
 - path: 'Unity.*.nupkg'
   name: 'Unity'
+  

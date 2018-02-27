@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonServiceLocator", "Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonServiceLocator.Tests", "CommonServiceLocator\test\CommonServiceLocator.Tests.csproj", "{2C30B8F6-99BC-4DBB-9935-428A2791B9DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Performance", "Container\tests\Performance\Unity.Performance.csproj", "{F3CAD518-CE9F-4BE8-8AC0-D6B27E023FA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Performance", "Container\tests\Performance\Performance.csproj", "{F3CAD518-CE9F-4BE8-8AC0-D6B27E023FA1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Mvc", "MVC\src\Unity.Mvc.csproj", "{783ABE91-79BE-40E1-B7B4-6B70AA4EE55B}"
 EndProject
@@ -54,9 +54,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.DependencyInjection.Tests", "Microsoft.DependencyInjection\tests\Microsoft.DependencyInjection.Tests.csproj", "{D6FC1017-5FBF-42F8-AEC3-3B209E906829}"
 EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -125,6 +122,7 @@ Global
 		{F3CAD518-CE9F-4BE8-8AC0-D6B27E023FA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F3CAD518-CE9F-4BE8-8AC0-D6B27E023FA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3CAD518-CE9F-4BE8-8AC0-D6B27E023FA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3CAD518-CE9F-4BE8-8AC0-D6B27E023FA1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{783ABE91-79BE-40E1-B7B4-6B70AA4EE55B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{783ABE91-79BE-40E1-B7B4-6B70AA4EE55B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{783ABE91-79BE-40E1-B7B4-6B70AA4EE55B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -171,6 +169,18 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5AAFE72A-A2F4-4EE5-B3E2-B8E1E4652456}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true

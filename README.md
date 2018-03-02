@@ -9,6 +9,53 @@ The Unity Container (Unity) is a lightweight, extensible dependency injection co
 * Instance and type interception
 * Registration by convention
 
+# Current Performance Stats
+
+This release is all about optimizing performance.  These are the latest benchmarks:
+
+``` ini
+
+BenchmarkDotNet=v0.10.12, OS=Windows 7 SP1 (6.1.7601.0)
+Intel Xeon CPU E3-1240 V2 3.40GHz, 1 CPU, 8 logical cores and 4 physical cores
+Frequency=3312851 Hz, Resolution=301.8548 ns, Timer=TSC
+  [Host]     : .NET Framework 4.6.1 (CLR 4.0.30319.42000), 64bit RyuJIT-v4.6.1076.0
+  Job-CLJHLJ : .NET Framework 4.6.1 (CLR 4.0.30319.42000), 64bit RyuJIT-v4.6.1076.0
+
+UnrollFactor=1  
+
+```
+|       Method |  Version |       Mean |      Error |     StdDev |
+|------------- |--------- |-----------:|-----------:|-----------:|
+| ChildContainer | 4.0.1 |   606.6 ns |  8.0293 ns |  7.5106 ns |
+| ChildContainer | 5.6.1 |   250.5 ns |  2.6140 ns |  2.4451 ns |
+| **ChildContainer** | **5.7.1** |   **131.0 ns** |  **1.0502 ns** | **0.9310 ns** |
+|    | | | | |
+|       Object | 4.0.1 | 1,263.6 ns | 18.4935 ns | 16.3940 ns |
+|       Object | 5.6.1 |   794.7 ns |  5.4100 ns |  5.0605 ns |
+|      **Object** | **5.7.1** |   **165.4 ns** |  **3.3337 ns** |  **3.7054 ns** |
+|    | | | | |
+| Unregistered | 4.0.1 | 1,258.5 ns |  8.0816 ns |  7.5595 ns |
+| Unregistered | 5.6.1 |   818.7 ns | 12.8366 ns | 11.3793 ns |
+| **Unregistered** | **5.7.1** |   **175.6 ns** |  **1.9537 ns** |  **1.8275 ns** |
+|    | | | | |
+|    Transient | 4.0.1 | 1,264.0 ns |  3.9698 ns |  3.5192 ns |
+|    Transient | 5.6.1 |   616.6 ns | 11.9444 ns | 13.7551 ns |
+|    **Transient** | **5.7.1** |   **178.0 ns** |  **1.2784 ns** |  **1.1958 ns** |
+|    | | | | |
+|  MappedService | 4.0.1 | 1,361.7 ns |  6.2127 ns |  5.1879 ns |
+|  MappedService | 5.6.1 | 1,004.2 ns |  9.6214 ns |  8.9998 ns |
+|      **MappedService** | **5.7.1** |  **177.9 ns** |  **2.3800 ns** |  **2.1098 ns** |
+|    | | | | |
+|    ReResolve | 4.0.1 | 1,261.5 ns | 12.7684 ns | 11.9436 ns |
+|    ReResolve | 5.6.1 | 1,061.6 ns |  5.1320 ns |  4.5494 ns |
+|    **ReResolve** | **5.7.1** |   **171.5 ns** |  **0.8011 ns** |  **0.6689 ns** |
+|    | | | | |
+|    Singleton | 4.0.1 |   740.4 ns |  3.6187 ns |  3.3849 ns |
+|    Singleton | 5.6.1 |   321.3 ns |  1.7380 ns |  1.6257 ns |
+|    **Singleton** | **5.7.1** |   **129.3 ns** |  **1.6182 ns** |  **1.4345 ns** |
+
+
+
 
 # New Features
 [**Suggest**](https://feathub.com/unitycontainer/unity/features/new) new features or vote for the proposals you like, [**ADD**](https://feathub.com/unitycontainer/unity/features/new) your comments:

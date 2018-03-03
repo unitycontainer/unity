@@ -111,7 +111,7 @@ The compatibilty would not be a driving factor so better performance and functio
 |   :--:  |    :---:      |       :---:      |       :---:       |      :---:      |
 |  v3.x   |    No LTS     |         -        |         -         |      2012       |
 |  v4.x   |**End-of-Life**|         -        |         -         |      2015       |
-|  v5.x   |**Active**     |    2017-10-18    |    October 2017   |  December 2019  |
+|  v5.x   |**Active**     |    2018-10-18    |    March 2018     |  December 2019  |
 | [6.x]   |**Pending**    |    2018-01-01    |    January 2018   |                 |
 
 * <sup>1</sup>: All scheduled dates are subject to change.

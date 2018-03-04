@@ -1,0 +1,10 @@
+[submodule "SpecificationTests"]
+	path = SpecificationTests
+	url = https://github.com/unitycontainer/specification-tests.git
+[submodule "Abstractions"]
+	path = Abstractions
+	url = https://github.com/unitycontainer/abstractions.git
+[submodule "Container"]
+	path = Container
+	url = https://github.com/unitycontainer/container.git
+	branch = v5.x

@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Performance", "Container\te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Abstractions.Tests", "Abstractions\tests\Unity.Abstractions.Tests.csproj", "{65980DB2-BDAD-42FE-853B-C20E67FC2DEE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Tests", "Container\tests\Unity.Specification\Unity.Specification.Tests.csproj", "{28BF4193-6ADE-49ED-A3C8-2DD9B6D1242F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,13 +49,19 @@ Global
 		{65980DB2-BDAD-42FE-853B-C20E67FC2DEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65980DB2-BDAD-42FE-853B-C20E67FC2DEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65980DB2-BDAD-42FE-853B-C20E67FC2DEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28BF4193-6ADE-49ED-A3C8-2DD9B6D1242F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28BF4193-6ADE-49ED-A3C8-2DD9B6D1242F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28BF4193-6ADE-49ED-A3C8-2DD9B6D1242F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28BF4193-6ADE-49ED-A3C8-2DD9B6D1242F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0EAEDA7A-B38D-45E2-82E4-B844357A201E} = {C1320DE2-FE62-4134-8CB3-0A6C977C114B}
+		{B47431EA-C4B2-442A-A769-0CD1DB24561D} = {C1320DE2-FE62-4134-8CB3-0A6C977C114B}
 		{65980DB2-BDAD-42FE-853B-C20E67FC2DEE} = {C1320DE2-FE62-4134-8CB3-0A6C977C114B}
+		{28BF4193-6ADE-49ED-A3C8-2DD9B6D1242F} = {C1320DE2-FE62-4134-8CB3-0A6C977C114B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F9EAE93A-CE20-498A-8BC7-183974E8323A}

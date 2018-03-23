@@ -121,7 +121,8 @@ The compatibilty would not be a driving factor so better performance and functio
 
 ## Documentation
 
-The documentation is a work in progress project. Some info is available [here](https://unitycontainer.github.io) but more is coming...
+The documentation is a work in progress. **I could really use some help with it**. Some info is available [here](https://unitycontainer.github.io) but more is coming...
+
 
 
 ## Issues and Contributions

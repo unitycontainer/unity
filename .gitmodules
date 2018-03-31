@@ -55,3 +55,6 @@
 [submodule "Microsoft.Logging"]
 	path = Microsoft.Logging
 	url = https://github.com/unitycontainer/microsoft-logging.git
+[submodule "Examples"]
+	path = Examples
+	url = https://github.com/unitycontainer/examples.git

@@ -58,3 +58,6 @@
 [submodule "Examples"]
 	path = Examples
 	url = https://github.com/unitycontainer/examples.git
+[submodule "Microsoft.Options"]
+	path = Microsoft.Options
+	url = https://github.com/unitycontainer/microsoft-options.git

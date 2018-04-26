@@ -101,7 +101,7 @@ Version 5.x is created as replacement for v4.0.1. Assemblies and namespaces are 
 ### v6.x
 
 This is where all new development will be done. 
-The compatibilty would not be a driving factor so better performance and functionality could be acheived. 
+The compatibility would not be a driving factor so better performance and functionality could be achieved. 
 
 
 

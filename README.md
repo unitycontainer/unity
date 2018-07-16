@@ -98,22 +98,11 @@ Version 4.x is dead. Loss of original signing certificate made it impossible to 
 
 Version 5.x is created as replacement for v4.0.1. Assemblies and namespaces are renamed and refactored but otherwise it is compatible with the original. v5.0.0 release fixes most of the issues found in v4.0.1 and implements several optimizations but the accent was on compatibility and if optimization would break API it was omitted. Once stabilized, this version will enter LTS status and will be patched and fixed for the next few years. There will be no significant development in this line.
 
-To build v5.x locally please follow these steps:
-- `git clone https://github.com/unitycontainer/unity.git`
-- `cd unity && git checkout v5.x && git submodule update --init --recursive`
-- open `package.sln` in Visual Studio and build.
-
-
-
-### [v6.x](https://github.com/unitycontainer/unity/tree/v6.x)
+### v6.x
 
 This is where all new development will be done. 
 The compatibility would not be a driving factor so better performance and functionality could be achieved. 
 
-To build v6.x locally please follow these steps:
-- `git clone https://github.com/unitycontainer/unity.git`
-- `cd unity && git checkout v6.x && git submodule update --init --recursive`
-- open `package.sln` in Visual Studio and build.
 
 
 ## Release schedule and Long Time Support (LTS) <sup>1</sup>

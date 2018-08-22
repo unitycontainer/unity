@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Unity</id>
-    <version>5.8.6</version>
+    <version>5.8.7</version>
     <authors>Microsoft.Practices.Unity</authors>
     <owners>Microsoft.Practices.Unity</owners>
     <licenseUrl>https://github.com/unitycontainer/unity/blob/master/LICENSE</licenseUrl>
@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Unity Container Library as single package</description>
     <releaseNotes>Entire Unity Library as single package.</releaseNotes>
-    <copyright>Copyright © Microsoft 2008</copyright>
+    <Copyright>Copyright © Unity Container Project 2018</Copyright>
     <tags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</tags>
   </metadata>
   <files>

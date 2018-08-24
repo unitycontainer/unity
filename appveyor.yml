@@ -6,6 +6,7 @@ install:
   - ps: $env:build_version = (Select-Xml -Path ".\Package.nuspec" -XPath "/package/metadata/version" | Select-Object -ExpandProperty Node).InnerText
   - ps: Update-AppveyorBuild -Version "$env:build_version.$env:APPVEYOR_BUILD_NUMBER"
   - cmd: git submodule --quiet update --init
+  - cmd: git submodule foreach git pull
 
 dotnet_csproj:
   patch: false

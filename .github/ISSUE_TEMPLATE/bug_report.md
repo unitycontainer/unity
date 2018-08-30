@@ -26,10 +26,6 @@ public void SomeDescriptiveName()
 }
 ```
 
-### Expected behavior and what is wrong
-
-A clear and concise description.
-
 **Additional context**
 
 Add any other context about the problem here.

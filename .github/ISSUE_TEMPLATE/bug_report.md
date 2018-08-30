@@ -4,9 +4,9 @@ about: Create a report to help us improve
 
 ---
 
-### Describe the bug
+### Description
 
-A clear and concise description of what the bug is.
+A clear and concise description of what is wrong.
 
 ### To Reproduce
 
@@ -17,11 +17,12 @@ Please provide UnitTest in the form of:
 public void SomeDescriptiveName()
 {
     var container = new UnityContainer()
-                .RegisterType<ILogger, MockLogger>();
-
-    var resolver = container.Resolve<Func<ILogger>>();
+                .RegisterType<ISomeType, SomeType>();
     ...
-    AssertExtensions.IsInstanceOfType(logger, typeof(MockLogger));
+
+    var res = container.Resolve<Func<ISomeType>>();
+    
+    AssertExtensions.IsInstanceOfType(res, typeof(SomeType));
 }
 ```
 

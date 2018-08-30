@@ -4,26 +4,31 @@ about: Create a report to help us improve
 
 ---
 
-**Describe the bug**
+### Describe the bug
+
 A clear and concise description of what the bug is.
 
-**To Reproduce**
+### To Reproduce
+
 Please provide UnitTest in the form of:
+
 ```C#
-        [TestMethod]
-        public void SomeDescriptiveName()
-        {
-            var container = new UnityContainer()
+[TestMethod]
+public void SomeDescriptiveName()
+{
+    var container = new UnityContainer()
                 .RegisterType<ILogger, MockLogger>();
 
-            var resolver = container.Resolve<Func<ILogger>>();
-            ...
-            AssertExtensions.IsInstanceOfType(logger, typeof(MockLogger));
-        }
+    var resolver = container.Resolve<Func<ILogger>>();
+    ...
+    AssertExtensions.IsInstanceOfType(logger, typeof(MockLogger));
+}
 ```
 
-**Expected behavior and what is wrong with it**
+### Expected behavior and what is wrong
+
 A clear and concise description.
 
 **Additional context**
+
 Add any other context about the problem here.

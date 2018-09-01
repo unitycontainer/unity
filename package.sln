@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Container", "Containe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F45198AB-F3A6-4F83-94B8-762482625BC7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Tests", "Container\tests\Unity.Tests\Unity.Tests.v5.csproj", "{29D42A07-017E-4E9C-A87D-0ABBCAE53798}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Tests.v5", "Container\tests\Unity.Tests\Unity.Tests.v5.csproj", "{29D42A07-017E-4E9C-A87D-0ABBCAE53798}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Tests", "Container\tests\Unity.Specification\Unity.Specification.Tests.v5.csproj", "{EE6E1971-4752-4444-9211-70BDE3CC4014}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Tests.v5", "Container\tests\Unity.Specification\Unity.Specification.Tests.v5.csproj", "{EE6E1971-4752-4444-9211-70BDE3CC4014}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.ServiceLocation", "ServiceLocation\src\Unity.ServiceLocation.csproj", "{B49E7E51-79A8-461D-AB64-C05107C795AE}"
 EndProject
@@ -67,7 +67,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Microsoft.Logging", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Logging.Tests", "Microsoft.Logging\tests\Microsoft.Logging.Tests.csproj", "{10CB5365-85EF-4CF2-954D-3513D59A6741}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Microsoft.Options.Tests", "Microsoft.Options\tests\Unity.Microsoft.Options.Tests.csproj", "{8B395CB4-08A9-42A2-92A3-50852A777D3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Options.Tests", "Microsoft.Options\tests\Microsoft.Options.Tests.csproj", "{8B395CB4-08A9-42A2-92A3-50852A777D3A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{7F73D778-142F-4925-BA07-43EFA6D9C206}"
 EndProject

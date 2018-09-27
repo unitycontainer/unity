@@ -2,9 +2,9 @@
 <package >
   <metadata>
     <id>Unity</id>
-    <version>5.8.11</version>
-    <authors>Microsoft.Practices.Unity</authors>
-    <owners>Microsoft.Practices.Unity</owners>
+    <version>5.9.0</version>
+    <authors>Unity Container Project</authors>
+    <owners>Unity Container Project</owners>
     <licenseUrl>https://github.com/unitycontainer/unity/blob/v5.x/LICENSE</licenseUrl>
     <projectUrl>https://github.com/unitycontainer/unity</projectUrl>
     <iconUrl>https://avatars1.githubusercontent.com/u/12849707</iconUrl>
@@ -13,20 +13,6 @@
     <releaseNotes>Entire Unity Library as single package.</releaseNotes>
     <copyright>Copyright © Unity Container Project 2018</copyright>
     <tags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</tags>
-    <dependencies>
-      <group targetFramework=".NETCoreApp2.0">
-        <dependency id="System.Configuration.ConfigurationManager" version="4.4.1" exclude="Build,Analyzers" />
-        <dependency id="System.Reflection.Emit" version="4.3.0" exclude="Build,Analyzers" />
-      </group>
-      <group targetFramework=".NETStandard2.0">
-        <dependency id="System.Configuration.ConfigurationManager" version="4.4.1" exclude="Build,Analyzers" />
-        <dependency id="System.Reflection.Emit" version="4.3.0" exclude="Build,Analyzers" />
-      </group>
-    </dependencies>
-    <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.Configuration" targetFramework=".NETFramework4.5, .NETFramework4.6, .NETFramework4.7" />
-      <frameworkAssembly assemblyName="System.Runtime.Remoting" targetFramework=".NETFramework4.5, .NETFramework4.6, .NETFramework4.7" />
-    </frameworkAssemblies>
   </metadata>
   <files>
     <file src="lib\**" target="lib" exclude="**\*.nupkg" />

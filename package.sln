@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.DependencyInjecti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification", "SpecificationTests\src\Unity.Specification.csproj", "{DBEC49D6-88ED-4717-A827-23BADE3DC5E1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Diagnostic", "SpecificationTests\diagnostic\Unity.Specification.Diagnostic.csproj", "{510FC085-87EF-4EB8-85EB-6C1E0F629313}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{46B66CD3-B2AE-4AD3-8BF7-59380C9DD24C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extension", "Extension", "{807B6434-3128-4C95-B182-DDD603937088}"
@@ -209,6 +211,10 @@ Global
 		{B77AA526-C2DB-439C-A9F6-3FD9F4645556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B77AA526-C2DB-439C-A9F6-3FD9F4645556}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B77AA526-C2DB-439C-A9F6-3FD9F4645556}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{510FC085-87EF-4EB8-85EB-6C1E0F629313}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{510FC085-87EF-4EB8-85EB-6C1E0F629313}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{510FC085-87EF-4EB8-85EB-6C1E0F629313}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{510FC085-87EF-4EB8-85EB-6C1E0F629313}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

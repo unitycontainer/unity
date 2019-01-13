@@ -61,3 +61,6 @@
 [submodule "Microsoft.Options"]
 	path = Microsoft.Options
 	url = https://github.com/unitycontainer/microsoft-options.git
+[submodule "WCF"]
+	path = WCF
+	url = https://github.com/unitycontainer/wcf.git

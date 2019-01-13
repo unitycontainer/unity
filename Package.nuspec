@@ -14,6 +14,9 @@
     <copyright>Copyright © Unity Container Project 2018</copyright>
     <tags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</tags>
   </metadata>
+  <dependencies>
+      <dependency id="System.ValueTuple" version="4.5.0" />
+  </dependencies>  
   <files>
     <file src="lib\**" target="lib" exclude="**\*.nupkg" />
   </files>

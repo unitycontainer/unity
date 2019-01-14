@@ -13,7 +13,6 @@
     <releaseNotes>Entire Unity Library as single package.</releaseNotes>
     <copyright>Copyright © Unity Container Project 2018</copyright>
     <tags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</tags>
-  </metadata>
     <dependencies>
       <group targetFramework=".NET4.0">
         <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
@@ -31,6 +30,7 @@
         <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
       </group>
     </dependencies>
+  </metadata>
   <files>
     <file src="lib\**" target="lib" exclude="**\*.nupkg" />
   </files>

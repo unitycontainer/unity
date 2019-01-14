@@ -9,50 +9,46 @@ The Unity Container (Unity) is a lightweight, extensible dependency injection co
 * Instance and type interception
 * Registration by convention
 
-# Performance Stats for v5.7.3
+# Performance Stats for v5.9.0-RC
 
 This release is all about optimizing performance.  These are the latest benchmarks:
 
 ``` ini
 
-BenchmarkDotNet=v0.10.12, OS=Windows 7 SP1 (6.1.7601.0)
-Intel Xeon CPU E3-1240 V2 3.40GHz, 1 CPU, 8 logical cores and 4 physical cores
-Frequency=3312851 Hz, Resolution=301.8548 ns, Timer=TSC
-  [Host]     : .NET Framework 4.6.1 (CLR 4.0.30319.42000), 64bit RyuJIT-v4.6.1076.0
-  Job-CLJHLJ : .NET Framework 4.6.1 (CLR 4.0.30319.42000), 64bit RyuJIT-v4.6.1076.0
+BenchmarkDotNet=v0.11.3, OS=Windows 10.0.17134.523 (1803/April2018Update/Redstone4)
+Intel Core i7-6700K CPU 4.00GHz (Skylake), 1 CPU, 8 logical and 4 physical cores
+Frequency=3914058 Hz, Resolution=255.4893 ns, Timer=TSC
+  [Host]     : .NET Framework 4.7.2 (CLR 4.0.30319.42000), 64bit RyuJIT-v4.7.3260.0
+  Job-NIEANE : .NET Framework 4.7.2 (CLR 4.0.30319.42000), 64bit RyuJIT-v4.7.3260.0
 
-UnrollFactor=1  
+InvocationCount=100000  LaunchCount=1  RunStrategy=Throughput  
 
 ```
-|       Method |  Version |       Mean |      Error |     StdDev |
-|------------- |--------- |-----------:|-----------:|-----------:|
-| ChildContainer | 4.0.1 |   606.6 ns |  8.0293 ns |  7.5106 ns |
-| ChildContainer | 5.6.1 |   250.5 ns |  2.6140 ns |  2.4451 ns |
-| **ChildContainer** | **5.7.1** |   **131.0 ns** |  **1.0502 ns** | **0.9310 ns** |
-|    | | | | |
-|       Object | 4.0.1 | 1,263.6 ns | 18.4935 ns | 16.3940 ns |
-|       Object | 5.6.1 |   794.7 ns |  5.4100 ns |  5.0605 ns |
-|      **Object** | **5.7.1** |   **165.4 ns** |  **3.3337 ns** |  **3.7054 ns** |
-|    | | | | |
-| Unregistered | 4.0.1 | 1,258.5 ns |  8.0816 ns |  7.5595 ns |
-| Unregistered | 5.6.1 |   818.7 ns | 12.8366 ns | 11.3793 ns |
-| **Unregistered** | **5.7.1** |   **175.6 ns** |  **1.9537 ns** |  **1.8275 ns** |
-|    | | | | |
-|    Transient | 4.0.1 | 1,264.0 ns |  3.9698 ns |  3.5192 ns |
-|    Transient | 5.6.1 |   616.6 ns | 11.9444 ns | 13.7551 ns |
-|    **Transient** | **5.7.1** |   **178.0 ns** |  **1.2784 ns** |  **1.1958 ns** |
-|    | | | | |
-|  MappedService | 4.0.1 | 1,361.7 ns |  6.2127 ns |  5.1879 ns |
-|  MappedService | 5.6.1 | 1,004.2 ns |  9.6214 ns |  8.9998 ns |
-|      **MappedService** | **5.7.1** |  **177.9 ns** |  **2.3800 ns** |  **2.1098 ns** |
-|    | | | | |
-|    ReResolve | 4.0.1 | 1,261.5 ns | 12.7684 ns | 11.9436 ns |
-|    ReResolve | 5.6.1 | 1,061.6 ns |  5.1320 ns |  4.5494 ns |
-|    **ReResolve** | **5.7.1** |   **171.5 ns** |  **0.8011 ns** |  **0.6689 ns** |
-|    | | | | |
-|    Singleton | 4.0.1 |   740.4 ns |  3.6187 ns |  3.3849 ns |
-|    Singleton | 5.6.1 |   321.3 ns |  1.7380 ns |  1.6257 ns |
-|    **Singleton** | **5.7.1** |   **129.3 ns** |  **1.6182 ns** |  **1.4345 ns** |
+|       Method |  Version |        Mean |      Error |     StdDev |
+|------------- |--------- |------------:|-----------:|-----------:|
+|    Singleton | 4.0.1  |   455.53 ns |  4.3610 ns |  4.0793 ns |
+|    Singleton | 5.8.13 |   127.87 ns |  0.9838 ns |  0.9203 ns |
+|    Singleton | 5.9.0-rc |    76.19 ns |  0.8752 ns |  0.8187 ns |
+|              |        |             |            |            |
+| Unregistered | 4.0.1  |   893.14 ns |  3.9070 ns |  3.6546 ns |
+| Unregistered | 5.8.13 |   128.18 ns |  1.2329 ns |  1.1532 ns |
+| Unregistered | 5.9.0-rc  |    88.37 ns |  0.8162 ns |  0.7635 ns |
+|              |        |             |            |            |
+|    Transient | 4.0.1  |   906.03 ns |  4.0031 ns |  3.5487 ns |
+|    Transient | 5.8.13 |   143.36 ns |  1.7001 ns |  1.5071 ns |
+|    Transient | 5.9.0-rc  |    96.90 ns |  1.3002 ns |  1.1526 ns |
+|              |        |             |            |            |
+|      Mapping | 4.0.1  |   776.70 ns |  2.3000 ns |  2.1514 ns |
+|      Mapping | 5.8.13 |   141.33 ns |  1.4194 ns |  1.3278 ns |
+|      Mapping | 5.9.0-rc  |   122.58 ns |  2.4451 ns |  2.4014 ns |
+|              |        |             |            |            |
+|        Array | 4.0.1  | 8,725.32 ns | 36.1246 ns | 33.7909 ns |
+|        Array | 5.8.13 |   642.21 ns |  4.4079 ns |  3.9075 ns |
+|        Array | 5.9.0-rc  |   605.97 ns |  5.6593 ns |  5.2937 ns |
+|              |        |             |            |            |
+|   Enumerable | 4.0.1  |          NA |         NA |         NA |
+|   Enumerable | 5.8.13 |   739.89 ns |  3.5254 ns |  3.2977 ns |
+|   Enumerable | 5.9.0-rc  |   669.90 ns |  5.6207 ns |  4.6935 ns |
 
 
 

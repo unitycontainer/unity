@@ -14,11 +14,23 @@
     <copyright>Copyright © Unity Container Project 2018</copyright>
     <tags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</tags>
   </metadata>
-  <dependencies>
-      <group>
-        <dependency id="System.ValueTuple" version="4.5.0" />
+    <dependencies>
+      <group targetFramework=".NET4.0">
+        <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
       </group>
-  </dependencies>  
+      <group targetFramework=".NET4.5">
+        <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NET4.6">
+        <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETCoreApp1.0">
+        <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard1.0">
+        <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
   <files>
     <file src="lib\**" target="lib" exclude="**\*.nupkg" />
   </files>

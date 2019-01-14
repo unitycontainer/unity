@@ -15,7 +15,9 @@
     <tags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</tags>
   </metadata>
   <dependencies>
-      <dependency id="System.ValueTuple" version="4.5.0" />
+      <group targetFramework=".NETCoreApp2.0">
+        <dependency id="System.ValueTuple" version="4.5.0" />
+      </group>
   </dependencies>  
   <files>
     <file src="lib\**" target="lib" exclude="**\*.nupkg" />

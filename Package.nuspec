@@ -5,7 +5,7 @@
     <version>5.9.0-RC</version>
     <authors>Unity Container Project</authors>
     <owners>Unity Container Project</owners>
-    <license>https://github.com/unitycontainer/unity/blob/v5.x/LICENSE</license>
+    <licenseUrl>https://github.com/unitycontainer/unity/blob/v5.x/LICENSE</licenseUrl>
     <projectUrl>https://github.com/unitycontainer/unity</projectUrl>
     <iconUrl>https://avatars1.githubusercontent.com/u/12849707</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

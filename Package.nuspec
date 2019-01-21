@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>Unity</id>
-    <version>5.9.0-RC</version>
+    <version>5.9.0-RC1</version>
     <authors>Unity Container Project</authors>
     <owners>Unity Container Project</owners>
     <licenseUrl>https://github.com/unitycontainer/unity/blob/v5.x/LICENSE</licenseUrl>
     <projectUrl>https://github.com/unitycontainer/unity</projectUrl>
     <iconUrl>https://avatars1.githubusercontent.com/u/12849707</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Unity Container Library as single package</description>
+    <description>This package contains Unity Container and Abstractions libraries as a single package.</description>
     <releaseNotes>Entire Unity Library as single package.</releaseNotes>
     <copyright>Copyright © Unity Container Project 2018</copyright>
     <tags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</tags>

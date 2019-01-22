@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28407.52
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Container", "Container\src\Unity.Container.csproj", "{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}"
 EndProject
@@ -120,10 +120,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Wcf", "WCF\src\Unity.Wcf.csproj", "{1BC08FF5-6B69-4EC3-B087-2D2E62852AAF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Wcf.Tests", "WCF\tests\Unity.Wcf.Tests.csproj", "{6DD20020-9655-4994-A97B-A5F7E2C8664A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wcf", "Wcf", "{E3ED17AC-AFAE-4400-A0A9-2BACA57D38F0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wcf.Service.Unity.Example", "Examples\src\Wcf\Wcf.Service.Unity.Example\Wcf.Service.Unity.Example.csproj", "{A4A256A5-AD8F-4D6F-8720-D9798D0AAA66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -253,10 +249,6 @@ Global
 		{6DD20020-9655-4994-A97B-A5F7E2C8664A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6DD20020-9655-4994-A97B-A5F7E2C8664A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DD20020-9655-4994-A97B-A5F7E2C8664A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4A256A5-AD8F-4D6F-8720-D9798D0AAA66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4A256A5-AD8F-4D6F-8720-D9798D0AAA66}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4A256A5-AD8F-4D6F-8720-D9798D0AAA66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4A256A5-AD8F-4D6F-8720-D9798D0AAA66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -312,8 +304,6 @@ Global
 		{617D3B59-540C-4115-A882-06177C752156} = {F729AD54-CCD9-4BB0-9183-D7C8642D7A46}
 		{1BC08FF5-6B69-4EC3-B087-2D2E62852AAF} = {617D3B59-540C-4115-A882-06177C752156}
 		{6DD20020-9655-4994-A97B-A5F7E2C8664A} = {617D3B59-540C-4115-A882-06177C752156}
-		{E3ED17AC-AFAE-4400-A0A9-2BACA57D38F0} = {46B66CD3-B2AE-4AD3-8BF7-59380C9DD24C}
-		{A4A256A5-AD8F-4D6F-8720-D9798D0AAA66} = {E3ED17AC-AFAE-4400-A0A9-2BACA57D38F0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5AAFE72A-A2F4-4EE5-B3E2-B8E1E4652456}

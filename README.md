@@ -1,6 +1,6 @@
 # Overview
 
-The Unity Container (Unity) is a lightweight, extensible dependency injection container. It facilitates building loosely coupled applications and provides developers with the following advantages:
+The Unity Container (Unity) is a full featured, extensible dependency injection container. It facilitates building loosely coupled applications and provides developers with the following advantages:
 
 * Simplified object creation, especially for hierarchical object structures and dependencies
 * Abstraction of requirements; this allows developers to specify dependencies at run time or in configuration and simplify management of crosscutting concerns

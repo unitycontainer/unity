@@ -9,7 +9,7 @@ The Unity Container (Unity) is a lightweight, extensible dependency injection co
 * Instance and type interception
 * Registration by convention
 
-# Performance Stats for v5.9.0-RC
+# Performance Stats for v5.9.0
 
 This release is all about optimizing performance.  These are the latest benchmarks:
 

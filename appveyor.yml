@@ -14,7 +14,7 @@ before_build:
 - cmd: dotnet restore --verbosity q
 
 build:
-  project: package.sln
+  project: Unity.V5.sln
   parallel: true
   verbosity: minimal
 
@@ -27,7 +27,7 @@ before_test:
 - choco install codecov
   
 test_script:
-- OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test --framework net47 --verbosity q"
+- OpenCover.Console.exe -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:"test --framework net46 --verbosity q"
 
 after_test:
 - codecov -f "results.xml" 

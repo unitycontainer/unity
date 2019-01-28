@@ -18,16 +18,32 @@
         <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NET4.5">
-        <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.ValueTuple"                      version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.0" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NET4.6">
-        <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.ValueTuple"                      version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NET4.7">
+        <dependency id="System.ValueTuple"                      version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.0" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETCoreApp1.0">
-        <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.ValueTuple"                      version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETCoreApp2.0">
+        <dependency id="System.ValueTuple"                      version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.0" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETStandard1.0">
-        <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.ValueTuple"                      version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="System.ValueTuple"                      version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.0" exclude="Build,Analyzers" />
       </group>
     </dependencies>
   </metadata>

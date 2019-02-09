@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Container", "Container\src\Unity.Container.csproj", "{EE1F752C-1FAB-41AD-AD63-857D0E62AB6B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Tests.v5", "Container\tests\Unity.Tests\Unity.Tests.v5.csproj", "{29D42A07-017E-4E9C-A87D-0ABBCAE53798}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Tests", "Container\tests\Unity.Tests\Unity.Tests.csproj", "{29D42A07-017E-4E9C-A87D-0ABBCAE53798}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Tests.v5", "Container\tests\Unity.Specification\Unity.Specification.Tests.v5.csproj", "{EE6E1971-4752-4444-9211-70BDE3CC4014}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Tests", "Container\tests\Unity.Specification\Unity.Specification.Tests.csproj", "{EE6E1971-4752-4444-9211-70BDE3CC4014}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Configuration", "Configuration\src\Unity.Configuration.csproj", "{742111EB-6966-4ACB-AB41-5A281070397A}"
 EndProject
@@ -89,7 +89,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interception", "Interception", "{E21FBE90-2681-4FDF-8C50-EFB55663230E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Tests.v5.Diagnostic", "Container\tests\Unity.Diagnostic\Unity.Specification.Tests.v5.Diagnostic.csproj", "{5F84ACD0-148C-4DE0-ADCA-073B5C66BAD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Tests.Diagnostic", "Container\tests\Unity.Diagnostic\Unity.Specification.Tests.Diagnostic.csproj", "{5F84ACD0-148C-4DE0-ADCA-073B5C66BAD1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E0CD2FB9-F879-4CE0-86B3-6A43ED6CA83D}"
 EndProject

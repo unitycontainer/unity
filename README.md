@@ -129,6 +129,7 @@ To build v6.x locally please follow these steps:
 ## [Documentation](https://unitycontainer.github.io)
 
 The documentation is a work in progress. Some info is available [here](https://unitycontainer.github.io) but more is coming...
+Feel free to [open issues](https://github.com/unitycontainer/documentation/issues) in [Documentation](https://github.com/unitycontainer/documentation) project with all the questions you would like to be covered or questions you might have.
 
 ## Issues and Contributions
 

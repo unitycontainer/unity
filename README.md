@@ -9,7 +9,19 @@ The Unity Container (Unity) is a full featured, extensible dependency injection 
 * Instance and type interception
 * Registration by convention
 
+# Installation
 
+Install Unity with the following command:
+
+```
+Install-Package Unity
+```
+
+Unity 5.x releases do not follow Semantic Versioning — minor releases may introduce breaking changes. [Floating version references](https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files#floating-versions) should lock in the minor version in addition to the major version:
+
+```
+<PackageReference Include="Unity.Container" Version="5.9.*" />
+```
 
 ## [Documentation](https://unitycontainer.github.io)
 
@@ -100,7 +112,7 @@ Version 4.x is dead. Loss of original signing certificate made it impossible to 
 
 ### [v5.x](https://github.com/unitycontainer/unity/tree/v5.x)
 
-Version 5.x is created as replacement for v4.0.1. Assemblies and namespaces are renamed and refactored but otherwise it is compatible with the original. v5.0.0 release fixes most of the issues found in v4.0.1 and implements several optimizations but the accent was on compatibility and if optimization would break API it was omitted. Once stabilized, this version will enter LTS status and will be patched and fixed for the next few years. There will be no significant development in this line.
+Version 5.x is created as replacement for v4.0.1. Assemblies and namespaces are renamed and refactored but otherwise it is compatible with the original. v5.0.0 release fixes most of the issues found in v4.0.1 and implements several optimizations but the emphasis is on compatibility. Once stabilized, this version will enter LTS status and will be patched and fixed for the next few years. v5 minor releases may contain breaking changes, in preparation for v6. There will be no significant development in this line.
 
 To build v5.x locally please follow these steps:
 - `git clone https://github.com/unitycontainer/unity.git`

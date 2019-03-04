@@ -24,9 +24,6 @@ after_build:
 artifacts:
 - path: 'Unity.*.nupkg'
   name: 'Unity'
-
-after_test:
-- cmd: SET
   
 # publish NuGet package on tag build
 deploy:

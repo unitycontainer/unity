@@ -26,9 +26,9 @@ artifacts:
   name: 'Unity'
   
 # publish NuGet package on tag build
-deploy:
-- provider: NuGet
-  api_key:
-    secure: oy2bh5r6l2tktqiulxea6rpj73yb6cgelcmhx4sl5yjd44
-  on:
-    appveyor_repo_tag: true
+#deploy:
+#- provider: NuGet
+#  api_key:
+#    secure: oy2bh5r6l2tktqiulxea6rpj73yb6cgelcmhx4sl5yjd44
+#  on:
+#    appveyor_repo_tag: true

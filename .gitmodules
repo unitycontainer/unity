@@ -64,3 +64,6 @@
 [submodule "WCF"]
 	path = WCF
 	url = https://github.com/unitycontainer/wcf.git
+[submodule "SpecificationTestsAsync"]
+	path = SpecificationTestsAsync
+	url = https://github.com/unitycontainer/specification-tests-async.git

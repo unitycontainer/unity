@@ -8,3 +8,4 @@
 # Prevent merging of README.md
 ###############################################################################
 README.md merge=ours
+.gitmodules merge=ours

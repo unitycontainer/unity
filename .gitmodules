@@ -1,62 +1,68 @@
 [submodule "Abstractions"]
 	path = Abstractions
 	url = ../abstractions.git
-	branch = master
+	branch = develop
 [submodule "Container"]
 	path = Container
 	url = ../container.git
-	branch = master
+	branch = develop
 [submodule "SpecificationTests"]
 	path = SpecificationTests
 	url = ../specification-tests.git
-	branch = master
+	branch = develop
 [submodule "ServiceLocation"]
 	path = ServiceLocation
 	url = ../service-location.git
-	branch = master
+	branch = develop
 [submodule "Configuration"]
 	path = Configuration
 	url = ../configuration.git
-	branch = master
+	branch = develop
 [submodule "Interception"]
 	path = Interception
 	url = ../interception.git
-	branch = master
+	branch = develop
 [submodule "InterceptionConfiguration"]
 	path = InterceptionConfiguration
 	url = ../interception-configuration.git
-	branch = master
+	branch = develop
 [submodule "RegistrationByConvention"]
 	path = RegistrationByConvention
 	url = ../registration-by-convention.git
-	branch = master
+	branch = develop
 [submodule "MVC"]
 	path = MVC
 	url = ../aspnet-mvc.git
-	branch = master
+	branch = develop
 [submodule "WebAPI"]
 	path = WebAPI
 	url = ../aspnet-webapi.git
-	branch = master
+	branch = develop
 [submodule "Microsoft.DependencyInjection"]
 	path = Microsoft.DependencyInjection
 	url = ../microsoft-dependency-injection.git
-	branch = master
+	branch = develop
 [submodule "Log4net"]
 	path = Log4net
 	url = https://github.com/unitycontainer/log4net.git
+	branch = develop
 [submodule "NLog"]
 	path = NLog
 	url = https://github.com/unitycontainer/NLog.git
+	branch = develop
 [submodule "Microsoft.Logging"]
 	path = Microsoft.Logging
 	url = https://github.com/unitycontainer/microsoft-logging.git
+	branch = develop
 [submodule "Examples"]
 	path = Examples
 	url = https://github.com/unitycontainer/examples.git
+	branch = develop
 [submodule "Microsoft.Options"]
 	path = Microsoft.Options
 	url = https://github.com/unitycontainer/microsoft-options.git
+	branch = develop
 [submodule "WCF"]
 	path = WCF
 	url = https://github.com/unitycontainer/wcf.git
+	branch = develop

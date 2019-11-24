@@ -45,18 +45,24 @@
 [submodule "Log4net"]
 	path = Log4net
 	url = https://github.com/unitycontainer/log4net.git
+	branch = master
 [submodule "NLog"]
 	path = NLog
 	url = https://github.com/unitycontainer/NLog.git
+	branch = master
 [submodule "Microsoft.Logging"]
 	path = Microsoft.Logging
 	url = https://github.com/unitycontainer/microsoft-logging.git
+	branch = master
 [submodule "Examples"]
 	path = Examples
 	url = https://github.com/unitycontainer/examples.git
+	branch = master
 [submodule "Microsoft.Options"]
 	path = Microsoft.Options
 	url = https://github.com/unitycontainer/microsoft-options.git
+	branch = master
 [submodule "WCF"]
 	path = WCF
 	url = https://github.com/unitycontainer/wcf.git
+	branch = master

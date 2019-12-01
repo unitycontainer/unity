@@ -10,6 +10,10 @@
 	path = SpecificationTests
 	url = ../specification-tests.git
 	branch = develop
+[submodule "SpecificationTestsAsync"]
+	path = SpecificationTestsAsync
+	url = https://github.com/unitycontainer/specification-tests-async.git
+	branch = develop
 [submodule "ServiceLocation"]
 	path = ServiceLocation
 	url = ../service-location.git

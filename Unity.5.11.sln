@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Interception", "Inter
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Interception.Tests", "Interception\tests\Unity.Interception.Tests.csproj", "{9C18ABA0-B2E2-4FC7-8C07-E52A77D9FE7C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Abstractions", "Abstractions\src\Unity.Abstractions.csproj", "{2A50E743-8817-41DB-BD23-6F9625665EF7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Interception.Configuration", "InterceptionConfiguration\src\Unity.Interception.Configuration.csproj", "{78DD3C52-56DC-49F8-AF34-9D6A9C3AA714}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interception.Configuration.Tests", "InterceptionConfiguration\tests\Interception.Configuration.Tests.csproj", "{B1468EB2-570A-4B90-A549-8B59E438A444}"

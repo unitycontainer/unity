@@ -1,7 +1,3 @@
-[submodule "Abstractions"]
-	path = Abstractions
-	url = ../abstractions.git
-	branch = master
 [submodule "Container"]
 	path = Container
 	url = ../container.git

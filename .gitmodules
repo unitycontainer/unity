@@ -56,3 +56,6 @@
 [submodule "WCF"]
 	path = WCF
 	url = https://github.com/unitycontainer/wcf.git
+[submodule "Abstractions"]
+	path = Abstractions
+	url = https://github.com/unitycontainer/abstractions.git

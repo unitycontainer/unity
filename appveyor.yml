@@ -14,7 +14,7 @@ before_build:
 - cmd: dotnet restore --verbosity q
 
 build:
-  project: Unity.V5.sln
+  project: Unity.5.11.sln
   parallel: true
   verbosity: minimal
 

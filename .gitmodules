@@ -17,15 +17,15 @@
 [submodule "Configuration"]
 	path = Configuration
 	url = ../configuration.git
-	branch = master
+	branch = release/5.11
 [submodule "Interception"]
 	path = Interception
 	url = ../interception.git
-	branch = master
+	branch = release/5.11
 [submodule "InterceptionConfiguration"]
 	path = InterceptionConfiguration
 	url = ../interception-configuration.git
-	branch = master
+	branch = release/5.11
 [submodule "RegistrationByConvention"]
 	path = RegistrationByConvention
 	url = ../registration-by-convention.git

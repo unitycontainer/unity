@@ -1,7 +1,11 @@
+[submodule "Abstractions"]
+	path = Abstractions
+	url = ../abstractions.git
+	branch = release/5.11
 [submodule "Container"]
 	path = Container
 	url = ../container.git
-	branch = master
+	branch = release/5.11
 [submodule "SpecificationTests"]
 	path = SpecificationTests
 	url = ../specification-tests.git
@@ -37,25 +41,22 @@
 [submodule "Microsoft.DependencyInjection"]
 	path = Microsoft.DependencyInjection
 	url = ../microsoft-dependency-injection.git
-	branch = master
+	branch = release/5.11
 [submodule "Log4net"]
 	path = Log4net
-	url = https://github.com/unitycontainer/log4net.git
+	url = ../log4net.git
 [submodule "NLog"]
 	path = NLog
-	url = https://github.com/unitycontainer/NLog.git
+	url = ../NLog.git
 [submodule "Microsoft.Logging"]
 	path = Microsoft.Logging
-	url = https://github.com/unitycontainer/microsoft-logging.git
+	url = ../microsoft-logging.git
 [submodule "Examples"]
 	path = Examples
-	url = https://github.com/unitycontainer/examples.git
+	url = ../examples.git
 [submodule "Microsoft.Options"]
 	path = Microsoft.Options
-	url = https://github.com/unitycontainer/microsoft-options.git
+	url = ../microsoft-options.git
 [submodule "WCF"]
 	path = WCF
-	url = https://github.com/unitycontainer/wcf.git
-[submodule "Abstractions"]
-	path = Abstractions
-	url = https://github.com/unitycontainer/abstractions.git
+	url = ../wcf.git

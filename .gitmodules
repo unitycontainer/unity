@@ -25,7 +25,7 @@
 [submodule "Interception"]
 	path = Interception
 	url = ../interception.git
-	branch = develop
+	branch = vNext
 [submodule "InterceptionConfiguration"]
 	path = InterceptionConfiguration
 	url = ../interception-configuration.git

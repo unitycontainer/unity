@@ -109,15 +109,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Wcf", "WCF\src\Unity.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Wcf.Tests", "WCF\tests\Unity.Wcf.Tests.csproj", "{6DD20020-9655-4994-A97B-A5F7E2C8664A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Specification", "Specification\Container\optimized\Container.Specification.csproj", "{800A2892-272D-4A8E-B2C5-1FE0093D9345}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container", "Specification\Container\optimized\Container.csproj", "{800A2892-272D-4A8E-B2C5-1FE0093D9345}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Specification.Diagnostic", "Specification\Container\diagnostic\Container.Specification.Diagnostic.csproj", "{FDEB6F68-84CF-4843-A214-1DA0A84E8B67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Diagnostic", "Specification\Container\diagnostic\Container.Diagnostic.csproj", "{FDEB6F68-84CF-4843-A214-1DA0A84E8B67}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Specification.Container", "Container\tests\Specification\Optimized\Specification.Container.csproj", "{DF0D6789-5A85-448E-A026-76158A7610B6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Specification.Container.Diagnostic", "Container\tests\Specification\Diagnostic\Specification.Container.Diagnostic.csproj", "{CCB8C4F9-B7E6-40A5-AFDB-F0540C49EFA3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Tests", "Specification\Base\Unity.Specification.Tests.csproj", "{9C5259B5-C79B-40B2-A54F-E19B251DBB77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification", "Specification\Base\Unity.Specification.csproj", "{9C5259B5-C79B-40B2-A54F-E19B251DBB77}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interception", "Specification\Interception\optimized\Interception.csproj", "{8D78559D-38C4-4358-9266-165615A49643}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interception.Diagnostic", "Specification\Interception\diagnostic\Interception.Diagnostic.csproj", "{E371F541-455F-4517-922F-CE3CAAE22A1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -252,6 +256,14 @@ Global
 		{9C5259B5-C79B-40B2-A54F-E19B251DBB77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C5259B5-C79B-40B2-A54F-E19B251DBB77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C5259B5-C79B-40B2-A54F-E19B251DBB77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D78559D-38C4-4358-9266-165615A49643}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D78559D-38C4-4358-9266-165615A49643}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D78559D-38C4-4358-9266-165615A49643}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D78559D-38C4-4358-9266-165615A49643}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E371F541-455F-4517-922F-CE3CAAE22A1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E371F541-455F-4517-922F-CE3CAAE22A1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E371F541-455F-4517-922F-CE3CAAE22A1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E371F541-455F-4517-922F-CE3CAAE22A1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -306,6 +318,8 @@ Global
 		{DF0D6789-5A85-448E-A026-76158A7610B6} = {BF3AB5C4-79AF-4A82-8D53-B4DA476D363F}
 		{CCB8C4F9-B7E6-40A5-AFDB-F0540C49EFA3} = {BF3AB5C4-79AF-4A82-8D53-B4DA476D363F}
 		{9C5259B5-C79B-40B2-A54F-E19B251DBB77} = {F8CC6AB5-0A31-4DD5-9926-72CCC64E34F7}
+		{8D78559D-38C4-4358-9266-165615A49643} = {F8CC6AB5-0A31-4DD5-9926-72CCC64E34F7}
+		{E371F541-455F-4517-922F-CE3CAAE22A1D} = {F8CC6AB5-0A31-4DD5-9926-72CCC64E34F7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5AAFE72A-A2F4-4EE5-B3E2-B8E1E4652456}

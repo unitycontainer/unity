@@ -6,6 +6,10 @@
 	path = Container
 	url = ../container.git
 	branch = develop
+[submodule "Specification"]
+	path = Specification
+	url = ../specification-tests.git
+	branch = develop
 [submodule "SpecificationTests"]
 	path = SpecificationTests
 	url = ../specification-tests.git

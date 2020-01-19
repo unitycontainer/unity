@@ -113,9 +113,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Specification", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Specification.Diagnostic", "Specification\Container\diagnostic\Container.Specification.Diagnostic.csproj", "{FDEB6F68-84CF-4843-A214-1DA0A84E8B67}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Specification.Tests", "Container\tests\Specification\Optimized\Container.Specification.Tests.csproj", "{DF0D6789-5A85-448E-A026-76158A7610B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Specification.Container", "Container\tests\Specification\Optimized\Specification.Container.csproj", "{DF0D6789-5A85-448E-A026-76158A7610B6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Specification.Tests.Diagnostic", "Container\tests\Specification\Diagnostic\Container.Specification.Tests.Diagnostic.csproj", "{CCB8C4F9-B7E6-40A5-AFDB-F0540C49EFA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Specification.Container.Diagnostic", "Container\tests\Specification\Diagnostic\Specification.Container.Diagnostic.csproj", "{CCB8C4F9-B7E6-40A5-AFDB-F0540C49EFA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

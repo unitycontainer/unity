@@ -6,10 +6,6 @@
 	path = Container
 	url = ../container.git
 	branch = vNext
-[submodule "SpecificationTests"]
-	path = SpecificationTests
-	url = ../specification-tests.git
-	branch = develop
 [submodule "SpecificationTestsAsync"]
 	path = SpecificationTestsAsync
 	url = https://github.com/unitycontainer/specification-tests-async.git
@@ -70,3 +66,6 @@
 	path = WCF
 	url = https://github.com/unitycontainer/wcf.git
 	branch = develop
+[submodule "Specification"]
+	path = Specification
+	url = https://github.com/unitycontainer/specification-tests.git

@@ -117,6 +117,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Specification.Container", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Specification.Container.Diagnostic", "Container\tests\Specification\Diagnostic\Specification.Container.Diagnostic.csproj", "{CCB8C4F9-B7E6-40A5-AFDB-F0540C49EFA3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Tests", "Specification\Base\Unity.Specification.Tests.csproj", "{9C5259B5-C79B-40B2-A54F-E19B251DBB77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -246,6 +248,10 @@ Global
 		{CCB8C4F9-B7E6-40A5-AFDB-F0540C49EFA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCB8C4F9-B7E6-40A5-AFDB-F0540C49EFA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCB8C4F9-B7E6-40A5-AFDB-F0540C49EFA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C5259B5-C79B-40B2-A54F-E19B251DBB77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C5259B5-C79B-40B2-A54F-E19B251DBB77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C5259B5-C79B-40B2-A54F-E19B251DBB77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C5259B5-C79B-40B2-A54F-E19B251DBB77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -299,6 +305,7 @@ Global
 		{FDEB6F68-84CF-4843-A214-1DA0A84E8B67} = {F8CC6AB5-0A31-4DD5-9926-72CCC64E34F7}
 		{DF0D6789-5A85-448E-A026-76158A7610B6} = {BF3AB5C4-79AF-4A82-8D53-B4DA476D363F}
 		{CCB8C4F9-B7E6-40A5-AFDB-F0540C49EFA3} = {BF3AB5C4-79AF-4A82-8D53-B4DA476D363F}
+		{9C5259B5-C79B-40B2-A54F-E19B251DBB77} = {F8CC6AB5-0A31-4DD5-9926-72CCC64E34F7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5AAFE72A-A2F4-4EE5-B3E2-B8E1E4652456}

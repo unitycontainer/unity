@@ -10,10 +10,6 @@
 	path = Specification
 	url = ../specification-tests.git
 	branch = develop
-[submodule "SpecificationTests"]
-	path = SpecificationTests
-	url = ../specification-tests.git
-	branch = develop
 [submodule "ServiceLocation"]
 	path = ServiceLocation
 	url = ../service-location.git

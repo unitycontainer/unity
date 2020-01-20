@@ -6,9 +6,13 @@
 	path = Container
 	url = ../container.git
 	branch = vNext
+[submodule "Specification"]
+	path = Specification
+	url = ../specification-tests.git
+	branch = develop
 [submodule "SpecificationTestsAsync"]
 	path = SpecificationTestsAsync
-	url = https://github.com/unitycontainer/specification-tests-async.git
+	url = ../specification-tests-async.git
 	branch = develop
 [submodule "ServiceLocation"]
 	path = ServiceLocation
@@ -44,28 +48,25 @@
 	branch = develop
 [submodule "Log4net"]
 	path = Log4net
-	url = https://github.com/unitycontainer/log4net.git
+	url = ../log4net.git
 	branch = develop
 [submodule "NLog"]
 	path = NLog
-	url = https://github.com/unitycontainer/NLog.git
+	url = ../NLog.git
 	branch = develop
 [submodule "Microsoft.Logging"]
 	path = Microsoft.Logging
-	url = https://github.com/unitycontainer/microsoft-logging.git
+	url = ../microsoft-logging.git
 	branch = develop
 [submodule "Examples"]
 	path = Examples
-	url = https://github.com/unitycontainer/examples.git
+	url = ../examples.git
 	branch = develop
 [submodule "Microsoft.Options"]
 	path = Microsoft.Options
-	url = https://github.com/unitycontainer/microsoft-options.git
+	url = ../microsoft-options.git
 	branch = develop
 [submodule "WCF"]
 	path = WCF
-	url = https://github.com/unitycontainer/wcf.git
+	url = ../wcf.git
 	branch = develop
-[submodule "Specification"]
-	path = Specification
-	url = https://github.com/unitycontainer/specification-tests.git

@@ -66,3 +66,6 @@
 	path = WCF
 	url = https://github.com/unitycontainer/wcf.git
 	branch = develop
+[submodule "Documentation"]
+	path = Documentation
+	url = https://github.com/unitycontainer/documentation.git

@@ -1,5 +1,3 @@
-[![Board Status](https://dev.azure.com/unitycontainer/21707050-1d42-4143-9d57-915bf413996f/135434ba-7b8c-4ecc-84b8-eef4c44f9e3c/_apis/work/boardbadge/7e4bebe6-04e7-416d-93e5-ed5f495a4d46?columnOptions=1)](https://dev.azure.com/unitycontainer/21707050-1d42-4143-9d57-915bf413996f/_boards/board/t/135434ba-7b8c-4ecc-84b8-eef4c44f9e3c/Microsoft.FeatureCategory/)
-[![Board Status](https://dev.azure.com/unitycontainer/21707050-1d42-4143-9d57-915bf413996f/135434ba-7b8c-4ecc-84b8-eef4c44f9e3c/_apis/work/boardbadge/d5e409bb-2dff-42c7-9d7b-dcd0caf0f0f0?columnOptions=1)](https://dev.azure.com/unitycontainer/21707050-1d42-4143-9d57-915bf413996f/_boards/board/t/135434ba-7b8c-4ecc-84b8-eef4c44f9e3c/Microsoft.RequirementCategory/)
 
 # Overview
 

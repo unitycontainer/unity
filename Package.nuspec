@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This package contains Unity Container and Abstractions libraries as a single package.</description>
     <releaseNotes>Entire Unity Library as single package. This is a convenience package containing both Unity.Abstractions and Unity.Container assemblies. This package is distributed for these who do now wish to separate declarations and implementation. </releaseNotes>
-    <copyright>Copyright © Unity Container Project 2018</copyright>
+    <Copyright>Copyright © .NET Foundation and Contributors. All Rights Reserved</Copyright>
     <tags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</tags>
     <dependencies>
       <group targetFramework=".NET4.0">

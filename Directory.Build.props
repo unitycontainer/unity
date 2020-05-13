@@ -1,0 +1,5 @@
+<Project>
+ <PropertyGroup>
+  <AddSyntheticProjectReferencesForSolutionDependencies>false</AddSyntheticProjectReferencesForSolutionDependencies>
+ </PropertyGroup>
+</Project>

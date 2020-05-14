@@ -65,7 +65,7 @@ This project has adopted the code of conduct defined by the [Contributor Covenan
 
 ## Contributing
 
-See the [Contributing guide](https://github.com/unitycontainer/unity/CONTRIBUTING.md) for developer documentation.
+See the [Contributing guide](https://github.com/unitycontainer/unity/blob/master/CONTRIBUTING.md) for more information.
 
 ## .NET Foundation
 

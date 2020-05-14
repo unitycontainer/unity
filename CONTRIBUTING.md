@@ -1,12 +1,13 @@
-# Contribution to .NET Runtime
+# Contribution to Unity Container libraries
 
-You can contribute to Unity Container with issues and PRs. Simply filing issues for problems you encounter is a great way to contribute. Contributing implementations is greatly appreciated.
+You can contribute to Unity Container with issues and PRs. Simply filing issues for problems you encounter is a great way to contribute. Contributing implementations is even better.
 
-## Contribution "Bar"
+## The Contribution
 
-Project maintainers will merge changes that improve the product significantly and broadly and that align with the roadmap.
+Project maintainers will merge changes that improve the product significantly and broadly and that align with the feature roadmap.
+Maintainers will not merge changes that have narrowly-defined benefits, due to compatibility risk.
 
-Maintainers will not merge changes that have narrowly-defined benefits, due to compatibility risk. The Unity Container codebase is used by many companies and  products and we reserve right to revert changes if they are found to be breaking.
+The Unity Container is used by many companies and products and we reserve right to revert changes if they are found to be breaking.
 
 Contributions must also satisfy the other published guidelines defined in this document.
 
@@ -14,7 +15,7 @@ Contributions must also satisfy the other published guidelines defined in this d
 
 Please do:
 
-* **DO** please follow generally accepted [coding styles](https://github.com/dotnet/runtime/blob/master/docs/coding-guidelines/coding-style.md) (C# code-specific)
+* **DO** follow generally accepted [coding styles](https://github.com/dotnet/runtime/blob/master/docs/coding-guidelines/coding-style.md) (C# code-specific)
 * **DO** give priority to the current style of the project or file you're changing even if it diverges from the general guidelines.
 * **DO** include tests when adding new features. When fixing bugs, start with
   adding a test that highlights how the current behavior is broken.

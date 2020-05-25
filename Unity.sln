@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Microsoft.DependencyI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Microsoft.DependencyInjection.Tests", "Microsoft.DependencyInjection\tests\Unity.Microsoft.DependencyInjection.Tests.csproj", "{D6FC1017-5FBF-42F8-AEC3-3B209E906829}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification", "SpecificationTests\src\Unity.Specification.csproj", "{DBEC49D6-88ED-4717-A827-23BADE3DC5E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification", "SpecificationTests\optimized\Unity.Specification.csproj", "{DBEC49D6-88ED-4717-A827-23BADE3DC5E1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Diagnostic", "SpecificationTests\diagnostic\Unity.Specification.Diagnostic.csproj", "{510FC085-87EF-4EB8-85EB-6C1E0F629313}"
 EndProject

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Unity</id>
-    <version>5.11.1</version>
+    <version>5.11.7</version>
     <authors>Unity Container Project</authors>
     <owners>Unity Container Project</owners>
     <licenseUrl>https://github.com/unitycontainer/unity/blob/v5.x/LICENSE</licenseUrl>

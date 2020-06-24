@@ -66,3 +66,6 @@
 	path = WCF
 	url = https://github.com/unitycontainer/wcf.git
 	branch = master
+[submodule "RegressionTests"]
+	path = RegressionTests
+	url = ../regression-tests.git

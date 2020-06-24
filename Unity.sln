@@ -123,6 +123,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Wcf.Tests", "WCF\test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Abstractions.Tests", "Abstractions\tests\Unity.Abstractions.Tests.csproj", "{FF051D8E-0EB6-4147-8489-75F395FB86DF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Regression", "Regression", "{0DC0A48B-0203-458A-855A-57B00D4B57EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Regression.Tests", "RegressionTests\Unity.Regression.Tests.csproj", "{C29F47B9-90EA-45CF-9E1B-78F54F63AEB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -255,6 +259,10 @@ Global
 		{FF051D8E-0EB6-4147-8489-75F395FB86DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF051D8E-0EB6-4147-8489-75F395FB86DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF051D8E-0EB6-4147-8489-75F395FB86DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C29F47B9-90EA-45CF-9E1B-78F54F63AEB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C29F47B9-90EA-45CF-9E1B-78F54F63AEB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C29F47B9-90EA-45CF-9E1B-78F54F63AEB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C29F47B9-90EA-45CF-9E1B-78F54F63AEB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -311,6 +319,7 @@ Global
 		{1BC08FF5-6B69-4EC3-B087-2D2E62852AAF} = {617D3B59-540C-4115-A882-06177C752156}
 		{6DD20020-9655-4994-A97B-A5F7E2C8664A} = {617D3B59-540C-4115-A882-06177C752156}
 		{FF051D8E-0EB6-4147-8489-75F395FB86DF} = {36CF625B-E753-47E8-867B-0AA5E2D18783}
+		{C29F47B9-90EA-45CF-9E1B-78F54F63AEB7} = {0DC0A48B-0203-458A-855A-57B00D4B57EB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5AAFE72A-A2F4-4EE5-B3E2-B8E1E4652456}

@@ -16,7 +16,7 @@ The following table tracks release dates and end of support dates Unity versions
 
 Version   | Release Date | Latest Patch Version | Support Level | End of Support
 ---       | ---:         | ---:                 | :---          | :---
-Unity 6.0 | TBD          |                      | Current       | TBD
+Unity 6.0 | TBD          | 6.0.0                | Development   | TBD
 Unity 5.11| March 2019   | 5.11.10              | LTS           | 3 months after 6.0.0 release
 
 ### Out of support versions

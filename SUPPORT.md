@@ -1,10 +1,10 @@
 # Unity Container support policy
 
-## What's covered
-
 `Unity Container` refer to several technologies including the container, and several core libraries.
 
 Every software product has a lifecycle. The lifecycle begins when a product is released and ends when it's no longer supported. Knowing key dates in this lifecycle helps you make informed decisions about when to upgrade or make other changes to your software. This product is based on Microsoft's [Modern Lifecycle Policy](https://docs.microsoft.com/en-US/lifecycle/faq/modern-policy).
+
+## What's covered
 
 The Unity Container support lifecycle offers support for each release. The length of time and degree of support vary based on a few qualifications.
 

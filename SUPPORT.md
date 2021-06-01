@@ -1,7 +1,5 @@
 # Unity Container support policy
 
-`Unity Container` refer to several technologies including the container, and several core libraries.
-
 Every software product has a lifecycle. The lifecycle begins when a product is released and ends when it's no longer supported. Knowing key dates in this lifecycle helps you make informed decisions about when to upgrade or make other changes to your software. This product is based on Microsoft's [Modern Lifecycle Policy](https://docs.microsoft.com/en-US/lifecycle/faq/modern-policy).
 
 ## What's covered
@@ -10,9 +8,9 @@ The Unity Container support lifecycle offers support for each release. The lengt
 
 ## Unity Container release lifecycle
 
-### Supported versions
+The following tables tracks release dates and end of support dates Unity versions.
 
-The following table tracks release dates and end of support dates Unity versions.
+### Supported versions
 
 Version   | Release Date | Latest Patch Version | Support Level | End of Support
 ---       | ---:         | ---:                 | :---          | :---
@@ -20,8 +18,6 @@ Unity 6.0 | [TBD](SUSTAINABILITY.md) | 6.0.0                | Development   | TB
 Unity 5.11| March 2019   | 5.11.10              | LTS           | 3 months after 6.0.0 release
 
 ### Out of support versions
-
-The following table lists versions no longer supported.
 
 Version| Release Date |Latest Patch Version
 ---| ---: | ---:

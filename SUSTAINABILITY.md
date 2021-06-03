@@ -3,12 +3,11 @@
 Since release in 2008, until it was abandoned in 2013, Unity became defacto IoC standard. Projects, large and small, used Unity to implement systems ranging from simple UI apps (Prism library encouraged it) to multi-billion dollar trading systems.
 
 By the nature of the technology, dependency injection container is always at the core of each system and provides critical functionality for the entire implementation. If it fails, entire system fails.
-The stability and quality of the code is paramount!
+Obviously Unity Container is not a hobby project, a lot of businesses heavily depend on it for day to day operation. The stability and quality of the code is paramount.
 
 ## Project is not sustainable
 
-Unity Container is not a hobby project, a lot of businesses heavily depend on it for day to day operation. Unfortunately, ever since it was released into Open Source domain, it was supported by just a handful of people at their leisure time.
-Being rather complicated, but free software also presented the following challenges:
+Unfortunately, ever since it was released into Open Source domain, it was supported by just a handful of people at their leisure time. Being complicated, but free software presented the following challenges:
 
 - No one wants to pay for free software
 

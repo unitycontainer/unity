@@ -17,7 +17,6 @@ See [more announcements](https://twitter.com/UnityContainer)
 
 Unity library consists of multiple packages. For information about each package please follow the links
 
----
 Package  | License       | Version       | Downloads
 -------- | :------------ | :------------ | :------------
 Unity (Composite) | [![License](https://img.shields.io/github/license/unitycontainer/unity.svg)](https://github.com/unitycontainer/unity/blob/master/LICENSE) | [![NuGet](https://img.shields.io/nuget/v/Unity.svg)](https://www.nuget.org/packages/Unity) | [![NuGet](https://img.shields.io/nuget/dt/Unity.svg)](https://www.nuget.org/packages/Unity)

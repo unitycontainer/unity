@@ -3,6 +3,14 @@
 
 The Unity Container (Unity) is a full featured, extensible dependency injection container. It facilitates building loosely coupled applications and provides developers with host of other useful features. For more information see [documentation](http://unitycontainer.org/articles/introduction.html).
 
+## Announcements
+
+Date       | Announcement
+:--------  | :------------
+01/06/2021 | While developing Unity v6 several bugs were uncovered by the team. Since v6 is still in early beta it has been decided to release [Unity v5.12](https://github.com/orgs/unitycontainer/projects/5) to fix these issues. For more information follow this [project](https://github.com/orgs/unitycontainer/projects/5).
+01/05/2020 | Unity team is starting work on [Unity v6 release](https://github.com/unitycontainer/unity/tree/release/6.0.0). To track progress follow [this project](https://github.com/orgs/unitycontainer/projects/3).
+14/05/2020 | Starting May 2020 Unity Container is a [.NET Foundation](https://dotnetfoundation.org/projects/unitycontainer) project.
+
 
 ## Packages & Status
 

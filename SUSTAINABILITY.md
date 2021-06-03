@@ -19,9 +19,9 @@ As you can see, existing support scheme is no longer adequate. To continue suppo
 
 ## Sustainability by Community Support
 
-In order for the project to survive and continue development, Unity must by financially sustainable. Please provide your opinion on the subject in this [discussion](https://github.com/unitycontainer/unity/discussions/368).
+In order for the project to survive and continue development, Unity must by financially sustainable. To discuss and decide on the best way of supporting the library, this [discussion](https://github.com/unitycontainer/unity/discussions/368) has been created.
 
-Meanwhile, until better solution is found, everyone who uses Unity commercially, must contribute. A contribution may by:
+Meanwhile, until better solution is found, everyone who uses Unity must contribute. A contribution may by:
 
 - contributing [code](https://github.com/unitycontainer/unity/blob/master/CONTRIBUTING.md) or [bug fixes](https://github.com/unitycontainer/unity/blob/master/CONTRIBUTING.md)
 - documentation

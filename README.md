@@ -5,7 +5,7 @@ The Unity Container (Unity) is a full featured, extensible dependency injection 
 
 ## Announcements
 
-- While developing Unity v6 several bugs were uncovered by the team. Since v6 is still in early beta it has been decided to release [Unity v5.12](https://github.com/orgs/unitycontainer/projects/5) to fix these issues. For more information follow this [project](https://github.com/orgs/unitycontainer/projects/5).
+- While developing Unity v6 several bugs were uncovered by the team. Since v6 is still in early beta it has been decided to release [Unity v5.12](https://github.com/unitycontainer/unity/tree/release/5.12.0) to fix these issues. For more information follow this [project](https://github.com/orgs/unitycontainer/projects/5).
 
 - Unity team is starting work on [Unity v6 release](https://github.com/unitycontainer/unity/tree/release/6.0.0). To track progress follow [this project](https://github.com/orgs/unitycontainer/projects/3).
 
@@ -47,4 +47,3 @@ See the [Contributing guide](https://github.com/unitycontainer/unity/blob/master
 ## .NET Foundation
 
 Unity Container is a [.NET Foundation](https://dotnetfoundation.org/projects/unitycontainer) project.
-

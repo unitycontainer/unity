@@ -2,7 +2,7 @@
 
 Since release in 2008, until it was abandoned in 2013, Unity became defacto IoC standard. Projects, large and small, used Unity to implement systems ranging from simple UI apps (Prism library encouraged it) to multi-billion dollar trading systems.
 
-By the nature of the technology, dependency injection container places at the core of each developed system and provides critical functionality for the entire implementation. If it fails, entire system fails.
+By the nature of the technology, dependency injection container is always at the core of each system and provides critical functionality for the entire implementation. If it fails, entire system fails.
 The stability and quality of the code is paramount!
 
 ## Project is not sustainable

@@ -15,7 +15,7 @@ Unfortunately, ever since it was released into Open Source domain, it was suppor
 
 - With accelerated frequency of .NET releases work being done on the library [rapidly deprecated](https://github.com/unitycontainer/container/issues/312) by new releases
 
-Existing support scheme is no longer sustainable. To continue support and development of Unity the user community must help.
+As you can see, existing support scheme is no longer sustainable. To continue support and development of Unity the user community must help.
 
 ## Sustainability by Community Support
 

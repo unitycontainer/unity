@@ -3,30 +3,6 @@
 
 The Unity Container (Unity) is a full featured, extensible dependency injection container. It facilitates building loosely coupled applications and provides developers with host of other useful features. For more information see [documentation](http://unitycontainer.org/articles/introduction.html).
 
-## Installation
-
-Install Unity with the following command:
-
-```shell
-Install-Package Unity
-```
-
-Unity 5.x loosely follows Semantic Versioning — minor releases may introduce breaking changes. [Floating version references](https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files#floating-versions) should lock in the minor version in addition to the major version:
-
-```xml
-<PackageReference Include="Unity.Container" Version="5.x.*" />
-```
-
-## [Documentation](https://unitycontainer.github.io)
-
-The documentation is a work in progress. Some info is available [here](https://unitycontainer.github.io) but more is coming...
-Feel free to [open issues](https://github.com/unitycontainer/documentation/issues) in [Documentation](https://github.com/unitycontainer/documentation) project with all the questions you would like to be covered or questions you might have.
-
-## New Features
-
-[**Suggest**](https://feathub.com/unitycontainer/unity/features/new) new features or vote for the proposals you like, [**ADD**](https://feathub.com/unitycontainer/unity/features/new) your comments:
-
-[![Feature Requests](http://feathub.com/unitycontainer/unity?format=svg)](http://feathub.com/unitycontainer/unity)
 
 ## Packages & Status
 

@@ -11,7 +11,7 @@ Unfortunately, ever since it was released into Open Source domain, it was suppor
 
 - No one wants to pay for free software
 
-- Implementing any DI container is not a trivial task, the learning curve is steep. Finding people interested in learning internals and contributing to the project without being paid is next to impossible
+- Working on the container is not a trivial task, the learning curve is steep. Finding people interested in learning internals and contributing to the project without being paid is next to impossible
 
 - With accelerated frequency of .NET releases work being done on the library [rapidly deprecated](https://github.com/unitycontainer/container/issues/312) by new releases
 

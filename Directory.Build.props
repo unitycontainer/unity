@@ -1,5 +1,5 @@
 <Project>
- <PropertyGroup>
-  <AddSyntheticProjectReferencesForSolutionDependencies>false</AddSyntheticProjectReferencesForSolutionDependencies>
- </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework Condition=" '$(TargetFramework)' == '' ">net48</TargetFramework>
+  </PropertyGroup>
 </Project>

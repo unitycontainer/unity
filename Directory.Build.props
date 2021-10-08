@@ -1,5 +1,0 @@
-<Project>
-  <PropertyGroup>
-    <TargetFramework Condition=" '$(TargetFramework)' == '' ">net48</TargetFramework>
-  </PropertyGroup>
-</Project>

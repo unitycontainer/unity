@@ -1,68 +1,68 @@
 [submodule "Abstractions"]
 	path = Abstractions
 	url = ../abstractions.git
-	branch = develop
+	branch = prototype/develop
 [submodule "Container"]
 	path = Container
 	url = ../container.git
-	branch = develop
+	branch = prototype/develop
 [submodule "Specification"]
 	path = Specification
 	url = ../specification-tests.git
-	branch = develop
+	branch = prototype/develop
 [submodule "ServiceLocation"]
 	path = ServiceLocation
 	url = ../service-location.git
-	branch = develop
+	branch = prototype/develop
 [submodule "Configuration"]
 	path = Configuration
 	url = ../configuration.git
-	branch = develop
+	branch = prototype/develop
 [submodule "Interception"]
 	path = Interception
 	url = ../interception.git
-	branch = develop
+	branch = prototype/develop
 [submodule "InterceptionConfiguration"]
 	path = InterceptionConfiguration
 	url = ../interception-configuration.git
-	branch = develop
+	branch = prototype/develop
 [submodule "RegistrationByConvention"]
 	path = RegistrationByConvention
 	url = ../registration-by-convention.git
-	branch = develop
+	branch = prototype/develop
 [submodule "MVC"]
 	path = MVC
 	url = ../aspnet-mvc.git
-	branch = develop
+	branch = prototype/develop
 [submodule "WebAPI"]
 	path = WebAPI
 	url = ../aspnet-webapi.git
-	branch = develop
+	branch = prototype/develop
 [submodule "Microsoft.DependencyInjection"]
 	path = Microsoft.DependencyInjection
 	url = ../microsoft-dependency-injection.git
-	branch = develop
+	branch = prototype/develop
 [submodule "Log4net"]
 	path = Log4net
-	url = https://github.com/unitycontainer/log4net.git
-	branch = develop
+	url = ../log4net.git
+	branch = prototype/develop
 [submodule "NLog"]
 	path = NLog
-	url = https://github.com/unitycontainer/NLog.git
-	branch = develop
+	url = ../NLog.git
+	branch = prototype/develop
 [submodule "Microsoft.Logging"]
 	path = Microsoft.Logging
-	url = https://github.com/unitycontainer/microsoft-logging.git
-	branch = develop
+	url = ../microsoft-logging.git
+	branch = prototype/develop
 [submodule "Examples"]
 	path = Examples
-	url = https://github.com/unitycontainer/examples.git
-	branch = develop
+	url = ../examples.git
+	branch = prototype/develop
 [submodule "Microsoft.Options"]
 	path = Microsoft.Options
-	url = https://github.com/unitycontainer/microsoft-options.git
-	branch = develop
+	url = ../microsoft-options.git
+	branch = prototype/develop
 [submodule "WCF"]
 	path = WCF
-	url = https://github.com/unitycontainer/wcf.git
-	branch = develop
+	url = ../wcf.git
+	branch = prototype/develop

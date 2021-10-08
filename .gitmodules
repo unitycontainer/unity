@@ -1,0 +1,24 @@
+[submodule "SpecificationTests"]
+	path = SpecificationTests
+	url = https://github.com/unitycontainer/specification-tests.git
+	branch = prototype/newport
+[submodule "ContainerRegressionTests"]
+	path = ContainerRegressionTests
+	url = https://github.com/unitycontainer/container-regression-tests.git
+	branch = prototype/newport
+[submodule "container-benchmarks"]
+	path = container-benchmarks
+	url = https://github.com/unitycontainer/container-benchmarks.git
+	branch = prototype/newport
+[submodule "Container"]
+	path = Container
+	url = https://github.com/unitycontainer/container.git
+	branch = prototype/newport
+[submodule "Interception"]
+	path = Interception
+	url = https://github.com/unitycontainer/interception.git
+	branch = prototype/newport
+[submodule "Professional"]
+	path = Professional
+	url = https://github.com/unitycontainer/professional.git
+	branch = prototype/newport

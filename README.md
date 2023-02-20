@@ -29,12 +29,6 @@ Unity 5.x loosely follows Semantic Versioning — minor releases may introduce b
 The documentation is a work in progress. Some info is available [here](https://unitycontainer.github.io) but more is coming...
 Feel free to [open issues](https://github.com/unitycontainer/documentation/issues) in [Documentation](https://github.com/unitycontainer/documentation) project with all the questions you would like to be covered or questions you might have.
 
-## New Features
-
-[**Suggest**](https://feathub.com/unitycontainer/unity/features/new) new features or vote for the proposals you like, [**ADD**](https://feathub.com/unitycontainer/unity/features/new) your comments:
-
-[![Feature Requests](http://feathub.com/unitycontainer/unity?format=svg)](http://feathub.com/unitycontainer/unity)
-
 ## Packages & Status
 
 Unity library consists of multiple packages. For information about each package please follow the links

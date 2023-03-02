@@ -1,71 +1,42 @@
 [submodule "Abstractions"]
 	path = Abstractions
 	url = ../abstractions.git
-	branch = master
 [submodule "Container"]
 	path = Container
 	url = ../container.git
-	branch = master
 [submodule "SpecificationTests"]
 	path = SpecificationTests
 	url = ../specification-tests.git
-	branch = master
 [submodule "ServiceLocation"]
 	path = ServiceLocation
 	url = ../service-location.git
-	branch = master
 [submodule "Configuration"]
 	path = Configuration
 	url = ../configuration.git
-	branch = master
 [submodule "Interception"]
 	path = Interception
 	url = ../interception.git
-	branch = master
 [submodule "InterceptionConfiguration"]
 	path = InterceptionConfiguration
 	url = ../interception-configuration.git
-	branch = master
 [submodule "RegistrationByConvention"]
 	path = RegistrationByConvention
 	url = ../registration-by-convention.git
-	branch = master
-[submodule "MVC"]
-	path = MVC
-	url = ../aspnet-mvc.git
-	branch = master
-[submodule "WebAPI"]
-	path = WebAPI
-	url = ../aspnet-webapi.git
-	branch = master
 [submodule "Microsoft.DependencyInjection"]
 	path = Microsoft.DependencyInjection
 	url = ../microsoft-dependency-injection.git
-	branch = master
 [submodule "Log4net"]
 	path = Log4net
-	url = https://github.com/unitycontainer/log4net.git
-	branch = master
+	url = ../log4net.git
 [submodule "NLog"]
 	path = NLog
-	url = https://github.com/unitycontainer/NLog.git
-	branch = master
+	url = ../NLog.git
 [submodule "Microsoft.Logging"]
 	path = Microsoft.Logging
-	url = https://github.com/unitycontainer/microsoft-logging.git
-	branch = master
+	url = ../microsoft-logging.git
 [submodule "Examples"]
 	path = Examples
-	url = https://github.com/unitycontainer/examples.git
-	branch = master
-[submodule "Microsoft.Options"]
-	path = Microsoft.Options
-	url = https://github.com/unitycontainer/microsoft-options.git
-	branch = master
-[submodule "WCF"]
-	path = WCF
-	url = https://github.com/unitycontainer/wcf.git
-	branch = master
+	url = ../examples.git
 [submodule "RegressionTests"]
 	path = RegressionTests
 	url = ../regression-tests.git

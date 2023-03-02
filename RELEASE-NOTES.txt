@@ -1,0 +1,5 @@
+Due to discontinued support from Microsoft, the following projects/libraries were deprecated: 
+ - Unity.WCF
+ - Unity.MVC
+ - Unity.AspNet.WebApi
+ - Unity.Microsoft.Options

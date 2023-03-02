@@ -14,28 +14,14 @@
     <copyright>Copyright © .NET Foundation and Contributors. All Rights Reserved</copyright>
     <tags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</tags>
     <dependencies>
-      <group targetFramework=".NET4.0">
-      </group>
-      <group targetFramework=".NET4.5">
-        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.2" exclude="Build,Analyzers" />
-      </group>
-      <group targetFramework=".NET4.6">
-        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.2" exclude="Build,Analyzers" />
-      </group>
-      <group targetFramework=".NET4.7">
-        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.2" exclude="Build,Analyzers" />
-      </group>
-      <group targetFramework=".NETCoreApp1.0">
-        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.2" exclude="Build,Analyzers" />
-      </group>
-      <group targetFramework=".NETCoreApp2.0">
-        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.2" exclude="Build,Analyzers" />
+      <group targetFramework=".NET6.0">
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="6.0.0" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETStandard1.0">
-        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.2" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.7.1" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETStandard2.0">
-        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.2" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="6.0.0" exclude="Build,Analyzers" />
       </group>
     </dependencies>
   </metadata>

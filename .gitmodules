@@ -40,3 +40,6 @@
 [submodule "RegressionTests"]
 	path = RegressionTests
 	url = ../regression-tests.git
+[submodule "ContainerRegressionTests"]
+	path = ContainerRegressionTests
+	url = https://github.com/unitycontainer/container-regression-tests.git

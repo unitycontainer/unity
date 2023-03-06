@@ -14,11 +14,3 @@
 	path = Container
 	url = https://github.com/unitycontainer/container.git
 	branch = prototype/newport
-[submodule "Interception"]
-	path = Interception
-	url = https://github.com/unitycontainer/interception.git
-	branch = prototype/newport
-[submodule "Professional"]
-	path = Professional
-	url = https://github.com/unitycontainer/professional.git
-	branch = prototype/newport

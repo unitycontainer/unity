@@ -109,6 +109,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Regression", "Regression", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Version.6.0.x", "ContainerRegressionTests\Container.Version.6.0.x.csproj", "{9878916F-AC6B-4CBC-ABDD-6F0E8DE0FEBE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AC37EDD8-CEE1-4AD5-9431-EED0F8616539}"
+	ProjectSection(SolutionItems) = preProject
+		RELEASE-NOTES.txt = RELEASE-NOTES.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

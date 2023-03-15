@@ -14,3 +14,6 @@
 	path = Container
 	url = https://github.com/unitycontainer/container.git
 	branch = prototype/newport
+[submodule "Abstractions"]
+	path = Abstractions
+	url = https://github.com/unitycontainer/abstractions.git

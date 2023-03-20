@@ -18,6 +18,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Regression", "Regression", "{9963CF6E-B2A5-4F40-953B-B0DC6B2AC138}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specification", "Specification", "{5ED9F884-C2FF-4BFD-A769-8F97984F8D3B}"
+	ProjectSection(SolutionItems) = preProject
+		Abstractions\src\Import\IImportDescriptor.cs = Abstractions\src\Import\IImportDescriptor.cs
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Regression.Tests", "ContainerRegressionTests\Container\Container.Regression.Tests.csproj", "{D00F5EC1-08AD-4F94-AD93-3660B39D4D1E}"
 EndProject

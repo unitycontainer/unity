@@ -18,9 +18,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Regression", "Regression", "{9963CF6E-B2A5-4F40-953B-B0DC6B2AC138}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specification", "Specification", "{5ED9F884-C2FF-4BFD-A769-8F97984F8D3B}"
-	ProjectSection(SolutionItems) = preProject
-		Abstractions\src\Import\IImportDescriptor.cs = Abstractions\src\Import\IImportDescriptor.cs
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Regression.Tests", "ContainerRegressionTests\Container\Container.Regression.Tests.csproj", "{D00F5EC1-08AD-4F94-AD93-3660B39D4D1E}"
 EndProject
@@ -38,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Regression.Compil
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Version.8.0.x", "ContainerRegressionTests\Container.Version.8.0.x.csproj", "{E780851D-C174-47D3-B5A6-DA8D4764F16C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Optimized.Tests", "Container\tests\Unity.Specification\Unity.Specification.Optimized.Tests.csproj", "{27EF0206-5DC9-420D-82CC-6B52325E4BEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Optimized.Tests", "Container\tests\Specification.Optimized\Unity.Specification.Optimized.Tests.csproj", "{27EF0206-5DC9-420D-82CC-6B52325E4BEF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Specification.Optimized", "SpecificationTests\Container\optimized\Container.Specification.Optimized.csproj", "{CFA60828-7359-4533-9126-C5AA401F2E07}"
 EndProject
@@ -46,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Specification.Dia
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F4D4C132-2F8C-4FDB-8748-376C7F498509}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Diagnostic.Tests", "Container\tests\Unity.Diagnostic\Unity.Specification.Diagnostic.Tests.csproj", "{BC4B385B-14CD-4290-BB62-689C87A78B34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Diagnostic.Tests", "Container\tests\Specification.Diagnostic\Unity.Specification.Diagnostic.Tests.csproj", "{BC4B385B-14CD-4290-BB62-689C87A78B34}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Abstractions", "Abstractions\src\Unity.Abstractions.csproj", "{4726E2A3-97E3-4AB7-8986-6E511B8524D4}"
 EndProject

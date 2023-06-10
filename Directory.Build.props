@@ -1,0 +1,64 @@
+<Project>
+
+  <!-- Import the Arcade SDK -->
+  <Import Project="Sdk.props" Sdk="Microsoft.DotNet.Arcade.Sdk" />
+
+
+  
+  <!-- The product branding version -->
+  <PropertyGroup>
+    <VersionPrefix>8.0.0</VersionPrefix>
+  </PropertyGroup>
+
+
+  <!-- Frameworks -->
+
+  <PropertyGroup>
+    <TargetFrameworks>net7.0</TargetFrameworks>
+    <TestTargetFrameworks>net7.0</TestTargetFrameworks>
+  </PropertyGroup>
+  
+  
+  
+  <!-- Language Features -->
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+    <AnalysisLevel>preview</AnalysisLevel>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+
+  <!-- Repository -->
+  <PropertyGroup>
+
+    <GitHubOrhanizationName>unitycontainer</GitHubOrhanizationName>
+    <GitHubRepositoryName>runtime</GitHubRepositoryName>
+    <RepositoryUrl>https://github.com/$(GitHubOrhanizationName)/$(GitHubRepositoryName)</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/$(GitHubOrhanizationName)/$(GitHubRepositoryName)/tree/main/src/libraries/$(MSBuildProjectName)</PackageProjectUrl>
+
+  </PropertyGroup>
+
+  <!-- General -->
+  <PropertyGroup>
+
+    <Product>Dependency Injection Precompiler</Product>
+    <Owners>Unity Open Source Project</Owners>
+    <Authors>$(Owners), Eugene Sadovoi</Authors>
+    <Company>$(Owners)</Company>
+    <Copyright>Copyright © .NET Foundation and Contributors. All Rights Reserved</Copyright>
+    <CopyrightMicrosoft>$(Copyright)</CopyrightMicrosoft>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <!-- TDOD: Change -->
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <LicenseFile>$([MSBuild]::NormalizePath('$(MSBuildThisFileDirectory)', 'LICENSE.TXT'))</LicenseFile>
+
+    <PackageIcon>$([MSBuild]::NormalizePath('$(RepoRoot)', 'eng', 'common', 'native', 'package.png'))</PackageIcon>
+    <ApplicationIcon>$([MSBuild]::NormalizePath('$(RepoRoot)', 'eng', 'common', 'native', 'package.ico'))</ApplicationIcon>
+
+  </PropertyGroup>
+
+  
+</Project>

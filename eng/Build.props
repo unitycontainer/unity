@@ -1,0 +1,16 @@
+<Project>
+  
+  <!-- Projects To Build -->
+  <ItemGroup>
+    <ProjectToBuild Include="$(RepoRoot)Unity.sln" />
+  </ItemGroup>
+
+
+  <!-- Settings -->
+
+  <PropertyGroup>
+    <RestoreUseStaticGraphEvaluation>true</RestoreUseStaticGraphEvaluation>
+    <GenerateRestoreUseStaticGraphEvaluationBinlog>true</GenerateRestoreUseStaticGraphEvaluationBinlog>
+  </PropertyGroup>
+
+</Project>

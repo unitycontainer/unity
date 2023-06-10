@@ -13,3 +13,6 @@
 [submodule "Abstractions"]
 	path = Abstractions
 	url = https://github.com/unitycontainer/abstractions.git
+[submodule "src/libraries/Unity.Abstractions"]
+	path = src/libraries/Unity.Abstractions
+	url = ../abstractions.git

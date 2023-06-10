@@ -33,9 +33,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F4D4C132
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Diagnostic.Tests", "Container\tests\Specification.Diagnostic\Unity.Specification.Diagnostic.Tests.csproj", "{BC4B385B-14CD-4290-BB62-689C87A78B34}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Abstractions", "Abstractions\src\Unity.Abstractions.csproj", "{4726E2A3-97E3-4AB7-8986-6E511B8524D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Abstractions", "src\libraries\Unity.Abstractions\src\Unity.Abstractions.csproj", "{4726E2A3-97E3-4AB7-8986-6E511B8524D4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Abstractions.Tests", "Abstractions\tests\Unity.Abstractions.Tests.csproj", "{FA19710B-4720-4C0D-ABE7-5367F16AC760}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Abstractions.Tests", "src\libraries\Unity.Abstractions\tests\Unity.Abstractions.Tests.csproj", "{FA19710B-4720-4C0D-ABE7-5367F16AC760}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Container.Tests.Benchmarks", "Container\tests\Benchmarks\Unity.Container.Tests.Benchmarks.csproj", "{5511A852-DF06-44EE-906F-AE8918284BC0}"
 EndProject

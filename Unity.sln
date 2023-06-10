@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Container", "Container\src\Unity.Container.csproj", "{432DC96F-46A2-42C9-BE26-738D72245362}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Container", "src\libraries\Unity.Container\src\Unity.Container.csproj", "{432DC96F-46A2-42C9-BE26-738D72245362}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{72897D3B-6FE5-4A12-8FD2-0260DF13C868}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Container.Tests", "Container\tests\Unit\Unity.Container.Tests.csproj", "{FF77EB2D-8540-48CB-A8C8-CB8AE6B17134}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Container.Tests", "src\libraries\Unity.Container\tests\Unit\Unity.Container.Tests.csproj", "{FF77EB2D-8540-48CB-A8C8-CB8AE6B17134}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarks", "Benchmarks", "{15FEBB8E-B446-49D2-9AE0-64A457D83A60}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks.Local", "Container\benchmarks\Benchmarks.Local.csproj", "{BD143E61-1CB8-4E47-964E-2CA8852A6405}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks.Local", "src\libraries\Unity.Container\benchmarks\Benchmarks.Local.csproj", "{BD143E61-1CB8-4E47-964E-2CA8852A6405}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Regression", "Regression", "{9963CF6E-B2A5-4F40-953B-B0DC6B2AC138}"
 EndProject
@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks.Tests", "contain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Version.8.0.x", "ContainerRegressionTests\Container.Version.8.0.x.csproj", "{E780851D-C174-47D3-B5A6-DA8D4764F16C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Optimized.Tests", "Container\tests\Specification.Optimized\Unity.Specification.Optimized.Tests.csproj", "{27EF0206-5DC9-420D-82CC-6B52325E4BEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Optimized.Tests", "src\libraries\Unity.Container\tests\Specification.Optimized\Unity.Specification.Optimized.Tests.csproj", "{27EF0206-5DC9-420D-82CC-6B52325E4BEF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Specification.Optimized", "SpecificationTests\Container\optimized\Container.Specification.Optimized.csproj", "{CFA60828-7359-4533-9126-C5AA401F2E07}"
 EndProject
@@ -31,13 +31,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Container.Specification.Dia
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F4D4C132-2F8C-4FDB-8748-376C7F498509}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Diagnostic.Tests", "Container\tests\Specification.Diagnostic\Unity.Specification.Diagnostic.Tests.csproj", "{BC4B385B-14CD-4290-BB62-689C87A78B34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Specification.Diagnostic.Tests", "src\libraries\Unity.Container\tests\Specification.Diagnostic\Unity.Specification.Diagnostic.Tests.csproj", "{BC4B385B-14CD-4290-BB62-689C87A78B34}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Abstractions", "src\libraries\Unity.Abstractions\src\Unity.Abstractions.csproj", "{4726E2A3-97E3-4AB7-8986-6E511B8524D4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Abstractions.Tests", "src\libraries\Unity.Abstractions\tests\Unity.Abstractions.Tests.csproj", "{FA19710B-4720-4C0D-ABE7-5367F16AC760}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Container.Tests.Benchmarks", "Container\tests\Benchmarks\Unity.Container.Tests.Benchmarks.csproj", "{5511A852-DF06-44EE-906F-AE8918284BC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Container.Tests.Benchmarks", "src\libraries\Unity.Container\tests\Benchmarks\Unity.Container.Tests.Benchmarks.csproj", "{5511A852-DF06-44EE-906F-AE8918284BC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

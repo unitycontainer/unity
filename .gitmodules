@@ -6,13 +6,10 @@
 	path = ContainerRegressionTests
 	url = https://github.com/unitycontainer/container-regression-tests.git
 	branch = prototype/newport
-[submodule "Container"]
-	path = Container
-	url = https://github.com/unitycontainer/container.git
-	branch = prototype/newport
-[submodule "Abstractions"]
-	path = Abstractions
-	url = https://github.com/unitycontainer/abstractions.git
 [submodule "src/libraries/Unity.Abstractions"]
 	path = src/libraries/Unity.Abstractions
 	url = ../abstractions.git
+[submodule "src/libraries/Unity.Container"]
+	path = src/libraries/Unity.Container
+	url = ../container.git
+	branch = release/8.0.0

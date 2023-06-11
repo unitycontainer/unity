@@ -3,7 +3,6 @@
   <!-- Import the Arcade SDK -->
   <Import Project="Sdk.props" Sdk="Microsoft.DotNet.Arcade.Sdk" />
 
-
   
   <!-- The product branding version -->
   <PropertyGroup>
@@ -12,7 +11,6 @@
 
 
   <!-- Frameworks -->
-
   <PropertyGroup>
     <TargetFrameworks>net7.0</TargetFrameworks>
     <TestTargetFrameworks>net7.0</TestTargetFrameworks>
@@ -21,7 +19,6 @@
   
   
   <!-- Language Features -->
-
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
@@ -32,24 +29,25 @@
 
   <!-- Repository -->
   <PropertyGroup>
-
+	  
+    <RepositoryType>git</RepositoryType>
     <GitHubOrhanizationName>unitycontainer</GitHubOrhanizationName>
-    <GitHubRepositoryName>runtime</GitHubRepositoryName>
     <RepositoryUrl>https://github.com/$(GitHubOrhanizationName)/$(GitHubRepositoryName)</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/$(GitHubOrhanizationName)/$(GitHubRepositoryName)/tree/main/src/libraries/$(MSBuildProjectName)</PackageProjectUrl>
-
+    <PackageProjectUrl>https://github.com/$(GitHubOrhanizationName)</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/$(GitHubOrhanizationName)/$(GitHubRepositoryName)/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://avatars1.githubusercontent.com/u/12849707</PackageIconUrl>
+	  
   </PropertyGroup>
 
   <!-- General -->
   <PropertyGroup>
 
-    <Product>Dependency Injection Precompiler</Product>
     <Owners>Unity Open Source Project</Owners>
     <Authors>$(Owners), Eugene Sadovoi</Authors>
     <Company>$(Owners)</Company>
     <Copyright>Copyright © .NET Foundation and Contributors. All Rights Reserved</Copyright>
     <CopyrightMicrosoft>$(Copyright)</CopyrightMicrosoft>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>	Apache-2.0</PackageLicenseExpression>
 
     <!-- TDOD: Change -->
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -58,6 +56,16 @@
     <PackageIcon>$([MSBuild]::NormalizePath('$(RepoRoot)', 'eng', 'common', 'native', 'package.png'))</PackageIcon>
     <ApplicationIcon>$([MSBuild]::NormalizePath('$(RepoRoot)', 'eng', 'common', 'native', 'package.ico'))</ApplicationIcon>
 
+  </PropertyGroup>
+
+  <!-- Signing -->
+  <PropertyGroup>
+    <DelaySign>False</DelaySign>
+    <SignAssembly>true</SignAssembly>
+	<StrongNameKeyId>unitycontainer</StrongNameKeyId>	  
+    <PublicKeyToken>489b6accfaf20ef0</PublicKeyToken>
+    <AssemblyOriginatorKeyFile>$([MSBuild]::NormalizePath('$(RepoRoot)', 'eng', 'signing', 'package.snk'))</AssemblyOriginatorKeyFile>
+    <PublicKey>$([MSBuild]::NormalizePath('$(RepoRoot)', 'eng', 'signing', 'token.snk'))</PublicKey>
   </PropertyGroup>
 
   

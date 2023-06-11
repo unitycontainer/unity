@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <AllowEmptySignList>true</AllowEmptySignList>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <ItemsToSign Include="*.dll"/>
+  </ItemGroup>
+
+</Project>

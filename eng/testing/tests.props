@@ -1,0 +1,18 @@
+<Project>
+  <PropertyGroup>
+    <TestProjectName Condition="'$(TestProjectName)' == ''">$(MSBuildProjectName)</TestProjectName>
+    <TestFramework Condition="'$(TestFramework)' == ''">MSTest</TestFramework>
+    <VSTestNoLogo>true</VSTestNoLogo>
+     <!--<EnableCoverageSupport Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</EnableCoverageSupport>--> 
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--Test Coverage-->
+    <PackageReference Include="coverlet.collector" Version="$(CoverletCollectorVersion)" />
+	  
+    <!--Test-->
+  	<PackageReference Include="MSTest.TestAdapter" Version="3.*" />
+	  <PackageReference Include="MSTest.TestFramework" Version="3.*" />
+  </ItemGroup>
+
+</Project>

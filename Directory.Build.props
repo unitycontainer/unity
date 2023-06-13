@@ -15,16 +15,6 @@
     <TargetFrameworks>net7.0</TargetFrameworks>
     <TestTargetFrameworks>net7.0</TestTargetFrameworks>
   </PropertyGroup>
-  
-  
-  
-  <!-- Language Features -->
-  <PropertyGroup>
-    <Nullable>enable</Nullable>
-    <LangVersion>preview</LangVersion>
-    <AnalysisLevel>preview</AnalysisLevel>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
 
 
   <!-- Repository -->
@@ -58,7 +48,7 @@
 
   </PropertyGroup>
 
-  <!-- Signing -->
+  <!-- Storng Name -->
   <PropertyGroup>
     <DelaySign>False</DelaySign>
     <SignAssembly>true</SignAssembly>

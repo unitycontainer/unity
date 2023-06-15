@@ -25,11 +25,10 @@
     <RepositoryUrl>https://github.com/$(GitHubOrhanizationName)/$(GitHubRepositoryName)</RepositoryUrl>
     <PackageProjectUrl>https://github.com/$(GitHubOrhanizationName)</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/$(GitHubOrhanizationName)/$(GitHubRepositoryName)/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageIconUrl>https://avatars1.githubusercontent.com/u/12849707</PackageIconUrl>
 	  
   </PropertyGroup>
 
-  <!-- General -->
+  <!-- Package -->
   <PropertyGroup>
 
     <Owners>Unity Open Source Project</Owners>
@@ -37,20 +36,19 @@
     <Company>$(Owners)</Company>
     <Copyright>Copyright © .NET Foundation and Contributors. All Rights Reserved</Copyright>
     <CopyrightMicrosoft>$(Copyright)</CopyrightMicrosoft>
-    <PackageLicenseExpression>	Apache-2.0</PackageLicenseExpression>
-
-    <!-- TDOD: Change -->
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <LicenseFile>$([MSBuild]::NormalizePath('$(MSBuildThisFileDirectory)', 'LICENSE.TXT'))</LicenseFile>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 
     <PackageIcon>$([MSBuild]::NormalizePath('$(RepoRoot)', 'eng', 'common', 'native', 'package.png'))</PackageIcon>
+    <PackageIconUrl>https://avatars1.githubusercontent.com/u/12849707</PackageIconUrl>
     <ApplicationIcon>$([MSBuild]::NormalizePath('$(RepoRoot)', 'eng', 'common', 'native', 'package.ico'))</ApplicationIcon>
 
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <LicenseFile>$([MSBuild]::NormalizePath('$(MSBuildThisFileDirectory)', 'LICENSE.TXT'))</LicenseFile>
   </PropertyGroup>
 
   <!-- Storng Name -->
   <PropertyGroup>
-    <DelaySign>False</DelaySign>
+    <DelaySign>false</DelaySign>
     <SignAssembly>true</SignAssembly>
 	<StrongNameKeyId>unitycontainer</StrongNameKeyId>	  
     <PublicKeyToken>489b6accfaf20ef0</PublicKeyToken>

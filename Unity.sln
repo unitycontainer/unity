@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Container", "src\libraries\Unity.Container\src\Unity.Container.csproj", "{432DC96F-46A2-42C9-BE26-738D72245362}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{72897D3B-6FE5-4A12-8FD2-0260DF13C868}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{72897D3B-6FE5-4A12-8FD2-0260DF13C868}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity.Container.Tests", "src\libraries\Unity.Container\tests\Unit\Unity.Container.Tests.csproj", "{FF77EB2D-8540-48CB-A8C8-CB8AE6B17134}"
 EndProject
@@ -46,6 +46,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eng", "eng", "{ADFD3799-AB1
 		eng\Signing.props = eng\Signing.props
 		eng\testing\tests.props = eng\testing\tests.props
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libraries", "libraries", "{6D4154EB-15BC-419B-A9CB-53F8C78978B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
